@@ -30,6 +30,7 @@ body
     color:black;
     background: fixed url(Medias/back.jpg) no-repeat;
     background-size: 100vw 100vh;
+    position: sticky;
     margin:0;
     overflow-x: hidden;
 }
