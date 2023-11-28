@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+ <html lang="fr">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" CONTENT="Jujudevelop - Tutorials">
+        <link rel="stylesheet" href="style.css" />
+        <link href="https://fonts.googleapis.com/css2?family=Comfortaa&family=Montserrat&display=swap" rel="stylesheet">
+        <title>Jujudevelop - Tutorials</title>
+    </head>
+    <body>
+        <div class="nav_bar bar">
+            <div class=content_row>
+                <img src="Medias/Profile.png" class="logo_img">
+                <div class="logo_name">Jujudevelop</div>
+            </div>
+            <div class=content_row>
+                <a class=nav_link href="index.html">Home</a>
+                <a class=nav_link href="datapacks.html">Datapacks</a>
+                <a class=nav_link href="resourcepacks.html">Resourcepacks</a>
+                <a class="nav_link current_page" href="tutorials.html">Tutorials</a>
+                <a class=nav_link href="projects.html">Projects</a>
+            </div>
+        </div>
+        <section class=home_section>
+            <h1>My Tutorials</h1>
+            <div class=link_button>
+                <a class=button_link target="_blank" href="https://www.instagram.com/jujudevelop/">My Instagram</a>
+            </div>
+        </section>
+        <section class=content_column>
+            <h2>Pre-cook Items</h2>
+            <div class=small_grid>
+                <div class=content_column>
+                    <h3>1st Command</h3>
+                    <p class=paragraph>/execute at @e[type=item,nbt={Item:{id:"minecraft:<span class=green>&lt;raw_item&gt;</span>",Count:1b}}] run summon item ~ ~ ~ {Item:{id:"minecraft:<span class=green>&lt;cooked_item&gt;</span>",Count:1b}}</p>
+                </div>
+                <div class=content_column>
+                    <h3>Explication</h3>
+                    <p class=paragraph>It summons the cooked item at the raw item.</p>
+                </div>
+            </div>
+            <div class=small_grid>
+                <div class=content_column>
+                    <h3>2nd Command</h3>
+                    <p class=paragraph>/execute at [type=item,nbt={Item:{id:"minecraft:<span class=green>&lt;raw_item&gt;</span>",Count:1b}}] run summon item ~ ~ ~ {Item:{id:"minecraft:<span class=green>&lt;raw_item&gt;</span>",Count:1b}}] run summon minecraft:experience_orb ~ ~ ~ {Value:1}</p>
+                </div>
+                <div class=content_column>
+                    <h3>Explication</h3>
+                    <p class=paragraph>It gives experience like a furnace.</p>
+                </div>
+            </div>
+            <div class=small_grid>
+                <div class=content_column>
+                    <h3>3rd Command</h3>
+                    <p class=paragraph>/kill [type=item,nbt={Item:{id:"minecraft:<span class=green>&lt;raw_item&gt;</span>",Count:1b}}]</p>
+                </div>
+                <div class=content_column>
+                    <h3>Explication</h3>
+                    <p class=paragraph>It removes the useless raw item after beeing cooked.</p>
+                </div>
+            </div>
+            <p class="paragraph gray">Tested in versions 1.16, 1.18</p>
+            <div class=link_button>
+                <a class=button_link target="_blank" href="https://www.instagram.com/tv/CXG0xlHA-tw/?utm_medium=copy_link">Show Tutorial</a>
+            </div>
+        </section>
+        <section class=bar>
+            <div class=content_row>
+                <img src="Medias/Profile.png" class="logo_img">
+                <div class="logo_name">Jujudevelop</div>
+            </div>
+            <div class="content_row">
+                <div class=paragraph>Contact me</div>
+                <a class=footer_link target="_blank" href="https://www.instagram.com/jujudevelop/">
+                    <img src="Medias/Instagram.png" class="footer_link">
+                </a>
+                <a class=footer_link target="_blank" href="https://discord.gg/GRgTX4cyJy">
+                    <img src="Medias/Discord.png" class="footer_link">
+                </a>
+                <a class=footer_link target="_blank" href="mailto:jujudevelop@gmail.com">
+                    <img src="Medias/Mail.png" class="footer_link">
+                </a>
+            </div>
+        </section>
+        <script src="Jujudevelop.js"></script>
+    </body>
+ </html>
