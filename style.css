@@ -28,7 +28,7 @@ html
 body
 {
     color:black;
-    background: fixed white url(Medias/back.jpg) no-repeat;
+    background:  white url(Medias/back.jpg) no-repeat;
     background-size: 100vw 100vh;
     margin:0;
     overflow-x: hidden;
