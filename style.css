@@ -124,6 +124,9 @@ nav.secondary::before
     transform: translate(-50%,-50%);
 }
 
+.can_switch_lang { display: none; }
+.can_switch_lang.active { display: block; }
+
 
 
 /* 
@@ -268,10 +271,11 @@ a
     z-index: 3;
     position: relative;
     transform: translate(0,0);
-    background: fixed url(Medias/flag_en.png) no-repeat; 
-    background-size: 100%;
     transition: opacity 0.12s ease;
 }
+
+.link.lang.en::after { background: fixed url(Medias/flag_en.png) no-repeat; background-size: 100%; }
+.link.lang.fr::after { background: fixed url(Medias/flag_fr.png) no-repeat; background-size: 100%; }
 
 .link.lang:hover::after
 {

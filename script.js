@@ -53,14 +53,18 @@ const showMoreBtns = document.querySelectorAll('.link.redirection.type3');
 showMoreBtns.forEach(showMoreBtn => {
     showMoreBtn.addEventListener('click', () => {
         console.log(showMoreBtn)
-        if(showMoreBtn.className.match('active')) { 
+        if (showMoreBtn.className.match('active')) { 
             showMoreBtnClose();
         } else {
             const expander = showMoreBtn.parentElement.parentElement.parentElement.parentElement;
             showMoreBtnClose();
             expander.classList.add('active');
             showMoreBtn.classList.add('active');
-            showMoreBtn.textContent = "Show less";
+            if (langBtn.className.match('fr')) { 
+                showMoreBtn.textContent = "Voir moins";
+            } else {
+                showMoreBtn.textContent = "Show less";
+            }
         }
     })
 });
@@ -73,7 +77,11 @@ function showMoreBtnClose() {
     }
     if (!(activeShowMoreBtn == null)) {
         activeShowMoreBtn.classList.remove('active');
-        activeShowMoreBtn.textContent = "Show more";
+        if (langBtn.className.match('fr')) { 
+            activeShowMoreBtn.textContent = "Voir plus";
+        } else {
+            activeShowMoreBtn.textContent = "Show more";
+        }
     }
 }
 
@@ -83,3 +91,50 @@ hamburger.onclick = function () {
     hamburger.classList.toggle('active');
     hamburger_menu.classList.toggle('active');
 };
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+    const lang=navigator.language.substr(0,2).toLowerCase();
+    if (lang == "fr") {
+        switchLang()
+    }
+});
+
+const langBtn = document.querySelector('.link.lang');
+
+function switchLang() {
+    langBtn.classList.toggle('en');
+    langBtn.classList.toggle('fr');
+    
+    const canSwitchLang = document.querySelectorAll('.can_switch_lang');
+    canSwitchLang.forEach(each => {
+        each.classList.toggle('active');
+    });
+
+    const checkOutBtns = document.querySelectorAll('.link.redirection.type1');
+    checkOutBtns.forEach(each => {
+        if (langBtn.className.match('fr')) { 
+            each.textContent = "Voir plus";
+        } else {
+            each.textContent = "Check out";
+        }
+    });
+
+    showMoreBtns.forEach(each => {
+        if (langBtn.className.match('fr')) { 
+            if (each.className.match('active')) { each.textContent = "Voir moins"; } else { each.textContent = "Voir plus"; }
+        } else {
+            if (each.className.match('active')) { each.textContent = "Show less"; } else { each.textContent = "Show more"; }
+        }
+    });
+
+    const mainNetworks = document.querySelectorAll('.link.main_network');
+    mainNetworks.forEach(each => {
+        if (langBtn.className.match('fr')) { 
+            each.textContent = "Mon Instagram";
+        } else {
+            each.textContent = "My Instagram";
+        }
+    });
+}
