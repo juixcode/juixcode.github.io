@@ -939,21 +939,6 @@ p.cell.type1
 
 
 
-/* .item.bigger.scroller::before
-{
-    transition: all 0.2s ease;
-    overflow: hidden;
-}
-
-.item.bigger.scroller:hover::before
-{
-    height: 0;
-    padding: 0 3vh 0 3vh;
-    opacity: 0;
-} */
-
-
-
 .anim5 {
     animation: zoom_out 0.3s ease-out;
 }
