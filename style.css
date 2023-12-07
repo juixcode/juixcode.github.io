@@ -1057,6 +1057,7 @@ div.page.active {
         justify-content: space-evenly;
         z-index: 2;
         background: #000000bd;
+        backdrop-filter: blur(5px);
         width: 100vw;
         height: 35vh;
         top: -35vh;
