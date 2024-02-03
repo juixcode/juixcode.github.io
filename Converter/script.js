@@ -27,7 +27,7 @@ function calculer() {
 			if (entree !== 10) {
 				for (var i = 0; i < nombre.length; i++) {
 					resultat = resultat + letter_to_num(nombre[nombre.length-i-1],entree)*(entree**i);
-					if (letter_to_num(nombre[nombre.length-i-1],entree) >= entree) {
+					if (letter_to_num(nombre[nombre.length-i-1],entree) >= entree) { // VERIFICATION DE LA BASE DU NOMBRE SAISI
 						error = "Erreur : le nombre à convertir contient un caractère incorrect"
 					}
 				}
@@ -53,10 +53,10 @@ function calculer() {
 		
 		// 4 - AFFICHAGE
 		if (error !== "") {
-			affichage.textContent = (error);
-			new Audio("error.mp3").play();
+			affichage.textContent = (error); // AFFICHAGE DE L ERREUR S IL Y EN A UNE
+			new Audio("error.mp3").play(); // PETIT SON
 		} else {
-			affichage.textContent = (resultat_reverse);
+			affichage.textContent = (resultat_reverse); // AFFICHAGE DU RESULTAT
 			new Audio("done.mp3").play();
 		}
 		console.log(error)
