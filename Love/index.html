@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Je t'aime</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Love Emitter</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,13 +12,22 @@
 </head>
 <body>
     <div class="container">
-        <div class="item"></div>
+        <div class="item start">
+            <div class="tab">
+                <h1 id="resultat_adversaire">0</h1>
+                <button class="switch" onclick="add()">Juju</button>
+            </div>
+        </div>
         <div class="item">
             <h1 class="active" id="resultat">0</h1>
         </div>
-        <div class="item">
-            <div class="text">Juju</div>
-            <button class="active" onclick="add()"></button>
+        <div class="item end">
+            <div class="text">Chiara</div>
+            <button class="clicker active" onclick="add()"></button>
+            <div class="tab progress_bar">
+                <div class="progress" id="blue_progress">Juju 50%</div>
+                <div class="progress" id="pink_progress">50% Chiara</div>
+            </div>
         </div>
     </div>
 </body>

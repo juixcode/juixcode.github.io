@@ -1,5 +1,6 @@
 const affichage = document.getElementById("resultat");
-const button_heart = document.querySelector('button')
+const affichage_adversaire = document.getElementById("resultat_adversaire");
+const button_heart = document.querySelector('button.clicker')
 let resultat = 0;
 
 function add() {
@@ -8,11 +9,12 @@ function add() {
 	new Audio("Medias/done.mp3").play();
 
     affichage.className = "";
-    button_heart.className = "";
+    button_heart.className = "clicker";
        window.requestAnimationFrame(function (time) {
         window.requestAnimationFrame(function (time) {
             affichage.className = "active";
-            button_heart.className = "active";
+            button_heart.className = "clicker active";
         });
        });
 }
+// .style.width = "400px"
