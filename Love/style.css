@@ -226,6 +226,15 @@ div.progress {
     }
 }
 
+.info {
+    position: absolute;
+    left:1svh;
+    top:1svh;
+    color:white;
+    font-family: 'Smooch Sans', sans-serif;
+    font-size:2svh;
+    margin:0;
+}
 /* border-radius: 3svh;
 background: rgba(117, 117, 117, 0.315);
 box-shadow: 0 0.5svh 0.75svh rgba(0, 0, 0, 0.2); */
