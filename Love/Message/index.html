@@ -80,29 +80,40 @@
 		border: none;
 		}
 		
-		@media (min-width: 800px) {
-			button {
-				transition: all 0.3s ease;
-			}
-			.text {
-				transition: all 0.3s ease;
-			}
-			.area {
-				transition: all 0.3s ease;
-			}
-			h1 {
-				transition: all 0.3s ease;
-			}
+		button {
+			transition: all 0.3s ease;
+		}
+		.text {
+			transition: all 0.3s ease;
+		}
+		.area {
+			transition: all 0.3s ease;
+		}
+		h1 {
+			transition: all 0.3s ease;
+		}
 
-			button:hover {
+		button:hover {
+		transform: translate(0,-0.4svh);
+		opacity: 0.8
+		}
+		.text:hover {
 			transform: translate(0,-0.4svh);
-			opacity: 0.8
+		}
+		h1:hover {
+			transform: translate(0,-0.4svh);
+		}
+		
+		@media (max-width: 800px) {
+			button:hover {
+			transform: translate(0,0);
+			opacity: 1
 			}
 			.text:hover {
-				transform: translate(0,-0.4svh);
+				transform: translate(0,0);
 			}
 			h1:hover {
-				transform: translate(0,-0.4svh);
+				transform: translate(0,0);
 			}
 		}
 		
