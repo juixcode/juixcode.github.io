@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<title>Message</title>
+		<script type="text/javascript" src="script.js"></script>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Protest+Strike&family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+		<style>
+		html {
+		width: auto;
+		height: 100svh;
+		}
+
+		body {
+		background: url(back.jpg);
+		overflow: hidden;
+		background-size: auto 100svh;
+		background-position: center;
+		height: 100svh;
+		padding: 0;
+		margin: 0;
+		animation: appear 1s;
+		}
+	
+		@keyframes appear {
+			0% {
+				backdrop-filter: blur(30px);
+				filter: blur(30px);
+			}
+			100% {
+				backdrop-filter: blur(0);
+				filter: blur(0);
+			}
+		}
+			
+		h1 {
+		text-shadow: 0 0 0.75svh rgba(0,0,0,1);
+		color: white;
+		font-family: 'Protest Strike', sans-serif;
+		font-weight: 500;
+		text-align: center;
+		font-size: 10svh;
+		margin: 0;
+		max-width: 85vw;
+		}
+		
+		.text {
+		text-shadow: 0 0 0.75svh rgba(63, 27, 35, 0.85);
+		color: white;
+		font-family: 'Ubuntu', sans-serif;
+		font-weight: 500;
+		font-size: 3.5svh;
+		margin: 0;
+		}
+
+		.text.message {
+			text-shadow: 0 0 0.75svh rgba(63, 27, 35, 0.85);
+			color: white;
+			font-family: 'Ubuntu', sans-serif;
+			font-weight: 400;
+			font-size: 2.8svh;
+			text-align: center;
+			max-width: 80vw;
+		}
+		
+		button {
+		background: white;
+		text-decoration: none;
+		color: rgb(241, 117, 148);
+		padding: 2.5svh 4svh 2.5svh 4svh;
+		border-radius: 5svh;
+		font-family: 'Ubuntu', sans-serif;
+		font-weight: 500;
+		font-size: 3svh;
+		box-shadow: 0 0.5svh 0.75svh rgba(63, 27, 35, 0.85);
+		cursor: pointer;
+		outline: none;
+		border: none;
+		}
+		
+		@media (min-width: 800px) {
+			button {
+				transition: all 0.3s ease;
+			}
+			.text {
+				transition: all 0.3s ease;
+			}
+			.area {
+				transition: all 0.3s ease;
+			}
+			h1 {
+				transition: all 0.3s ease;
+			}
+
+			button:hover {
+			transform: translate(0,-0.4svh);
+			opacity: 0.8
+			}
+			.text:hover {
+				transform: translate(0,-0.4svh);
+			}
+			h1:hover {
+				transform: translate(0,-0.4svh);
+			}
+		}
+		
+		.area {
+		margin: 2svh 0 0 0;
+		color:white;
+		width: 300px;
+		padding: 12px 20px;
+		box-sizing: border-box;
+		border: 0.4svh solid rgb(241, 117, 148);
+		border-radius: 5svh;
+		background-color: rgba(240, 138, 164, 0.5);
+		font-size: 2.5svh;
+		resize: none;
+		padding: 1svh;
+		text-shadow: 0 0 0.5svh rgba(63, 27, 35, 0.85);
+		font-family: 'Ubuntu', sans-serif;
+		text-align: center;
+		}
+
+		#show {
+			margin: 2svh 0 0 0;
+		}
+
+		.page {
+			display: none;
+			flex-direction: column;
+			justify-content: space-evenly;
+			align-items: center;
+			height: 100svh;
+			width: 100vw;
+		}
+
+		.page.active {
+			display: flex;
+		}
+
+		.column {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		</style>
+	</head>
+	
+	<body>
+	<div id="page1" class="page active">
+		<h1>Message pour Chiara</h1>
+		<div class="column">
+			<label class="text" for="result">Mot de passe</label>
+			<input class="area" type="text" id="result" name="text" value="jetaimetresfort">
+		</div>
+		<button onclick="check()">Valider</button>
+		<div class="text" id="show"> ‎ </div>
+	</div>
+	<div id="page2" class="page">
+		<h1>Message pour Chiara</h1>
+		<p class="text message">Coucou Chiara, <br> <br>Je te souhaite une joyeuse Saint-Valentin en ma... non-compagnie... mais on rattrape ça demain évidemment ! J'espère que tu ne t'ennuies pas trop en ce jour assez symbolique durant lequel on aurait dû se voir. J'ai hâte de te retrouver, de te serrer dans mes bras, de t'embrasser, et de faire plein d'activités avec toi. J'ai tellement de choses à te dire et redire mais je vais les garder pour ma petite carte que je t'offrirai demain. <br> A demain, je t'aime <br> <br> Juju</p>
+	</div>
+
+
+
+	</body>
+</html>
