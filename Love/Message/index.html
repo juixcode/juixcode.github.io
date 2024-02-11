@@ -16,7 +16,7 @@
 		body {
 		background: url(back.jpg);
 		overflow: hidden;
-		background-size: auto 100svh;
+		background-size: cover;
 		background-position: center;
 		height: 100svh;
 		padding: 0;
@@ -80,40 +80,29 @@
 		border: none;
 		}
 		
-		button {
-			transition: all 0.3s ease;
-		}
-		.text {
-			transition: all 0.3s ease;
-		}
-		.area {
-			transition: all 0.3s ease;
-		}
-		h1 {
-			transition: all 0.3s ease;
-		}
+		@media (min-width: 800px) {
+			button {
+				transition: all 0.3s ease;
+			}
+			.text {
+				transition: all 0.3s ease;
+			}
+			.area {
+				transition: all 0.3s ease;
+			}
+			h1 {
+				transition: all 0.3s ease;
+			}
 
-		button:hover {
-		transform: translate(0,-0.4svh);
-		opacity: 0.8
-		}
-		.text:hover {
-			transform: translate(0,-0.4svh);
-		}
-		h1:hover {
-			transform: translate(0,-0.4svh);
-		}
-		
-		@media (max-width: 800px) {
 			button:hover {
-			transform: translate(0,0);
-			opacity: 1
+			transform: translate(0,-0.4svh);
+			opacity: 0.8
 			}
 			.text:hover {
-				transform: translate(0,0);
+				transform: translate(0,-0.4svh);
 			}
 			h1:hover {
-				transform: translate(0,0);
+				transform: translate(0,-0.4svh);
 			}
 		}
 		
