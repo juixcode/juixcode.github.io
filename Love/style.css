@@ -28,7 +28,7 @@ body
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    animation: appear 1s;
+    animation: appear 0.8s;
 }
 
 @keyframes appear {
