@@ -7,7 +7,12 @@ function check() {
 		final_result = final_result + String(convert(result[i]));
 	}
 	
-	if (final_result !== "43838588172586858858596864786588") {
+	let Day = new Date().getDate();
+
+	if (Day !== 14) {
+		new Audio("error.mp3").play();
+		show.textContent = ("Tu ne peux accéder à ce message qu'à la Saint-Valentin !");
+	} else if (final_result !== "43838588172586858858596864786588") {
 		new Audio("error.mp3").play();
 		show.textContent = ("Le mot de passe est incorrect");
 	} else {
