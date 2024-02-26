@@ -39,8 +39,8 @@
 		
 		@keyframes appear {
 			0% {
-				backdrop-filter: blur(30px);
-				filter: blur(30px);
+				backdrop-filter: blur(3svh);
+				filter: blur(3svh);
 			}
 			100% {
 				backdrop-filter: blur(0);
@@ -54,7 +54,7 @@
 			font-family: 'Protest Strike', sans-serif;
 			font-weight: 500;
 			text-align: center;
-			font-size: 7svh;
+			font-size: 6svh;
 			margin: 3svh 0 7svh 0;
 			max-width: 85vw;
 		}
@@ -64,7 +64,7 @@
 			color: white;
 			font-family: 'Ubuntu', sans-serif;
 			font-weight: 500;
-			font-size: 3.5svh;
+			font-size: 3svh;
 			margin: 0;
 			text-align: center;
 			max-width: 85vw;
@@ -74,14 +74,21 @@
 			text-shadow: 0 0 0.75svh rgba(31, 27, 63, 0.85);
 			color: white;
 			font-family: 'Ubuntu', sans-serif;
-			font-weight: 400;
-			font-size: 2.8svh;
+			font-weight: 300;
+			font-size: 1.8svh;
+			text-align: justify;
 		}
 		
 		@media (min-width: 800px) {
 			.text {
 				transition: all 0.3s ease;
 				max-width: 70vw;
+				font-size: 3.5svh;
+			}
+			.text.message {
+				font-size: 2.8svh;
+				font-weight: 400;
+				text-align: center;
 			}
 			h1 {
 				transition: all 0.3s ease;
@@ -103,20 +110,15 @@
 			}
 		}
 
-		#show {
-			margin: 2svh 0 0 0;
-			animation: appear 0.3s;
-		}
-
 		.page_shadow {
 			margin: 0;
 			padding: 0;
-			backdrop-filter: blur(20px);
-			-webkit-backdrop-filter: blur(20px);
+			backdrop-filter: blur(1.5svh);
+			-webkit-backdrop-filter: blur(1.5svh);
 			background: rgba(31, 31, 31, 0.5);
 			border-radius: 3svh 3svh 0 0;
-			-webkit-box-shadow: 0px -10px 20px 5px rgba(0,0,0,0.5); 
-			box-shadow: 0px -10px 20px 5px rgba(0,0,0,0.5);
+			-webkit-box-shadow: 0px -1.5svh 2svh 1svh rgba(0,0,0,0.5); 
+			box-shadow: 0px -1.5svh 2svh 1svh rgba(0,0,0,0.5);
 		}
 
 		.page {
