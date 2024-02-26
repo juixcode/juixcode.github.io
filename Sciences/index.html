@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<title>Sciences</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Protest+Strike&family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+		<link rel="shortcut icon" href="favicon.ico" type="image/ico" />
+		<style>
+		html {
+		width: auto;
+		height: 100svh;
+		padding: 0;
+		margin: 0;
+		}
+
+		body {
+		background: fixed url(back.jpg);
+		background-size: cover;
+		background-position: center;
+		height: 100svh;
+		padding: 0;
+		margin: 0;
+		}
+
+		*::-webkit-scrollbar {
+			width: 1svh;
+		}
+		*::-webkit-scrollbar-track {
+			background: black;
+		}
+		*::-webkit-scrollbar-thumb {
+			background-color: rgba(255, 255, 255, 0.345);
+			-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+			border-radius: 5vh;
+		}
+		
+		.scroller::-webkit-scrollbar {
+			width: 0;
+		}
+		.scroller::-webkit-scrollbar-track {
+			background: none;
+		}
+		.scroller::-webkit-scrollbar-thumb {
+			background: none;
+			box-shadow: none;
+		}
+	
+		@keyframes appear {
+			0% {
+				backdrop-filter: blur(30px);
+				filter: blur(30px);
+			}
+			100% {
+				backdrop-filter: blur(0);
+				filter: blur(0);
+			}
+		}
+			
+		h1 {
+		text-shadow: 0 0 0.75svh rgba(0,0,0,1);
+		color: white;
+		font-family: 'Protest Strike', sans-serif;
+		font-weight: 500;
+		text-align: center;
+		font-size: 7svh;
+		margin: 0;
+		max-width: 85vw;
+		}
+		
+		.text {
+			text-shadow: 0 0 0.75svh rgba(31, 27, 63, 0.85);
+			color: white;
+			font-family: 'Ubuntu', sans-serif;
+			font-weight: 500;
+			font-size: 3.5svh;
+			margin: 0;
+			text-align: center;
+			max-width: 85vw;
+		}
+
+		.text.message {
+			text-shadow: 0 0 0.75svh rgba(31, 27, 63, 0.85);
+			color: white;
+			font-family: 'Ubuntu', sans-serif;
+			font-weight: 400;
+			font-size: 2.8svh;
+		}
+		
+		@media (min-width: 800px) {
+			.text {
+				transition: all 0.3s ease;
+				max-width: 70vw;
+			}
+			h1 {
+				transition: all 0.3s ease;
+				font-size: 10svh;
+				max-width: 70vw;
+			}
+			img {
+				transition: all 0.3s ease;
+			}
+
+			.text:hover {
+				transform: translate(0,-0.4svh);
+			}
+			h1:hover {
+				transform: translate(0,-0.4svh);
+			}
+			img:hover {
+				transform: translate(0,-0.4svh);
+			}
+		}
+
+		#show {
+			margin: 2svh 0 0 0;
+			animation: appear 0.3s;
+		}
+
+		.page_shadow {
+			margin: 0;
+			padding: 0;
+			backdrop-filter: blur(20px);
+			background: rgba(31, 31, 31, 0.5);
+			border-radius: 3svh 3svh 0 0;
+			-webkit-box-shadow: 0px -10px 20px 5px rgba(0,0,0,0.5); 
+			box-shadow: 0px -10px 20px 5px rgba(0,0,0,0.5);
+		}
+
+		.page {
+			display: none;
+			flex-direction: column;
+			justify-content: space-evenly;
+			align-items: center;
+			height: 100svh;
+			padding: 0;
+			margin: 0;
+		}
+
+		.page.active {
+			display: flex;
+		}
+
+		.column {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		img {
+			height: 18svh;
+			width: auto;
+			box-shadow: 0 0 0.75svh rgba(31, 27, 63, 0.85);
+			border-radius: 50%;
+		}
+		</style>
+	</head>
+	
+	<body>
+	<div class="page active">
+		<h1>Comment expliquer les variations de températures durant la journée ?</h1>
+		<div class="text">Un devoir réalisé par Julien, Liu, Sarah, Clara & Evan</div>
+	</div>
+	<div class="page_shadow">
+		<div class="page active">
+			<img src="1.png">
+			<h1>La rotation de la Terre : une puissance solaire reçue qui varie</h1>
+			<p class="text message">L'angle formé par les rayonnements solaires sur le sol varie tout au long de la journée en fonction de la position du Soleil dans le ciel. Vers midi, lorsque le Soleil est au zénith, les rayonnements solaires forment un angle presque droit avec la surface terrestre. Plus l'angle formé est petit, plus les rayonnements solaires sont dispersés sur une grande surface, entraînant une diminution de la puissance radiative solaire reçue. En revanche, lorsque l'angle se rapproche de 90 degrés, les rayons solaires sont concentrés sur une plus petite surface, ce qui augmente la puissance radiative solaire reçue. Les documents montrent qu'il existe un lien entre la puissance radiative solaire reçue et la température, de sorte que des valeurs plus élevées de puissance radiative solaire correspondent à des températures plus élevées. Ainsi, on observe une augmentation de la température au cours de la journée, avec un pic autour de midi, lorsque le Soleil est au plus haut dans le ciel. La température est donc théoriquement plus élevée à 13h qu'à 20h. <br> <br> <br> <br>Julien, Liu, Sarah, Clara & Evan</p>
+		</div>
+	</div>
+	</body>
+</html>
