@@ -1059,6 +1059,7 @@ div.page.active {
         background: #000000bd;
         width: 100vw;
         backdrop-filter: blur(1vh);
+        -webkit-backdrop-filter: blur(1vh);
         height: 35vh;
         top: -35vh;
         left: 0;
