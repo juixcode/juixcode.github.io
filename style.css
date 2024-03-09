@@ -448,6 +448,7 @@ span
     background: none;
     background: -webkit-linear-gradient(45deg, rgba(253,186,230,1) 0%, rgba(229,111,211,1) 25%, rgba(145,104,222,1) 55%, rgba(42,121,222,1) 85%, rgba(33, 99, 192, 1) 100%);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
     font-weight: 600;
     /* border-radius: 5vh; */
