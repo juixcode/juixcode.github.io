@@ -20,7 +20,7 @@ function play() {
         });
     });
 }
-  
+
 function start(){
     delay = Math.floor(Math.random() * (50 - 10)) + 10;
     coef = (Math.floor(Math.random() * (125 - 105)) + 105)/100
