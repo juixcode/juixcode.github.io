@@ -4,7 +4,7 @@ const items_it = ["Itali1", "Itali2", "Itali3", "Itali4"];
 var items = items_fr;
 var counter = 0;
 var delay = 0;
-  
+
 function play() {
     counter++;
     if (counter > items.length-1) {
