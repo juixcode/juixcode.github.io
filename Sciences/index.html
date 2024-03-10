@@ -19,8 +19,11 @@
 		body {
 			background: black fixed url(back.jpg);
 			-webkit-background: fixed;
-			background-size: auto 100svh;
-			-webkit-background-size: auto 100svh;
+			-webkit-background-size: cover;
+			-moz-background-size: cover;
+			-o-background-size: cover;
+			background-size: cover;
+
 			background-position: center;
 			-webkit-background-position: center;
 			height: 100svh;
@@ -104,10 +107,6 @@
 		}
 
 		@media (min-width: 1024px) {
-			body {
-				background-size: cover;
-				-webkit-background-size: cover;
-			}
 			.text {
 				transition: all 0.3s ease;
 				max-width: 70vw;
