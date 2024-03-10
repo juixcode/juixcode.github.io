@@ -10,25 +10,31 @@
 		<style>
 		html {
 			width: auto;
-			height: 100svh;
+			height: 100vh;
 			padding: 0;
 			margin: 0;
 			scroll-behavior: smooth;
 		}
 
 		body {
-			background: black fixed url(back.jpg);
-			-webkit-background: fixed;
+			height: 100vh;
+			padding: 0;
+			margin: 0;
+		}
+
+		body:after { /** FONCTIONNE SUR IOS **/
+			content:"";
+			position:fixed;
+			top:0;
+			height:100vh;
+			left:0;
+			right:0;
+			z-index:-1;
+			background: black fixed url(back.jpg) center center;
 			-webkit-background-size: cover;
 			-moz-background-size: cover;
 			-o-background-size: cover;
 			background-size: cover;
-
-			background-position: center;
-			-webkit-background-position: center;
-			height: 100svh;
-			padding: 0;
-			margin: 0;
 		}
 
 		*::-webkit-scrollbar {
@@ -78,7 +84,7 @@
 		}
 
 		.text.link {
-			width: 80vw;
+			width: 85vw;
 			font-size: 2.3vw;
 			display: flex;
 			align-items: center;
@@ -88,13 +94,13 @@
 			color: rgb(24, 21, 51);
 			text-shadow: none;
 
-			margin: 1svh;
+			margin: 1svh 0 1svh 0;
 			box-shadow: 0 0.4svh 0.4svh rgba(31, 27, 63, 0.489);
-			background: #ffffffa0;
+			background: #ffffffc9;
 			border-radius: 5svh;
 			cursor: pointer;
 			text-decoration: none;
-			padding: 1svh;
+			padding: 1svh 0 1svh 0;
 		}
 
 		.text.message {
@@ -104,43 +110,6 @@
 			font-weight: 300;
 			font-size: 2svh;
 			text-align: justify;
-		}
-
-		@media (min-width: 1024px) {
-			.text {
-				transition: all 0.3s ease;
-				max-width: 70vw;
-				font-size: 3.5svh;
-			}
-			.text.link {
-				max-width: 70vw;
-				font-size: calc(1vw + 1svh);
-				width: auto;
-				padding: 1svh 5svh 1svh 5svh;
-			}
-			.text.message {
-				font-size: 2.8svh;
-				font-weight: 400;
-				text-align: center;
-			}
-			h1 {
-				transition: all 0.3s ease;
-				font-size: 9svh;
-				max-width: 80vw;
-			}
-			img {
-				transition: all 0.3s ease;
-			}
-
-			.text:hover {
-				transform: translate(0,-0.4svh);
-			}
-			h1:hover {
-				transform: translate(0,-0.4svh);
-			}
-			img:hover {
-				transform: translate(0,-0.4svh);
-			}
 		}
 
 		.page_shadow {
@@ -159,7 +128,7 @@
 			flex-direction: column;
 			align-items: center;
 			height: auto;
-			padding: 10svh 0 10svh 0;
+			padding: 8svh 0 8svh 0;
 			margin: 0;
 		}
 
@@ -179,13 +148,59 @@
 			align-items: center;
 		}
 
-		img {
+		img.icon {
 			height: 18svh;
 			width: auto;
 			box-shadow: 0 0 0.75svh rgba(31, 27, 63, 0.85);
 			-webkit-box-shadow: 0 0 0.75svh rgba(31, 27, 63, 0.85);
 			border-radius: 50%;
 		}
+
+		img.schema {
+			width: 85vw;
+			margin: 1svh 0 1svh 0;
+			box-shadow: 0 0.4svh 0.4svh rgba(31, 27, 63, 0.489);
+			border-radius: 2.5svh;
+		}
+
+		@media (min-width: 1024px) {
+			.text {
+				transition: all 0.3s ease;
+				max-width: 60vw;
+				font-size: 3.5svh;
+			}
+			.text.link {
+				font-size: calc(0.8vw + 1svh);
+				width: 60vw;
+			}
+			.text.message {
+				font-size: 2.8svh;
+				font-weight: 400;
+				text-align: justify;
+			}
+			h1 {
+				transition: all 0.3s ease;
+				font-size: calc(3vw + 4svh);
+				max-width: 60vw;
+			}
+			img {
+				transition: all 0.3s ease;
+			}
+			img.schema {
+				width: 60vw;
+			}
+
+			.text:hover {
+				transform: translate(0,-0.4svh);
+			}
+			h1:hover {
+				transform: translate(0,-0.4svh);
+			}
+			img:hover {
+				transform: translate(0,-0.4svh);
+			}
+		}
+
 		</style>
 	</head>
 	
@@ -205,29 +220,45 @@
 		<div class="page active" id="anchor1">
 			<h1>Introduction</h1>
 			<p class="text message">
-				Cela s'explique par différents facteurs, chacun en lien avec le rayonnement du Soleil car c'est presque exclusivement de sa lumière que provient la température terrestre. En effet, on voit que la température est une fonction croissante de la puissance solaire reçue. De cette façon, plus la puissance reçue est élevée, plus la température l'est. La variation de température s'explique donc par la variation de puissance solaire reçue, et ceci :
-				<br>- Selon l'heure de la journée, en raison de la rotation de la Terre ; 
-				<br>- Selon la latitude, à cause de la sphéricité de la Terre ; 
-				<br>- Selon la saison, qui change grâce à l'inclinaison de l'axe de rotation terrestre.<br> <br> <br></p>
+				Une telle différence de température s'explique par différents facteurs, chacun en lien avec le rayonnement du Soleil car c'est presque exclusivement sa lumière qui est à l'origine de la température terrestre. En effet, on voit que la température est une fonction croissante de la puissance solaire reçue. De cette façon, plus la puissance reçue est élevée, plus la température l'est.
+			</p>
+			<img class="schema" src="schema1.jpeg">
+			<p class="text message">
+				La variation de température s'explique donc par la variation de puissance solaire reçue, et ceci :
+			</p>
+			<div class="colum">
+				<a class="text link" href="#anchor2">Selon l'heure de la journée, en raison de la rotation de la Terre</a>
+				<a class="text link" href="#anchor3">Selon la latitude, à cause de la sphéricité de la Terre</a>
+				<a class="text link" href="#anchor4">Selon la saison, qui change grâce à l'inclinaison de l'axe de rotation terrestre</a>
+			</div>
 		</div>
 		<div class="page active" id="anchor2">
-			<img src="1.png">
+			<img class="icon" src="1.png">
 			<h1>La rotation de la Terre : la variation diurne</h1>
-			<p class="text message">L'angle entre les rayonnements solaires et la normale à la surface terrestre varie tout au long de la journée en fonction de la position du Soleil dans le ciel. Plus sa valeur est élevée, plus les rayonnements solaires sont répartis sur une grande surface, entraînant une diminution de la puissance radiative solaire reçue par unité de surface. Par conséquent, lorsque l'angle est pratiquement nul vers midi, les rayons solaires sont concentrés sur une plus petite surface, ce qui augmente la puissance radiative solaire reçue. <br>Ainsi, on observe une évolution de la température au cours de la journée, avec un pic aux alentours de midi, lorsque le Soleil est au plus haut dans le ciel, c'est la variation diurne. La température est donc théoriquement plus élevée à 13h qu'à 20h. <br> <br> <br></p>
-		</div>
+			<p class="text message">L'angle entre les rayonnements solaires et la normale à la surface terrestre varie tout au long de la journée en fonction de la position du Soleil dans le ciel. Plus sa valeur est élevée, plus les rayonnements solaires sont répartis sur une grande surface, entraînant une diminution de la puissance radiative solaire reçue par unité de surface. Par conséquent, lorsque l'angle est pratiquement nul vers midi, les rayons solaires sont concentrés sur une plus petite surface, ce qui augmente la puissance radiative solaire reçue. 
+				<br>Ainsi, on observe une évolution de la température au cours de la journée, avec un pic aux alentours de midi, lorsque le Soleil est au plus haut dans le ciel, c'est la variation diurne. La température est donc en moyenne plus élevée à 13h qu'à 20h.</p>
+			<img class="schema" src="schema2.jpg">
+			<img class="schema" src="schema2bis.jpg">
+			</div>
 		<div class="page active" id="anchor3">
-			<img src="2.png">
+			<img class="icon" src="2.png">
 			<h1>La sphéricité de la Terre : la zonation climatique</h1>
-			<p class="text message">Comme pour la variation diurne, la variation de température selon la latitude est due à la surface couverte par le rayonnement solaire. En effet, on constate des températures moyennes plus élevées au niveau de l'équateur, et plus faibles en se rapprochant des pôles : c'est la zonation climatique. On l'explique par la sphéricité de la Terre : pour des rayons solaires parallèles et de même intensité, ceux qui forment l'angle le plus faible avec la normale à la surface terrestre ont un impact sur une plus petite surface, ce qui entraîne la réception d'une puissance radiative élevée pour une même surface et donc d'une température plus importante ; tandis que les rayons atteignant une surface terrestre plus inclinée répartissent leur puissance radiative sur une plus grande zone, qui a donc une température plus faible. <br>Sur le planisphère terrestre, on observe que Rio de Janeiro est situé sur le tropique de Capricorne, plus près de l'équateur que Paris qui se situe bien plus au Nord du tropique du Cancer, et donc plus proche d'un pôle. La température moyenne sur l'année est donc théoriquement plus élevée à Rio de Janeiro qu'à Paris. <br> <br> <br></p>
-		</div>
+			<p class="text message">Comme pour la variation diurne, la variation de température selon la latitude est due à la surface couverte par le rayonnement solaire. En effet, on constate des températures moyennes plus élevées au niveau de l'équateur, et plus faibles en se rapprochant des pôles : c'est la zonation climatique. On l'explique par la sphéricité de la Terre : pour des rayons solaires parallèles et de même intensité, ceux qui forment l'angle le plus faible avec la normale à la surface terrestre ont un impact sur une plus petite surface, ce qui entraîne la réception d'une puissance radiative surfacique plus élevée et donc d'une température plus importante ; tandis que les rayons atteignant une surface terrestre plus inclinée répartissent leur puissance radiative sur une plus grande zone, qui a donc une température plus faible.
+				<br>Sur le planisphère terrestre, on observe que Rio de Janeiro est situé sur le tropique du Capricorne, plus près de l'équateur que Paris qui se situe bien plus au Nord du tropique du Cancer, et donc plus proche d'un pôle. La température moyenne sur l'année est donc en moyenne plus élevée à Rio de Janeiro qu'à Paris.</p>
+			<img class="schema" src="schema3.jpg">
+			<img class="schema" src="schema3bis.jpg">
+			</div>
 		<div class="page active" id="anchor4">
-			<img src="3.png">
+			<img class="icon" src="3.png">
 			<h1>L'inclinaison de l'axe de rotation de la Terre : la variation saisonnière</h1>
-			<p class="text message">La variation de température selon les saisons est principalement due à l'inclinaison de l'axe de rotation de la Terre par rapport à la normale au plan de l'écliptique. Lorsque la Terre tourne autour du Soleil, les différentes régions de la planète reçoivent des quantités variables de rayonnement solaire, encore une fois en fonction de l'angle d'incidence des rayons. Lorsque la surface de l'hémisphère nord est perpendiculaire aux rayons du Soleil, c'est l'été dans cette région, car elle reçoit plus de rayonnement solaire qui sont aussi plus concentrés, ce qui entraîne des températures plus élevées. Au même moment, l'hémisphère sud a une surface fortement inclinée par rapport aux rayons du Soleil, entraînant des conditions hivernales avec moins de lumière solaire directe et des températures plus faibles. C'est la variation saisonnière. Au fur et à mesure que la Terre continue son orbite, les positions relatives de l'hémisphère nord et de l'hémisphère sud par rapport au Soleil changent, ce qui entraîne une alternance des saisons. Lorsque l'axe de rotation de la Terre est perpendiculaire au plan de l'écliptique, c'est l'équinoxe, où les jours et les nuits sont d'égale durée sur toute la planète. <br>Paris est situé dans l'hémisphère Nord où on est aujourd'hui en hiver, alors que Rio de Janeiro appartient à l'hémisphère Sud qui est actuellement dans des conditions estivales. La température est donc théoriquement plus élevée aujourd'hui à Rio de Janeiro qu'à Paris. <br> <br> <br></p>
-		</div>
+			<p class="text message">La variation de température selon les saisons est principalement due à l'inclinaison de l'axe de rotation de la Terre par rapport à la normale au plan de l'écliptique. Lorsque la Terre tourne autour du Soleil, les différentes régions de la planète reçoivent des quantités variables de rayonnement solaire, encore une fois en fonction de l'angle d'incidence des rayons. Lorsque la surface de l'hémisphère Nord est perpendiculaire aux rayons du Soleil, c'est l'été dans cette région, car elle reçoit plus de rayonnement solaire qui sont aussi plus concentrés, ce qui entraîne des températures plus élevées. Au même moment, l'hémisphère Sud a une surface fortement inclinée par rapport aux rayons du Soleil, entraînant des conditions hivernales avec moins de lumière solaire directe et des températures plus faibles. C'est la variation saisonnière. Au fur et à mesure que la Terre continue son orbite, les positions relatives de l'hémisphère nord et de l'hémisphère sud par rapport au Soleil changent, ce qui entraîne une alternance des saisons. Lorsque l'axe de rotation de la Terre est perpendiculaire au plan de l'écliptique, c'est l'équinoxe, où les jours et les nuits sont d'égale durée sur toute la planète. 
+				<br>Aujourd'hui, l'hémisphère Nord est en hiver, les températures sont donc en moyenne plus élevées dans l'hémisphère Sud. Paris est situé dans l'hémisphère Nord, alors que Rio de Janeiro appartient à l'hémisphère Sud : la température est donc plus élevée aujourd'hui à Rio de Janeiro qu'à Paris.</p>
+			<img class="schema" src="schema4.jpg">
+			</div>
 		<div class="page active" id="anchor5">
 			<h1>Conclusion</h1>
-			<p class="text message">Les écarts de température sur Terre s'expliquent donc par trois phénomènes : la variation diurne responsable d'une variation de température au cours de la journée, la zonation climatique responsable d'une variation de température selon l'endroit étudié sur Terre, et la variation saisonnière qui fait varier la température au cours de l'année selon l'hémisphère. Ainsi, si aujourd'hui il fera 29°C à 13h à Rio de Janeiro, et 6°C à 20h à Paris, c'est en raison de la différence d'heure et de localisation qui existe entre ces deux observations. <br> <br> <br></p>
+			<p class="text message"> Les écarts de température sur Terre s'expliquent donc par trois phénomènes : la variation diurne responsable d'une variation de température au cours de la journée, la zonation climatique responsable d'une variation de température selon l'endroit étudié sur Terre, et la variation saisonnière qui fait varier la température au cours de l'année selon l'hémisphère.
+				<br>Ainsi, si aujourd'hui il fera 29°C à 13h à Rio de Janeiro, et 6°C à 20h à Paris, c'est en raison de la différence d'heure et de localisation qui existe entre ces deux observations <br><br><br></p>
 			<div class="text">Julien, Liu, Sarah, Clara & Evan</div>
 		</div>
 	</div>
