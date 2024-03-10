@@ -25,13 +25,14 @@ function start(){
     delay = Math.floor(Math.random() * (50 - 10)) + 10;
     coef = (Math.floor(Math.random() * (125 - 105)) + 105)/100
     console.log("coef: " + coef);
-    counter = -1;
+    counter = Math.floor(Math.random() * 4);
+    console.log("starting choice: " + items_fr[counter]);
 
     setTimeout(play, 0);
     while (delay < 6000*(2.6-coef)) {
         delay = delay*coef + 10;
         setTimeout(play, delay);
-        console.log("delay: " + delay);
+        // console.log("delay: " + delay);
     }
 }
 
