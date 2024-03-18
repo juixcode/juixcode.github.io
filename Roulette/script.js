@@ -140,15 +140,16 @@ function start(){ //Bouton Lancer : lance les rolls aléatoires avec délais
         setTimeout(done, 100);
     } else {
         delay = Math.floor(Math.random() * (50 - 10)) + 10;
-        coef = (Math.floor(Math.random() * (125 - 105)) + 105)/100
+        // coef = (Math.floor(Math.random() * (125 - 105)) + 105)/100
+        coef = document.querySelector('.coef_value').offsetWidth/100;
         console.log("coef: " + coef);
         counter = Math.floor(Math.random() * items.length);
         console.log("starting choice: " + items[counter]);
 
         setTimeout(play, 0);
-        while ((delay*coef+10)-delay < 2000) {
+        while ((delay*coef+10)-delay < 1500) {
             setTimeout(play, delay);
-            console.log("delay: " + delay);
+            // console.log("delay: " + delay);
             delay = delay*coef + 10;
             coef+=0.005;
         }
