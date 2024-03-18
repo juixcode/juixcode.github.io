@@ -100,6 +100,47 @@
 			transition: all 0.15s ease;
 		}
 
+		button.start {
+			animation: grow 1s ease-in-out infinite;
+		}
+
+		@keyframes grow {
+			0% {
+				padding: 2.5svh 4svh 2.5svh 4svh;
+			}
+			35% {
+				background: rgb(240, 240, 240);
+			}
+			50% {
+				background: #fad9da;
+				padding: 2.5svh 6svh 2.5svh 6svh;
+			}
+			65% {
+				background: rgb(240, 240, 240);
+			}
+			100% {
+				padding: 2.5svh 4svh 2.5svh 4svh;
+			}
+		}
+
+		div.coef_value {
+			opacity: 0;
+			position: absolute;
+			animation: grow2 1s ease-in-out infinite;
+		}
+
+		@keyframes grow2 {
+			0% {
+				width: 125px;
+			}
+			50% {
+				width: 103px;
+			}
+			100% {
+				width: 125px;
+			}
+		}
+
 		button.lang {
 			background: #f5505892;
 			backdrop-filter: blur(1svh);
@@ -383,6 +424,7 @@
 	</head>
 
 	<body>
+		<div class="coef_value"></div>
 		<div class="hamburger_menu">
 			<div class="option-block">
 				<div class="text option">Retirer l'animation de roulette</div>
