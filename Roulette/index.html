@@ -14,6 +14,7 @@
 			height: 100svh;
 			padding: 0;
 			margin: 0;
+			overflow-x: hidden;
 		}
 
 		body {
@@ -93,7 +94,6 @@
 			display: block;
 			height: 4svh;
 			width: 4svh;
-			z-index: 1;
 			position: relative;
 			right: 1svh;
 			transform: translate(0,0);
@@ -117,8 +117,8 @@
 			transform: translate(0,0);
 		}
 
-		button.lang.it::after { background: fixed url(flag_it.png) no-repeat; background-size: 100%; }
-		button.lang.fr::after { background: fixed url(flag_fr.png) no-repeat; background-size: 100%; }
+		button.lang.it::after { background: fixed url(Icons/flag_it.png) no-repeat; background-size: 100%; }
+		button.lang.fr::after { background: fixed url(Icons/flag_fr.png) no-repeat; background-size: 100%; }
 			
 		h1 {
 			text-shadow: 0 0.2svh 0.75svh rgba(0, 0, 0, 0.47);
@@ -136,7 +136,7 @@
 			color: white;
 			font-family: 'Ubuntu', sans-serif;
 			font-weight: 500;
-			font-size: 4svh;
+			font-size: 3.5svh;
 			margin: 0;
 			text-align: center;
 			max-width: 85vw;
@@ -193,6 +193,32 @@
 			button {
 				transition: all 0.3s ease;
 			}
+			.slider.type2 {
+				transition: all 0.3s ease;
+			}
+			.slider.type2.filter-1::after { background: fixed url(Icons/filter-1.png) no-repeat; background-size: 100% 100%; }
+			.slider.type2.filter-2::after { background: fixed url(Icons/filter-2.png) no-repeat; background-size: 100% 100%; }
+			.slider.type2.filter-3::after { background: fixed url(Icons/filter-3.png) no-repeat; background-size: 100% 100%; }
+			.slider.type2.category-1::after { background: fixed url(Icons/category-1.png) no-repeat; background-size: 100% 100%; }
+			.slider.type2.category-2::after { background: fixed url(Icons/category-2.png) no-repeat; background-size: 100% 100%; }
+			.slider.type2.category-3::after { background: fixed url(Icons/category-3.png) no-repeat; background-size: 100% 100%; }
+			.slider.type2.category-4::after { background: fixed url(Icons/category-4.png) no-repeat; background-size: 100% 100%; }
+			
+			.slider.type2::after
+			{
+				margin:0;
+				content: '';
+				display: block;
+				height: 2svh;
+				width: 2svh;
+				z-index: 1;
+				position: absolute;
+				left: 50%;
+				top: 25%;
+				transform: translate(-50%,-50%);
+				transition: all 0.3s ease;
+				opacity: 0%;
+			}
 
 			button:hover {
 				transform: translate(0,-0.4svh);
@@ -207,11 +233,22 @@
 				transform: translate(0,-0.4svh);
 				text-shadow: 0 0.6svh 0.75svh rgba(0, 0, 0, 0.47);
 			}
+			.slider.type2:hover
+			{
+				color: #00000000;
+			}
+			.slider.type2:hover::after
+			{
+				opacity: 100%;
+				top: 50%;
+			}
 		}
 
 		#show {
-			margin: 2svh 0 0 0;
-			display: flex;
+			letter-spacing: -0.2svh;
+		}
+		#trad {
+			letter-spacing: -0.2svh;
 		}
 
 		.column {
@@ -235,7 +272,7 @@
 		.hamburger span{
 			width: 4.5svh;
 			height: 1.5svh;
-			background: fixed url(bar.svg) no-repeat;
+			background: fixed url(Icons/bar.svg) no-repeat;
 			transform: translate(0,0);
 			background-size: 100%;
 			transition: all 0.1s ease;
@@ -262,8 +299,8 @@
 			width: 100svw;
 			backdrop-filter: blur(1svh);
 			-webkit-backdrop-filter: blur(1svh);
-			height: 65svh;
-			top: -57.5svh;
+			height: 92.5svh;
+			top: -85svh;
 			left: 0;
 			transition: all 0.3s ease;
 		}
@@ -280,7 +317,7 @@
 
 		.switch.type2 {
 			margin-bottom: 0.5svh;
-			width: 10svh;
+			width: 15svh;
 		}
 		
 		.switch input {
@@ -372,19 +409,41 @@
 			</div>
 			<div class="space"></div>
 			<div class="option-block">
+				<div class="text option">Filtres</div>
+				<div class="column">
+					<label class="switch type2">
+						<input type="checkbox" onclick="setItems()" id="filter-1" checked="true">
+						<span class="slider type2 filter-1">Aveux</span>
+					</label>
+					<label class="switch type2">
+						<input type="checkbox" onclick="setItems()" id="filter-2" checked="true">
+						<span class="slider type2 filter-2">Interactions</span>
+					</label>
+					<label class="switch type2">
+						<input type="checkbox" onclick="setItems()" id="filter-3">
+						<span class="slider type2 filter-3">Actions</span>
+					</label>
+				</div>
+			</div>
+			<div class="space"></div>
+			<div class="option-block">
 				<div class="text option">Catégories</div>
 				<div class="column">
 					<label class="switch type2">
 						<input type="checkbox" onclick="setItems()" id="category-1" checked="true">
-						<span class="slider">Sexe</span>
+						<span class="slider type2 category-1">Découverte</span>
 					</label>
 					<label class="switch type2">
 						<input type="checkbox" onclick="setItems()" id="category-2">
-						<span class="slider">Actions</span>
+						<span class="slider type2 category-2">Secrets</span>
 					</label>
 					<label class="switch type2">
 						<input type="checkbox" onclick="setItems()" id="category-3">
-						<span class="slider">Rivalité</span>
+						<span class="slider type2 category-3">Sexe Soft</span>
+					</label>
+					<label class="switch type2">
+						<input type="checkbox" onclick="setItems()" id="category-4">
+						<span class="slider type2 category-4">Sexe Hard</span>
 					</label>
 				</div>
 			</div>
