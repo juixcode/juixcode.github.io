@@ -1,15 +1,105 @@
-var items_fr = ["Text1 - Cat1 - FR", "Text2 - Cat1 - FR", "Text3 - Cat1 - FR", "Text4 - Cat1 - FR"];
-var items_it = ["Text1 - Cat1 - IT", "Text2 - Cat1 - IT", "Text3 - Cat1 - IT", "Text4 - Cat1 - IT"];
+const items_dictionary = 
+[[
+    [
+        "[❓] Ta plus grande peur ?", 
+        "[❓] Un plat que tu pourrais manger 10j d'affilée ?", 
+        "[❓] Ton voyage de rêve ?", 
+        "[❓] Ton métier de rêve ?", 
+        "[❓] Ta musique préférée ?", 
+        "[❓] Ton activité préférée ?", 
+        "[❓] La chose la plus folle que tu aies jamais faite ?", 
+        "[❓] Quelle célébrité aimerais-tu rencontrer ?",
+        "[❓] Si tu pouvais avoir un super pouvoir, lequel ?",
+        "[❓] Ce que tu aimes dans le groupe ici présent",
+        "[❓] C'est quoi le plus gros green flag chez un mec/une meuf ?",
+        "[❓] C'est quoi le plus gros red flag chez un mec/une meuf ?",
+        "[❓] Quelque chose que tu adores",
+        "[❓] Un truc que tu détestes",
+        "[❓] Ton avis sur la pizza à l'ananas ?",
+        "[❓] Céréales avant ou après le lait ?",
+        "[❓] C'est quoi ton jeu vidéo/sport préféré ?",
+        "[👥] Avec qui tu aimerais passer davantage de temps à l'avenir ?",
+        "[👥] Qui aimerais-tu découvrir davantage ?",
+        "[👥] Qui te plaît le plus physiquement ?",
+        "[👥] Qui te semble le plus sympa ?",
+        "[☝️] Montre-nous ta meilleure danse bien gênante pendant 10s",
+        "[☝️] Assieds-toi par terre jusqu'à ton prochain tour"
+    ],[
+        "[❓] Une qualité indispensable pour être ton/ta partenaire ?",
+        "[❓] Une qualité indispensable pour être ton/ta pote ?",
+        "[❓] Un défaut qu'il ne faut surtout pas avoir pour traîner avec toi ?",
+        "[❓] Un regret marquant ?",
+        "[❓] Un remord tracassant ?",
+        "[❓] Sur une échelle de 1 à 10, à quel point es-tu gay ?",
+        "[❓] Tu pourrais retourner avec un(e) de tes exs ?",
+        "[👥] Sur une échelle de 1 à 10, à quel point la personne à ta gauche est-elle gay ?",
+        "[👥] Si tu devais choisir un adjectif pour décrire la personne en face de toi parmi : gay, pédophile, trisomique ?",
+        "[👥] Avoue un petit défaut à la personne à ta droite",
+        "[👥] Trouve une qualité à la personne deux places à ta gauche",
+        "[👥] Ce que tu préfères chez la personne la plus loin de toi",
+        "[👥] Tu partirais où 1an avec la personne à ta gauche ?",
+        "[👥] Une personne avec qui tu pourrais vivre 1 an sans souci ?",
+        "[👥] La personne avec laquelle tu pourrais le moins te disputer ?",
+        "[👥] La personne avec laquelle tu pourrais le plus être en couple ?",
+        "[👥] La personne avec laquelle tu pourrais le plus parler librement ?",
+        "[👥] La personne à laquelle tu peux confier d'importants secrets ?",
+        "[☝️] Fais un câlin à quelqu'un dont tu en as très envie",
+        "[☝️] Dévoile une particularité physique"
+    ],[
+        "[❓] Un fétiche ?",
+        "[❓] L'endroit où tu rêverais de faire l'amour",
+        "[❓] L'endroit le plus insolite où tu t'es masturbé ?",
+        "[❓] Ta plus grande honte pendant une branlette",
+        "[❓] La durée de ta plus longue branlette",
+        "[❓] Une anecdote marquante à propos d'une de tes branlettes",
+        "[❓] Une célébrité que tu détruirais ?",
+        "[❓] La couleur de ton sous-vêtement ?",
+        "[❓] Ta catégorie porno préférée ?",
+        "[❓] T'as déjà envoyé ou reçu une nude ?",
+        "[❓] T'as déjà entendu un membre de ta famille ou voisin ken ?",
+        "[👥] Qui a le plus beau cul ici ?",
+        "[👥] La personne avec laquelle tu pourrais regarder un porno ?",
+        "[👥] La personne à laquelle tu pourrais partager ton historique ?",
+        "[👥] La personne qui ken le mieux selon toi ?",
+        "[👥] Le mec qui se décrypte le plus le Hugo ?",
+        "[👥] La personne restera le plus longtemps vierge ?"
+    ],[
+        "[❓] Dominé ça te ferait kiffer ?",
+        "[❓] La taille ton sexe/poitrine ?",
+        "[❓] Une position pref ?",
+        "[❓] Un fantasme de thème comme les nurses, nekos, ou menottes ?",
+        "[❓] Un rêve érotique avec quelqu'un d'ici ça t'est arrivé ?",
+        "[❓] Classe par préférence : Sexe vaginal ; oral ; anal",
+        "[❓] Décris ton sexe",
+        "[👥] Avoue le meilleur argument qu'a la personne en face de toi",
+        "[👥] La personne 3 places à ta droite est à toi. Tu lui ferais quoi ?",
+        "[👥] Coucher avec la personne la plus loin de toi ou orgie tous ensemble ?",
+        "[👥] Avec qui tu ne pourrais absolument pas coucher ?",
+        "[👥] Coucher avec les 2 personnes de ton choix ou rien ?",
+        "[👥] Sodomiser la personne à ta gauche ou perdre 250€ ?",
+        "[👥] Te faire sodomiser par la personne à ta droite ou la sodomiser 2x ?"
+    ]
+],[
+    ["Text1 - Cat1 - IT", "Text2 - Cat1 - IT", "Text3 - Cat1 - IT", "Text4 - Cat1 - IT"],
+    ["Text1 - Cat2 - IT", "Text2 - Cat2 - IT", "Text3 - Cat2 - IT", "Text4 - Cat2 - IT"],
+    ["Text1 - Cat3 - IT", "Text2 - Cat3 - IT", "Text3 - Cat3 - IT", "Text4 - Cat3 - IT"],
+    ["Text1 - Cat4 - IT", "Text2 - Cat4 - IT", "Text3 - Cat4 - IT", "Text4 - Cat4 - IT"]
+]];
+
+var items_fr = items_dictionary[0][0];
+var items_it = items_dictionary[1][0];
 
 var items = items_fr;
 var counter = 0;
 var delay = 0;
 
 function play() { //Passe à la question suivante avec animation de Pop
-    counter++;
-    if (counter > items.length-1) {
-        counter = 0;
-    }
+    // counter++;
+    // if (counter > items.length-1) {
+    //     counter = 0;
+    // }
+    counter = Math.floor(Math.random() * items.length);
+    
     document.getElementById("show").innerHTML = items[counter];
     new Audio("tic.mp3").play();
 
@@ -56,10 +146,11 @@ function start(){ //Bouton Lancer : lance les rolls aléatoires avec délais
         console.log("starting choice: " + items[counter]);
 
         setTimeout(play, 0);
-        while (delay < 6000*(2.6-coef)) {
+        while ((delay*coef+10)-delay < 2000) {
             setTimeout(play, delay);
-            // console.log("delay: " + delay);
+            console.log("delay: " + delay);
             delay = delay*coef + 10;
+            coef+=0.005;
         }
         setTimeout(play, delay);
         setTimeout(done, delay+1000);
@@ -101,16 +192,6 @@ function hamburgerDeploy() { //Ouvre/Ferme le volet d'options
 function setItems(){ //Actualise la liste des questions en fonction des sélections
     document.getElementById("show").innerHTML = " ‎ ";
     document.getElementById("trad").innerHTML = " ‎ ";
-    const items_dictionary = 
-    [[
-        ["Text1 - Cat1 - FR", "Text2 - Cat1 - FR", "Text3 - Cat1 - FR", "Text4 - Cat1 - FR"],
-        ["Text1 - Cat2 - FR", "Text2 - Cat2 - FR", "Text3 - Cat2 - FR", "Text4 - Cat2 - FR"],
-        ["Text1 - Cat3 - FR", "Text2 - Cat3 - FR", "Text3 - Cat3 - FR", "Text4 - Cat2 - FR"]
-    ],[
-        ["Text1 - Cat1 - IT", "Text2 - Cat1 - IT", "Text3 - Cat1 - IT", "Text4 - Cat1 - IT"],
-        ["Text1 - Cat2 - IT", "Text2 - Cat2 - IT", "Text3 - Cat2 - IT", "Text4 - Cat2 - IT"],
-        ["Text1 - Cat3 - IT", "Text2 - Cat3 - IT", "Text3 - Cat3 - IT", "Text4 - Cat3 - IT"]
-    ]];
 
     items_fr = [] ; items_it=[];
 
@@ -136,6 +217,14 @@ function setItems(){ //Actualise la liste des questions en fonction des sélecti
         }
         for (let i = 0; i < items_dictionary[1][2].length; i++) {
             items_it.push(items_dictionary[1][2][i]);
+        }
+    };
+    if (document.getElementById('category-4').checked){
+        for (let i = 0; i < items_dictionary[0][3].length; i++) {
+            items_fr.push(items_dictionary[0][3][i]);
+        }
+        for (let i = 0; i < items_dictionary[1][3].length; i++) {
+            items_it.push(items_dictionary[1][3][i]);
         }
     };
 
