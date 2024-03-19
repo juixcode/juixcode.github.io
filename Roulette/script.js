@@ -62,7 +62,7 @@ const items_dictionary =
         "[👥] La personne à laquelle tu pourrais partager ton historique ?",
         "[👥] La personne qui ken le mieux selon toi ?",
         "[👥] Le mec qui se décrypte le plus le Hugo ?",
-        "[👥] La personne restera le plus longtemps vierge ?"
+        "[👥] La personne qui restera le plus longtemps vierge ?"
     ],[
         "[❓] Dominé(e), ça te ferait kiffer ?",
         "[❓] La taille ton sexe/poitrine ?",
