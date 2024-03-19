@@ -64,7 +64,7 @@ const items_dictionary =
         "[👥] Le mec qui se décrypte le plus le Hugo ?",
         "[👥] La personne restera le plus longtemps vierge ?"
     ],[
-        "[❓] Dominé ça te ferait kiffer ?",
+        "[❓] Dominé(e), ça te ferait kiffer ?",
         "[❓] La taille ton sexe/poitrine ?",
         "[❓] Une position pref ?",
         "[❓] Un fantasme de thème comme les nurses, nekos, ou menottes ?",
