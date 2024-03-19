@@ -147,11 +147,11 @@ function start(){ //Bouton Lancer : lance les rolls aléatoires avec délais
         console.log("starting choice: " + items[counter]);
 
         setTimeout(play, 0);
-        while ((delay*coef+10)-delay < 1500) {
+        while ((delay*coef+10)-delay < 1000) {
             setTimeout(play, delay);
             // console.log("delay: " + delay);
             delay = delay*coef + 10;
-            coef+=0.005;
+            coef+=0.002;
         }
         setTimeout(play, delay);
         setTimeout(done, delay+1000);
