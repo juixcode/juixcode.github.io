@@ -229,6 +229,14 @@ function done() { //Roll final : audio + apparition de la traduction (option 2)
         tradRefresh();
         document.getElementById("trad").className = "text trad active";
     }
+    if (!(document.getElementById('option-3').checked)){ //Suppression auto des questions déjà posées
+        items_fr.splice(counter, 1);
+        items_it.splice(counter, 1);
+        items.splice(counter, 1);
+    }
+    if (items.length <= 1){ //Réinitialisation des questions si toutes ont été posées
+        setItems()
+    }
 }
 
 function tradRefresh() { //Affichage de la traduction (option 2)
