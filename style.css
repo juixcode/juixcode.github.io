@@ -125,7 +125,7 @@ nav.secondary::before
 }
 
 .can_switch_lang { display: none; }
-.can_switch_lang.active { display: block; }
+.can_switch_lang.active { display: flex; }
 
 
 
@@ -375,6 +375,8 @@ a
 
 h1
 {
+    display: flex;
+    align-self: center;
     position: relative;
     font-family: 'Space Grotesk';
     font-style: normal;
@@ -428,6 +430,7 @@ h3
 
 p
 {
+    display: flex;
     position: relative;
     font-family: 'Montserrat';
     font-style: normal;
@@ -437,9 +440,21 @@ p
     color: var(--button-text-color);
 }
 
-p.margin
+p.info { margin: 0; }
+p.info.info_positive::before { background: url(Medias/check.svg) no-repeat; }
+p.info.info_negative::before { background: url(Medias/cross.svg) no-repeat; }
+p.info.info_warning::before { background: url(Medias/warn.svg) no-repeat; }
+p.info::before
 {
-    margin: 3vh 0 3vh 0;
+    background-size: 100% 100%;
+    margin:0;
+    content: '';
+    display: block;
+    height: 1.5vh;
+    width: 1.5vh;
+    z-index: 1;
+    position: relative;
+    margin-right: 0.5vh;
 }
 
 span
@@ -453,6 +468,37 @@ span
     font-weight: 600;
     /* border-radius: 5vh; */
     /* background-color: var(--button-text-color); */
+}
+
+div.copy_success_message {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 1.7vh;
+    line-height: auto;
+    align-items: center;
+    text-align: center;
+    letter-spacing: -0.015em;
+    color: rgb(86, 210, 86);
+    justify-content: center;
+
+    box-shadow: 0 0.4vh 0.4vh rgba(0, 0, 0, 0.25);
+    background: #00000051;
+    border-radius: 5vh;
+    padding: 2vh 5vh 2vh 5vh;
+
+    top: 15svh;
+    left: 50%;
+    transform: translateX(-50%, 0);
+    z-index: 10;
+    display: none;
+    position: fixed;
+}
+
+div.copy_success_message.active {
+    animation: disappear 1s ease;
+    display: flex;
+    opacity: 0;
 }
 
 
@@ -659,7 +705,7 @@ p.cell.type1
 {
     background: none;
     box-shadow: none;
-    height: 23vh;
+    height: 25vh;
     margin: 0;
     padding: 0;
 }
@@ -728,6 +774,26 @@ p.cell.type1
 ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝
 */
 
+
+
+@keyframes disappear {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 0)
+    }
+    15% {
+        opacity: 1;
+        transform: translate(-50%, 0)
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, 0)
+    }
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -2vh)
+    }
+}
 
 
 .anim1

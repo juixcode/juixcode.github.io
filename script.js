@@ -44,6 +44,11 @@ function copy(a) {
                 `Failed to copy "${text}" to clipboard: ${error}`
             );
         });
+    document.querySelector('div.copy_success_message').classList.add('active');
+    setTimeout(stopMessageAnimation, 1000);
+}
+function stopMessageAnimation() {
+    document.querySelector('div.copy_success_message').classList.remove('active');
 }
 
 
