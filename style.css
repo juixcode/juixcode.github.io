@@ -301,9 +301,9 @@ a
 
 .link.copy
 {
-    width: 9.5vh;
+    width: 10.5vh;
     padding: 1.5vh;
-    margin: 0 3vh 0 -10vh;
+    margin: 0 3vh 0 -11vh;
     background: #212121;
     transition: all 0.15s ease;
     justify-content: end;
@@ -352,7 +352,7 @@ a
     border-radius: 5vh;
     font-weight: 500;
     padding: 1.5vh;
-    width: 7vh;
+    width: 8vh;
     margin: 0;
     justify-content: center;
     z-index: 1;
@@ -441,6 +441,10 @@ p
 }
 
 p.info { margin: 0; }
+p.info.info_positive { color: rgb(86, 210, 86); }
+p.info.info_negative { color: rgb(234, 85, 85); }
+p.info.info_warning { color: rgb(244, 164, 78); }
+
 p.info.info_positive::before { background: url(Medias/check.svg) no-repeat; }
 p.info.info_negative::before { background: url(Medias/cross.svg) no-repeat; }
 p.info.info_warning::before { background: url(Medias/warn.svg) no-repeat; }
@@ -574,7 +578,7 @@ div.space
 
 div.vertical_line
 {
-    height: 23vh;
+    height: 25vh;
     width: 0.2vh;
     background:rgba(0, 0, 0, 0.18);
     margin-bottom: 3vh;
@@ -629,7 +633,7 @@ p.cell.type1
 .expander
 {
     width: calc(72vw - 7vh);
-    max-height: 26vh;
+    max-height: 28vh;
     flex-direction: column;
     transition: all 0.3s ease-in-out;
     overflow: hidden;

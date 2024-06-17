@@ -1,0 +1,13 @@
+{
+  "parent": "item/generated",
+  "textures": {
+      "layer0": "item/spawn_egg",
+      "layer1": "item/spawn_egg_overlay"
+  },
+  "overrides": [
+    { "predicate": { "custom_model_data": 1}, "model": "item/special_items/obsidian_gb" },
+    { "predicate": { "custom_model_data": 2}, "model": "item/special_items/stone_gb" },
+    { "predicate": { "custom_model_data": 3}, "model": "item/special_items/grass_gb" }
+  
+   ]
+}

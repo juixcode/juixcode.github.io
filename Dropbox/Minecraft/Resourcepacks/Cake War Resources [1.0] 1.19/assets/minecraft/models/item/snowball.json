@@ -1,0 +1,15 @@
+{
+ "parent": "item/handheld",
+ "textures": {
+  "layer0": "item/snowball"
+ },
+ "overrides": [
+  { "predicate": { "custom_model_data": 1}, "model": "item/special_items/fb1" },
+  { "predicate": { "custom_model_data": 2}, "model": "item/special_items/fb2" },
+  { "predicate": { "custom_model_data": 3}, "model": "item/special_items/fb3" },
+  { "predicate": { "custom_model_data": 4}, "model": "item/special_items/fb4" },
+  { "predicate": { "custom_model_data": 5}, "model": "item/special_items/hyper_snowball" },
+  { "predicate": { "custom_model_data": 6}, "model": "item/special_items/dynamite" }
+
+ ]
+}

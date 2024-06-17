@@ -1,0 +1,13 @@
+{
+  "parent": "item/generated",
+  "textures": {
+      "layer0": "item/spawn_egg",
+      "layer1": "item/spawn_egg_overlay"
+  },
+  "overrides": [
+    { "predicate": { "custom_model_data": 1}, "model": "item/special_items/void_miner" },
+    { "predicate": { "custom_model_data": 2}, "model": "item/special_items/mineral_hunter" },
+    { "predicate": { "custom_model_data": 3}, "model": "item/special_items/mutated_sponge" }
+  
+   ]
+}

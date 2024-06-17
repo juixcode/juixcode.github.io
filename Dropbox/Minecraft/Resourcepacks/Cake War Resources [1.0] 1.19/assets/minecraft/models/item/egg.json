@@ -1,0 +1,12 @@
+{
+ "parent": "item/handheld",
+ "textures": {
+  "layer0": "item/egg"
+ },
+ "overrides": [
+  { "predicate": { "custom_model_data": 1}, "model": "item/special_items/leaves_bridge_egg" },
+  { "predicate": { "custom_model_data": 2}, "model": "item/special_items/ice_bridge_egg" },
+  { "predicate": { "custom_model_data": 3}, "model": "item/special_items/water_bridge_egg" },
+  { "predicate": { "custom_model_data": 4}, "model": "item/special_items/lava_bridge_egg" }
+ ]
+}

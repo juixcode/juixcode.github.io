@@ -1,0 +1,10 @@
+{
+ "parent": "item/handheld",
+ "textures": {
+  "layer0": "item/stone_axe"
+ },
+ "overrides": [
+  { "predicate": { "custom_model_data": 2}, "model": "item/special_items/stone_tree_axe" }
+
+ ]
+}

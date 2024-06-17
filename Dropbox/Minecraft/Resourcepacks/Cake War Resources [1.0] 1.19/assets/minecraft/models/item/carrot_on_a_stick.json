@@ -1,0 +1,18 @@
+{
+ "parent": "item/handheld",
+ "textures": {
+  "layer0": "item/carrot_on_a_stick"
+ },
+ "overrides": [
+    { "predicate": { "custom_model_data": 1}, "model": "item/special_items/wb" },
+  { "predicate": { "custom_model_data": 2}, "model": "item/special_items/jetpack" },
+  { "predicate": { "custom_model_data": 3}, "model": "item/special_items/nitro" },
+  { "predicate": { "custom_model_data": 4}, "model": "item/special_items/tp1" },
+  { "predicate": { "custom_model_data": 5}, "model": "item/special_items/tp2" },
+  { "predicate": { "custom_model_data": 6}, "model": "item/special_items/vision" },
+  { "predicate": { "custom_model_data": 7}, "model": "item/special_items/platform" },
+  { "predicate": { "custom_model_data": 8}, "model": "item/special_items/gb_delete" },
+  { "predicate": { "custom_model_data": 9}, "model": "item/special_items/finish_editing" }
+
+ ]
+}

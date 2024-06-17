@@ -1,0 +1,76 @@
+{
+	"credit": "Made with Blockbench",
+	"texture_size": [32, 32],
+	"textures": {
+		"0": "item/bumpers/bumper2",
+		"1": "item/bumpers/base2",
+		"2": "item/bumpers/piston1",
+		"particle": "item/bumpers/bumper2"
+	},
+	"elements": [
+		{
+			"from": [0, 0, 0],
+			"to": [16, 16, 16],
+			"faces": {
+				"north": {"uv": [0, 0, 8, 8], "texture": "#1"},
+				"east": {"uv": [0, 0, 8, 8], "texture": "#1"},
+				"south": {"uv": [0, 0, 8, 8], "texture": "#1"},
+				"west": {"uv": [0, 0, 8, 8], "texture": "#1"},
+				"up": {"uv": [8, 16, 0, 8], "texture": "#1"},
+				"down": {"uv": [8, 8, 0, 16], "texture": "#1"}
+			}
+		},
+		{
+			"from": [1, 18, 1],
+			"to": [15, 22, 15],
+			"faces": {
+				"north": {"uv": [7, 0, 14, 2.5], "texture": "#0"},
+				"east": {"uv": [7, 2.5, 14, 5], "texture": "#0"},
+				"south": {"uv": [7, 5, 14, 7.5], "texture": "#0"},
+				"west": {"uv": [7, 7.5, 14, 10], "texture": "#0"},
+				"up": {"uv": [7, 7, 0, 0], "texture": "#0"},
+				"down": {"uv": [7, 7, 0, 14], "texture": "#0"}
+			}
+		},
+		{
+			"from": [4, 10, 4],
+			"to": [12, 21, 12],
+			"faces": {
+				"north": {"uv": [0, 0, 5, 5.5], "texture": "#2"},
+				"east": {"uv": [5, 0, 10, 5.5], "texture": "#2"},
+				"south": {"uv": [0, 5.5, 5, 11], "texture": "#2"},
+				"west": {"uv": [5, 5.5, 10, 11], "texture": "#2"},
+				"up": {"uv": [15, 5, 10, 0], "texture": "#2"},
+				"down": {"uv": [15, 5, 10, 10], "texture": "#2"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"thirdperson_lefthand": {
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_righthand": {
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"gui": {
+			"rotation": [30, 45, 0],
+			"translation": [0, -0.5, 0],
+			"scale": [0.6, 0.6, 0.6]
+		},
+		"head": {
+			"translation": [0, 10.25, 0]
+		},
+		"fixed": {
+			"scale": [0.4, 0.4, 0.4]
+		}
+	}
+}

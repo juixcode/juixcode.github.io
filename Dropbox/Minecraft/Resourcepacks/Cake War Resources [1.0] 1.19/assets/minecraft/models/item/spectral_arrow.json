@@ -1,0 +1,13 @@
+{
+ "parent": "item/handheld",
+ "textures": {
+  "layer0": "item/spectral_arrow"
+ },
+ "overrides": [
+  { "predicate": { "custom_model_data": 1}, "model": "item/spectral_arrow/sniper_ammo" },
+  { "predicate": { "custom_model_data": 2}, "model": "item/spectral_arrow/ak47_ammo" },
+  { "predicate": { "custom_model_data": 3}, "model": "item/spectral_arrow/rocket" },
+  { "predicate": { "custom_model_data": 5}, "model": "item/spectral_arrow/blaster_charge" }
+
+ ]
+}
