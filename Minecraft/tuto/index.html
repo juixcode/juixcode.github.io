@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Tuto</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="Medias/favicon.ico" type="image/ico" />
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <h1>Guide</h1>
+    <section> <!-- Avoir Minecraft -->
+        <h2>Etape 1</h2>
+        <h3>Avoir Minecraft</h3>
+        <form>
+            <label class="checkbox-container">
+                J'ai déjà Minecraft
+                <input type="radio" name="avoir-minecraft" value="0" onclick="refresh(this)" checked="true">
+                <span class="checkmark"></span>
+            </label>
+            <label class="checkbox-container">
+                Je veux acheter Minecraft
+                <input type="radio" name="avoir-minecraft" value="1" onclick="refresh(this)">
+                <span class="checkmark"></span>
+            </label>
+            <label class="checkbox-container">
+                Je veux Minecraft gratuitement <span class="bubble">Recommandé</span>
+                <input type="radio" name="avoir-minecraft" value="2" onclick="refresh(this)">
+                <span class="checkmark"></span>
+            </label>
+        </form>
+        <div>
+            <div class="hidden-content active">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sequi, ex esse. Eius iusto obcaecati voluptas repellendus ex, odit minus dolor!
+            </div>
+            <div class="hidden-content">
+                Yo 2
+            </div>
+            <div class="hidden-content">
+                Yo 3
+            </div>
+        </div>
+    </section>
+</body>
+</html>

@@ -243,6 +243,7 @@ body {
     background-image: url("assets/background.png");
     background-size: cover;
     background-repeat: no-repeat;
+    background-attachment: fixed;
     font-family: "Outfit", sans-serif;
     padding: 0.5rem;
     overflow-y: hidden;
@@ -337,4 +338,22 @@ nav a {
 nav a:hover {
     box-shadow: none;
     transform: translateY(5px);
+}
+
+.button-download {
+    display: flex;
+}
+.button-download::before
+{
+    background: fixed url(assets/download.svg) no-repeat;
+    background-size: 100% 100%;
+    margin:0;
+    content: '';
+    display: block;
+    height: 1.2rem;
+    width: 1.2rem;
+    z-index: 1;
+    position: relative;
+    right: 1rem;
+    transform: translate(0,0);
 }
