@@ -1,3 +1,15 @@
+*::-webkit-scrollbar {
+    width: 1vh;
+}
+*::-webkit-scrollbar-track {
+    background: white;
+}
+*::-webkit-scrollbar-thumb {
+    background-color: #d6d6d6;
+    /* -webkit-box-shadow: 0 0 6px rgba(0, 0, 0, 0.5); */
+    border-radius: 5vh;
+}
+
 /* Styles pour les labels */
 .checkbox-container {
     display: flex;
@@ -29,7 +41,7 @@
     height: 2vh;
     width: 2vh;
     background-color: #eee;
-    border-radius: 50%;
+    border-radius: 100%;
     margin: 1vh;
 }
 .checkbox-container .checkmark:after {
@@ -40,7 +52,7 @@
     top: 0.5vh;
     width: 1vh;
     height: 1vh;
-    border-radius: 50%;
+    border-radius: 100%;
     outline: solid white;
     outline-width: 0.3vh;
 }
@@ -73,6 +85,7 @@
 .hidden-content {
     display: none;
     position: relative;
+    flex-direction: column;
 }
 .hidden-content.active {
     display: flex;
@@ -119,6 +132,11 @@ section {
     box-shadow: 0px 5px 23px 9px rgba(0,0,0,0.3);
     border-radius: 2vh;
 }
+img {
+    width: 80vh;
+    height: auto;
+    border-radius: 2vh;
+}
 @media (max-width: 90vh) {
     section {
         width: calc(100vw - 10vh);
@@ -126,6 +144,9 @@ section {
         height: auto;
         background-color: white;
         border-radius: 0;
+    }
+    img {
+        width: calc(100vw - 10vh);
     }
 }
 
@@ -172,7 +193,35 @@ h3 {
     letter-spacing: -0.05em;
     color: black;
 }
+h4 {
+    margin: 0;
+    position: relative;
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 2.4vh;
+    line-height: auto;
+    color: black;
+    z-index: 1;
+    
+    display: flex;
+    flex-direction: row;
+}
+h4::after {
+    margin-left: 1vh;
+    flex: 1;
+    z-index: -1;
+    content: "";
+    display: block;
+    position: relative;
+    left: 0;
+    top: 1.5vh;
+    width: auto;
+    height: 0.2vh;
+    background: fixed #eee;
+}
 p, label, div {
+    margin: 0;
     position: relative;
     font-family: 'Montserrat';
     font-style: normal;
@@ -181,14 +230,87 @@ p, label, div {
     line-height: auto;
     color: black;
 }
-label span.bubble {
-    background-color: #4bea7d;
-    color: white;
+p {
+    margin: 1vh 0 1vh 0;
+}
+p.alert {
+    background-color: #ea7b4b4f;
+    border-radius: 0.5vh;
+    outline: solid #ea7b4bc5;
+    outline-width: 0.3vh;
+    padding: 1vh 1.3vh 1vh 1.3vh;
+}
+span.bubble {
     font-weight: 500;
     font-size: 1.6vh;
     border-radius: 0.5vh;
     line-height: 2vh;
     height: 2vh;
     margin: 0.6vh;
+    margin-left: 2vh;
     padding: 0.4vh;
+}
+@media (max-width: 90vh) {
+    span.bubble {
+        font-size: 0;
+    }
+    span.bubble::before, a:hover span.bubble::before {
+        background: fixed url(Medias/check.svg) no-repeat; 
+        background-size: 100% 100%;
+        content: '';
+        display: block;
+        height: 2vh;
+        width: 2vh;
+        z-index: 1;
+        position: relative;
+        transform: translate(0,0);
+    }
+    a span.bubble::before {
+        background: fixed url(Medias/check_hover.svg) no-repeat;
+        background-size: 100% 100%;
+    }
+}
+label span.bubble, a:hover span.bubble {
+    background-color: #4bea7d;
+    color: white;
+}
+a span.bubble, a:hover {
+    background-color: white;
+    color: #4bea7d;
+}
+a {
+    margin-bottom: 1vh;
+    text-decoration: none;
+    padding: 0 1.8vh 0 2.5vh;
+    cursor: pointer;
+    user-select: none;
+    width: auto;
+
+    background-color: #4bea7d;
+    color: white;
+    font-weight: 400;
+    font-size: 1.8vh;
+    line-height: 4vh;
+    display: flex;
+
+    border-radius: 0.5vh;
+    outline: solid #4bea7d;
+    outline-width: 0.3vh;
+    align-self: start;
+}
+span.bold { font-weight: bold; margin-left: 1vh;}
+a.download::before { background: fixed url(Medias/download.svg) no-repeat; background-size: 100% 100%; }
+a.link::before { background: fixed url(Medias/redirection.svg) no-repeat; background-size: 100% 100%; }
+a.download:hover::before { background: fixed url(Medias/download_hover.svg) no-repeat; background-size: 100% 100%; }
+a.link:hover::before { background: fixed url(Medias/redirection_hover.svg) no-repeat; background-size: 100% 100%; }
+a::before {
+    margin: 1.1vh 0 1.1vh 0;
+    content: '';
+    display: block;
+    height: 1.8vh;
+    width: 1.8vh;
+    z-index: 1;
+    position: relative;
+    right: 1vh;
+    transform: translate(0,0);
 }
