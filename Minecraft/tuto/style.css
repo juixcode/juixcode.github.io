@@ -123,6 +123,13 @@ body:before {
     -o-background-size: cover;
     background-size: cover;
 }
+div.space
+{
+    margin: 6vh 0 6vh 0;
+    height: 0.2vh;
+    width: 60vw;
+    background:#ffffff4f
+}
 section {
     width: 80vh;
     padding: 5vh;
