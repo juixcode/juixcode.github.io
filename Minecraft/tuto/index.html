@@ -11,95 +11,293 @@
     <link rel="shortcut icon" href="Medias/favicon.ico" type="image/ico" />
     <script src="script.js" defer></script>
 </head>
-<body>
+<body onload="setup()">
     <h1>Guide</h1>
-    <section> <!-- Avoir Minecraft -->
+
+    <section> <!-- SECTION -------------------------------------------------------------------------- Les éditions de Minecraft -->
+        <h2>Introduction</h2>
+        <h3>Faire la différence entre les éditions Minecraft</h3>
+        <div>
+            <div class="hidden-content active">
+                <h4>Minecraft Java Edition [JE]</h4>
+                <p>💻 Minecraft [<span>JE</span>] est l'édition des débuts de Minecraft. Elle est disponile uniquement sur PC, ou sur téléphone via un Minecraft Cracké. C'est un Minecraft <span>ouvert</span>, dont les travaux acharnés de la communauté sont le pilier. Les joueurs de Minecraft t'y proposent des améliorations, ajouts, la plupart du temps gratuits. C'est l'édition de Minecraft que je te <span>conseille</span> et que tu devrais privilégier.</p> 
+                <h4>Minecraft Bedrock Edition [BE]</h4>
+                <p>📱 Minecraft [<span>BE</span>] est une édition plus récente, déployée sur Windows, consoles et téléphones. Elle est moins personnalisable et créative, mais a permis à Minecraft de se répandre sur toutes les plateformes et de faire davantage de profit par un jeu <span>encadré</span> avec microtransactions. (Au cas où : Minecraft [BE] est appelé Pocket Edition [PE] sur téléphone)</p> 
+            </div>
+        </div>
+    </section>
+
+    <div class="space"></div>
+
+    <section> <!-- SECTION -------------------------------------------------------------------------- Avoir Minecraft -->
         <h2>Etape 1</h2>
         <h3>Avoir Minecraft</h3>
-        <form>
-            <label class="checkbox-container">
-                J'ai déjà Minecraft
-                <input type="radio" name="avoir-minecraft" value="0" onclick="refresh(this)" checked="true">
-                <span class="checkmark"></span>
-            </label>
-            <label class="checkbox-container">
-                Je veux acheter Minecraft
-                <input type="radio" name="avoir-minecraft" value="1" onclick="refresh(this)">
-                <span class="checkmark"></span>
-            </label>
-            <label class="checkbox-container">
-                Je veux Minecraft gratuitement <span class="bubble">Recommandé</span>
-                <input type="radio" name="avoir-minecraft" value="2" onclick="refresh(this)">
-                <span class="checkmark"></span>
-            </label>
-        </form>
-        <div>
-            <div class="hidden-content active">
-                <p>Tu peux alors passer à l'étape 2 !</p>
+        <div> <!-- BLOCK A CHOIX MULITPLES -->
+            <form>
+                <label class="checkbox-container">
+                    J'ai déjà Minecraft
+                    <input type="radio" name="avoir-minecraft" value="0" onclick="refresh(this)" checked="true">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">
+                    Je veux acheter Minecraft
+                    <input type="radio" name="avoir-minecraft" value="1" onclick="refresh(this)">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">
+                    Je veux Minecraft gratuitement <span class="bubble">Recommandé</span>
+                    <input type="radio" name="avoir-minecraft" value="2" onclick="refresh(this)">
+                    <span class="checkmark"></span>
+                </label>
+            </form>
+            <div>
+                <div class="hidden-content active">
+                    <p>Tu peux alors passer à l'étape 2 !</p>
+                </div>
+                <div class="hidden-content">
+                    <p class="alert">⚠️ Tu peux aussi trouver des alternatives gratuites parfois même mieux que Minecraft Officiel !</p>
+                    <h4>Choisis ta plateforme</h4>
+                    <p>👉 Achète et télécharge Minecraft [JE] sur PC</p> 
+                    <a class="link" target="_blank" href="https://www.instant-gaming.com/fr/442-acheter-minecraft-java-bedrock-edition-java-bedrock-edition-pc-jeu/?_gl=1*g3mh70*_up*MQ..&gclid=CjwKCAjwyo60BhBiEiwAHmVLJT4zI3z-7Yl4ijcIZqgJB4gXiCzuivMh2iXgtPwEHVD50k5i9T-3ShoC-lYQAvD_BwE">Instant Gaming <span class="bold">~13€</span> <span class="bubble">Recommandé</span></a> 
+                    <a class="link" target="_blank" href="https://www.minecraft.net/fr-fr/store/minecraft-java-bedrock-edition-pc">Site Officiel <span class="bold">29,99€</span></a>
+                    <p>👉 Achète et télécharge Minecraft [BE] sur Switch</p> 
+                    <a class="link" target="_blank" href="https://www.nintendo.com/fr-fr/Jeux/Jeux-Nintendo-Switch/Minecraft-1386505.html">Nintendo e-shop <span class="bold">29,99€</span></a>
+                    <p>👉 Achète et télécharge Minecraft [BE] sur PS4</p> 
+                    <a class="link" target="_blank" href="https://www.playstation.com/fr-fr/games/minecraft/">Playstation <span class="bold">18,99€</span></a>
+                    <p>👉 Achète et télécharge Minecraft [BE] sur iPhone</p> 
+                    <a class="link" target="_blank" href="https://apps.apple.com/fr/app/minecraft/id479516143">App Store <span class="bold">7,99€</span></a>
+                    <p>👉 Achète et télécharge Minecraft [BE] sur Android</p> 
+                    <a class="link" target="_blank" href="https://play.google.com/store/apps/details?id=com.mojang.minecraftpe&gl=FR">Play Store <span class="bold">7,99€</span></a>
+                </div>
+                <div class="hidden-content">
+                    <p class="alert">⚠️ Ne t'inquiète pas, télécharger un Minecraft Cracké (gratuit) est certes illégal, mais massivement répandu. N'hésite pas pour une raison éthique (Minecraft ne mérite pas les 30€ reçus par la vente de son jeu !), tu ne risques rien, TLauncher est utilisé par un grand nombre d'entres nous !</p>
+                    <h4>Choisis ta plateforme</h4>
+                    <p>👉 Télécharge gratuitement Minecraft [JE] sur PC & Mac</p> 
+                    <a class="link" target="_blank" href="https://tlauncher.org/en/">Site de TLauncher <span class="bubble">Recommandé</span></a>
+                    <p>👉 Télécharge gratuitement Minecraft [JE] sur Android</p> 
+                    <a class="link" target="_blank" href="https://play.google.com/store/apps/details?id=net.kdt.pojavlaunch">Play Store</a>
+                    <!-- <p>👉 Télécharge gratuitement Minecraft [JE] sur iPhone</p> 
+                    <a class="link" target="_blank" href="https://tlauncher.org/en/pe.html">Site Officiel </a> -->
+                </div>
             </div>
-            <div class="hidden-content">
-                <!-- <h4>Titre 1</h4>
-                <p>Texte 1</p>
-                <img src="Screenshots/1.png">
-                <p>Texte 2</p>
-                <a class="link">Lien 1</a>
-                <a class="download">Lien 2</a> -->
+        </div>
+    </section>
 
-                <p class="alert">⚠️ Tu peux aussi trouver des alternatives gratuites parfois même mieux que Minecraft Officiel !</p>
-                <h4>Choisis ta plateforme</h4>
-                <p>👉 Achète et télécharge Minecraft sur PC</p> 
-                <a class="link" target="_blank" href="https://www.instant-gaming.com/fr/442-acheter-minecraft-java-bedrock-edition-java-bedrock-edition-pc-jeu/?_gl=1*g3mh70*_up*MQ..&gclid=CjwKCAjwyo60BhBiEiwAHmVLJT4zI3z-7Yl4ijcIZqgJB4gXiCzuivMh2iXgtPwEHVD50k5i9T-3ShoC-lYQAvD_BwE">Instant Gaming <span class="bold">~13€</span> <span class="bubble">Recommandé</span></a> 
-                <a class="link" target="_blank" href="https://www.minecraft.net/fr-fr/store/minecraft-java-bedrock-edition-pc">Site Officiel <span class="bold">29,99€</span></a>
-                <p>👉 Achète et télécharge Minecraft sur Switch</p> 
-                <a class="link" target="_blank" href="https://www.nintendo.com/fr-fr/Jeux/Jeux-Nintendo-Switch/Minecraft-1386505.html">Nintendo e-shop <span class="bold">29,99€</span></a>
-                <p>👉 Achète et télécharge Minecraft sur PS4</p> 
-                <a class="link" target="_blank" href="https://www.playstation.com/fr-fr/games/minecraft/">Playstation <span class="bold">18,99€</span></a>
-                <p>👉 Achète et télécharge Minecraft sur iPhone</p> 
-                <a class="link" target="_blank" href="https://apps.apple.com/fr/app/minecraft/id479516143">App Store <span class="bold">7,99€</span></a>
-                <p>👉 Achète et télécharge Minecraft sur Android</p> 
-                <a class="link" target="_blank" href="https://play.google.com/store/apps/details?id=com.mojang.minecraftpe&gl=FR">Play Store <span class="bold">7,99€</span></a>
-            </div>
-            <div class="hidden-content">
-                <p class="alert">⚠️ Ne t'inquiète pas, télécharger un Minecraft Cracké (gratuit) est certes illégal, mais massivement répandu. N'hésite pas pour une raison éthique (Minecraft ne mérite pas les 30€ reçus par la vente de son jeu !), tu ne risques rien, TLauncher est utilisé par un grand nombre d'entres nous !</p>
-                <h4>Choisis ta plateforme</h4>
-                <p>👉 Télécharge gratuitement Minecraft sur PC & Mac</p> 
-                <a class="link" target="_blank" href="https://tlauncher.org/en/">Site de TLauncher <span class="bubble">Recommandé</span></a>
-                <p>👉 Télécharge gratuitement Minecraft sur Android</p> 
-                <a class="link" target="_blank" href="https://play.google.com/store/apps/details?id=net.kdt.pojavlaunch">Play Store</a>
-                <p>👉 Télécharge gratuitement Minecraft sur iPhone</p> 
-                <a class="link" target="_blank" href="https://tlauncher.org/en/pe.html">Site Officiel </a>
-            </div>
-        </div>
-    </section>
     <div class="space"></div>
-    <section> <!-- Installer les shaders -->
-        <h2>Etape 3</h2>
-        <h3>Doper Minecraft (facultatif)</h3>
-        <form>
-            <label class="checkbox-container">
-                Non merci
-                <input type="radio" name="avoir-minecraft" value="0" onclick="refresh(this)" checked="true">
-                <span class="checkmark"></span>
-            </label>
-            <label class="checkbox-container">
-                J'ai un PC puissant
-                <input type="radio" name="avoir-minecraft" value="1" onclick="refresh(this)">
-                <span class="checkmark"></span>
-            </label>
-        </form>
-        <div>
-            <div class="hidden-content active">
-                <p>Tu peux alors passer à l'étape 4 !</p>
-            </div>
-            <div class="hidden-content">
-                <p class="alert">⚠️ Attention, ce qui suit est uniquement disponible sur minecraft [JE]* (Définition à l'étape 4), et recquiert une bonne machine pour fonctionner correctement (PC portable Gamer, Tour).</p>
-                <h4>Télécharge des Shaders</h4>
-                <p>👉 Les shaders permettent d'embellir ton jeu par une eau et des lumières naturelles et réalistes. Télécharge quelques-uns de ces packs :</p> 
-                <a class="download" target="_blank" href="">Complementary Shaders<span class="bubble">Recommandé</span></a> 
-                <a class="download" target="_blank" href="">Bliss Shaders</a>
-                <h4>Installe les Shaders</h4>
+
+    <section> <!-- SECTION -------------------------------------------------------------------------- Installer les mods -->
+        <h2>Etape 2</h2>
+        <h3>Optimiser Minecraft (facultatif)</h3>
+        <div> <!-- BLOCK A CHOIX MULITPLES -->
+            <form>
+                <label class="checkbox-container">
+                    Je joue à Minecraft [JE] sur PC (ou autre)
+                    <input type="radio" name="avoir-minecraft" value="0" onclick="refresh(this)">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">
+                    Je skip
+                    <input type="radio" name="avoir-minecraft" value="1" onclick="refresh(this)" checked="true">
+                    <span class="checkmark"></span>
+                </label>
+            </form>
+            <div>
+                <div class="hidden-content">
+                    <p class="alert">⚠️ Attention, ce qui suit est uniquement disponible sur minecraft [JE]* (Définition en haut), et est conseillé pour PC.</p>
+                    <h4>Télécharge les Mods</h4>
+                    <p>👉 Des mods sont des fichiers de code créés par la communauté, apportant des modifications au jeu. Ils permettent le plus souvent d'ajouter du contenu au jeu, mais ceux-ci améliorent la rapidité et l'optimisation de ton jeu, pour un Minecraft plus agréable. Télécharge ce pack de mods :</p> 
+                    <a class="download" target="_blank" href="">Mods d'Optimisation</a> 
+                    <h4>Localise les mods téléchargés</h4>
+                    <p>👉 Ouvre ton explorateur de fichiers avec tes "<span>Téléchargements</span>"</p> 
+                    <img src="Screenshots/etape2-1-1.png">
+                    <p>👉 Entre dans le dossier compressé "<span>Mods_Opti</span>", sélectionne tous les fichiers (<span>[CTRL] + [A]</span>), et copie-les (<span>[CTRL] + [C]</span>).</p> 
+                    <img src="Screenshots/etape2-1-2.png">
+                    <h4>Installe les Mods</h4>
+                    <p>❓ Le "<span>launcher</span>", c'est l'application que tu lances pour cliquer sur "<span>Jouer</span>" et démarrer Minecraft.</p>
+                    <div> <!-- BLOCK A CHOIX MULITPLES -->
+                        <form>
+                            <label class="checkbox-container">
+                                J'utilise le launcher Officiel de Minecraft [JE]
+                                <input type="radio" name="avoir-minecraft" value="0" onclick="refresh(this)" checked="true">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="checkbox-container">
+                                J'utilise un launcher tiers de Minecraft [JE] (Modrinth, Curseforge)
+                                <input type="radio" name="avoir-minecraft" value="1" onclick="refresh(this)">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="checkbox-container">
+                                J'ai Minecraft [JE] Cracké
+                                <input type="radio" name="avoir-minecraft" value="2" onclick="refresh(this)">
+                                <span class="checkmark"></span>
+                            </label>
+                        </form>
+                        <div>
+                            <div class="hidden-content active">
+                                <p>👉 Presse les touches [<span>Windows</span>] et [<span>R</span>] en même temps. Une petite fenêtre s'ouvre : inscris-y "<span>%appdata%</span>" et confirme.</p> 
+                                <img src="Screenshots/etape2-1-3.png">
+                                <p>👉 Dans le nouvel Explorateur de fichiers ouvert, entre dans le dossier "<span>.minecraft</span>" puis "<span>mods</span>". Si aucun dossier "<span>mods</span>" n'existe, crées-en un.</p> 
+                                <img src="Screenshots/etape2-1-4.png">
+                                <p>👉 Colles-y (<span>[CTRL] + [V]</span>) tous les fichiers copiés précédemment.</p>
+                                <img src="Screenshots/etape2-1-5.png">
+                            </div>
+                            <div class="hidden-content">
+                                <p>En cours de rédaction, bientôt disponible !</p>
+                            </div>
+                            <div class="hidden-content">
+                                <p>En cours de rédaction, bientôt disponible !</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p>🏆 Ca y est ! Les mods sont placés</p>
+                </div>
+                <div class="hidden-content active">
+                    <p>Tu peux alors passer à l'étape 3 !</p>
+                </div>
             </div>
         </div>
     </section>
+
+    <div class="space"></div>
+
+    <section> <!-- SECTION -------------------------------------------------------------------------- Installer les shaders -->
+        <h2>Etape 3</h2>
+        <h3>Embellir Minecraft (facultatif)</h3>
+        <div> <!-- BLOCK A CHOIX MULITPLES -->
+            <form>
+                <label class="checkbox-container">
+                    Je joue à Minecraft [JE] sur un PC puissant
+                    <input type="radio" name="avoir-minecraft" value="0" onclick="refresh(this)">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">
+                    Je skip
+                    <input type="radio" name="avoir-minecraft" value="1" onclick="refresh(this)" checked="true">
+                    <span class="checkmark"></span>
+                </label>
+            </form>
+            <div>
+                <div class="hidden-content">
+                    <p class="alert">⚠️ Attention, ce qui suit est uniquement disponible sur minecraft [JE]* (Définition en haut), et recquiert une bonne machine pour fonctionner correctement (PC portable Gamer, Tour).</p>
+                    <h4>Télécharge des Shaders</h4>
+                    <p>👉 Les shaders permettent d'embellir ton jeu par une eau et des lumières naturelles et réalistes. Ils se présentent sous forme de dossiers, télécharges-en quelques-uns :</p> 
+                    <a class="download" target="_blank" href="">Complementary Shaders<span class="bubble">Recommandé</span></a> 
+                    <a class="download" target="_blank" href="">Bliss Shaders</a>
+                    <h4>Télécharge un mod</h4>
+                    <p>👉 Des mods sont des fichiers de code créés par la communauté, apportant des modifications au jeu. Ici, l'un d'entre est nécessaire au fonctionnement des Shaders :</p> 
+                    <a class="download" target="_blank" href="">Mod Iris Shaders<span class="bubble">Requis</span></a> 
+                    <h4>Localise les Mods & Shaders téléchargés</h4>
+                    <p>👉 Ouvre ton explorateur de fichiers avec tes "<span>Téléchargements</span>"</p> 
+                    <img src="Screenshots/etape3-1-1.png">
+                    <h4>Installe les Mods & Shaders</h4>
+                    <p>❓ Le "<span>launcher</span>", c'est l'application que tu lances pour cliquer sur "<span>Jouer</span>" et démarrer Minecraft.</p>
+                    <div> <!-- BLOCK A CHOIX MULITPLES -->
+                        <form>
+                            <label class="checkbox-container">
+                                J'utilise le launcher Officiel de Minecraft [JE]
+                                <input type="radio" name="avoir-minecraft" value="0" onclick="refresh(this)" checked="true">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="checkbox-container">
+                                J'utilise un launcher tiers de Minecraft [JE] (Modrinth, Curseforge)
+                                <input type="radio" name="avoir-minecraft" value="1" onclick="refresh(this)">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="checkbox-container">
+                                J'ai Minecraft [JE] Cracké
+                                <input type="radio" name="avoir-minecraft" value="2" onclick="refresh(this)">
+                                <span class="checkmark"></span>
+                            </label>
+                        </form>
+                        <div>
+                            <div class="hidden-content active">
+                                <p>👉 Presse les touches [<span>Windows</span>] et [<span>R</span>] en même temps. Une petite fenêtre s'ouvre : inscris-y "<span>%appdata%</span>" et confirme.</p> 
+                                <img src="Screenshots/etape2-1-3.png">
+                                <p>👉 Dans le nouvel Explorateur de fichiers ouvert, entre dans le dossier "<span>.minecraft</span>" puis "<span>mods</span>". Si aucun dossier "<span>mods</span>" n'existe, crées-en un.</p> 
+                                <img src="Screenshots/etape2-1-4.png">
+                                <p>👉 Glisses-y le Mod "<span>iris-mc</span>" depuis ton dossier de téléchargements</p>
+                                <img src="Screenshots/etape3-1-2.png">
+                                <p>👉 Retourne en arrière, et entre dans le dossier "<span>shaderpacks</span>" (lui aussi situé dans le dossier "<span>.minecraft</span>"). Si aucun dossier "<span>shaderpacks</span>" n'existe, crées-en un.</p> 
+                                <img src="Screenshots/etape3-1-3.png">
+                                <p>👉 Glisses-y les dossiers compressés de Shaders téléchargés depuis ton dossier de téléchargements</p>
+                                <img src="Screenshots/etape3-1-4.png">
+                            </div>
+                            <div class="hidden-content">
+                                <p>En cours de rédaction, bientôt disponible !</p>
+                            </div>
+                            <div class="hidden-content">
+                                <p>En cours de rédaction, bientôt disponible !</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p>🏆 Ca y est ! Les Mods & Shaders sont placés</p>
+                </div>
+                <div class="hidden-content active">
+                    <p>Tu peux alors passer à l'étape 4 !</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="space"></div>
+
+    <section> <!-- SECTION -------------------------------------------------------------------------- Rejoindre le serveur -->
+        <h2>Etape 4</h2>
+        <h3>Rejoindre l'aventure</h3>
+        <p>❓ Le "<span>launcher</span>", c'est l'application que tu lances pour cliquer sur "<span>Jouer</span>" et démarrer Minecraft.</p>
+        <div> <!-- BLOCK A CHOIX MULITPLES -->
+            <form>
+                <label class="checkbox-container">
+                    J'utilise le launcher Officiel de Minecraft [JE]
+                    <input type="radio" name="avoir-minecraft" value="0" onclick="refresh(this)" checked="true">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">
+                    J'utilise un launcher tiers de Minecraft [JE] (Modrinth, Curseforge)
+                    <input type="radio" name="avoir-minecraft" value="1" onclick="refresh(this)">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">
+                    J'ai Minecraft [JE] Cracké
+                    <input type="radio" name="avoir-minecraft" value="2" onclick="refresh(this)">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">
+                    J'ai Minecraft [BE] sur téléphone ou console
+                    <input type="radio" name="avoir-minecraft" value="3" onclick="refresh(this)">
+                    <span class="checkmark"></span>
+                </label>
+            </form>
+            <div>
+                <div class="hidden-content active">
+                    <h4>Télécharge la bonne version de Minecraft</h4>
+                    <p>👉 Pour rejoindre un monde, tu dois avoir la même version de Minecraft que les autres. Sur [JE], pour que les mods prennent effet (si tu en as installés à l'issue des étapes 2 & 3), télécharge cette micro-app :</p> 
+                    <a class="download" target="_blank" href="">Fabric Loader App<span class="bubble">Requis</span></a> 
+                    <p>👉 Ouvre l'App, et sélectionne la version "<span class="text-to-change text-to-change-version">x.x.x</span>", puis clique sur "<span>Installer</span>"</p> 
+                    <img src="Screenshots/etape4-1-1.png">
+                    <h4>Lance Minecraft</h4>
+                    <p>👉 Ouvre le launcher Officiel de Minecraft [JE] et clique sur "<span>Jouer</span>"</p> 
+                    <img src="Screenshots/etape4-1-2.png">
+                    <h4>Rejoins le monde</h4>
+                    <p>👉 Une fois Minecraft lancé, clique sur "<span>Multijoueurs</span>" puis "<span>Ajouter un serveur</span>". Donne le nom de ton choix, puis dans le champ "<span>Adresse de serveur</span>", mets-y l'adresse suivante (copiable en cliquant) :</p>
+                    <a class="copy text-to-change text-to-change-ip" onclick="copyIp()">xxx.xxx.xxx</a>
+                    <img src="Screenshots/etape4-1-3.png">
+                    <p>🏆 Confirme, puis rejoins le monde ajouté !</p>
+                </div>
+                <div class="hidden-content">
+                    <p>En cours de rédaction, bientôt disponible !</p>
+                </div>
+                <div class="hidden-content">
+                    <p>En cours de rédaction, bientôt disponible !</p>
+                </div>
+                <div class="hidden-content">
+                    <p>En cours de rédaction, bientôt disponible !</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="space"></div>
+
 </body>
 </html>

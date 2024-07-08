@@ -15,7 +15,7 @@
     display: flex;
     position: relative;
     padding-left: 4vh;
-    margin-bottom: 2vh;
+    margin-bottom: 1.5vh;
     cursor: pointer;
     font-size: 2vh;
     line-height: 4vh;
@@ -128,6 +128,7 @@ div.space
     margin: 6vh 0 6vh 0;
     height: 0.2vh;
     width: 60vw;
+    max-width: 60vh;;
     background:#ffffff4f
 }
 section {
@@ -143,6 +144,8 @@ img {
     width: 80vh;
     height: auto;
     border-radius: 2vh;
+    outline: solid #eee;
+    outline-width: 0.3vh;
 }
 @media (max-width: 90vh) {
     section {
@@ -201,7 +204,7 @@ h3 {
     color: black;
 }
 h4 {
-    margin: 0;
+    margin: 1.5vh 0 0 0;
     position: relative;
     font-family: 'Montserrat';
     font-style: normal;
@@ -239,6 +242,7 @@ p, label, div {
 }
 p {
     margin: 1vh 0 1vh 0;
+    /* text-align: justify; */
 }
 p.alert {
     background-color: #ea7b4b4f;
@@ -246,6 +250,11 @@ p.alert {
     outline: solid #ea7b4bc5;
     outline-width: 0.3vh;
     padding: 1vh 1.3vh 1vh 1.3vh;
+}
+
+p span {
+    color: #ea7b4bc5;
+    font-weight: 500;
 }
 span.bubble {
     font-weight: 500;
@@ -307,8 +316,10 @@ a {
 }
 span.bold { font-weight: bold; margin-left: 1vh;}
 a.download::before { background: fixed url(Medias/download.svg) no-repeat; background-size: 100% 100%; }
+a.copy::before { background: fixed url(Medias/copy.svg) no-repeat; background-size: 100% 100%; }
 a.link::before { background: fixed url(Medias/redirection.svg) no-repeat; background-size: 100% 100%; }
 a.download:hover::before { background: fixed url(Medias/download_hover.svg) no-repeat; background-size: 100% 100%; }
+a.copy:hover::before { background: fixed url(Medias/copy_hover.svg) no-repeat; background-size: 100% 100%; }
 a.link:hover::before { background: fixed url(Medias/redirection_hover.svg) no-repeat; background-size: 100% 100%; }
 a::before {
     margin: 1.1vh 0 1.1vh 0;
