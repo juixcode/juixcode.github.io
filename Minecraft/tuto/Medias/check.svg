@@ -1,20 +1,16 @@
-<?xml version="1.0"?>
-<svg width="1080" height="1080" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" version="1.1" xml:space="preserve">
+<svg width="1080" height="1080" xmlns="http://www.w3.org/2000/svg" version="1.1" xml:space="preserve">
  <desc>Created with Fabric.js 5.2.4</desc>
 
  <g class="layer">
   <title>Layer 1</title>
-  <g fill-opacity="0" id="3901f139-2aad-4008-9483-2e1b0793da16" transform="matrix(1 0 0 1 540 540)">
-   <rect fill="#000000" fill-rule="nonzero" height="1080" id="svg_1" stroke-dashoffset="0" stroke-miterlimit="4" width="1080" x="-540" y="-540"/>
-  </g>
   <g id="3cb015c4-db88-4971-9a25-2e0c66a66d4e" transform="matrix(1 0 0 1 540 540)"/>
   <g id="a61f63c8-b5e0-4a7b-94d7-37110000eedf" transform="matrix(14.4309 0 0 14.4309 540.504 543.506)">
-   <path d="m14.01,44.1l3.94,-3.94c1.92,-1.92 5.09,-1.92 7.01,0l17.06,17.07l32.74,-32.79c1.92,-1.92 5.09,-1.92 7.01,0l3.94,3.94c1.92,1.92 1.92,5.03 0,6.95l-40.21,40.21l-0.1,0.11l-0.11,0.1l-0.1,0.05l-0.05,0.11l-0.11,0.05l-0.1,0.1l-0.1,0.06l-0.11,0.05l-0.1,0.1l-0.11,0.05l-0.1,0.06l-0.1,0.05l-0.11,0.05l-0.1,0.05l-0.16,0.06l-0.1,0.05l-0.11,0.05l-0.1,0.05l-0.11,0l-0.1,0.05l-0.15,0.06l-0.11,0l-0.1,0.05l-0.26,0l-0.11,0.05l-0.2,0l-0.16,0.05l-0.67,0l-0.16,-0.05l-0.21,0l-0.1,-0.05l-0.26,0l-0.1,-0.05l-0.11,0l-0.15,-0.06l-0.11,-0.05l-0.1,0l-0.11,-0.05l-0.1,-0.05l-0.1,-0.05l-0.11,-0.06l-0.05,0c-0.47,-0.2 -0.93,-0.57 -1.4,-0.98l-24.49,-24.49c-1.91,-1.92 -1.91,-5.04 0.01,-6.96z" fill="#ffffff" fill-rule="nonzero" id="svg_2" stroke="rgb(0,0,0)" stroke-dashoffset="0" stroke-miterlimit="4" stroke-width="0" transform="translate(-50 -50)"/>
+   <path d="m-35.99,-5.9l3.94,-3.94c1.92,-1.92 5.09,-1.92 7.01,0l17.06,17.07l32.74,-32.79c1.92,-1.92 5.09,-1.92 7.01,0l3.94,3.94c1.92,1.92 1.92,5.03 0,6.95l-40.21,40.21l-0.1,0.11l-0.11,0.1l-0.1,0.05l-0.05,0.11l-0.11,0.05l-0.1,0.1l-0.1,0.06l-0.11,0.05l-0.1,0.1l-0.11,0.05l-0.1,0.06l-0.1,0.05l-0.11,0.05l-0.1,0.05l-0.16,0.06l-0.1,0.05l-0.11,0.05l-0.1,0.05l-0.11,0l-0.1,0.05l-0.15,0.06l-0.11,0l-0.1,0.05l-0.26,0l-0.11,0.05l-0.2,0l-0.16,0.05l-0.67,0l-0.16,-0.05l-0.21,0l-0.1,-0.05l-0.26,0l-0.1,-0.05l-0.11,0l-0.15,-0.06l-0.11,-0.05l-0.1,0l-0.11,-0.05l-0.1,-0.05l-0.1,-0.05l-0.11,-0.06l-0.05,0c-0.47,-0.2 -0.93,-0.57 -1.4,-0.98l-24.49,-24.49c-1.91,-1.92 -1.91,-5.04 0.01,-6.96z" fill="#ffffff" fill-rule="nonzero" id="svg_2" stroke="#ffffff" stroke-dashoffset="0" stroke-miterlimit="4" stroke-width="0"/>
   </g>
-  <g id="svg_3" transform="matrix(NaN NaN NaN NaN 0 0)">
+  <g id="svg_3">
    <g id="svg_4"/>
   </g>
-  <g id="svg_5" transform="matrix(NaN NaN NaN NaN 0 0)">
+  <g id="svg_5">
    <g id="svg_6"/>
   </g>
  </g>

@@ -85,13 +85,13 @@
 
     <div class="space"></div>
 
-    <section> <!-- SECTION -------------------------------------------------------------------------- Installer les mods -->
+    <section> <!-- SECTION -------------------------------------------------------------------------- Installer les mods d'opti -->
         <h2>Etape 2</h2>
-        <h3>Optimiser Minecraft (facultatif)</h3>
+        <h3>Optimiser Minecraft (si possible)</h3>
         <div> <!-- BLOCK A CHOIX MULITPLES -->
             <form>
                 <label class="checkbox-container">
-                    Je joue à Minecraft [JE] sur PC (ou autre)
+                    Je joue à Minecraft [JE] sur PC
                     <input type="radio" name="avoir-minecraft" value="0" onclick="refresh(this)">
                     <span class="checkmark"></span>
                 </label>
@@ -107,6 +107,7 @@
                     <h4>Télécharge les Mods</h4>
                     <p>👉 Des mods sont des fichiers de code créés par la communauté, apportant des modifications au jeu. Ils permettent le plus souvent d'ajouter du contenu au jeu, mais ceux-ci améliorent la rapidité et l'optimisation de ton jeu, pour un Minecraft plus agréable. Télécharge ce pack de mods :</p> 
                     <a class="download" target="_blank" href="">Mods d'Optimisation</a> 
+                    <p class="alert">⚠️ Attention, tout mod recquiert "<span>Fabric</span>" pour fonctionner, c'est une version de Minecraft spéciale qui te sera présentée à l'étape 4.</p>
                     <h4>Localise les mods téléchargés</h4>
                     <p>👉 Ouvre ton explorateur de fichiers avec tes "<span>Téléchargements</span>"</p> 
                     <img src="Screenshots/etape2-1-1.png">
@@ -115,7 +116,7 @@
                     <h4>Installe les Mods</h4>
                     <p>❓ Le "<span>launcher</span>", c'est l'application que tu lances pour cliquer sur "<span>Jouer</span>" et démarrer Minecraft.</p>
                     <div> <!-- BLOCK A CHOIX MULITPLES -->
-                        <form>
+                        <form class="auto-selection-linked">
                             <label class="checkbox-container">
                                 J'utilise le launcher Officiel de Minecraft [JE]
                                 <input type="radio" name="avoir-minecraft" value="0" onclick="refresh(this)" checked="true">
@@ -183,25 +184,30 @@
             </form>
             <div>
                 <div class="hidden-content">
-                    <p class="alert">⚠️ Attention, ce qui suit est uniquement disponible sur minecraft [JE]* (Définition en haut), et recquiert une bonne machine pour fonctionner correctement (PC portable Gamer, Tour).</p>
+                    <p class="alert">⚠️ Attention, ce qui suit est uniquement disponible sur minecraft [JE]* (Définition en haut), et recquiert une bonne machine pour fonctionner correctement (PC portable Gamer, Tour). Il t'est également conseillé d'avoir suivi l'étape 2 avant cette étape !</p>
                     <h4>Télécharge des Shaders</h4>
                     <p>👉 Les shaders permettent d'embellir ton jeu par une eau et des lumières naturelles et réalistes. Ils se présentent sous forme de dossiers, télécharges-en quelques-uns (tu pourras les tester en jeu) :</p> 
-                    <a class="download" target="_blank" href="Drop/ComplementaryUnbound_r5.2.2.zip">Complementary Shaders<span class="bubble">Recommandé</span></a> 
-                    <a class="download" target="_blank" href="Drop/Bliss_v2.0.4_(Chocapic13_Shaders_edit).zip">Bliss Shaders</a>
-                    <a class="download" target="_blank" href="Drop/Solas Shader V2.1.zip">Solas Shader</a>
-                    <a class="download" target="_blank" href="Drop/FastPBR_v1.1.zip">Fast PBR</a>
+                    <div class="flex-direction-row"><a class="download" target="_blank" href="Drop/ComplementaryUnbound_r5.2.2.zip">Complementary Shaders<span class="bubble">Recommandé</span></a>  <a class="preview-button preview-button-1 active" onclick="changePreview(this)">Voir</a></div>
+                    <div class="flex-direction-row"><a class="download" target="_blank" href="Drop/BSL_v8.2.09.zip">BSL Shaders</a> <a class="preview-button preview-button-2" onclick="changePreview(this)">Voir</a></div>
+                    <div class="flex-direction-row"><a class="download" target="_blank" href="Drop/Bliss_v2.0.4_(Chocapic13_Shaders_edit).zip">Bliss Shaders</a> <a class="preview-button preview-button-3" onclick="changePreview(this)">Voir</a></div>
+                    <div class="flex-direction-row"><a class="download" target="_blank" href="Drop/Solas Shader V2.1.zip">Solas Shader</a> <a class="preview-button preview-button-4" onclick="changePreview(this)">Voir</a></div>
+                    <div class="flex-direction-row"><a class="download" target="_blank" href="Drop/FastPBR_v1.1.zip">Fast PBR</a> <a class="preview-button preview-button-5" onclick="changePreview(this)">Voir</a></div>
                     <p>⚡ Si ton jeu rame, fais un compromis et teste celui-ci : -beau, mais +léger</p>
-                    <a class="download" target="_blank" href="Drop/MakeUp-UltraFast-8.9f.zip">MakeUp UltraFast</a>
-                    <h4>Télécharge un mod</h4>
+                    <div class="flex-direction-row"><a class="download" target="_blank" href="Drop/MakeUp-UltraFast-8.9f.zip">MakeUp UltraFast</a> <a class="preview-button preview-button-6" onclick="changePreview(this)">Voir</a></div>
+                    <h4 id="preview-image-name">Preview de Complementary Shaders</h4>
+                    <a class="preview-button preview-button-reset" onclick="changePreview(this)">Retirer les Shaders</a>
+                    <img src="Screenshots/preview-complementary.png" class="shader-preview">
+                    <h4>Télécharge le mod requis</h4>
                     <p>👉 Des mods sont des fichiers de code créés par la communauté, apportant des modifications au jeu. Ici, l'un d'entre est nécessaire au fonctionnement des Shaders :</p> 
                     <a class="download" target="_blank" href="">Mod Iris Shaders<span class="bubble">Requis</span></a> 
+                    <p class="alert">⚠️ Attention, tout mod recquiert "<span>Fabric</span>" pour fonctionner, c'est une version de Minecraft spéciale qui te sera présentée à l'étape 4.</p>
                     <h4>Localise les Mods & Shaders téléchargés</h4>
                     <p>👉 Ouvre ton explorateur de fichiers avec tes "<span>Téléchargements</span>"</p> 
                     <img src="Screenshots/etape3-1-1.png">
                     <h4>Installe les Mods & Shaders</h4>
                     <p>❓ Le "<span>launcher</span>", c'est l'application que tu lances pour cliquer sur "<span>Jouer</span>" et démarrer Minecraft.</p>
                     <div> <!-- BLOCK A CHOIX MULITPLES -->
-                        <form>
+                        <form class="auto-selection-linked">
                             <label class="checkbox-container">
                                 J'utilise le launcher Officiel de Minecraft [JE]
                                 <input type="radio" name="avoir-minecraft" value="0" onclick="refresh(this)" checked="true">
@@ -264,7 +270,7 @@
         <h3>Rejoindre l'aventure</h3>
         <p>❓ Le "<span>launcher</span>", c'est l'application que tu lances pour cliquer sur "<span>Jouer</span>" et démarrer Minecraft.</p>
         <div> <!-- BLOCK A CHOIX MULITPLES -->
-            <form>
+            <form class="auto-selection-linked">
                 <label class="checkbox-container">
                     J'utilise le launcher Officiel de Minecraft [JE]
                     <input type="radio" name="avoir-minecraft" value="0" onclick="refresh(this)" checked="true">
@@ -298,14 +304,14 @@
                     <img src="Screenshots/etape4-1-2.png">
                     <h4>Rejoins le monde</h4>
                     <p>👉 Une fois Minecraft lancé, clique sur "<span>Multijoueurs</span>" puis "<span>Ajouter un serveur</span>". Donne le nom de ton choix, puis dans le champ "<span>Adresse de serveur</span>", mets-y l'adresse suivante (copiable en cliquant) :</p>
-                    <a class="copy text-to-change text-to-change-ip" onclick="copyIp()">xxx.xxx.xxx</a>
+                    <a class="copy text-to-change text-to-change-ip" onclick="copyIp(this)">xxx.xxx.xxx</a>
                     <img src="Screenshots/etape4-1-3.png">
                     <p>🏆 Confirme, puis rejoins le monde ajouté !</p>
                 </div>
                 <div class="hidden-content">
                     <h4>Rejoins le monde</h4>
                     <p>👉 Lance Minecraft à l'aide de ton launcher. Une fois Minecraft lancé, clique sur "<span>Multijoueurs</span>" puis "<span>Ajouter un serveur</span>". Donne le nom de ton choix, puis dans le champ "<span>Adresse de serveur</span>", mets-y l'adresse suivante (copiable en cliquant) :</p>
-                    <a class="copy text-to-change text-to-change-ip" onclick="copyIp()">xxx.xxx.xxx</a>
+                    <a class="copy text-to-change text-to-change-ip" onclick="copyIp(this)">xxx.xxx.xxx</a>
                     <img src="Screenshots/etape4-1-3.png">
                     <p>🏆 Confirme, puis rejoins le monde ajouté !</p>
                 </div>

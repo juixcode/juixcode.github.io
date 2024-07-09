@@ -142,6 +142,10 @@ img {
     outline: solid #eee;
     outline-width: 0.3vh;
 }
+div.flex-direction-row {
+    display: flex;
+    flex-direction: row;
+}
 @media (max-width: 90vh) {
     section {
         width: calc(100vw - 10vh);
@@ -242,13 +246,13 @@ p {
 p.alert {
     background-color: #ea7b4b4f;
     border-radius: 0.5vh;
-    outline: solid #ea7b4bc5;
+    outline: solid #e48860;
     outline-width: 0.3vh;
     padding: 1vh 1.3vh 1vh 1.3vh;
 }
 
 p span {
-    color: #ea7b4bc5;
+    color: #e48860;
     font-weight: 500;
 }
 span.bubble {
@@ -309,13 +313,37 @@ a {
     outline-width: 0.3vh;
     align-self: start;
 }
+a.preview-button:hover {
+    background-color: white;
+    color: #e48860;
+}
+a.preview-button {
+    background-color: #e48860;
+    outline: solid #e48860;
+    margin-left: 1.5vh;
+}
+a.preview-button-reset {
+    margin: 3vh 0 -5.3vh 1.3vh;
+    z-index: 3;
+}
 span.bold { font-weight: bold; margin-left: 1vh;}
+
 a.download::before { background: fixed url(Medias/download.svg) no-repeat; background-size: 100% 100%; }
 a.copy::before { background: fixed url(Medias/copy.svg) no-repeat; background-size: 100% 100%; }
+a.copy.copied::before { background: fixed url(Medias/check.svg) no-repeat; background-size: 100% 100%; }
 a.link::before { background: fixed url(Medias/redirection.svg) no-repeat; background-size: 100% 100%; }
+a.preview-button::before { background: fixed url(Medias/eye.svg) no-repeat; background-size: 100% 100%; }
+a.preview-button.active::before { background: fixed url(Medias/check.svg) no-repeat; background-size: 100% 100%; }
+a.preview-button-reset::before { background: fixed url(Medias/cross.svg) no-repeat; background-size: 100% 100%; }
+
 a.download:hover::before { background: fixed url(Medias/download_hover.svg) no-repeat; background-size: 100% 100%; }
 a.copy:hover::before { background: fixed url(Medias/copy_hover.svg) no-repeat; background-size: 100% 100%; }
+a.copy.copied:hover::before { background: fixed url(Medias/check_hover.svg) no-repeat; background-size: 100% 100%; }
 a.link:hover::before { background: fixed url(Medias/redirection_hover.svg) no-repeat; background-size: 100% 100%; }
+a.preview-button:hover::before { background: fixed url(Medias/eye_hover.svg) no-repeat; background-size: 100% 100%; }
+a.preview-button.active:hover::before { background: fixed url(Medias/check_hover2.svg) no-repeat; background-size: 100% 100%; }
+a.preview-button-reset:hover::before { background: fixed url(Medias/cross_hover.svg) no-repeat; background-size: 100% 100%; }
+
 a::before {
     margin: 1.1vh 0 1.1vh 0;
     content: '';
