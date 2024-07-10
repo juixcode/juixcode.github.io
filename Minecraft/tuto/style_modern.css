@@ -243,6 +243,11 @@ p.alert {
     border: solid #e48860;
     border-width: 0.3vh;
 }
+p.info {
+    background-color: #eacd4b4f;
+    border: solid #e4c760;
+    border-width: 0.3vh;
+}
 
 p span {
     /* background: -webkit-linear-gradient(65deg, rgba(228,136,96,1) 0%, rgba(228,136,96,1) 15%, rgba(75,234,125,1) 85%, rgba(75,234,125,1) 100%);

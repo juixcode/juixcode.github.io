@@ -250,6 +250,13 @@ p.alert {
     outline-width: 0.3vh;
     padding: 1vh 1.3vh 1vh 1.3vh;
 }
+p.info {
+    background-color: #eacd4b4f;
+    border-radius: 0.5vh;
+    outline: solid #e4c760;
+    outline-width: 0.3vh;
+    padding: 1vh 1.3vh 1vh 1.3vh;
+}
 
 p span {
     color: #e48860;
