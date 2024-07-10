@@ -63,16 +63,14 @@ function changePreview(element) {
             each.classList.remove("active");
         }
     });
-    if (!element.className.match('preview-button-reset')) {
-        element.classList.add("active");
-    }
+    element.classList.add("active");
 
     if (element.className.match('preview-button-reset')) {
         previewImage.src = "Screenshots/preview-vanilla.png"
         previewTitle.innerHTML = "Preview sans Shaders"
     } else if (element.className.match('preview-button-1')) {
         previewImage.src = "Screenshots/preview-complementary.png"
-        previewTitle.innerHTML = "Preview de Complementary Shaders"
+        previewTitle.innerHTML = "Preview de Complementary"
     } else if (element.className.match('preview-button-2')) {
         previewImage.src = "Screenshots/preview-bsl.png"
         previewTitle.innerHTML = "Preview de BSL Shaders"
@@ -87,6 +85,6 @@ function changePreview(element) {
         previewTitle.innerHTML = "Preview de Fast PBR"
     } else if (element.className.match('preview-button-6')) {
         previewImage.src = "Screenshots/preview-makeup.png"
-        previewTitle.innerHTML = "Preview de MakeUp UltraFast"
+        previewTitle.innerHTML = "Preview de MakeUp"
     }
 }

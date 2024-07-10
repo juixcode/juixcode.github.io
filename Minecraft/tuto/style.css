@@ -269,6 +269,10 @@ span.bubble {
     span.bubble {
         font-size: 0;
     }
+    a.preview-button {
+        font-size: 0;
+        padding-right: 0.5vh;
+    }
     span.bubble::before, a:hover span.bubble::before {
         background: fixed url(Medias/check.svg) no-repeat; 
         background-size: 100% 100%;
@@ -313,14 +317,14 @@ a {
     outline-width: 0.3vh;
     align-self: start;
 }
-a.preview-button:hover {
+a.preview-button:hover, a.preview-button-reset:hover {
     background-color: white;
     color: #e48860;
 }
-a.preview-button {
+a.preview-button, a.preview-button-reset {
     background-color: #e48860;
     outline: solid #e48860;
-    margin-left: 1.5vh;
+    margin-right: 1.5vh;
 }
 a.preview-button-reset {
     margin: 3vh 0 -5.3vh 1.3vh;
