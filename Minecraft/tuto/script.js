@@ -88,3 +88,24 @@ function changePreview(element) {
         previewTitle.innerHTML = "Preview de MakeUp"
     }
 }
+
+function preloadImages(urls) {
+    var images = [];
+    for (var i = 0; i < urls.length; i++) {
+        images[i] = new Image();
+        images[i].src = urls[i];
+    }
+}
+
+// Préchargement des images
+var imageUrls = [
+    'Screenshots/preview-vanilla.png',
+    'Screenshots/preview-complementary.png',
+    'Screenshots/preview-bsl.png',
+    'Screenshots/preview-bliss.png',
+    'Screenshots/preview-solas.png',
+    'Screenshots/preview-pbr.png',
+    'Screenshots/preview-makeup.png'
+];
+
+preloadImages(imageUrls);
