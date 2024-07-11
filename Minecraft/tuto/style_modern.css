@@ -136,8 +136,8 @@ body:before {
     position: fixed;
     left: 0;
     top: 0;
-    width: 100svw;
-    height: 100svh;
+    width: 100vw;
+    height: 100lvh;
     z-index: -10;
     background: url(Medias/background.png) no-repeat center center;
     -webkit-background-size: cover;
