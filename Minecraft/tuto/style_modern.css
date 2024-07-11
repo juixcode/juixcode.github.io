@@ -24,6 +24,7 @@
 
 :root {
     --text-1: #ebedf4;
+    --background-1-transparent: rgba(23, 24, 29, 0.9);
     --background-1: #1b1c21;
     --background-2: #292c32;
     --label: #292c32;
@@ -154,10 +155,13 @@ section {
     width: 80vh;
     padding: 5vh;
     height: auto;
-    background-color: var(--background-1);
+    background-color: var(--background-1-transparent);
     -webkit-box-shadow: 0px 5px 23px 6px rgba(0,0,0,0.55); 
     box-shadow: 0px 5px 23px 9px rgba(0, 0, 0, 0.55);
     border-radius: 2vh;
+
+    backdrop-filter: blur(1.2vh);
+    -webkit-backdrop-filter: blur(1.2vh);
 }
 img {
     width: 79.4vh;
