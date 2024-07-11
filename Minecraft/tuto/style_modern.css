@@ -184,7 +184,7 @@ div.flex-direction-row {
         border-radius: 0;
     }
     img {
-        width: calc(100vw - 10vh);
+        width: calc(100vw - 10.6vh);
     }
 }
 
