@@ -534,8 +534,8 @@ a {
 }
 a.link.link-important {
     margin: 1vh;
-    padding: 1vh 5vh 1vh 6vh;
-    font-size: 2.4vh;
+    padding: 0.5vh 3vh 0.5vh 4vh;
+    font-size: 2vh;
     line-height: 4.5vh;
     display: flex;
     align-self: center;
@@ -545,6 +545,10 @@ a.link.link-important {
     a.preview-button:hover, a.preview-button-reset:hover {
         background-color: var(--hover);
         color: var(--text-1);
+    }
+    a.link.link-important {
+        padding: 1vh 5vh 1vh 6vh;
+        font-size: 2.4vh;
     }
 }
 a.preview-button, a.preview-button-reset {
