@@ -3,18 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Minecraft Tuto</title>
+    <title>Minecraft Help</title>
     <link rel="stylesheet" href="style_modern.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="Medias/favicon.ico" type="image/ico" />
-    <script src="script.js" defer></script>
+    <script src="event_joining_script.js" defer></script>
 </head>
 <body onload="setup()">
-    <h1>Guide</h1>
 
-    <section> <!-- SECTION -------------------------------------------------------------------------- Les éditions de Minecraft -->
+    <div class="navbar">
+        <div class="container">
+            <h4>Intro</h4>
+            <form>
+                <label class="navbar-checkbox-container">
+                    <input type="radio" name="avoir-minecraft" value="1" onclick="stepChange(this)" checked="true">
+                </label>
+                <label class="navbar-checkbox-container">
+                    <input type="radio" name="avoir-minecraft" value="2" onclick="stepChange(this)">
+                </label>
+                <label class="navbar-checkbox-container">
+                    <input type="radio" name="avoir-minecraft" value="3" onclick="stepChange(this)">
+                </label>
+                <label class="navbar-checkbox-container">
+                    <input type="radio" name="avoir-minecraft" value="4" onclick="stepChange(this)">
+                </label>
+                <label class="navbar-checkbox-container">
+                    <input type="radio" name="avoir-minecraft" value="5" onclick="stepChange(this)">
+                </label>
+            </form>
+        </div>
+    </div>
+
+    <section class="active"> <!-- SECTION -------------------------------------------------------------------------- Les éditions de Minecraft -->
         <h2>Intro</h2>
         <h3>Faire la différence entre les éditions de Minecraft</h3>
         <div>
@@ -25,9 +47,10 @@
                 <p>📱 Minecraft [<span>BE</span>] est une édition plus récente, déployée sur Windows, consoles et téléphones. Elle est moins personnalisable et créative, mais a permis à Minecraft de se répandre sur toutes les plateformes et de faire davantage de profit par un jeu <span>encadré</span> avec microtransactions. (Au cas où : Minecraft [BE] est appelé Pocket Edition [PE] sur téléphone)</p> 
             </div>
         </div>
+        <div class="next-step-buttons">
+            <a class="next-step-right" onclick='stepChange(this)'>Suivant</a>
+        </div>
     </section>
-
-    <div class="space"></div>
 
     <section> <!-- SECTION -------------------------------------------------------------------------- Avoir Minecraft -->
         <h2>Etape 1</h2>
@@ -81,9 +104,11 @@
                 </div>
             </div>
         </div>
+        <div class="next-step-buttons">
+            <a class="next-step-left" onclick='stepChange(this)'>Retour</a>
+            <a class="next-step-right" onclick='stepChange(this)'>Suivant</a>
+        </div>
     </section>
-
-    <div class="space"></div>
 
     <section> <!-- SECTION -------------------------------------------------------------------------- Installer les mods d'opti -->
         <h2>Etape 2</h2>
@@ -167,9 +192,11 @@
                 </div>
             </div>
         </div>
+        <div class="next-step-buttons">
+            <a class="next-step-left" onclick='stepChange(this)'>Retour</a>
+            <a class="next-step-right" onclick='stepChange(this)'>Suivant</a>
+        </div>
     </section>
-
-    <div class="space"></div>
 
     <section> <!-- SECTION -------------------------------------------------------------------------- Installer les shaders -->
         <h2>Etape 3</h2>
@@ -189,7 +216,7 @@
             </form>
             <div>
                 <div class="hidden-content">
-                    <p class="alert">⚠️ Attention, ce qui suit est uniquement disponible sur minecraft [JE]* (Définition en haut), et recquiert une bonne machine pour fonctionner correctement (PC portable Gamer, Tour). Il t'est également conseillé d'avoir suivi l'étape 2 avant cette étape !</p>
+                    <p class="alert">⚠️ Attention, ce qui suit est uniquement disponible sur minecraft [JE]* (Définition en Intro), et recquiert une bonne machine pour fonctionner correctement (PC portable Gamer, Tour). Il t'est également conseillé d'avoir suivi l'étape 2 avant cette étape !</p>
                     <h4>Télécharge des Shaders</h4>
                     <p>👉 Les shaders permettent d'embellir ton jeu par une eau et des lumières naturelles et réalistes. Ils se présentent sous forme de dossiers, télécharges-en quelques-uns (tu pourras les tester en jeu) :</p> 
                     <div class="flex-direction-row"> <a class="preview-button preview-button-1 active" onclick="changePreview(this)">Voir</a> <a class="download" target="_blank" href="Drop/ComplementaryUnbound_r5.2.2.zip">Complementary<span class="bubble">Recommandé</span></a></div>
@@ -275,9 +302,11 @@
                 </div>
             </div>
         </div>
+        <div class="next-step-buttons">
+            <a class="next-step-left" onclick='stepChange(this)'>Retour</a>
+            <a class="next-step-right" onclick='stepChange(this)'>Suivant</a>
+        </div>
     </section>
-
-    <div class="space"></div>
 
     <section> <!-- SECTION -------------------------------------------------------------------------- Rejoindre le serveur -->
         <h2>Etape 4</h2>
@@ -352,9 +381,10 @@
         <p>⏱️ Ca tombe bien ! En ayant <span>tenté</span> de te connecter, tu viens d'enclencher le redémarrage du monde. <span>Patiente</span> 2 petites minutes le temps que le monde soit de nouveau accessible, puis <span>retente</span> de te connecter !</p>
         <h4>Des problèmes de connexion persistent ?</h4>
         <p>👉 Vérifie ta connexion internet, vérifie l'adresse de serveur que tu as entrée, et passe en revue les différentes étapes précédentes au cas où tu aies peut-être loupé un détail.</p>
+        <div class="next-step-buttons">
+            <a class="next-step-left" onclick='stepChange(this)'>Retour</a>
+        </div>
     </section>
-
-    <div class="space"></div>
 
 </body>
 </html>

@@ -89,6 +89,25 @@ function changePreview(element) {
     }
 }
 
+function stepChange(element) {
+    const actualStep = document.querySelector('.navbar .container label input:checked')
+    let actualStepValue = parseInt(actualStep.value, 10);
+    const navbarTitle = document.querySelector('.navbar .container h4')
+
+    document.querySelector('section.active').classList.remove("active");
+
+    if (element.tagName !== 'INPUT') {
+        if (element.className.match('next-step-right')) {
+            actualStepValue = actualStepValue + 1
+        } else {
+            actualStepValue = actualStepValue - 1
+        }
+        document.querySelector('.navbar .container form').children[actualStepValue - 1].children[0].checked = true
+    }
+    document.querySelector('body').children[actualStepValue].classList.add("active");
+    navbarTitle.innerHTML = document.querySelector('section.active h2').textContent
+}   
+
 function preloadImages(urls) {
     var images = [];
     for (var i = 0; i < urls.length; i++) {
@@ -107,5 +126,3 @@ var imageUrls = [
     'Screenshots/preview-pbr.png',
     'Screenshots/preview-makeup.png'
 ];
-
-preloadImages(imageUrls);
