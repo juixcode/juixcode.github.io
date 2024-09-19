@@ -81,7 +81,7 @@ function progressBarUpdate(blueValue, pinkValue) {
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(function() {
         progressBarUpdate(Number(affichage_adversaire.textContent), Number(affichage.textContent))
-    }, 100);
+    }, 300);
 });
 
 firebase.database().ref('love-emitter-player1-clicks').on('value', function(snapshot) {
