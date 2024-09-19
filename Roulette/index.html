@@ -4,11 +4,423 @@
 		<meta charset="utf-8">
 		<title>Roulette</title>
 		<script type="text/javascript" src="script.js"></script>
-		<link rel="stylesheet" href="style.css">
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Protest+Strike&family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
 		<link rel="shortcut icon" href="favicon.ico" type="image/ico" />
+		<style>
+		html {
+			width: auto;
+			height: 100svh;
+			padding: 0;
+			margin: 0;
+			overflow-x: hidden;
+		}
+
+		body {
+			background: black fixed url(back.png);
+			-webkit-background: fixed;
+			background-size: cover;
+			background-position: center;
+			height: 80svh;
+			padding: 10svh 5svh 10svh 5svh;	
+			margin: 0;
+
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		*::-webkit-scrollbar {
+			width: 1svh;
+		}
+		*::-webkit-scrollbar-track {
+			background: black;
+		}
+		*::-webkit-scrollbar-thumb {
+			background-color: rgba(255, 255, 255, 0.345);
+			-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+			box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+			border-radius: 5vh;
+		}
+		
+		@keyframes appear {
+			0% {
+				backdrop-filter: blur(3svh);
+				filter: blur(3svh);
+			}
+			100% {
+				backdrop-filter: blur(0);
+				filter: blur(0);
+			}
+		}
+
+		@keyframes pop {
+			0% {
+				scale: 1;
+			}
+			35% {
+				scale: 1.3;
+			}
+			100% {
+				scale: 1;
+			}
+		}
+
+		button {
+			background: rgb(240, 240, 240);
+			text-decoration: none;
+			color: #f55059;
+			padding: 2.5svh 4svh 2.5svh 4svh;
+			border-radius: 5svh;
+			font-family: 'Ubuntu', sans-serif;
+			font-weight: 600;
+			font-size: 4svh;
+			line-height: 4svh;
+			box-shadow: 0 0.2svh 0.75svh rgba(0, 0, 0, 0.47);
+			cursor: pointer;
+			outline: none;
+			border: none;
+			display: flex;
+			flex-direction: row;
+		}
+
+		button.start::before {
+			background: fixed url(favicon.ico) no-repeat;
+			background-size: 100% 100%;
+			margin:0;
+			content: '';
+			display: block;
+			height: 4svh;
+			width: 4svh;
+			position: relative;
+			right: 1svh;
+			transform: translate(0,0);
+			transition: all 0.15s ease;
+		}
+
+		button.start {
+			animation: grow 1s ease-in-out infinite;
+		}
+
+		@keyframes grow {
+			0% {
+				padding: 2.5svh 4svh 2.5svh 4svh;
+			}
+			35% {
+				background: rgb(240, 240, 240);
+			}
+			50% {
+				background: #fad9da;
+				padding: 2.5svh 6svh 2.5svh 6svh;
+			}
+			65% {
+				background: rgb(240, 240, 240);
+			}
+			100% {
+				padding: 2.5svh 4svh 2.5svh 4svh;
+			}
+		}
+
+		div.coef_value {
+			opacity: 0;
+			position: absolute;
+			animation: grow2 1s ease-in-out infinite;
+		}
+
+		@keyframes grow2 {
+			0% {
+				width: 125px;
+			}
+			50% {
+				width: 103px;
+			}
+			100% {
+				width: 125px;
+			}
+		}
+
+		button.lang {
+			background: #f5505892;
+			backdrop-filter: blur(1svh);
+			-webkit-backdrop-filter: blur(1svh);
+		}
+		
+		button.lang::after {
+			content: '';
+			display: block;
+			height: 4vh;
+			width: 4vh;
+			margin: -0.5vh;
+			z-index: 0;
+			position: relative;
+			transform: translate(0,0);
+		}
+
+		button.lang.it::after { background: fixed url(Icons/flag_it.png) no-repeat; background-size: 100%; }
+		button.lang.fr::after { background: fixed url(Icons/flag_fr.png) no-repeat; background-size: 100%; }
+			
+		h1 {
+			text-shadow: 0 0.2svh 0.75svh rgba(0, 0, 0, 0.47);
+			color: white;
+			font-family: 'Protest Strike', sans-serif;
+			font-weight: 500;
+			text-align: center;
+			font-size: 10svh;
+			margin: 3svh 0 3svh 0;
+			max-width: 85vw;
+		}
+		
+		.text {
+			text-shadow: 0 0.2svh 0.75svh rgba(0, 0, 0, 0.47);
+			color: white;
+			font-family: 'Ubuntu', sans-serif;
+			font-weight: 500;
+			font-size: 3.5svh;
+			margin: 0;
+			text-align: center;
+			max-width: 85vw;
+		}
+
+		.text.active {
+			animation: pop 0.2s;
+		}
+
+		.text.trad {
+			opacity: 0;
+			color: rgba(255, 255, 255, 0.658);
+			font-family: 'Ubuntu', sans-serif;
+			font-weight: 400;
+			font-size: 3svh;
+			transition: all 0.2s ease;
+		}
+
+		.text.trad.active {
+			opacity: 1;
+		}
+
+		.text.option {
+			text-shadow: none;
+			font-weight: 500;
+			font-size: 3svh;
+			text-align: start;
+			max-width: 60vw;
+		}
+
+		.option-block {
+			width: 80svw;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+		}
+
+		@media (min-width: 1024px) {
+			.text {
+				transition: all 0.3s ease;
+				max-width: 70vw;
+				font-size: 5svh;
+			}
+			.text.message {
+				font-size: 2.8svh;
+				font-weight: 400;
+				text-align: center;
+			}
+			h1 {
+				transition: all 0.3s ease;
+				font-size: 12svh;
+				max-width: 70vw;
+			}
+			button {
+				transition: all 0.3s ease;
+			}
+			.slider.type2 {
+				transition: all 0.3s ease;
+			}
+			.slider.type2.filter-1::after { background: fixed url(Icons/filter-1.png) no-repeat; background-size: 100% 100%; }
+			.slider.type2.filter-2::after { background: fixed url(Icons/filter-2.png) no-repeat; background-size: 100% 100%; }
+			.slider.type2.filter-3::after { background: fixed url(Icons/filter-3.png) no-repeat; background-size: 100% 100%; }
+			.slider.type2.category-1::after { background: fixed url(Icons/category-1.png) no-repeat; background-size: 100% 100%; }
+			.slider.type2.category-2::after { background: fixed url(Icons/category-2.png) no-repeat; background-size: 100% 100%; }
+			.slider.type2.category-3::after { background: fixed url(Icons/category-3.png) no-repeat; background-size: 100% 100%; }
+			.slider.type2.category-4::after { background: fixed url(Icons/category-4.png) no-repeat; background-size: 100% 100%; }
+			
+			.slider.type2::after
+			{
+				margin:0;
+				content: '';
+				display: block;
+				height: 2svh;
+				width: 2svh;
+				z-index: 1;
+				position: absolute;
+				left: 50%;
+				top: 25%;
+				transform: translate(-50%,-50%);
+				transition: all 0.3s ease;
+				opacity: 0%;
+			}
+
+			button:hover {
+				transform: translate(0,-0.4svh);
+				box-shadow: 0 0.6svh 0.75svh rgba(0, 0, 0, 0.47);
+				opacity: 0.8
+			}
+			.text:hover {
+				transform: translate(0,-0.4svh);
+				text-shadow: 0 0.6svh 0.75svh rgba(0, 0, 0, 0.47);
+			}
+			h1:hover {
+				transform: translate(0,-0.4svh);
+				text-shadow: 0 0.6svh 0.75svh rgba(0, 0, 0, 0.47);
+			}
+			.slider.type2:hover
+			{
+				color: #00000000;
+			}
+			.slider.type2:hover::after
+			{
+				opacity: 100%;
+				top: 50%;
+			}
+		}
+
+		#show {
+			letter-spacing: -0.2svh;
+		}
+		#trad {
+			letter-spacing: -0.2svh;
+		}
+
+		.column {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.hamburger
+		{
+			display: flex;
+			z-index: 1;
+			padding: 0;
+			border-radius: 0;
+			flex-direction: column;
+			cursor: pointer;
+			margin: 1.5svh;
+		}
+
+		.hamburger span{
+			width: 4.5svh;
+			height: 1.5svh;
+			background: fixed url(Icons/bar.svg) no-repeat;
+			transform: translate(0,0);
+			background-size: 100%;
+			transition: all 0.1s ease;
+		}
+		.hamburger.active span:nth-child(1){
+			transform: translateY(1.5svh) rotate(45deg);
+		}
+		.hamburger.active span:nth-child(2){
+			opacity: 0;
+		}
+		.hamburger.active span:nth-child(3){
+			transform: translateY(-1.5svh) rotate(-45deg);
+		}
+
+		.hamburger_menu {
+			display: flex;
+			position: absolute;
+			flex-direction: column;
+			align-items: center;
+			justify-content: end;
+			z-index: 1;
+			background: #f5505892;
+			box-shadow: 0 0.2svh 0.75svh rgba(0, 0, 0, 0.47);
+			width: 100svw;
+			backdrop-filter: blur(1svh);
+			-webkit-backdrop-filter: blur(1svh);
+			height: 92.5svh;
+			top: -85svh;
+			left: 0;
+			transition: all 0.3s ease;
+		}
+		.hamburger_menu.active {
+			top: 0;
+		}
+
+		.switch {
+			position: relative;
+			display: inline-block;
+			width: 6.7svh;
+			height: 3.7svh;
+		}
+
+		.switch.type2 {
+			margin-bottom: 0.5svh;
+			width: 15svh;
+		}
+		
+		.switch input {
+			opacity: 0;
+			width: 0;
+			height: 0;
+		}
+		
+		.slider {
+			position: absolute;
+			cursor: pointer;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: #ccc;
+			-webkit-transition: 0.3s;
+			transition: 0.3s;
+			border-radius: 3svh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+
+			color: #ffffff;
+			font-family: 'Ubuntu', sans-serif;
+			font-weight: 400;
+			font-size: 2svh;
+			letter-spacing: -0.1svh;
+		}
+		
+		.slider.round:before {
+			position: absolute;
+			content: "";
+			height: 3svh;
+			width: 3svh;
+			left: 0.35svh;
+			bottom: 0.35svh;
+			background-color: white;
+			-webkit-transition: 0.3s;
+			transition: 0.3s;
+			border-radius: 50%;
+		}
+		
+		input:checked + .slider {
+			background-color: #5eda8d;
+		}
+		
+		input:checked + .slider.round:before {
+			-webkit-transform: translateX(3svh);
+			-ms-transform: translateX(3svh);
+			transform: translateX(3svh);
+		}
+
+		div.space
+		{
+			height: 2px;
+			margin: 1.5svh 0 1.5svh 0;
+			width: 80svw;
+			background:#ffffff4f
+		}
+
+		</style>
 	</head>
 
 	<body>
@@ -93,6 +505,5 @@
 			<div class="text" id="trad"> ‎ </div>
 		</div>
 		<button class="start" onclick="start()">Lancer</button>
-		
 	</body>
 </html>

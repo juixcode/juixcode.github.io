@@ -59,8 +59,7 @@ h1 {
     color: white;
     font-family: 'Smooch Sans', sans-serif;
     font-weight: 600;
-    letter-spacing: 0.05vw;
-    font-size: 28svh;
+    font-size: 22svh;
     margin: 0;
     transition: all 0.3s ease;
 }

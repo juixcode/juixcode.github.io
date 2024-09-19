@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation Example</title>
+	<style>
+		button {
+			background-color: #0088cc;
+			color: white;
+			border: none;
+			padding: 10px 20px;
+			font-size: 16px;
+			cursor: pointer;
+			border-radius: 5px;
+			transition: background-color 0.3s ease;
+		}
+		
+		button:hover {
+			background-color: #0077bb;
+		}
+	</style>
+</head>
+<body>
+	<button onclick="sendMessage('Jean-Pierre')" style="margin-top: 3vh;">Envoyer un message</button>
+
+	<script>
+		function sendMessage(userName) {
+			const token = '6414347199:AAHmxfVFSwkaaMt6ZjLXWztrCRc01-jxdYg';
+			const chat_id = '-4523704447';
+			const message = '❗❗❗\n' + userName + ' a commandé :\n➡️ Mojito';
+			const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(message)}`;
+		
+			// Envoyer la requête pour envoyer le message
+			fetch(url)
+				.then(response => response.json())
+				.then(data => {
+					if (data.ok) {
+						console.log('Message envoyé avec succès :', data);
+					} else {
+						console.error('Erreur lors de l\'envoi du message :', data);
+					}
+				})
+				.catch(error => {
+					console.error('Erreur lors de l\'envoi de la requête :', error);
+				});
+		};
+	</script>
+</body>
+</html>

@@ -9,22 +9,23 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="Medias/favicon.ico" type="image/ico" />
-        <script src="script.js" defer></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
     </head>
     <body>
-        <p class="info">v0.4</p>
+        <p class="info" style="display: none;">v1.0</p>
         <div class="container">
             <div class="item start">
                 <div class="tab">
                     <h1 id="resultat_adversaire">0</h1>
-                    <button class="switch" onclick="add()">Juju</button>
+                    <button class="switch" id="player_adversary_name" onclick="switchPlayer()">Juju</button>
                 </div>
             </div>
             <div class="item">
                 <h1 class="active" id="resultat">0</h1>
             </div>
             <div class="item end">
-                <div class="text">Chiara</div>
+                <div class="text" id="player_name">Chiara</div>
                 <button class="clicker active" onclick="add()"></button>
                 <div class="tab progress_bar">
                     <div class="progress" id="blue_progress">Juju 50%</div>
@@ -32,5 +33,7 @@
                 </div>
             </div>
         </div>
+
+        <script src="script.js" defer></script>
     </body>
 </html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Animation Example</title>
+	<style>
+		@keyframes exampleAnimation0 {
+			from {
+				opacity: 0.2;
+				top: 0%;
+				transform: scale(0.9,0);
+			}
+			to {
+				opacity: 0.5;
+				top: calc(0% + 6%);
+				transform: scale(0.95,0.3);
+			}
+		}
+		@keyframes exampleAnimation1 {
+			from {
+				opacity: 0.5;
+				top: calc(0% + 6%);
+				transform: scale(0.95,0.3);
+			}
+			to {
+				opacity: 0.8;
+				top: calc(8% + 16%);
+				transform: scale(0.975,0.8);
+			}
+		}
+		@keyframes exampleAnimation2 {
+			from {
+				opacity: 0.8;
+				top: calc(8% + 16%);
+				transform: scale(0.975,0.8);
+			}
+			to {
+				opacity: 1;
+				top: calc(32% + 20%);
+				transform: scale(1,1);
+			}
+		}
+		@keyframes exampleAnimation3 {
+			from {
+				opacity: 1;
+				top: calc(32% + 20%);
+				transform: scale(1,1);
+			}
+			to {
+				opacity: 0.8;
+				top: calc(64% + 16%);
+				transform: scale(0.975,0.8);
+			}
+		}
+		@keyframes exampleAnimation4 {
+			from {
+				opacity: 0.8;
+				top: calc(64% + 16%);
+				transform: scale(0.975,0.8);
+			}
+			to {
+				opacity: 0.5;
+				top: calc(92% + 6%);
+				transform: scale(0.95,0.3);
+			}
+		}
+		@keyframes exampleAnimation5 {
+			from {
+				opacity: 0.5;
+				top: calc(92% + 6%);
+				transform: scale(0.95,0.3);
+			}
+			to {
+				opacity: 0.2;
+				top: 104%;
+				transform: scale(0.9,0);
+			}
+		}
+
+		.item-wheel {
+			top: 0;
+			left: 0;
+			position: absolute;
+			font-size: 20vh;
+			margin: 0;
+		}
+		.block {
+			display: flex;
+			position: relative;
+			height: 60vh;
+			margin-bottom: 2vh;
+		}
+
+		#item-wheel-0 {
+			opacity: 0.2;
+			top: 0;
+			transform: scale(0.9,0);
+		}
+		#item-wheel-1 {
+			opacity: 0.5;
+			top: calc(0% + 6%);
+			transform: scale(0.95,0.3);
+		}
+		#item-wheel-2 {
+			opacity: 0.8;
+			top: calc(8% + 16%);
+			transform: scale(0.975,0.8);
+		}
+		#item-wheel-3 {
+			opacity: 1;
+			top: calc(32% + 20%);
+			transform: scale(1,1);
+		}
+		#item-wheel-4 {
+			opacity: 0.8;
+			top: calc(64% + 16%);
+			transform: scale(0.975,0.8);
+		}
+		#item-wheel-5 {
+			opacity: 0.5;
+			top: calc(92% + 6%);
+			transform: scale(0.95,0.3);
+		}
+
+		#item-wheel-0.animated {
+			animation: exampleAnimation0 forwards linear ;
+		}
+		#item-wheel-1.animated {
+			animation: exampleAnimation1 forwards linear ;
+		}
+		#item-wheel-2.animated {
+			animation: exampleAnimation2 forwards linear ;
+		}
+		#item-wheel-3.animated {
+			animation: exampleAnimation3 forwards linear ;
+		}
+		#item-wheel-4.animated {
+			animation: exampleAnimation4 forwards linear ;
+		} 
+		#item-wheel-5.animated {
+			animation: exampleAnimation5 forwards linear ;
+		}
+	</style>
+</head>
+<body>
+	<div class="block">
+		<div id="item-wheel-0" class="item-wheel">ITEM 0</div>
+		<div id="item-wheel-1" class="item-wheel">ITEM 1</div>
+		<div id="item-wheel-2" class="item-wheel">ITEM 2</div>
+		<div id="item-wheel-3" class="item-wheel">ITEM 3</div>
+		<div id="item-wheel-4" class="item-wheel">ITEM 4</div>
+		<div id="item-wheel-5" class="item-wheel">ITEM 5</div>
+	</div>
+	<button onclick="startAnimation()" style="margin-top: 18vh;">Trigger Animation</button>
+
+	<script>
+		let animationLoop = 0
+
+		function startAnimation() { //Démarre le tirage aléatoire
+			let list = ["item 0 test blabla", "item 1 test blabla", "item 2 test blabla", "item 3 test blabla", "item 4 test blabla", "item 5 test blabla"]
+			let randomDuration = Number((Math.random() * (0.015 - 0.005) + 0.005).toFixed(3)) ; //Entre 0.005 et 0.015 secondes
+			let randomDurationsTable = []
+			let totalRandomDuration = randomDuration
+			//triggerAnimation(list, randomDuration); //Lancement de la rotation
+			while (randomDuration <= 1.20) {
+				randomDuration = Number((randomDuration * 1.3).toFixed(3)) //Réduction de la vitesse de rotation de la roue
+				randomDurationsTable.push(randomDuration)
+				console.log('Rotation de :', randomDuration, ' prévue pour dans :', totalRandomDuration);
+
+				setTimeout(() => { //Continuation de l'animation de rotation
+					triggerAnimation(list, randomDurationsTable);
+				}, totalRandomDuration*1000);
+
+				totalRandomDuration = Number((Number(totalRandomDuration) + Number(randomDuration)).toFixed(3)) + 0.02
+			}
+		}
+
+		function rotateItems() {
+			let item5 = document.querySelector('#item-wheel-5').innerHTML
+			document.querySelector('#item-wheel-5').innerHTML = document.querySelector('#item-wheel-4').innerHTML
+			document.querySelector('#item-wheel-4').innerHTML = document.querySelector('#item-wheel-3').innerHTML
+			document.querySelector('#item-wheel-3').innerHTML = document.querySelector('#item-wheel-2').innerHTML
+			document.querySelector('#item-wheel-2').innerHTML = document.querySelector('#item-wheel-1').innerHTML
+			document.querySelector('#item-wheel-1').innerHTML = document.querySelector('#item-wheel-0').innerHTML
+			document.querySelector('#item-wheel-0').innerHTML = item5
+		}
+
+		function loop() {
+			rotateItems();
+			new Audio("tic.mp3").play(); // Loop effectuée, effet sonore
+		}
+		function endLoop() {
+			new Audio("done.mp3").play();
+		}
+
+		function triggerAnimation(list, randomDurationsTable) {
+			console.log('Animation lancée, loop :', animationLoop + 1, 'sur :', randomDurationsTable.length);
+			let randomDuration = randomDurationsTable[animationLoop]
+
+			document.querySelector('#item-wheel-0').addEventListener('animationend', () => { //Actualisation des loops
+				loop()
+			}, { once: true });
+
+			const elements = document.querySelectorAll('.item-wheel');
+			elements.forEach(function(element) { //Déclenchement de l'animation pour chaque item de la roue
+				element.style.animationDuration = `${randomDuration}s`;
+				element.classList.add('animated');
+
+				element.addEventListener('animationend', () => { //Fin de l'animation
+					element.classList.remove('animated');
+				}, { once: true });
+			});
+
+			animationLoop = animationLoop + 1
+			if (animationLoop > randomDurationsTable.length - 1) { //Fin
+				animationLoop = 0 //Reset
+				setTimeout(() => { //Loop
+					endLoop();
+				}, randomDuration*1000);
+			}
+			//document.querySelector('#item-wheel-0').addEventListener('animationend', () => { //Fin de l'animation globale
+			//	console.log('Animation terminée');
+			//	if (randomDuration <= 2.00) {
+			//		triggerAnimation(list, randomDuration); //Continuation de l'animation de rotation
+			//	}
+			//}, { once: true });
+		}
+	</script>
+</body>
+</html>

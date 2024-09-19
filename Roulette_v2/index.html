@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8">
+		<title>Roulette</title>
+		<script type="text/javascript" src="script.js"></script>
+		<link rel="stylesheet" href="style.css">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Carme&family=Jost:wght@100..900&family=Protest+Strike&family=Roboto+Condensed:wght@100;200;300;400;500;600;700;800;900&family=Saira:wght@100..900&family=Ubuntu:wght@300;400;500;700&family=Ysabeau+SC:wght@1..1000&display=swap" rel="stylesheet">
+		<link rel="shortcut icon" href="favicon.ico" type="image/ico" />
+	</head>
+	<body>
+		<div class="coef_value"></div>
+		<div class="hamburger_menu">
+			<div class="option-block">
+				<div class="text option">Retirer l'animation de roulette</div>
+				<label class="switch">
+					<input type="checkbox" id="option-1">
+					<span class="slider round"></span>
+				</label>
+			</div>
+			<div class="space"></div>
+			<div class="option-block">
+				<div class="text option">Afficher la traduction en dessous</div>
+				<label class="switch">
+					<input type="checkbox" onclick="enableTrad()" id="option-2">
+					<span class="slider round"></span>
+				</label>
+			</div>
+			<div class="space"></div>
+			<div class="option-block">
+				<div class="text option">Réutiliser les questions posées</div>
+				<label class="switch">
+					<input type="checkbox" id="option-3">
+					<span class="slider round"></span>
+				</label>
+			</div>
+			<div class="space"></div>
+			<div class="option-block">
+				<div class="text option">Filtres</div>
+				<div class="column" id="filters">
+					<label class="switch type2">
+						<input type="checkbox" onclick="setItems()" id="filter-1" checked="true">
+						<span class="slider type2 filter-1">Aveux</span>
+					</label>
+					<label class="switch type2">
+						<input type="checkbox" onclick="setItems()" id="filter-2" checked="true">
+						<span class="slider type2 filter-2">Interactions</span>
+					</label>
+					<label class="switch type2">
+						<input type="checkbox" onclick="setItems()" id="filter-3">
+						<span class="slider type2 filter-3">Actions</span>
+					</label>
+				</div>
+			</div>
+			<div class="space"></div>
+			<div class="option-block">
+				<div class="text option">Catégories</div>
+				<div class="column" id="categories">
+					<label class="switch type2">
+						<input type="checkbox" onclick="setItems()" id="category-1" checked="true">
+						<span class="slider type2 category-1">Découverte</span>
+					</label>
+					<label class="switch type2">
+						<input type="checkbox" onclick="setItems()" id="category-2">
+						<span class="slider type2 category-2">Secrets</span>
+					</label>
+					<label class="switch type2">
+						<input type="checkbox" onclick="setItems()" id="category-3">
+						<span class="slider type2 category-3">Sexe Soft</span>
+					</label>
+					<label class="switch type2">
+						<input type="checkbox" onclick="setItems()" id="category-4">
+						<span class="slider type2 category-4">Sexe Hard</span>
+					</label>
+				</div>
+			</div>
+
+			<div onclick="hamburgerDeploy()" class="hamburger">
+				<span></span>
+				<span></span>
+				<span></span>
+			</div>
+        </div>
+		<div class="column">
+			<h1>Roulette</h1>
+			<h2>à secrets</h2>
+			<!-- <button class="lang fr" onclick="switchLang()"></button> -->
+		</div>
+		<div class="column">
+			<div class="text" id="show"> ‎ </div>
+			<!-- <div class="text" id="trad"> ‎ </div> -->
+		</div>
+		<button class="start" onclick="start2()">LANCER</button>
+		
+	</body>
+</html>

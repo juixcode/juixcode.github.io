@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg viewBox="205.456 -119.104 538.305 538.305" xmlns="http://www.w3.org/2000/svg">
-  <defs/>
-  <path style="stroke-linecap: round; stroke-linejoin: round; fill-rule: nonzero; fill: none; paint-order: fill; stroke-width: 80px; stroke: rgb(244, 164, 78);" d="M 472.941 -66.948 L 267.332 347.46 L 684.197 347.326 L 472.941 -66.948 Z"/>
-  <path style="fill: rgb(216, 216, 216); stroke-linejoin: round; stroke-linecap: round; stroke-width: 70px; stroke: rgb(244, 164, 78);" d="M 473.684 119.771 C 473.684 121.324 473.684 192.865 473.684 186.799"/>
-  <path style="fill: rgb(216, 216, 216); stroke-linejoin: round; stroke-linecap: round; stroke-width: 70px; stroke: rgb(244, 164, 78);" d="M 473.684 265.356 C 473.684 265.349 473.684 265.028 473.684 265.056"/>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="32" height="32" rx="16" fill="white"/>
+<path d="M16 8C16 8.13826 16 14.5076 16 13.9675Z" fill="#D8D8D8"/>
+<path d="M16 8C16 8.13826 16 14.5076 16 13.9675" stroke="#E0CC7F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 17C16 16.9309 16 13.7462 16 14.0162Z" fill="#D8D8D8"/>
+<path d="M16 17C16 16.9309 16 13.7462 16 14.0162" stroke="#E0CC7F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M16 23.0123V23.0001Z" fill="#D8D8D8"/>
+<path d="M16 23.0123V23.0001" stroke="#E0CC7F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

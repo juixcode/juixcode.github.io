@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg viewBox="205.456 -119.104 538.305 538.305" xmlns="http://www.w3.org/2000/svg">
-  <defs/>
-  <path style="stroke-linecap: round; stroke-linejoin: round; fill-rule: nonzero; fill: none; stroke-width: 100px; paint-order: fill; stroke: rgb(86, 210, 86);" d="M 265.718 181.941 L 434.71 347.46 L 681.221 -47.685"/>
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="32" height="32" rx="16" fill="white"/>
+<path d="M9 17.5545L14.694 23L23 10" stroke="#7DD988" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juix</title>
+    <link rel="preload" href="Medias/Backgrounds/home.jpg" as="image">
+    <link rel="preload" href="Medias/Backgrounds/minecraft.jpg" as="image">
+    <link rel="preload" href="Medias/Backgrounds/genshin.jpg" as="image">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="Medias/favicon.ico" type="image/ico" />
+    <script src="script.js" defer></script>
+</head>
+
+<!-- 
+    anchorX.Y.Z
+    X = page number
+    Y = section number
+    Z = item number
+-->
+
+<!-- ######################################### NAV ######################################### -->
+
+<body data-value="0">
+    <img src="Medias/Backgrounds/home.jpg" style="display:none;"><img src="Medias/Backgrounds/minecraft.jpg" style="display:none;"><img src="Medias/Backgrounds/genshin.jpg" style="display:none;">
+    <div class="copy_success_message"><span>Copied successfully</span></div>
+    <nav>
+        <div class="block link hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <a class="block logo_name" href="index.html">Juix</a>
+        <div class="block hamburger_menu">
+            <a onclick="open_page('0')" class="link page type1 on_page">Home</a>
+            <a onclick="open_page('1')" class="link page type2 anim_button_hover_navigation">Minecraft</a>
+            <a onclick="open_page('2')" class="link page type3 anim_button_hover_navigation">Genshin</a>
+            <a onclick="open_page('3')" class="link page type4 anim_button_hover_navigation">Music</a>
+            <a onclick="open_page('4')" class="link page type5 anim_button_hover_navigation">Other</a>
+        </div>
+        <div class=block>
+            <div class="link lang en anim_button_hover_color" onclick="switchLang()"></div>
+        </div>
+    </nav>
+    <div class="pages">
+
+<!-- ######################################### HOME PAGE ######################################### -->
+
+        <div class="page type1 active" id="anchor1">
+            <section class="main">
+                <img src="Medias/Juix_white.svg" class="logo anim_appear_zoom-out">
+                <div class="centered">
+                    <h1 class="smaller anim_appear_zoom-out can_switch_lang active">Minecraft content,</h1><h1 class="smaller anim_appear_zoom-out can_switch_lang">Contenus Minecraft,</h1>
+                    <h1 class="bigger anim_appear_zoom-out can_switch_lang active">For free.</h1><h1 class="bigger anim_appear_zoom-out can_switch_lang">Gratuits.</h1>
+                    <h1 class="anim_appear_zoom-out can_switch_lang active">And more !</h1><h1 class="anim_appear_zoom-out can_switch_lang">Et plus !</h1>
+                </div>
+                <a class="link main_network anim_button_hover_color anim_appear_zoom-in" href="https://www.instagram.com/juixcode/" target="_blank">My Instagram</a>
+            </section>
+
+            <section class="container type1 ">
+                
+                <div class="type_1x2">
+                    <div class="type_1x2_column">
+                        <h2 class="can_switch_lang active">Discover all my free content</h2><h2 class="can_switch_lang">Découvre tout mon contenu</h2>
+                        <table class="type_2x2">
+                            <thead></thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h3>Minecraft</h3>
+                                        <p class="can_switch_lang active">Here you can download custom resource packs, datapacks, maps and projets I made on Minecraft Java.</p><p class="can_switch_lang">Ici, tu peux télécharger des packs de ressources customs, des datapacks, des maps et des projets que j'ai faits sur Minecraft Java.</p>
+                                        <a class="link redirection type1 anim_button_hover_expansion" onclick="open_page('1')" href="#anchor1">Check out</a>
+                                    </td>
+                                    <td>
+                                        <h3>Genshin Impact</h3>
+                                        <p class="can_switch_lang active">Here you can find random content related to Genshin like 3D character models, wallpapers or fanart.</p><p class="can_switch_lang">Tu trouveras ici des contenus aléatoires en rapport avec Genshin comme des modèles 3D de personnages, des fonds d'écran ou fanarts.</p>
+                                        <a class="link redirection type1 anim_button_hover_expansion" onclick="open_page('2')" href="#anchor1">Check out</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h3 class="can_switch_lang active">Music</h3><h3 class="can_switch_lang">Musique</h3>
+                                        <p class="can_switch_lang active">Here you can listen to my music and remixes, download them and reuse them for your purposes.</p><p class="can_switch_lang">Ici tu peux écouter ma musique et mes remix, les télécharger et les réutiliser où tu veux.</p>
+                                        <a class="link redirection type1 anim_button_hover_expansion" onclick="open_page('3')" href="#anchor1">Check out</a>
+                                    </td>
+                                    <td>
+                                        <h3 class="can_switch_lang active">And more</h3><h3 class="can_switch_lang">Et bien plus</h3>
+                                        <p class="can_switch_lang active">Here you can find more exclusive and random content like small games or 3D models.</p><p class="can_switch_lang">Ici tu peux trouver des contenus plus exclusifs et aléatoires comme des petits jeux ou des modèles 3D.</p>
+                                        <a class="link redirection type1 anim_button_hover_expansion" onclick="open_page('4')" href="#anchor1">Check out</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="slider_homepage">
+                        <div class="slider_homepage_container">
+                            <div class="slider_homepage_item" data-value="1" onclick="sliderHomepageItemclick(this)" style="background: url(Medias/Backgrounds/minecraft.jpg) no-repeat center center; background-size: cover;">
+                                <h3 class="can_switch_lang active">Datapack in progress</h3><h3 class="can_switch_lang">Datapack en cours</h3>
+                                <h3 class="bigger">Cakewar</h3>
+                                <p class="can_switch_lang active">Cakewar is currently my biggest Minecraft project, a multiplayer game that's easy to install on your own worlds, based on the principles of Bedwars and survival, with lots of fun objects and highly customizable gameplay. No mods required !</p><p class="can_switch_lang">Cakewar est actuellement mon plus gros projet Minecraft, un mode de jeu multijoueur facile à installer sur tes propres mondes, basé sur le Bedwars et la survie, avec plein d'objets customs amusants et des parties personnalisables. Aucun mod requis !</p>
+                                <a class="link redirection type4" onclick="open_page('2')" href="#anchor1">See more</a>
+                            </div>
+                            <div class="slider_homepage_item" data-value="2" onclick="sliderHomepageItemclick(this)" style="background: url(Medias/Backgrounds/minecraft.jpg) no-repeat center center; background-size: cover;">
+                                <h3 class="can_switch_lang active">New datapack</h3><h3 class="can_switch_lang">Nouveau datapack</h3>
+                                <h3 class="bigger">Hammers</h3>
+                                <p class="can_switch_lang active">The Hammers pack simply adds hammers to your game, which are large pickaxes that allow you to mine in 3x3 ! No mod required ! </p><p class="can_switch_lang">Le pack Hammers rajoutera simplement des hammers à ton monde, qui sont des grosses pioches te permettant de miner en 3x3 ! Aucun mod requis ! </p>
+                                <a class="link redirection type4" onclick="open_page('2')" href="#anchor1">See more</a>
+                            </div>
+                            <div class="slider_homepage_item" data-value="3" onclick="sliderHomepageItemclick(this)" style="background: url(Medias/Cards/home.jpg) no-repeat center center; background-size: cover;">
+                                <h3 class="can_switch_lang active">New style</h3><h3 class="can_switch_lang">Nouveau style</h3>
+                                <h3 class="bigger">Juixcode</h3>
+                                <p class="can_switch_lang active">Juixcode has something new ! A more modern, friendly interface and freshly released downloadable content !</p><p class="can_switch_lang">Juixcode a du nouveau ! Une interface plus moderne, plus sympathique et de nouveaux contenus téléchargeables fraîchement publiés !</p>
+                                <a class="link redirection type4" onclick="open_page('1')" href="#anchor1">See more</a>
+                            </div>
+                            <div class="slider_homepage_item" data-value="4" onclick="sliderHomepageItemclick(this)" style="background: url(Medias/Cards/nilou_wallpaper_fhd.png) no-repeat center center; background-size: cover;">
+                                <h3 class="can_switch_lang active">New wallpaper</h3><h3 class="can_switch_lang">Nouveau wallpaper</h3>
+                                <h3 class="bigger">Nilou</h3>
+                                <p class="can_switch_lang active">A new high-resolution wallpaper is available ! With a dark background and Nilou's colors, it's perfect for a poster ! </p><p class="can_switch_lang">Un nouveau fond d'écran en haute résolution est dispo ! Sur fond sombre et aux couleurs de Nilou, parfait pour un poster ! </p>
+                                <a class="link redirection type4" onclick="open_page('2')" href="#anchor1">See more</a>
+                            </div>
+                            <div class="slider_homepage_item" data-value="5" onclick="sliderHomepageItemclick(this)" style="background: url(Medias/Cards/ganyu_wallpaper_fhd.png) no-repeat center center; background-size: cover;">
+                                <h3 class="can_switch_lang active">New wallpaper</h3><h3 class="can_switch_lang">Nouveau wallpaper</h3>
+                                <h3 class="bigger">Ganyu</h3>
+                                <p class="can_switch_lang active">A new high-resolution wallpaper is available ! With a dark background and Ganyu's colors, it's perfect for a poster ! </p><p class="can_switch_lang">Un nouveau fond d'écran en haute résolution est dispo ! Sur fond sombre et aux couleurs de Ganyu, parfait pour un poster !</p>
+                                <a class="link redirection type4" onclick="open_page('2')" href="#anchor1">See more</a>
+                            </div>
+                        </div>
+                        <div class="slider_homepage_nav">
+                            <a class="slider_homepage_nav_arrow" data-value="left" onclick="sliderHomepage('1')"></a>
+                            <form>
+                                <label class="slider_homepage_nav_radio">
+                                    <input type="radio" name="slide" data-value="1" value="0" onclick="sliderHomepageRadioclick(this)" checked="true">
+                                </label>
+                                <label class="slider_homepage_nav_radio">
+                                    <input type="radio" name="slide" data-value="2" value="1" onclick="sliderHomepageRadioclick(this)">
+                                </label>
+                                <label class="slider_homepage_nav_radio">
+                                    <input type="radio" name="slide" data-value="3" value="2" onclick="sliderHomepageRadioclick(this)">
+                                </label>
+                                <label class="slider_homepage_nav_radio">
+                                    <input type="radio" name="slide" data-value="4" value="3" onclick="sliderHomepageRadioclick(this)">
+                                </label>
+                                <label class="slider_homepage_nav_radio">
+                                    <input type="radio" name="slide" data-value="5" value="4" onclick="sliderHomepageRadioclick(this)">
+                                </label>
+                            </form>
+                            <a class="slider_homepage_nav_arrow" data-value="right" onclick="sliderHomepage('-1')"></a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="space"></div>
+
+            <section class="container">
+                <h2 class="type2 can_switch_lang active">Send me a message</h2><h2 class="type2 can_switch_lang">Envoie-moi un message</h2>
+                <div class="contact_block">
+                    <div class="block">
+                        <div class="contact_item">
+                            <h3 class="can_switch_lang active">Name</h3><h3 class="can_switch_lang">Nom</h3>
+                            <textarea id="contact_name" placeholder="Mr. Dupuis"></textarea>
+                        </div>
+                        <div class="contact_item">
+                            <h3>Contact <span>*</span></h3>
+                            <textarea id="contact_contact" placeholder="dupuis@mail.com"></textarea>
+                        </div>
+                    </div>
+                    <div class="contact_item">
+                        <h3>Message <span>*</span></h3>
+                        <textarea id="contact_message" class="contact_message_area" placeholder="I really love your content !"></textarea>
+                        <a class="link redirection type3 anim_button_hover_expansion" onclick="sendMessage()">Send message</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+<!-- ######################################### MINECRAFT PAGE ######################################### -->
+
+        <div class="page type2" id="anchor2">
+            <section class="main">
+                <img src="Medias/Juix_white.svg" class="logo anim_appear_zoom-out">
+                <div class="centered">
+                    <h1 class="bigger anim_appear_zoom-out">
+                        Minecraft
+                    </h1>
+                    <h1 class="anim_appear_zoom-out">
+                        Zone
+                    </h1>
+                </div>
+                <a class="link main_network anim_button_hover_color anim_appear_zoom-in" href="https://www.instagram.com/juixcode/" target="_blank">My Instagram</a>
+            </section>
+
+
+            <section class="container type2">
+                <h2 class="can_switch_lang active">Download Minecraft datapacks for free</h2><h2 class="can_switch_lang">Télécharge des datapacks gratuitement</h2>
+
+                <div class="pack_download_block"> <!-- --- --- SLIDER 1 --- --- -->
+                    <h1>Hammers</h1>
+                    <form class="pack_download_nav">
+                        <label class="pack_download_nav_radio">Description
+                            <input type="radio" name="slide" value="0" onclick="sliderPackDownloadRadioclick(this)" checked="true">
+                        </label>
+                        <label class="pack_download_nav_radio">Gallery
+                            <input type="radio" name="slide" value="1" onclick="sliderPackDownloadRadioclick(this)">
+                        </label>
+                        <label class="pack_download_nav_radio">Download
+                            <input type="radio" name="slide" value="2" onclick="sliderPackDownloadRadioclick(this)">
+                        </label>
+                    </form>
+                    <div class="pack_download_slider" data-value="0"> <!-- Datavalue = slider tag -->
+                        <div class="pack_download_slider_container" data-value="0"> <!-- Datavalue = container tag -->
+                            <div class="pack_download_slider_item pack_download_slider_item_image" data-value="datapack-hammers-preview"></div>
+                            <div class="type_1x2_column">
+                                <div class="pack_download_slider_item pack_download_slider_item_overview">
+                                    <h3 class="can_switch_lang active">Overview</h3><h3 class="can_switch_lang">Vue d'ensemble</h3>
+                                    <p class="can_switch_lang active">The Hammers pack will simply add hammers to your game, which are large pickaxes that allow you to mine in 3x3 ! No mods required, but you need a resrouce pack to enable the custom textures.</p><p class="can_switch_lang">Le pack Hammers ajoutera simplement des hammers à ta partie, qui sont des grosses pioches te permettant de miner en 3x3 ! Aucun mod requis, mais t'auras juste besoin de mon pack de ressources pour profiter des textures customs.</p>
+                                    <a class="link redirection type2 anim_button_hover_expansion" href="index.html">Trailer</a>
+                                </div>
+                                <p class="can_switch_lang active pack_download_slider_item_info" data-value="1">Supports enchantment & the anvil</p><p class="can_switch_lang pack_download_slider_item_info" data-value="1">Supporte les enchantements & l'enclume</p>
+                                <p class="can_switch_lang active pack_download_slider_item_info" data-value="2">Does not support Fortune & Mending enchantments</p><p class="can_switch_lang pack_download_slider_item_info" data-value="2">Ne supporte pas les enchantements Fortune & Mending</p>
+                                <p class="can_switch_lang active pack_download_slider_item_info" data-value="3">Requires the Juix Resources [v1.0] (or later) resourcepack</p><p class="can_switch_lang pack_download_slider_item_info" data-value="3">Requiert le ressource pack Juix Resources [v1.0] (ou plus)</p>
+                            </div>
+                            <div class="pack_download_slider_item pack_download_slider_item_fastdownload">
+                                <h3 class="bigger">Fast download</h3>
+                                <div class="type_1x2_scalable">
+                                    <div class="pack_download_slider_item_fastdownload_cell">
+                                        <h3>Last Datapack’s <br>release</h3>
+                                        <p>Hammers&nbsp;<span>v1.0</span></p>
+                                        <div class="block"><a class="link download anim_button_hover_expansion" href="Dropbox/Minecraft/Datapacks/Hammers by Juix [1.0] 1.20.x.zip">1.20.x</a><div class="link copy" onclick="copy('https://juixcode.github.io/Dropbox/Minecraft/Datapacks/Hammers%20by%20Juix%20[1.0]%201.20.x.zip')"></div></div>
+                                    </div>
+                                    <div class="pack_download_slider_item_fastdownload_cell">
+                                        <h3>Last Resourcepack’s <br>release</h3>
+                                        <p>Juix Resources&nbsp;<span>v1.0</span></p>
+                                        <div class="block"><a class="link download anim_button_hover_expansion" href="Dropbox/Minecraft/Datapacks/Hammers by Juix [1.0] 1.20.x.zip">1.20.x</a><div class="link copy" onclick="copy('https://juixcode.github.io/Dropbox/Minecraft/Datapacks/Hammers%20by%20Juix%20[1.0]%201.20.x.zip')"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pack_download_slider_container" data-value="1">
+                            <div class="type_1x2">
+                                <div class="pack_download_slider_gallery_preview" data-value="0"></div> <!-- Datavalue = image selected -->
+                                <div class="pack_download_slider_gallery_selectors">
+                                    <label class="pack_download_slider_gallery_radio">
+                                        <input type="radio" name="slide" value="0" onclick="galleryPackDownloadRadioclick(this)" checked="true"> <!-- Datavalue = image background -->
+                                    </label>
+                                    <label class="pack_download_slider_gallery_radio">
+                                        <input type="radio" name="slide" value="1" onclick="galleryPackDownloadRadioclick(this)">
+                                    </label>
+                                    <label class="pack_download_slider_gallery_radio">
+                                        <input type="radio" name="slide" value="2" onclick="galleryPackDownloadRadioclick(this)">
+                                    </label>
+                                    <label class="pack_download_slider_gallery_radio">
+                                        <input type="radio" name="slide" value="3" onclick="galleryPackDownloadRadioclick(this)">
+                                    </label>
+                                    <label class="pack_download_slider_gallery_radio">
+                                        <input type="radio" name="slide" value="4" onclick="galleryPackDownloadRadioclick(this)">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pack_download_slider_container" data-value="2">
+                            Coming soon
+                        </div>
+                    </div>
+                </div>
+
+            </section>
+
+            <div class="space"></div>
+
+            <section class="container type2">
+                <h2 id="anchor2.2">Minecraft Resourcepacks</h2>
+            </section>
+
+            <div class="space"></div>
+
+            <section class="container type2">
+                <h2 id="anchor2.3">Minecraft Projects</h2>
+
+                <div class="item bigger expand" id="anchor2.3.1">
+                    <div class="banner type1">Cakewar</div>
+                    <div class="expander">
+                        <div class="box2">
+                            <div class="item smaller">
+                                <div>
+                                    <h3 class="can_switch_lang active">Overview</h3><h3 class="can_switch_lang">Description</h3>
+                                    <p class="can_switch_lang active">Cakewar is currently my biggest Minecraft project, a multiplayer game that's easy to install on your own worlds, based on the principles of Bedwars and survival, with lots of fun objects and highly customizable gameplay. No mods required, but you need a resrouce pack to enable the custom textures. Have fun with your friends !</p><p class="can_switch_lang">Cakewar est actuellement mon plus gros projet Minecraft, un mode de jeu multijoueur facile à installer sur tes propres mondes, basé sur le Bedwars et la survie, avec de nombreux objets customs amusants et des parties personnalisables. Aucun mod requis, mais t'auras juste besoin d'un pack de ressources pour profiter des textures customs. Amuse-toi bien avec tes potes !</p>
+                                </div>
+                                <div class="block">
+                                    <a class="link redirection type3 anim_button_hover_expansion">Show more</a>
+                                    <a class="link redirection type2 anim_button_hover_expansion" href="index.html">Trailer</a>
+                                </div>
+                            </div>
+                            <div class="vertical_line"></div>
+                            <div class="item smaller">
+                                <h3>Cakewar Datapack <span>v1.0</span></h3>
+                                <div class="block"><a class="link download anim_button_hover_expansion" href="Dropbox/Minecraft/Projects/Cake_War/Cake_War_[DATAPACK_1.0]_1.19.zip">1.20.2</a><div class="link copy" onclick="copy('https://juixcode.github.io/Dropbox/Minecraft/Datapacks/Cake_War/Cake_War_[DATAPACK_1.0]_1.19.zip')"></div></div>
+                                <h3 class="can_switch_lang active">Resource pack required <span>v1.0</span></h3><h3 class="can_switch_lang">Pack de ressources requis <span>v1.0</span></h3>
+                                <div class="block"><a class="link download anim_button_hover_expansion" href="Dropbox/Minecraft/Projects/Cake_War/Cake_War_[RESOURCES_1.0]_1.19.zip">1.20+</a><div class="link copy" onclick="copy('https://juixcode.github.io/Dropbox/Minecraft/Resourcepacks/Cake_War/Cake_War_[RESOURCES_1.0]_1.19.zip')"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+<!-- ######################################### GENSHIN PAGE ######################################### -->
+
+        <div class="page type3" id="anchor3">
+            <section class="main">
+                <img src="Medias/Juix_white.svg" class="logo anim_appear_zoom-out">
+                <div class="centered">
+                    <h1 class="bigger anim_appear_zoom-out">
+                        Genshin
+                    </h1>
+                    <h1 class="anim_appear_zoom-out">
+                        Zone
+                    </h1>
+                </div>
+                <a class="link main_network anim_button_hover_color anim_appear_zoom-in" href="https://www.instagram.com/juixcode/" target="_blank">My Instagram</a>
+            </section>
+
+            <section class="container type3">
+                <h2 class="can_switch_lang active">Download high quality wallpapers for free</h2><h2 class="can_switch_lang">Télécharge des fonds d'écran HD gratuitement</h2>
+                <div class="gallery_download">
+                    <div class="gallery_download_item" style="background: url(Dropbox/Genshin/Wallpapers/yae_wallpaper_fhd.png) no-repeat center center; background-size: cover;">
+                        <h4>Yae Miko</h4>
+                        <div class="gallery_download_item_expander">
+                            <h3 class="bigger">Yae wallpaper</h3>
+                            <a class="link redirection type4 type5" href="https://drive.google.com/uc?export=download&id=1624XdK7vzDtN2jSfWc7ZfMAKJ9P50Vw6">FHD</a>
+                            <a class="link redirection type4 type5" href="https://drive.google.com/uc?export=download&id=1bs8NeFVMjWVRhH5wRyBDjXtiPQp1XTAH">QHD</a>
+                            <a class="link redirection type4 type5" href="https://drive.google.com/uc?export=download&id=1xj0OE-w1xmHzUszTrY14I8xHJwE96MSj">4K</a>
+                            <div class="gallery_download_item_infos">
+                                <p>.png</p>
+                                <a class="credits" href="">Original</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery_download_item" style="background: url(Dropbox/Genshin/Wallpapers/nilou_wallpaper_fhd.png) no-repeat center center; background-size: cover;">
+                        <h4>Nilou</h4>
+                        <div class="gallery_download_item_expander">
+                            <h3 class="bigger">Nilou wallpaper</h3>
+                            <a class="link redirection type4 type5" href="https://drive.google.com/uc?export=download&id=19SA7xX9CVYOvR6i6b7DKcCxtphKaUEjV">FHD</a>
+                            <a class="link redirection type4 type5" href="https://drive.google.com/uc?export=download&id=1xJJXpmTIH_mN7dki050I73ZWo7b5RITd">QHD</a>
+                            <a class="link redirection type4 type5" href="https://drive.google.com/uc?export=download&id=1jytzmfOouTxxcCDDocSsR8mv9oAD06cy">4K</a>
+                            <div class="gallery_download_item_infos">
+                                <p>.png</p>
+                                <a class="credits" href="">Original</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery_download_item" style="background: url(Dropbox/Genshin/Wallpapers/ganyu_wallpaper_fhd.png) no-repeat center center; background-size: cover;">
+                        <h4>Ganyu</h4>
+                        <div class="gallery_download_item_expander">
+                            <h3 class="bigger">Ganyu wallpaper</h3>
+                            <a class="link redirection type4 type5" href="https://drive.google.com/uc?export=download&id=zI6HUJ_YI1Xee1VjsPFnkgCd8ENdg4">FHD</a>
+                            <a class="link redirection type4 type5" href="https://drive.google.com/uc?export=download&id=1HV_qi7GAxNd0jt2tCYxNOgM9rtXc1b_M">QHD</a>
+                            <a class="link redirection type4 type5" href="https://drive.google.com/uc?export=download&id=1SKbtRO3cgQGvSSgSnzbZvS4fhWfKlAgL">4K</a>
+                            <div class="gallery_download_item_infos">
+                                <p>.png</p>
+                                <a class="credits" href="">Original</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery_download_item" style="background: url(Dropbox/Genshin/Wallpapers/hutao_wallpaper_fhd.png) no-repeat center center; background-size: cover;">
+                        <h4>Hu Tao</h4>
+                        <div class="gallery_download_item_expander">
+                            <h3 class="bigger">Hu Tao wallpaper</h3>
+                            <a class="link redirection type4 type5" href="https://drive.google.com/uc?export=download&id=1vcEOC1CwpbzNpaliRebRf-7sBiDW7FLw">FHD</a>
+                            <a class="link redirection type4 type5" href="https://drive.google.com/uc?export=download&id=1exHO_KXGXR0YmEcXG0SA7_njj1WdbnAY">QHD</a>
+                            <a class="link redirection type4 type5" href="https://drive.google.com/uc?export=download&id=1RstMHxrnusSyqycUAHS0AM4tfMSI4UVR">4K</a>
+                            <div class="gallery_download_item_infos">
+                                <p>.png</p>
+                                <a class="credits" href="">Original</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gallery_download_item" style="background: url(Dropbox/Genshin/Wallpapers/ayaka_wallpaper_fhd.png) no-repeat center center; background-size: cover;">
+                        <h4>Ayaka</h4>
+                        <div class="gallery_download_item_expander">
+                            <h3 class="bigger">Ayaka wallpaper</h3>
+                            <a class="link redirection type4 type5" href="https://drive.google.com/uc?export=download&id=1IP9ZrVEAlwepdx7mOlO6fc7Kwlb-yZWq">FHD</a>
+                            <a class="link redirection type4 type5" href="https://drive.google.com/uc?export=download&id=1kmRC99KEy2tcy2BcbUjrzoQA56cCld64">QHD</a>
+                            <a class="link redirection type4 type5" href="https://drive.google.com/uc?export=download&id=1SKbtRO3cgQGvSSgSnzbZvS4fhWfKlAgL">4K</a>
+                            <div class="gallery_download_item_infos">
+                                <p>.png</p>
+                                <a class="credits" href="">Original</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+<!-- ######################################### MUSIC PAGE ######################################### -->
+
+        <div class="page type4" id="anchor4">
+            <section class="main">
+                <img src="Medias/Juix_white.svg" class="logo anim_appear_zoom-out">
+                <div class="centered">
+                    <h1 class="bigger anim_appear_zoom-out">
+                        Music
+                    </h1>
+                    <h1 class="anim_appear_zoom-out">
+                        Zone
+                    </h1>
+                </div>
+                <a class="link main_network anim_button_hover_color anim_appear_zoom-in" href="https://www.instagram.com/juixcode/" target="_blank">My Instagram</a>
+            </section>
+            <section class="container type4">
+                <h2 class="can_switch_lang active">No content yet</h2><h2 class="can_switch_lang">Pas de contenu</h2>
+            </section>
+        </div>
+
+<!-- ######################################### OTHER PAGE ######################################### -->
+
+        <div class="page type5" id="anchor5">
+            <section class="main">
+                <img src="Medias/Juix_white.svg" class="logo anim_appear_zoom-out">
+                <div class="centered">                        <h1 class="bigger anim_appear_zoom-out">
+                        Random
+                    </h1>
+                    <h1 class="anim_appear_zoom-out">
+                        Zone
+                    </h1>
+                </div>
+                <a class="link main_network anim_button_hover_color anim_appear_zoom-in" href="https://www.instagram.com/juixcode/" target="_blank">My Instagram</a>
+            </section>
+            <section class="container type5">
+                <h2 class="can_switch_lang active">No content yet</h2><h2 class="can_switch_lang">Pas de contenu</h2>
+            </section>
+        </div>
+
+<!-- ######################################### FOOTER ######################################### -->
+    </div>
+    <div class="space"></div>
+    <section class="container footer">
+        <div class="block">
+            <a class="block logo_name dark" href="index.html">Juix</a>
+        </div>
+        <div class="block">
+            <a class="link footer_item type1 anim_button_hover_color" target="_blank" href="https://discord.gg/GRgTX4cyJy"></a>
+            <a class="link footer_item type2 anim_button_hover_color" target="_blank" href="https://www.instagram.com/juixcode/"></a>
+            <a class="link footer_item type3 anim_button_hover_color" target="_blank" href="https://www.youtube.com/@juixcode"></a>
+            <a class="link footer_item type4 anim_button_hover_color" target="_blank" href="mailto:juixcontact@gmail.com"></a>
+        </div>
+    </section>
+</body>
+</html>
