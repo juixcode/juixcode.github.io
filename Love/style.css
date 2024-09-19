@@ -200,6 +200,7 @@ div.progress {
     letter-spacing: 0.05vw;
     font-size: 2svh;
     padding: 1svh;
+    transition: width 0.2s ease;
 }
 
 #blue_progress { 
