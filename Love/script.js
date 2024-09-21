@@ -1,15 +1,36 @@
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Effets sonores
 
-// Charger le son une seule fois pour réduire la latence
-const audioSrc = "Medias/done.mp3";
-let audioPreloaded = new Audio(audioSrc);
-audioPreloaded.load();  // Précharger l'audio
+let audioContext;
+let buffer;
 
-function playSound() {
-    // Créer une nouvelle instance d'Audio à chaque clic pour permettre la superposition
-    const audio = new Audio(audioSrc);
-    audio.play();  // Jouer l'audio
+// Fonction pour charger l'audio et le bufferiser
+function loadAudio(url) {
+    return fetch(url)
+        .then(response => response.arrayBuffer())
+        .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer));
 }
+
+// Fonction pour jouer le son
+function playSound() {
+    if (!audioContext) {
+        // Initialiser l'AudioContext lors du premier clic utilisateur
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    }
+
+    // Créer une nouvelle source audio à chaque clic pour permettre la superposition
+    const source = audioContext.createBufferSource();
+    source.buffer = buffer;
+    source.connect(audioContext.destination);
+    source.start(0);  // Démarre immédiatement le son
+}
+
+// Charger le son une fois que la page est prête
+document.addEventListener('DOMContentLoaded', () => {
+    // Précharger l'audio
+    loadAudio('Medias/done.mp3').then(decodedBuffer => {
+        buffer = decodedBuffer;
+    });
+});
 
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Firebase
 
@@ -94,26 +115,24 @@ function progressBarUpdate(blueValue, pinkValue) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    setTimeout(function() {
-        progressBarUpdate(Number(affichage_adversaire.textContent), Number(affichage.textContent))
-    }, 300);
-
     const currentHash = window.location.hash;  // Récupère ce qui est après le #
 
     // Vérifie s'il y a un fragment dans l'URL
     if (currentHash) {
         switch (currentHash) {
-            case "#player1":
-                break;
             case "#player2":
                 switchPlayer()
+                setTimeout(function() {
+                    progressBarUpdate(Number(affichage.textContent), Number(affichage_adversaire.textContent))
+                }, 300);
                 break;
             default:
-                console.log("Fragment non reconnu");
+                setTimeout(function() {
+                    progressBarUpdate(Number(affichage_adversaire.textContent), Number(affichage.textContent))
+                }, 300);
         }
     }
 });
-
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Scores
 
 // Affichage du score n°1
