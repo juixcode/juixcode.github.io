@@ -1,12 +1,14 @@
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Effets sonores
 
-// Précharger le son
-let audioPreloaded = new Audio("Medias/done.mp3");
-audioPreloaded.load();
+// Charger le son une seule fois pour réduire la latence
+const audioSrc = "Medias/done.mp3";
+let audioPreloaded = new Audio(audioSrc);
+audioPreloaded.load();  // Précharger l'audio
 
 function playSound() {
-    let audioClone = audioPreloaded.cloneNode();  // Clone le son préchargé
-    audioClone.play();  // Jouer l'audio clone
+    // Créer une nouvelle instance d'Audio à chaque clic pour permettre la superposition
+    const audio = new Audio(audioSrc);
+    audio.play();  // Jouer l'audio
 }
 
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Firebase
@@ -95,6 +97,21 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(function() {
         progressBarUpdate(Number(affichage_adversaire.textContent), Number(affichage.textContent))
     }, 300);
+
+    const currentHash = window.location.hash;  // Récupère ce qui est après le #
+
+    // Vérifie s'il y a un fragment dans l'URL
+    if (currentHash) {
+        switch (currentHash) {
+            case "#player1":
+                break;
+            case "#player2":
+                switchPlayer()
+                break;
+            default:
+                console.log("Fragment non reconnu");
+        }
+    }
 });
 
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Scores
