@@ -1,3 +1,14 @@
+// ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Effets sonores
+
+// Précharger le son
+let audioPreloaded = new Audio("Medias/done.mp3");
+audioPreloaded.load();
+
+function playSound() {
+    let audioClone = audioPreloaded.cloneNode();  // Clone le son préchargé
+    audioClone.play();  // Jouer l'audio clone
+}
+
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Firebase
 
 // Configuration Firebase
@@ -50,7 +61,7 @@ function add() {
     player1.transaction(function(currentClicks) {
         return (currentClicks || 0) + 1; // Incrémente le compteur ou initialise à 1 si la valeur est null
     });
-    new Audio("Medias/done.mp3").play();
+    playSound();
     affichage.className = "";
     button_heart.className = "clicker";
         window.requestAnimationFrame(function (time) {
@@ -65,6 +76,8 @@ function add() {
         progressBarUpdate(Number(affichage.textContent), Number(affichage_adversaire.textContent))
     }
 }
+
+// ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Barre de pourcentages
 
 const blueBar = document.getElementById("blue_progress");
 const pinkBar = document.getElementById("pink_progress");
@@ -84,6 +97,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 300);
 });
 
+// ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Scores
+
+// Affichage du score n°1
 firebase.database().ref('love-emitter-player1-clicks').on('value', function(snapshot) {
     if (nom.textContent == "Chiara") {
         affichage.textContent = snapshot.val() || 0;
@@ -92,6 +108,7 @@ firebase.database().ref('love-emitter-player1-clicks').on('value', function(snap
     }
 });
 
+// Affichage du score n°2
 firebase.database().ref('love-emitter-player2-clicks').on('value', function(snapshot) {
     if (nom.textContent == "Chiara") {
         affichage_adversaire.textContent = snapshot.val() || 0;
