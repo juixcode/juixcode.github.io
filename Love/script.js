@@ -1,36 +1,13 @@
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Effets sonores
 
-let audioContext;
-let buffer;
+// Précharger le son
+let audioPreloaded = new Audio("Medias/done.m4a");
+audioPreloaded.load();
 
-// Fonction pour charger l'audio et le bufferiser
-function loadAudio(url) {
-    return fetch(url)
-        .then(response => response.arrayBuffer())
-        .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer));
-}
-
-// Fonction pour jouer le son
 function playSound() {
-    if (!audioContext) {
-        // Initialiser l'AudioContext lors du premier clic utilisateur
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-    }
-
-    // Créer une nouvelle source audio à chaque clic pour permettre la superposition
-    const source = audioContext.createBufferSource();
-    source.buffer = buffer;
-    source.connect(audioContext.destination);
-    source.start(0);  // Démarre immédiatement le son
+    let audioClone = audioPreloaded.cloneNode();  // Clone le son préchargé
+    audioClone.play();  // Jouer l'audio clone
 }
-
-// Charger le son une fois que la page est prête
-document.addEventListener('DOMContentLoaded', () => {
-    // Précharger l'audio
-    loadAudio('Medias/done.mp3').then(decodedBuffer => {
-        buffer = decodedBuffer;
-    });
-});
 
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Firebase
 
