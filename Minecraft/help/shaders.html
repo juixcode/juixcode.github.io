@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minecraft Help</title>
+    <link rel="preload" href="Screenshots/preview-vanilla.png" as="image">
+    <link rel="preload" href="Screenshots/preview-bliss.png" as="image">
+    <link rel="preload" href="Screenshots/preview-bsl.png" as="image">
+    <link rel="preload" href="Screenshots/preview-complementary.png" as="image">
+    <link rel="preload" href="Screenshots/preview-makeup.png" as="image">
+    <link rel="preload" href="Screenshots/preview-pbr.png" as="image">
+    <link rel="preload" href="Screenshots/preview-solas.png" as="image">
+
     <link rel="stylesheet" href="style_modern.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,6 +20,7 @@
     <script src="shaders_script.js" defer></script>
 </head>
 <body onload="setup()">
+    <img src="Screenshots/preview-vanilla.png" style="display:none;"><img src="Screenshots/preview-bliss.png" style="display:none;"><img src="Screenshots/preview-bsl.png" style="display:none;"><img src="Screenshots/preview-complementary.png" style="display:none;"><img src="Screenshots/preview-makeup.png" style="display:none;"><img src="Screenshots/preview-pbr.png" style="display:none;"><img src="Screenshots/preview-solas.png" style="display:none;">
 
     <div class="navbar">
         <div class="container">
@@ -64,11 +73,34 @@
         <a class="preview-button-reset" onclick="changePreview(this)">Retirer les Shaders</a>
         <img src="Screenshots/preview-complementary.png" class="shader-preview">
         <h4>Télécharge le mod requis</h4>
-        <p>👉 Des mods sont des fichiers de code créés par la communauté, apportant des modifications au jeu. Ici, l'un d'entre est nécessaire au fonctionnement des Shaders :</p> 
-        <a class="download" target="_blank" href="Drop/iris-1.7.3+mc1.21.jar">Mod Iris Shaders<span class="bubble">Requis</span></a> 
-        <p>👉 Il est conseillé d'y ajouter le mod suivant, qui rendra ton Minecraft plus fluide :</p> 
-        <a class="download" target="_blank" href="Drop/sodium-fabric-0.5.11+mc1.21.jar">Mod Sodium<span class="bubble">Recommandé</span></a> 
-        <p class="alert">⚠️ Attention, tout mod recquiert "<span>Fabric</span>" pour fonctionner, c'est une version de Minecraft spéciale qui te sera présentée à l'étape 4.</p>
+        <p class="info">❓ Des mods sont des fichiers de code créés par la communauté, apportant des modifications au jeu.</p>
+        <div> <!-- BLOCK A CHOIX MULITPLES -->
+            <form>
+                <label class="checkbox-container">
+                    Je veux juste l'essentiel
+                    <input type="radio" name="avoir-minecraft" value="0" onclick="refresh(this)" checked="true">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="checkbox-container">
+                    Je veux l'expérience Minecraft optimum
+                    <input type="radio" name="avoir-minecraft" value="1" onclick="refresh(this)">
+                    <span class="checkmark"></span>
+                </label>
+            </form>
+            <div>
+                <div class="hidden-content active">
+                    <p>👉 Ici, un mod est nécessaire au fonctionnement des Shaders, télécharge-le dans la <span>version</span> de Minecraft que tu souhaites jouer (1.18, 1.21, 1.21.1 etc) et avec la compatibilité <span>'Fabric'</span> :</p> 
+                    <a class="link" target="_blank" href="https://modrinth.com/mod/iris/versions">Mod Iris Shaders<span class="bubble">Requis</span></a> 
+                    <p>👉 Il est conseillé d'y ajouter le mod suivant, qui rendra ton Minecraft plus fluide :</p> 
+                    <a class="link" target="_blank" href="https://modrinth.com/mod/sodium/versions">Mod Sodium<span class="bubble">Recommandé</span></a> 
+                </div>
+                <div class="hidden-content">
+                    <p>👉 Télécharge un des packs (contenant des mods permettant aux Shaders de fonctionner & contenant des ajouts bonus) suivants dans la <span>version</span> de Minecraft que tu souhaites jouer (1.18, 1.21, 1.21.1 etc) si elle est présente :</p> 
+                    <a class="download" target="_blank" href="Drop/ModpacksOpti/EXTRAIS-MOI---[1.21.1].zip">Version 1.21.1<span class="bubble">Dernière version</span></a>
+                    <a class="download" target="_blank" href="Drop/ModpacksOpti/EXTRAIS-MOI---[1.21].zip">Version 1.21</a> 
+                </div>
+            </div>
+        <p class="alert">⚠️ Attention, tout mod recquiert "<span>Fabric</span>" pour fonctionner, c'est une version de Minecraft spéciale qui te sera présentée à l'étape 2.</p>
         <h4>Localise les Mods & Shaders téléchargés</h4>
         <p>👉 Ouvre ton explorateur de fichiers avec tes "<span>Téléchargements</span>"</p> 
         <img src="Screenshots/etape3-1-1.png">
@@ -98,7 +130,7 @@
                     <img src="Screenshots/etape2-1-3.png">
                     <p>👉 Dans le nouvel Explorateur de fichiers ouvert, entre dans le dossier "<span>.minecraft</span>" puis "<span>mods</span>". Si aucun dossier "<span>mods</span>" n'existe, crées-en un.</p> 
                     <img src="Screenshots/etape2-1-4.png">
-                    <p>👉 Glisses-y le Mod "<span>iris-mc</span>" et les autres Mods téléchargés ("<span>sodium</span>"), depuis ton dossier de téléchargements.</p>
+                    <p>👉 Glisses-y le Mod "<span>iris-mc</span>" et les autres Mods téléchargés (Ex : "<span>sodium</span>"), depuis ton dossier de téléchargements.</p>
                     <img src="Screenshots/etape3-1-2.png">
                     <p>👉 Retourne en arrière, et entre dans le dossier "<span>shaderpacks</span>" (lui aussi situé dans le dossier "<span>.minecraft</span>"). Si aucun dossier "<span>shaderpacks</span>" n'existe, crées-en un.</p> 
                     <img src="Screenshots/etape3-1-3.png">
@@ -111,7 +143,7 @@
                     <img src="Screenshots/etape2-2-1.png">
                     <p>👉 Dans le nouvel Explorateur de fichiers ouvert, entre dans le dossier "<span>mods</span>".</p> 
                     <img src="Screenshots/etape2-2-2.png">
-                    <p>👉 Glisses-y le Mod "<span>iris-mc</span>" et les autres Mods téléchargés ("<span>sodium</span>"), depuis ton dossier de téléchargements.</p>
+                    <p>👉 Glisses-y le Mod "<span>iris-mc</span>" et les autres Mods téléchargés (Ex : "<span>sodium</span>"), depuis ton dossier de téléchargements.</p>
                     <img src="Screenshots/etape3-1-2.png">
                     <p>👉 Retourne en arrière, et entre dans le dossier "<span>shaderpacks</span>" (lui aussi situé dans le dossier de ton instance).</p> 
                     <img src="Screenshots/etape2-2-3.png">
@@ -123,7 +155,7 @@
                     <img src="Screenshots/etape2-3-1.png">
                     <p>👉 Dans le nouvel Explorateur de fichiers ouvert (ayant ouvert le dossier "<span>.minecraft</span>"), entre dans le dossier "<span>mods</span>". Si aucun dossier "<span>mods</span>" n'existe, crées-en un.</p> 
                     <img src="Screenshots/etape2-1-4.png">
-                    <p>👉 Glisses-y le Mod "<span>iris-mc</span>" et les autres Mods téléchargés ("<span>sodium</span>"), depuis ton dossier de téléchargements.</p>
+                    <p>👉 Glisses-y le Mod "<span>iris-mc</span>" et les autres Mods téléchargés (Ex : "<span>sodium</span>"), depuis ton dossier de téléchargements.</p>
                     <img src="Screenshots/etape3-1-2.png">
                     <p>👉 Retourne en arrière, et entre dans le dossier "<span>shaderpacks</span>" (lui aussi situé dans le dossier "<span>.minecraft</span>" précédemment ouvert). Si aucun dossier "<span>shaderpacks</span>" n'existe, crées-en un.</p> 
                     <img src="Screenshots/etape3-1-3.png">

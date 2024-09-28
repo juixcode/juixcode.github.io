@@ -1,4 +1,4 @@
-:root {
+/* :root {
     --text-1: #1d1d1f;
     --background-1-transparent: #a9a8a8af;
     --background-1: #ffffff;
@@ -26,19 +26,21 @@
         --navbar-radio: #8e8f91;
         --navbar-radio-outline: #4a4b50;
     }
-}
-
-/* :root {
-    --text-1: #ebedf4;
-    --background-1-transparent: rgba(23, 24, 29, 0.9);
-    --background-1: #1b1c21;
-    --background-2: #292c32;
-    --label: #292c32;
-    --hover: #474c58;
-    --button-1: #2ecc71;
-    --button-2: #e48860;
-    --line: #686d79;
 } */
+
+:root {
+    --text-1: #ebedf4;
+    --background-1-transparent: #3f3f3faf;
+    --background-1: #1b1c21;
+    --background-2: #292c32af;
+    --label: #292c32af;
+    --hover: #4a4b50af;
+    --button-1: #4bea7d;
+    --button-2: #e48860;
+    --line: #8e8f91;
+    --navbar-radio: #8e8f91;
+    --navbar-radio-outline: #4a4b50;
+}
 
 
 
