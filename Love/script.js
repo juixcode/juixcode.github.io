@@ -110,6 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 });
+
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Scores
 
 // Affichage du score n°1

@@ -20,21 +20,184 @@ const firebaseConfig = {
 // Initialiser Firebase
 firebase.initializeApp(firebaseConfig);
 
-// ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Compteur de downloads
+// ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Mettre à jour la database
 
-// Référence à la base de données pour stocker les clics
-var db = firebase.database().ref('clicks');
+const elementsWithData = document.querySelectorAll('.has_data_to_save')
+const elementsWithArray = document.querySelectorAll('.has_array_to_save')
+const totalDownloadsIndicators = document.querySelectorAll('.pack_download_total_downloads')
+var database = firebase.database().ref('juixcode-database'); // Référence à la base de données
 
-// Fonction pour incrémenter le compteur de clics
-function incrementClicks() {
-    db.transaction(function(currentClicks) {
-        return (currentClicks || 0) + 1; // Incrémente le compteur ou initialise à 1 si la valeur est null
+function maxUsedID(database) {
+    let allKeysList = []
+    for (let clef in database) {
+        allKeysList.push(Number(clef))
+    }
+    console.log("ID Maximal utilisé : " + Math.max(...allKeysList))
+}
+
+function updateDatabaseDomain() {
+    // ETAPE 1 - INITIALISATION DE LA BASE VIDE
+    localDatabase = {}
+
+    elementsWithData.forEach(each => { // id ---> data
+        localDatabase[each.id] = "0";
+    });
+    elementsWithArray.forEach(each => { // id ---> array
+        localDatabase[each.id] = [['01/01/3024','Here is the start of the conversation. Ask any question, report a bug or give your opinion on my pack !']];
+    });
+
+    // ETAPE 2 - INSERTION DES VALEURS PRESENTES DANS LA BASE
+    database.once('value')
+        .then((snapshot) => {
+            let onlineDatabase = snapshot.val(); // Extraire les valeurs de la base de données
+            for (let key in onlineDatabase) {
+                localDatabase[key] = onlineDatabase[key]
+            }
+            console.log(localDatabase)
+            updateElementsWithData(localDatabase)
+
+            // ETAPE 3 - UPDATE L'AFFICHAGE DES ELEMENTS
+            updateElementsWithData(localDatabase)
+            maxUsedID(localDatabase)
+
+            // ETAPE 4 - REEXPORTATION
+            return database.set(localDatabase); // Écrase les valeurs actuelles par celles de 'onlineDatabase'
+        })
+        .then(() => {
+            console.log("La base de données a été mise à jour avec succès !");
+        })
+        .catch((error) => {
+            console.error("Erreur lors de la récupération ou de la mise à jour de la base de données :", error);
+        });
+}
+
+let globalCommentPostTest = document;
+
+function updateElementsWithData(database) {
+    document.querySelectorAll('.has_data_to_save.pack_download_upvote').forEach(element => { //Update des affichages des nombres d'upvotes de packs téléchargeables
+        // element.textContent = database[element.id] + '\ud83d\udd25'
+        element.textContent = database[element.id]
+    });
+    // document.querySelectorAll('.has_data_to_save.pack_download_reviews_note').forEach(element => { //Update des affichages des notes de packs téléchargeables
+    //     let final_note = 0;
+    //     for (let note in database[element.id]) {
+    //         final_note += note;
+    //     }
+    //     final_note = (final_note / length(database[element.id])).toFixed(1);
+    //     element.textContent = String(final_note);
+    // });
+    document.querySelectorAll('.has_data_to_save.pack_download_number_downloads').forEach(element => { //Update des affichages du nombre de téléchargements des versions de packs téléchargeables
+        element.textContent = database[element.id]
+    });
+    totalDownloadsIndicators.forEach(element => { //Calcul des affichages de téléchargements totaux
+        let totalDownloads = 0;
+        element.parentElement.parentElement.parentElement.querySelectorAll('tbody td.has_data_to_save').forEach(downloadNumber => {
+            totalDownloads = totalDownloads + Number(downloadNumber.textContent);
+        });
+        element.textContent = String(totalDownloads);
+    });
+    document.querySelectorAll('.has_array_to_save.link.redirection').forEach(element => { //Update des commentaires de packs téléchargeables
+        let messagesArea = element.parentElement.parentElement.parentElement.children[1]
+        if (messagesArea.childElementCount < database[element.id].length) {
+            for (let i = messagesArea.childElementCount; i < database[element.id].length; i++) {
+                let newMessageDiv = document.createElement('div'); //Création du message
+                newMessageDiv.className = 'message';
+                newMessageDiv.textContent = database[element.id][i][1];
+                newMessageDiv.appendChild(document.createElement('br'));
+
+                if (globalCommentPostTest === element & i === database[element.id].length - 1) { // Alors le message a été envoyé par l'utilisateur actuel
+                    newMessageDiv.classList.add('active');
+                    globalCommentPostTest = document;
+                };
+
+                let spanElement = document.createElement('span');
+                spanElement.textContent = database[element.id][i][0];
+                newMessageDiv.appendChild(spanElement);
+            
+                messagesArea.appendChild(newMessageDiv);
+            };
+            messagesArea.scrollTo({top: messagesArea.scrollHeight, behavior: 'smooth'});
+        };
     });
 }
 
-// db.on('value', function(snapshot) {
-//     document.getElementById('clickCount').textContent = snapshot.val() || 0;
-// });
+// ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Compteurs de downloads & données enregistrées
+
+function updateDatabase(elementID, addition, type) {
+    database.once('value')
+        .then((snapshot) => {
+            // ETAPE 1 - RECUPERATION DES VALEURS PRESENTES DANS LA BASE
+            let localDatabase = snapshot.val();
+
+            // ETAPE 2 - AFFECTATION DE LA VALEUR CHANGEANTE
+            if (type === 'data') {
+                localDatabase[elementID] = String(Number(localDatabase[elementID]) + addition);
+            } else if (type === 'array') {
+                localDatabase[elementID].push(addition);
+            }
+
+            // ETAPE 3 - UPDATE L'AFFICHAGE DES ELEMENTS
+            updateElementsWithData(localDatabase)
+
+            // ETAPE 4 - REEXPORTATION DES DONNEES VERS LA BASE
+            if (type !== 'init') {
+                return database.set(localDatabase); // Écrase les valeurs actuelles par celles de 'onlineDatabase'
+            } 
+        })
+        .then(() => {
+        })
+        .catch((error) => {
+            console.error("Data error :", error);
+        });
+}
+
+// Initialisation et récupération des données sauvegardées
+document.addEventListener("DOMContentLoaded", () => {
+    // updateDatabaseDomain()
+    updateDatabase(0, 0, 'init');
+});
+
+// Incrémentation du nombre de downloads des versions de packs Minecraft
+document.querySelectorAll('.link.download.type2').forEach(each => {
+    each.addEventListener('click', () => {
+        let relatedDataID = each.parentElement.parentElement.parentElement.children[3].id;
+        updateDatabase(relatedDataID, 1, 'data');
+    });
+});
+
+// Incrémentation du nombre d'upvotes des packs Minecraft
+document.querySelectorAll('.has_data_to_save.pack_download_upvote').forEach(each => {
+    each.addEventListener('click', () => {
+        if (!each.classList.contains('disabled')) {
+            updateDatabase(each.id, 1, 'data');
+            each.classList.add('disabled');
+            successMessage.children[0].textContent = "Thanks for support";
+            successMessage.classList.add('active');
+        }
+    });
+});
+
+// Enregistrement de commentaire de pack téléchargeable
+document.querySelectorAll('.has_array_to_save.link.redirection').forEach(each => {
+    each.addEventListener('click', () => {
+        let today = new Date();
+        let day = String(today.getDate()).padStart(2, '0'); // Ajoute un 0 devant si < 10
+        let month = String(today.getMonth() + 1).padStart(2, '0'); // Les mois sont indexés de 0 à 11, donc on ajoute +1
+        let year = today.getFullYear();
+        let fullDate = `${day}/${month}/${year}`;
+
+        let messageContent = each.parentElement.querySelector('textarea');
+        if (messageContent.value !== '') {
+            console.log(messageContent.value)
+            console.log([messageContent.value])
+            globalCommentPostTest = each // Indique que le message a été envoyé par l'utilisateur actuel
+            updateDatabase(each.id, [fullDate,messageContent.value], 'array');
+            messageContent.value = '';
+            successMessage.children[0].textContent = "Message sent";
+            successMessage.classList.add('active');
+        }
+    });
+});
 
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Navbar background animation
 
@@ -52,6 +215,53 @@ window.addEventListener('scroll', () => {
     }
 })
 
+// ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Lien vers élément de la page
+
+function scrollToElement(element) {
+    setTimeout(function() {
+        // document.getElementById(element).scrollIntoView({ behavior: 'smooth' });
+        const topPosition = document.getElementById(element).getBoundingClientRect().top + window.scrollY - 75;
+        window.scrollTo({top: topPosition, behavior: 'smooth' });
+    }, 300);
+}
+
+// ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Ouverture auto de la page
+
+document.addEventListener("DOMContentLoaded", () => {
+    setTimeout(function() { //Attente du chargement de la homepage
+        hashToPage(false);
+    }, 500);
+});
+
+window.addEventListener('hashchange', function() {
+    hashToPage(true);
+});
+
+function hashToPage(includeHomePage) {
+    const currentHash = window.location.hash;  // Récupère ce qui est après le #
+    if (currentHash) { // Vérifie s'il y a un fragment dans l'URL
+        switch (currentHash) {
+            case "#minecraft":
+                open_page('1')
+                break;
+            case "#genshin":
+                open_page('2')
+                break;
+            case "#music":
+                open_page('3')
+                break;
+            case "#other":
+                open_page('4')
+                break;
+            default:
+                if (includeHomePage) {
+                    open_page('0')
+                }
+                break;
+        }
+    }
+}
+
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Ouverture des pages
 
 const documentHtml = document.documentElement;
@@ -59,8 +269,10 @@ const body = document.querySelector('body')
 const hamburger = document.querySelector('.hamburger')
 const hamburger_menu = document.querySelector('.hamburger_menu')
 const pages = document.querySelector('div.pages');
+const hashesList = ['#home', '#minecraft', '#genshin', '#music', '#other'];
 
 function open_page(x) {
+    // window.location.hash = hashesList[x]
     const link_on_page = document.querySelector('.link.page.on_page');
     
     hamburger.classList.remove('active'); //Fermeture auto du menu
@@ -146,9 +358,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 const successMessage = document.querySelector('div.copy_success_message');
 
-function copy(a) {
+function copy(copyButton) {
+    let textToCopy = copyButton.parentElement.querySelector('a').href;
     navigator.clipboard
-        .writeText(a)
+        .writeText(textToCopy)
         .catch((error) => {
             console.error(
                 `Failed to copy "${text}" to clipboard: ${error}`
@@ -210,6 +423,10 @@ function sliderHomepage(side) {
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Slider de pack téléchargeable
 
 function sliderPackDownloadRadioclick(element) {
+    if (element.value == '3') {
+        let messagesArea = element.parentElement.parentElement.parentElement.querySelector('.pack_download_slider_item_chat_messages')
+        messagesArea.scrollTo({top: messagesArea.scrollHeight, behavior: 'smooth'});
+    }
     let packDownloadSlider = element.parentElement.parentElement.parentElement.children[2]
     // packDownloadSlider.dataset.value = element.value
     packDownloadSlider.style.marginLeft = String(-100 * element.value) + 'vw'
@@ -327,6 +544,15 @@ function switchLang() {
             each.textContent = "Mon Instagram";
         } else {
             each.textContent = "My Instagram";
+        }
+    });
+
+    const packDependencies = document.querySelectorAll('.pack_download_block a.link.redirection.type6');
+    packDependencies.forEach(each => {
+        if (langBtn.className.match('fr')) { 
+            each.textContent = "Aller au pack";
+        } else {
+            each.textContent = "Go to pack";
         }
     });
 }
