@@ -98,8 +98,8 @@ function updateElementsWithData(database) {
     });
     document.querySelectorAll('.has_array_to_save.link.redirection').forEach(element => { //Update des commentaires de packs téléchargeables
         let messagesArea = element.parentElement.parentElement.parentElement.children[1]
-        if (messagesArea.childElementCount < database[element.id].length) {
-            for (let i = messagesArea.childElementCount; i < database[element.id].length; i++) {
+        if (messagesArea.childElementCount-1 < database[element.id].length) { //ChildCount-1 pour contourner la présence du bouton de Refresh
+            for (let i = messagesArea.childElementCount-1; i < database[element.id].length; i++) {
                 let newMessageDiv = document.createElement('div'); //Création du message
                 newMessageDiv.className = 'message';
                 newMessageDiv.textContent = database[element.id][i][1];
@@ -158,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // Incrémentation du nombre de downloads des versions de packs Minecraft
-document.querySelectorAll('.link.download.type2').forEach(each => {
+document.querySelectorAll('.pack_download_slider_item_download .link.download.type2').forEach(each => {
     each.addEventListener('click', () => {
         let relatedDataID = each.parentElement.parentElement.parentElement.children[3].id;
         updateDatabase(relatedDataID, 1, 'data');
@@ -196,6 +196,17 @@ document.querySelectorAll('.has_array_to_save.link.redirection').forEach(each =>
             successMessage.children[0].textContent = "Message sent";
             successMessage.classList.add('active');
         }
+    });
+});
+
+// Bouton d'actualisation des valeurs
+document.querySelectorAll('.link.refresh_database').forEach(each => {
+    each.addEventListener('animationend', function() {
+        each.classList.remove('active');
+    });
+    each.addEventListener('click', () => {
+        updateDatabase(0, 0, 'init');
+        each.classList.add('active');
     });
 });
 
@@ -332,7 +343,7 @@ function open_page(x) {
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ LOAD initialisation
 
 document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(function() {
+    setTimeout(function() { // Animations d'ouverture
         const appearAnimatedZoomOut = document.querySelectorAll('.anim_appear_zoom-out')
         appearAnimatedZoomOut.forEach(each => {
             each.classList.remove('anim_appear_zoom-out');
@@ -342,6 +353,17 @@ document.addEventListener('DOMContentLoaded', function() {
             each.classList.remove('anim_appear_zoom-in');
         });
     }, 300);
+
+    document.querySelectorAll('.shortcut_download_button').forEach(each => { // Lien fastDownload relié à la dernière version dispo
+        let latestPack = each.parentElement.parentElement.parentElement.parentElement.parentElement.parentElement.querySelector('.pack_download_slider_item_download table tbody').children[0]
+        each.href = latestPack.children[4].children[0].children[0].href
+        each.textContent = latestPack.children[1].textContent
+        each.parentElement.parentElement.querySelector('p span').textContent = latestPack.children[0].textContent
+
+        each.addEventListener('click', () => {
+            updateDatabase(latestPack.children[3].id, 1, 'data');
+        });
+    });
 });
 
 // function resetPageHeight() {
@@ -584,7 +606,7 @@ function sendMessage() {
         const chat_id = '5964879114';
         const message = '🙋‍♂️' + customer + ' a écrit :\n' + contact_message.value + '\n\n➡️Contact : ' + contact_contact.value;
         const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chat_id}&text=${encodeURIComponent(message)}`;
-
+    
         fetch(url) // Requête
             .then(response => response.json())
             .then(data => {
@@ -599,5 +621,6 @@ function sendMessage() {
             .catch(error => {
                 console.error('Erreur lors de l\'envoi de la requête :', error);
             });
+        contact_message.value = '';
     }
 };

@@ -512,35 +512,40 @@ a
 
 /* ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Bouton extensible de copie de lien */
 
-.link.copy
-{
-    width: 10.5vh;
+.link.copy, .link.refresh_database {
+    width: 12vh;
     padding: 1.5vh;
-    margin: 0 0 0 -11vh;
+    margin: 0 0 0 -12.5vh;
     background: #212121;
     transition: all 0.15s ease;
     justify-content: end;
 }
 
-.link.copy.type2
-{
+.link.copy.type2, .link.refresh_database {
     width: 1.5vh;
     margin: 0 0 0 0.5vh;
 }
 
+.link.refresh_database {
+    z-index: 1;
+    position: absolute;
+    margin: 0;
+    align-self: end;
+    transition: transform 0.5s ease-in-out;
+}
+
 @media (min-width: 100.01vh) { /* Ecran d'ordinateur toute taille */
-    .link.copy:not(.type2):hover { width: 12vh; }
-    .link.copy:hover { background: #0000009a; }
+    .link.copy:not(.type2):hover { width: 13.5vh; }
+    .link.copy:hover, .link.refresh_database:hover { background: #0000009a; }
 }
 
 @media (max-width: 100vh) { /* Ecran portrait & mobile */
     .link.copy:not(.type2) {
-        width: 12vh;
+        width: 13.5vh;
     }
 }
 
-.link.copy::after
-{
+.link.copy::after, .link.refresh_database::after {
     background: fixed url(Medias/link_white.png) no-repeat;
     background-size: 100% 100%;
     content: '';
@@ -548,7 +553,21 @@ a
     height: 1.5vh;
     width: 1.5vh;
     position: relative;
-    transform: translate(0,0);
+    transform: rotate(0deg) scale(1.3);
+}
+
+.link.refresh_database::after {
+    background: fixed url(Medias/refresh_white.svg) no-repeat;
+    background-size: 100% 100%;
+}
+
+.link.refresh_database.active::after {
+    animation: refresh_rotation forwards 0.3s ease-in-out;
+}
+
+@keyframes refresh_rotation {
+    from { transform: rotate(0deg) scale(1.3); }
+    to { transform: rotate(-360deg) scale(1.3); }
 }
 
 /* ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Bouton de téléchargement */
@@ -559,11 +578,11 @@ a
     border-radius: 5vh;
     font-weight: 500;
     padding: 1.5vh;
-    width: 8vh;
+    width: 9.5vh;
     margin: 0;
     justify-content: center;
     z-index: 1;
-    box-shadow: 0 0.4vh 0.4vh rgba(0, 0, 0, 0.25);
+    box-shadow: none;
     font-family: 'Space Grotesk', sans-serif;
 }
 
@@ -2110,8 +2129,8 @@ h1.pack_download_upvote.disabled::after
 .pack_download_slider_gallery_preview { /* Ecran ultra large - WIDTH = 130vh*/
     background-color: #212121;
     width: 70vh;
-    height: 100%;
-    max-height: 50vh;
+    aspect-ratio: 3 / 2; /* Format des images = 3:2 */
+    max-height: 55vh;
     border-radius: 2.5vh;
 }
 
@@ -2438,10 +2457,6 @@ h1.pack_download_upvote.disabled::after
     font-size: 1.1vh;
 }
 
-@media (max-width: 120vh) { 
-
-}
-
 @media (max-width: 100vh) { 
     .pack_download_slider_item_chat_field .link.redirection {
         display: flex;
@@ -2472,14 +2487,13 @@ h1.pack_download_upvote.disabled::after
         height: 60%;
         max-height: 60%;
         padding-left: 0;
-        padding-right: 1vh;
+        padding-right: 0;
+    }
+
+    .pack_download_slider_item_chat_messages .message {
+        max-width: 70%;
     }
 }
-
-@media (max-width: 75vh) { 
-
-}
-
 
 /* ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Tableaux de téléchargement */
 
