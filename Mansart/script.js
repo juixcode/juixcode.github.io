@@ -1,5 +1,5 @@
 let juixAd = document.querySelector('.pub');
 
-function closeAd(element) {
+function closeAd() {
     juixAd.classList.add('active');
 }
