@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>St Valentin</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="Medias/favicon.ico" type="image/ico" />
+        <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    </head>
+    <body>
+        <div class="pub">
+            <a onclick="closeAd()">En savoir plus sur Juix</a>
+            <div class="close_ad" onclick="closeAd()"></div>
+        </div>
+        <section>
+            <div class="heart">Valentina<span>TC</span></div>
+            <h3>Trouve ta moitié</h3>
+            <div class="bubble">
+                <p>Paragraphe</p>
+                <a onclick="closeAd()">Lien</a>
+            </div>
+            <div class="space"><span></span><p>OU</p><span></span></div>
+            <button>Bouton</button>
+        </section>
+        <section style="display: none;">
+            <div class="heart"></div>
+            <h3>Trouve ta moitié</h3>
+            <div class="bubble">
+                <p>Salut, moi c’est Juix !<br>J’espère que ce site t’aidera à trouver ton autre moitié de coeur.</p>
+            </div>
+            <button>Continuer</button>
+            <div class="bubble">
+                <p>Attends ! Tu joues à Minecraft ? J’ai des choses à te proposer :</p>
+                <a onclick="closeAd()">En savoir plus sur Juix</a>
+            </div>
+        </section>
+
+        <script src="script.js" defer></script>
+    </body>
+</html>
