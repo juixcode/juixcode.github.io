@@ -2130,7 +2130,7 @@ h1.pack_download_upvote.disabled::after
     background-color: #212121;
     width: 70vh;
     aspect-ratio: 3 / 2; /* Format des images = 3:2 */
-    max-height: 55vh;
+    max-height: 40vh;
     border-radius: 2.5vh;
 }
 
