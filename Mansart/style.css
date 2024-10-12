@@ -424,7 +424,7 @@ button.negative-action {
     z-index: 1;
     background: #212121;
     box-shadow: 0 0.4vh 0.4vh rgba(0, 0, 0, 0.25);
-    border-radius: 5vh;
+    border-radius: 100%;
     cursor: pointer;
 }
 .refresh_database::after {
