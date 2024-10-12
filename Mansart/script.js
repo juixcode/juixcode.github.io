@@ -40,6 +40,10 @@ let juixAd = document.querySelector('.pub');
 
 function closeAd() {
     juixAd.classList.add('active');
+    setTimeout(deleteAd, 300);
+}
+function deleteAd() {
+    juixAd.classList.add('closed');
 }
 
 let body = document.querySelector('body');

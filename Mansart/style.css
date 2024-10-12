@@ -366,6 +366,9 @@ button.negative-action {
 .pub.active {
     transform: translateY(100%);
 }
+.pub.closed {
+    display: none;
+}
 
 .horizontal_block {
     display: flex;
