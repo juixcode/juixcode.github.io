@@ -15,13 +15,16 @@ html {
     width: 100vw;
     scroll-behavior: smooth;
     background: var(--black);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 body {
     margin: 0;
     color:black;
     overflow: hidden;
-    width: 100%;
+    max-width: 50dvh;
     height: 100%;
     display: flex;
     align-items: center;
@@ -32,10 +35,9 @@ body {
     font-style: normal;
     font-weight: 500;
 }
-
 body:before {
     background: url(Medias/back.webp) no-repeat center center;
-    background-size: auto 100%;
+    background-size: cover;
     content: "";
     display: flex;
     position: fixed;
@@ -44,6 +46,12 @@ body:before {
     width: 100%;
     height: 100%;
     z-index: -10;
+}
+@media (min-width: 100.01vh) { /* Ecran d'ordinateur toute taille */
+    body:before {
+        background: url(Medias/back_large.webp) no-repeat center center;
+        background-size: cover;
+    }
 }
 
 * {
@@ -102,6 +110,7 @@ section.current-page h3, section.current-page .bubble, section.current-page .hea
 .database {
     transition: opacity 0.25s ease-in-out;
     width: 100%;
+    max-width: 50dvh;
     height: 100%;
 }
 .database table, .database thead, .database tbody {
@@ -146,7 +155,7 @@ section.current-page h3, section.current-page .bubble, section.current-page .hea
 .database .footer {
     display: flex;
     justify-content: center;
-    width: 100%;
+    width: 100vw;
     background: linear-gradient(0deg, #FF8A9E 0%, #ff8a9d00 100%);
     padding: 4vh;
     position: absolute;
@@ -316,6 +325,7 @@ button {
     cursor: pointer;
 
     width: 60%;
+    max-width: 30dvh;
     border-radius: 5vh;
     padding: 1.5vh 0 1.5vh 0;
 }
@@ -327,6 +337,7 @@ button.negative-action {
     display: flex;
     justify-content: center;
     width: 100%;
+    max-width: 60dvh;
     background: var(--white);
     border-radius: 1vh 1vh 0 0;
     padding: 2.5vh;
