@@ -7,6 +7,7 @@
     --transparent_red: #ff4c9a55;
     --gray: #adadad94 ;
     --gradient: linear-gradient(45deg, #C32645 0%, #F26CA9 50%, #EE938A 100%);
+    --dark_gradient: linear-gradient(45deg, #8A292B 0%, #DC4043 50%, #EE8B9F 100%);
 }
 
 html {
@@ -199,17 +200,17 @@ section.current-page h3, section.current-page .bubble, section.current-page .hea
     resize: none;
     height: 2.3vh;
 }
-.bubble:has(textarea#message), .bubble:has(p.change-by-partner-message) {
+.bubble:has(textarea.champ-message), .bubble:has(p.change-by-partner-message), .bubble:has(p.change-by-user-number) {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
-.bubble textarea#message, .bubble p.change-by-partner-message {
+.bubble textarea.champ-message, .bubble p.change-by-partner-message {
     height: 100%;
     display: flex;
     flex-grow: 1;
 }
-.bubble:has(textarea#numero) {
+.bubble:has(textarea.champ-numero) {
     padding: 0;
     display: flex;
     border-radius: 100%;
@@ -218,7 +219,7 @@ section.current-page h3, section.current-page .bubble, section.current-page .hea
     justify-content: center;
     align-items: center;
 }
-.bubble textarea#numero {
+.bubble textarea.champ-numero {
     font-size: 8vh;
     line-height: 8vh;
     height: 8vh;
@@ -227,6 +228,10 @@ section.current-page h3, section.current-page .bubble, section.current-page .hea
 }
 .bubble textarea::placeholder {
     color: var(--gray);
+}
+.bubble textarea.active::placeholder {
+    color: var(--red);
+    opacity: 0.5;
 }
 .bubble a {
     text-decoration: none;
@@ -258,7 +263,7 @@ h2 {
     font-weight: 700;
 }
 
-h3, .heart span {
+h3, .heart span.change-by-partner-class {
     width: 100%;
     text-align: center;
     margin: 0;
@@ -289,6 +294,8 @@ h3 span {
 
     justify-content: center;
     align-items: center;
+}
+.heart span.change-by-partner-name, .heart:not(:has(.change-by-partner-class)) span {
     font-family: "Italianno", cursive;
     font-weight: 400;
     font-size: 8vh;
@@ -296,8 +303,7 @@ h3 span {
     color: var(--dark_red);
 }
 
-button
-{
+button {
     border: none;
     display: block;
     align-items: center;
@@ -312,6 +318,9 @@ button
     width: 60%;
     border-radius: 5vh;
     padding: 1.5vh 0 1.5vh 0;
+}
+button.negative-action {
+    background: var(--dark_gradient);
 }
 
 .pub {

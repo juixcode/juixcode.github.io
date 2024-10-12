@@ -38,8 +38,8 @@
             </div>
         </section> -->
 
-        <section class="current-page">
-            <div class="heart">St-Valentin</div>
+        <section class="current-page"> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 1 - HOME ⁙⁙⁙ -->
+            <div class="heart"><span>St-Valentin</span></div>
             <h3>Trouve ta moitié</h3>
             <div class="bubble">
                 <p>Salut, moi c’est Juix !<br>J’espère que ce site t’aidera à trouver ton autre moitié de coeur.</p>
@@ -53,7 +53,7 @@
             </div>
         </section>
 
-        <section>
+        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 2 - INFOS JUIX ⁙⁙⁙ -->
             <h3>Juix</h3>
             <div class="bubble">
                 <p>Salut, moi c’est Juix !<br>Je code et publie des datapacks (et d'autres trucs) sur mon site :</p>
@@ -66,17 +66,17 @@
             <button onclick="switchPage(1)">Retour</button>
         </section>
 
-        <section>
+        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 3 - VERIFIE UN NUMERO ⁙⁙⁙ -->
             <h3>Vérifier un numéro</h3>
             <div class="bubble">
                 <p>Vérifie rapidement si ta moitié s’est déjà recensée</p>
             </div>
             <div class="mini-space"></div>
             <div class="bubble">
-                <textarea id="numero" placeholder="28"></textarea>
+                <textarea class="champ-numero" placeholder="28"></textarea>
             </div>
             <div class="mini-space"></div>
-            <button onclick="switchPage(4)">Vérifier</button>
+            <button onclick="checkUserNumber(this);">Vérifier</button>
             <div class="space"><span></span><p>OU</p><span></span></div>
             <div class="bubble">
                 <p>Sinon, accède simplement à l’ensemble des données :</p>
@@ -85,7 +85,7 @@
             <button onclick="switchPage(11)">Passer</button>
         </section>
 
-        <section>
+        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 4 - MOITIE NON TROUVEE ⁙⁙⁙ -->
             <h3>Ta moitié n’a pas été trouvée !</h3>
             <div class="bubble">
                 <p>Ta moitié ne s’est pas encore enregistrée dans la base de données. <br><br>Recense-toi pour être retrouvé lorsqu’elle se recensera à son tour !</p>
@@ -93,41 +93,41 @@
             <div class="mini-space"></div>
             <button onclick="switchPage(5)">S'enregistrer</button>
             <div class="space"><span></span><p>OU</p><span></span></div>
-            <button onclick="switchPage(3)">Retour</button>
+            <button class="negative-action" onclick="switchPage(3)">Retour</button>
         </section>
 
-        <section>
+        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 5 - MOITIE NON TROUVEE - RECENSEMENT ⁙⁙⁙ -->
             <h3 class="type2">Prénom <span>*</span></h3>
             <div class="bubble">
-                <textarea id="prenom" placeholder="Valentin"></textarea>
+                <textarea class="champ-nom" placeholder="Valentin"></textarea>
             </div>
             <div class="horizontal_block">
                 <div class="horizontal_block_item">
                     <h3 class="type2">Numéro <span>*</span></h3>
                     <div class="bubble">
-                        <textarea id="numero-confirmation" placeholder="28"></textarea>
+                        <p class="change-by-user-number">028</p>
                     </div>
                 </div>
                 <div class="horizontal_block_item">
                     <h3 class="type2">Classe <span>*</span></h3>
                     <div class="bubble">
-                        <textarea id="classe" placeholder="TC"></textarea>
+                        <textarea class="champ-classe" placeholder="TC"></textarea>
                     </div>
                 </div>
             </div>
             <h3 class="type2">Contact <span>*</span></h3>
             <div class="bubble">
-                <textarea id="contact" placeholder="Valentin"></textarea>
+                <textarea class="champ-contact" placeholder="@valentin_insta"></textarea>
             </div>
             <h3 class="type2">Message</h3>
             <div class="bubble">
-                <textarea id="message" placeholder="Laisse un message (facultatif) pour ta moitié qui pourra le lire lorsqu’elle se sera recensée !"></textarea>
+                <textarea class="champ-message" placeholder="Laisse un message (facultatif) pour ta moitié qui pourra le lire lorsqu’elle se sera recensée !"></textarea>
             </div>
             <div class="mini-space"></div>
-            <button onclick="switchPage(6)">S'enregistrer</button>
+            <button onclick="saveUser(this, 6);">S'enregistrer</button>
         </section>
 
-        <section>
+        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 6 - MOITIE NON TROUVEE - REMERCIEMENT ⁙⁙⁙ -->
             <h3>Merci de t’être enregistré !</h3>
             <div class="bubble">
                 <p>Attends désormais d’être contacté par ta moitié. <br><br>Tu peux également checker la base de données en cliquant sur Fermer pour prévenir tes potes si leur moitié s’est recensée !</p>
@@ -136,8 +136,8 @@
             <button onclick="switchPage(11)">Fermer</button>
         </section>
 
-        <section>
-            <div class="heart change-by-partner-name">Valentine<span class="change-by-partner-class">TC</span></div>
+        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 7 - MOITIE TROUVEE ⁙⁙⁙ -->
+            <div class="heart"><span class="change-by-partner-name">Valentine</span><span class="change-by-partner-class">TC</span></div>
             <h3>Moitié détectée</h3>
             <div class="bubble">
                 <p><span class="change-by-partner-name">Valentine</span> est possiblement ta moitié ! S’il s’agit simplement de toi, clique sur Retour. Sinon, clique sur Contacter !</p>
@@ -145,11 +145,11 @@
             <div class="mini-space"></div>
             <button onclick="switchPage(8)">Contacter</button>
             <div class="space"><span></span><p>OU</p><span></span></div>
-            <button onclick="switchPage(3)">Retour</button>
+            <button class="negative-action" onclick="switchPage(3)">Retour</button>
         </section>
 
-        <section>
-            <div class="heart change-by-partner-name">Valentine<span class="change-by-partner-class">TC</span></div>
+        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 8 - MOITIE TROUVEE - CONTACT ⁙⁙⁙ -->
+            <div class="heart"><span class="change-by-partner-name">Valentine</span><span class="change-by-partner-class">TC</span></div>
             <h3 class="type2">Infos de contact</h3>
             <div class="bubble">
                 <p class="change-by-partner-contact">@valentine</p>
@@ -162,22 +162,22 @@
             <button onclick="switchPage(9)">Continuer</button>
         </section>
 
-        <section>
-            <h3>Merci !</h3>
+        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 9 - MOITIE TROUVEE - REMERCIEMENT ⁙⁙⁙ -->
+            <h3>Recense-toi</h3>
             <div class="bubble">
-                <p>Merci d’avoir utilisé mon site, j’espère t’avoir aidé. <br><br>Tu peux également checker la base de données en cliquant sur Fermer pour prévenir tes potes si leur moitié s’est recensée !</p>
+                <p>Merci d’avoir utilisé mon site, j’espère t’avoir aidé !<br><br>Désormais, recense-toi s'il-te-plaît pour apparaître sur la base de données :</p>
             </div>
             <div class="mini-space"></div>
-            <button onclick="switchPage(11)">Fermer</button>
+            <button onclick="switchPage(12)">Continuer</button>
             <div class="space"><span></span><p>OU</p><span></span></div>
             <div class="bubble">
-                <p>Tu peux tout de même te recenser pour apparaître sur la base de données si tu le souhaites :</p>
+                <p>Sinon tant pis, tu peux tout de même checker la base de données en cliquant sur Fermer pour prévenir tes potes si leur moitié s’est recensée :</p>
             </div>
             <div class="mini-space"></div>
-            <button onclick="switchPage(5)">S'enregistrer</button>
+            <button class="negative-action" onclick="switchPage(11)">Fermer</button>
         </section>
 
-        <section>
+        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 10 - 2 MOITIES TROUVEES - ERREUR ⁙⁙⁙ -->
             <h3>Oops...</h3>
             <div class="bubble">
                 <p>Il semble que deux personnes aient déjà été associées au numéro <span class="change-by-user-number">28</span>. S’il s’agit d’une erreur de leur part, contacte-les pour les en avertir !</p>
@@ -191,10 +191,10 @@
                 <p class="change-by-partners-contacts-error">@valentine</p>
             </div>
             <div class="mini-space"></div>
-            <button onclick="switchPage(3)">Retour</button>
+            <button class="negative-action" onclick="switchPage(3)">Retour</button>
         </section>
 
-        <div class="database">
+        <div class="database"> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 11 - BDD ⁙⁙⁙ -->
             <div class="footer">
                 <button onclick="switchPage(1)">Menu principal</button>
             </div>
@@ -208,32 +208,48 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>00</td>
-                        <td>Valentin</td>
-                        <td>TC</td>
-                    </tr>
-                    <tr>
-                        <td>00</td>
-                        <td>Valentin</td>
-                        <td>TC</td>
-                    </tr>
-                    <tr class="duo">
-                        <td>02</td>
-                        <td>Valentin</td>
-                        <td>TC</td>
-                        <td>02</td>
-                        <td>Valentine</td>
-                        <td>TA</td>
-                    </tr>
-                    <tr>
-                        <td>00</td>
-                        <td>Valentin</td>
-                        <td>TC</td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
+
+        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 12 - MOITIE TROUVEE - RECENSEMENT ⁙⁙⁙ -->
+            <h3 class="type2">Prénom <span>*</span></h3>
+            <div class="bubble">
+                <textarea class="champ-nom" placeholder="Valentin"></textarea>
+            </div>
+            <div class="horizontal_block">
+                <div class="horizontal_block_item">
+                    <h3 class="type2">Numéro <span>*</span></h3>
+                    <div class="bubble">
+                        <p class="change-by-user-number">028</p>
+                    </div>
+                </div>
+                <div class="horizontal_block_item">
+                    <h3 class="type2">Classe <span>*</span></h3>
+                    <div class="bubble">
+                        <textarea class="champ-classe" placeholder="TC"></textarea>
+                    </div>
+                </div>
+            </div>
+            <h3 class="type2">Contact <span>*</span></h3>
+            <div class="bubble">
+                <textarea class="champ-contact" placeholder="@valentin_insta"></textarea>
+            </div>
+            <div class="mini-space"></div>
+            <button onclick="saveUser(this, 13);">S'enregistrer</button>
+            <div class="space"><span></span><p>OU</p><span></span></div>
+            <button class="negative-action" onclick="switchPage(9)">Retour</button>
+        </section>
+
+        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 13 - MOITIE TROUVEE - REMERCIEMENT 2 ⁙⁙⁙ -->
+            <h3>Merci !</h3>
+            <div class="bubble">
+                <p>Merci d’avoir utilisé mon site, j’espère t’avoir aidé !<br><br>Tu peux également checker la base de données en cliquant sur Fermer pour prévenir tes potes si leur moitié s’est recensée !</p>
+            </div>
+            <div class="mini-space"></div>
+            <button onclick="switchPage(11)">Fermer</button>
+        </section>
 
         <script src="script.js" defer></script>
     </body>
