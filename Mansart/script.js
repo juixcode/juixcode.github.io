@@ -16,9 +16,9 @@ let database = firebase.database();
 
 // Compteur de connexions
 let fullDatabase = database.ref('mansart-database'); // Référence à la base de données
-let valueToIncrease = database.ref('mansart-database/99999');
 
-function incrementConnexionsNumber() {
+function linkTracking(ref) {
+    let valueToIncrease = database.ref('mansart-database/'+ref);
     valueToIncrease.once('value')
         .then((snapshot) => {
             let currentValue = snapshot.val();
@@ -32,7 +32,7 @@ function incrementConnexionsNumber() {
         });
 }
 
-window.onload = incrementConnexionsNumber;
+window.onload = linkTracking('clicks-current');
 
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙
 

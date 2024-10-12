@@ -413,10 +413,11 @@ button.negative-action {
 .refresh_database {
     top: 3.4dvh;
     width: 4.5dvh;
-    padding: 4.5dvh;
+    height: 4.5dvh;
+    justify-content: center;
+    align-items: center;
     margin: 0;
-    padding: 1.5vh;
-    justify-content: end;
+    padding: 0;
     align-self: end;
     display: flex;
     position: absolute;
