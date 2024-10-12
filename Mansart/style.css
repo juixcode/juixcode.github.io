@@ -120,9 +120,13 @@ section.current-page h3, section.current-page .bubble, section.current-page .hea
     display: flex; 
     flex-direction: column; 
     overflow-y: scroll; 
+    overflow-x: hidden;
     max-height: 90dvh; 
     padding: 0.5vh;
-    padding-bottom: 15vh; 
+    padding-bottom: 15dvh; 
+}
+.database thead {
+    width: calc(100% - 1vh);
 }
 .database tr { display: flex; }
 .database tbody tr.duo { background: var(--transparent_red); }
@@ -138,9 +142,13 @@ section.current-page h3, section.current-page .bubble, section.current-page .hea
     backdrop-filter: blur(1.5vh);
 }
 .database td, .database th {
-    width: 33.3%;
+    width: 25%;
     padding: 0.7vh 1.5vh;
 
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all; 
+    white-space: normal;
     color: var(--black);
     font-size: 1.8vh;
     font-family: 'Inter';
@@ -148,9 +156,13 @@ section.current-page h3, section.current-page .bubble, section.current-page .hea
     font-weight: 500;
     text-align: center;
 }
+.database td:nth-child(2), .database td:nth-child(5), .database th:nth-child(2) {
+    width: 50%;
+}
 .database th {
     font-size: 2.2vh;
     font-weight: 800;
+    letter-spacing: -0.05vh;
 }
 .database .footer {
     display: flex;

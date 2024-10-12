@@ -78,6 +78,9 @@ function ResetPlaceholderColor() {
 
 function checkUserNumber(element) {
     let userNumber = textareaUserNumber.value.padStart(3, '0');
+    if (userNumber.length > 3) {
+        userNumber = userNumber.slice(-3);  // Garde uniquement les 3 derniers caractères
+    }
     changeByUserNumber.forEach(each => {
         each.textContent = userNumber;
     });
@@ -85,7 +88,7 @@ function checkUserNumber(element) {
     fullDatabase.once('value')
         .then((snapshot) => {
             let newDatabase = snapshot.val();
-            if (userNumber === "") {
+            if (userNumber === "000") {
                 textareaUserNumber.classList.add('active')
                 setTimeout(ResetPlaceholderColor, 150);
             } else if (newDatabase[userNumber]) {
