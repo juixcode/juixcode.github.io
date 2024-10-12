@@ -15,10 +15,10 @@
     </head>
     <body>
         <div class="pub">
-            <a onclick="closeAd()">En savoir plus sur Juix</a>
+            <a onclick="closeAd(); switchPage(2);">En savoir plus sur Juix</a>
             <div class="close_ad" onclick="closeAd()"></div>
         </div>
-        <section>
+        <!-- <section>
             <div class="heart">Valentina<span>TC</span></div>
             <h3>Trouve ta moitié</h3>
             <div class="bubble">
@@ -27,19 +27,213 @@
             </div>
             <div class="space"><span></span><p>OU</p><span></span></div>
             <button>Bouton</button>
-        </section>
-        <section style="display: none;">
-            <div class="heart"></div>
+            <div class="mini-space"></div>
+            <h3 class="type2">Nom <span>*</span></h3>
+            <div class="bubble">
+                <textarea name="" id=""></textarea>
+            </div>
+            <div class="mini-space"></div>
+            <div class="bubble">
+                <textarea name="" id="message" placeholder="Message"></textarea>
+            </div>
+        </section> -->
+
+        <section class="current-page">
+            <div class="heart">St-Valentin</div>
             <h3>Trouve ta moitié</h3>
             <div class="bubble">
                 <p>Salut, moi c’est Juix !<br>J’espère que ce site t’aidera à trouver ton autre moitié de coeur.</p>
             </div>
-            <button>Continuer</button>
+            <div class="mini-space"></div>
+            <button onclick="switchPage(3)">Continuer</button>
+            <div class="semi-space"></div>
             <div class="bubble">
                 <p>Attends ! Tu joues à Minecraft ? J’ai des choses à te proposer :</p>
-                <a onclick="closeAd()">En savoir plus sur Juix</a>
+                <a onclick="closeAd(); switchPage(2);">En savoir plus sur Juix</a>
             </div>
         </section>
+
+        <section>
+            <h3>Juix</h3>
+            <div class="bubble">
+                <p>Salut, moi c’est Juix !<br>Je code et publie des datapacks (et d'autres trucs) sur mon site :</p>
+                <a href="https://juixcode.github.io" target="_blank">juixcode.github.io</a>
+                <p><br>Et si tu ne le savais toujours pas, j’ai lancé une survie géante pour Mansart alors ramènes-y tous tes potes et rejoins l’aventure, tout est sur mon site :</p>
+                <a href="https://juixcode.github.io/minecraft" target="_blank">juixcode.github.io/minecraft</a>
+                <p><br>Merci de t’être intéressé !</p>
+            </div>
+            <div class="mini-space"></div>
+            <button onclick="switchPage(1)">Retour</button>
+        </section>
+
+        <section>
+            <h3>Vérifier un numéro</h3>
+            <div class="bubble">
+                <p>Vérifie rapidement si ta moitié s’est déjà recensée</p>
+            </div>
+            <div class="mini-space"></div>
+            <div class="bubble">
+                <textarea id="numero" placeholder="28"></textarea>
+            </div>
+            <div class="mini-space"></div>
+            <button onclick="switchPage(4)">Vérifier</button>
+            <div class="space"><span></span><p>OU</p><span></span></div>
+            <div class="bubble">
+                <p>Sinon, accède simplement à l’ensemble des données :</p>
+            </div>
+            <div class="mini-space"></div>
+            <button onclick="switchPage(11)">Passer</button>
+        </section>
+
+        <section>
+            <h3>Ta moitié n’a pas été trouvée !</h3>
+            <div class="bubble">
+                <p>Ta moitié ne s’est pas encore enregistrée dans la base de données. <br><br>Recense-toi pour être retrouvé lorsqu’elle se recensera à son tour !</p>
+            </div>
+            <div class="mini-space"></div>
+            <button onclick="switchPage(5)">S'enregistrer</button>
+            <div class="space"><span></span><p>OU</p><span></span></div>
+            <button onclick="switchPage(3)">Retour</button>
+        </section>
+
+        <section>
+            <h3 class="type2">Prénom <span>*</span></h3>
+            <div class="bubble">
+                <textarea id="prenom" placeholder="Valentin"></textarea>
+            </div>
+            <div class="horizontal_block">
+                <div class="horizontal_block_item">
+                    <h3 class="type2">Numéro <span>*</span></h3>
+                    <div class="bubble">
+                        <textarea id="numero-confirmation" placeholder="28"></textarea>
+                    </div>
+                </div>
+                <div class="horizontal_block_item">
+                    <h3 class="type2">Classe <span>*</span></h3>
+                    <div class="bubble">
+                        <textarea id="classe" placeholder="TC"></textarea>
+                    </div>
+                </div>
+            </div>
+            <h3 class="type2">Contact <span>*</span></h3>
+            <div class="bubble">
+                <textarea id="contact" placeholder="Valentin"></textarea>
+            </div>
+            <h3 class="type2">Message</h3>
+            <div class="bubble">
+                <textarea id="message" placeholder="Laisse un message (facultatif) pour ta moitié qui pourra le lire lorsqu’elle se sera recensée !"></textarea>
+            </div>
+            <div class="mini-space"></div>
+            <button onclick="switchPage(6)">S'enregistrer</button>
+        </section>
+
+        <section>
+            <h3>Merci de t’être enregistré !</h3>
+            <div class="bubble">
+                <p>Attends désormais d’être contacté par ta moitié. <br><br>Tu peux également checker la base de données en cliquant sur Fermer pour prévenir tes potes si leur moitié s’est recensée !</p>
+            </div>
+            <div class="mini-space"></div>
+            <button onclick="switchPage(11)">Fermer</button>
+        </section>
+
+        <section>
+            <div class="heart change-by-partner-name">Valentine<span class="change-by-partner-class">TC</span></div>
+            <h3>Moitié détectée</h3>
+            <div class="bubble">
+                <p><span class="change-by-partner-name">Valentine</span> est possiblement ta moitié ! S’il s’agit simplement de toi, clique sur Retour. Sinon, clique sur Contacter !</p>
+            </div>
+            <div class="mini-space"></div>
+            <button onclick="switchPage(8)">Contacter</button>
+            <div class="space"><span></span><p>OU</p><span></span></div>
+            <button onclick="switchPage(3)">Retour</button>
+        </section>
+
+        <section>
+            <div class="heart change-by-partner-name">Valentine<span class="change-by-partner-class">TC</span></div>
+            <h3 class="type2">Infos de contact</h3>
+            <div class="bubble">
+                <p class="change-by-partner-contact">@valentine</p>
+            </div>
+            <h3 class="type2">Message pour toi</h3>
+            <div class="bubble">
+                <p class="change-by-partner-message">...</p>
+            </div>
+            <div class="mini-space"></div>
+            <button onclick="switchPage(9)">Continuer</button>
+        </section>
+
+        <section>
+            <h3>Merci !</h3>
+            <div class="bubble">
+                <p>Merci d’avoir utilisé mon site, j’espère t’avoir aidé. <br><br>Tu peux également checker la base de données en cliquant sur Fermer pour prévenir tes potes si leur moitié s’est recensée !</p>
+            </div>
+            <div class="mini-space"></div>
+            <button onclick="switchPage(11)">Fermer</button>
+            <div class="space"><span></span><p>OU</p><span></span></div>
+            <div class="bubble">
+                <p>Tu peux tout de même te recenser pour apparaître sur la base de données si tu le souhaites :</p>
+            </div>
+            <div class="mini-space"></div>
+            <button onclick="switchPage(5)">S'enregistrer</button>
+        </section>
+
+        <section>
+            <h3>Oops...</h3>
+            <div class="bubble">
+                <p>Il semble que deux personnes aient déjà été associées au numéro <span class="change-by-user-number">28</span>. S’il s’agit d’une erreur de leur part, contacte-les pour les en avertir !</p>
+            </div>
+            <h3 class="type2 change-by-partners-names-error">Contact de Valentine</h3>
+            <div class="bubble">
+                <p class="change-by-partners-contacts-error">@valentine</p>
+            </div>
+            <h3 class="type2 change-by-partners-names-error">Contact de Valentin</h3>
+            <div class="bubble">
+                <p class="change-by-partners-contacts-error">@valentine</p>
+            </div>
+            <div class="mini-space"></div>
+            <button onclick="switchPage(3)">Retour</button>
+        </section>
+
+        <div class="database">
+            <div class="footer">
+                <button onclick="switchPage(1)">Menu principal</button>
+            </div>
+            <h2>BASE DE DONNEES</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Num</th>
+                        <th>Nom</th>
+                        <th>Classe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>00</td>
+                        <td>Valentin</td>
+                        <td>TC</td>
+                    </tr>
+                    <tr>
+                        <td>00</td>
+                        <td>Valentin</td>
+                        <td>TC</td>
+                    </tr>
+                    <tr class="duo">
+                        <td>02</td>
+                        <td>Valentin</td>
+                        <td>TC</td>
+                        <td>02</td>
+                        <td>Valentine</td>
+                        <td>TA</td>
+                    </tr>
+                    <tr>
+                        <td>00</td>
+                        <td>Valentin</td>
+                        <td>TC</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <script src="script.js" defer></script>
     </body>

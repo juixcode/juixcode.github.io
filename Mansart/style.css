@@ -4,13 +4,14 @@
     --black: #101010 ;
     --red: #C95563 ;
     --dark_red: #C32645;
-    --gray: #c1c1c194 ;
+    --transparent_red: #ff4c9a55;
+    --gray: #adadad94 ;
     --gradient: linear-gradient(45deg, #C32645 0%, #F26CA9 50%, #EE938A 100%);
 }
 
 html {
-    height: 100%;
-    width: 100%;
+    height: 100lvh;
+    width: 100vw;
     scroll-behavior: smooth;
     background: var(--black);
 }
@@ -31,10 +32,6 @@ body {
     font-weight: 500;
 }
 
-p {
-    margin: 0;
-}
-
 body:before {
     background: url(Medias/back.webp) no-repeat center center;
     background-size: auto 100lvh;
@@ -50,8 +47,32 @@ body:before {
 
 * {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
+*::-webkit-scrollbar {
+    width: 1vh;
+}
+*::-webkit-scrollbar-track {
+    background: none;
+}
+*::-webkit-scrollbar-thumb {
+    background-color: rgba(86, 86, 86, 0.345);
+    border-radius: 5vh;
+    cursor: pointer;
+}
+
+section, .database {
+    display: flex;
+    opacity: 0;
+    pointer-events: none;
+
+    position: absolute;
+    padding: 2.5vh;
+    flex-direction: column;
+    align-items: center;
+}
 section {
     width: 80vw;
     max-width: 50vh;
@@ -61,11 +82,75 @@ section {
     outline: solid var(--white) 0.3vh;
     border-radius: 2vh;
     backdrop-filter: blur(1.5vh);
+}
+section.current-page, .database.current-page {
+    z-index: 5;
+    opacity: 1;
+    pointer-events: all;
+}
+section h3, section .bubble, section .heart, section button, section .space { /* --- Transition --- */
+    transition: transform 0.25s ease-in-out, opacity 0.25s ease-in-out;
+    transform: translateX(2.5vh);
+    opacity: 0.5;
+}
+section.current-page h3, section.current-page .bubble, section.current-page .heart, section.current-page button, section.current-page .space {
+    transform: translateX(0vh);
+    opacity: 1;
+}
 
-    padding: 2.5vh;
+.database {
+    transition: opacity 0.25s ease-in-out;
+    width: 100%;
+    height: 100%;
+}
+.database table, .database thead, .database tbody {
+    width: 100%;
+}
+.database tbody {
+    display: flex; 
+    flex-direction: column; 
+    overflow-y: scroll; 
+    max-height: 90vh; 
+    padding: 0.5vh;
+    padding-bottom: 15vh; 
+}
+.database tr { display: flex; }
+.database tbody tr.duo { background: var(--transparent_red); }
+.database tbody tr {
+    width: 100%;
+    border-radius: 2vh;
+    margin-bottom: 1vh;
+    flex-wrap: wrap;
+
+    box-shadow: 0 0.4vh 0.4vh rgba(0, 0, 0, 0.25);
+    background: var(--transparent);
+    outline: solid var(--white) 0.3vh;
+    backdrop-filter: blur(1.5vh);
+}
+.database td, .database th {
+    width: 33.3%;
+    padding: 0.7vh 1.5vh;
+
+    color: var(--black);
+    font-size: 1.8vh;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    text-align: center;
+}
+.database th {
+    font-size: 2.2vh;
+    font-weight: 800;
+}
+.database .footer {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: linear-gradient(0deg, #FF8A9E 0%, #ff8a9d00 100%);
+    padding: 4vh;
+    position: absolute;
+    bottom: 0;
+    z-index: 4;
 }
 
 .space {
@@ -73,7 +158,7 @@ section {
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    height: 3vh;
+    height: 4vh;
     margin: 2.5vh 0 2.5vh 0;
 }
 .space span {
@@ -85,21 +170,64 @@ section {
     font-size: 1.8em;
     color: var(--white);
 }
+.semi-space {
+    height: 4.5vh;
+}
+.mini-space {
+    height: 1.5vh;
+}
 
 .bubble {
     width: 100%;
     background: var(--white);
     border-radius: 1vh;
-    padding: 2.5vh;
-    margin: 1.5vh 0 1.5vh 0;
+    padding: 1.5vh 2.5vh;
 }
-
 .bubble p, .bubble textarea {
     font-size: 1.8vh;
     line-height: 2.3vh;
     color: var(--black);
 }
-
+.bubble textarea {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    width: 100%;
+    background: none;
+    outline: none;
+    border: none;
+    resize: none;
+    height: 2.3vh;
+}
+.bubble:has(textarea#message), .bubble:has(p.change-by-partner-message) {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+.bubble textarea#message, .bubble p.change-by-partner-message {
+    height: 100%;
+    display: flex;
+    flex-grow: 1;
+}
+.bubble:has(textarea#numero) {
+    padding: 0;
+    display: flex;
+    border-radius: 100%;
+    width: 18vh;
+    height: 18vh;
+    justify-content: center;
+    align-items: center;
+}
+.bubble textarea#numero {
+    font-size: 8vh;
+    line-height: 8vh;
+    height: 8vh;
+    overflow: hidden;
+    text-align: center;
+}
+.bubble textarea::placeholder {
+    color: var(--gray);
+}
 .bubble a {
     text-decoration: none;
     font-size: 1.8vh;
@@ -108,7 +236,6 @@ section {
     cursor: pointer;
     display: flex;
 }
-
 .bubble a::after {
     margin:0;
     content: '';
@@ -121,6 +248,16 @@ section {
     position: relative;
 }
 
+h2 {
+    width: 100%;
+    text-align: center;
+    margin: 1.5vh;
+    color: var(--white);
+    font-family: 'Inter';
+    font-size: 2.8vh;
+    font-weight: 700;
+}
+
 h3, .heart span {
     width: 100%;
     text-align: center;
@@ -130,9 +267,15 @@ h3, .heart span {
     font-size: 2.2vh;
     font-weight: 800;
 }
-
+h3 {
+    margin-bottom: 1.5vh;
+}
 h3.type2 {
     text-align: start;
+    margin: 0.5vh 0;
+}
+h3 span {
+    color: #C32645;
 }
 
 .heart {
@@ -184,7 +327,6 @@ button
     z-index: 100;
     transition: transform 0.3s ease-out;
 }
-
 .pub a {
     text-decoration: none;
     font-size: 1.8vh;
@@ -193,7 +335,6 @@ button
     cursor: pointer;
     display: flex;
 }
-
 .pub a::after {
     margin:0;
     content: '';
@@ -205,7 +346,6 @@ button
     background-size: 100% 100%;
     position: relative;
 }
-
 .pub .close_ad {
     height: 2.3vh;
     width: 2.3vh;
@@ -214,7 +354,17 @@ button
     position: absolute;
     right: 2.5vh;
 }
-
 .pub.active {
     transform: translateY(100%);
+}
+
+.horizontal_block {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.horizontal_block_item {
+    display: flex;
+    flex-direction: column;
+    width: 48%;
 }
