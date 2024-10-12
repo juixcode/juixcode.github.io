@@ -165,7 +165,7 @@ function showDatabase() {
 
         let currentDatabase = snapshot.val();
         for (let key in currentDatabase) {
-            if (key !== "99999") {
+            if (key.length === 3) {
                 let newUserNumber = document.createElement('td');
                 newUserNumber.textContent = String(key);
 
