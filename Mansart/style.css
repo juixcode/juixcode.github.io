@@ -120,7 +120,7 @@ section.current-page h3, section.current-page .bubble, section.current-page .hea
     display: flex; 
     flex-direction: column; 
     overflow-y: scroll; 
-    max-height: 90vh; 
+    max-height: 90dvh; 
     padding: 0.5vh;
     padding-bottom: 15vh; 
 }
