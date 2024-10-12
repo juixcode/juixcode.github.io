@@ -11,7 +11,7 @@
 }
 
 html {
-    height: 100svh;
+    height: 100dvh;
     width: 100vw;
     scroll-behavior: smooth;
     background: var(--black);
