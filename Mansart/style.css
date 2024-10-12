@@ -11,7 +11,7 @@
 }
 
 html {
-    height: 100vh;
+    height: 100svh;
     width: 100vw;
     scroll-behavior: smooth;
     background: var(--black);
@@ -35,7 +35,7 @@ body {
 
 body:before {
     background: url(Medias/back.webp) no-repeat center center;
-    background-size: auto 100vh;
+    background-size: auto 100%;
     content: "";
     display: flex;
     position: fixed;
