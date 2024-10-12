@@ -202,3 +202,13 @@ function showDatabase() {
         console.error("Erreur lors de la récupération ou de la mise à jour de la base de données :", error);
     });
 }
+
+// Bouton d'actualisation de la database
+let refreshButton = document.querySelector('.refresh_database');
+refreshButton.addEventListener('animationend', function() {
+    refreshButton.classList.remove('active');
+});
+refreshButton.addEventListener('click', () => {
+        showDatabase()
+        refreshButton.classList.add('active');
+});
