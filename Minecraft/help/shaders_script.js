@@ -104,7 +104,7 @@ function stepChange(element) {
         }
         document.querySelector('.navbar .container form').children[actualStepValue - 1].children[0].checked = true
     }
-    document.querySelector('body').children[actualStepValue].classList.add("active");
+    document.querySelector('body').children[actualStepValue + 1].classList.add("active");
     navbarTitle.innerHTML = document.querySelector('section.active h2').textContent
 }   
 
