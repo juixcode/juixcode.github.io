@@ -15,7 +15,7 @@ function randomGiftTexture() {
 
 const today = new Date();
 let day = String(today.getDate());
-day = 10;
+day = 24;
 // function checkDate() {
 //     Gifts.forEach(each => {
 //         if (each.dataset.value < day) {
