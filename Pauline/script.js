@@ -15,7 +15,12 @@ function randomGiftTexture() {
 
 const today = new Date();
 let day = String(today.getDate());
-day = 24;
+if (day == 25) {
+    day = 24;
+} else if (day > 25) {
+    day = 0;
+}
+
 // function checkDate() {
 //     Gifts.forEach(each => {
 //         if (each.dataset.value < day) {
@@ -73,10 +78,56 @@ const database = [
     'Medias/24.jpg'
 ];
 
+const messagesDatabase = [
+    'On est tous avec toi ma bichette 💖',
+    'Si fière de mon BB... 💝',
+    '1+1+1 = 1',
+    'Les BGs 🔥',
+    "Le regard de l'amour 💝",
+    'Tellement mignonne ma bichette 😍',
+    'Avec ta bestfriend 🔗',
+    'Souvenirs...🥹',
+    'Les drôles de dames 💃',
+    'La classe des amoureux ❤️',
+    'The best family 🍣',
+    'Tellement fière de vous 3 ! ❤️',
+    'Ma chérie adorée 💖',
+    'Souvenirs de fête 🥂',
+    'Que de bons moments 🔥',
+    'Frère et Soeur pour la vie 🔗',
+    'Couple goal ✨',
+    'Encore & toujours ♾️',
+    'Née pour être Reine 👑',
+    'Unis pour la vie 🔗',
+    'Love 💖',
+    'Souvenirs de vacances 🍸',
+    'Famille folle vous dîtes ? ✨',
+    "Tous réunis pour te dire que l'on t'aime fort 💗"
+];
+
 const gallery = document.querySelector('.gallery');
 function galleryAddElement(id) {
+    let newTitle = document.createElement('h4');
+    newTitle.innerHTML = "Mot du jour";
+
+    let newMessage = document.createElement('p');
+    newMessage.innerHTML = messagesDatabase[id-1];
+
+    let newMessageBox = document.createElement('div');
+    newMessageBox.classList.add('message');
+    newMessageBox.appendChild(newTitle)
+    newMessageBox.appendChild(newMessage)
+
     let newImage = document.createElement('img');
     newImage.src = database[id-1];
 
-    gallery.insertBefore(newImage, gallery.firstChild);
+    let newImageContainer = document.createElement('div');
+    newImageContainer.classList.add('img-container');
+    newImageContainer.appendChild(newImage);
+    newImageContainer.appendChild(newMessageBox);
+    newImageContainer.addEventListener('click', () => {
+        newImageContainer.classList.toggle('active');
+    });
+
+    gallery.insertBefore(newImageContainer, gallery.firstChild);
 }
