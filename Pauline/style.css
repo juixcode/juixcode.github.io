@@ -183,6 +183,7 @@ td.unlocked[data-value='24']:after { background: url(Medias/24.jpg) no-repeat ce
     background-color: white;
     max-width: 60dvh;
     border-radius: 2.5dvh 2.5dvh 0 0;
+    z-index: 2;
 }
 .navigation form {
     background-color: rgb(228, 228, 228);
@@ -250,10 +251,56 @@ td.unlocked[data-value='24']:after { background: url(Medias/24.jpg) no-repeat ce
     flex-direction: column;
     align-items: center;
 }
-img {
+.img-container img {
+    width: 100%;
+    height: auto;
+}
+.img-container {
+    overflow: hidden;
     width: 90%;
     height: auto;
-    border-radius: 2.5dvh;
+    flex-shrink: 0;
+    cursor: pointer;
+
+    display: flex;
     box-shadow: #25252542 0px 2px 5px;
+    border-radius: 2.5dvh;
     margin-bottom: 2.5dvh;
+}
+.img-container .message {
+    display: flex;
+    opacity: 0;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    margin-left: -100%;
+    background: #20417082;
+    backdrop-filter: blur(5px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease-in-out;
+}
+.img-container.active .message {
+    opacity: 1;
+}
+
+h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 2.5dvh;
+    font-weight: 600;
+    line-height: 4dvh;
+    color: white;
+    text-align: center;
+}
+p {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.6dvh;
+    font-weight: 300;
+    line-height: 2.5dvh;
+    color: white;
+    text-align: center;
 }
