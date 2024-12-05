@@ -8,39 +8,80 @@
         <meta name="title"/>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap"
-            rel="stylesheet"
-        />
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+		<link rel="shortcut icon" href="assets/favicon.ico" type="image/ico" />
         <link rel="stylesheet" href="style.css" />
     </head>
     <body>
         <main>
-            <h1>Adventure Together 2024</h1>
-            <p>
-                IP du Serveur : <strong>Voir Discord</strong><br />
-                Version : Minecraft <strong>1.21.3</strong> Vanilla<br />
-                Map actualisée le : <strong>11/11/2024</strong>
-            </p>
-            <nav>
-                <a class="button-download" href="https://drive.google.com/uc?export=download&id=1WFjCBA9ODSUwa6AZnJS-QnPteldod0Uq" title="Mods">Mods v1.2</a>
-                <a class="button-download" href="https://juixcode.github.io/Minecraft/summer/overworld/unmined.index.html" title="Mods">Resourcepack</a>
-            </nav>
-            <nav>
-                <a href="overworld/unmined.index.html" title="Overworld's map">Overworld map</a>
-                <a href="nether/unmined.index.html" title="Nether's map">Nether map</a>
-                <!-- <a href="end/unmined.index.html" title="End's map">End</a> -->
-            </nav>
+            <div class="block">
+                <h1>Together</h1>
+                <h2>Survie 2025</h2>
+            </div>
+            <section>
+                <h2>Rejoins l'évènement Minecraft</h2>
+                <h4>IP du Serveur</h4>
+                <div class="rounded-glass-design ip-button" onclick="copyIp('xxx.xxx.xx.xxx', this)">xxx.xxx.xx.xxx</div>
+                <h4>Version</h4>
+                <p>Minecraft Vanilla 1.21.3 (latest)</p>
+                <div class="button-design map-button" onclick="switchPage()">Carte de l'aventure</div>
+            </section>
+            <section class="footer">
+                <h2>Profite d'un Minecraft Optimum</h2>
+                <div class="double-columns">
+                    <div class="item">
+                        <h4>Pack d'opti</h4>
+                        <a href="https://drive.google.com/uc?export=download&id=" class="button-design">Télécharger</a>
+                        <p>Mods d’optimisation pour un max de perfs et de FPS</p>
+                    </div>
+                    <div class="item">
+                        <h4>Pack complet</h4>
+                        <a href="https://drive.google.com/uc?export=download&id=" class="button-design">Télécharger</a>
+                        <p>Mods d’optimisation & Shaders, Resourcepacks...</p>
+                    </div>
+                </div>
+            </section>
         </main>
+        <main>
+            <div class="block">
+                <h1>Together</h1>
+                <h2>Survie 2025</h2>
+            </div>
+            <section>
+                <h2>Rejoins l'évènement Minecraft</h2>
+                <h4>IP du Serveur</h4>
+                <div class="rounded-glass-design ip-button" onclick="copyIp('xxx.xxx.xx.xxx')">xxx.xxx.xx.xxx</div>
+                <h4>Version</h4>
+                <p>Minecraft Vanilla 1.21.3 (latest)</p>
+                <div class="button-design map-button" onclick="switchPage()">Carte de l'aventure</div>
+            </section>
+        </main>
+
         <script>
-            function copyIp(a) {
+            function copyIp(textToCopy, element) {
                 navigator.clipboard
-                    .writeText(a)
+                    .writeText(textToCopy)
                     .catch((error) => {
                         console.error(
                             `Failed to copy "${text}" to clipboard: ${error}`
                         );
                     });
+                if (!element.classList.contains('copied')) {
+                    element.classList.add('copied');
+                    setTimeout(copyAnimated, 2000, element);
+                }
+            }
+
+            function copyAnimated(element) {
+                if (element.className.match('copied')) {
+                    element.classList.remove('copied');
+                }
+            }
+
+            const body = document.querySelector('body');
+            function switchPage() {
+                body.classList.toggle('show-map');
             }
         </script>
     </body>
