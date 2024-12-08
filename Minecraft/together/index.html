@@ -12,77 +12,80 @@
         <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 		<link rel="shortcut icon" href="assets/favicon.ico" type="image/ico" />
         <link rel="stylesheet" href="style.css" />
+        <script src="script.js" defer></script>
     </head>
     <body>
         <main>
-            <div class="block">
-                <h1>Together</h1>
-                <h2>Survie 2025</h2>
+            <audio preload="auto" id="background-music" autoplay muted loop><source src="assets/music.ogg" type="audio/mp3">Audio non supporté</audio>
+            <audio preload="auto" id="click-sound" autoplay><source src="assets/bell.ogg" type="audio/mp3">Audio non supporté</audio>
+            <audio preload="auto" id="click-sound-2" autoplay><source src="assets/icechime.ogg" type="audio/mp3">Audio non supporté</audio>
+            <div class="background">
+                <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
             </div>
-            <section>
-                <h2>Rejoins l'évènement Minecraft</h2>
-                <h4>IP du Serveur</h4>
-                <div class="rounded-glass-design ip-button" onclick="copyIp('xxx.xxx.xx.xxx', this)">xxx.xxx.xx.xxx</div>
-                <h4>Version</h4>
-                <p>Minecraft Vanilla 1.21.3 (latest)</p>
-                <div class="button-design map-button" onclick="switchPage()">Carte de l'aventure</div>
-            </section>
-            <section class="footer">
-                <h2>Profite d'un Minecraft Optimum</h2>
-                <div class="double-columns">
-                    <div class="item">
-                        <h4>Pack d'opti</h4>
-                        <a href="https://drive.google.com/uc?export=download&id=" class="button-design">Télécharger</a>
-                        <p>Mods d’optimisation pour un max de perfs et de FPS</p>
-                    </div>
-                    <div class="item">
-                        <h4>Pack complet</h4>
-                        <a href="https://drive.google.com/uc?export=download&id=" class="button-design">Télécharger</a>
-                        <p>Mods d’optimisation & Shaders, Resourcepacks...</p>
-                    </div>
+            <div class="page" data-value="0">
+                <div class="block">
+                    <h1>Together</h1>
+                    <h2>Survie 2025</h2>
                 </div>
-            </section>
-        </main>
-        <main>
-            <div class="block">
-                <h1>Together</h1>
-                <h2>Survie 2025</h2>
+                <section>
+                    <div class="rounded-glass-design volume-button off" onclick="toggleVolume()"></div>
+                    <h2>Rejoins l'évènement Minecraft</h2>
+                    <h4>IP du Serveur</h4>
+                    <div class="rounded-glass-design ip-button" onclick="copyIp('xxx.xxx.xx.xxx', this)">xxx.xxx.xx.xxx</div>
+                    <h4>Version</h4>
+                    <p>Minecraft Java - Vanilla 1.21.3 (latest)</p>
+                    <div class="button-design map-button" onclick="switchPage()">Carte de l'aventure</div>
+                </section>
+                <section class="footer">
+                    <h2>Profite d'un Minecraft Optimum</h2>
+                    <div class="double-columns">
+                        <div class="item">
+                            <h4>Pack d'opti</h4>
+                            <a onclick="playSound1()" href="https://drive.google.com/uc?export=download&id=" class="button-design">Télécharger</a>
+                            <p>Mods d’optimisation pour un max de perfs et de FPS</p>
+                        </div>
+                        <div class="item">
+                            <h4>Pack complet</h4>
+                            <a onclick="playSound1()" href="https://drive.google.com/uc?export=download&id=" class="button-design">Télécharger</a>
+                            <p>Mods d’optimisation & Shaders, Resourcepacks...</p>
+                        </div>
+                    </div>
+                </section>
             </div>
-            <section>
-                <h2>Rejoins l'évènement Minecraft</h2>
-                <h4>IP du Serveur</h4>
-                <div class="rounded-glass-design ip-button" onclick="copyIp('xxx.xxx.xx.xxx')">xxx.xxx.xx.xxx</div>
-                <h4>Version</h4>
-                <p>Minecraft Vanilla 1.21.3 (latest)</p>
-                <div class="button-design map-button" onclick="switchPage()">Carte de l'aventure</div>
+            <div class="page" data-value="1">
+                <section>
+                    <div class="rounded-glass-design goback-button" onclick="switchPage()">Retour</div>
+                    <div class="rounded-glass-design zoom-button">
+                        <button id="zoom-in"></button>
+                        <button id="zoom-out"></button>
+                    </div>
+                    <div class="map-container">
+                        <img id="map" src="assets/simplified_map.png" alt="Map" />
+                    </div>
+                </section>
+            </div>
+            <section class="credits">
+                <div class="rounded-glass-design close-credits-button" onclick="toggleCredits()"></div>
+                <h2>Merci !</h2>
+                <h4>Chef de projet</h4>
+                <p>Juix (@jujutheboss)</p>
+                <h4>Mini-map designer</h4>
+                <p>Tristan (@jaajlegrand)</p>
+                <h4>Minecraft builders</h4>
+                <p>Arkynis (@xoxo2597) <br/> Alexis (@moilexis)</p>
             </section>
+            <div class="rounded-glass-design credits-button" onclick="toggleCredits()">Crédits</div>
         </main>
-
-        <script>
-            function copyIp(textToCopy, element) {
-                navigator.clipboard
-                    .writeText(textToCopy)
-                    .catch((error) => {
-                        console.error(
-                            `Failed to copy "${text}" to clipboard: ${error}`
-                        );
-                    });
-                if (!element.classList.contains('copied')) {
-                    element.classList.add('copied');
-                    setTimeout(copyAnimated, 2000, element);
-                }
-            }
-
-            function copyAnimated(element) {
-                if (element.className.match('copied')) {
-                    element.classList.remove('copied');
-                }
-            }
-
-            const body = document.querySelector('body');
-            function switchPage() {
-                body.classList.toggle('show-map');
-            }
-        </script>
     </body>
 </html>
