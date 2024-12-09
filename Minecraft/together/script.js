@@ -105,6 +105,7 @@ window.onload = () => {
     map.style.top = `${y}px`;
 };
 
+let isPinching = false;
 let isDragging = false;
 let startX, startY;
 
@@ -113,6 +114,7 @@ function startDrag(e) {
     e.preventDefault(); // Désactivation du drag-and-drop de l'image
     if (e.touches && e.touches.length === 2) { // Vérifie qu'il y a deux doigts ---> Zoom sur mobile
         startDistance = getDistance(e.touches[0], e.touches[1]);
+        isPinching = true;
         return
     }
     const event = e.touches ? e.touches[0] : e; // Si tactile, utilise le premier touch
@@ -131,7 +133,7 @@ function onDrag(e) {
         const currentDistance = getDistance(e.touches[0], e.touches[1]);
         const scaleFactor = currentDistance / startDistance;
 
-        let newZoomLevel = Math.min(Math.max(1.0, zoomLevel * scaleFactor), 8.0);
+        let newZoomLevel = Math.min(Math.max(1.0, zoomLevel * scaleFactor * 0.5), 8.0);
         setZoom(newZoomLevel);
         return
     }
@@ -164,6 +166,7 @@ function setNewPosition(width, height) {
 
 function stopDrag() {
     isDragging = false;
+    isPinching = false;
     container.style.cursor = 'grab'; // Remet le curseur de "saisie" une fois le déplacement terminé
 };
 
@@ -176,7 +179,7 @@ let zoomLevel = 1;  // Niveau de zoom initial (1 = taille normale)
 
 // Fonction pour appliquer le zoom
 function setZoom(newLevel) {
-    if (!map.classList.contains('zooming')) {
+    if (!map.classList.contains('zooming') && isPinching === false) {
         map.classList.add('zooming');
     }
     const containerWidth = container.offsetWidth;

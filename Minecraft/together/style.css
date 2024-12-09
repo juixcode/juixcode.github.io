@@ -327,6 +327,7 @@ p, .rounded-glass-design, .button-design {
     border: 2px solid rgba(255, 255, 255, 0.2);
     transform: translateY(0px);
     transition: all 0.15s ease-in-out;
+    touch-action: manipulation;
 }
 .button-design::before {
     content: '';
@@ -347,6 +348,7 @@ p, .rounded-glass-design, .button-design {
     padding: 2dvh 4dvh;
     line-height: 2.3dvh;
     transition: all 0.15s ease-in-out;
+    touch-action: manipulation;
 }
 
 .zoom-button {
