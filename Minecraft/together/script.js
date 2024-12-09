@@ -132,8 +132,13 @@ function onDrag(e) {
     if (e.touches && e.touches.length === 2) { // Pinch-to-zoom avec deux doigts sur mobile
         const currentDistance = getDistance(e.touches[0], e.touches[1]);
         const scaleFactor = currentDistance / startDistance;
+        if (scaleFactor > 1) { // Baisse de la sensibilité du zoom
+            scaleFactor = (scaleFactor - 1) / 2 +1
+        } else if (scaleFactor < 1) {
+            scaleFactor = scaleFactor + (1 - scaleFactor) / 2
+        }
 
-        let newZoomLevel = Math.min(Math.max(1.0, zoomLevel * scaleFactor * 0.5), 8.0);
+        let newZoomLevel = Math.min(Math.max(1.0, zoomLevel * scaleFactor), 8.0);
         setZoom(newZoomLevel);
         return
     }
