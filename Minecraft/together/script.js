@@ -48,7 +48,7 @@ window.addEventListener('load', () => {
 });
 
 document.addEventListener('click', () => {
-    if (volumeButton.classList.contains('off')) {
+    if (volumeButton.classList.contains('off') && window.innerWidth > window.innerHeight) { //Seulement si c'est sur horizontal (PC)
         toggleVolume();
     }
 }, { once: true }); // L'événement ne se déclenche qu'une fois
@@ -112,7 +112,7 @@ let startDistance = 0; // Distance entre deux doigts (pinch-to-zoom)
 function startDrag(e) {
     e.preventDefault(); // Désactivation du drag-and-drop de l'image
     if (e.touches && e.touches.length === 2) { // Vérifie qu'il y a deux doigts ---> Zoom sur mobile
-        startDistance = getDistance(event.touches[0], event.touches[1]);
+        startDistance = getDistance(e.touches[0], e.touches[1]);
         console.log('first distance :', startDistance)
         alert('ok !')
         return
@@ -132,7 +132,7 @@ function startDrag(e) {
 
 function onDrag(e) {
     if (e.touches && e.touches.length === 2) { // Pinch-to-zoom avec deux doigts sur mobile
-        const currentDistance = getDistance(event.touches[0], event.touches[1]);
+        const currentDistance = getDistance(e.touches[0], e.touches[1]);
         const scaleFactor = currentDistance / startDistance;
 
         let newZoomLevel = Math.min(Math.max(1.0, zoomLevel * scaleFactor), 8.0);
