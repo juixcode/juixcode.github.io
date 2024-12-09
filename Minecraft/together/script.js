@@ -113,9 +113,10 @@ function startDrag(e) {
     e.preventDefault(); // Désactivation du drag-and-drop de l'image
     if (e.touches && e.touches.length === 2) { // Vérifie qu'il y a deux doigts ---> Zoom sur mobile
         startDistance = getDistance(event.touches[0], event.touches[1]);
+        console.log('first distance :', startDistance)
         return
     }
-
+    console.log('erreur !')
     const event = e.touches ? e.touches[0] : e; // Si tactile, utilise le premier touch
     isDragging = true;
     startX = event.clientX - map.offsetLeft;  // Position de la souris par rapport à l'image
@@ -158,12 +159,6 @@ function setNewPosition(width, height) {
     // Limiter les positions à l'intérieur du conteneur
     x = Math.max(maxX, Math.min(0, x)); // Empêche l'image de dépasser à droite ou à gauche
     y = Math.max(maxY, Math.min(0, y)); // Empêche l'image de dépasser en haut ou en bas
-    console.log('x : modifié', x)
-    console.log('y : modifié', y)
-    console.log('largeur : recue', width)
-    console.log('hauteur : recue', height)
-    console.log('maxX calculé :', maxX)
-    console.log('maxY calculé :', maxY)
     // Appliquer les nouvelles positions à l'image
     map.style.left = `${x}px`;
     map.style.top = `${y}px`;
@@ -195,21 +190,12 @@ function setZoom(newLevel) {
 
     // Appliquer la transformation
     map.style.height = `${newHeight}px`;
-    console.log('---------------------')
-    console.log('decalage x : old, de la map', x)
-    console.log('decalage y : old, de la map', y)
 
     let zoomFactor = newLevel / zoomLevel
     x = -((-x + containerWidth/2) * zoomFactor - (containerWidth / 2)) // Zoom centré
     y = -((-y + containerHeight/2) * zoomFactor - (containerHeight / 2))
 
     zoomLevel = newLevel // Zoom mis à jour
-    console.log('decalage x : new, de la map', x)
-    console.log('decalage y : new, de la map', y)
-    console.log('largeur : de la fenetre', containerWidth)
-    console.log('hauteur : de la fenetre', containerHeight)
-    console.log('largeur : new, de la map', newWidth)
-    console.log('hauteur : new, de la map', newHeight)
     setNewPosition(newWidth, newHeight)
 }
 
