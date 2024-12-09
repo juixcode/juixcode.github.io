@@ -35,6 +35,9 @@ body::before, body::after {
     mix-blend-mode: screen;
     animation: 44s -27s move infinite ease-in-out alternate;
     z-index: -1;
+
+    transform: translateZ(0); /* Hack 3D */
+    will-change: transform; /* Indique que l'élément sera animé */
 }
 body::before {
     text-shadow: 1.37676452em 0.5788034749em 5vh #16eaf8;
