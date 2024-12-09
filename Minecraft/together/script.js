@@ -113,12 +113,8 @@ function startDrag(e) {
     e.preventDefault(); // Désactivation du drag-and-drop de l'image
     if (e.touches && e.touches.length === 2) { // Vérifie qu'il y a deux doigts ---> Zoom sur mobile
         startDistance = getDistance(e.touches[0], e.touches[1]);
-        console.log('first distance :', startDistance)
-        alert('ok !')
         return
     }
-    console.log('erreur !')
-    alert('erreur !')
     const event = e.touches ? e.touches[0] : e; // Si tactile, utilise le premier touch
     isDragging = true;
     startX = event.clientX - map.offsetLeft;  // Position de la souris par rapport à l'image
