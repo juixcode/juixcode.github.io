@@ -22,8 +22,9 @@ function copyAnimated(element) {
 }
 
 const body = document.querySelector('body');
-function switchPage() {
-    body.classList.toggle('show-map');
+function switchPage(page) {
+    document.querySelector('.page.active').classList.remove('active');
+    document.querySelector(`.page[data-value="${page}"]`).classList.add('active');
     // sound2.pause();
     // sound2.currentTime = 0;
     // sound2.play();

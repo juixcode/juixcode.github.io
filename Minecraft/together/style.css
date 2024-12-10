@@ -72,7 +72,7 @@ head::after {
 
 body {
     height: 100dvh;
-    width: 200vw;
+    width: 300vw;
     z-index: -1;
 }
 main {
@@ -101,8 +101,14 @@ main {
     transition: transform 0.3s ease-in-out;
     transform: translateX(0);
 }
-body.show-map .page {
+body:has(.page[data-value="-1"].active) .page {
+    transform: translateX(0%);
+}
+body:has(.page[data-value="0"].active) .page {
     transform: translateX(-100%);
+}
+body:has(.page[data-value="1"].active) .page {
+    transform: translateX(-200%);
 }
 
 /* ###################################################################### */
@@ -254,6 +260,10 @@ section {
 .footer, .credits {
     border-radius: 5dvh 5dvh 0 0;
 }
+.page[data-value="-1"] section {
+    height: 100%;
+    border-radius: 0;
+}
 .block {
     display: flex;
     flex-direction: column;
@@ -391,9 +401,9 @@ p, .rounded-glass-design, .button-design {
     position: absolute;
     left: 2dvh;
     top: 2dvh;
-    z-index: 1;
+    z-index: 20;
 }
-.goback-button::before {
+.goback-button.left::before {
     content: '';
     display: block;
     height: 2.3dvh;
@@ -402,6 +412,22 @@ p, .rounded-glass-design, .button-design {
     background-size: 100% 100%;
     position: relative;
     right: 0.5dvh;
+}
+.goback-button.right {
+    left: auto;
+    right: 2dvh;
+    backdrop-filter: none;
+}
+.goback-button.right::after {
+    content: '';
+    display: block;
+    height: 2.3dvh;
+    width: 2.3dvh;
+    background: fixed url(assets/back.svg) no-repeat;
+    background-size: 100% 100%;
+    position: relative;
+    left: 0.5dvh;
+    transform: rotate(180deg);
 }
 .volume-button {
     cursor: pointer;
@@ -449,12 +475,16 @@ p, .rounded-glass-design, .button-design {
     background: fixed url(assets/done.svg) no-repeat;
     background-size: 100% 100%;
 }
-.map-button {
+.map-button, .infos-button {
     background-color: #0784C5;
     margin-top: 3dvh;
 }
 .map-button::before {
     background: fixed url(assets/search.svg) no-repeat;
+    background-size: 100% 100%;
+}
+.infos-button::before {
+    background: fixed url(assets/info.svg) no-repeat;
     background-size: 100% 100%;
 }
 
@@ -468,7 +498,7 @@ p, .rounded-glass-design, .button-design {
         background: rgba(255, 255, 255, 0.2);
         outline: 5px solid rgba(255, 255, 255, 0.3);
     }
-    .map-button:hover {
+    .map-button:hover, .infos-button:hover {
         background-color: #2c98d2;
     }
 }
@@ -492,6 +522,19 @@ p, .rounded-glass-design, .button-design {
     }
     .page[data-value="1"] section {
         outline: none;
+    }
+    .double-columns {
+        flex-direction: column;
+    }
+    .double-columns .item {
+        width: 100%;
+    }
+    .map-button {
+        background-color: #D21C6E;
+    }
+    .page[data-value="-1"] p {
+        font-size: 2.1dvh;
+        line-height: 2.1dvh;
     }
 }
 
@@ -528,4 +571,25 @@ p, .rounded-glass-design, .button-design {
 .zoom-button {
     z-index: 10;
     display: flex;
+}
+.scrollable {
+    justify-content: start;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+    max-height: 80dvh;
+    overflow-y: scroll;
+}
+
+*::-webkit-scrollbar {
+    width: 0.7dvh;
+}
+*::-webkit-scrollbar-track {
+    background: none;
+}
+*::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 5vh;
+    cursor: pointer;
 }
