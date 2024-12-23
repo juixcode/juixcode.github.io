@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+        <title>Skibidi Fight Game</title>
+        <link rel="stylesheet" href="style.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <link rel="shortcut icon" href="Medias/favicon.ico" type="image/ico" />
+        <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
+    </head>
+    <body>
+        <p class="info" style="display: flex;">v1.0</p>
+        <div class="tab">
+            <button class="switch" id="player_name" onclick="switchPlayer(this)">Player 1</button>
+        </div>
+        <div class="canvas">
+            <div id="player1" class="player"></div>
+            <div id="player2" class="player"></div>
+        </div>
+
+        <script src="script.js" defer></script>
+    </body>
+</html>
