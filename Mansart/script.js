@@ -135,6 +135,7 @@ function saveUser(element, page) { // Exemple : [["Lucie","TA","@lucie_mansart",
     fullDatabase.once('value')
         .then((snapshot) => {
             let newDatabase = snapshot.val();
+            let dataToSave = database.ref('mansart-database/'+userNumber);
 
             if (userName.value === "" || userClass.value === "" || userContact.value === "") {
                 userName.classList.add('active')
@@ -149,8 +150,9 @@ function saveUser(element, page) { // Exemple : [["Lucie","TA","@lucie_mansart",
                 } else {
                     newDatabase[userNumber] = [[userName.value, userClass.value, userContact.value, userMessage]]
                 }
+                console.log(newDatabase[userNumber])
                 switchPage(page);
-                fullDatabase.set(newDatabase);
+                dataToSave.set(newDatabase[userNumber]);
             }
         })
         .catch((error) => {
