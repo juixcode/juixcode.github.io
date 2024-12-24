@@ -20,12 +20,12 @@ const firebaseConfig = {
 // Initialiser Firebase
 firebase.initializeApp(firebaseConfig);
 
-// ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Mettre à jour les données affichées
+// ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Mettre à jour la database
 
 const clicksCountToSave = document.querySelectorAll('.clicks_count_to_save')
 const commentsToSave = document.querySelectorAll('.comments_to_save')
 const totalDownloadsIndicators = document.querySelectorAll('.pack_download_total_downloads')
-let database = firebase.database().ref('juixcode-database'); // Référence à la base de données
+var database = firebase.database().ref('juixcode-database'); // Référence à la base de données
 
 function maxUsedID(database) {
     let allKeysList = []
@@ -35,111 +35,116 @@ function maxUsedID(database) {
     console.log("ID Maximal utilisé : " + Math.max(...allKeysList))
 }
 
+function updateDatabaseDomain() {
+    // ETAPE 1 - INITIALISATION DE LA BASE VIDE
+    localDatabase = {}
+
+    elementsWithData.forEach(each => { // id ---> data
+        localDatabase[each.id] = "0";
+    });
+    elementsWithArray.forEach(each => { // id ---> array
+        localDatabase[each.id] = [['01/01/3024','Here is the start of the conversation. Ask any question, report a bug or give your opinion on my pack !']];
+    });
+
+    // ETAPE 2 - INSERTION DES VALEURS PRESENTES DANS LA BASE
+    database.once('value')
+        .then((snapshot) => {
+            let onlineDatabase = snapshot.val(); // Extraire les valeurs de la base de données
+            for (let key in onlineDatabase) {
+                localDatabase[key] = onlineDatabase[key]
+            }
+            console.log(localDatabase)
+            updateElementsWithData(localDatabase)
+
+            // ETAPE 3 - UPDATE L'AFFICHAGE DES ELEMENTS
+            updateElementsWithData(localDatabase)
+            maxUsedID(localDatabase)
+
+            // ETAPE 4 - REEXPORTATION
+            return database.set(localDatabase); // Écrase les valeurs actuelles par celles de 'onlineDatabase'
+        })
+        .then(() => {
+            console.log("La base de données a été mise à jour avec succès !");
+        })
+        .catch((error) => {
+            console.error("Erreur lors de la récupération ou de la mise à jour de la base de données :", error);
+        });
+}
+
 let globalCommentPostTest = document;
 
-function updateElement(element, newValue) {
-    // UPDATE D'UN CLICKS-COUNT
-    if (element.classList.contains('clicks_count_to_save')) {
-        element.textContent = String(newValue);
-    
-    // UPDATE D'UN TOTAL-CLICKS-COUNT SI IL Y EN A UN LIE
-        if (element.classList.contains('pack_download_number_downloads')) {
-            let totalDownloads = 0;
-            let totalDownloadsIndicator = element.closest('.pack_download_block').querySelector('.pack_download_total_downloads');
-            totalDownloadsIndicator.closest('.pack_download_block').querySelectorAll('tbody .clicks_count_to_save').forEach(downloadNumber => {
-                totalDownloads = totalDownloads + Number(downloadNumber.textContent);
-            });
-            totalDownloadsIndicator.textContent = String(totalDownloads);
-        };
-
-    // UPDATE D'UNE CHAINE DE COMMENTAIRES
-    } else if (element.classList.contains('comments_to_save')) {
+function updateElementsWithData(database) {
+    document.querySelectorAll('.has_data_to_save.pack_download_upvote').forEach(element => { //Update des affichages des nombres d'upvotes de packs téléchargeables
+        // element.textContent = database[element.id] + '\ud83d\udd25'
+        element.textContent = database[element.id]
+    });
+    // document.querySelectorAll('.has_data_to_save.pack_download_reviews_note').forEach(element => { //Update des affichages des notes de packs téléchargeables
+    //     let final_note = 0;
+    //     for (let note in database[element.id]) {
+    //         final_note += note;
+    //     }
+    //     final_note = (final_note / length(database[element.id])).toFixed(1);
+    //     element.textContent = String(final_note);
+    // });
+    document.querySelectorAll('.has_data_to_save.pack_download_number_downloads').forEach(element => { //Update des affichages du nombre de téléchargements des versions de packs téléchargeables
+        element.textContent = database[element.id]
+    });
+    totalDownloadsIndicators.forEach(element => { //Calcul des affichages de téléchargements totaux
+        let totalDownloads = 0;
+        element.parentElement.parentElement.parentElement.querySelectorAll('tbody td.has_data_to_save').forEach(downloadNumber => {
+            totalDownloads = totalDownloads + Number(downloadNumber.textContent);
+        });
+        element.textContent = String(totalDownloads);
+    });
+    document.querySelectorAll('.has_array_to_save.link.redirection').forEach(element => { //Update des commentaires de packs téléchargeables
         let messagesArea = element.parentElement.parentElement.parentElement.children[1]
-        let commentsListToUpdate = newValue || [];
-        commentsListToUpdate.unshift(['01/01/3024','Here is the start of the conversation. Ask any question, report a bug or give your opinion on my pack !']); // Ajoute le message par défaut (en première pos) à la liste de commentaires à afficher
-
-        if (messagesArea.childElementCount-1 < commentsListToUpdate.length) { //ChildCount-1 pour contourner la présence du bouton de Refresh
-            for (let i = messagesArea.childElementCount-1; i < commentsListToUpdate.length; i++) {
+        if (messagesArea.childElementCount-1 < database[element.id].length) { //ChildCount-1 pour contourner la présence du bouton de Refresh
+            for (let i = messagesArea.childElementCount-1; i < database[element.id].length; i++) {
                 let newMessageDiv = document.createElement('div'); //Création du message
                 newMessageDiv.className = 'message';
-                newMessageDiv.textContent = commentsListToUpdate[i][1];
+                newMessageDiv.textContent = database[element.id][i][1];
                 newMessageDiv.appendChild(document.createElement('br'));
 
-                if (globalCommentPostTest === element & i === commentsListToUpdate.length - 1) { // Alors le message a été envoyé par l'utilisateur actuel
+                if (globalCommentPostTest === element & i === database[element.id].length - 1) { // Alors le message a été envoyé par l'utilisateur actuel
                     newMessageDiv.classList.add('active');
                     globalCommentPostTest = document;
                 };
 
                 let spanElement = document.createElement('span');
-                spanElement.textContent = commentsListToUpdate[i][0];
+                spanElement.textContent = database[element.id][i][0];
                 newMessageDiv.appendChild(spanElement);
             
                 messagesArea.appendChild(newMessageDiv);
             };
             messagesArea.scrollTo({top: messagesArea.scrollHeight, behavior: 'smooth'});
         };
-    }
+    });
 }
 
-function updateAllElements() {
+// ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Compteurs de downloads & données enregistrées
+
+function updateDatabase(elementID, addition, type) {
     database.once('value')
         .then((snapshot) => {
-            fullDatabase = snapshot.val();
+            // ETAPE 1 - RECUPERATION DES VALEURS PRESENTES DANS LA BASE
+            let localDatabase = snapshot.val();
 
-            // UPDATE DE TOUS LES COMPTEURS DE CLICS
-            document.querySelectorAll('.clicks_count_to_save').forEach(each => {
-                updateElement(each, fullDatabase['clicks-counters'][each.dataset.value]);
-            });
-
-            // UPDATE DE TOUTES LES CHAINES DE COMMENTAIRES
-            document.querySelectorAll('.comments_to_save').forEach(each => {
-                updateElement(each, fullDatabase['comments'][each.dataset.value]);
-            });
-        })
-        .catch((error) => {
-            console.error("Data error :", error);
-        });
-}
-
-// ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Enregistrer les données (clics, chats, ...)
-
-function saveClicksCount(element) {
-    let elementToSaveRef = firebase.database().ref('juixcode-database/clicks-counters/' + element.dataset.value)
-    elementToSaveRef.once('value')
-        .then((snapshot) => {
-            let newValue = Number(snapshot.val() + 1); // Incrémentation du nombre de clics
-            elementToSaveRef.set(newValue);
-
-            updateElement(element, newValue);
-        })
-        .catch((error) => {
-            console.error("Data error :", error);
-        });
-}
-
-function saveComments(element) {
-    let elementToSaveRef = firebase.database().ref('juixcode-database/comments/' + element.dataset.value)
-    elementToSaveRef.once('value')
-        .then((snapshot) => {
-            let today = new Date();
-            let day = String(today.getDate()).padStart(2, '0'); // Ajoute un 0 devant si < 10
-            let month = String(today.getMonth() + 1).padStart(2, '0'); // Les mois sont indexés de 0 à 11, donc on ajoute +1
-            let year = today.getFullYear();
-            let fullDate = `${day}/${month}/${year}`;
-    
-            let messageContent = element.parentElement.querySelector('textarea');
-            if (messageContent.value !== '') {
-                globalCommentPostTest = element // Indique que le message a été envoyé par l'utilisateur actuel
-                let newValue = snapshot.val() || [];
-                newValue.push([fullDate, messageContent.value]);
-
-                messageContent.value = ''; // Réinitialise le champ de texte
-                successMessage.children[0].textContent = "Message sent"; // Animation de succès
-                successMessage.classList.add('active');
-
-                elementToSaveRef.set(newValue);
-                updateElement(element, newValue);
+            // ETAPE 2 - AFFECTATION DE LA VALEUR CHANGEANTE
+            if (type === 'data') {
+                localDatabase[elementID] = String(Number(localDatabase[elementID]) + addition);
+            } else if (type === 'array') {
+                localDatabase[elementID].push(addition);
             }
+
+            // ETAPE 3 - UPDATE L'AFFICHAGE DES ELEMENTS
+            updateElementsWithData(localDatabase)
+
+            // ETAPE 4 - REEXPORTATION DES DONNEES VERS LA BASE
+            if (type !== 'init') {
+                return database.set(localDatabase); // Écrase les valeurs actuelles par celles de 'onlineDatabase'
+            } 
+        })
+        .then(() => {
         })
         .catch((error) => {
             console.error("Data error :", error);
@@ -148,25 +153,23 @@ function saveComments(element) {
 
 // Initialisation et récupération des données sauvegardées
 document.addEventListener("DOMContentLoaded", () => {
-    updateAllElements();
+    // updateDatabaseDomain()
+    updateDatabase(0, 0, 'init');
 });
-
-// ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Appels aux bases de données
 
 // Incrémentation du nombre de downloads des versions de packs Minecraft
 document.querySelectorAll('.pack_download_slider_item_download .link.download.type2').forEach(each => {
     each.addEventListener('click', () => {
-        let relatedElement = each.parentElement.parentElement.parentElement.children[3];
-        saveClicksCount(relatedElement)
+        let relatedDataID = each.parentElement.parentElement.parentElement.children[3].id;
+        updateDatabase(relatedDataID, 1, 'data');
     });
 });
 
 // Incrémentation du nombre d'upvotes des packs Minecraft
-document.querySelectorAll('.clicks_count_to_save.pack_download_upvote').forEach(each => {
+document.querySelectorAll('.has_data_to_save.pack_download_upvote').forEach(each => {
     each.addEventListener('click', () => {
         if (!each.classList.contains('disabled')) {
-            saveClicksCount(each)
-
+            updateDatabase(each.id, 1, 'data');
             each.classList.add('disabled');
             successMessage.children[0].textContent = "Thanks for support";
             successMessage.classList.add('active');
@@ -175,9 +178,24 @@ document.querySelectorAll('.clicks_count_to_save.pack_download_upvote').forEach(
 });
 
 // Enregistrement de commentaire de pack téléchargeable
-document.querySelectorAll('.comments_to_save.link.redirection').forEach(each => {
+document.querySelectorAll('.has_array_to_save.link.redirection').forEach(each => {
     each.addEventListener('click', () => {
-        saveComments(each)
+        let today = new Date();
+        let day = String(today.getDate()).padStart(2, '0'); // Ajoute un 0 devant si < 10
+        let month = String(today.getMonth() + 1).padStart(2, '0'); // Les mois sont indexés de 0 à 11, donc on ajoute +1
+        let year = today.getFullYear();
+        let fullDate = `${day}/${month}/${year}`;
+
+        let messageContent = each.parentElement.querySelector('textarea');
+        if (messageContent.value !== '') {
+            console.log(messageContent.value)
+            console.log([messageContent.value])
+            globalCommentPostTest = each // Indique que le message a été envoyé par l'utilisateur actuel
+            updateDatabase(each.id, [fullDate,messageContent.value], 'array');
+            messageContent.value = '';
+            successMessage.children[0].textContent = "Message sent";
+            successMessage.classList.add('active');
+        }
     });
 });
 
@@ -187,7 +205,7 @@ document.querySelectorAll('.link.refresh_database').forEach(each => {
         each.classList.remove('active');
     });
     each.addEventListener('click', () => {
-        updateAllElements();
+        updateDatabase(0, 0, 'init');
         each.classList.add('active');
     });
 });
@@ -298,6 +316,30 @@ function open_page(x) {
     });
 }
 
+// function open_page(x) {
+//     const first_page = document.querySelector('div.page.type1');
+//     window.scrollTo(0, 0);
+//     const link_on_page = document.querySelector('.link.page.on_page');
+    
+//     hamburger.classList.remove('active'); //Fermeture auto du menu
+//     hamburger_menu.classList.remove('active');
+
+//     setTimeout(changeBackgroundTheme(x), 150); //Change le fond d'écran
+//     body.classList.add("active"); //Lance l'animation de blur
+//     pages.style.height = `${pages.children[x].offsetHeight}px`
+
+//     link_on_page.classList.add("anim_button_hover_navigation");
+//     link_on_page.classList.remove("on_page");
+//     navbar.children[2].children[x].classList.remove("anim_button_hover_navigation");
+//     navbar.children[2].children[x].classList.add("on_page");
+
+//     first_page.style.marginLeft = String(-100 * x) + 'vw'
+
+//     body.addEventListener('animationend', function() {
+//         body.classList.remove('active');
+//     });
+// }
+
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ LOAD initialisation
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -319,10 +361,20 @@ document.addEventListener('DOMContentLoaded', function() {
         each.parentElement.parentElement.querySelector('p span').textContent = latestPack.children[0].textContent
 
         each.addEventListener('click', () => {
-            saveClicksCount(latestPack.children[3]);
+            updateDatabase(latestPack.children[3].dataset.value, 'clicks-count');
         });
     });
 });
+
+// function resetPageHeight() {
+//     documentHtml.style.scrollBehavior = 'auto';
+//     window.scrollTo({
+//         left: 0,
+//         behavior: 'auto'
+//     });
+//     documentHtml.style.scrollBehavior = 'smooth';
+//     pages.style.height = `${pages.children[0].offsetHeight}px`
+// }
 
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Copie de lien
 
@@ -414,6 +466,45 @@ document.querySelectorAll('.gallery_download_item').forEach(each => {
         each.classList.toggle('active');
     });
 });
+
+// ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Expander
+
+// const showMoreBtns = document.querySelectorAll('.link.redirection.type3');
+
+// showMoreBtns.forEach(showMoreBtn => {
+//     showMoreBtn.addEventListener('click', () => {
+//         console.log(showMoreBtn)
+//         if (showMoreBtn.className.match('active')) { 
+//             showMoreBtnClose();
+//         } else {
+//             const expander = showMoreBtn.parentElement.parentElement.parentElement.parentElement;
+//             showMoreBtnClose();
+//             expander.classList.add('active');
+//             showMoreBtn.classList.add('active');
+//             if (langBtn.className.match('fr')) { 
+//                 showMoreBtn.textContent = "Voir moins";
+//             } else {
+//                 showMoreBtn.textContent = "Show less";
+//             }
+//         }
+//     })
+// });
+
+// function showMoreBtnClose() {
+//     const activeExpander = document.querySelector('.expander.active');
+//     const activeShowMoreBtn = document.querySelector('.link.redirection.type3.active');
+//     if (!(activeExpander == null)) {
+//         activeExpander.classList.remove('active');
+//     }
+//     if (!(activeShowMoreBtn == null)) {
+//         activeShowMoreBtn.classList.remove('active');
+//         if (langBtn.className.match('fr')) { 
+//             activeShowMoreBtn.textContent = "Voir plus";
+//         } else {
+//             activeShowMoreBtn.textContent = "Show more";
+//         }
+//     }
+// }
 
 // ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Ouverture du menu mobile
 
