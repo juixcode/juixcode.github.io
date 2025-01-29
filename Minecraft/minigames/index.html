@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Minigames</title>
+        <meta name="title"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+		<link rel="shortcut icon" href="assets/favicon.ico" type="image/ico" />
+        <link rel="stylesheet" href="style.css" />
+        <script src="script.js" defer></script>
+    </head>
+    <body>
+        <main>
+            <audio preload="auto" id="background-music" autoplay muted loop><source src="assets/music.mp3" type="audio/mp3">Audio non supporté</audio>
+            <audio preload="auto" id="click-sound" autoplay><source src="assets/bell.mp3" type="audio/mp3">Audio non supporté</audio>
+            <audio preload="auto" id="click-sound-2" autoplay><source src="assets/icechime.mp3" type="audio/mp3">Audio non supporté</audio>
+            <div class="background">
+                <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="page" data-value="-1">
+                <section>
+                    <div class="rounded-glass-design goback-button right" onclick="switchPage(0)">Retour</div>
+                    <div class="scrollable">
+                        <h2>Détails & Concept</h2>
+                        <p>
+                            2 Royaumes vivant indépendamment (nombre de joueurs équilibré dans chaque), 1 Roi par royaume.
+                            Chaque royaume possède une zone protégée qu'il placera indéfiniment, où les citoyens sont invulnérables du royaume adverse</p>
+                        <h4>«»«»«» LE HUB «»«»«»</h4>
+                        <p>Un HUB/3e Royaume central où peuvent se faire des échanges, des matchs PVP d'arène en 1v1.
+                            Zone protégée où chacun est intouchable.
+                            Possiblement présence d'un marché ? Achats d'objets uniques tels que des Fireballs, ...
+                        </p>
+                        <h4>«»«»«» XP & VICTOIRE «»«»«»</h4>
+                        <p>
+                            Chaque joueur possède constamment une quête en cours qui lui rapportera un XP spécial.
+                            Les quêtes deviennent de plus en plus complexes.
+                            L'XP de tous les citoyens d'un royaume sont additionnés ensemble.
+                            Le premier Royaume à atteindre un score d'XP gagne la partie.
+                        </p>
+                        <h4>«»«»«» KILLS & ROIS «»«»«»</h4>
+                        <p>
+                            Chaque kill donne de l'XP.
+                            Chaque kill engendré par un Roi donne de l'XP avec un énorme multiplicateur (x10).
+                            Tuer un Roi donne de l'XP avec un énorme multiplicateur (x20).
+                            Tuer un Roi par le Roi adverse donne de l'XP avec un énorme multiplicateur (x50)
+                        </p>
+                        <h4>«»«»«» METIERS «»«»«»</h4>
+                        <p>
+                            Chaque joueur a le choix parmi plusieurs métiers disponibles offrant un passif spécifique pour l'aventure.
+                        </p>
+                    </div>
+                </section>
+            </div>
+            <div class="page active" data-value="0">
+                <div class="block">
+                    <h1>Together</h1>
+                    <h2>Survie 2025</h2>
+                </div>
+                <section>
+                    <div class="rounded-glass-design volume-button off" onclick="toggleVolume()"></div>
+                    <h2>Rejoins l'évènement Minecraft</h2>
+                    <h4>IP du Serveur</h4>
+                    <div class="rounded-glass-design ip-button" onclick="copyIp('xxx.xxx.xx.xxx', this)">xxx.xxx.xx.xxx</div>
+                    <h4>Version</h4>
+                    <p>Minecraft Java - Vanilla 1.21.3 (latest)</p>
+                    <div class="double-columns">
+                        <div class="item">
+                            <div class="button-design infos-button" onclick="switchPage(-1)">Détails & Concept</div>
+                        </div>
+                        <div class="item">
+                            <div class="button-design map-button" onclick="switchPage(1)">Carte de l'aventure</div>
+                        </div>
+                    </div>
+                </section>
+                <section class="footer">
+                    <h2>Profite d'un Minecraft Optimum</h2>
+                    <div class="double-columns">
+                        <div class="item">
+                            <h4>Pack d'opti</h4>
+                            <a onclick="playSound1()" href="https://drive.google.com/uc?export=download&id=" class="button-design">Télécharger</a>
+                            <p>Mods d’optimisation pour un max de perfs et de FPS</p>
+                        </div>
+                        <div class="item">
+                            <h4>Pack complet</h4>
+                            <a onclick="playSound1()" href="https://drive.google.com/uc?export=download&id=" class="button-design">Télécharger</a>
+                            <p>Mods d’optimisation & Shaders, Resourcepacks...</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="page" data-value="1">
+                <section>
+                    <div class="rounded-glass-design goback-button left" onclick="switchPage(0)">Retour</div>
+                    <div class="rounded-glass-design zoom-button">
+                        <button id="zoom-in"></button>
+                        <button id="zoom-out"></button>
+                    </div>
+                    <div class="map-container">
+                        <img id="map" src="assets/simplified_map.png" alt="Map" />
+                    </div>
+                </section>
+            </div>
+            <section class="credits">
+                <div class="rounded-glass-design close-credits-button" onclick="toggleCredits()"></div>
+                <h2>Merci !</h2>
+                <h4>Chef de projet</h4>
+                <p>Juix (@jujutheboss)</p>
+                <h4>Mini-map designer</h4>
+                <p>Tristan (@jaajlegrand)</p>
+                <h4>Minecraft builders</h4>
+                <p>Arkynis (@xoxo2597) <br/> Alexis (@moilexis)</p>
+            </section>
+            <div class="rounded-glass-design credits-button" onclick="toggleCredits()">Crédits</div>
+        </main>
+    </body>
+</html>
