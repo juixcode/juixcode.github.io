@@ -172,7 +172,8 @@ function showDatabase() {
                 newUserNumber.textContent = String(key);
 
                 let newUserName = document.createElement('td');
-                newUserName.textContent = currentDatabase[key][0][0];
+                newUserName.textContent = 'Masqué';
+                // newUserName.textContent = currentDatabase[key][0][0];
                 
                 let newUserClass = document.createElement('td');
                 newUserClass.textContent = currentDatabase[key][0][1];
@@ -186,7 +187,8 @@ function showDatabase() {
                     newUserNumber.textContent = "";
 
                     let newUserName = document.createElement('td');
-                    newUserName.textContent = currentDatabase[key][1][0];
+                    newUserName.textContent = 'Masqué';
+                    // newUserName.textContent = currentDatabase[key][1][0];
 
                     let newUserClass = document.createElement('td');
                     newUserClass.textContent = currentDatabase[key][1][1];
