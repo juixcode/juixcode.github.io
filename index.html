@@ -7,7 +7,7 @@
     <link rel="preload" href="Medias/Backgrounds/home.jpg" as="image">
     <link rel="preload" href="Medias/Backgrounds/minecraft.jpg" as="image">
     <link rel="preload" href="Medias/Backgrounds/genshin.jpg" as="image">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style_optimized.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -200,7 +200,7 @@
             <section class="container type2" id="anchor.2.1">
                 <h2 class="can_switch_lang active">Download my Minecraft datapacks for free</h2><h2 class="can_switch_lang">Télécharge mes datapacks gratuitement</h2>
 
-                <div class="pack_download_block"> <!-- --- --- SLIDER 1 --- --- -->
+                <div class="pack_download_block"> <!-- --- --- SLIDER 0 --- --- -->
                     <div class="pack_download_title">
                         <h1 id="anchor.2.1.1">Hammers</h1>
                         <div class="block">
@@ -240,13 +240,13 @@
                                 <div class="type_1x2_scalable">
                                     <div class="pack_download_slider_item_fastdownload_cell">
                                         <h3 class="can_switch_lang active">Last release</h3><h3 class="can_switch_lang">Dernière version</h3>
-                                        <p>Hammers&nbsp;<span class="shortcut_download_button_version_indicator">v1.0</span></p>
+                                        <p>Hammers&nbsp;<span class="shortcut_download_button_version_indicator">v1.x</span></p>
                                         <div class="block"><a class="link download anim_button_hover_expansion shortcut_download_button" href=""></a><div class="link copy" onclick="copy(this)"></div></div>
                                     </div>
                                     <div class="pack_download_slider_item_fastdownload_cell">
                                         <h3 class="can_switch_lang active">Resourcepack needed</h3><h3 class="can_switch_lang">Resourcepack requis</h3>
                                         <p>Juix Resources&nbsp;<span>v1.0+</span></p>
-                                        <a class="link redirection type6 anim_button_hover_expansion" onclick="scrollToElement('anchor.2.2')">Go to pack</a>
+                                        <a class="link redirection type6 anim_button_hover_expansion" onclick="scrollToElement('anchor.2.2.1')">Go to pack</a>
                                     </div>
                                 </div>
                             </div>
@@ -293,7 +293,7 @@
                                     <label class="pack_download_slider_gallery_radio">
                                         <input type="radio" name="slide" value="1" onclick="galleryPackDownloadRadioclick(this)">
                                     </label>
-                                    <!-- <label class="pack_download_slider_gallery_radio">
+                                    <label class="pack_download_slider_gallery_radio">
                                         <input type="radio" name="slide" value="2" onclick="galleryPackDownloadRadioclick(this)">
                                     </label>
                                     <label class="pack_download_slider_gallery_radio">
@@ -301,7 +301,7 @@
                                     </label>
                                     <label class="pack_download_slider_gallery_radio">
                                         <input type="radio" name="slide" value="4" onclick="galleryPackDownloadRadioclick(this)">
-                                    </label> -->
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -324,12 +324,228 @@
                     </div>
                 </div>
                 
+
+                <div class="pack_download_block"> <!-- --- --- SLIDER 2 --- --- -->
+                    <div class="pack_download_title">
+                        <h1 id="anchor.2.1.1">Teleporters</h1>
+                        <div class="block">
+                            <h1 data-value="00006" class="clicks_count_to_save pack_download_upvote">0</h1>
+                            <h3 class="pack_download_total_downloads">0</h3>
+                        </div>
+                    </div>
+                    <form class="pack_download_nav">
+                        <label class="pack_download_nav_radio">Overview
+                            <input type="radio" name="slide" value="0" onclick="sliderPackDownloadRadioclick(this)" checked="true">
+                        </label>
+                        <label class="pack_download_nav_radio">Download
+                            <input type="radio" name="slide" value="1" onclick="sliderPackDownloadRadioclick(this)">
+                        </label>
+                        <label class="pack_download_nav_radio">Gallery
+                            <input type="radio" name="slide" value="2" onclick="sliderPackDownloadRadioclick(this)">
+                        </label>
+                        <label class="pack_download_nav_radio">Chat
+                            <input type="radio" name="slide" value="3" onclick="sliderPackDownloadRadioclick(this)">
+                        </label>
+                    </form>
+                    <div class="pack_download_slider" data-value="2"> <!-- Datavalue = slider tag -->
+                        <div class="pack_download_slider_container" data-value="0"> <!-- Datavalue = container tag -->
+                            <div class="pack_download_slider_item pack_download_slider_item_image" data-value="datapack-teleporters-preview"></div>
+                            <div class="type_1x2_column">
+                                <div class="pack_download_slider_item pack_download_slider_item_overview">
+                                    <h3 class="can_switch_lang active">Overview</h3><h3 class="can_switch_lang">Vue d'ensemble</h3>
+                                    <p class="can_switch_lang active">The Teleporters pack adds teleportation beacons to your game, linking two hard-to-reach locations. This pack is ideal for multiplayer games, and for connecting distant houses. No mods required, but you'll just need my resource pack to enjoy the custom textures.</p><p class="can_switch_lang">Le pack Teleporters ajoutera des balises de téléportation à ta partie, pour relier deux endroits difficiles d'accès. Ce pack est idéal dans les parties multijoueurs, et pour relier des bases éloignées. Aucun mod requis, mais t'auras juste besoin de mon pack de ressources pour profiter des textures customs.</p>
+                                    <a class="link redirection type2 anim_button_hover_expansion" target="_blank" href="index.html">Trailer</a>
+                                </div>
+                                <p class="can_switch_lang active pack_download_slider_item_info" data-value="1">Useful for building distant homes</p><p class="can_switch_lang pack_download_slider_item_info" data-value="1">Utile pour bâtir des maisons éloignées</p>
+                                <p class="can_switch_lang active pack_download_slider_item_info" data-value="2">Continuously charges chunks linked by teleporters</p><p class="can_switch_lang pack_download_slider_item_info" data-value="2">Charge continuellement les chunks reliés par des téléporteurs</p>
+                                <p class="can_switch_lang active pack_download_slider_item_info" data-value="3">Requires the Juix Resources [v1.0] (or later) resourcepack</p><p class="can_switch_lang pack_download_slider_item_info" data-value="3">Requiert le ressource pack Juix Resources [v1.0] (ou plus)</p>
+                            </div>
+                            <div class="pack_download_slider_item pack_download_slider_item_fastdownload">
+                                <h3 class="bigger">Fast download</h3>
+                                <div class="type_1x2_scalable">
+                                    <div class="pack_download_slider_item_fastdownload_cell">
+                                        <h3 class="can_switch_lang active">Last release</h3><h3 class="can_switch_lang">Dernière version</h3>
+                                        <p>Teleporters&nbsp;<span class="shortcut_download_button_version_indicator">v1.x</span></p>
+                                        <div class="block"><a class="link download anim_button_hover_expansion shortcut_download_button" href=""></a><div class="link copy" onclick="copy(this)"></div></div>
+                                    </div>
+                                    <div class="pack_download_slider_item_fastdownload_cell">
+                                        <h3 class="can_switch_lang active">Resourcepack needed</h3><h3 class="can_switch_lang">Resourcepack requis</h3>
+                                        <p>Juix Resources&nbsp;<span>v1.0+</span></p>
+                                        <a class="link redirection type6 anim_button_hover_expansion" onclick="scrollToElement('anchor.2.2.1')">Go to pack</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pack_download_slider_container" data-value="1">
+                            <div class="pack_download_slider_item pack_download_slider_item_download">
+                                <h3 class="bigger">Downloads</h3>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th><div class="block"><img src="Medias/table_version.svg"><p>Pack Version</p></div></th>
+                                            <th><div class="block"><img src="Medias/table_minecraft.svg"><p>Minecraft Version</p></div></th>
+                                            <th class="low_importance_2"><div class="block"><img src="Medias/table_date.svg"><p>Publication Date</p></div></th>
+                                            <th class="low_importance"><div class="block"><img src="Medias/table_downloads.svg"><p>Total Downloads</p></div></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1.0</td>
+                                            <td>1.21-1.21.1</td>
+                                            <td class="low_importance_2">31/01/2025</td>
+                                            <td data-value="00007" class="clicks_count_to_save pack_download_number_downloads low_importance">0</td>
+                                            <td><div class="block"><a class="link download type2 anim_button_hover_expansion" href="https://juixcode.github.io/Dropbox/Minecraft/Datapacks/Teleporters by Juix [1.0] 1.21-1.21.1.zip"></a><div class="link copy type2" onclick="copy(this)"></div></div></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="pack_download_slider_container" data-value="2">
+                            <div class="type_1x2">
+                                <div class="pack_download_slider_gallery_preview" data-value="0"></div> <!-- Datavalue = image selected -->
+                                <div class="pack_download_slider_gallery_selectors">
+                                    <label class="pack_download_slider_gallery_radio">
+                                        <input type="radio" name="slide" value="0" onclick="galleryPackDownloadRadioclick(this)" checked="true"> <!-- Datavalue = image background -->
+                                    </label>
+                                    <label class="pack_download_slider_gallery_radio">
+                                        <input type="radio" name="slide" value="1" onclick="galleryPackDownloadRadioclick(this)">
+                                    </label>
+                                    <label class="pack_download_slider_gallery_radio">
+                                        <input type="radio" name="slide" value="2" onclick="galleryPackDownloadRadioclick(this)">
+                                    </label>
+                                    <label class="pack_download_slider_gallery_radio">
+                                        <input type="radio" name="slide" value="3" onclick="galleryPackDownloadRadioclick(this)">
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pack_download_slider_container" data-value="3">
+                            <div class="pack_download_slider_item pack_download_slider_item_chat">
+                                <div class="item_chat_type_1x2">
+                                    <div class="item_chat_type_1x2_column">
+                                        <h3 class="bigger">Chat & Comments</h3>
+                                        <div class="pack_download_slider_item_chat_field">
+                                            <textarea placeholder="Write your message..."></textarea>
+                                            <a data-value="00003" class="link redirection type3 comments_to_save anim_button_hover_expansion">Send message</a>
+                                        </div>
+                                    </div>
+                                    <div class="pack_download_slider_item_chat_messages">
+                                        <div class="link refresh_database"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </section>
 
             <div class="space"></div>
 
             <section class="container type2">
                 <h2 id="anchor.2.2">Minecraft Resourcepacks</h2>
+
+                <div class="pack_download_block"> <!-- --- --- SLIDER 1 --- --- -->
+                    <div class="pack_download_title">
+                        <h1 id="anchor.2.2.1">Juix Res.</h1>
+                        <div class="block">
+                            <h1 data-value="00004" class="clicks_count_to_save pack_download_upvote">0</h1>
+                            <h3 class="pack_download_total_downloads">0</h3>
+                        </div>
+                    </div>
+                    <form class="pack_download_nav">
+                        <label class="pack_download_nav_radio">Overview
+                            <input type="radio" name="slide" value="0" onclick="sliderPackDownloadRadioclick(this)" checked="true">
+                        </label>
+                        <label class="pack_download_nav_radio">Download
+                            <input type="radio" name="slide" value="1" onclick="sliderPackDownloadRadioclick(this)">
+                        </label>
+                        <label class="pack_download_nav_radio">Gallery
+                            <input type="radio" name="slide" value="2" onclick="sliderPackDownloadRadioclick(this)">
+                        </label>
+                        <label class="pack_download_nav_radio">Chat
+                            <input type="radio" name="slide" value="3" onclick="sliderPackDownloadRadioclick(this)">
+                        </label>
+                    </form>
+                    <div class="pack_download_slider" data-value="1"> <!-- Datavalue = slider tag -->
+                        <div class="pack_download_slider_container" data-value="0"> <!-- Datavalue = container tag -->
+                            <div class="pack_download_slider_item pack_download_slider_item_image" data-value="resourcepack-juixresources-preview"></div>
+                            <div class="type_1x2_column">
+                                <div class="pack_download_slider_item pack_download_slider_item_overview">
+                                    <h3 class="can_switch_lang active">Overview</h3><h3 class="can_switch_lang">Vue d'ensemble</h3>
+                                    <p class="can_switch_lang active">Juix Resources allows you to integrate custom textures for a large number of my datapacks, which depend on it.</p><p class="can_switch_lang">Juix Resources permet d'intégrer des textures personnalisées pour un grand nombre de mes datapacks qui en sont dépendants.</p>
+                                    <a class="link redirection type2 anim_button_hover_expansion" target="_blank" href="index.html">Trailer</a>
+                                </div>
+                                <p class="can_switch_lang active pack_download_slider_item_info" data-value="1">Only one Resourcepack, for a lot of Datapacks</p><p class="can_switch_lang pack_download_slider_item_info" data-value="1">Un seul Resourcepack, pour un grand nombre de Datapacks</p>
+                                <p class="can_switch_lang active pack_download_slider_item_info" data-value="2">Nothing to report</p><p class="can_switch_lang pack_download_slider_item_info" data-value="2">Nothing to report</p>
+                                <p class="can_switch_lang active pack_download_slider_item_info" data-value="3">Nothing to report</p><p class="can_switch_lang pack_download_slider_item_info" data-value="3">Nothing to report</p>
+                            </div>
+                            <div class="pack_download_slider_item pack_download_slider_item_fastdownload">
+                                <h3 class="bigger">Fast download</h3>
+                                <div class="type_1x2_scalable">
+                                    <div class="pack_download_slider_item_fastdownload_cell">
+                                        <h3 class="can_switch_lang active">Last release</h3><h3 class="can_switch_lang">Dernière version</h3>
+                                        <p>Juix Resources&nbsp;<span class="shortcut_download_button_version_indicator">v1.x</span></p>
+                                        <div class="block"><a class="link download anim_button_hover_expansion shortcut_download_button" href=""></a><div class="link copy" onclick="copy(this)"></div></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pack_download_slider_container" data-value="1">
+                            <div class="pack_download_slider_item pack_download_slider_item_download">
+                                <h3 class="bigger">Downloads</h3>
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th><div class="block"><img src="Medias/table_version.svg"><p>Pack Version</p></div></th>
+                                            <th><div class="block"><img src="Medias/table_minecraft.svg"><p>Minecraft Version</p></div></th>
+                                            <th class="low_importance_2"><div class="block"><img src="Medias/table_date.svg"><p>Publication Date</p></div></th>
+                                            <th class="low_importance"><div class="block"><img src="Medias/table_downloads.svg"><p>Total Downloads</p></div></th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1.1</td>
+                                            <td>1.18-1.21+</td>
+                                            <td class="low_importance_2">31/01/2025</td>
+                                            <td data-value="00005" class="clicks_count_to_save pack_download_number_downloads low_importance">0</td>
+                                            <td><div class="block"><a class="link download type2 anim_button_hover_expansion" href="https://juixcode.github.io/Dropbox/Minecraft/Resourcepacks/Juix Resources [1.1] 1.18-1.21+.zip"></a><div class="link copy type2" onclick="copy(this)"></div></div></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="pack_download_slider_container" data-value="2">
+                            <div class="type_1x2">
+                                <div class="pack_download_slider_gallery_preview" data-value="0"></div> <!-- Datavalue = image selected -->
+                                <div class="pack_download_slider_gallery_selectors">
+                                    <label class="pack_download_slider_gallery_radio">
+                                        <input type="radio" name="slide" value="0" onclick="galleryPackDownloadRadioclick(this)" checked="true"> <!-- Datavalue = image background -->
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pack_download_slider_container" data-value="3">
+                            <div class="pack_download_slider_item pack_download_slider_item_chat">
+                                <div class="item_chat_type_1x2">
+                                    <div class="item_chat_type_1x2_column">
+                                        <h3 class="bigger">Chat & Comments</h3>
+                                        <div class="pack_download_slider_item_chat_field">
+                                            <textarea placeholder="Write your message..."></textarea>
+                                            <a data-value="00002" class="link redirection type3 comments_to_save anim_button_hover_expansion">Send message</a>
+                                        </div>
+                                    </div>
+                                    <div class="pack_download_slider_item_chat_messages">
+                                        <div class="link refresh_database"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </section>
 
             <div class="space"></div>

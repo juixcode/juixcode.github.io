@@ -1983,7 +1983,6 @@ h1.pack_download_upvote.disabled::after
     border-radius: 2.5vh;
 }
 
-.pack_download_slider_item_image[data-value="datapack-hammers-preview"] { background: url(Medias/Gallery/minecraft.jpg) no-repeat center center; background-size: cover; }
 .pack_download_slider_item_image {
     width: calc(20%);
 }
@@ -2114,17 +2113,38 @@ h1.pack_download_upvote.disabled::after
     align-items: start;
 }
 
-/* Slider block #1 */
+
+
+/* Slider block #0 */
+.pack_download_slider_item_image[data-value="datapack-hammers-preview"] { background: url(Medias/Gallery/datapack-hammers-0.png) no-repeat center center; background-size: cover; }
 .pack_download_slider[data-value="0"] .pack_download_slider_gallery_preview[data-value="0"], .pack_download_slider[data-value="0"] .pack_download_slider_gallery_radio:has(input[value="0"]) {
-    background: url('Medias/Gallery/minecraft.jpg') no-repeat center center; background-size: cover; }
+    background: url('Medias/Gallery/datapack-hammers-0.png') no-repeat center center; background-size: cover; }
 .pack_download_slider[data-value="0"] .pack_download_slider_gallery_preview[data-value="1"], .pack_download_slider[data-value="0"] .pack_download_slider_gallery_radio:has(input[value="1"]) {
-    background: url('Medias/Gallery/recipes.jpg') no-repeat center center; background-size: cover; }
-/* .pack_download_slider[data-value="0"] .pack_download_slider_gallery_preview[data-value="2"], .pack_download_slider[data-value="0"] .pack_download_slider_gallery_radio:has(input[value="2"]) {
-    background: url('Medias/Backgrounds/genshin.jpg') no-repeat center center; background-size: cover; }
+    background: url('Medias/Gallery/datapack-hammers-1.png') no-repeat center center; background-size: cover; }
+.pack_download_slider[data-value="0"] .pack_download_slider_gallery_preview[data-value="2"], .pack_download_slider[data-value="0"] .pack_download_slider_gallery_radio:has(input[value="2"]) {
+    background: url('Medias/Gallery/datapack-hammers-2.png') no-repeat center center; background-size: cover; }
 .pack_download_slider[data-value="0"] .pack_download_slider_gallery_preview[data-value="3"], .pack_download_slider[data-value="0"] .pack_download_slider_gallery_radio:has(input[value="3"]) {
-    background: url('Medias/Backgrounds/genshin2.jpg') no-repeat center center; background-size: cover; }
+    background: url('Medias/Gallery/datapack-hammers-3.png') no-repeat center center; background-size: cover; }
 .pack_download_slider[data-value="0"] .pack_download_slider_gallery_preview[data-value="4"], .pack_download_slider[data-value="0"] .pack_download_slider_gallery_radio:has(input[value="4"]) {
-    background: url('Medias/Backgrounds/genshin3.jpg') no-repeat center center; background-size: cover; } */
+    background: url('Medias/Gallery/datapack-hammers-4.jpg') no-repeat center center; background-size: cover; }
+
+/* Slider block #1 */
+.pack_download_slider_item_image[data-value="resourcepack-juixresources-preview"] { background: url(Medias/Gallery/resourcepack-juixresources-0.png) no-repeat center center; background-size: cover; }
+.pack_download_slider[data-value="1"] .pack_download_slider_gallery_preview[data-value="0"], .pack_download_slider[data-value="1"] .pack_download_slider_gallery_radio:has(input[value="0"]) {
+    background: url('Medias/Gallery/resourcepack-juixresources-0.png') no-repeat center center; background-size: cover; }
+
+/* Slider block #2 */
+.pack_download_slider_item_image[data-value="datapack-teleporters-preview"] { background: url(Medias/Gallery/datapack-teleporters-0.png) no-repeat center center; background-size: cover; }
+.pack_download_slider[data-value="2"] .pack_download_slider_gallery_preview[data-value="0"], .pack_download_slider[data-value="2"] .pack_download_slider_gallery_radio:has(input[value="0"]) {
+    background: url('Medias/Gallery/datapack-teleporters-0.png') no-repeat center center; background-size: cover; }
+.pack_download_slider[data-value="2"] .pack_download_slider_gallery_preview[data-value="1"], .pack_download_slider[data-value="2"] .pack_download_slider_gallery_radio:has(input[value="1"]) {
+    background: url('Medias/Gallery/datapack-teleporters-1.png') no-repeat center center; background-size: cover; }
+.pack_download_slider[data-value="2"] .pack_download_slider_gallery_preview[data-value="2"], .pack_download_slider[data-value="2"] .pack_download_slider_gallery_radio:has(input[value="2"]) {
+    background: url('Medias/Gallery/datapack-teleporters-2.png') no-repeat center center; background-size: cover; }
+.pack_download_slider[data-value="2"] .pack_download_slider_gallery_preview[data-value="3"], .pack_download_slider[data-value="2"] .pack_download_slider_gallery_radio:has(input[value="3"]) {
+    background: url('Medias/Gallery/datapack-teleporters-3.jpg') no-repeat center center; background-size: cover; }
+
+
 
 .pack_download_slider_gallery_preview { /* Ecran ultra large - WIDTH = 130vh*/
     background-color: #212121;
