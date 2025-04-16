@@ -317,3 +317,10 @@ window.addEventListener('resize', updateCardsSize);
 document.addEventListener("DOMContentLoaded", function() {
     updateCardsSize(); // Appel initial pour définir la taille
 });
+
+// Empêchement de la sélection de texte de boutons
+document.querySelectorAll("button").forEach(button => {
+    button.addEventListener("contextmenu", function(e) {
+        e.preventDefault(); // Empêche le menu contextuel
+    });
+});

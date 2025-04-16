@@ -216,6 +216,11 @@ button {
     font-size: 3em;
     line-height: 3.5vh;
     letter-spacing: -0.01em;
+
+    user-select: none; /* Empêcher les sélections de texte dans le bouton */
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 button:hover {
     cursor: pointer;
