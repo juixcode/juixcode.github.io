@@ -314,4 +314,6 @@ function updateCardsSize() {
 }
 
 window.addEventListener('resize', updateCardsSize);
-updateCardsSize(); // Appel initial pour définir la taille
+document.addEventListener("DOMContentLoaded", function() {
+    updateCardsSize(); // Appel initial pour définir la taille
+});
