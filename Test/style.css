@@ -282,7 +282,7 @@ html:not(.click-protection) #playing .object-button.active { /* Protection contr
     background-size: 100% 100%;
 }
 
-#gender-button button, #no-yes-button button {
+#gender-button button {
     height: 11vh;
     width: 11vh;
 }
