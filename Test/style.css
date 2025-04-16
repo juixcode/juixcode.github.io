@@ -1,0 +1,373 @@
+:root {
+    --regular-shadow: #15132749 0 0.4vh 0.4vh 0;
+    --dark-blue: #2B2A4D;
+    --quite-light-blue: #4D4C75;
+    --light-blue: rgb(107, 106, 136);
+    --red: #D45454;
+    --green: rgb(112, 216, 104);
+    --blue: #7549EF;
+    --rose: #F550B3;
+    --white-80: rgba(255, 255, 255, 0.8);
+    --white-40: rgba(255, 255, 255, 0.4);
+    --white-30: rgba(255, 255, 255, 0.3);
+    --white-20: rgba(255, 255, 255, 0.2);
+    --gold: linear-gradient(45deg, #EAAC26 0%, #ECB133 9%, #F9C85F 16%, #EEB945 22%, #F8D385 67%, #FDE3AB 74%, #FBDC98 81%, #FFE6B2 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background: var(--dark-blue);
+    font-size: 1vh; /* Définit la valeur de 1em à 1vh */
+    width: 100vw;
+    height: 100dvh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+body {
+    width: 100%;
+    max-width: 40dvh;
+    height: 100%;
+    position: relative;
+    display: flex;
+}
+
+section {
+    width: 100%;
+    height: 100%;
+    display: none;
+    flex-direction: column;
+}
+section.active {
+    display: flex;
+}
+
+.part.header {
+    height: 20%;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.part.cards {
+    height: 55%;
+    width: 100%;
+
+    display: flex;
+    position: relative;
+}
+.part.button {
+    height: 25%;
+    width: 100%;
+
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+}
+
+h1 {
+    font-family: Outfit;
+    font-weight: 800;
+    color: var(--white-80);
+    font-size: 6em;
+    line-height: 0.9em;
+    text-align: center;
+    max-width: 80%;
+}
+
+/* ############################# Cartes ############################# */
+.card {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: none;
+
+    width: 75%;
+    height: 50%;
+    border-radius: 4vh;
+    box-shadow: var(--regular-shadow);
+    background: var(--light-blue);
+    border: solid 0.2vh var(--white-20);
+}
+.card.special {
+    background: var(--gold);
+}
+.card.animated {
+    transition: all 0.2s ease-out;
+}
+.card .title {
+    display: flex;
+    height: 15%;
+    padding: 3%;
+
+    font-family: Outfit;
+    font-weight: 600;
+    color: var(--white-80);
+    font-size: 2em;
+}
+.card .emoji {
+    display: flex;
+    width: auto;
+    height: 15%;
+    justify-content: center;
+}
+.card .text {
+    display: flex;
+    width: 100%;
+    height: 50%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    font-family: Outfit;
+    font-weight: 400;
+    color: var(--white-80);
+    font-size: 3.2em;
+    line-height: 1em;
+    max-width: 80%;
+}
+.card .progress {
+    display: flex;
+    width: 100%;
+    height: 20%;
+    padding: 5%;
+    justify-content: center;
+}
+.card .answers {
+    display: none;
+}
+.card::after {
+    width: calc(100% + 0.4vh);
+    height: calc(100% + 0.4vh);
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 4vh;
+}
+.card[data-value="0"] {
+    opacity: 0;
+    transform: translate(-50%, -75%) scale(0.70);
+}
+.card[data-value="1"] {
+    z-index: 1;
+    transform: translate(-50%, -70%) scale(0.78);
+}
+.card[data-value="1"]::after {
+    background-color: #2b2a4dd9;
+}
+.card[data-value="2"] {
+    z-index: 2;
+    transform: translate(-50%, -65%) scale(0.85);
+}
+.card[data-value="2"]::after {
+    background-color: #2b2a4dab;
+}
+.card[data-value="3"] {
+    z-index: 3;
+    transform: translate(-50%, -60%) scale(0.91);
+}
+.card[data-value="3"]::after {
+    background-color: #2b2a4d5f;
+}
+.card[data-value="4"] {
+    z-index: 4;
+    transform: translate(-50%, -55%) scale(0.96);
+}
+.card[data-value="4"]::after {
+    background-color: #2b2a4d2b;
+}
+.card[data-value="5"] {
+    z-index: 5;
+    transform: translate(-50%, -50%) scale(1);
+}
+.card[data-value="6"] {
+    z-index: 6;
+    transform: translate(-37%, -50%) scale(1) rotate(15deg);
+    background: #6a887b;
+}
+
+/* ############################# Buttons ############################# */
+button {
+    display: flex;
+    position: relative;
+    background-color: var(--green);
+    border: solid 0.2vh var(--white-40);
+    box-shadow: var(--regular-shadow);
+    border-radius: 10vh;
+    padding: 2.5vh 5vh;
+
+    font-family: Outfit;
+    font-weight: 800;
+    color: #2B2A4D;
+    font-size: 3em;
+    line-height: 3.5vh;
+    letter-spacing: -0.01em;
+}
+button:hover {
+    cursor: pointer;
+}
+
+section#playing .object-button {
+    pointer-events: none;
+    opacity: 0;
+
+    transition: opacity 0.2s ease;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+}
+section#playing .object-button.active {
+    opacity: 1;
+}
+html:not(.click-protection) #playing .object-button.active { /* Protection contre les clics pendant l'animation */
+    pointer-events: all;
+}
+
+/* ############################# Small round buttons ############################# */
+#gender-button button, #no-yes-button button {
+    padding: 0;
+    height: 8.5vh;
+    width: 8.5vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.2s ease;
+}
+#gender-button button:hover:active, #no-yes-button button:hover:active {
+    opacity: 0.75;
+}
+#gender-button button::after, #no-yes-button button::after {
+    content: '';
+    height: 60%;
+    width: 60%;
+}
+#gender-button button:first-child { background-color: var(--blue); margin-right: 2.5vh; }
+#gender-button button:first-child::after {
+    background: url('Icons/male.svg') no-repeat;
+    background-size: 100% 100%;
+}
+#gender-button button:last-child { background-color: var(--rose); }
+#gender-button button:last-child::after {
+    background: url('Icons/female.svg') no-repeat;
+    background-size: 100% 100%;
+}
+#no-yes-button button:first-child { background-color: var(--red); margin-right: 2.5vh; }
+#no-yes-button button:first-child::after {
+    background: url('Icons/no.svg') no-repeat;
+    background-size: 100% 100%;
+}
+#no-yes-button button:last-child::after {
+    background: url('Icons/yes.svg') no-repeat;
+    background-size: 100% 100%;
+}
+
+#gender-button button, #no-yes-button button {
+    height: 11vh;
+    width: 11vh;
+}
+#gender-button {
+    display: flex;
+    position: fixed;
+    left:0;
+    top:0;
+    width: 100%;
+    height: 100%;
+    background: rgb(43, 42, 76, 0.7);
+    backdrop-filter: blur(0.4vh);
+    z-index: 20;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+    font-family: Outfit;
+    font-weight: 400;
+    color: var(--white-80);
+    font-size: 3.2em;
+    line-height: 1em;
+}
+#gender-button .row-container {
+    display: flex;
+    margin-top: 4vh;
+}
+#gender-button.active {
+    opacity: 1;
+}
+
+/* ############################# 4 choices buttons ############################# */
+#answers-button {
+    display: flex;
+    flex-direction: column;
+    padding: 3vh 8vh;
+    width: 100%;
+    height: 100%;
+    justify-content: space-between;
+}
+#answers-button button {
+    background-color: var(--quite-light-blue);
+    width: 100%;
+    height: 22%;
+    padding: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-family: Outfit;
+    font-weight: 600;
+    color: var(--white-80);
+    font-size: 2em;
+    transition: background-color 0.2s ease;
+}
+#answers-button button:hover:active {
+    background-color: var(--light-blue);
+}
+
+/* ############################# Page switching animation ############################# */
+body::after {
+    content: '';
+    display: block;
+    width: 0vh;
+    height: 0vh;
+    z-index: 10;
+    background-color: var(--green);
+    position: fixed; /* Changed to fixed to prevent affecting parent size */
+    left: 50%;
+    bottom: 12.5%;
+    transform: translate(-50%, 50%);
+    transition: all 0.15s ease;
+    border-radius: 50%;
+    pointer-events: none; /* This ensures it doesn't block interactions */
+    overflow: hidden; /* Ensures overflow is only outside the screen */
+}
+body:has(button#start-button:hover:active)::after, body:has(button#results-button:hover:active)::after {
+    width: 35vh;
+    height: 35vh;
+}
+body.animated::after {
+    animation: bubble 1s ease;
+}
+@keyframes bubble {
+    0% { width: 35vh; height: 35vh; }
+    60% { width: 300vh; height: 300vh; }
+    100% { width: 0vh; height: 0vh; }
+}
