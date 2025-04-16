@@ -24,7 +24,7 @@ html {
     background: var(--dark-blue);
     font-size: 1vh; /* Définit la valeur de 1em à 1vh */
     width: 100vw;
-    height: 100dvh;
+    height: 100vh;
     overflow: hidden;
     display: flex;
     justify-content: center;
