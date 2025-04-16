@@ -177,6 +177,25 @@ function showResults() {
     openPage(2)
 }
 
+function answerQuestion(answer) {
+    if (answer == 0) {
+        currentCard.style.left = `${currentCard.offsetLeft - currentCard.offsetWidth}px`; // Fait disparaître la carte à gauche
+        if (!(currentCard.classList.contains('special'))) {
+            currentCard.style.background = `rgb(255, 106, 136)`
+        }
+        currentCard.style.transform = `translate(0, 0) scale(1) rotate(-20deg)`
+        nextCard();
+    } else {
+        score += answer * scoreMultiplier
+        currentCard.style.left = `${currentCard.offsetLeft + currentCard.offsetWidth}px`; // Fait disparaître la carte à droite
+        if (!(currentCard.classList.contains('special'))) {
+            currentCard.style.background = `rgb(107, 255, 136)`
+        }
+        currentCard.style.transform = `translate(0, 0) scale(1) rotate(20deg)`
+        nextCard();
+    }
+}
+
 
 
 /////////////////////>
@@ -278,25 +297,6 @@ function stopDrag() {
     ratio = 0;
     currentCard.style.cursor = 'grab'; // Remet le curseur de "saisie" une fois le déplacement terminé
 };
-
-function answerQuestion(answer) {
-    if (answer == 0) {
-        currentCard.style.left = `${currentCard.offsetLeft - currentCard.offsetWidth}px`; // Fait disparaître la carte à gauche
-        if (!(currentCard.classList.contains('special'))) {
-            currentCard.style.background = `rgb(255, 106, 136)`
-        }
-        currentCard.style.transform = `translate(0, 0) scale(1) rotate(-20deg)`
-        nextCard();
-    } else {
-        score += answer * scoreMultiplier
-        currentCard.style.left = `${currentCard.offsetLeft + currentCard.offsetWidth}px`; // Fait disparaître la carte à droite
-        if (!(currentCard.classList.contains('special'))) {
-            currentCard.style.background = `rgb(107, 255, 136)`
-        }
-        currentCard.style.transform = `translate(0, 0) scale(1) rotate(20deg)`
-        nextCard();
-    }
-}
 
 
 
