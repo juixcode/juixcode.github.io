@@ -1,5 +1,6 @@
 const body = document.querySelector('body');
 const html = document.querySelector('html');
+const cardAnimationTime = 300; // ms
 
 function openPage(page) {
     let newOpenedPage = document.querySelector('body').children[page];
@@ -72,7 +73,7 @@ function nextCard() { // Supprime la carte swipée et passe à la suivante
             setCardAnimated(card)
             card.dataset.value = parseInt(card.dataset.value) + 1;
         });
-    }, 200);
+    }, cardAnimationTime);
 
     setTimeout(() => {
         if (resources.length !== 0) {
@@ -85,7 +86,7 @@ function nextCard() { // Supprime la carte swipée et passe à la suivante
             setCurrentCard(document.querySelector('section#playing .card[data-value="5"]'));
         }
 
-    }, 400);
+    }, cardAnimationTime*2);
 }
 
 function setCurrentCard(card) { // Définit la carte actuelle déplaçable
@@ -133,7 +134,7 @@ function setCardAnimated(card) { // Anime les comportements de la carte pour 0.2
         card.classList.remove('animated');
         html.style.pointerEvents = 'all';
         html.classList.remove('click-protection');
-    }, 200);
+    }, cardAnimationTime);
 }
 
 
@@ -229,7 +230,7 @@ function cardCentering() { // Centrage de la carte
     // Réinitialisation des comportements fixes de la carte vers du absolu
     setTimeout(() => {
         fixedToAbsolute()
-    }, 200);
+    }, cardAnimationTime);
 
     // Colorimétrie
     if (currentCard.classList.contains('special')) {

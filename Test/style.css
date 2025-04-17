@@ -1,5 +1,6 @@
 :root {
     --regular-shadow: #15132749 0 0.4vh 0.4vh 0;
+    --card-animation-time: 0.3s;
     --dark-blue: #2B2A4D;
     --quite-light-blue: #4D4C75;
     --light-blue: rgb(107, 106, 136);
@@ -115,15 +116,15 @@ h1 {
     background: var(--gold);
 }
 .card.animated {
-    transition: all 0.2s ease-out;
+    transition: all var(--card-animation-time) ease-out;
 }
 .card.animated::after {
-    transition: all 0.2s ease-out;
+    transition: all var(--card-animation-time) ease-out;
 }
 .card .title {
     display: flex;
     height: 15%;
-    padding: 3%;
+    padding: 4%;
 
     font-family: Outfit;
     font-weight: 600;
@@ -212,9 +213,9 @@ h1 {
 }
 .card[data-value="6"] {
     z-index: 6;
-    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+    transform: translate(-44%, -50%) scale(1) rotate(10deg);
     /* transform: translate(-37%, -50%) scale(1) rotate(15deg); */
-    background: #6a887b;
+    background: rgb(107, 138, 136);
 }
 
 /* ############################# Buttons ############################# */
