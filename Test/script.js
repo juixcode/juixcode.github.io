@@ -275,14 +275,14 @@ function onDrag(e) {
     // Calculer le ratio de décalage gauche-droite de la carte
     let cardCurrentOffset = currentCard.offsetLeft - body.getBoundingClientRect().left;
     ratio = Math.round((cardCurrentOffset - cardStartOffset) / cardStartOffset * 1000) / 100;
-    currentCard.style.transform = `translate(0, 0) scale(1) rotate(${ratio / 2}deg)` // Appliquer le ratio de décalage gauche-droite de la carte
+    currentCard.style.transform = `translate(0, 0) scale(1) rotate(${ratio / 4}deg)` // Appliquer le ratio de décalage gauche-droite de la carte
     if (currentCard.classList.contains('special')) {
         currentCard.style.filter = `hue-rotate(${ratio}deg)`
     } else {
         if (ratio < 0) {
-            currentCard.style.background = `rgb(${107 - ratio}, 106, 136)`
+            currentCard.style.background = `rgb(${107 - ratio * 0.75}, 106, 136)`
         } else {
-            currentCard.style.background = `rgb(107, ${106 + ratio}, 136)`
+            currentCard.style.background = `rgb(107, ${106 + ratio *0.75}, 136)`
         }
     }
 
