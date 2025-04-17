@@ -12,10 +12,6 @@ function openPage(page) {
     setTimeout(() => {
         document.querySelector('section.active').classList.remove('active');
         newOpenedPage.classList.add('active');
-        if (newOpenedPage.id == 'playing') {
-            updateCardsSize();
-            cardCentering();
-        };
     }, 500);
 }
 
@@ -66,8 +62,6 @@ function newCard(value) { // Ajoute une carte à la fin de la file
 
 function nextCard() { // Supprime la carte swipée et passe à la suivante
     const container = document.querySelector('section#playing .part.cards');
-    html.style.pointerEvents = 'none';
-    html.classList.add('click-protection');
 
     currentCard.style.opacity = `0`;
     setCardAnimated(currentCard)
@@ -89,11 +83,8 @@ function nextCard() { // Supprime la carte swipée et passe à la suivante
             document.querySelector('section#playing #results-button').classList.add('active') // Affiche le bouton d'accès aux résultats
         } else { // Sinon carte suivante sélectionnée
             setCurrentCard(document.querySelector('section#playing .card[data-value="5"]'));
-            updateCardsSize();
-            cardCentering();
         }
-        html.style.pointerEvents = 'all';
-        html.classList.remove('click-protection');
+
     }, 400);
 }
 
@@ -124,20 +115,24 @@ function setCurrentCard(card) { // Définit la carte actuelle déplaçable
     } else {
         // Événements pour la souris
         currentCard.addEventListener('mousedown', startDrag);
-        document.addEventListener('mousemove', onDrag);
-        document.addEventListener('mouseup', stopDrag);
+        currentCard.addEventListener('mousemove', onDrag);
+        currentCard.addEventListener('mouseup', stopDrag);
 
         // Événements pour le tactile
         currentCard.addEventListener('touchstart', startDrag);
-        document.addEventListener('touchmove', onDrag);
-        document.addEventListener('touchend', stopDrag);
+        currentCard.addEventListener('touchmove', onDrag);
+        currentCard.addEventListener('touchend', stopDrag);
     }
 }
 
 function setCardAnimated(card) { // Anime les comportements de la carte pour 0.2s
     card.classList.add('animated'); // Autorise les animations smooth de durée
+    html.style.pointerEvents = 'none';
+    html.classList.add('click-protection');
     setTimeout(() => {
         card.classList.remove('animated');
+        html.style.pointerEvents = 'all';
+        html.classList.remove('click-protection');
     }, 200);
 }
 
@@ -148,7 +143,6 @@ function setCardAnimated(card) { // Anime les comportements de la carte pour 0.2
 /////////////////////>
 
 const genderButton = document.querySelector('#gender-button')
-genderButton.classList.add('active')
 
 function chooseGender(gender) {
     const userGender = gender
@@ -157,41 +151,41 @@ function chooseGender(gender) {
     //resources =
 
     genderButton.classList.remove('active')
-    setTimeout(() => {
-        genderButton.style.display = 'none'
-    }, 400);
 }
 
 function startGame() {
     openPage(1)
-
     for (let i = 5; i >= 0; i--) { // Crée les cartes de 5 à 0
         newCard(i);
     }
-
     setCurrentCard(document.querySelector('section#playing .card[data-value="5"]'));
-    window.addEventListener('resize', cardCentering);
 }
 
 function showResults() {
     openPage(2)
 }
 
-function answerQuestion(answer) {
+function answerQuestion(answer) { // Réponse par bouton
     if (answer == 0) {
-        currentCard.style.left = `${currentCard.offsetLeft - currentCard.offsetWidth}px`; // Fait disparaître la carte à gauche
-        if (!(currentCard.classList.contains('special'))) {
+        absoluteToFixed();
+        currentCard.style.left = `${currentCard.offsetLeft - cardStartWidth}px`; // Fait disparaître la carte à gauche
+        currentCard.style.transform = `translate(0, 0) scale(1) rotate(-20deg)`
+        if (currentCard.classList.contains('special')) {
+            currentCard.style.filter = 'hue-rotate(-50deg)'
+        } else {
             currentCard.style.background = `rgb(255, 106, 136)`
         }
-        currentCard.style.transform = `translate(0, 0) scale(1) rotate(-20deg)`
         nextCard();
     } else {
+        absoluteToFixed();
         score += answer * scoreMultiplier
-        currentCard.style.left = `${currentCard.offsetLeft + currentCard.offsetWidth}px`; // Fait disparaître la carte à droite
-        if (!(currentCard.classList.contains('special'))) {
+        currentCard.style.left = `${currentCard.offsetLeft + cardStartWidth}px`; // Fait disparaître la carte à droite
+        currentCard.style.transform = `translate(0, 0) scale(1) rotate(20deg)`
+        if (currentCard.classList.contains('special')) {
+            currentCard.style.filter = 'hue-rotate(50deg)'
+        } else {
             currentCard.style.background = `rgb(107, 255, 136)`
         }
-        currentCard.style.transform = `translate(0, 0) scale(1) rotate(20deg)`
         nextCard();
     }
 }
@@ -202,37 +196,55 @@ function answerQuestion(answer) {
 // FONCTIONNALITE - Déplacement de la carte en haut de la pile
 /////////////////////>
 
-let cardsContainer = html;
-
 let x = 0
 let y = 0 // Coordonnées = décalages Left et Top de la carte
 let score = 0
 let scoreMultiplier = 1
 
+function fixedToAbsolute() { // Centrage absolu de la carte déplaçable
+    currentCard.style.left = `50%`;
+    currentCard.style.top = `50%`;
+    currentCard.style.height = `100%` // (La largeur est automatique)
+    currentCard.style.position = 'absolute'
+    currentCard.style.transform = `translate(-50%, -50%) scale(1) rotate(0deg)`
+}
+function absoluteToFixed() { // Centrage fixe de la carte déplaçable
+    cardStartX = currentCard.getBoundingClientRect().left;
+    cardStartY = currentCard.getBoundingClientRect().top;
+    cardStartWidth = currentCard.offsetWidth;
+    cardStartHeight = currentCard.offsetHeight;
+
+    setNewPosition(cardStartX, cardStartY)
+    currentCard.style.position = 'fixed'
+    currentCard.style.height = `${cardStartHeight}px` // (La largeur est automatique)
+    currentCard.style.transform = `translate(0, 0) scale(1) rotate(0deg)`
+}
+
 function cardCentering() { // Centrage de la carte
-    const cardWidth = currentCard.offsetWidth;
-    const cardHeight = currentCard.offsetHeight;
-    const containerWidth = cardsContainer.offsetWidth;
-    const containerHeight = cardsContainer.offsetHeight;
+    // Retour aux positions centrées fixes
+    currentCard.style.position = 'fixed'
+    currentCard.style.transform = `translate(0, 0) scale(1) rotate(0deg)`
+    setNewPosition(cardStartX, cardStartY)
 
-    // Calculer les nouvelles positions pour centrer la carte
-    x = (containerWidth - cardWidth) / 2;
-    y = (containerHeight - cardHeight) / 2;
+    // Réinitialisation des comportements fixes de la carte vers du absolu
+    setTimeout(() => {
+        fixedToAbsolute()
+    }, 200);
 
-    // Appliquer les positions centrées
-    currentCard.style.left = `${x}px`;
-    currentCard.style.top = `${y}px`;
-    currentCard.style.transform = 'translate(0, 0) scale(1)';
-
-    if (!(currentCard.classList.contains('special'))) {
+    // Colorimétrie
+    if (currentCard.classList.contains('special')) {
+        currentCard.style.filter = 'hue-rotate(0deg)'
+    } else {
         currentCard.style.background = `rgb(107, 106, 136)`
     }
 };
 
 let isDragging = false;
-let startX, startY;
-let startOffsetLeft, startOffsetTop;
-let ratio;
+let startX, startY; // User mouse first positions
+let cardStartX, cardStartY, cardStartWidth, cardStartHeight; // 5e Carte - positions & tailles par défaut  (quand centrée)
+
+let cardStartOffset; // OffsetLeft initial de la carte pour le calcul du ratio (car le Rotate crée des conflits avec BoundingClientRect)
+let ratio; // Calcul du déplacement gauche-droite de la carte
 
 function startDrag(e) {
     e.preventDefault(); // Désactivation du drag-and-drop de l'image
@@ -241,12 +253,14 @@ function startDrag(e) {
     }
     const event = e.touches ? e.touches[0] : e; // Si tactile, utilise le premier touch
     isDragging = true;
-    startOffsetLeft = currentCard.offsetLeft;
-    startOffsetTop = currentCard.offsetTop;
     ratio = 0;
 
-    startX = event.clientX - startOffsetLeft;  // Position de la souris par rapport à l'image
-    startY = event.clientY - startOffsetTop;
+    absoluteToFixed() // Conversion des positions absolues vers fixes
+
+    cardStartOffset = currentCard.offsetLeft - body.getBoundingClientRect().left;
+
+    startX = event.clientX - cardStartX; // Position initiale de la souris par rapport à la carte
+    startY = event.clientY - cardStartY;
     currentCard.style.cursor = 'grabbing'; // Change le curseur quand l'utilisateur commence à glisser
 };
 
@@ -258,17 +272,19 @@ function onDrag(e) {
     const event = e.touches ? e.touches[0] : e;
 
     // Calculer le ratio de décalage gauche-droite de la carte
-    let startCardLeft = startOffsetLeft - body.getBoundingClientRect().left;
-    let currentCardLeft = currentCard.offsetLeft - body.getBoundingClientRect().left;
-    ratio = Math.round((currentCardLeft - startCardLeft) / startCardLeft * 1000) / 100;
+    let cardCurrentOffset = currentCard.offsetLeft - body.getBoundingClientRect().left;
+    ratio = Math.round((cardCurrentOffset - cardStartOffset) / cardStartOffset * 1000) / 100;
     currentCard.style.transform = `translate(0, 0) scale(1) rotate(${ratio / 2}deg)` // Appliquer le ratio de décalage gauche-droite de la carte
-    if (!(currentCard.classList.contains('special'))) {
+    if (currentCard.classList.contains('special')) {
+        currentCard.style.filter = `hue-rotate(${ratio}deg)`
+    } else {
         if (ratio < 0) {
             currentCard.style.background = `rgb(${107 - ratio}, 106, 136)`
         } else {
             currentCard.style.background = `rgb(107, ${106 + ratio}, 136)`
         }
     }
+
 
     // Calculer les nouvelles positions de l'image
     x = event.clientX - startX;
@@ -282,41 +298,27 @@ function setNewPosition(x, y) {
 }
 
 function stopDrag() {
-    if (ratio < -40) {
-        currentCard.style.left = `${currentCard.offsetLeft - currentCard.offsetWidth}px`; // Fait disparaître la carte à gauche
+    if (ratio <= -25) {
+        currentCard.style.left = `${currentCard.offsetLeft - cardStartWidth}px`; // Fait disparaître la carte à gauche
         nextCard();
-    } else if (ratio > 40) {
-        currentCard.style.left = `${currentCard.offsetLeft + currentCard.offsetWidth}px`; // Fait disparaître la carte à droite
+    } else if (ratio >= 25) {
+        currentCard.style.left = `${currentCard.offsetLeft + cardStartWidth}px`; // Fait disparaître la carte à droite
         score += 1 * scoreMultiplier
         nextCard();
-    } else {
+    } else if (-25 < ratio < 25) {
         setCardAnimated(currentCard) // Autorise les animations smooth de durée
         cardCentering();
     }
-    isDragging = false;
-    ratio = 0;
     currentCard.style.cursor = 'grab'; // Remet le curseur de "saisie" une fois le déplacement terminé
+    isDragging = false;
+    ratio = false;
 };
 
 
 
 /////////////////////>
-// RESOLUTION DE BUG - Préservation de la taille relative & position des cartes lors du Resize de la fenêtre
+// RESOLUTION DE BUG - Interaction avec les boutons
 /////////////////////>
-
-function updateCardsSize() {
-    document.querySelectorAll('section.active .card').forEach(card => {
-        let parentWidth = card.parentElement.offsetWidth;
-        let parentHeight = card.parentElement.offsetHeight;
-        card.style.width = `${parentWidth * 0.8}px`;
-        card.style.height = `${parentHeight * 0.9}px`;
-    });
-}
-
-window.addEventListener('resize', updateCardsSize);
-document.addEventListener("DOMContentLoaded", function() {
-    updateCardsSize(); // Appel initial pour définir la taille
-});
 
 // Empêchement de la sélection de texte de boutons
 document.querySelectorAll("button").forEach(button => {
