@@ -2,6 +2,23 @@ const body = document.querySelector('body');
 const html = document.querySelector('html');
 const cardAnimationTime = 300; // ms
 
+function initialize() {
+    questionIndex = 0;
+    progression = 0;
+
+    chooseGender(userGender)
+
+    x = 0
+    y = 0
+
+    score = 0
+    scoreMultiplier = 1
+    scoreMax = 0
+
+    document.querySelector('section#playing .part.button .active').classList.add('active') // Réaffiche le bouton de réponse
+    document.querySelector('section#playing #results-button').classList.remove('active')
+}
+
 function openPage(page) {
     let newOpenedPage = document.querySelector('body').children[page];
 
@@ -16,20 +33,17 @@ function openPage(page) {
     }, 500);
 }
 
-let resources = [
-    {'emoji': 'Icons/crane.png', 'text': 'Est-ce queee1 ??', 'type': 'default', 'answers': []},
-    {'emoji': 'Icons/crane.png', 'text': 'Est-ce quee2 ??', 'type': 'special', 'answers': ['1', '2', '3', '4']},
-    {'emoji': 'Icons/crane.png', 'text': 'Est-ce quee3 ??', 'type': 'default', 'answers': []},
-    {'emoji': 'Icons/crane.png', 'text': 'Est-ce quee4 ??', 'type': 'default', 'answers': []},
-    {'emoji': 'Icons/crane.png', 'text': 'Est-ce que5??', 'type': 'default', 'answers': []},
-    {'emoji': 'Icons/crane.png', 'text': 'Est-ce qu6??', 'type': 'special', 'answers': []},
-    {'emoji': 'Icons/crane.png', 'text': 'Est-ce qu7??', 'type': 'default', 'answers': []},
-    {'emoji': 'Icons/crane.png', 'text': 'Est-ce qu8??', 'type': 'default', 'answers': []},
-]
+let resources;
+
+let questionsNumber; // Nombre de questions
+let questionIndex = 0;
+let progression = 0;
 
 function newCard(value) { // Ajoute une carte à la fin de la file
     const container = document.querySelector('section#playing .part.cards');
 
+    questionIndex += 1;
+    progression = Math.round(questionIndex / questionsNumber * 100);
     let card = document.createElement('div');
     let cardData = resources.shift();
 
@@ -39,7 +53,12 @@ function newCard(value) { // Ajoute une carte à la fin de la file
         <div class="title">Test de saleté</div>
         <img class="emoji" src="${cardData.emoji}"></img>
         <div class="text">${cardData.text}</div>
-        <div class="progress"></div>
+        <div class="progress">
+            <div class="bar">
+				<div class="progression", style="width: ${progression}%;"></div>
+				<p>${questionIndex}/${questionsNumber}</p>
+			</div>
+        </div>
     `;
 
     let answersDiv = document.createElement('div'); // Stockage des réponses multiples s'il y en a
@@ -99,6 +118,7 @@ function setCurrentCard(card) { // Définit la carte actuelle déplaçable
     if (currentCard.classList.contains('special')) {
         scoreMultiplier = 3
     }
+    scoreMax += scoreMultiplier
 
     // Choix du type de bouton réponse & empêchement du swipe
     let answers = currentCard.querySelector('.answers')
@@ -149,9 +169,35 @@ function chooseGender(gender) {
     const userGender = gender
     globalThis.userGender = userGender
 
-    //resources =
+    if (userGender == 'male') {
+        resources = [
+            {'emoji': 'Icons/crane.png', 'text': 'Est-ce queee1 ??', 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/crane.png', 'text': 'Est-ce quee2 ??', 'type': 'special', 'answers': ['1', '2', '3', '4']},
+            {'emoji': 'Icons/crane.png', 'text': 'Est-ce quee3 ??', 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/crane.png', 'text': 'Est-ce quee4 ??', 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/crane.png', 'text': 'Est-ce que5??', 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/crane.png', 'text': 'Est-ce qu6??', 'type': 'special', 'answers': []},
+            {'emoji': 'Icons/crane.png', 'text': 'Est-ce qu7??', 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/crane.png', 'text': 'Est-ce qu8??', 'type': 'default', 'answers': []},
+        ]
+    } else {
+        resources = [
+            {'emoji': 'Icons/crane.png', 'text': 'Est-ce queee1 ??', 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/crane.png', 'text': 'Est-ce quee2 ??', 'type': 'special', 'answers': ['1', '2', '3', '4']},
+            {'emoji': 'Icons/crane.png', 'text': 'Est-ce quee3 ??', 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/crane.png', 'text': 'Est-ce quee4 ??', 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/crane.png', 'text': 'Est-ce que5??', 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/crane.png', 'text': 'Est-ce qu6??', 'type': 'special', 'answers': []},
+            {'emoji': 'Icons/crane.png', 'text': 'Est-ce qu7??', 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/crane.png', 'text': 'Est-ce qu8??', 'type': 'default', 'answers': []},
+        ]
+    }
 
-    genderButton.classList.remove('active')
+    questionsNumber = resources.length;
+
+    if (genderButton.classList.contains('active')) {
+        genderButton.classList.remove('active')
+    }
 }
 
 function startGame() {
@@ -163,6 +209,35 @@ function startGame() {
 }
 
 function showResults() {
+    const rewards = [
+        {'name': 'ASSEZ PROPRE', 'color': '#90F06B'},
+        {'name': 'SALE', 'color': '#B0D356'},
+        {'name': 'SUPER SALE', 'color': '#DFAA39'},
+        {'name': 'MEGA SALE', 'color': '#ED7B27'},
+        {'name': 'UN GROS CRADO', 'color': '#E14B22'},
+        {'name': 'LE CRADO ORIGINEL', 'color': '#D4191D'},
+        {'name': 'LE ROI DES CRADOS', 'color': '#BB0F4C'},
+        {'name': 'UN CACA SUPER SALE', 'color': '#A2067E'},
+        {'name': 'LE SEIGNEUR DU CACA', 'color': '#78007A'},
+        {'name': 'UNE GROSSE MERDE', 'color': '#3F0140'},
+        {'name': 'UNE CAUSE PERDUE', 'color': '#000000'}
+    ]
+
+    // Calcul du score
+    let scorePercentage = Math.round(score / scoreMax * 100);
+
+    if (scorePercentage > 100) {
+        scorePercentage = 100;
+    }
+
+    // Affichage
+    let rewardIndex = Math.round(scorePercentage/10);
+    let rewardText = document.querySelector('section#results h3');
+    rewardText.textContent = rewards[rewardIndex].name
+    rewardText.style.color = rewards[rewardIndex].color
+
+    document.querySelector('section#results .bar .cursor').style.left = `${scorePercentage}%`
+
     openPage(2)
 }
 
@@ -191,6 +266,11 @@ function answerQuestion(answer) { // Réponse par bouton
     }
 }
 
+function homeMenu() {
+    initialize()
+    openPage(0)
+}
+
 
 
 /////////////////////>
@@ -199,8 +279,10 @@ function answerQuestion(answer) { // Réponse par bouton
 
 let x = 0
 let y = 0 // Coordonnées = décalages Left et Top de la carte
+
 let score = 0
 let scoreMultiplier = 1
+let scoreMax = 0
 
 function fixedToAbsolute() { // Centrage absolu de la carte déplaçable
     currentCard.style.left = `50%`;
@@ -277,7 +359,7 @@ function onDrag(e) {
     ratio = Math.round((cardCurrentOffset - cardStartOffset) / cardStartOffset * 1000) / 100;
     currentCard.style.transform = `translate(0, 0) scale(1) rotate(${ratio / 4}deg)` // Appliquer le ratio de décalage gauche-droite de la carte
     if (currentCard.classList.contains('special')) {
-        currentCard.style.filter = `hue-rotate(${ratio}deg)`
+        currentCard.style.filter = `hue-rotate(${ratio * 0.5}deg)`
     } else {
         if (ratio < 0) {
             currentCard.style.background = `rgb(${107 - ratio * 0.75}, 106, 136)`

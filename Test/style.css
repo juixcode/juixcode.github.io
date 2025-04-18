@@ -7,6 +7,7 @@
     --red: #D45454;
     --green: rgb(112, 216, 104);
     --blue: #7549EF;
+    --blue-gradient: linear-gradient(55deg, #605DCE 0%, #7D7ADF 100%);
     --rose: #F550B3;
     --white-80: rgba(255, 255, 255, 0.8);
     --white-40: rgba(255, 255, 255, 0.4);
@@ -63,6 +64,9 @@ section.active {
 
     display: flex;
     position: relative;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
 }
 .part.button {
     height: 25%;
@@ -89,6 +93,25 @@ h1 {
     text-align: center;
     max-width: 80%;
     z-index: 7;
+}
+h2 {
+    font-family: Outfit;
+    font-weight: 500;
+    color: var(--white-80);
+    font-size: 3.6em;
+}
+h3 {
+    display: inline;
+    text-align: center;
+    font-family: Outfit;
+    font-weight: 800;
+    text-shadow:
+    0.02em 0.02em 0 var(--white-40),
+    -0.02em 0.02em 0 var(--white-40),
+    -0.02em -0.02em 0 var(--white-40),
+    0.02em -0.02em 0 var(--white-40);
+    font-size: 7em;
+    line-height: 7vh;
 }
 
 /* ############################# Cartes ############################# */
@@ -157,7 +180,9 @@ h1 {
     width: 100%;
     height: 20%;
     padding: 5%;
+
     justify-content: center;
+    align-items: center;
 }
 .card .answers {
     display: none;
@@ -216,6 +241,86 @@ h1 {
     transform: translate(-44%, -50%) scale(1) rotate(10deg);
     /* transform: translate(-37%, -50%) scale(1) rotate(15deg); */
     background: rgb(107, 138, 136);
+}
+
+/* ############################# Results bar ############################# */
+section#results .bar {
+    background: linear-gradient(90deg, #81FF75 0%, #F4952A 25%, #D4191C 50%, #940097 75%, #030003 100%);
+    width: 70%;
+    height: 4vh;
+    border: solid 0.1vh var(--white-40);
+    box-shadow: var(--regular-shadow);
+    border-radius: 10vh;
+    position: relative;
+}
+section#results .bar .cursor {
+    position: absolute;
+    top: 10%;
+
+    height: 80%;
+    width: 0.5vh;
+    border-radius: 10vh;
+    background-color: var(--white-80);
+}
+section#results .bar .cursor::after {
+    content: '';
+    display: flex;
+    position: absolute;
+    top: 150%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    height: 80%;
+    width: auto;
+    aspect-ratio: 1/1;
+    background: url(Icons/cursor.svg) no-repeat;
+    background-size: 100% 100%;
+}
+.column-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    max-width: 85%;
+}
+
+/* ############################# Progress bar ############################# */
+.card .progress .bar {
+    background-color: var(--dark-blue);
+    width: 80%;
+    height: 50%;
+    border: solid 0.1vh var(--white-40);
+    box-shadow: var(--regular-shadow);
+    border-radius: 10vh;
+    
+    display: flex;
+    position: relative;
+}
+.progress .bar .progression {
+    background: var(--blue-gradient);
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    height: 100%;
+    border: solid 0.1vh var(--white-40);
+    border-radius: 10vh;
+}
+.progress .bar p {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+
+    font-family: Outfit;
+    font-weight: 600;
+    color: var(--white-80);
+    font-size: 2em;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /* ############################# Buttons ############################# */
@@ -340,6 +445,7 @@ html:not(.click-protection) #playing .object-button.active { /* Protection contr
     100% {opacity: 1; display: flex;}
 }
 #gender-button:not(.active) {
+    display: none;
     animation: disappear 0.5s ease forwards;
 }
 @keyframes disappear {
@@ -394,7 +500,7 @@ body::after {
     pointer-events: none; /* This ensures it doesn't block interactions */
     overflow: hidden; /* Ensures overflow is only outside the screen */
 }
-body:has(button#start-button:hover:active)::after, body:has(button#results-button:hover:active)::after {
+body:has(button#start-button:hover:active)::after, body:has(button#results-button:hover:active)::after, body:has(button#home-button:hover:active)::after {
     width: 35vh;
     height: 35vh;
 }

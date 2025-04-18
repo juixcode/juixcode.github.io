@@ -51,15 +51,29 @@
 				</div>
 				<div id="answers-button" class="object-button">
 					<button onclick="answerQuestion(0)"></button>
+					<button onclick="answerQuestion(0.5)"></button>
 					<button onclick="answerQuestion(1)"></button>
-					<button onclick="answerQuestion(2)"></button>
-					<button onclick="answerQuestion(3)"></button>
+					<button onclick="answerQuestion(1.5)"></button>
 				</div>
-				<button id="results-button" class="object-button" onclick="showResults()">Résultats</button>
+				<button id="results-button" class="object-button" onclick="showResults()">Résultat</button>
 			</div>
 		</section>
 		<section id="results">
-			fdbbnnnn3
+			<div class="part header">
+				<h1>Résultat</h1>
+			</div>
+			<div class="part cards">
+				<div class="bar">
+					<div class="cursor"></div>
+				</div>
+				<div class="column-container">
+					<h2>Tu es...</h2>
+					<h3></h3>
+				</div>
+			</div>
+			<div class="part button">
+				<button id="home-button" class="object-button" onclick="homeMenu()">Retour au menu</button>
+			</div>
 		</section>
 
 		<script type="text/javascript" src="script.js" defer></script>
