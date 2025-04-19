@@ -499,7 +499,7 @@ body::after {
     pointer-events: none; /* This ensures it doesn't block interactions */
     overflow: hidden; /* Ensures overflow is only outside the screen */
 }
-body:has(button#start-button.hover)::after, body:has(button#results-button.hover)::after, body:has(button#home-button.hover)::after {
+body:not(.animated):has(button#start-button.hover)::after, body:not(.animated):has(button#results-button.hover)::after, body:not(.animated):has(button#home-button.hover)::after {
     width: 35vh;
     height: 35vh;
 }
