@@ -401,12 +401,35 @@ function stopDrag() {
 
 
 /////////////////////>
-// RESOLUTION DE BUG - Interaction avec les boutons
+// RESOLUTION DE BUG - Interaction avec les boutons & Hover compatible avec iOS
 /////////////////////>
 
 // Empêchement de la sélection de texte de boutons
 document.querySelectorAll("button").forEach(button => {
     button.addEventListener("contextmenu", function(e) {
         e.preventDefault(); // Empêche le menu contextuel
+    });
+});
+
+// Hover animations
+const hoverAnimatedElements = document.querySelectorAll('button');
+hoverAnimatedElements.forEach(element => {
+    // Souris sur PC
+    element.addEventListener('mousedown', () => {
+        element.classList.add('hover');
+    });
+    element.addEventListener('mouseup', () => {
+        element.classList.remove('hover');
+    });
+    element.addEventListener('mouseleave', () => {
+        element.classList.remove('hover'); // pour le cas où la souris sort du bouton
+    });
+
+    // Tactile sur mobile
+    element.addEventListener('touchstart', () => {
+        element.classList.add('hover');
+    });
+    element.addEventListener('touchend', () => {
+        element.classList.remove('hover');
     });
 });

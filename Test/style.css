@@ -377,7 +377,7 @@ html:not(.click-protection) #playing .object-button.active { /* Protection contr
     align-items: center;
     transition: opacity 0.2s ease;
 }
-#gender-button button:hover:active, #no-yes-button button:hover:active {
+#gender-button button.hover, #no-yes-button button.hover {
     opacity: 0.75;
 }
 #gender-button button::after, #no-yes-button button::after {
@@ -478,7 +478,7 @@ html:not(.click-protection) #playing .object-button.active { /* Protection contr
     font-size: 2em;
     transition: background-color 0.2s ease;
 }
-#answers-button button:hover:active {
+#answers-button button.hover {
     background-color: var(--light-blue);
 }
 
@@ -499,7 +499,7 @@ body::after {
     pointer-events: none; /* This ensures it doesn't block interactions */
     overflow: hidden; /* Ensures overflow is only outside the screen */
 }
-body:has(button#start-button:hover:active)::after, body:has(button#results-button:hover:active)::after, body:has(button#home-button:hover:active)::after {
+body:has(button#start-button.hover)::after, body:has(button#results-button.hover)::after, body:has(button#home-button.hover)::after {
     width: 35vh;
     height: 35vh;
 }
