@@ -445,7 +445,6 @@ html:not(.click-protection) #playing .object-button.active { /* Protection contr
     100% {opacity: 1; display: flex;}
 }
 #gender-button:not(.active) {
-    display: none;
     animation: disappear 0.5s ease forwards;
 }
 @keyframes disappear {

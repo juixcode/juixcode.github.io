@@ -17,6 +17,7 @@ function initialize() {
 
     document.querySelector('section#playing .part.button .active').classList.add('active') // Réaffiche le bouton de réponse
     document.querySelector('section#playing #results-button').classList.remove('active')
+    genderButton.remove()
 }
 
 function openPage(page) {
