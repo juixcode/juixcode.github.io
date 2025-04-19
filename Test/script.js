@@ -41,6 +41,7 @@ function openPage(page) {
 }
 
 let resources;
+let rewards;
 
 let questionsNumber; // Nombre de questions
 let questionIndex = 0;
@@ -207,6 +208,19 @@ function chooseGender(gender) {
             {'emoji': 'Icons/choque2.png', 'text': `T'as déjà fumé un joint ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `T'as déjà trop bu et fini bourré ?`, 'type': 'default', 'answers': []},
         ]
+        rewards = [
+            {'name': 'ASSEZ PROPRE', 'color': '#90F06B'},
+            {'name': 'SALE', 'color': '#B0D356'},
+            {'name': 'SUPER SALE', 'color': '#DFAA39'},
+            {'name': 'MEGA SALE', 'color': '#ED7B27'},
+            {'name': 'UN GROS CRADO', 'color': '#E14B22'},
+            {'name': 'LE CRADO ORIGINEL', 'color': '#D4191D'},
+            {'name': 'LE ROI DES CRADOS', 'color': '#BB0F4C'},
+            {'name': 'UN CACA SUPER SALE', 'color': '#A2067E'},
+            {'name': 'LE SEIGNEUR DU CACA', 'color': '#78007A'},
+            {'name': 'UNE GROSSE MERDE', 'color': '#3F0140'},
+            {'name': 'UNE CAUSE PERDUE', 'color': '#000000'}
+        ]
     } else {
         resources = [
             {'emoji': 'Icons/choque1.png', 'text': `Tu oublies de mettre du gel après la cantine ?`, 'type': 'default', 'answers': []},
@@ -224,7 +238,7 @@ function chooseGender(gender) {
             {'emoji': 'Icons/choque1.png', 'text': `T'as déjà pété devant ton/ta crush ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/peche.png', 'text': `Tu te masturbes souvent ?`, 'type': 'default', 'answers': ['Jamais', `2 à 3 fois /sem`, 'Tous les jours', '+ de 2fois /jour']},
             {'emoji': 'Icons/peche.png', 'text': `Tu mouilles dans quoi ?`, 'type': 'default', 'answers': ['Un mouchoir', `La douche`, 'Les draps', 'Par terre']},
-            {'emoji': 'Icons/peche.png', 'text': `Tu utilises quoi pour te masturber ?`, 'type': 'default', 'answers': ['Rien', `Mes doigts`, 'Un vibro', `D'autres' objets ronds`]},
+            {'emoji': 'Icons/peche.png', 'text': `Tu utilises quoi pour te masturber ?`, 'type': 'default', 'answers': ['Rien', `Mes doigts`, 'Un vibro', `D'autres objets ronds`]},
             {'emoji': 'Icons/peche.png', 'text': `Tu t'es déjà masturbé en pensant à un/une pote ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/peche.png', 'text': `Tu t'es déjà masturbé en pensant à un/une prof ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/crane.png', 'text': `Tu t'es déjà masturbé en pensant à un membre de ta famille ?`, 'type': 'special', 'answers': []},
@@ -236,6 +250,19 @@ function chooseGender(gender) {
             {'emoji': 'Icons/choque1.png', 'text': `T'as déjà fumé une puff ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque2.png', 'text': `T'as déjà fumé un joint ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `T'as déjà trop bu et fini bourré ?`, 'type': 'default', 'answers': []},
+        ]
+        rewards = [
+            {'name': 'ASSEZ PROPRE', 'color': '#90F06B'},
+            {'name': 'SALE', 'color': '#B0D356'},
+            {'name': 'SUPER SALE', 'color': '#DFAA39'},
+            {'name': 'MEGA SALE', 'color': '#ED7B27'},
+            {'name': 'UNE GROSSE CRADO', 'color': '#E14B22'},
+            {'name': 'LA CRADO ORIGINELLE', 'color': '#D4191D'},
+            {'name': 'LA REINE DES CRADOS', 'color': '#BB0F4C'},
+            {'name': 'UN CACA SUPER SALE', 'color': '#A2067E'},
+            {'name': 'LA MAÎTRESSE DU CACA', 'color': '#78007A'},
+            {'name': 'UNE GROSSE MERDE', 'color': '#3F0140'},
+            {'name': 'UNE CAUSE PERDUE', 'color': '#000000'}
         ]
     }
 
@@ -255,19 +282,6 @@ function startGame() {
 }
 
 function showResults() {
-    const rewards = [
-        {'name': 'ASSEZ PROPRE', 'color': '#90F06B'},
-        {'name': 'SALE', 'color': '#B0D356'},
-        {'name': 'SUPER SALE', 'color': '#DFAA39'},
-        {'name': 'MEGA SALE', 'color': '#ED7B27'},
-        {'name': 'UN GROS CRADO', 'color': '#E14B22'},
-        {'name': 'LE CRADO ORIGINEL', 'color': '#D4191D'},
-        {'name': 'LE ROI DES CRADOS', 'color': '#BB0F4C'},
-        {'name': 'UN CACA SUPER SALE', 'color': '#A2067E'},
-        {'name': 'LE SEIGNEUR DU CACA', 'color': '#78007A'},
-        {'name': 'UNE GROSSE MERDE', 'color': '#3F0140'},
-        {'name': 'UNE CAUSE PERDUE', 'color': '#000000'}
-    ]
 
     // Calcul du score
     let scorePercentage = Math.round(score / scoreMax * 100);
