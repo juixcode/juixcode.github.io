@@ -499,9 +499,16 @@ body::after {
     pointer-events: none; /* This ensures it doesn't block interactions */
     overflow: hidden; /* Ensures overflow is only outside the screen */
 }
-body:not(.animated):has(button#start-button.hover)::after, body:not(.animated):has(button#results-button.hover)::after, body:not(.animated):has(button#home-button.hover)::after {
+body:not(.is-ios):has(button#start-button.hover)::after, body:not(.is-ios):has(button#results-button.hover)::after, body:not(.is-ios):has(button#home-button.hover)::after {
     width: 35vh;
     height: 35vh;
+}
+body.is-ios button#start-button, body.is-ios button#results-button, body.is-ios button#home-button {
+    transition: all 0.15s ease-out;
+}
+body.is-ios button#start-button.hover, body.is-ios button#results-button.hover, body.is-ios button#home-button.hover {
+
+    border: solid 2.4vh var(--green);
 }
 body.animated::after {
     animation: bubble 1s ease;

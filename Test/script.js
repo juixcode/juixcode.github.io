@@ -180,21 +180,18 @@ function chooseGender(gender) {
 
     if (userGender == 'male') {
         resources = [
-            {'emoji': 'Icons/choque1.png', 'text': `Tu oublies de mettre du gel après la cantine ?`, 'type': 'default', 'answers': []},
-            {'emoji': 'Icons/choque2.png', 'text': `Tu te tiens aux barres du bus/train ?`, 'type': 'default', 'answers': []},
-            {'emoji': 'Icons/choque1.png', 'text': `Tu bois au goulot de la bouteille ?`, 'type': 'default', 'answers': []},
-            {'emoji': 'Icons/choque1.png', 'text': `T'as déjà fait pipi à côté (sur le rebord) ?`, 'type': 'default', 'answers': []},
-            {'emoji': 'Icons/choque2.png', 'text': `Tu oublies de te laver les mains après avoir fait caca ?`, 'type': 'default', 'answers': ['Jamais', `C'est déjà arrivé`, 'Parfois', 'Souvent']},
-            {'emoji': 'Icons/choque1.png', 'text': `T'as déjà fait pipi dans la mer ?`, 'type': 'default', 'answers': []},
-            {'emoji': 'Icons/crane.png', 'text': `T'as déjà fait pipi dans la piscine ?`, 'type': 'special', 'answers': []},
+            {'emoji': 'Icons/choque1.png', 'text': `Tu oublies de te laver les mains après la cantine ?`, 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/choque2.png', 'text': `Tu te tiens aux barres du bus/train/métro avec la main ?`, 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/choque1.png', 'text': `Tu bois au goulot de la bouteille avant/après quelqu'un ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `Le max de jours sans te doucher ?`, 'type': 'default', 'answers': ['0', `1`, '2', '3 ou +']},
+            {'emoji': 'Icons/choque1.png', 'text': `Ca t'arrive de te brosser les dents qu'1 fois par jour ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `T'as déjà remis un T-shirt plus de 2j ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque2.png', 'text': `T'as déjà remis un caleçon/slip sale ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque2.png', 'text': `T'as déjà aimé renifler ton pet ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `Tu pètes en présence de ta famille ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `T'as déjà pété devant ton/ta crush ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/peche.png', 'text': `Tu te masturbes souvent ?`, 'type': 'default', 'answers': ['Jamais', `2 à 3 fois /sem`, 'Tous les jours', '+ de 2fois /jour']},
-            {'emoji': 'Icons/peche.png', 'text': `Tu libères le fleuve dans quoi ?`, 'type': 'default', 'answers': ['Un mouchoir', `Les toilettes`, 'La douche', 'Une chaussette']},
+            {'emoji': 'Icons/peche.png', 'text': `Tu libères le fleuve dans quoi ?`, 'type': 'default', 'answers': ['Je ne me branle pas', `Un mouchoir`, 'Douche ou Toilettes', 'Une chaussette']},
             {'emoji': 'Icons/peche.png', 'text': `Tu utilises quoi pour te masturber ?`, 'type': 'default', 'answers': ['Rien', `Ma main`, 'Kit branlette éponge', `Ma mère.`]},
             {'emoji': 'Icons/peche.png', 'text': `Tu t'es déjà masturbé en pensant à un/une pote ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/peche.png', 'text': `Tu t'es déjà masturbé en pensant à un/une prof ?`, 'type': 'default', 'answers': []},
@@ -203,13 +200,17 @@ function chooseGender(gender) {
             {'emoji': 'Icons/crane.png', 'text': `T'aimes bien les lolis ?`, 'type': 'special', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `Plutôt bombe mais conne que bof mais intelligente ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/peche.png', 'text': `Tu préfères quoi pour te masturber ?`, 'type': 'default', 'answers': ['Je ne me branle pas', `Mon esprit`, 'Porno', 'Hentai']},
+            {'emoji': 'Icons/choque1.png', 'text': `T'as déjà fait pipi à côté (sur le rebord) ?`, 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/choque2.png', 'text': `Tu oublies de te laver les mains après avoir fait caca ?`, 'type': 'default', 'answers': ['Jamais', `C'est déjà arrivé`, 'Parfois', 'Souvent']},
+            {'emoji': 'Icons/choque1.png', 'text': `T'as déjà fait pipi dans la mer ?`, 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/crane.png', 'text': `T'as déjà fait pipi dans la piscine ?`, 'type': 'special', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `Tu fumes de temps en temps ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `T'as déjà fumé une puff ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque2.png', 'text': `T'as déjà fumé un joint ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `T'as déjà trop bu et fini bourré ?`, 'type': 'default', 'answers': []},
         ]
         rewards = [
-            {'name': 'ASSEZ PROPRE', 'color': '#90F06B'},
+            {'name': 'UN GROOOOOS MYTHO', 'color': '#90F06B'},
             {'name': 'SALE', 'color': '#B0D356'},
             {'name': 'SUPER SALE', 'color': '#DFAA39'},
             {'name': 'MEGA SALE', 'color': '#ED7B27'},
@@ -223,21 +224,18 @@ function chooseGender(gender) {
         ]
     } else {
         resources = [
-            {'emoji': 'Icons/choque1.png', 'text': `Tu oublies de mettre du gel après la cantine ?`, 'type': 'default', 'answers': []},
-            {'emoji': 'Icons/choque2.png', 'text': `Tu te tiens aux barres du bus/train ?`, 'type': 'default', 'answers': []},
-            {'emoji': 'Icons/choque1.png', 'text': `Tu bois au goulot de la bouteille ?`, 'type': 'default', 'answers': []},
-            {'emoji': 'Icons/choque1.png', 'text': `T'as déjà fait pipi à côté (sur le rebord) ?`, 'type': 'default', 'answers': []},
-            {'emoji': 'Icons/choque2.png', 'text': `Tu oublies de te laver les mains après avoir fait caca ?`, 'type': 'default', 'answers': ['Jamais', `C'est déjà arrivé`, 'Parfois', 'Souvent']},
-            {'emoji': 'Icons/choque1.png', 'text': `T'as déjà fait pipi dans la mer ?`, 'type': 'default', 'answers': []},
-            {'emoji': 'Icons/crane.png', 'text': `T'as déjà fait pipi dans la piscine ?`, 'type': 'special', 'answers': []},
+            {'emoji': 'Icons/choque1.png', 'text': `Tu oublies de te laver les mains après la cantine ?`, 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/choque2.png', 'text': `Tu te tiens aux barres du bus/train/métro avec la main ?`, 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/choque1.png', 'text': `Tu bois au goulot de la bouteille avant/après quelqu'un ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `Le max de jours sans te doucher ?`, 'type': 'default', 'answers': ['0', `1`, '2', '3 ou +']},
+            {'emoji': 'Icons/choque1.png', 'text': `Ca t'arrive de te brosser les dents qu'1 fois par jour ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `T'as déjà remis un T-shirt plus de 2j ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque2.png', 'text': `T'as déjà remis une culotte sale ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque2.png', 'text': `T'as déjà aimé renifler ton pet ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `Tu pètes en présence de ta famille ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `T'as déjà pété devant ton/ta crush ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/peche.png', 'text': `Tu te masturbes souvent ?`, 'type': 'default', 'answers': ['Jamais', `2 à 3 fois /sem`, 'Tous les jours', '+ de 2fois /jour']},
-            {'emoji': 'Icons/peche.png', 'text': `Tu mouilles dans quoi ?`, 'type': 'default', 'answers': ['Un mouchoir', `La douche`, 'Les draps', 'Par terre']},
+            {'emoji': 'Icons/peche.png', 'text': `Tu mouilles dans quoi ?`, 'type': 'default', 'answers': ['Je ne me branle pas', `Un mouchoir`, 'Douche ou Toilettes', 'Les draps']},
             {'emoji': 'Icons/peche.png', 'text': `Tu utilises quoi pour te masturber ?`, 'type': 'default', 'answers': ['Rien', `Mes doigts`, 'Un vibro', `D'autres objets ronds`]},
             {'emoji': 'Icons/peche.png', 'text': `Tu t'es déjà masturbé en pensant à un/une pote ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/peche.png', 'text': `Tu t'es déjà masturbé en pensant à un/une prof ?`, 'type': 'default', 'answers': []},
@@ -246,13 +244,17 @@ function chooseGender(gender) {
             {'emoji': 'Icons/crane.png', 'text': `T'aimes bien les lolis ?`, 'type': 'special', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `Plutôt bg mais con que bof mais intelligent ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/peche.png', 'text': `Tu préfères quoi pour te masturber ?`, 'type': 'default', 'answers': ['Je ne me branle pas', `Mon esprit`, 'Porno', 'Hentai']},
+            {'emoji': 'Icons/choque1.png', 'text': `T'as déjà fait pipi à côté (sur le rebord) ?`, 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/choque2.png', 'text': `Tu oublies de te laver les mains après avoir fait caca ?`, 'type': 'default', 'answers': ['Jamais', `C'est déjà arrivé`, 'Parfois', 'Souvent']},
+            {'emoji': 'Icons/choque1.png', 'text': `T'as déjà fait pipi dans la mer ?`, 'type': 'default', 'answers': []},
+            {'emoji': 'Icons/crane.png', 'text': `T'as déjà fait pipi dans la piscine ?`, 'type': 'special', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `Tu fumes de temps en temps ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `T'as déjà fumé une puff ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque2.png', 'text': `T'as déjà fumé un joint ?`, 'type': 'default', 'answers': []},
             {'emoji': 'Icons/choque1.png', 'text': `T'as déjà trop bu et fini bourré ?`, 'type': 'default', 'answers': []},
         ]
         rewards = [
-            {'name': 'ASSEZ PROPRE', 'color': '#90F06B'},
+            {'name': 'UNE GROOOOSSE MYTHO', 'color': '#90F06B'},
             {'name': 'SALE', 'color': '#B0D356'},
             {'name': 'SUPER SALE', 'color': '#DFAA39'},
             {'name': 'MEGA SALE', 'color': '#ED7B27'},
@@ -492,3 +494,9 @@ hoverAnimatedElements.forEach(element => {
         element.classList.remove('hover');
     });
 });
+
+// Détecter si sous iOS
+if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+    document.body.classList.add("is-ios");
+    console.log("iOS detected");
+}
