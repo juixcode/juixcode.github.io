@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Groupe J v1.0</title>
+        <meta name="title"/>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+        <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+		<link rel="shortcut icon" href="assets/favicon.ico" type="image/ico" />
+        <link rel="stylesheet" href="style.css" />
+        <script src="script.js" defer></script>
+    </head>
+    <body>
+        <main>
+            <audio preload="auto" id="background-music" autoplay muted loop><source src="assets/music.mp3" type="audio/mp3">Audio non supporté</audio>
+            <audio preload="auto" id="click-sound" autoplay><source src="assets/bell.mp3" type="audio/mp3">Audio non supporté</audio>
+            <audio preload="auto" id="click-sound-2" autoplay><source src="assets/icechime.mp3" type="audio/mp3">Audio non supporté</audio>
+            <div class="background">
+                <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+            <div class="page" data-value="-1">
+                <section>
+                    <div class="rounded-glass-design goback-button right" onclick="switchPage(0)">Retour</div>
+                    <div class="scrollable">
+                        <h2>Détails & Concept</h2>
+                        <p>
+                            Aventure chill, Survie classique : on mine, on explore, on build, on combat.
+                        </p>
+                        <h4>«»«»«» LES PARTICIPANTS «»«»«»</h4>
+                        <p>
+                            Tout le Groupe J est invité à participer à cette aventure.<br>
+                            Chacun peut néanmoins inviter un ami ou plusieurs amis (raisonnablement) qui souhaitent participer aussi.
+                        </p>
+                        <h4>«»«»«» CHRONOLOGIE «»«»«»</h4>
+                        <p>
+                            Les 4 premiers jours suivant le lancement seront les plus importants, on essaie de s'attendre pour les moments clés (nether, ender_dragon) pour profiter ensemble le + possible durant ces 4 jours.
+                        </p>
+                        <h4>«»«»«» LES TELEPORTEURS «»«»«»</h4>
+                        <p>
+                            Un téléporteur peut être placé pour relier deux positions. Il suffit de [CLIC DROIT] avec l'objet en main pour enregistrer Une puis Deux positions distinctes. <br>
+                            Les téléporteurs permettent de relier nos différents camps et se retrouver facilement, tout en nous éparpillant sur la map sans se perdre de vue.
+                        </p>
+                        <img src="assets/teleporters.png" alt="">
+                        <p>ㅤ</p>
+                        <h2>Infos supplémentaires</h2>
+                        <p>
+                            Les Cracks sont autorisés. Merci de respecter le travail effectué pour la réalisation de cet évènement, en évitant l'utilisation de Cheats ou de failles.
+                        </p>
+                        <h4>«»«»«» Télécharger Minecraft «»«»«»</h4>
+                        <p>
+                            Tu n'as pas encore Minecraft ? Je ne te conseille pas forcément de l'acheter. Si tu le souhaites quand même, prends une clé sur Instant Gaming à ~15€ par exemple. <br>
+                            Sinon, télécharge un Cracked Launcher : T Launcher, souvent blâmé pour des soupçons de spyware (on est beaucoup à l'utiliser et rien à signaler depuis plusieurs années avec plusieurs antivirus), ou SK Launcher (plus moderne et peut-être plus reconnu (je ne l'ai jamais essayé personnellement)). <br>
+                            Enfin bref, je suis pas responsable si y a un souci mais tqt.
+                        </p>
+                        <div class="double-columns">
+                            <div class="item">
+                                <a class="button-design map-button" href="https://skmedix.pl/" target="_blank">SK Launcher</a>
+                            </div>
+                            <div class="item">
+                                <a class="button-design map-button" href="https://tlauncher.org/" target="_blank">T Launcher</a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="page active" data-value="0">
+                <div class="block">
+                    <h1>Groupe J</h1>
+                    <h2>Aventure 2025</h2>
+                </div>
+                <section>
+                    <div class="rounded-glass-design volume-button off" onclick="toggleVolume()"></div>
+                    <h2>Rejoins l'évènement Minecraft</h2>
+                    <h4>IP du Serveur</h4>
+                    <div class="rounded-glass-design ip-button" onclick="copyIp('13.53.78.147', this)">13.53.78.147</div>
+                    <h4>Version</h4>
+                    <p>Minecraft Java (PC only) - Vanilla 1.21.9 (latest)</p>
+                    <div class="double-columns">
+                        <div class="item">
+                            <div class="button-design infos-button" onclick="switchPage(-1)">Détails & Concept</div>
+                        </div>
+                        <div class="item">
+                            <a class="button-design map-button" href="https://discord.gg/f28pVXuH3p" target="_blank">Rejoindre le Discord</a>
+                        </div>
+                    </div>
+                </section>
+                <section class="footer">
+                    <a href="https://fabricmc.net/use/installer/" target="_blank" class="rounded-glass-design corner-link-button">Fabric</a>
+                    <h2>Un Minecraft Optimum avec Fabric</h2>
+                    <div class="double-columns">
+                        <div class="item">
+                            <h4>Pack d'opti</h4>
+                            <a onclick="playSound1()" href="drop/[OPTI BUNDLE] UNZIP-ME.zip" class="button-design">Télécharger</a>
+                            <p>Mods d’optimisation pour un max de perfs et de FPS</p>
+                        </div>
+                        <div class="item">
+                            <h4>Pack complet</h4>
+                            <a onclick="playSound1()" href="drop/[FULL BUNDLE] UNZIP-ME.zip" class="button-design">Télécharger</a>
+                            <p>Mods d’optimisation & Shaders, Resourcepacks...</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <section class="credits">
+                <div class="rounded-glass-design close-credits-button" onclick="toggleCredits()"></div>
+                <h2>Merci !</h2>
+                <h4>Chefs de projet</h4>
+                <p>Juju (@jujutheboss)</p>
+                <p>Le Groupe J</p>
+            </section>
+            <div class="rounded-glass-design credits-button" onclick="toggleCredits()">Crédits</div>
+        </main>
+    </body>
+</html>
