@@ -1,10 +1,14 @@
 // ######################### GLOBAL #########################
 
+// Réduction du lag & bugs de flou sur iOS
 document.addEventListener("DOMContentLoaded", () => {
-    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
-        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    // const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+    //     (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
 
-    if (isIOS) {
+    // if (isIOS) {
+    //     document.documentElement.classList.add("iOS");
+    // }
+    if (window.matchMedia("(pointer: coarse)").matches) { // Solution temporaire - réduction du lag sur tous les mobiles
         document.documentElement.classList.add("iOS");
     }
 });
