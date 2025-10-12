@@ -464,8 +464,8 @@ a
     transition: opacity 0.12s ease;
 }
 
-.link.lang.en::after { background: fixed url(Medias/flag_en.png) no-repeat; background-size: 100%; }
-.link.lang.fr::after { background: fixed url(Medias/flag_fr.png) no-repeat; background-size: 100%; }
+.link.lang.en::after { background: fixed url(Medias/flag_en.svg) no-repeat; background-size: 100%; }
+.link.lang.fr::after { background: fixed url(Medias/flag_fr.svg) no-repeat; background-size: 100%; }
 
 @media (min-width: 100.01vh) { /* Ecran d'ordinateur toute taille */
     .link.lang:hover::after
@@ -546,7 +546,7 @@ a
 }
 
 .link.copy::after, .link.refresh_database::after {
-    background: fixed url(Medias/link_white.png) no-repeat;
+    background: fixed url(Medias/share_white.svg) no-repeat;
     background-size: 100% 100%;
     content: '';
     display: block;
@@ -632,6 +632,36 @@ a
 
 /* ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ Bouton de redirection du pied de page */
 
+.footer p {
+    position: relative;
+    font-family: 'Inter';
+    font-weight: 500;
+    font-size: 1.6vh;
+    color: #212121;
+    margin: 0;
+}
+.footer a {
+    text-decoration: none;
+    color: #554acb;
+    cursor: pointer;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+}
+.footer a:hover {
+    opacity: 0.7;
+}
+@media (max-width: 75vh) { /* Ecran mobile*/
+    .footer p {
+        position: fixed;
+        text-align: center;
+        justify-content: center;
+        bottom: 0.2vh;
+        left: 0;
+        font-size: 1.4vh;
+        width: 100%;
+    }
+}
+
 .link.footer_item
 {
     background: #212121;
@@ -642,9 +672,9 @@ a
     margin: 0 0 0 1vw;
 }
 
-.link.footer_item.type1::after { background: fixed url(Medias/discord_white.png) no-repeat; background-size: 100% 100%; }
-.link.footer_item.type2::after { background: fixed url(Medias/instagram_white.png) no-repeat; background-size: 100% 100%; }
-.link.footer_item.type3::after { background: fixed url(Medias/youtube_white.png) no-repeat; background-size: 100% 100%; }
+.link.footer_item.type1::after { background: fixed url(Medias/discord_white.svg) no-repeat; background-size: 100% 100%; }
+.link.footer_item.type2::after { background: fixed url(Medias/instagram_white.svg) no-repeat; background-size: 100% 100%; }
+.link.footer_item.type3::after { background: fixed url(Medias/youtube_white.svg) no-repeat; background-size: 100% 100%; }
 .link.footer_item.type4::after { background: fixed url(Medias/mail_white.svg) no-repeat; background-size: 100% 100%; }
 
 .link.footer_item::after
@@ -906,7 +936,6 @@ h1.bigger
         font-size: calc(1.5vh + 4vw);
     }
     h1.bigger {
-        margin: calc(4vw - 2.5vh) 0 calc(4vw - 2.5vh) 0;
         font-size: calc(5vh + 10vw);
     }
 }
@@ -1939,7 +1968,7 @@ h1.pack_download_upvote::after
     display: block;
     height: 9vh;
     width: 9vh;
-    background: fixed url(Medias/fire_empty.png) no-repeat;
+    background: fixed url(Medias/fire_empty.svg) no-repeat;
     background-size: 100% 100%;
     position: relative;
     transform: translate(0,0);
@@ -1948,7 +1977,7 @@ h1.pack_download_upvote::after
 
 h1.pack_download_upvote.disabled::after
 {
-    background: fixed url(Medias/fire.png) no-repeat;
+    background: fixed url(Medias/fire.svg) no-repeat;
     background-size: 100% 100%;
 }
 
