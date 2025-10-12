@@ -3285,7 +3285,7 @@ max-width:70%
     font-weight: 500;
     font-size: 1.6vh;
     color: #212121;
-    margin: 0;
+    margin: auto;
 }
 .footer a {
     text-decoration: none;
@@ -3299,6 +3299,7 @@ max-width:70%
 }
 @media (max-width: 75vh) { /* Ecran mobile*/
     .footer p {
+        margin: 0;
         position: fixed;
         text-align: center;
         justify-content: center;
