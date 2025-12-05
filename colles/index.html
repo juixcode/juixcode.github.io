@@ -107,8 +107,8 @@
                         <i data-lucide="brain-circuit" class="text-white w-6 h-6"></i>
                     </div>
                     <div>
-                        <h1 class="text-xl font-bold text-white tracking-tight">Flash Révisions</h1>
-                        <p class="text-slate-400 text-xs font-medium">Boostez votre mémoire</p>
+                        <h1 class="text-xl font-bold text-white tracking-tight">Flash Révisions v2</h1>
+                        <p class="text-slate-400 text-xs font-medium">Flash cards des colles</p>
                     </div>
                 </div>
                 
@@ -203,59 +203,111 @@
 
         // Données par défaut (utilisées uniquement si LocalStorage est vide)
         const DEFAULT_CARDS = [
-createCardData('om-1', 'Outils maths', 'Quel est le degré de \\( P + Q \\) ?', '\\( \\deg(P+Q) \\le \\max(\\deg P, \\deg Q) \\). Si \\( \\deg P \\neq \\deg Q \\), alors \\( \\deg(P+Q) = \\max(\\deg P, \\deg Q) \\).'),
-            createCardData('om-2', 'Outils maths', 'Quel est le degré de \\( P \\times Q \\) ?', '\\( \\deg(P \\times Q) = \\deg P + \\deg Q \\).'),
-            createCardData('om-3', 'Outils maths', 'Définition de "\\( B \\) divise \\( A \\)" (\\( A, B \\in \\mathbb{C}[X] \\))', 'On dit que \\( B \\) divise \\( A \\) s\'il existe \\( Q \\in \\mathbb{C}[X] \\) tel que \\( A = BQ \\). On note \\( B|A \\).'),
-            createCardData('om-4', 'Outils maths', 'Définition d\'une racine \\( \\alpha \\) de multiplicité \\( k \\) de \\( P \\)', '\\( \\alpha \\) est racine de multiplicité \\( k \\) si \\( (X-\\alpha)^k \\) divise \\( P \\) et \\( (X-\\alpha)^{k+1} \\) ne divise pas \\( P \\).'),
-            createCardData('om-5', 'Outils maths', 'Définition polynôme irréductible \\( P \\) dans \\( \\mathbb{K}[X] \\)', '\\( P \\) est irréductible s\'il est non constant et si ses seuls diviseurs sont les polynômes constants et les polynômes de la forme \\( aP \\) (\\( a \\in \\mathbb{K}^* \\)).'),
-            createCardData('om-6', 'Outils maths', 'Quels sont les polynômes irréductibles de \\( \\mathbb{C}[X] \\) ?', 'Ce sont les polynômes de degré 1.'),
-            createCardData('om-7', 'Outils maths', 'Quels sont les polynômes irréductibles de \\( \\mathbb{R}[X] \\) ?', 'Les polynômes de degré 1 ainsi que les polynômes de degré 2 ayant un discriminant \\( \\Delta < 0 \\).'),
-            createCardData('om-8', 'Outils maths', 'Définition d\'un élément simple dans \\( \\mathbb{C}(X) \\)', '\\( \\frac{\\lambda}{(X-a)^n} \\) avec \\( \\lambda, a \\in \\mathbb{C}, n \\in \\mathbb{N}^* \\).'),
-            createCardData('om-9', 'Outils maths', 'Définition d\'un élément simple dans \\( \\mathbb{R}(X) \\)', '\\( \\frac{\\lambda}{(X-a)^n} \\) (1ère espèce) ou \\( \\frac{\\beta X + \\gamma}{(X^2+bX+c)^n} \\) (2ème espèce, avec \\( \\Delta < 0 \\)).'),
-            createCardData('alg-1', 'Algèbre', 'Si \\( E \\) est de cardinal \\( n \\), quel est \\( \\text{Card}(\\mathcal{P}(E)) \\) ?', '\\( \\text{Card}(\\mathcal{P}(E)) = 2^n \\).'),
-            createCardData('alg-2', 'Algèbre', 'Définition du produit cartésien de \\( E_1, \\dots, E_n \\)', 'L\'ensemble des n-uplets \\( (x_1, \\dots, x_n) \\) tels que \\( x_i \\in E_i \\). Noté \\( \\prod_{i=1}^n E_i \\).'),
-            createCardData('alg-3', 'Algèbre', 'Définition d\'une partition d\'un ensemble \\( E \\)', 'Une famille \\( (E_i)_{i \\in I} \\) telle que : 1) \\( E_i \\neq \\emptyset \\). 2) Disjoints 2 à 2 (\\( E_i \\cap E_j = \\emptyset \\)). 3) Union = \\( E \\).'),
-            createCardData('alg-4', 'Algèbre', 'Différence Fonction vs Application', 'Fonction : définie sur un sous-ensemble (domaine). Application : définie sur tout l\'ensemble de départ (\\( \\text{Dom}(f) = E \\)).'),
-            createCardData('alg-5', 'Algèbre', 'Caractérisation d\'une application \\( f: E \\to F \\)', '\\( \\forall x \\in E, \\exists! y \\in F, y = f(x) \\). (Tout élément a une unique image).'),
-            createCardData('alg-6', 'Algèbre', 'Définition Restriction et Prolongement', 'Restriction \\( f_{|A} \\) : définie sur \\( A \\subset E \\). Prolongement \\( \\tilde{g} \\) de \\( g \\) à \\( E \\) : \\( \\tilde{g}_{|A} = g \\).'),
-            createCardData('alg-7', 'Algèbre', 'Card(\\(\\mathcal{F}(E,F)\\)) avec \\( |E|=n, |F|=p \\)', '\\( p^n \\).'),
-            createCardData('alg-8', 'Algèbre', 'Définition composée \\( g \\circ f \\)', '\\( (g \\circ f)(x) = g(f(x)) \\). Définie si \\( f: E \\to F \\) et \\( g: F \\to G \\).'),
-            createCardData('alg-9', 'Algèbre', 'Fonction indicatrice \\( 1_A(x) \\)', '\\( 1 \\) si \\( x \\in A \\), \\( 0 \\) sinon.'),
-            createCardData('alg-10', 'Algèbre', 'Définition Image Directe et Réciproque', 'Image : \\( f(A) = \\{y \\in F | \\exists x \\in A, f(x)=y\\} \\). Préimage : \\( f^{-1}(B) = \\{x \\in E | f(x) \\in B\\} \\).'),
-            createCardData('alg-11', 'Algèbre', 'Définition \\( f \\) Injective', '\\( \\forall x,y \\in E, f(x)=f(y) \\implies x=y \\). (Tout \\( y \\) a au plus 1 antécédent).'),
-            createCardData('alg-12', 'Algèbre', 'Définition \\( f \\) Surjective', '\\( \\forall y \\in F, \\exists x \\in E, f(x)=y \\). (Tout \\( y \\) a au moins 1 antécédent).'),
-            createCardData('alg-13', 'Algèbre', 'Définition \\( f \\) Bijective', 'Injective et Surjective. (Tout \\( y \\) a un unique antécédent).'),
-            createCardData('alg-14', 'Algèbre', 'Application Réciproque \\( f^{-1} \\)', 'Unique application tq \\( f^{-1} \\circ f = id_E \\) et \\( f \\circ f^{-1} = id_F \\). Graphe symétrique par rapport à \\( y=x \\).'),
-            createCardData('alg-15', 'Algèbre', 'Condition existence réciproque', 'L\'application doit être bijective.'),
-            createCardData('alg-16', 'Algèbre', 'Application Involutive', '\\( f \\circ f = id_E \\). Alors \\( f \\) est bijective et \\( f^{-1} = f \\).'),
-            createCardData('alg-17', 'Algèbre', 'Liens cardinaux finis et bijection', '\\( |E|=|F| \\iff \\exists \\) bijection. Inj \\( \\implies |E| \\le |F| \\). Surj \\( \\implies |E| \\ge |F| \\).'),
-            createCardData('alg-18', 'Algèbre', 'Formule du Binôme de Newton', '\\[ (a+b)^n = \\sum_{k=0}^n \\binom{n}{k} a^k b^{n-k} \\]'),
-            createCardData('ana-1', 'Fonctions & suites numériques', 'Définition limite finie \\( l \\) en \\( x_0 \\)', '\\( \\forall \\epsilon > 0, \\exists \\delta > 0, \\forall x \\in D, 0 < |x-x_0| < \\delta \\implies |f(x)-l| < \\epsilon \\).'),
-            createCardData('ana-2', 'Fonctions & suites numériques', 'Limite à droite / gauche', 'Droite (\\( x_0^+ \\)) : \\( 0 < x-x_0 < \\delta \\). Gauche (\\( x_0^- \\)) : \\( -\\delta < x-x_0 < 0 \\).'),
-            createCardData('ana-3', 'Fonctions & suites numériques', 'Lien limite et limites latérales', 'La limite en \\( x_0 \\) existe ssi \\( \\lim_{x_0^+} f = \\lim_{x_0^-} f \\).'),
-            createCardData('ana-4', 'Fonctions & suites numériques', 'Définition limite \\( +\\infty \\) en \\( x_0 \\)', '\\( \\forall A > 0, \\exists \\delta > 0, |x-x_0| < \\delta \\implies f(x) > A \\).'),
-            createCardData('ana-5', 'Fonctions & suites numériques', 'Définition limite \\( l \\) en \\( +\\infty \\)', '\\( \\forall \\epsilon > 0, \\exists B > 0, x > B \\implies |f(x)-l| < \\epsilon \\).'),
-            createCardData('ana-6', 'Fonctions & suites numériques', 'Limite Produit "Bornée \\( \\times \\) Tends vers 0"', 'La limite est 0.'),
-            createCardData('ana-7', 'Fonctions & suites numériques', 'Théorème des gendarmes', 'Si \\( g \\le f \\le h \\) et \\( \\lim g = \\lim h = l \\), alors \\( \\lim f = l \\).'),
-            createCardData('ana-8', 'Fonctions & suites numériques', 'Théorème d\'encadrement (infini)', 'Si \\( f \\le g \\) et \\( \\lim f = +\\infty \\), alors \\( \\lim g = +\\infty \\).'),
-            createCardData('ana-9', 'Fonctions & suites numériques', 'Définition \\( f \\) et \\( g \\) équivalentes (\\( x_0 \\))', '\\( \\frac{f(x)}{g(x)} \\to 1 \\) quand \\( x \\to x_0 \\).'),
-            createCardData('ana-10', 'Fonctions & suites numériques', 'Définition \\( f \\) négligeable devant \\( g \\) (\\( o(g) \\))', '\\( \\frac{f(x)}{g(x)} \\to 0 \\) quand \\( x \\to x_0 \\).'),
-            createCardData('ana-11', 'Fonctions & suites numériques', 'Définition \\( f \\) dominée par \\( g \\) (\\( O(g) \\))', '\\( \\frac{f(x)}{g(x)} \\) est bornée au voisinage de \\( x_0 \\).'),
-            createCardData('ana-12', 'Fonctions & suites numériques', 'Croissances comparées (\\( +\\infty \\))', '\\( \\ln x \\ll x^\\alpha \\ll e^x \\) (pour \\( \\alpha > 0 \\)). Ex: \\( \\frac{\\ln x}{x} \\to 0 \\), \\( \\frac{e^x}{x} \\to +\\infty \\).'),
-            createCardData('ana-13', 'Fonctions & suites numériques', 'Limites usuelles (Log, Exp, Sin, Cos)', '\\( \\lim_{0} \\frac{\\ln(1+x)}{x}=1 \\), \\( \\lim_{0} \\frac{e^x-1}{x}=1 \\), \\( \\lim_{0} \\frac{\\sin x}{x}=1 \\), \\( \\lim_{0} \\frac{1-\\cos x}{x^2}=\\frac{1}{2} \\).'),
-            createCardData('ana-14', 'Fonctions & suites numériques', 'Définition continuité en \\( x_0 \\)', '\\( \\forall \\epsilon > 0, \\exists \\delta > 0, |x-x_0|<\\delta \\implies |f(x)-f(x_0)|<\\epsilon \\). (ou \\( \\lim_{x \\to x_0} f(x) = f(x_0) \\)).'),
-            createCardData('ana-15', 'Fonctions & suites numériques', 'Critère séquentiel de continuité', '\\( f \\) continue en \\( a \\iff \\) pour toute suite \\( u_n \\to a \\), on a \\( f(u_n) \\to f(a) \\).'),
-            createCardData('ana-16', 'Fonctions & suites numériques', 'Théorème des valeurs intermédiaires (TVI)', 'Si \\( f \\) continue sur \\( [a,b] \\), pour tout \\( y \\) entre \\( f(a) \\) et \\( f(b) \\), il existe \\( c \\in [a,b] \\) tel que \\( f(c)=y \\).'),
-            createCardData('ana-17', 'Fonctions & suites numériques', 'Théorème de la bijection', 'Si \\( f \\) continue et strictement monotone sur \\( I \\), elle réalise une bijection de \\( I \\) sur \\( f(I) \\).'),
-            createCardData('ana-18', 'Fonctions & suites numériques', 'Théorème des bornes atteintes', 'Toute fonction continue sur un segment (fermé borné) est bornée et atteint ses bornes.'),
-            createCardData('ana-19', 'Fonctions & suites numériques', 'Définition dérivabilité en \\( x_0 \\)', 'Limite finie du taux d\'accroissement : \\( \\lim_{h \\to 0} \\frac{f(x_0+h)-f(x_0)}{h} = l = f\'(x_0) \\).'),
-            createCardData('ana-20', 'Fonctions & suites numériques', 'Lien Dérivabilité / Continuité', '\\( f \\) dérivable sur \\( I \\implies f \\) continue sur \\( I \\). (Réciproque fausse).'),
-            createCardData('ana-21', 'Fonctions & suites numériques', 'Dérivée composée \\( (g \\circ f) \\)', '\\( (g \\circ f)\' = (g\' \\circ f) \\times f\' \\).'),
-            createCardData('ana-22', 'Fonctions & suites numériques', 'Dérivée bijection réciproque \\( (f^{-1}) \\)', '\\( (f^{-1})\'(y) = \\frac{1}{f\'(f^{-1}(y))} \\) (si \\( f\' \\) ne s\'annule pas).'),
-            createCardData('ana-23', 'Fonctions & suites numériques', 'Définition classe \\( C^n \\)', '\\( f \\) est \\( n \\)-fois dérivable et sa dérivée \\( n \\)-ième est continue.'),
-            createCardData('ana-24', 'Fonctions & suites numériques', 'Asymptote Verticale (\\( x=a \\))', '\\( \\lim_{x \\to a} f(x) = \\pm \\infty \\).'),
-            createCardData('ana-25', 'Fonctions & suites numériques', 'Asymptote Horizontale (\\( y=b \\))', '\\( \\lim_{x \\to \\pm \\infty} f(x) = b \\).'),
-            createCardData('ana-26', 'Fonctions & suites numériques', 'Asymptote Oblique (\\( y=ax+b \\))', '\\( \\lim_{x \\to \\pm \\infty} (f(x) - (ax+b)) = 0 \\).'),
+createCardData('om-1', 'Outils maths', 'Soient \\( P \\) et \\( Q \\) deux polynômes à coefficients dans \\( \\mathbb{R} \\). Quel est le degré de \\( P + Q \\) ?', 'On a \\( \\deg(P+Q) \\le \\max(\\deg P, \\deg Q) \\). Si \\( \\deg P \\neq \\deg Q \\), alors \\( \\deg(P+Q) = \\max(\\deg P, \\deg Q) \\).'),
+
+createCardData('om-2', 'Outils maths', 'Soient \\( P \\) et \\( Q \\) deux polynômes non nuls à coefficients dans \\( \\mathbb{R} \\). Quel est le degré de \\( P \\times Q \\) ?', 'On a \\( \\deg(P \\times Q) = \\deg P + \\deg Q \\).'),
+
+createCardData('om-3', 'Outils maths', 'Soient \\( A, B \\in \\mathbb{C}[X] \\). Donner la définition de : \\( B \\) divise \\( A \\).', 'On dit que \\( B \\) divise \\( A \\) s\'il existe \\( Q \\in \\mathbb{C}[X] \\) tel que \\( A = BQ \\). On note alors \\( B|A \\).'),
+
+createCardData('om-4', 'Outils maths', 'Soient \\( k \\in \\mathbb{N}^* \\) et \\( \\alpha \\in \\mathbb{R} \\). Définition de : \\( \\alpha \\) est une racine de multiplicité \\( k \\) (ou d\'ordre \\( k \\)) de \\( P \\).', '\\( \\alpha \\) est racine de multiplicité \\( k \\) si \\( (X-\\alpha)^k \\) divise \\( P \\) alors que \\( (X-\\alpha)^{k+1} \\) ne divise pas \\( P \\).'),
+
+createCardData('om-5', 'Outils maths', 'Rappeler la définition d\'un polynôme irréductible \\( P \\) dans \\( \\mathbb{K}[X] \\).', '\\( P \\) est irréductible s\'il est non constant et si ses seuls diviseurs sont les polynômes constants et les polynômes de la forme \\( aP \\) où \\( a \\in \\mathbb{K}^* \\).'),
+
+createCardData('om-6', 'Outils maths', 'Quels sont les polynômes irréductibles de \\( \\mathbb{C}[X] \\) ?', 'Les polynômes irréductibles de \\( \\mathbb{C}[X] \\) sont les polynômes de degré 1.'),
+
+createCardData('om-7', 'Outils maths', 'Quels sont les polynômes irréductibles de \\( \\mathbb{R}[X] \\) ?', 'Ce sont les polynômes de degré 1 ainsi que les polynômes de degré 2 ayant un discriminant \\( \\Delta < 0 \\).'),
+
+createCardData('om-8', 'Outils maths', 'Rappeler la définition d\'un élément simple dans \\( \\mathbb{C}(X) \\).', 'C\'est une fraction rationnelle de la forme \\( \\frac{\\lambda}{(X-a)^n} \\) avec \\( \\lambda \\in \\mathbb{C} \\), \\( a \\in \\mathbb{C} \\) et \\( n \\in \\mathbb{N}^* \\).'),
+
+createCardData('om-9', 'Outils maths', 'Rappeler la définition d\'un élément simple dans \\( \\mathbb{R}(X) \\).', 'Soit de la forme \\( \\frac{\\lambda}{(X-a)^n} \\) (1ère espèce), soit de la forme \\( \\frac{\\beta X + \\gamma}{(X^2+bX+c)^n} \\) (2ème espèce) avec \\( b^2-4c < 0 \\) et \\( n \\in \\mathbb{N}^* \\).'),
+
+createCardData('alg-1', 'Algèbre', 'Si \\( E \\) est un ensemble de cardinal \\( n \\), quel est le \\( \\text{Card}(\\mathcal{P}(E)) \\) ?', '\\( \\text{Card}(\\mathcal{P}(E)) = 2^n \\).'),
+
+createCardData('alg-2', 'Algèbre', 'Donner la définition du produit cartésien de \\( n \\) ensembles \\( E_1, \\dots, E_n \\).', 'C\'est l\'ensemble des n-uplets \\( (x_1, \\dots, x_n) \\) tels que \\( x_i \\in E_i \\). On le note \\( \\prod_{i=1}^n E_i \\) ou \\( E_1 \\times \\dots \\times E_n \\).'),
+
+createCardData('alg-3', 'Algèbre', 'Donner la définition d\'une partition d\'un ensemble \\( E \\) par une famille \\( (E_i)_{i \\in I} \\).', 'La famille \\( (E_i)_{i \\in I} \\) est une partition si : 1) \\( E_i \\neq \\emptyset, \\forall i \\). 2) Ils sont disjoints 2 à 2 (\\( i \\neq j \\implies E_i \\cap E_j = \\emptyset \\)). 3) Leur union est \\( E \\) (\\( \\bigcup E_i = E \\)).'),
+
+createCardData('alg-4', 'Algèbre', 'Soient \\( E \\) et \\( F \\) deux ensembles. Quelle est la différence entre une fonction et une application ?', 'Une fonction est définie sur un sous-ensemble \\( Dom(f) \\subseteq E \\). Une application est une fonction définie sur l\'ensemble de départ entier, c\'est-à-dire \\( Dom(f) = E \\).'),
+
+createCardData('alg-5', 'Algèbre', 'Donner la caractérisation d\'une application \\( f: E \\to F \\) par quantificateurs mathématiques.', '\\( \\forall x \\in E, \\exists! y \\in F, y = f(x) \\) (Pour tout \\( x \\), il existe un unique \\( y \\)).'),
+
+createCardData('alg-6', 'Algèbre', 'Définitions : Restriction de \\( f: E \\to F \\) à \\( A \\subset E \\) et Prolongement de \\( g: A \\to F \\) à \\( E \\).', 'La restriction \\( f|_A \\) est l\'application de \\( A \\) dans \\( F \\) telle que \\( f|_A(x)=f(x) \\). Un prolongement \\( \\tilde{g}: E \\to F \\) est une application telle que sa restriction à \\( A \\) est égale à \\( g \\) (\\( \\tilde{g}|_A = g \\)).'),
+
+createCardData('alg-7', 'Algèbre', 'On note \\( \\mathcal{F}(E,F) \\) l\'ensemble des applications de \\( E \\) dans \\( F \\). Si \\( \\text{card}(E)=n \\) et \\( \\text{card}(F)=p \\), quel est \\( \\text{card}(\\mathcal{F}(E,F)) \\) ?', '\\( \\text{card}(\\mathcal{F}(E,F)) = p^n \\).'),
+
+createCardData('alg-8', 'Algèbre', 'Soient \\( f: E \\to F \\) et \\( g: F \\to G \\) deux applications. Définir la composée \\( g \\circ f \\).', 'C\'est l\'application \\( g \\circ f: E \\to G \\) définie par \\( x \\mapsto g(f(x)) \\).'),
+
+createCardData('alg-9', 'Algèbre', 'Soit \\( E \\) un ensemble et \\( A \\subset E \\). Définir la fonction indicatrice \\( 1_A \\).', '\\( 1_A: E \\to \\{0,1\\} \\) telle que \\( 1_A(x) = 1 \\) si \\( x \\in A \\), et \\( 0 \\) sinon.'),
+
+createCardData('alg-10', 'Algèbre', 'Soit \\( f: E \\to F \\). Définir \\( Im(f) \\), l\'image directe \\( f(A) \\) (avec \\( A \\subset E \\)) et l\'image réciproque \\( f^{-1}(B) \\) (avec \\( B \\subset F \\)).', '\\( Im(f) = \\{y \\in F | \\exists x \\in E, y=f(x)\\} \\). \\( f(A) = \\{y \\in F | \\exists x \\in A, y=f(x)\\} \\). \\( f^{-1}(B) = \\{x \\in E | f(x) \\in B\\} \\).'),
+
+createCardData('alg-11', 'Algèbre', 'Soit \\( f: E \\to F \\). Donner la définition de : \\( f \\) est injective.', '\\( \\forall x, y \\in E, f(x)=f(y) \\implies x=y \\). (Tout \\( y \\in F \\) a au plus un antécédent).'),
+
+createCardData('alg-12', 'Algèbre', 'Soit \\( f: E \\to F \\). Donner la définition de : \\( f \\) est surjective.', '\\( \\forall y \\in F, \\exists x \\in E, f(x)=y \\). (Tout élément \\( y \\in F \\) admet au moins un antécédent).'),
+
+createCardData('alg-13', 'Algèbre', 'Soit \\( f: E \\to F \\). Donner la définition de : \\( f \\) est bijective.', '\\( f \\) est à la fois injective et surjective. \\( \\forall y \\in F, \\exists! x \\in E, f(x)=y \\). (Tout \\( y \\) a un unique antécédent).'),
+
+createCardData('alg-14', 'Algèbre', 'Soit \\( f: E \\to F \\) bijective. Définir l\'application réciproque \\( f^{-1} \\) et son graphe.', 'C\'est l\'unique application \\( g: F \\to E \\) tq \\( g \\circ f = id_E \\) et \\( f \\circ g = id_F \\). Son graphe est symétrique à celui de \\( f \\) par rapport à la bissectrice \\( y=x \\).'),
+
+createCardData('alg-15', 'Algèbre', 'Quelle proposition assure l\'existence et l\'unicité d\'une fonction réciproque pour \\( f: E \\to F \\) ?', 'La propriété équivalente : \\( f \\) est bijective \\( \\iff \\) Il existe une unique application \\( g: F \\to E \\) tq \\( g \\circ f = id_E \\) et \\( f \\circ g = id_F \\).'),
+
+createCardData('alg-16', 'Algèbre', 'Définition d\'une application involutive \\( f \\). Est-elle inversible ?', '\\( f \\) est involutive si \\( f \\circ f = id_E \\). Oui, elle est bijective et c\'est sa propre réciproque (\\( f^{-1} = f \\)).'),
+
+createCardData('alg-17', 'Algèbre', 'Soient \\( E, F \\) finis et \\( f: E \\to F \\). Compléter : 1) \\( |E|=|f(E)| \\iff \\dots \\) 2) \\( f \\) surjective \\( \\implies \\dots \\) 3) \\( f \\) injective \\( \\implies \\dots \\) 4) \\( f \\) bijective \\( \\implies \\dots \\)', '1) \\( f \\) est injective. 2) \\( |E| \\ge |F| \\). 3) \\( |E| \\le |F| \\). 4) \\( |E| = |F| \\).'),
+
+createCardData('alg-18', 'Algèbre', 'Énoncer la formule du binôme de Newton pour \\( (a+b)^n \\).', '\\( (a+b)^n = \\sum_{k=0}^n \\binom{n}{k} a^k b^{n-k} \\) avec \\( \\binom{n}{k} = \\frac{n!}{k!(n-k)!} \\).'),
+
+createCardData('ana-1', 'Fonctions & suites numériques', 'Soit \\( f: D \\to \\mathbb{R} \\) et \\( x_0 \\in D \\). Définition avec quantificateurs de "f admet pour limite finie \\( l \\) en \\( x_0 \\)".', '\\( \\forall \\epsilon > 0, \\exists \\delta > 0, \\forall x \\in D, 0 < |x-x_0| < \\delta \\implies |f(x) - l| < \\epsilon \\).'),
+
+createCardData('ana-2', 'Fonctions & suites numériques', 'Définition des limites à droite (\\( x_0^+ \\)) et à gauche (\\( x_0^- \\)) de \\( f \\) en \\( x_0 \\).', 'Droite : \\( \\forall x \\in D, 0 < x - x_0 < \\delta \\implies |f(x) - l| < \\epsilon \\). Gauche : \\( \\forall x \\in D, -\\delta < x - x_0 < 0 \\implies |f(x) - l^-| < \\epsilon \\).'),
+
+createCardData('ana-3', 'Fonctions & suites numériques', 'Quel est le lien entre la limite de \\( f \\) en \\( x_0 \\) et les limites à droite/gauche ?', '\\( f \\) admet une limite en \\( x_0 \\) si et seulement si \\( \\lim_{x \\to x_0} f(x) = \\lim_{x \\to x_0^+} f(x) = \\lim_{x \\to x_0^-} f(x) \\).'),
+
+createCardData('ana-4', 'Fonctions & suites numériques', 'Définition avec quantificateurs de "f admet pour limite \\( +\\infty \\) en \\( x_0 \\)".', '\\( \\forall A > 0, \\exists \\delta > 0, \\forall x \\in D, |x-x_0| < \\delta \\implies f(x) > A \\).'),
+
+createCardData('ana-5', 'Fonctions & suites numériques', 'Définition avec quantificateurs de "f admet pour limite \\( l \\) en \\( +\\infty \\)".', '\\( \\forall \\epsilon > 0, \\exists B > 0, \\forall x \\in D, x > B \\implies |f(x) - l| < \\epsilon \\).'),
+
+createCardData('ana-6', 'Fonctions & suites numériques', 'Propriété sur la limite d\'un produit "\\( f \\) bornée \\( \\times \\) \\( g \\) tend vers 0" en \\( a \\).', 'Si \\( f \\) est bornée au voisinage de \\( a \\) et \\( g \\) tend vers 0 en \\( a \\), alors \\( \\lim (f \\times g) = 0 \\).'),
+
+createCardData('ana-7', 'Fonctions & suites numériques', 'Énoncer le Théorème des gendarmes en \\( x_0 \\).', 'Si \\( f(x) \\le g(x) \\le h(x) \\) sur \\( D \\) et si \\( \\lim_{x_0} f(x) = \\lim_{x_0} h(x) = l \\), alors \\( g \\) a une limite en \\( x_0 \\) et \\( \\lim_{x_0} g(x) = l \\).'),
+
+createCardData('ana-8', 'Fonctions & suites numériques', 'Énoncer le Théorème d\'encadrement pour une limite infinie.', 'Si \\( f(x) \\le g(x) \\) et si \\( \\lim_{x \\to x_0} f(x) = +\\infty \\), alors \\( \\lim_{x \\to x_0} g(x) = +\\infty \\).'),
+
+createCardData('ana-9', 'Fonctions & suites numériques', 'Définition : \\( f \\) et \\( g \\) sont équivalentes en \\( x_0 \\) (avec \\( g \\) non nulle).', '\\( f \\) et \\( g \\) sont équivalentes si \\( \\frac{f(x)}{g(x)} \\to 1 \\) quand \\( x \\to x_0 \\).'),
+
+createCardData('ana-10', 'Fonctions & suites numériques', 'Définition : \\( f \\) est négligeable devant \\( g \\) en \\( x_0 \\) (noté \\( o(g) \\)).', '\\( f \\) est négligeable devant \\( g \\) si \\( \\frac{f(x)}{g(x)} \\to 0 \\) quand \\( x \\to x_0 \\).'),
+
+createCardData('ana-11', 'Fonctions & suites numériques', 'Définition : \\( f \\) est dominée par \\( g \\) en \\( x_0 \\) (noté \\( O(g) \\)).', '\\( f \\) est dominée par \\( g \\) si \\( \\frac{f(x)}{g(x)} \\) est bornée au voisinage de \\( x_0 \\).'),
+
+createCardData('ana-12', 'Fonctions & suites numériques', 'Croissances comparées au voisinage de l\'infini (pour \\( \\alpha, \\beta > 0 \\)). Classer \\( (\\ln x)^\\alpha \\), \\( x^\\beta \\), \\( e^x \\).', 'On a \\( (\\ln x)^\\alpha = o(x^\\beta) \\) (le log est négligeable devant la puissance) et \\( x^\\alpha = o(e^{\\beta x}) \\) (la puissance est négligeable devant l\'exponentielle).'),
+
+createCardData('ana-13', 'Fonctions & suites numériques', 'Donner les limites remarquables en 0 pour : \\( \\frac{\\ln(1+x)}{x} \\), \\( \\frac{e^x-1}{x} \\), \\( \\frac{\\sin x}{x} \\), \\( \\frac{1-\\cos x}{x^2} \\), \\( \\frac{\\tan x}{x} \\), \\( \\frac{(1+x)^\\alpha - 1}{x} \\).', '\\( \\frac{\\ln(1+x)}{x} \\to 1 \\), \\( \\frac{e^x-1}{x} \\to 1 \\), \\( \\frac{\\sin x}{x} \\to 1 \\), \\( \\frac{1-\\cos x}{x^2} \\to 1/2 \\), \\( \\frac{\\tan x}{x} \\to 1 \\), \\( \\frac{(1+x)^\\alpha - 1}{x} \\to \\alpha \\).'),
+
+createCardData('ana-14', 'Fonctions & suites numériques', 'Soit \\( f: D \\to \\mathbb{R} \\). Définition avec quantificateurs de "\\( f \\) continue en \\( x_0 \\)".', '\\( \\forall \\epsilon > 0, \\exists \\delta > 0, \\forall x \\in D, |x-x_0| < \\delta \\implies |f(x) - f(x_0)| < \\epsilon \\).'),
+
+createCardData('ana-15', 'Fonctions & suites numériques', 'Donner le critère séquentiel de la continuité en \\( a \\).', '\\( f \\) est continue en \\( a \\) ssi pour toute suite \\( (u_n) \\) dans \\( D \\) telle que \\( u_n \\to a \\), on a \\( f(u_n) \\to f(a) \\).'),
+
+createCardData('ana-16', 'Fonctions & suites numériques', 'Énoncer le Théorème des valeurs intermédiaires (TVI) pour \\( f: [a,b] \\to \\mathbb{R} \\) continue.', 'Pour tout réel \\( y \\) compris strictement entre \\( f(a) \\) et \\( f(b) \\), il existe \\( c \\in [a,b] \\) tel que \\( f(c)=y \\).'),
+
+createCardData('ana-17', 'Fonctions & suites numériques', 'Énoncer le Théorème de la bijection.', 'Si \\( f \\) est continue et strictement monotone sur un intervalle fermé \\( I=[a,b] \\), alors elle constitue une bijection entre \\( I \\) et l\'intervalle fermé image borné par \\( f(a) \\) et \\( f(b) \\).'),
+
+createCardData('ana-18', 'Fonctions & suites numériques', 'Énoncer le Théorème des bornes atteintes.', 'Toute fonction continue sur un segment (intervalle fermé borné \\( [a,b] \\)) est bornée et atteint ses bornes.'),
+
+createCardData('ana-19', 'Fonctions & suites numériques', 'Soit \\( f: I \\to \\mathbb{R} \\) et \\( x_0 \\in I \\). Définition de : \\( f \\) dérivable en \\( x_0 \\).', '\\( f \\) est dérivable en \\( x_0 \\) s\'il existe un réel \\( l \\) tel que \\( l = \\lim_{x \\to x_0} \\frac{f(x)-f(x_0)}{x-x_0} \\) (ou limite du taux d\'accroissement en \\( h \\to 0 \\)).'),
+
+createCardData('ana-20', 'Fonctions & suites numériques', 'Quel est le lien entre dérivabilité et continuité sur \\( I \\) ? La réciproque est-elle vraie ?', '\\( f \\) dérivable sur \\( I \\implies f \\) continue sur \\( I \\). La réciproque est fausse (ex: \\( x \\mapsto |x| \\) continue mais pas dérivable en 0).'),
+
+createCardData('ana-21', 'Fonctions & suites numériques', 'Théorème de la dérivée composée \\( (g \\circ f)\' \\).', 'Si \\( f \\) dérivable sur \\( I \\) et \\( g \\) dérivable sur \\( f(I) \\), alors \\( g \\circ f \\) est dérivable et \\( (g \\circ f)\' = (g\' \\circ f) \\times f\' \\).'),
+
+createCardData('ana-22', 'Fonctions & suites numériques', 'Théorème de la dérivée de la bijection réciproque \\( f^{-1} \\).', 'Si \\( f \\) est strictement monotone, dérivable et que \\( f\'(x_0) \\neq 0 \\), alors \\( f^{-1} \\) est dérivable en \\( y = f(x_0) \\) et \\( (f^{-1})\'(y) = \\frac{1}{f\'(x_0)} = \\frac{1}{f\'(f^{-1}(y))} \\).'),
+
+createCardData('ana-23', 'Fonctions & suites numériques', 'Définition de : \\( f \\) est de classe \\( \\mathcal{C}^n \\) sur \\( I \\).', '\\( f \\) est \\( n \\) fois dérivable sur \\( I \\) et sa dérivée n-ième \\( f^{(n)} \\) est continue sur \\( I \\).'),
+
+createCardData('ana-24', 'Fonctions & suites numériques', 'Définition d\'une asymptote verticale d\'équation \\( x=a \\).', 'La courbe admet une asymptote verticale \\( x=a \\) si \\( \\lim_{x \\to a} f(x) = \\pm \\infty \\).'),
+
+createCardData('ana-25', 'Fonctions & suites numériques', 'Définition d\'une asymptote horizontale d\'équation \\( y=b \\) au voisinage de \\( +\\infty \\).', 'La courbe admet une asymptote horizontale \\( y=b \\) si \\( \\lim_{x \\to +\\infty} (f(x) - b) = 0 \\).'),
+
+createCardData('ana-26', 'Fonctions & suites numériques', 'Définition d\'une asymptote oblique d\'équation \\( y=ax+b \\) au voisinage de \\( +\\infty \\).', 'La courbe admet une asymptote oblique \\( y=ax+b \\) si \\( \\lim_{x \\to +\\infty} (f(x) - (ax+b)) = 0 \\).')
         ];
 
         let AVAILABLE_THEMES = ['Outils maths', 'Fonctions & suites numériques', 'Algèbre'];
