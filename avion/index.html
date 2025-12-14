@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8" />
+    <title>Projet AVION - Showcase</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- CSS GLOBAL --- */
+        body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        html { scroll-behavior: smooth; overflow-y: scroll; 
+            padding-top: 80px;
+        }
+        
+        /* Scrollbar custom */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+        /* --- ANIMATION BACKGROUND (BLOBS) --- */
+        body::before, body::after {
+            content: ''; position: fixed; filter: blur(120px); z-index: -1; pointer-events: none;
+        }
+        body::before {
+            top: 0%; left: -10%; width: 70vmax; height: 70vmax;
+            background: radial-gradient(circle, rgba(219, 39, 119, 0.25) 0%, rgba(219, 39, 119, 0) 70%);
+            animation: move-blob-1 25s infinite alternate ease-in-out;
+        }
+        body::after {
+            bottom: 0%; right: -10%; width: 60vmax; height: 60vmax;
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(59, 130, 246, 0) 70%);
+            animation: move-blob-2 30s infinite alternate ease-in-out;
+        }
+        @keyframes move-blob-1 { from { transform: translate(0, -100px) rotate(0deg) scale(1); } to { transform: translate(100px, 100px) rotate(180deg) scale(1.2); } }
+        @keyframes move-blob-2 { from { transform: translate(0, 0) rotate(0deg) scale(1); } to { transform: translate(-150px, -80px) rotate(-120deg) scale(0.8); } }
+
+        /* --- SYSTÈME DE PAGES (SPA) --- */
+        .page-section {
+            display: none; /* Caché par défaut */
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+        }
+
+        .page-section.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+            animation: fadeInSlide 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeInSlide {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- POPUP COPIÉ --- */
+        .copy-popup {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
+            background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(12px); color: white;
+            padding: 16px 32px; border-radius: 999px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3);
+            display: flex; align-items: center; gap: 12px; font-weight: 600;
+            opacity: 0; visibility: hidden; pointer-events: none; z-index: 9999;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .copy-popup.show { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-900 antialiased">
+
+<header class="bg-slate-50/80 backdrop-blur-xl shadow-sm fixed top-0 w-full z-50 border-b border-slate-900/10 transition-all duration-300">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <a href="#" onclick="switchPage('home')" class="flex items-center space-x-3 cursor-pointer select-none">
+                    <img 
+                        src="resources/logo_bleu.png"
+                        alt="Logo AVION" 
+                        class="h-12 w-auto object-contain"
+                    >
+                    <span class="text-2xl font-bold text-slate-800 tracking-tight">AVION</span>
+                </a>
+                
+                <nav class="hidden md:flex space-x-2">
+                    <button onclick="switchPage('home')" id="nav-home" class="nav-btn bg-blue-100 text-blue-600 text-lg font-semibold px-4 py-2 rounded-full transition-all">Accueil</button>
+                    <button onclick="switchPage('details')" id="nav-details" class="nav-btn text-slate-600 hover:text-blue-600 text-lg font-semibold px-4 py-2 rounded-full transition-all">Le Projet</button>
+                    <button onclick="switchPage('manual')" id="nav-manual" class="nav-btn text-slate-600 hover:text-blue-600 text-lg font-semibold px-4 py-2 rounded-full transition-all">Manuel</button>
+                    <button onclick="switchPage('team')" id="nav-team" class="nav-btn text-slate-600 hover:text-blue-600 text-lg font-semibold px-4 py-2 rounded-full transition-all">L'Équipe</button>
+                    <button onclick="switchPage('contact')" id="nav-contact" class="nav-btn text-slate-600 hover:text-blue-600 text-lg font-semibold px-4 py-2 rounded-full transition-all">Contact</button>
+                </nav>
+                
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-slate-600 hover:text-blue-600 focus:outline-none p-2">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-slate-50/95 backdrop-blur-xl border-t border-slate-200 shadow-lg transition-all duration-300 ease-in-out transform -translate-y-4 opacity-0 origin-top z-40">
+            <nav class="flex flex-col p-4 space-y-2">
+                <button onclick="switchPage('home')" id="mobile-nav-home" class="mobile-link w-full text-left px-4 py-3 rounded-md text-lg font-medium text-blue-600 bg-blue-50 transition">Accueil</button>
+                <button onclick="switchPage('details')" id="mobile-nav-details" class="mobile-link w-full text-left px-4 py-3 rounded-md text-lg font-medium text-slate-600 hover:bg-slate-100 transition">Le Projet</button>
+                <button onclick="switchPage('manual')" id="mobile-nav-manual" class="mobile-link w-full text-left px-4 py-3 rounded-md text-lg font-medium text-slate-600 hover:bg-slate-100 transition">Manuel</button>
+                <button onclick="switchPage('team')" id="mobile-nav-team" class="mobile-link w-full text-left px-4 py-3 rounded-md text-lg font-medium text-slate-600 hover:bg-slate-100 transition">L'Équipe</button>
+                <button onclick="switchPage('contact')" id="mobile-nav-contact" class="mobile-link w-full text-left px-4 py-3 rounded-md text-lg font-medium text-slate-600 hover:bg-slate-100 transition">Contact</button>
+            </nav>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto p-4 sm:p-6 md:p-8 min-h-[80vh]">
+
+        <section id="page-home" class="page-section active">
+            <div class="bg-white/50 backdrop-blur-2xl rounded-2xl shadow-xl border border-white/20 overflow-hidden">
+                <div class="grid grid-cols-1 md:grid-cols-2">
+                    <div class="p-8 md:p-12 lg:p-16 flex flex-col justify-center">
+                        <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+                            Projet <span class="text-blue-600">AVION</span>
+                        </h1>
+                        <p class="mt-4 text-xl text-slate-600">Maquette (puzzle 3D) d'un avion inspiré du Concorde.</p>
+                        <div class="mt-8 prose lg:prose-lg text-slate-700">
+                            <p class="mb-4">Dans le cadre du module Technologie de Fabrication, notre équipe de 15 étudiants a été chargée de concevoir et réaliser un puzzle en trois dimensions. Après un vote, il a été décidé de construire un avion inspiré du Concorde.</p>
+                            <p>8 semaines de travail intense mêlant rigueur, organisation et maîtrise technique pour aboutir à un résultat soigné.</p>
+                        </div>
+                        <div class="mt-10">
+                            <button onclick="switchPage('details')" class="inline-flex items-center gap-x-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3 px-8 rounded-full text-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all transform hover:scale-105 shadow-md">
+                                <span>Découvrir le Projet</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-center p-8 bg-slate-200/50">
+                        <img src="resources/avion.png" alt="Maquette" class=" object-cover w-full h-full hover:scale-[1.02] transition-transform duration-500">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-details" class="page-section">
+            <div id="details-container" class="space-y-20">
+                </div>
+        </section>
+
+        <section id="page-manual" class="page-section">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500">Manuel d'Assemblage</h1>
+                <p class="mt-4 text-xl text-slate-600">Suivez les étapes pour construire votre maquette AVION.</p>
+            </div>
+            <div id="manual-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                </div>
+        </section>
+
+        <section id="page-team" class="page-section">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500">Notre Équipe</h1>
+                <p class="mt-4 text-xl text-slate-600">Les 15 membres derrière le projet AVION.</p>
+            </div>
+            <div id="team-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
+                </div>
+            <div class="mt-20 text-center">
+                <h2 class="text-3xl md:text-4xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500">L'Equipe</h2>
+                <div class="mt-8 bg-white/50 backdrop-blur-2xl rounded-2xl shadow-xl border border-white/20 p-4 max-w-5xl mx-auto">
+                    <img src="https://picsum.photos/seed/groupe/1200/600" alt="Photo de groupe" class="rounded-xl object-cover w-full">
+                </div>
+            </div>
+        </section>
+
+        <section id="page-contact" class="page-section">
+            <div class="max-w-3xl mx-auto bg-white/50 backdrop-blur-2xl p-8 md:p-12 rounded-2xl shadow-xl border border-white/20">
+                <div class="text-center mb-10">
+                    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500">Contactez-nous</h1>
+                    <p class="mt-4 text-xl text-slate-600">Une question ou une suggestion ? N'hésitez pas.</p>
+                </div>
+
+                <form id="telegram-form" class="space-y-6">
+                    <div>
+                        <label class="block text-lg font-medium text-slate-700">Nom</label>
+                        <input type="text" id="name" required placeholder="Votre nom complet" class="mt-1 block w-full px-4 py-3 border bg-white/70 border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-lg font-medium text-slate-700">Email</label>
+                        <input type="email" id="email" required placeholder="votre.email@example.com" class="mt-1 block w-full px-4 py-3 border bg-white/70 border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div>
+                        <label class="block text-lg font-medium text-slate-700">Message</label>
+                        <textarea id="message" rows="6" required minlength="10" placeholder="Écrivez votre message ici..." class="mt-1 block w-full px-4 py-3 border bg-white/70 border-slate-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"></textarea>
+                    </div>
+                    <div>
+                        <button type="submit" id="submit-btn" class="w-full flex items-center justify-center gap-x-3 py-3 px-4 border border-transparent rounded-full shadow-sm text-lg font-medium text-white bg-gradient-to-r from-blue-600 to-cyan-500 hover:shadow-lg hover:shadow-cyan-500/50 transition-all transform hover:scale-105 disabled:opacity-50">
+                            <span id="btn-icon"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" /></svg></span>
+                            <span id="btn-spinner" class="hidden"><svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg></span>
+                            <span id="btn-text">Envoyer le Message</span>
+                        </button>
+                    </div>
+                    <div id="form-status" class="hidden p-4 rounded-md text-center"></div>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="copy-toast" class="copy-popup">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        <span>Copié !</span>
+    </div>
+
+    <footer class="bg-transparent mt-12 py-6 text-center text-slate-600"><p>&copy; 2025 AVION Project.</p></footer>
+    <script src="script.js"></script>
+</body>
+</html>

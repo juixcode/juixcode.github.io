@@ -1,0 +1,90 @@
+/* style.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Scrollbar stylée */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: #f1f1f1; }
+::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #64748b; }
+
+html { 
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+}
+
+/* Animation de fond (Blobs) */
+body {
+    min-height: 100vh;
+    position: relative;
+    font-family: 'Inter', sans-serif; 
+    overflow-x: hidden; 
+    overflow-y:scroll;
+}
+
+body::before, body::after {
+    content: ''; position: fixed; filter: blur(120px); z-index: -1;
+}
+/* Blob Rose */
+body::before {
+    top: 0%; left: -10%; width: 70vmax; height: 70vmax;
+    background: radial-gradient(circle, rgba(219, 39, 119, 0.25) 0%, rgba(219, 39, 119, 0) 70%);
+    animation: move-blob-1 25s infinite alternate ease-in-out;
+}
+/* Blob Bleu */
+body::after {
+    bottom: 0%; right: -10%; width: 60vmax; height: 60vmax;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.25) 0%, rgba(59, 130, 246, 0) 70%);
+    animation: move-blob-2 30s infinite alternate ease-in-out;
+}
+@keyframes move-blob-1 {
+    from { transform: translate(0, -100px) rotate(0deg) scale(1); }
+    to { transform: translate(100px, 100px) rotate(180deg) scale(1.2); }
+}
+@keyframes move-blob-2 {
+    from { transform: translate(0, 0) rotate(0deg) scale(1); }
+    to { transform: translate(-150px, -80px) rotate(-120deg) scale(0.8); }
+}
+
+/* Le style du popup */
+.copy-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    /* On le centre et on le réduit un peu pour l'effet de zoom */
+    transform: translate(-50%, -50%) scale(0.9);
+    
+    /* Le style moderne */
+    background: rgba(15, 23, 42, 0.85); /* Fond sombre transparent */
+    backdrop-filter: blur(12px); /* L'effet de flou derrière */
+    color: white;
+    padding: 16px 32px;
+    border-radius: 999px; /* Forme de pilule */
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    /* Flexbox pour aligner l'icone et le texte */
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 1.1rem;
+    
+    /* État caché par défaut */
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Pour cliquer au travers quand il est caché */
+    z-index: 9999;
+    
+    /* Animation fluide */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* La classe qu'on ajoute en JS pour l'afficher */
+.copy-popup.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -50%) scale(1);
+}
