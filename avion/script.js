@@ -114,18 +114,18 @@ function switchPage(pageId) {
             { name: 'BARAK Alexandre', role: 'Organisateur de projet', imageUrl: 'profiles/alexandre.png', description: 'Coordination et planification du projet.' },
             { name: 'BIDAULT Jean-Marc', role: 'Organisateur de projet', imageUrl: 'profiles/jm.png', description: 'Coordination et planification du projet.' },
             { name: 'GALLAIS Kévin', role: 'Organisateur de projet', imageUrl: 'profiles/kevin.png', description: 'Coordination et planification du projet.' },
-            { name: 'BOISSEAU OROZCO Alex', role: 'Usinage', imageUrl: 'https://picsum.photos/seed/BOISSEAU/400/400', description: 'Opérateur sur la fraiseuse numérique.' },
-            { name: 'LEBREQUIER Alexandre', role: 'Référent du groupe', imageUrl: 'https://picsum.photos/seed/LEBREQUIER/400/400', description: 'Coordination et communication de l`équipe, responsable usinage avec la fraiseuse CNC' },
-            { name: 'CONDAMIN-CHEINET Charles', role: 'Assemblage & Tests', imageUrl: 'https://picsum.photos/seed/CONDAMIN/400/400', description: 'Tests d\'emboîtement et de stabilité.' },
-            { name: 'PAREL Ewen', role: 'Documentation Technique', imageUrl: 'https://picsum.photos/seed/PAREL/400/400', description: 'Rédaction du cahier des charges.' },
-            { name: 'FOUBERT Gabriel', role: 'Design & Esthétique', imageUrl: 'https://picsum.photos/seed/FOUBERT/400/400', description: 'Responsable du rendu final.' },
-            { name: 'BARONNET Hugues', role: 'Conception 3D', imageUrl: 'https://picsum.photos/seed/BARONNET/400/400', description: 'Modélisation des pièces sur logiciel CAO.' },
-            { name: 'VIMART Julien', role: 'Ailes, Supports, Site web', imageUrl: 'https://picsum.photos/seed/VIMART/400/400', description: 'Mise en place du site web, des pièces supports et leurs G-codes, et calculs de courbure des ailes' },
-            { name: 'CATREVAULT Louis', role: 'Finitions', imageUrl: 'https://picsum.photos/seed/CATREVAULT/400/400', description: 'Ponçage et ajustement des pièces.' },
-            { name: 'GUETTACHE Reda', role: 'Assemblage & Tests', imageUrl: 'https://picsum.photos/seed/GUETTACHE/400/400', description: 'Tests d\'emboîtement et de stabilité.' },
-            { name: 'IORDACHE Sébastian', role: 'Usinage, ponçage, production', imageUrl: 'https://picsum.photos/seed/IORDACHE/400/400', description: 'Usinage à la fraiseuse, ponçage post-production, inventaire des pièces produites et calculs' },
-            { name: 'MERCIER Valentin', role: 'Documentation Technique', imageUrl: 'https://picsum.photos/seed/MERCIER/400/400', description: 'Rédaction du manuel d\'assemblage.' },
-            { name: 'STOUFF Augustin', role: 'Design & Esthétique', imageUrl: 'https://picsum.photos/seed/STOUFF/400/400', description: 'Responsable du rendu final.' }
+            { name: 'BOISSEAU OROZCO Alex', role: 'Usinage', imageUrl: 'profiles/alex.jpg', description: 'Opérateur sur la fraiseuse numérique.' },
+            { name: 'LEBREQUIER Alexandre', role: 'Référent du groupe', imageUrl: 'profiles/alexandre.jpg', description: 'Coordination et communication de l`équipe, responsable usinage avec la fraiseuse CNC' },
+            { name: 'CONDAMIN-CHEINET Charles', role: 'Assemblage & Tests', imageUrl: 'images/etape1.jpg', description: 'Tests d\'emboîtement et de stabilité.' },
+            { name: 'PAREL Ewen', role: 'Documentation Technique', imageUrl: 'images/etape1.jpg', description: 'Rédaction du cahier des charges.' },
+            { name: 'FOUBERT Gabriel', role: 'Design & Esthétique', imageUrl: 'profiles/gabriel.jpg', description: 'Responsable du rendu final.' },
+            { name: 'BARONNET Hugues', role: 'Conception 3D', imageUrl: 'profiles/hugues.jpg', description: 'Modélisation des pièces sur logiciel CAO.' },
+            { name: 'VIMART Julien', role: 'Ailes, Supports, Site web', imageUrl: 'profiles/julien.jpg', description: 'Mise en place du site web, des pièces supports et leurs G-codes, et calculs de courbure des ailes' },
+            { name: 'CATREVAULT Louis', role: 'Finitions', imageUrl: 'images/etape1.jpg', description: 'Ponçage et ajustement des pièces.' },
+            { name: 'GUETTACHE Reda', role: 'Assemblage & Tests', imageUrl: 'images/etape1.jpg', description: 'Tests d\'emboîtement et de stabilité.' },
+            { name: 'IORDACHE Sébastian', role: 'Usinage, ponçage, production', imageUrl: 'images/etape1.jpg', description: 'Usinage à la fraiseuse, ponçage post-production, inventaire des pièces produites et calculs' },
+            { name: 'MERCIER Valentin', role: 'Documentation Technique', imageUrl: 'images/etape1.jpg', description: 'Rédaction du manuel d\'assemblage.' },
+            { name: 'STOUFF Augustin', role: 'Design & Esthétique', imageUrl: 'profiles/augustin.jpg', description: 'Responsable du rendu final.' }
         ];
 
         teamContainer.innerHTML = teamMembers.map(member => `
