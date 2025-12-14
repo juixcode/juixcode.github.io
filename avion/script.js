@@ -115,15 +115,15 @@ function switchPage(pageId) {
             { name: 'BIDAULT Jean-Marc', role: 'Organisateur de projet', imageUrl: 'profiles/jm.png', description: 'Coordination et planification du projet.' },
             { name: 'GALLAIS Kévin', role: 'Organisateur de projet', imageUrl: 'profiles/kevin.png', description: 'Coordination et planification du projet.' },
             { name: 'BOISSEAU OROZCO Alex', role: 'Usinage', imageUrl: 'https://picsum.photos/seed/BOISSEAU/400/400', description: 'Opérateur sur la fraiseuse numérique.' },
-            { name: 'LEBREQUIER Alexandre', role: 'Finitions', imageUrl: 'https://picsum.photos/seed/LEBREQUIER/400/400', description: 'Ponçage et ajustement des pièces.' },
+            { name: 'LEBREQUIER Alexandre', role: 'Référent du groupe', imageUrl: 'https://picsum.photos/seed/LEBREQUIER/400/400', description: 'Coordination et communication de l`équipe, responsable usinage avec la fraiseuse CNC' },
             { name: 'CONDAMIN-CHEINET Charles', role: 'Assemblage & Tests', imageUrl: 'https://picsum.photos/seed/CONDAMIN/400/400', description: 'Tests d\'emboîtement et de stabilité.' },
             { name: 'PAREL Ewen', role: 'Documentation Technique', imageUrl: 'https://picsum.photos/seed/PAREL/400/400', description: 'Rédaction du cahier des charges.' },
             { name: 'FOUBERT Gabriel', role: 'Design & Esthétique', imageUrl: 'https://picsum.photos/seed/FOUBERT/400/400', description: 'Responsable du rendu final.' },
             { name: 'BARONNET Hugues', role: 'Conception 3D', imageUrl: 'https://picsum.photos/seed/BARONNET/400/400', description: 'Modélisation des pièces sur logiciel CAO.' },
-            { name: 'VIMART Julien', role: 'Usinage', imageUrl: 'https://picsum.photos/seed/VIMART/400/400', description: 'Opérateur sur la fraiseuse numérique.' },
+            { name: 'VIMART Julien', role: 'Ailes, Supports, Site web', imageUrl: 'https://picsum.photos/seed/VIMART/400/400', description: 'Mise en place du site web, des pièces supports et leurs G-codes, et calculs de courbure des ailes' },
             { name: 'CATREVAULT Louis', role: 'Finitions', imageUrl: 'https://picsum.photos/seed/CATREVAULT/400/400', description: 'Ponçage et ajustement des pièces.' },
             { name: 'GUETTACHE Reda', role: 'Assemblage & Tests', imageUrl: 'https://picsum.photos/seed/GUETTACHE/400/400', description: 'Tests d\'emboîtement et de stabilité.' },
-            { name: 'IORDACHE Sébastian', role: 'Génération G-Code', imageUrl: 'https://picsum.photos/seed/IORDACHE/400/400', description: 'Conversion des modèles 3D en G-Code.' },
+            { name: 'IORDACHE Sébastian', role: 'Usinage, ponçage, production', imageUrl: 'https://picsum.photos/seed/IORDACHE/400/400', description: 'Usinage à la fraiseuse, ponçage post-production, inventaire des pièces produites et calculs' },
             { name: 'MERCIER Valentin', role: 'Documentation Technique', imageUrl: 'https://picsum.photos/seed/MERCIER/400/400', description: 'Rédaction du manuel d\'assemblage.' },
             { name: 'STOUFF Augustin', role: 'Design & Esthétique', imageUrl: 'https://picsum.photos/seed/STOUFF/400/400', description: 'Responsable du rendu final.' }
         ];
@@ -157,7 +157,7 @@ function switchPage(pageId) {
             {
                 id: 'corps',
                 title: "Corps de l'avion",
-                description: "Le corps de l'avion de sompose de deux squelettes parallèles qui relient les disques qui composent le corps de l'avion, de la queue jusqu'à la tête.",
+                description: "Le corps de l'avion est composé de deux squelettes parallèles, qui relient les 28 disques formant le corps cylindrique de l'avion, de la queue jusqu'à la tête.",
                 pieces: [
                     { name: "P1 - Disque principal", copies: 24, file: "P1.txt", image: "resources/schema_p1.png" },
                     { name: "P1a - Disque de la tête, grand", copies: 1, file: "P1a.txt", image: "resources/schema_p1a.png" },
