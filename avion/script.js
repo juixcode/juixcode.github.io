@@ -121,11 +121,11 @@ function switchPage(pageId) {
             { name: 'FOUBERT Gabriel', role: 'Design & Esthétique', imageUrl: 'profiles/gabriel.jpg', description: 'Responsable du rendu final.' },
             { name: 'BARONNET Hugues', role: 'Conception 3D', imageUrl: 'profiles/hugues.jpg', description: 'Modélisation des pièces sur logiciel CAO.' },
             { name: 'VIMART Julien', role: 'Ailes, Supports, Site web', imageUrl: 'profiles/julien.jpg', description: 'Mise en place du site web, des pièces supports et leurs G-codes, et calculs de courbure des ailes' },
-            { name: 'CATREVAULT Louis', role: 'Finitions', imageUrl: 'images/etape1.jpg', description: 'Ponçage et ajustement des pièces.' },
+            { name: 'CATREVAULT Louis', role: 'Finitions', imageUrl: 'images/etape1.jpg', description: 'Ponçage, calculs de courbure des ailes, coordonnées de points avec programme python, rédaction du CDC' },
             { name: 'GUETTACHE Reda', role: 'Assemblage & Tests', imageUrl: 'images/etape1.jpg', description: 'Tests d\'emboîtement et de stabilité.' },
             { name: 'IORDACHE Sébastian', role: 'Usinage, ponçage, production', imageUrl: 'images/etape1.jpg', description: 'Usinage à la fraiseuse, ponçage post-production, inventaire des pièces produites et calculs' },
             { name: 'MERCIER Valentin', role: 'Documentation Technique', imageUrl: 'images/etape1.jpg', description: 'Rédaction du manuel d\'assemblage.' },
-            { name: 'STOUFF Augustin', role: 'Design & Esthétique', imageUrl: 'profiles/augustin.jpg', description: 'Responsable du rendu final.' }
+            { name: 'STOUFF Augustin', role: 'Gcode&Schémas, Production, CDC', imageUrl: 'profiles/augustin.jpg', description: 'Réalisation de G-code et de schémas, rédaction du CDC, usinage à la fraiseuse' }
         ];
 
         teamContainer.innerHTML = teamMembers.map(member => `
