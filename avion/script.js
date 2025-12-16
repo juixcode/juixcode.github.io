@@ -122,7 +122,7 @@ function switchPage(pageId) {
             { name: 'BARONNET Hugues', role: '---', imageUrl: 'profiles/hugues.jpg', description: '---' },
             { name: 'VIMART Julien', role: 'Ailes, Supports, Site web', imageUrl: 'profiles/julien.jpg', description: 'Mise en place du site web, des pièces supports et leurs G-codes, schémas et calculs de courbure des ailes' },
             { name: 'CATREVAULT Louis', role: 'Finitions, Ailes, CDC', imageUrl: 'resources/logo_couleur.png', description: 'Ponçage, calculs de courbure des ailes, coordonnées de points avec programme python, rédaction du CDC' },
-            { name: 'GUETTACHE Reda', role: '---', imageUrl: 'resources/logo_couleur.png', description: '---' },
+            { name: 'GUETTACHE Reda', role: 'Directeur général du pôle Conception', imageUrl: 'profiles/reda.jpg', description: '---' },
             { name: 'IORDACHE Sébastian', role: 'Usinage, ponçage, production', imageUrl: 'resources/logo_couleur.png', description: 'Usinage à la fraiseuse, ponçage post-production, inventaire des pièces produites et calculs' },
             { name: 'MERCIER Valentin', role: '---', imageUrl: 'resources/logo_couleur.png', description: '---' },
             { name: 'STOUFF Augustin', role: 'Gcode&Schémas, Production, CDC', imageUrl: 'profiles/augustin.jpg', description: 'Réalisation de G-code et de schémas en tout genre, rédaction du CDC, usinage à la fraiseuse' }
