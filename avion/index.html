@@ -85,7 +85,8 @@
                 
                 <nav class="hidden md:flex space-x-2">
                     <button onclick="switchPage('home')" id="nav-home" class="nav-btn bg-blue-100 text-blue-600 text-lg font-semibold px-4 py-2 rounded-full transition-all">Accueil</button>
-                    <button onclick="switchPage('details')" id="nav-details" class="nav-btn text-slate-600 hover:text-blue-600 text-lg font-semibold px-4 py-2 rounded-full transition-all">Le Projet</button>
+                    <button onclick="switchPage('project')" id="nav-project" class="nav-btn text-slate-600 hover:text-blue-600 text-lg font-semibold px-4 py-2 rounded-full transition-all">Le Projet</button>
+                    <button onclick="switchPage('details')" id="nav-details" class="nav-btn text-slate-600 hover:text-blue-600 text-lg font-semibold px-4 py-2 rounded-full transition-all">Pièces</button>
                     <button onclick="switchPage('manual')" id="nav-manual" class="nav-btn text-slate-600 hover:text-blue-600 text-lg font-semibold px-4 py-2 rounded-full transition-all">Manuel</button>
                     <button onclick="switchPage('team')" id="nav-team" class="nav-btn text-slate-600 hover:text-blue-600 text-lg font-semibold px-4 py-2 rounded-full transition-all">L'Équipe</button>
                     <button onclick="switchPage('contact')" id="nav-contact" class="nav-btn text-slate-600 hover:text-blue-600 text-lg font-semibold px-4 py-2 rounded-full transition-all">Contact</button>
@@ -102,7 +103,8 @@
         <div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-slate-50/95 backdrop-blur-xl border-t border-slate-200 shadow-lg transition-all duration-300 ease-in-out transform -translate-y-4 opacity-0 origin-top z-40">
             <nav class="flex flex-col p-4 space-y-2">
                 <button onclick="switchPage('home')" id="mobile-nav-home" class="mobile-link w-full text-left px-4 py-3 rounded-md text-lg font-medium text-blue-600 bg-blue-50 transition">Accueil</button>
-                <button onclick="switchPage('details')" id="mobile-nav-details" class="mobile-link w-full text-left px-4 py-3 rounded-md text-lg font-medium text-slate-600 hover:bg-slate-100 transition">Le Projet</button>
+                <button onclick="switchPage('project')" id="mobile-nav-project" class="mobile-link w-full text-left px-4 py-3 rounded-md text-lg font-medium text-slate-600 hover:bg-slate-100 transition">Le Projet</button>
+                <button onclick="switchPage('details')" id="mobile-nav-details" class="mobile-link w-full text-left px-4 py-3 rounded-md text-lg font-medium text-slate-600 hover:bg-slate-100 transition">Pièces</button>
                 <button onclick="switchPage('manual')" id="mobile-nav-manual" class="mobile-link w-full text-left px-4 py-3 rounded-md text-lg font-medium text-slate-600 hover:bg-slate-100 transition">Manuel</button>
                 <button onclick="switchPage('team')" id="mobile-nav-team" class="mobile-link w-full text-left px-4 py-3 rounded-md text-lg font-medium text-slate-600 hover:bg-slate-100 transition">L'Équipe</button>
                 <button onclick="switchPage('contact')" id="mobile-nav-contact" class="mobile-link w-full text-left px-4 py-3 rounded-md text-lg font-medium text-slate-600 hover:bg-slate-100 transition">Contact</button>
@@ -125,7 +127,7 @@
                             <p>Nous vous présentons nos 8 semaines de travail intense mêlant rigueur, organisation et maîtrise technique pour aboutir à un résultat appliqué.</p>
                         </div>
                         <div class="mt-10">
-                            <button onclick="switchPage('details')" class="inline-flex items-center gap-x-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3 px-8 rounded-full text-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all transform hover:scale-105 shadow-md">
+                            <button onclick="switchPage('project')" class="inline-flex items-center gap-x-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3 px-8 rounded-full text-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all transform hover:scale-105 shadow-md">
                                 <span>Découvrir le Projet</span>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
                             </button>
@@ -138,7 +140,204 @@
             </div>
         </section>
 
+        <section id="page-project" class="page-section">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500">Rapport de Projet</h1>
+                <p class="mt-4 text-xl text-slate-600">Bilan technique & analyse.</p>
+            </div>
+
+            <div id="project-content" class="max-w-4xl mx-auto space-y-12">
+                <div class="bg-white/50 backdrop-blur-2xl p-8 md:p-10 rounded-2xl shadow-xl border border-white/20 relative overflow-hidden group hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full -mr-4 -mt-4"></div>
+                    
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                        <span class="w-2 h-8 bg-gradient-to-b from-blue-600 to-cyan-400 rounded-full"></span>
+                        Introduction
+                    </h2>
+                    
+                    <div class="prose prose-slate lg:prose-lg text-slate-700 leading-relaxed text-justify">
+                        <p>
+                            Dans le Cadre du module Technologie de Fabrication, la société Avion a été chargée de concevoir un puzzle en trois dimensions. Après un vote démocratique à main levée pour départager le choix de l’idée directrice (les propositions étaient : l’Arc de Triomphe, le Titanic, le Colisée, le Concorde, la tour Eiffel). Il a été finalement décidé de construire un avion inspiré du Concorde, cet avion emblématique qui a révolutionné le monde de l’aviation. Le Concorde est un avion créé dans les années 60 et mis en service de 1976 à 2003. Étant donné sa technologie avant-gardiste, cet avion a été un véritable exploit pour l’aviation en étant le premier avion supersonique du monde, permettant ainsi de pulvériser des records de liaisons commerciales : il a par exemple permis de relier New-York à Paris ou Londres en moins de 3 heures, ou encore le tour du monde en moins de 32 heures. Malgré son accident tragique du 25 juillet 2000, il reste gravé dans les mémoires comme étant un symbole dans l’avancée technologique de l’aviation et une fierté nationale française. Notre projet s’est réalisé sur plusieurs semaines pendant lesquelles chaque étape a permis à notre équipe d’apprendre à travailler ensemble en mêlant rigueur, organisation, maîtrise, respect, et plein d’autres compétences indispensables pour travailler en groupe, afin de donner le meilleur de nous-même et d’aboutir à un résultat le plus soigné et réaliste possible. Finalement, c’est après 8 semaines de travail intense et acharné que notre équipe est fier de vous présenter le résultat final de son projet. Les parties qui suivent vont présenteront les différentes charges qui constituent notre projet, à commencer par les objectifs.
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-white/50 backdrop-blur-2xl p-8 md:p-10 rounded-2xl shadow-xl border border-white/20 relative overflow-hidden group hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full -mr-4 -mt-4"></div>
+                    
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                        <span class="w-2 h-8 bg-gradient-to-b from-blue-600 to-cyan-400 rounded-full"></span>
+                        Objectifs
+                    </h2>
+                    
+                    <div class="prose prose-slate lg:prose-lg text-slate-700 leading-relaxed text-justify">
+                        <p>
+                            Les objectifs imposés par le client étaient : 
+                            <br>•	Réaliser un puzzle 3D 
+                            <br>•	Assemblage et désassemblage simple
+                            <br>•	La maquette doit être stable et solide
+                            <br><br>Les objectifs imposés par les concepteurs : 
+                            <br>•	Rendu esthétique 
+                            <br>•	Allure fidèle à son inspiration (Le concorde)
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-white/50 backdrop-blur-2xl p-8 md:p-10 rounded-2xl shadow-xl border border-white/20 relative overflow-hidden group hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full -mr-4 -mt-4"></div>
+                    
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                        <span class="w-2 h-8 bg-gradient-to-b from-blue-600 to-cyan-400 rounded-full"></span>
+                        Contraintes techniques
+                    </h2>
+                    
+                    <div class="prose prose-slate lg:prose-lg text-slate-700 leading-relaxed text-justify">
+                        <p>
+                            •	Matériaux envisagés : bois, plastique ou carton.
+                            <br>Durant la conception du projet, le client a demandé à la société d’utiliser des plaques de MDF (poudre de bois compressée) de 80x80mm. L'équipe n’avait pas le droit d’utiliser un autre matériau comme du plastique ou un autre type de bois.
+                            <br><br>•	Limite de temps : à définir selon les capacités de fabrication.
+                            <br>Le projet devait être finalisé de zéro en 12 heures. Parmi cet intervalle de temps, l’équipe a décidé le thème du projet, a imaginé les pièces sous forme de partie théorique, pour ensuite adapter des plans en fonction de ces pièces. Ensuite, les pièces ont été usinées pour enfin tester le produit final, et finaliser les livrables au bout des 12 heures.
+                            <br><br>•	Tolérances d’assemblage : précises pour garantir l’emboîtement.
+                            <br>L’usinage des pièces a dû être fait le plus précisément possible afin d’assurer une bonne tolérance d’assemblage, assurant une solidité d’assemblage et une qualité supérieure selon l’exigence du client.
+                            <br><br>•	Compatibilité avec les outils et procédés disponibles.
+                            <br>L’entièreté de l’usinage a été fait à l’aide d’une fraiseuse avec un embout de 1mm de diamètre. Après avoir découpé les pièces nécessaires à partir des plaques de MDF, une partie de l’équipe a peaufiné ces pièces (ponçage avec du papier de verre...) afin d’avoir un produit à la hauteur des attentes et identique à son plan respectif.
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-white/50 backdrop-blur-2xl p-8 md:p-10 rounded-2xl shadow-xl border border-white/20 relative overflow-hidden group hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full -mr-4 -mt-4"></div>
+                    
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                        <span class="w-2 h-8 bg-gradient-to-b from-blue-600 to-cyan-400 rounded-full"></span>
+                        Normes de sécurité
+                    </h2>
+                    
+                    <div class="prose prose-slate lg:prose-lg text-slate-700 leading-relaxed text-justify">
+                        <p>
+                            Notre équipe a appliqué quelques normes d’utilisation et de construction du produit listées ci-dessous : 
+                            <br>•	Notre produit est formellement interdit aux enfants de moins de 8 ans en raison du fait de leur possible incapacité à lire les consignes de sécurité, mais surtout du fait que certaines pièces de petite taille présentent un risque d’ingestion pour eux.
+                            <br>•	Il est impérativement obligatoire de lire minutieusement les consignes de sécurité avant l’utilisation du produit.
+                            <br>•	La conception du produit s’est faite sans arêtes coupantes et avec une stabilité assurée pour éviter tout dégâts ou toutes blessures.
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-white/50 backdrop-blur-2xl p-8 md:p-10 rounded-2xl shadow-xl border border-white/20 relative overflow-hidden group hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full -mr-4 -mt-4"></div>
+                    
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                        <span class="w-2 h-8 bg-gradient-to-b from-blue-600 to-cyan-400 rounded-full"></span>
+                        Planning et étapes de réalisation
+                    </h2>
+                    
+                    <div class="prose prose-slate lg:prose-lg text-slate-700 leading-relaxed text-justify">
+                        <p>
+                            Phase de recherche
+                            <br>•	Étude des maquettes existantes et des puzzles 3D similaires et comment les pièces sont imbriquées dans les autres création de puzzle.
+                            <br>•	Choix du Concorde comme inspiration du puzzle
+                            <br><br>Phase de conception des pièces
+                            <br>•	Calculs liés aux dimensions des différentes pièces
+                            <br>•	Réalisation des G-Codes compatibles avec l’usineuse
+                            <br>•	Prise en main de l’usineuse et usinage des dernières pièces 
+                            <br>•	Peaufinage des erreurs commises dans les G-Codes et recommencer l’usinage des pièces ratées
+                            <br><br>Phase d’assemblage
+                            <br>•	Test d’assemblage
+                            <br>•	Vérification de la stabilité et de la facilité de montage.
+                            <br>•	Ajustements éventuels.
+                            <br> <br> Vous pouvez réaliser votre propre AVION en suivant notre manuel d'assemblage :
+                        </p>
+                        <div class="mt-10">
+                            <button onclick="switchPage('manual')" class="inline-flex items-center gap-x-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3 px-8 rounded-full text-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all transform hover:scale-105 shadow-md">
+                                <span>Feuilleter le manuel</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                            </button>
+                        </div>
+                        <div class="mt-10">
+                            <button onclick="switchPage('details')" class="inline-flex items-center gap-x-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3 px-8 rounded-full text-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all transform hover:scale-105 shadow-md">
+                                <span>Télécharger les pièces</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white/50 backdrop-blur-2xl p-8 md:p-10 rounded-2xl shadow-xl border border-white/20 relative overflow-hidden group hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full -mr-4 -mt-4"></div>
+                    
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                        <span class="w-2 h-8 bg-gradient-to-b from-blue-600 to-cyan-400 rounded-full"></span>
+                        Budget
+                    </h2>
+                    
+                    <div class="prose prose-slate lg:prose-lg text-slate-700 leading-relaxed text-justify">
+                        <p>
+                            À la suite de l’étude du temps et du budget utilisé pour la fabrication de notre projet, ainsi qu’à une suite de calculs réfléchis, nous estimons le prix de notre produit à 24.90 € pour un coût total de 20 €. Notre équipe a défini pour la conception, la fabrication et la présentation et distribution du projet, les différents budgets suivants : 
+                            <br>•	Coûts de conception : logiciels, prototypage. Estimation : 2 €
+                            <br>•	Coûts de fabrication : matériaux, machines, main-d’œuvre. Estimation : 15 €
+                            <br>•	Coûts de présentation ou distribution du projet. Estimation : 3 €
+                            <br>•	Estimation globale avec marge d’erreur : 20 € ± 1 €
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-white/50 backdrop-blur-2xl p-8 md:p-10 rounded-2xl shadow-xl border border-white/20 relative overflow-hidden group hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full -mr-4 -mt-4"></div>
+                    
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                        <span class="w-2 h-8 bg-gradient-to-b from-blue-600 to-cyan-400 rounded-full"></span>
+                        Conclusion
+                    </h2>
+                    
+                    <div class="prose prose-slate lg:prose-lg text-slate-700 leading-relaxed text-justify">
+                        <p>
+                            Ce cahier des charges définit les bases techniques, esthétiques et fonctionnelles du projet. Il permet d’assurer une réalisation cohérente et conforme aux attentes pédagogiques et techniques du module.
+                        </p>
+                    </div>
+                </div>
+                <div class="bg-white/50 backdrop-blur-2xl p-8 md:p-10 rounded-2xl shadow-xl border border-white/20 relative overflow-hidden group hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-500/10 to-transparent rounded-bl-full -mr-4 -mt-4"></div>
+                    
+                    <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                        <span class="w-2 h-8 bg-gradient-to-b from-blue-600 to-cyan-400 rounded-full"></span>
+                        Remerciements
+                    </h2>
+                    
+                    <div class="prose prose-slate lg:prose-lg text-slate-700 leading-relaxed text-justify">
+                        <p>
+                            Nous remercions notre client pour sa confiance et son accompagnement tout au long de ce projet.
+                            Merci à tous nos membres ayant fait preuve d'engagement et de collaboration, que vous pouvez retrouver ici :
+                        </p>
+                        <div class="mt-10">
+                            <button onclick="switchPage('team')" class="inline-flex items-center gap-x-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3 px-8 rounded-full text-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all transform hover:scale-105 shadow-md">
+                                <span>Rencontrer l'équipe</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                            </button>
+                        </div>
+                        <p>
+                            <br>
+                            Vous pouvez contacter notre équipe pour toute question ou suggestion via notre page de contact :
+                        </p>
+                        <div class="mt-10">
+                            <button onclick="switchPage('contact')" class="inline-flex items-center gap-x-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3 px-8 rounded-full text-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all transform hover:scale-105 shadow-md">
+                                <span>Nous contacter</span>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" /></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <section id="page-details" class="page-section">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500">Détail des pièces</h1>
+                <p class="mt-4 text-xl text-slate-600">Retrouvez tous G-code et schémas</p>
+            </div>
+
+            <div class="mt-10 flex justify-center mb-16">
+                <button onclick="downloadRealGcode('toutes_les_pieces.zip')" class="inline-flex items-center gap-x-3 bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold py-3 px-8 rounded-full text-lg hover:shadow-lg hover:shadow-cyan-500/50 transition-all transform hover:scale-105 shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
+                    </svg>
+                    <span>Télécharger tous les G-codes</span>
+                </button>
+            </div>
+
             <div id="details-container" class="space-y-20">
                 </div>
         </section>

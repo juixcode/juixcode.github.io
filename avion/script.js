@@ -114,18 +114,18 @@ function switchPage(pageId) {
             { name: 'BARAK Alexandre', role: 'Organisateur de projet', imageUrl: 'profiles/alexandre.png', description: 'Coordination et planification du projet.' },
             { name: 'BIDAULT Jean-Marc', role: 'Organisateur de projet', imageUrl: 'profiles/jm.png', description: 'Coordination et planification du projet.' },
             { name: 'GALLAIS Kévin', role: 'Organisateur de projet', imageUrl: 'profiles/kevin.png', description: 'Coordination et planification du projet.' },
-            { name: 'BOISSEAU OROZCO Alex', role: 'Usinage', imageUrl: 'profiles/alex.jpg', description: 'Opérateur sur la fraiseuse numérique.' },
+            { name: 'BOISSEAU OROZCO Alex', role: '---', imageUrl: 'profiles/alex.jpg', description: '---' },
             { name: 'LEBREQUIER Alexandre', role: 'Référent du groupe', imageUrl: 'profiles/alexandre.jpg', description: 'Coordination et communication de l`équipe, responsable usinage avec la fraiseuse CNC' },
-            { name: 'CONDAMIN-CHEINET Charles', role: 'Assemblage & Tests', imageUrl: 'images/etape1.jpg', description: 'Tests d\'emboîtement et de stabilité.' },
-            { name: 'PAREL Ewen', role: 'Documentation Technique', imageUrl: 'images/etape1.jpg', description: 'Rédaction du cahier des charges.' },
-            { name: 'FOUBERT Gabriel', role: 'Design & Esthétique', imageUrl: 'profiles/gabriel.jpg', description: 'Responsable du rendu final.' },
-            { name: 'BARONNET Hugues', role: 'Conception 3D', imageUrl: 'profiles/hugues.jpg', description: 'Modélisation des pièces sur logiciel CAO.' },
-            { name: 'VIMART Julien', role: 'Ailes, Supports, Site web', imageUrl: 'profiles/julien.jpg', description: 'Mise en place du site web, des pièces supports et leurs G-codes, et calculs de courbure des ailes' },
-            { name: 'CATREVAULT Louis', role: 'Finitions', imageUrl: 'images/etape1.jpg', description: 'Ponçage, calculs de courbure des ailes, coordonnées de points avec programme python, rédaction du CDC' },
-            { name: 'GUETTACHE Reda', role: 'Assemblage & Tests', imageUrl: 'images/etape1.jpg', description: 'Tests d\'emboîtement et de stabilité.' },
-            { name: 'IORDACHE Sébastian', role: 'Usinage, ponçage, production', imageUrl: 'images/etape1.jpg', description: 'Usinage à la fraiseuse, ponçage post-production, inventaire des pièces produites et calculs' },
-            { name: 'MERCIER Valentin', role: 'Documentation Technique', imageUrl: 'images/etape1.jpg', description: 'Rédaction du manuel d\'assemblage.' },
-            { name: 'STOUFF Augustin', role: 'Gcode&Schémas, Production, CDC', imageUrl: 'profiles/augustin.jpg', description: 'Réalisation de G-code et de schémas, rédaction du CDC, usinage à la fraiseuse' }
+            { name: 'CONDAMIN-CHEINET Charles', role: '---', imageUrl: 'resources/logo_couleur.png', description: '---' },
+            { name: 'PAREL Ewen', role: '---', imageUrl: 'resources/logo_couleur.png', description: '---' },
+            { name: 'FOUBERT Gabriel', role: '---', imageUrl: 'profiles/gabriel.jpg', description: '---' },
+            { name: 'BARONNET Hugues', role: '---', imageUrl: 'profiles/hugues.jpg', description: '---' },
+            { name: 'VIMART Julien', role: 'Ailes, Supports, Site web', imageUrl: 'profiles/julien.jpg', description: 'Mise en place du site web, des pièces supports et leurs G-codes, schémas et calculs de courbure des ailes' },
+            { name: 'CATREVAULT Louis', role: 'Finitions, Ailes, CDC', imageUrl: 'resources/logo_couleur.png', description: 'Ponçage, calculs de courbure des ailes, coordonnées de points avec programme python, rédaction du CDC' },
+            { name: 'GUETTACHE Reda', role: '---', imageUrl: 'resources/logo_couleur.png', description: '---' },
+            { name: 'IORDACHE Sébastian', role: 'Usinage, ponçage, production', imageUrl: 'resources/logo_couleur.png', description: 'Usinage à la fraiseuse, ponçage post-production, inventaire des pièces produites et calculs' },
+            { name: 'MERCIER Valentin', role: '---', imageUrl: 'resources/logo_couleur.png', description: '---' },
+            { name: 'STOUFF Augustin', role: 'Gcode&Schémas, Production, CDC', imageUrl: 'profiles/augustin.jpg', description: 'Réalisation de G-code et de schémas en tout genre, rédaction du CDC, usinage à la fraiseuse' }
         ];
 
         teamContainer.innerHTML = teamMembers.map(member => `
@@ -310,13 +310,13 @@ function switchPage(pageId) {
             { 
                 id: 1, 
                 title: "Préparation du corps", 
-                desc: "Prendre toutes les pièces P7, P7a et P7b (les squelettes 'peignes') et les relier à l’aide des pièces P6 (la fixation).", 
+                desc: "Prendre toutes les pièces P7, P7a et P7b (les squelettes 'peignes') et les relier à l’aide des pièces P6 (la fixation). Répéter l'opération une deuxième fois.", 
                 img: "./images/etape1.jpg"
             },
             { 
                 id: 2, 
                 title: "Construction du corps", 
-                desc: "Insérer les disques P1a, P1b et P1c par ordre décroissant sur P7b (le 'peigne' courbé) de sorte qu’il reste une encoche de libre au bout de l’armature.", 
+                desc: "Insérer toutes les 24 pièces P1 sur le corps à la suite, puis insérer les disques P1a, P1b et P1c par ordre décroissant sur P7b (le 'peigne' courbé) de sorte qu’il reste une encoche de libre au bout de l’armature.", 
                 img: "./images/etape2.jpg"
             },
             { 
@@ -333,14 +333,14 @@ function switchPage(pageId) {
             },
             { 
                 id: 5, 
-                title: "Pose de l'aile arrière gauche", 
-                desc: "Insérer l’ensemble comportant P2 à l’arrière droite du corps principal au niveau des encoches latérales des armatures. L’encoche (indiquée en rouge sur le schéma et présente dans le G-Code de P2) indique à quel niveau la dernière armature doit se trouver par rapport à P2.", 
+                title: "Pose de l'aile arrière droite", 
+                desc: "Insérer l’ensemble comportant P2 à l’arrière droite du corps principal au niveau des encoches latérales des armatures. L’encoche (indiquée en rouge sur le schéma) indique à quel niveau la dernière armature doit se trouver par rapport à P2.", 
                 img: "./images/etape5.jpg"
             },
             { 
                 id: 6, 
-                title: "Pose de l'aile arrière droite", 
-                desc: "Insérer l’ensemble comportant P2a à l’arrière gauche du corps principal au niveau des encoches latérales des armatures. L’encoche (indiquée en rouge sur le schéma et présente dans le G-Code de P2a) indique à quel niveau la dernière armature doit se trouver par rapport à P2a.", 
+                title: "Pose de l'aile arrière gauche", 
+                desc: "Insérer l’ensemble comportant P2a à l’arrière gauche du corps principal au niveau des encoches latérales des armatures. L’encoche (indiquée en rouge sur le schéma) indique à quel niveau la dernière armature doit se trouver par rapport à P2a.", 
                 img: "./images/etape6.jpg"
             },
             { 
