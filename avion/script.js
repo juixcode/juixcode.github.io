@@ -114,18 +114,18 @@ function switchPage(pageId) {
             { name: 'BARAK Alexandre', role: 'Organisateur de projet', imageUrl: 'profiles/alexandre.png', description: 'Coordination et planification du projet.' },
             { name: 'BIDAULT Jean-Marc', role: 'Organisateur de projet', imageUrl: 'profiles/jm.png', description: 'Coordination et planification du projet.' },
             { name: 'GALLAIS Kévin', role: 'Organisateur de projet', imageUrl: 'profiles/kevin.png', description: 'Coordination et planification du projet.' },
-            { name: 'BOISSEAU OROZCO Alex', role: '---', imageUrl: 'profiles/alex.jpg', description: '---' },
-            { name: 'LEBREQUIER Alexandre', role: 'Référent du groupe', imageUrl: 'profiles/alexandre.jpg', description: 'Coordination et communication de l`équipe, responsable usinage avec la fraiseuse CNC' },
-            { name: 'CONDAMIN-CHEINET Charles', role: '---', imageUrl: 'resources/logo_couleur.png', description: '---' },
-            { name: 'PAREL Ewen', role: '---', imageUrl: 'resources/logo_couleur.png', description: '---' },
-            { name: 'FOUBERT Gabriel', role: '---', imageUrl: 'profiles/gabriel.jpg', description: '---' },
-            { name: 'BARONNET Hugues', role: '---', imageUrl: 'profiles/hugues.jpg', description: '---' },
-            { name: 'VIMART Julien', role: 'Ailes, Supports, Site web', imageUrl: 'profiles/julien.jpg', description: 'Mise en place du site web, des pièces supports et leurs G-codes, schémas et calculs de courbure des ailes' },
-            { name: 'CATREVAULT Louis', role: 'Finitions, Ailes, CDC', imageUrl: 'resources/logo_couleur.png', description: 'Ponçage, calculs de courbure des ailes, coordonnées de points avec programme python, rédaction du CDC' },
-            { name: 'GUETTACHE Reda', role: 'Directeur général du pôle Conception', imageUrl: 'profiles/reda.jpg', description: '---' },
-            { name: 'IORDACHE Sébastian', role: 'Usinage, ponçage, production', imageUrl: 'resources/logo_couleur.png', description: 'Usinage à la fraiseuse, ponçage post-production, inventaire des pièces produites et calculs' },
-            { name: 'MERCIER Valentin', role: '---', imageUrl: 'resources/logo_couleur.png', description: '---' },
-            { name: 'STOUFF Augustin', role: 'Gcode&Schémas, Production, CDC', imageUrl: 'profiles/augustin.jpg', description: 'Réalisation de G-code et de schémas en tout genre, rédaction du CDC, usinage à la fraiseuse' }
+            { name: 'BOISSEAU OROZCO Alex', role: 'Schémas, Finitions', imageUrl: 'profiles/alex.jpg', description: 'Schématisation des pièces, mesures, ponçage et finitions.' },
+            { name: 'LEBREQUIER Alexandre', role: 'Référent du groupe', imageUrl: 'profiles/alexandre.jpg', description: 'Coordination et communication de l`équipe, responsable usinage avec la fraiseuse CNC.' },
+            { name: 'CONDAMIN-CHEINET Charles', role: 'Réacteurs, Ailes, Finitions', imageUrl: 'profiles/charles.jpg', description: 'Calculs, conception des ailes, g-code pour les réacteurs, ponçage.' },
+            { name: 'PAREL Ewen', role: 'Modélisation pro', imageUrl: 'profiles/ewen.jpg', description: 'Modélisation 3D complète de la maquette, calculs de coordonnées et Gcodes.' },
+            { name: 'FOUBERT Gabriel', role: 'Ailes, Assemblage, Finitions', imageUrl: 'profiles/gabriel.jpg', description: 'Conception et G-code des Ailes, assemblage final de la maquette et finitions.' },
+            { name: 'BARONNET Hugues', role: 'Responsable du G-code', imageUrl: 'profiles/hugues.jpg', description: 'Professionnel ultime du Gcode, calculs, dépannage de Gcode et mesures.' },
+            { name: 'VIMART Julien', role: 'Ailes, Supports, Site web', imageUrl: 'profiles/julien.jpg', description: 'Mise en place du site web, des pièces supports et leurs G-codes, schémas et calculs de courbure des ailes.' },
+            { name: 'CATREVAULT Louis', role: 'Finitions, Ailes, CDC', imageUrl: 'profiles/louis.jpg', description: 'Ponçage, calculs de courbure des ailes, coordonnées de points avec programme python, rédaction du CDC.' },
+            { name: 'GUETTACHE Reda', role: 'Directeur général du pôle Conception', imageUrl: 'profiles/reda.jpg', description: 'Prise de décisions, calculs de coordonnées et assemblage final.' },
+            { name: 'IORDACHE Sébastian', role: 'Usinage, Finitions, Prod', imageUrl: 'profiles/sebastian.jpg', description: 'Usinage à la fraiseuse, ponçage post-production, inventaire des pièces produites et calculs.' },
+            { name: 'MERCIER Valentin', role: 'Calculs des coordonnées, Gcode, Esthétisme', imageUrl: 'profiles/valentin.jpg', description: 'Calculs puis réalisation de l\'aileron et des pièces principales de la "colone vertébrale" de l\'avion.' },
+            { name: 'STOUFF Augustin', role: 'Gcode&Schémas, Prod, CDC', imageUrl: 'profiles/augustin.jpg', description: 'Réalisation de G-code et de schémas en tout genre, rédaction du CDC, usinage à la fraiseuse.' }
         ];
 
         teamContainer.innerHTML = teamMembers.map(member => `
