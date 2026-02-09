@@ -10,8 +10,6 @@
         <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:wght@100;300;400;700;900&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&family=Nunito:wght@200;300;400;500;600;700;800;900;1000&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Italianno&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="Medias/favicon.ico" type="image/ico" />
-        <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-database.js"></script>
     </head>
     <body>
         <div class="pub">
@@ -23,13 +21,11 @@
             <div class="heart"><span>St-Valentin</span></div>
             <h3>Trouve ta moitié</h3>
             <div class="bubble">
-                <p>Salut, moi c’est Juix !<br>J’espère que ce site t’aidera à trouver ton autre moitié de coeur.</p>
+                <p>Salut, moi c’est Juix !<br><br>Ce site avait pour but de t'aider à trouver ta moitié de coeur. Malheureusement, il a fermé sous demande de la proviseure.</p>
             </div>
             <div class="mini-space"></div>
-            <button onclick="switchPage(3)">Continuer</button>
-            <div class="semi-space"></div>
             <div class="bubble">
-                <p>Attends ! Tu joues à Minecraft ? J’ai des choses à te proposer :</p>
+                <p>Attends avant de partir ! Tu joues à Minecraft ? J’ai des choses à te proposer :</p>
                 <a onclick="closeAd(); switchPage(2);">En savoir plus sur Juix</a>
             </div>
         </section>
@@ -111,132 +107,7 @@
             <div class="mini-space"></div>
             <button onclick="saveUser(this, 6);">S'enregistrer</button>
         </section>
-
-        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 6 - MOITIE NON TROUVEE - REMERCIEMENT ⁙⁙⁙ -->
-            <h3>Merci de t’être enregistré !</h3>
-            <div class="bubble">
-                <p>Attends désormais d’être contacté par ta moitié. <br><br>Tu peux également checker la base de données en cliquant sur Fermer pour prévenir tes potes si leur moitié s’est recensée !</p>
-            </div>
-            <div class="mini-space"></div>
-            <button onclick="switchPage(11)">Fermer</button>
-        </section>
-
-        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 7 - MOITIE TROUVEE ⁙⁙⁙ -->
-            <div class="heart"><span class="change-by-partner-name">Valentine</span><span class="change-by-partner-class">TC</span></div>
-            <h3>Moitié détectée</h3>
-            <div class="bubble">
-                <p><span class="change-by-partner-name">Valentine</span> est possiblement ta moitié ! S’il s’agit simplement de toi, clique sur Retour. Sinon, clique sur Contacter !</p>
-            </div>
-            <div class="mini-space"></div>
-            <button onclick="switchPage(8)">Contacter</button>
-            <div class="space"><span></span><p>OU</p><span></span></div>
-            <button class="negative-action" onclick="switchPage(3)">Retour</button>
-        </section>
-
-        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 8 - MOITIE TROUVEE - CONTACT ⁙⁙⁙ -->
-            <div class="heart"><span class="change-by-partner-name">Valentine</span><span class="change-by-partner-class">TC</span></div>
-            <h3 class="type2">Infos de contact</h3>
-            <div class="bubble">
-                <p class="change-by-partner-contact">@valentine</p>
-            </div>
-            <h3 class="type2">Message pour toi</h3>
-            <div class="bubble">
-                <p class="change-by-partner-message">...</p>
-            </div>
-            <div class="mini-space"></div>
-            <button onclick="switchPage(9)">Continuer</button>
-        </section>
-
-        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 9 - MOITIE TROUVEE - REMERCIEMENT ⁙⁙⁙ -->
-            <h3>Recense-toi</h3>
-            <div class="bubble">
-                <p>Merci d’avoir utilisé mon site, j’espère t’avoir aidé !<br><br>Désormais, recense-toi s'il-te-plaît pour apparaître sur la base de données :</p>
-            </div>
-            <div class="mini-space"></div>
-            <button onclick="switchPage(12)">Continuer</button>
-            <div class="space"><span></span><p>OU</p><span></span></div>
-            <div class="bubble">
-                <p>Sinon tant pis, tu peux tout de même checker la base de données en cliquant sur Fermer pour prévenir tes potes si leur moitié s’est recensée :</p>
-            </div>
-            <div class="mini-space"></div>
-            <button class="negative-action" onclick="switchPage(11)">Fermer</button>
-        </section>
-
-        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 10 - 2 MOITIES TROUVEES - ERREUR ⁙⁙⁙ -->
-            <h3>Oops...</h3>
-            <div class="bubble">
-                <p>Il semble que deux personnes aient déjà été associées au numéro <span class="change-by-user-number">28</span>. S’il s’agit d’une erreur de leur part, contacte-les pour les en avertir !</p>
-            </div>
-            <h3 class="type2 change-by-partners-names-error">Contact de Valentine</h3>
-            <div class="bubble">
-                <p class="change-by-partners-contacts-error">@valentine</p>
-            </div>
-            <h3 class="type2 change-by-partners-names-error">Contact de Valentin</h3>
-            <div class="bubble">
-                <p class="change-by-partners-contacts-error">@valentine</p>
-            </div>
-            <div class="mini-space"></div>
-            <button class="negative-action" onclick="switchPage(3)">Retour</button>
-        </section>
-
-        <div class="database"> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 11 - BDD ⁙⁙⁙ -->
-            <div class="footer">
-                <button onclick="switchPage(1)">Menu principal</button>
-            </div>
-            <div class="refresh_database"></div>
-            <h2>BASE DE DONNEES</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Num</th>
-                        <th>Nom</th>
-                        <th>Classe</th>
-                    </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-        </div>
-
-        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 12 - MOITIE TROUVEE - RECENSEMENT ⁙⁙⁙ -->
-            <h3 class="type2">Prénom <span>*</span></h3>
-            <div class="bubble">
-                <textarea class="champ-nom" placeholder="Valentin"></textarea>
-            </div>
-            <div class="horizontal_block">
-                <div class="horizontal_block_item">
-                    <h3 class="type2">Numéro <span>*</span></h3>
-                    <div class="bubble">
-                        <p class="change-by-user-number">028</p>
-                    </div>
-                </div>
-                <div class="horizontal_block_item">
-                    <h3 class="type2">Classe <span>*</span></h3>
-                    <div class="bubble">
-                        <textarea class="champ-classe" placeholder="TC"></textarea>
-                    </div>
-                </div>
-            </div>
-            <h3 class="type2">Contact <span>*</span></h3>
-            <div class="bubble">
-                <textarea class="champ-contact" placeholder="@valentin_insta"></textarea>
-            </div>
-            <div class="mini-space"></div>
-            <button onclick="saveUser(this, 13);">S'enregistrer</button>
-            <div class="space"><span></span><p>OU</p><span></span></div>
-            <button class="negative-action" onclick="switchPage(9)">Retour</button>
-        </section>
-
-        <section> <!-- ⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙⁙ 13 - MOITIE TROUVEE - REMERCIEMENT 2 ⁙⁙⁙ -->
-            <h3>Merci !</h3>
-            <div class="bubble">
-                <p>Merci d’avoir utilisé mon site, j’espère t’avoir aidé !<br><br>Tu peux également checker la base de données en cliquant sur Fermer pour prévenir tes potes si leur moitié s’est recensée !</p>
-            </div>
-            <div class="mini-space"></div>
-            <button onclick="switchPage(11)">Fermer</button>
-        </section>
-
+        
         <script src="script.js" defer></script>
     </body>
 </html>
