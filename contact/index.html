@@ -205,7 +205,7 @@
     
     <!-- Footer -->
     <div class="absolute bottom-4 text-slate-600 text-xs text-center w-full">
-      &copy;Juix 2025. All rights reserved.
+      &copy; <span id="year"></span> Juix. All rights reserved.
     </div>
   
   </div>
@@ -305,6 +305,8 @@
       validateForm(); // Reset button state
     });
 
+    // Copyright Year Auto-update
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juix Links</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* Configuration de base */
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: #0f172a; /* Slate 900 */
+    }
+
+    /* Effet de Verre (Glassmorphism) */
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Bouton Lien (Style unique) */
+    .link-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* Effet Hover Neon */
+    .link-card:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px) scale(1.01);
+      border-color: rgba(34, 211, 238, 0.5); /* Cyan border on hover */
+      box-shadow: 0 0 20px rgba(34, 211, 238, 0.15);
+    }
+
+    /* Variante Rose pour la 2ème zone */
+    .zone-social .link-card:hover {
+      border-color: rgba(244, 114, 182, 0.5); /* Pink border */
+      box-shadow: 0 0 20px rgba(244, 114, 182, 0.15);
+    }
+
+    /* Variante Jaune pour la zone Donations */
+    .zone-donations .link-card:hover {
+      border-color: rgba(250, 204, 21, 0.5); /* Yellow border */
+      box-shadow: 0 0 20px rgba(250, 204, 21, 0.15);
+    }
+
+    /* Animation des orbes */
+    .floating-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.5;
+      animation: float 10s infinite ease-in-out;
+      z-index: 0;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(20px, -20px) scale(1.1); }
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-200 min-h-screen relative overflow-x-hidden selection:bg-cyan-500 selection:text-white">
+
+  <div class="fixed inset-0 overflow-hidden pointer-events-none">
+    <div class="floating-orb w-96 h-96 bg-cyan-500 top-[-10%] left-[-10%] animate-pulse" style="animation-duration: 8s;"></div>
+    <div class="floating-orb w-[35rem] h-[35rem] bg-pink-600 bottom-[-10%] right-[-10%] opacity-40 animate-pulse" style="animation-duration: 12s;"></div>
+    <div class="floating-orb w-64 h-64 bg-purple-600 top-[40%] left-[60%] opacity-30 animate-pulse" style="animation-duration: 10s;"></div>
+  </div>
+
+  <div class="relative z-10 w-full max-w-lg mx-auto px-6 py-12 flex flex-col gap-8">
+    
+    <div class="text-center space-y-4 mb-4">
+      <div class="relative w-28 h-28 mx-auto">
+        <div class="absolute inset-0 bg-gradient-to-tr from-cyan-400 to-pink-500 rounded-full blur opacity-75 animate-pulse"></div>
+        <img src="../Medias/logo.jpg" alt="Juix Avatar" class="relative w-full h-full rounded-full object-cover bg-slate-900">
+      </div>
+      
+      <div>
+        <h1 class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-purple-300 to-pink-500 drop-shadow-sm">
+          Juix
+        </h1>
+        <p class="text-slate-400 font-light mt-2 text-sm">
+          Minecraft Content Creator & Web Developer
+        </p>
+      </div>
+    </div>
+
+    <section class="space-y-4">
+      <h2 class="text-xs uppercase tracking-[0.2em] text-cyan-400 font-bold text-center mb-2">My Works</h2>
+      
+      <div class="glass-panel p-2 rounded-2xl space-y-3">
+        
+        <a href="https://modrinth.com/user/Juix" target="_blank" class="link-card flex items-center p-4 rounded-xl group">
+          <div class="w-10 h-10 rounded-lg bg-green-500/20 flex items-center justify-center text-green-400 mr-4 group-hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+          </div>
+          <span class="font-semibold text-slate-100 flex-grow">Modrinth Page</span>
+          <svg class="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </a>
+
+        <a href="https://juixcode.github.io" target="_blank" class="link-card flex items-center p-4 rounded-xl group">
+          <div class="w-10 h-10 rounded-lg bg-cyan-500/20 flex items-center justify-center text-cyan-400 mr-4 group-hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+          </div>
+          <span class="font-semibold text-slate-100 flex-grow">Official Website</span>
+          <svg class="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </a>
+
+        <!-- <a href="#" target="_blank" class="link-card flex items-center p-4 rounded-xl group">
+          <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400 mr-4 group-hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+          </div>
+          <span class="font-semibold text-slate-100 flex-grow">Portfolio</span>
+          <svg class="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </a> -->
+
+        <div class="link-card flex items-center p-4 rounded-xl opacity-60 cursor-not-allowed">
+          <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400 mr-4 group-hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>
+          </div>
+          <span class="font-semibold text-slate-500 flex-grow text-left">Portfolio</span>
+          <span class="text-[10px] font-bold bg-white/10 px-2 py-1 rounded text-slate-400 uppercase tracking-wider">Soon</span>
+        </div>
+
+        <!-- <a href="#" target="_blank" class="link-card flex items-center p-4 rounded-xl group">
+          <div class="w-10 h-10 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400 mr-4 group-hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 22h8"></path>
+              <path d="M12 22v-11"></path>
+              <path d="M2 2h20l-10 10L2 2Z"></path>
+            </svg>
+          </div>
+          <span class="font-semibold text-slate-100 flex-grow">Party Hub</span>
+          <svg class="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </a> -->
+
+        <div class="link-card flex items-center p-4 rounded-xl opacity-60 cursor-not-allowed">
+          <div class="w-10 h-10 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400 mr-4 group-hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 22h8"></path>
+              <path d="M12 22v-11"></path>
+              <path d="M2 2h20l-10 10L2 2Z"></path>
+            </svg>
+          </div>
+          <span class="font-semibold text-slate-500 flex-grow text-left">Party Hub</span>
+          <span class="text-[10px] font-bold bg-white/10 px-2 py-1 rounded text-slate-400 uppercase tracking-wider">Soon</span>
+        </div>
+
+      </div>
+    </section>
+
+
+    <section class="space-y-4 zone-social">
+      <h2 class="text-xs uppercase tracking-[0.2em] text-pink-400 font-bold text-center mb-2 mt-4">Social Networks</h2>
+      
+      <div class="glass-panel p-2 rounded-2xl space-y-3">
+        
+        <a href="https://juixcode.github.io/contact/" class="link-card flex items-center p-4 rounded-xl group">
+          <div class="w-10 h-10 rounded-lg bg-white/10 flex items-center justify-center text-white mr-4 group-hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </div>
+          <span class="font-semibold text-slate-100 flex-grow">Quick Message</span>
+          <svg class="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </a>
+
+        <a href="mailto:juixcontact@gmail.com" class="link-card flex items-center p-4 rounded-xl group">
+          <div class="w-10 h-10 rounded-lg bg-teal-500/20 flex items-center justify-center text-teal-400 mr-4 group-hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+              <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            </svg>
+          </div>
+          <span class="font-semibold text-slate-100 flex-grow">Send me an email</span>
+          <svg class="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </a>
+
+        <a href="https://discord.gg/Y3Ye9pwJxy" target="_blank" class="link-card flex items-center p-4 rounded-xl group">
+          <div class="w-10 h-10 rounded-lg bg-[#5865F2]/20 flex items-center justify-center text-[#5865F2] mr-4 group-hover:scale-110 transition-transform">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.419-2.1568 2.419zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.419-2.1568 2.419z"/></svg>
+          </div>
+          <span class="font-semibold text-slate-100 flex-grow">Discord Community</span>
+          <svg class="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </a>
+
+        <a href="https://www.youtube.com/@juixcode" target="_blank" class="link-card flex items-center p-4 rounded-xl group">
+          <div class="w-10 h-10 rounded-lg bg-red-600/20 flex items-center justify-center text-red-500 mr-4 group-hover:scale-110 transition-transform">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/></svg>
+          </div>
+          <span class="font-semibold text-slate-100 flex-grow">Youtube Channel</span>
+          <svg class="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </a>
+
+        <a href="https://www.instagram.com/juixcode/" target="_blank" class="link-card flex items-center p-4 rounded-xl group">
+          <div class="w-10 h-10 rounded-lg bg-pink-500/20 flex items-center justify-center text-pink-400 mr-4 group-hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+          </div>
+          <span class="font-semibold text-slate-100 flex-grow">Instagram</span>
+          <svg class="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </a>
+
+        <!-- <a href="#" target="_blank" class="link-card flex items-center p-4 rounded-xl group">
+          <div class="w-10 h-10 rounded-lg bg-gray-800/50 flex items-center justify-center text-white mr-4 group-hover:scale-110 transition-transform border border-white/5">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+          </div>
+          <span class="font-semibold text-slate-100 flex-grow">Tiktok</span>
+          <svg class="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+        </a> -->
+
+        <div class="link-card flex items-center p-4 rounded-xl opacity-60 cursor-not-allowed">
+          <div class="w-10 h-10 rounded-lg bg-gray-800/50 flex items-center justify-center text-white mr-4 group-hover:scale-110 transition-transform border border-white/5">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/></svg>
+          </div>
+          <span class="font-semibold text-slate-500 flex-grow text-left">Tiktok</span>
+          <span class="text-[10px] font-bold bg-white/10 px-2 py-1 rounded text-slate-400 uppercase tracking-wider">Soon</span>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="space-y-4 zone-donations">
+      <h2 class="text-xs uppercase tracking-[0.2em] text-yellow-400 font-bold text-center mb-2 mt-4">Donations</h2>
+      
+      <div class="glass-panel p-2 rounded-2xl space-y-3">
+        
+        <a href="https://ko-fi.com/juixcode" target="_blank" class="link-card flex items-center p-4 rounded-xl group">
+          <div class="w-10 h-10 rounded-lg bg-yellow-500/20 flex items-center justify-center text-yellow-400 mr-4 group-hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 8h1a4 4 0 0 1 0 8h-1"></path>
+              <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path>
+              <line x1="6" y1="1" x2="6" y2="4"></line>
+              <line x1="10" y1="1" x2="10" y2="4"></line>
+              <line x1="14" y1="1" x2="14" y2="4"></line>
+            </svg>
+          </div>
+          
+          <span class="font-semibold text-slate-100 flex-grow">Ko-fi page</span>
+          
+          <svg class="w-5 h-5 text-slate-500 group-hover:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+
+      </div>
+    </section>
+
+    <div class="text-slate-600 text-xs text-center w-full mt-4">
+      &copy; <span id="year"></span> Juix. All rights reserved.
+    </div>
+
+  </div>
+
+  <script>
+    // Copyright Year Auto-update
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
