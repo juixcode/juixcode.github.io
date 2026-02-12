@@ -415,7 +415,10 @@ function renderView() {
         // Personal Section
         container.appendChild(createSectionTitle("Mes Blocs"));
         if (personalDecks.length === 0) {
-            container.innerHTML += `<div class="flex flex-col items-center justify-center py-12 text-slate-500 opacity-60"><p>Vous n'avez pas encore de bloc personnel.</p></div>`;
+            const emptyState = document.createElement('div');
+            emptyState.className = "flex flex-col items-center justify-center py-12 text-slate-500 opacity-60";
+            emptyState.innerHTML = `<p>Vous n'avez pas encore de bloc personnel.</p>`;
+            container.appendChild(emptyState);
         } else {
             container.appendChild(createDeckGrid(personalDecks));
         }
