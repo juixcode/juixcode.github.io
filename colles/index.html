@@ -1,785 +1,193 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flash Révisions - Mathématiques</title>
-    
+    <title>Flash Révisions v3</title>
+
+    <!-- Dependencies -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" crossorigin="anonymous" onload="initKatex()"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        crossorigin="anonymous"></script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        background: '#0f172a',
-                        surface: '#1e293b',
-                        primary: '#6366f1',
-                        secondary: '#10b981',
-                    },
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 0.5s ease-out forwards',
-                    },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0', transform: 'translateY(10px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
-                    }
-                },
-            },
-        }
-    </script>
-    
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
-        }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #475569; }
-
-        /* KaTeX adjustments */
-        .katex { font-size: 1.1em; color: inherit !important; }
-        .katex-display { margin: 0.5em 0; }
-        .katex-html { color: inherit !important; }
-
-        /* 3D Flip Mechanics */
-        .perspective-1000 { perspective: 1000px; }
-        .transform-style-3d { transform-style: preserve-3d; }
-        .backface-hidden { backface-visibility: hidden; }
-        
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            transition: transform 0.6s;
-            transform-style: preserve-3d;
-        }
-        
-        .card-flipped .card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
-            border-radius: 1rem;
-        }
-
-        .card-back {
-            transform: rotateY(180deg);
-        }
-        
-        /* Utility */
-        .custom-scrollbar {
-            scrollbar-width: thin;
-            scrollbar-color: #475569 transparent;
-        }
-    </style>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
+
 <body class="min-h-screen pb-24 selection:bg-indigo-500/30">
 
-    <header class="sticky top-0 z-40 bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800 shadow-2xl shadow-black/20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+    <!-- Header -->
+    <header
+        class="sticky top-0 z-40 bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800 shadow-2xl shadow-black/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
             <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="p-2.5 bg-gradient-to-br from-indigo-600 to-violet-600 rounded-xl shadow-lg shadow-indigo-500/20 border border-indigo-400/20">
-                        <i data-lucide="brain-circuit" class="text-white w-6 h-6"></i>
+                <div class="flex items-center gap-4">
+                    <div id="nav-action" class="transition-all">
+                        <!-- Icon injected by JS -->
                     </div>
                     <div>
-                        <h1 class="text-xl font-bold text-white tracking-tight">Flash Révisions v2</h1>
-                        <p class="text-slate-400 text-xs font-medium">Flash cards des colles</p>
-                    </div>
-                </div>
-                
-                <div class="flex items-center gap-3">
-                    <button onclick="resetData()" title="Réinitialiser les données" class="p-2.5 rounded-full bg-slate-900/80 border border-slate-800/60 text-slate-400 hover:text-red-400 hover:bg-red-950/30 hover:border-red-900/50 transition-all shadow-inner group">
-                        <i data-lucide="trash-2" class="w-5 h-5 group-hover:scale-110 transition-transform"></i>
-                    </button>
-
-                    <div class="flex items-center gap-4 bg-slate-900/80 px-4 py-1.5 rounded-full border border-slate-800/60 shadow-inner">
-                        <div class="flex flex-col items-end mr-1">
-                            <span class="text-xs text-slate-400 font-medium">Progression</span>
-                            <span id="progress-text" class="text-sm font-bold text-white leading-none">0/0</span>
-                        </div>
-                        <div id="progress-ring-container" class="relative flex items-center justify-center w-[44px] h-[44px]">
-                            </div>
+                        <h1 id="header-title" class="text-xl font-bold text-white tracking-tight">Flash Révisions</h1>
+                        <p id="header-subtitle" class="text-slate-400 text-xs font-medium">Chargement...</p>
                     </div>
                 </div>
             </div>
         </div>
     </header>
 
-    <main id="app-container" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        </main>
+    <!-- App Container -->
+    <main id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-[60vh]">
+        <!-- Content injected by JS -->
+    </main>
 
-    <div class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[30]">
-        <button onclick="openModal()" class="group relative flex items-center justify-center gap-3 pl-6 pr-7 py-4 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full shadow-2xl shadow-indigo-900/60 transition-all duration-300 transform hover:-translate-y-1 active:translate-y-0 active:scale-95 border border-white/10 hover:border-white/30 whitespace-nowrap">
-            <div class="absolute inset-0 rounded-full bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
-            <i data-lucide="plus" class="w-6 h-6 drop-shadow-sm"></i>
-            <span class="font-bold tracking-wide text-sm md:text-base drop-shadow-sm">Ajouter une carte</span>
-        </button>
+    <!-- FAB Container -->
+    <div id="fab-container" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[30] pointer-events-auto">
+        <!-- Button injected by JS -->
     </div>
 
-    <div id="add-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+    <!-- Modals -->
+    <div id="modal-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
         <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
-        <div class="relative w-full max-w-lg bg-slate-900 rounded-2xl shadow-2xl border border-slate-700 flex flex-col max-h-[90vh] overflow-hidden animate-fade-in">
-            <div class="flex items-center justify-between p-6 border-b border-slate-800 bg-slate-900">
-                <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                    <i data-lucide="plus" class="text-indigo-500 w-6 h-6"></i>
-                    Nouvelle Carte
-                </h2>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-white transition-colors p-1 rounded-full hover:bg-slate-800">
-                    <i data-lucide="x" class="w-5 h-5"></i>
-                </button>
-            </div>
-            <form id="add-card-form" class="p-6 overflow-y-auto space-y-6">
-                <div class="space-y-2">
-                    <label class="flex items-center gap-2 text-sm font-medium text-slate-300">
-                        <i data-lucide="book" class="text-indigo-400 w-4 h-4"></i>
-                        Question (Recto)
-                    </label>
-                    <textarea id="input-question" required placeholder="Ex: Comment dit-on 'Chat' en anglais ?" class="w-full h-24 bg-slate-950 border border-slate-700 rounded-xl p-3 text-slate-100 placeholder-slate-600 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all resize-none"></textarea>
+
+        <div
+            class="relative w-full max-w-lg bg-slate-900 rounded-2xl shadow-2xl border border-slate-700 flex flex-col max-h-[90vh] overflow-hidden animate-fade-in">
+            <!-- Close Button -->
+            <button onclick="closeModal()"
+                class="absolute top-4 right-4 text-slate-400 hover:text-white z-10 p-1 rounded-full hover:bg-slate-800">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- DECK FORM -->
+            <div id="modal-deck" class="hidden">
+                <div class="p-6 border-b border-slate-800">
+                    <h2 class="text-xl font-bold text-white">Nouveau Bloc de Fiches</h2>
                 </div>
-                <div class="space-y-2">
-                    <label class="flex items-center gap-2 text-sm font-medium text-slate-300">
-                        <i data-lucide="file-text" class="text-emerald-400 w-4 h-4"></i>
-                        Réponse (Verso)
-                    </label>
-                    <textarea id="input-answer" required placeholder="Ex: Cat" class="w-full h-24 bg-slate-950 border border-slate-700 rounded-xl p-3 text-slate-100 placeholder-slate-600 focus:ring-2 focus:ring-emerald-500 focus:border-transparent transition-all resize-none"></textarea>
-                </div>
-                <div class="space-y-2">
-                    <label class="flex items-center gap-2 text-sm font-medium text-slate-300">
-                        <i data-lucide="tag" class="text-amber-400 w-4 h-4"></i>
-                        Thème
-                    </label>
-                    <div class="grid grid-cols-2 gap-3 mb-2">
-                        <button type="button" id="btn-theme-existing" class="text-sm py-2 rounded-lg border transition-all bg-indigo-600 border-indigo-500 text-white">Liste existante</button>
-                        <button type="button" id="btn-theme-new" class="text-sm py-2 rounded-lg border transition-all bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700">Nouveau thème</button>
+                <form onsubmit="handleCreateDeck(event)" class="p-6 space-y-6">
+                    <div class="space-y-3">
+                        <label class="block text-sm font-medium text-slate-300">Nom du bloc</label>
+                        <input type="text" id="deck-title" required placeholder="Ex: Histoire - Dates Clés"
+                            class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none">
                     </div>
-                    <div id="container-select-theme" class="relative">
-                        <select id="select-theme" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-slate-100 focus:ring-2 focus:ring-indigo-500 focus:border-transparent appearance-none">
-                        </select>
-                        <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-500">
-                            <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                    <div class="space-y-3">
+                        <label class="block text-sm font-medium text-slate-300">Style (Dégradé)</label>
+                        <div id="gradient-selector" class="flex gap-3 flex-wrap">
+                            <!-- Injected -->
                         </div>
                     </div>
-                    <input id="input-custom-theme" type="text" placeholder="Ex: Verbes irréguliers" class="hidden w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-slate-100 placeholder-slate-600 focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <button type="submit"
+                        class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl mt-4">Valider</button>
+                </form>
+            </div>
+
+            <!-- CARD FORM -->
+            <div id="modal-card" class="hidden">
+                <div class="p-6 border-b border-slate-800">
+                    <h2 class="text-xl font-bold text-white">Nouvelle Carte</h2>
                 </div>
-                <div class="pt-4">
-                    <button type="submit" class="w-full py-3 px-4 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl shadow-lg shadow-indigo-500/20 transition-all transform hover:-translate-y-0.5 active:translate-y-0">
-                        Ajouter la carte
-                    </button>
+                <form onsubmit="handleCreateCard(event)" class="p-6 overflow-y-auto max-h-[70vh] space-y-5">
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-slate-300">Question</label>
+                        <textarea id="card-question" required
+                            class="w-full h-20 bg-slate-950 border border-slate-700 rounded-xl p-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none resize-none"></textarea>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-slate-300">Réponse</label>
+                        <textarea id="card-answer" required
+                            class="w-full h-20 bg-slate-950 border border-slate-700 rounded-xl p-3 text-white focus:ring-2 focus:ring-emerald-500 outline-none resize-none"></textarea>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-slate-300">Catégorie</label>
+                        <div class="flex gap-2 mb-2">
+                            <button type="button" id="btn-existing-theme" onclick="toggleThemeMode(false)"
+                                class="flex-1 py-1.5 text-sm rounded-lg bg-indigo-600 text-white">Existante</button>
+                            <button type="button" id="btn-new-theme" onclick="toggleThemeMode(true)"
+                                class="flex-1 py-1.5 text-sm rounded-lg bg-slate-800 text-slate-400">Nouvelle</button>
+                        </div>
+                        <div id="container-theme-select">
+                            <select id="card-theme-select"
+                                class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-white outline-none focus:ring-2 focus:ring-indigo-500"></select>
+                        </div>
+                        <input id="input-new-theme" type="text" placeholder="Nom de la catégorie"
+                            class="hidden w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-white outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <button type="submit"
+                        class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl">Valider</button>
+                </form>
+            </div>
+
+            <!-- IMPORT/EXPORT MODAL -->
+            <div id="modal-import-export" class="hidden">
+                <div class="p-6 border-b border-slate-800">
+                    <h2 id="modal-ie-title" class="text-xl font-bold text-white">Importer / Exporter</h2>
                 </div>
-            </form>
+                <div class="p-6 space-y-4">
+                    <p id="modal-ie-desc" class="text-sm text-slate-400">Copiez/Collez ou Déposez un fichier JSON.</p>
+
+                    <!-- Drop Zone (Import Only) -->
+                    <div id="import-drop-zone"
+                        class="w-full border-2 border-dashed border-slate-700 rounded-xl p-6 flex flex-col items-center justify-center text-slate-500 transition-all hover:border-indigo-500 hover:bg-slate-900/50 cursor-pointer"
+                        onclick="document.getElementById('import-file-input').click()">
+                        <input type="file" id="import-file-input" class="hidden" accept=".json,.txt"
+                            onchange="handleFileSelect(event)">
+                        <i data-lucide="upload-cloud" class="w-8 h-8 mb-2 text-slate-400"></i>
+                        <span class="text-xs font-medium">Cliquez ou déposez un fichier ici</span>
+                    </div>
+
+                    <div class="relative">
+                        <textarea id="ie-content"
+                            class="w-full h-48 bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs font-mono text-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none resize-none"
+                            placeholder='[{"question":"Question1 ?","answer":"Answer1 !","theme":"Général"},{"question":"Question2 ?","answer":"Answer2 !","theme":"Général"}, ...]'></textarea>
+
+                        <!-- Copy Button (Export Only) -->
+                        <button id="btn-copy-clipboard" onclick="copyToClipboard()"
+                            class="absolute top-2 right-2 p-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg border border-slate-600 transition hidden"
+                            title="Copier">
+                            <i data-lucide="copy" class="w-4 h-4"></i>
+                        </button>
+
+                        <!-- Paste Button (Import Only) -->
+                        <button id="btn-paste-clipboard" onclick="pasteFromClipboard()"
+                            class="absolute top-2 right-2 p-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg border border-slate-600 transition hidden"
+                            title="Coller">
+                            <i data-lucide="clipboard-paste" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <div
+                        class="bg-slate-900/50 p-3 rounded-lg border border-slate-800 text-xs text-slate-500 font-mono">
+                        Supporte: .json, .txt (Format JSON)
+                    </div>
+
+                    <div class="flex gap-3 pt-2">
+                        <button onclick="closeModal()"
+                            class="flex-none px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl transition">Fermer</button>
+
+                        <!-- Export Actions -->
+                        <button id="btn-download-json" onclick="downloadExport('json')"
+                            class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition hidden flex items-center justify-center gap-2">
+                            <i data-lucide="file-json" class="w-4 h-4"></i> .JSON
+                        </button>
+                        <button id="btn-download-txt" onclick="downloadExport('txt')"
+                            class="flex-1 py-3 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl transition hidden flex items-center justify-center gap-2">
+                            <i data-lucide="file-text" class="w-4 h-4"></i> .TXT
+                        </button>
+
+                        <!-- Import Action -->
+                        <button id="btn-perform-import" onclick="handleImportAction()"
+                            class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition hidden">Importer</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <script>
-        // --- DATA ---
-        const createCardData = (id, theme, q, a, learned = false) => ({
-            id, question: q, answer: a, theme, isLearned: learned, createdAt: Date.now(),
-        });
-
-        // Données par défaut (utilisées uniquement si LocalStorage est vide)
-        const DEFAULT_CARDS = [
-createCardData('om-1', 'Outils maths', 'Soient \\( P \\) et \\( Q \\) deux polynômes à coefficients dans \\( \\mathbb{R} \\). Quel est le degré de \\( P + Q \\) ?', 'On a \\( \\deg(P+Q) \\le \\max(\\deg P, \\deg Q) \\). Si \\( \\deg P \\neq \\deg Q \\), alors \\( \\deg(P+Q) = \\max(\\deg P, \\deg Q) \\).'),
-
-createCardData('om-2', 'Outils maths', 'Soient \\( P \\) et \\( Q \\) deux polynômes non nuls à coefficients dans \\( \\mathbb{R} \\). Quel est le degré de \\( P \\times Q \\) ?', 'On a \\( \\deg(P \\times Q) = \\deg P + \\deg Q \\).'),
-
-createCardData('om-3', 'Outils maths', 'Soient \\( A, B \\in \\mathbb{C}[X] \\). Donner la définition de : \\( B \\) divise \\( A \\).', 'On dit que \\( B \\) divise \\( A \\) s\'il existe \\( Q \\in \\mathbb{C}[X] \\) tel que \\( A = BQ \\). On note alors \\( B|A \\).'),
-
-createCardData('om-4', 'Outils maths', 'Soient \\( k \\in \\mathbb{N}^* \\) et \\( \\alpha \\in \\mathbb{R} \\). Définition de : \\( \\alpha \\) est une racine de multiplicité \\( k \\) (ou d\'ordre \\( k \\)) de \\( P \\).', '\\( \\alpha \\) est racine de multiplicité \\( k \\) si \\( (X-\\alpha)^k \\) divise \\( P \\) alors que \\( (X-\\alpha)^{k+1} \\) ne divise pas \\( P \\).'),
-
-createCardData('om-5', 'Outils maths', 'Rappeler la définition d\'un polynôme irréductible \\( P \\) dans \\( \\mathbb{K}[X] \\).', '\\( P \\) est irréductible s\'il est non constant et si ses seuls diviseurs sont les polynômes constants et les polynômes de la forme \\( aP \\) où \\( a \\in \\mathbb{K}^* \\).'),
-
-createCardData('om-6', 'Outils maths', 'Quels sont les polynômes irréductibles de \\( \\mathbb{C}[X] \\) ?', 'Les polynômes irréductibles de \\( \\mathbb{C}[X] \\) sont les polynômes de degré 1.'),
-
-createCardData('om-7', 'Outils maths', 'Quels sont les polynômes irréductibles de \\( \\mathbb{R}[X] \\) ?', 'Ce sont les polynômes de degré 1 ainsi que les polynômes de degré 2 ayant un discriminant \\( \\Delta < 0 \\).'),
-
-createCardData('om-8', 'Outils maths', 'Rappeler la définition d\'un élément simple dans \\( \\mathbb{C}(X) \\).', 'C\'est une fraction rationnelle de la forme \\( \\frac{\\lambda}{(X-a)^n} \\) avec \\( \\lambda \\in \\mathbb{C} \\), \\( a \\in \\mathbb{C} \\) et \\( n \\in \\mathbb{N}^* \\).'),
-
-createCardData('om-9', 'Outils maths', 'Rappeler la définition d\'un élément simple dans \\( \\mathbb{R}(X) \\).', 'Soit de la forme \\( \\frac{\\lambda}{(X-a)^n} \\) (1ère espèce), soit de la forme \\( \\frac{\\beta X + \\gamma}{(X^2+bX+c)^n} \\) (2ème espèce) avec \\( b^2-4c < 0 \\) et \\( n \\in \\mathbb{N}^* \\).'),
-
-createCardData('alg-1', 'Algèbre', 'Si \\( E \\) est un ensemble de cardinal \\( n \\), quel est le \\( \\text{Card}(\\mathcal{P}(E)) \\) ?', '\\( \\text{Card}(\\mathcal{P}(E)) = 2^n \\).'),
-
-createCardData('alg-2', 'Algèbre', 'Donner la définition du produit cartésien de \\( n \\) ensembles \\( E_1, \\dots, E_n \\).', 'C\'est l\'ensemble des n-uplets \\( (x_1, \\dots, x_n) \\) tels que \\( x_i \\in E_i \\). On le note \\( \\prod_{i=1}^n E_i \\) ou \\( E_1 \\times \\dots \\times E_n \\).'),
-
-createCardData('alg-3', 'Algèbre', 'Donner la définition d\'une partition d\'un ensemble \\( E \\) par une famille \\( (E_i)_{i \\in I} \\).', 'La famille \\( (E_i)_{i \\in I} \\) est une partition si : 1) \\( E_i \\neq \\emptyset, \\forall i \\). 2) Ils sont disjoints 2 à 2 (\\( i \\neq j \\implies E_i \\cap E_j = \\emptyset \\)). 3) Leur union est \\( E \\) (\\( \\bigcup E_i = E \\)).'),
-
-createCardData('alg-4', 'Algèbre', 'Soient \\( E \\) et \\( F \\) deux ensembles. Quelle est la différence entre une fonction et une application ?', 'Une fonction est définie sur un sous-ensemble \\( Dom(f) \\subseteq E \\). Une application est une fonction définie sur l\'ensemble de départ entier, c\'est-à-dire \\( Dom(f) = E \\).'),
-
-createCardData('alg-5', 'Algèbre', 'Donner la caractérisation d\'une application \\( f: E \\to F \\) par quantificateurs mathématiques.', '\\( \\forall x \\in E, \\exists! y \\in F, y = f(x) \\) (Pour tout \\( x \\), il existe un unique \\( y \\)).'),
-
-createCardData('alg-6', 'Algèbre', 'Définitions : Restriction de \\( f: E \\to F \\) à \\( A \\subset E \\) et Prolongement de \\( g: A \\to F \\) à \\( E \\).', 'La restriction \\( f|_A \\) est l\'application de \\( A \\) dans \\( F \\) telle que \\( f|_A(x)=f(x) \\). Un prolongement \\( \\tilde{g}: E \\to F \\) est une application telle que sa restriction à \\( A \\) est égale à \\( g \\) (\\( \\tilde{g}|_A = g \\)).'),
-
-createCardData('alg-7', 'Algèbre', 'On note \\( \\mathcal{F}(E,F) \\) l\'ensemble des applications de \\( E \\) dans \\( F \\). Si \\( \\text{card}(E)=n \\) et \\( \\text{card}(F)=p \\), quel est \\( \\text{card}(\\mathcal{F}(E,F)) \\) ?', '\\( \\text{card}(\\mathcal{F}(E,F)) = p^n \\).'),
-
-createCardData('alg-8', 'Algèbre', 'Soient \\( f: E \\to F \\) et \\( g: F \\to G \\) deux applications. Définir la composée \\( g \\circ f \\).', 'C\'est l\'application \\( g \\circ f: E \\to G \\) définie par \\( x \\mapsto g(f(x)) \\).'),
-
-createCardData('alg-9', 'Algèbre', 'Soit \\( E \\) un ensemble et \\( A \\subset E \\). Définir la fonction indicatrice \\( 1_A \\).', '\\( 1_A: E \\to \\{0,1\\} \\) telle que \\( 1_A(x) = 1 \\) si \\( x \\in A \\), et \\( 0 \\) sinon.'),
-
-createCardData('alg-10', 'Algèbre', 'Soit \\( f: E \\to F \\). Définir \\( Im(f) \\), l\'image directe \\( f(A) \\) (avec \\( A \\subset E \\)) et l\'image réciproque \\( f^{-1}(B) \\) (avec \\( B \\subset F \\)).', '\\( Im(f) = \\{y \\in F | \\exists x \\in E, y=f(x)\\} \\). \\( f(A) = \\{y \\in F | \\exists x \\in A, y=f(x)\\} \\). \\( f^{-1}(B) = \\{x \\in E | f(x) \\in B\\} \\).'),
-
-createCardData('alg-11', 'Algèbre', 'Soit \\( f: E \\to F \\). Donner la définition de : \\( f \\) est injective.', '\\( \\forall x, y \\in E, f(x)=f(y) \\implies x=y \\). (Tout \\( y \\in F \\) a au plus un antécédent).'),
-
-createCardData('alg-12', 'Algèbre', 'Soit \\( f: E \\to F \\). Donner la définition de : \\( f \\) est surjective.', '\\( \\forall y \\in F, \\exists x \\in E, f(x)=y \\). (Tout élément \\( y \\in F \\) admet au moins un antécédent).'),
-
-createCardData('alg-13', 'Algèbre', 'Soit \\( f: E \\to F \\). Donner la définition de : \\( f \\) est bijective.', '\\( f \\) est à la fois injective et surjective. \\( \\forall y \\in F, \\exists! x \\in E, f(x)=y \\). (Tout \\( y \\) a un unique antécédent).'),
-
-createCardData('alg-14', 'Algèbre', 'Soit \\( f: E \\to F \\) bijective. Définir l\'application réciproque \\( f^{-1} \\) et son graphe.', 'C\'est l\'unique application \\( g: F \\to E \\) tq \\( g \\circ f = id_E \\) et \\( f \\circ g = id_F \\). Son graphe est symétrique à celui de \\( f \\) par rapport à la bissectrice \\( y=x \\).'),
-
-createCardData('alg-15', 'Algèbre', 'Quelle proposition assure l\'existence et l\'unicité d\'une fonction réciproque pour \\( f: E \\to F \\) ?', 'La propriété équivalente : \\( f \\) est bijective \\( \\iff \\) Il existe une unique application \\( g: F \\to E \\) tq \\( g \\circ f = id_E \\) et \\( f \\circ g = id_F \\).'),
-
-createCardData('alg-16', 'Algèbre', 'Définition d\'une application involutive \\( f \\). Est-elle inversible ?', '\\( f \\) est involutive si \\( f \\circ f = id_E \\). Oui, elle est bijective et c\'est sa propre réciproque (\\( f^{-1} = f \\)).'),
-
-createCardData('alg-17', 'Algèbre', 'Soient \\( E, F \\) finis et \\( f: E \\to F \\). Compléter : 1) \\( |E|=|f(E)| \\iff \\dots \\) 2) \\( f \\) surjective \\( \\implies \\dots \\) 3) \\( f \\) injective \\( \\implies \\dots \\) 4) \\( f \\) bijective \\( \\implies \\dots \\)', '1) \\( f \\) est injective. 2) \\( |E| \\ge |F| \\). 3) \\( |E| \\le |F| \\). 4) \\( |E| = |F| \\).'),
-
-createCardData('alg-18', 'Algèbre', 'Énoncer la formule du binôme de Newton pour \\( (a+b)^n \\).', '\\( (a+b)^n = \\sum_{k=0}^n \\binom{n}{k} a^k b^{n-k} \\) avec \\( \\binom{n}{k} = \\frac{n!}{k!(n-k)!} \\).'),
-
-createCardData('ana-1', 'Fonctions & suites numériques', 'Soit \\( f: D \\to \\mathbb{R} \\) et \\( x_0 \\in D \\). Définition avec quantificateurs de "f admet pour limite finie \\( l \\) en \\( x_0 \\)".', '\\( \\forall \\epsilon > 0, \\exists \\delta > 0, \\forall x \\in D, 0 < |x-x_0| < \\delta \\implies |f(x) - l| < \\epsilon \\).'),
-
-createCardData('ana-2', 'Fonctions & suites numériques', 'Définition des limites à droite (\\( x_0^+ \\)) et à gauche (\\( x_0^- \\)) de \\( f \\) en \\( x_0 \\).', 'Droite : \\( \\forall x \\in D, 0 < x - x_0 < \\delta \\implies |f(x) - l| < \\epsilon \\). Gauche : \\( \\forall x \\in D, -\\delta < x - x_0 < 0 \\implies |f(x) - l^-| < \\epsilon \\).'),
-
-createCardData('ana-3', 'Fonctions & suites numériques', 'Quel est le lien entre la limite de \\( f \\) en \\( x_0 \\) et les limites à droite/gauche ?', '\\( f \\) admet une limite en \\( x_0 \\) si et seulement si \\( \\lim_{x \\to x_0} f(x) = \\lim_{x \\to x_0^+} f(x) = \\lim_{x \\to x_0^-} f(x) \\).'),
-
-createCardData('ana-4', 'Fonctions & suites numériques', 'Définition avec quantificateurs de "f admet pour limite \\( +\\infty \\) en \\( x_0 \\)".', '\\( \\forall A > 0, \\exists \\delta > 0, \\forall x \\in D, |x-x_0| < \\delta \\implies f(x) > A \\).'),
-
-createCardData('ana-5', 'Fonctions & suites numériques', 'Définition avec quantificateurs de "f admet pour limite \\( l \\) en \\( +\\infty \\)".', '\\( \\forall \\epsilon > 0, \\exists B > 0, \\forall x \\in D, x > B \\implies |f(x) - l| < \\epsilon \\).'),
-
-createCardData('ana-6', 'Fonctions & suites numériques', 'Propriété sur la limite d\'un produit "\\( f \\) bornée \\( \\times \\) \\( g \\) tend vers 0" en \\( a \\).', 'Si \\( f \\) est bornée au voisinage de \\( a \\) et \\( g \\) tend vers 0 en \\( a \\), alors \\( \\lim (f \\times g) = 0 \\).'),
-
-createCardData('ana-7', 'Fonctions & suites numériques', 'Énoncer le Théorème des gendarmes en \\( x_0 \\).', 'Si \\( f(x) \\le g(x) \\le h(x) \\) sur \\( D \\) et si \\( \\lim_{x_0} f(x) = \\lim_{x_0} h(x) = l \\), alors \\( g \\) a une limite en \\( x_0 \\) et \\( \\lim_{x_0} g(x) = l \\).'),
-
-createCardData('ana-8', 'Fonctions & suites numériques', 'Énoncer le Théorème d\'encadrement pour une limite infinie.', 'Si \\( f(x) \\le g(x) \\) et si \\( \\lim_{x \\to x_0} f(x) = +\\infty \\), alors \\( \\lim_{x \\to x_0} g(x) = +\\infty \\).'),
-
-createCardData('ana-9', 'Fonctions & suites numériques', 'Définition : \\( f \\) et \\( g \\) sont équivalentes en \\( x_0 \\) (avec \\( g \\) non nulle).', '\\( f \\) et \\( g \\) sont équivalentes si \\( \\frac{f(x)}{g(x)} \\to 1 \\) quand \\( x \\to x_0 \\).'),
-
-createCardData('ana-10', 'Fonctions & suites numériques', 'Définition : \\( f \\) est négligeable devant \\( g \\) en \\( x_0 \\) (noté \\( o(g) \\)).', '\\( f \\) est négligeable devant \\( g \\) si \\( \\frac{f(x)}{g(x)} \\to 0 \\) quand \\( x \\to x_0 \\).'),
-
-createCardData('ana-11', 'Fonctions & suites numériques', 'Définition : \\( f \\) est dominée par \\( g \\) en \\( x_0 \\) (noté \\( O(g) \\)).', '\\( f \\) est dominée par \\( g \\) si \\( \\frac{f(x)}{g(x)} \\) est bornée au voisinage de \\( x_0 \\).'),
-
-createCardData('ana-12', 'Fonctions & suites numériques', 'Croissances comparées au voisinage de l\'infini (pour \\( \\alpha, \\beta > 0 \\)). Classer \\( (\\ln x)^\\alpha \\), \\( x^\\beta \\), \\( e^x \\).', 'On a \\( (\\ln x)^\\alpha = o(x^\\beta) \\) (le log est négligeable devant la puissance) et \\( x^\\alpha = o(e^{\\beta x}) \\) (la puissance est négligeable devant l\'exponentielle).'),
-
-createCardData('ana-13', 'Fonctions & suites numériques', 'Donner les limites remarquables en 0 pour : \\( \\frac{\\ln(1+x)}{x} \\), \\( \\frac{e^x-1}{x} \\), \\( \\frac{\\sin x}{x} \\), \\( \\frac{1-\\cos x}{x^2} \\), \\( \\frac{\\tan x}{x} \\), \\( \\frac{(1+x)^\\alpha - 1}{x} \\).', '\\( \\frac{\\ln(1+x)}{x} \\to 1 \\), \\( \\frac{e^x-1}{x} \\to 1 \\), \\( \\frac{\\sin x}{x} \\to 1 \\), \\( \\frac{1-\\cos x}{x^2} \\to 1/2 \\), \\( \\frac{\\tan x}{x} \\to 1 \\), \\( \\frac{(1+x)^\\alpha - 1}{x} \\to \\alpha \\).'),
-
-createCardData('ana-14', 'Fonctions & suites numériques', 'Soit \\( f: D \\to \\mathbb{R} \\). Définition avec quantificateurs de "\\( f \\) continue en \\( x_0 \\)".', '\\( \\forall \\epsilon > 0, \\exists \\delta > 0, \\forall x \\in D, |x-x_0| < \\delta \\implies |f(x) - f(x_0)| < \\epsilon \\).'),
-
-createCardData('ana-15', 'Fonctions & suites numériques', 'Donner le critère séquentiel de la continuité en \\( a \\).', '\\( f \\) est continue en \\( a \\) ssi pour toute suite \\( (u_n) \\) dans \\( D \\) telle que \\( u_n \\to a \\), on a \\( f(u_n) \\to f(a) \\).'),
-
-createCardData('ana-16', 'Fonctions & suites numériques', 'Énoncer le Théorème des valeurs intermédiaires (TVI) pour \\( f: [a,b] \\to \\mathbb{R} \\) continue.', 'Pour tout réel \\( y \\) compris strictement entre \\( f(a) \\) et \\( f(b) \\), il existe \\( c \\in [a,b] \\) tel que \\( f(c)=y \\).'),
-
-createCardData('ana-17', 'Fonctions & suites numériques', 'Énoncer le Théorème de la bijection.', 'Si \\( f \\) est continue et strictement monotone sur un intervalle fermé \\( I=[a,b] \\), alors elle constitue une bijection entre \\( I \\) et l\'intervalle fermé image borné par \\( f(a) \\) et \\( f(b) \\).'),
-
-createCardData('ana-18', 'Fonctions & suites numériques', 'Énoncer le Théorème des bornes atteintes.', 'Toute fonction continue sur un segment (intervalle fermé borné \\( [a,b] \\)) est bornée et atteint ses bornes.'),
-
-createCardData('ana-19', 'Fonctions & suites numériques', 'Soit \\( f: I \\to \\mathbb{R} \\) et \\( x_0 \\in I \\). Définition de : \\( f \\) dérivable en \\( x_0 \\).', '\\( f \\) est dérivable en \\( x_0 \\) s\'il existe un réel \\( l \\) tel que \\( l = \\lim_{x \\to x_0} \\frac{f(x)-f(x_0)}{x-x_0} \\) (ou limite du taux d\'accroissement en \\( h \\to 0 \\)).'),
-
-createCardData('ana-20', 'Fonctions & suites numériques', 'Quel est le lien entre dérivabilité et continuité sur \\( I \\) ? La réciproque est-elle vraie ?', '\\( f \\) dérivable sur \\( I \\implies f \\) continue sur \\( I \\). La réciproque est fausse (ex: \\( x \\mapsto |x| \\) continue mais pas dérivable en 0).'),
-
-createCardData('ana-21', 'Fonctions & suites numériques', 'Théorème de la dérivée composée \\( (g \\circ f)\' \\).', 'Si \\( f \\) dérivable sur \\( I \\) et \\( g \\) dérivable sur \\( f(I) \\), alors \\( g \\circ f \\) est dérivable et \\( (g \\circ f)\' = (g\' \\circ f) \\times f\' \\).'),
-
-createCardData('ana-22', 'Fonctions & suites numériques', 'Théorème de la dérivée de la bijection réciproque \\( f^{-1} \\).', 'Si \\( f \\) est strictement monotone, dérivable et que \\( f\'(x_0) \\neq 0 \\), alors \\( f^{-1} \\) est dérivable en \\( y = f(x_0) \\) et \\( (f^{-1})\'(y) = \\frac{1}{f\'(x_0)} = \\frac{1}{f\'(f^{-1}(y))} \\).'),
-
-createCardData('ana-23', 'Fonctions & suites numériques', 'Définition de : \\( f \\) est de classe \\( \\mathcal{C}^n \\) sur \\( I \\).', '\\( f \\) est \\( n \\) fois dérivable sur \\( I \\) et sa dérivée n-ième \\( f^{(n)} \\) est continue sur \\( I \\).'),
-
-createCardData('ana-24', 'Fonctions & suites numériques', 'Définition d\'une asymptote verticale d\'équation \\( x=a \\).', 'La courbe admet une asymptote verticale \\( x=a \\) si \\( \\lim_{x \\to a} f(x) = \\pm \\infty \\).'),
-
-createCardData('ana-25', 'Fonctions & suites numériques', 'Définition d\'une asymptote horizontale d\'équation \\( y=b \\) au voisinage de \\( +\\infty \\).', 'La courbe admet une asymptote horizontale \\( y=b \\) si \\( \\lim_{x \\to +\\infty} (f(x) - b) = 0 \\).'),
-
-createCardData('ana-26', 'Fonctions & suites numériques', 'Définition d\'une asymptote oblique d\'équation \\( y=ax+b \\) au voisinage de \\( +\\infty \\).', 'La courbe admet une asymptote oblique \\( y=ax+b \\) si \\( \\lim_{x \\to +\\infty} (f(x) - (ax+b)) = 0 \\).')
-        ];
-
-        let AVAILABLE_THEMES = ['Outils maths', 'Fonctions & suites numériques', 'Algèbre'];
-        let cards = []; // Sera rempli par LocalStorage ou Default
-        let isModalOpen = false;
-        let isCustomThemeMode = false;
-        
-        // --- LOCAL STORAGE ---
-        const STORAGE_KEY = 'flashcards-app-data';
-
-        function resetData() {
-            if (confirm('Attention : Voulez-vous vraiment effacer toute votre progression et réinitialiser les cartes à leur état d\'origine ?')) {
-                // On vide les clés spécifiques à l'appli
-                localStorage.removeItem(STORAGE_KEY);
-                localStorage.removeItem(STORAGE_KEY + '-themes');
-                // On recharge la page pour réimporter les DEFAULT_CARDS
-                location.reload();
-            }
-        }
-
-        function saveToLocalStorage() {
-            try {
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(cards));
-                // Sauvegarder aussi les thèmes si l'utilisateur en a créé
-                localStorage.setItem(STORAGE_KEY + '-themes', JSON.stringify(AVAILABLE_THEMES));
-            } catch (e) {
-                console.error("Erreur sauvegarde LocalStorage", e);
-            }
-        }
-
-        function loadFromLocalStorage() {
-            try {
-                const storedCards = localStorage.getItem(STORAGE_KEY);
-                const storedThemes = localStorage.getItem(STORAGE_KEY + '-themes');
-                
-                if (storedCards) {
-                    cards = JSON.parse(storedCards);
-                } else {
-                    cards = [...DEFAULT_CARDS];
-                }
-
-                if (storedThemes) {
-                    AVAILABLE_THEMES = JSON.parse(storedThemes);
-                }
-            } catch (e) {
-                console.error("Erreur lecture LocalStorage", e);
-                cards = [...DEFAULT_CARDS];
-            }
-        }
-
-        // --- HELPER FUNCTIONS ---
-        function generateId() {
-            return Math.random().toString(36).substr(2, 9);
-        }
-
-        function initKatex(element = document.body) {
-            if (window.renderMathInElement) {
-                renderMathInElement(element, {
-                    delimiters: [
-                        { left: "\\[", right: "\\]", display: true },
-                        { left: "\\(", right: "\\)", display: false },
-                        { left: "$$", right: "$$", display: true },
-                        { left: "$", right: "$", display: false }
-                    ],
-                    throwOnError: false,
-                    errorColor: '#ef4444',
-                    strict: false,
-                    trust: true
-                });
-            }
-        }
-
-        // --- DOM GENERATION (Called only ONCE for each card) ---
-        function createCardDOM(card) {
-            // Container
-            const cardWrapper = document.createElement('div');
-            cardWrapper.className = "group h-80 w-full perspective-1000 cursor-pointer card-container";
-            cardWrapper.id = `card-wrapper-${card.id}`;
-            cardWrapper.dataset.id = card.id;
-            cardWrapper.dataset.theme = card.theme;
-            cardWrapper.onclick = function() { this.classList.toggle('card-flipped'); };
-
-            // Inner 3D container
-            const inner = document.createElement('div');
-            inner.className = "card-inner relative h-full w-full transition-all duration-500 transform-style-3d";
-
-            // -- Visual Config --
-            const visuals = getCardVisuals(card.isLearned);
-
-            // FRONT
-            const front = document.createElement('div');
-            front.className = `card-front absolute inset-0 rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden border-2 transition-all duration-300 ${visuals.frontBorder}`;
-            front.id = `front-${card.id}`;
-
-            front.innerHTML = `
-                <div class="relative z-0 p-6 flex flex-col h-full justify-between">
-                    <div class="flex justify-between items-start">
-                        <span id="badge-front-${card.id}" class="text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-md ${visuals.frontBadge}">Question</span>
-                    </div>
-                    <div class="flex-grow flex items-center justify-center text-center px-1 my-2 overflow-y-auto custom-scrollbar w-full min-h-0">
-                        <div id="text-front-${card.id}" class="text-lg font-medium transition-all duration-300 w-full ${visuals.frontText} latex-content">${card.question}</div>
-                    </div>
-                    <div class="text-center text-slate-500 text-xs flex items-center justify-start gap-2">
-                        <i data-lucide="rotate-cw" class="w-3 h-3"></i> <span>Retourner</span>
-                    </div>
-                </div>
-            `;
-            
-            // Check Button Front
-            const btnFront = document.createElement('button');
-            btnFront.id = `btn-front-${card.id}`;
-            btnFront.className = `absolute bottom-4 right-4 p-2.5 rounded-full transition-all duration-300 z-10 border shadow-lg flex items-center justify-center ${visuals.btnClass}`;
-            btnFront.title = visuals.title;
-            btnFront.innerHTML = `<i data-lucide="${visuals.iconName}" class="w-4 h-4"></i>`;
-            btnFront.onclick = (e) => toggleLearned(e, card.id, card.theme);
-            front.appendChild(btnFront);
-
-            // BACK
-            const back = document.createElement('div');
-            back.className = `card-back absolute inset-0 rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden border-2 transition-colors duration-300 ${visuals.backBorder}`;
-            back.id = `back-${card.id}`;
-
-            back.innerHTML = `
-                <div class="relative z-0 p-6 flex flex-col h-full justify-between">
-                    <div class="flex justify-end">
-                        <span id="badge-back-${card.id}" class="text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-md ${visuals.backBadge}">Réponse</span>
-                    </div>
-                    <div class="flex-grow flex items-center justify-center text-center px-1 my-2 overflow-y-auto custom-scrollbar w-full min-h-0">
-                        <div class="text-lg font-medium text-white leading-relaxed w-full latex-content">${card.answer}</div>
-                    </div>
-                    <div class="text-center text-slate-400 text-xs flex items-center justify-start gap-2">
-                        <i data-lucide="rotate-cw" class="w-3 h-3"></i> <span>Voir question</span>
-                    </div>
-                </div>
-            `;
-
-            // Check Button Back
-            const btnBack = document.createElement('button');
-            btnBack.id = `btn-back-${card.id}`;
-            btnBack.className = `absolute bottom-4 right-4 p-2.5 rounded-full transition-all duration-300 z-10 border shadow-lg flex items-center justify-center ${visuals.btnClass}`;
-            btnBack.title = visuals.title;
-            btnBack.innerHTML = `<i data-lucide="${visuals.iconName}" class="w-4 h-4"></i>`;
-            btnBack.onclick = (e) => toggleLearned(e, card.id, card.theme);
-            back.appendChild(btnBack);
-
-            inner.appendChild(front);
-            inner.appendChild(back);
-            cardWrapper.appendChild(inner);
-
-            return cardWrapper;
-        }
-
-        function getCardVisuals(isLearned) {
-            if (isLearned) {
-                return {
-                    btnClass: 'bg-emerald-500 border-emerald-400 text-white shadow-emerald-900/40 hover:bg-emerald-400',
-                    iconName: 'undo-2',
-                    title: "Marquer comme à revoir",
-                    frontBorder: 'border-emerald-500/50 bg-gradient-to-br from-slate-800 to-emerald-900',
-                    backBorder: 'border-emerald-500/50 bg-gradient-to-br from-slate-800 to-emerald-900',
-                    frontBadge: 'bg-emerald-500/20 text-emerald-400',
-                    backBadge: 'bg-emerald-500/20 text-emerald-400',
-                    frontText: 'text-emerald-100'
-                };
-            } else {
-                return {
-                    btnClass: 'bg-slate-700 border-slate-600 text-slate-400 shadow-black/30 hover:bg-slate-600 hover:text-white hover:border-slate-500',
-                    iconName: 'check',
-                    title: "Marquer comme acquis",
-                    frontBorder: 'border-slate-700 hover:border-slate-600 bg-slate-800',
-                    backBorder: 'border-indigo-500/50 bg-gradient-to-br from-slate-800 to-indigo-900',
-                    frontBadge: 'bg-slate-700/50 text-slate-400',
-                    backBadge: 'bg-indigo-500/20 text-indigo-400',
-                    frontText: 'text-slate-100'
-                };
-            }
-        }
-
-        // --- INITIAL RENDER ---
-        function renderFullApp() {
-            renderProgress();
-            const container = document.getElementById('app-container');
-            container.innerHTML = '';
-
-            // Group cards
-            const cardsByTheme = {};
-            // Initial sort: Date desc
-            const sortedCards = [...cards].sort((a, b) => b.createdAt - a.createdAt);
-            
-            sortedCards.forEach(card => {
-                if (!cardsByTheme[card.theme]) cardsByTheme[card.theme] = [];
-                cardsByTheme[card.theme].push(card);
-            });
-
-            // If empty
-            if (Object.keys(cardsByTheme).length === 0) {
-                container.innerHTML = `
-                    <div class="flex flex-col items-center justify-center py-24 text-slate-500">
-                        <i data-lucide="brain-circuit" class="w-16 h-16 mb-4 text-slate-700 opacity-50"></i>
-                        <p class="text-xl font-medium">Votre collection est vide</p>
-                        <p class="mt-2 text-sm">Commencez par ajouter une nouvelle carte !</p>
-                    </div>
-                `;
-                lucide.createIcons();
-                return;
-            }
-
-            // Render Themes
-            Object.keys(cardsByTheme).forEach(theme => {
-                const themeCards = cardsByTheme[theme];
-                
-                const sectionDiv = document.createElement('div');
-                sectionDiv.className = "mb-12 animate-fade-in";
-                sectionDiv.id = `section-${theme.replace(/\s+/g, '-')}`;
-
-                // Header
-                sectionDiv.innerHTML = `
-                    <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4 border-b border-slate-800 pb-4">
-                        <div class="flex items-center gap-3">
-                            <div class="p-2 bg-indigo-500/20 rounded-lg text-indigo-400">
-                                <i data-lucide="layers" class="w-6 h-6"></i>
-                            </div>
-                            <h2 class="text-2xl font-bold text-white tracking-tight">${theme}</h2>
-                            <span class="ml-2 px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 text-xs font-medium">
-                                ${themeCards.length}
-                            </span>
-                        </div>
-                        
-                        <div class="flex items-center gap-3 w-full md:w-auto">
-                            <div class="relative flex-grow md:flex-grow-0">
-                                <input type="text" placeholder="Rechercher..." 
-                                    oninput="handleSearch('${theme}', this.value)"
-                                    class="w-full md:w-64 bg-slate-900 border border-slate-700 text-slate-200 text-sm rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 block pl-10 p-2.5 transition-all">
-                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-slate-500">
-                                    <i data-lucide="search" class="w-4 h-4"></i>
-                                </div>
-                            </div>
-                            <button onclick="handleShuffle('${theme}')" class="flex items-center justify-center p-2.5 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 hover:text-indigo-400 border border-slate-700 transition-all active:scale-95" title="Mélanger">
-                                <i data-lucide="shuffle" class="w-5 h-5"></i>
-                            </button>
-                        </div>
-                    </div>
-                `;
-
-                // Grid Container
-                const grid = document.createElement('div');
-                grid.id = `grid-${theme.replace(/\s+/g, '-')}`;
-                grid.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6";
-                
-                // Append Cards to Grid
-                themeCards.forEach(card => {
-                    const cardNode = createCardDOM(card);
-                    grid.appendChild(cardNode);
-                });
-
-                sectionDiv.appendChild(grid);
-                container.appendChild(sectionDiv);
-                
-                // Initial Sort (Green at bottom)
-                sortGrid(grid);
-            });
-
-            // Init Icons and Math
-            lucide.createIcons();
-            initKatex();
-        }
-
-        // --- UPDATES WITHOUT RE-RENDERING ---
-
-        function renderProgress() {
-            const totalLearned = cards.filter(c => c.isLearned).length;
-            const progress = cards.length > 0 ? Math.round((totalLearned / cards.length) * 100) : 0;
-            document.getElementById('progress-text').innerText = `${totalLearned}/${cards.length}`;
-            
-            // SVG update
-            const radius = 22; const stroke = 3;
-            const normalizedRadius = radius - stroke * 2;
-            const circumference = normalizedRadius * 2 * Math.PI;
-            const strokeDashoffset = circumference - (progress / 100) * circumference;
-            const container = document.getElementById('progress-ring-container');
-            // Clean content but keep container structure
-            container.innerHTML = `
-                <svg height="${radius * 2}" width="${radius * 2}" class="rotate-[-90deg]">
-                    <circle stroke="#1e293b" stroke-width="${stroke}" fill="transparent" r="${normalizedRadius}" cx="${radius}" cy="${radius}" />
-                    <circle stroke="#10b981" fill="transparent" stroke-width="${stroke}" stroke-dasharray="${circumference} ${circumference}" style="stroke-dashoffset: ${strokeDashoffset}; transition: stroke-dashoffset 0.5s ease-in-out;" stroke-linecap="round" r="${normalizedRadius}" cx="${radius}" cy="${radius}" />
-                </svg>
-                <span class="absolute text-[10px] font-bold text-emerald-400" style="left:50%; top:50%; transform:translate(-50%, -50%)">${progress}%</span>
-            `;
-        }
-
-        function toggleLearned(e, id, theme) {
-            e.stopPropagation(); // Stop flip
-            
-            // 1. Update Data
-            const cardIndex = cards.findIndex(c => c.id === id);
-            if (cardIndex === -1) return;
-            cards[cardIndex].isLearned = !cards[cardIndex].isLearned;
-            const isLearned = cards[cardIndex].isLearned;
-
-            // SAUVEGARDE
-            saveToLocalStorage();
-
-            // 2. Update Visuals (DOM manipulation, no innerHTML reset)
-            const visuals = getCardVisuals(isLearned);
-            
-            // Update classes
-            const front = document.getElementById(`front-${id}`);
-            const back = document.getElementById(`back-${id}`);
-            const btnFront = document.getElementById(`btn-front-${id}`);
-            const btnBack = document.getElementById(`btn-back-${id}`);
-            const badgeFront = document.getElementById(`badge-front-${id}`);
-            const badgeBack = document.getElementById(`badge-back-${id}`);
-            const textFront = document.getElementById(`text-front-${id}`);
-
-            // Replace classes safely
-            front.className = `card-front absolute inset-0 rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden border-2 transition-all duration-300 ${visuals.frontBorder}`;
-            back.className = `card-back absolute inset-0 rounded-2xl shadow-xl flex flex-col justify-between overflow-hidden border-2 transition-colors duration-300 ${visuals.backBorder}`;
-            
-            badgeFront.className = `text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-md ${visuals.frontBadge}`;
-            badgeBack.className = `text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-md ${visuals.backBadge}`;
-            textFront.className = `text-lg font-medium transition-all duration-300 w-full latex-content ${visuals.frontText}`;
-
-            // Update Buttons (Icon & Class)
-            [btnFront, btnBack].forEach(btn => {
-                btn.className = `absolute bottom-4 right-4 p-2.5 rounded-full transition-all duration-300 z-10 border shadow-lg flex items-center justify-center ${visuals.btnClass}`;
-                btn.title = visuals.title;
-                btn.innerHTML = `<i data-lucide="${visuals.iconName}" class="w-4 h-4"></i>`;
-            });
-            lucide.createIcons(); // Refresh new icons
-
-            // 3. Move to bottom (Sort logic)
-            const grid = document.getElementById(`grid-${theme.replace(/\s+/g, '-')}`);
-            const cardWrapper = document.getElementById(`card-wrapper-${id}`);
-            
-            if (isLearned) {
-                // If learned, move to very end
-                grid.appendChild(cardWrapper);
-            } else {
-                // If unlearned, move to top (or sort logic)
-                grid.prepend(cardWrapper); 
-                sortGrid(grid);
-            }
-
-            // 4. Update Header
-            renderProgress();
-        }
-
-        function sortGrid(gridElement) {
-            // Sort children: Unlearned first, then Learned.
-            const children = Array.from(gridElement.children);
-            children.sort((a, b) => {
-                const idA = a.dataset.id;
-                const idB = b.dataset.id;
-                const cardA = cards.find(c => c.id === idA);
-                const cardB = cards.find(c => c.id === idB);
-                
-                if (cardA.isLearned === cardB.isLearned) {
-                    return 0; // Keep relative order
-                }
-                return cardA.isLearned ? 1 : -1; // Learned goes last
-            });
-            children.forEach(child => gridElement.appendChild(child));
-        }
-
-        function handleSearch(theme, query) {
-            const grid = document.getElementById(`grid-${theme.replace(/\s+/g, '-')}`);
-            const children = Array.from(grid.children);
-            const lowerQuery = query.toLowerCase();
-
-            children.forEach(child => {
-                const id = child.dataset.id;
-                const card = cards.find(c => c.id === id);
-                const match = card.question.toLowerCase().includes(lowerQuery) || card.answer.toLowerCase().includes(lowerQuery);
-                
-                // Hide/Show instead of removing
-                child.style.display = match ? 'block' : 'none';
-            });
-        }
-
-        function handleShuffle(theme) {
-            const grid = document.getElementById(`grid-${theme.replace(/\s+/g, '-')}`);
-            // Correction : utiliser grid et non gridElement
-            const children = Array.from(grid.children);
-            
-            // Mélange purement aléatoire de TOUTES les cartes (cochées et non cochées)
-            children.sort(() => Math.random() - 0.5);
-            children.forEach(child => grid.appendChild(child));
-        }
-
-        // --- MODAL ---
-        function openModal() {
-            document.getElementById('add-modal').classList.remove('hidden');
-            renderThemeOptions();
-            document.getElementById('input-question').value = '';
-            document.getElementById('input-answer').value = '';
-            document.getElementById('input-custom-theme').value = '';
-            setCustomThemeMode(false);
-        }
-        function closeModal() {
-            document.getElementById('add-modal').classList.add('hidden');
-        }
-        function renderThemeOptions() {
-            const select = document.getElementById('select-theme');
-            select.innerHTML = AVAILABLE_THEMES.map(t => `<option value="${t}">${t}</option>`).join('');
-        }
-        function setCustomThemeMode(isCustom) {
-            isCustomThemeMode = isCustom;
-            const btnExisting = document.getElementById('btn-theme-existing');
-            const btnNew = document.getElementById('btn-theme-new');
-            const containerSelect = document.getElementById('container-select-theme');
-            const inputCustom = document.getElementById('input-custom-theme');
-
-            if (isCustom) {
-                btnExisting.className = "text-sm py-2 rounded-lg border transition-all bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700";
-                btnNew.className = "text-sm py-2 rounded-lg border transition-all bg-indigo-600 border-indigo-500 text-white";
-                containerSelect.classList.add('hidden');
-                inputCustom.classList.remove('hidden');
-            } else {
-                btnExisting.className = "text-sm py-2 rounded-lg border transition-all bg-indigo-600 border-indigo-500 text-white";
-                btnNew.className = "text-sm py-2 rounded-lg border transition-all bg-slate-800 border-slate-700 text-slate-400 hover:bg-slate-700";
-                containerSelect.classList.remove('hidden');
-                inputCustom.classList.add('hidden');
-            }
-        }
-
-        document.getElementById('btn-theme-existing').addEventListener('click', () => setCustomThemeMode(false));
-        document.getElementById('btn-theme-new').addEventListener('click', () => setCustomThemeMode(true));
-
-        document.getElementById('add-card-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const q = document.getElementById('input-question').value;
-            const a = document.getElementById('input-answer').value;
-            let theme;
-            if (isCustomThemeMode) {
-                theme = document.getElementById('input-custom-theme').value.trim() || 'Divers';
-                if (!AVAILABLE_THEMES.includes(theme)) {
-                    AVAILABLE_THEMES.push(theme);
-                }
-            } else {
-                theme = document.getElementById('select-theme').value;
-            }
-
-            if (q && a) {
-                const newCard = createCardData(generateId(), theme, q, a);
-                cards.unshift(newCard); // Add to data
-                
-                // SAUVEGARDE
-                saveToLocalStorage();
-
-                // Add to DOM: Check if section exists
-                let grid = document.getElementById(`grid-${theme.replace(/\s+/g, '-')}`);
-                if (!grid) {
-                    renderFullApp(); // Re-render everything if new theme (simplest)
-                } else {
-                    const cardNode = createCardDOM(newCard);
-                    grid.prepend(cardNode); // Add to top
-                    initKatex(cardNode); // Render math ONLY for new card
-                    lucide.createIcons();
-                    
-                    // Update header count via full render for simplicity
-                    renderFullApp();
-                }
-                closeModal();
-            }
-        });
-
-        // --- BOOT ---
-        window.onload = function() {
-            loadFromLocalStorage(); // Charger les données sauvegardées
-            renderFullApp();
-        };
-
-    </script>
+    <!-- Logic -->
+    <script src="script.js"></script>
 </body>
+
 </html>

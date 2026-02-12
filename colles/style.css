@@ -1,0 +1,386 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0f172a;
+    color: #f8fafc;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #475569;
+}
+
+/* KaTeX adjustments */
+.katex {
+    font-size: 1.1em;
+    color: inherit !important;
+}
+
+.katex-display {
+    margin: 0.5em 0;
+}
+
+.katex-html {
+    color: inherit !important;
+}
+
+/* 3D Flip Mechanics */
+.perspective-1000 {
+    perspective: 1000px;
+}
+
+.transform-style-3d {
+    transform-style: preserve-3d;
+}
+
+.backface-hidden {
+    backface-visibility: hidden;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+}
+
+.card-flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 1rem;
+}
+
+.card-back {
+    transform: rotateY(180deg);
+}
+
+/* Utility */
+.custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: #475569 transparent;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Deck Gradients Defaults */
+.deck-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.deck-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+}
+
+/* Context Menu */
+.context-menu {
+    animation: scaleIn 0.1s ease-out forwards;
+    transform-origin: top right;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Drag & Drop */
+.dragging {
+    opacity: 0.4;
+    border: 2px dashed #6366f1;
+    cursor: grabbing;
+}
+
+.drag-target {
+    border-top: 2px solid #6366f1;
+    margin-top: 4px;
+    transition: all 0.2s;
+}
+
+.grab-handle {
+    cursor: grab;
+    touch-action: none;
+}
+
+.grab-handle:active {
+    cursor: grabbing;
+}
+
+/* Learning Mode Overlay */
+#learning-overlay {
+    backdrop-filter: blur(10px);
+}
+
+/* Toast Notification */
+.toast-container {
+    position: fixed;
+    bottom: 6rem;
+    /* Raised to be more visible and avoid FAB */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    pointer-events: none;
+}
+
+.toast {
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(148, 163, 184, 0.2);
+    padding: 1rem 1.5rem;
+    border-radius: 9999px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    color: white;
+    font-weight: 500;
+    pointer-events: auto;
+    animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+@keyframes toastIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Learning Mode Animations - Vertical Slide + Fade + Absolute Center Support */
+#learning-card-container {
+    perspective: 1000px;
+    position: relative;
+    /* overflow: visible; */
+}
+
+.slide-enter-next {
+    animation: slideInUp 0.4s ease-out forwards;
+}
+
+/* Exit animations account for absolute positioning (translate -50%, -50%) */
+.slide-exit-next {
+    animation: slideOutUp 0.4s ease-in forwards;
+}
+
+.slide-enter-prev {
+    animation: slideInDown 0.4s ease-out forwards;
+}
+
+.slide-exit-prev {
+    animation: slideOutDown 0.4s ease-in forwards;
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes slideOutUp {
+    from {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate(-50%, -90px) scale(0.95);
+    }
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-40px) scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes slideOutDown {
+    from {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate(-50%, 40px) scale(0.95);
+    }
+}
+
+/* Success Animation */
+.success-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(16, 185, 129, 0.2);
+    z-index: 20;
+    border-radius: 1.5rem;
+    animation: successFade 0.6s ease-out forwards;
+}
+
+.success-icon {
+    animation: successPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes successFade {
+    0% {
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+@keyframes successPop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Color Picker */
+.color-dot {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 9999px;
+    cursor: pointer;
+    transition: transform 0.2s, ring 0.2s;
+    border: 2px solid transparent;
+}
+
+.color-dot:hover {
+    transform: scale(1.1);
+}
+
+.color-dot.selected {
+    transform: scale(1.1);
+    border-color: white;
+    box-shadow: 0 0 0 2px #6366f1;
+}
+
+/* Drop Zone */
+#import-drop-zone.drag-over {
+    border-color: #6366f1;
+    /* Indigo-500 */
+    background-color: rgba(99, 102, 241, 0.1);
+}
+
+/* Card Content Typography & Scroll */
+.card-text-container {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    /* align-items/justify-content removed to prevent flex overflow clipping */
+
+    font-size: 0.95rem;
+    line-height: 1.6;
+    padding: 0 1rem;
+
+    /* Scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+
+    /* Smooth Scroll */
+    scroll-behavior: smooth;
+}
+
+/* Inner content wrapper to ensure centering when short, but scrolling when long */
+.card-text-inner {
+    width: 100%;
+    margin: auto;
+    /* Vertically center if content is short */
+    text-align: center;
+}
+
+.card-text-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.card-text-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.card-text-container::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 999px;
+}
