@@ -1,0 +1,720 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Systèmes & Réseaux — QCM complet</title>
+  <style>
+    :root {
+      --bg: #070b12;
+      --panel: rgba(17,24,39,.78);
+      --panel2: rgba(15,23,42,.78);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(255,255,255,.085);
+      --shadow: 0 12px 34px rgba(0,0,0,.40);
+      --accent: #60a5fa;
+      --good: #22c55e;
+      --bad: #ef4444;
+      --focus: rgba(96,165,250,.35);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background:
+        radial-gradient(1200px 800px at 10% 0%, rgba(96,165,250,.14), transparent 60%),
+        radial-gradient(900px 700px at 90% 10%, rgba(34,197,94,.10), transparent 55%),
+        radial-gradient(900px 700px at 50% 100%, rgba(245,158,11,.08), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+    }
+    .container { max-width: 1120px; margin: 0 auto; padding: 22px 16px 72px; }
+    .header {
+      display: grid;
+      gap: 12px;
+      padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 12px;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+    }
+    .toprow { display:flex; align-items:flex-start; justify-content:space-between; gap: 14px; flex-wrap: wrap; }
+    h1 { font-size: 20px; margin: 0; letter-spacing: .2px; }
+    .subtitle { color: var(--muted); font-size: 13px; margin: 4px 0 0; }
+    .controls { display:flex; gap: 10px; flex-wrap: wrap; align-items:center; justify-content:flex-end; }
+    .search {
+      min-width: 240px;
+      flex: 1 1 260px;
+      background: rgba(15,23,42,.70);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      color: var(--text);
+      outline: none;
+    }
+    .search:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+    .chips { display:flex; gap: 8px; flex-wrap: wrap; }
+    .chip {
+      cursor: pointer;
+      user-select: none;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,.65);
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 800;
+      transition: border-color .18s ease, transform .08s ease;
+    }
+    .chip:hover { border-color: rgba(96,165,250,.38); transform: translateY(-1px); }
+    .chip.active { border-color: rgba(96,165,250,.58); background: rgba(96,165,250,.14); }
+    button {
+      cursor:pointer;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,.85);
+      color: var(--text);
+      padding: 9px 12px;
+      border-radius: 12px;
+      font-weight: 800;
+      transition: transform .08s ease, background .18s ease, border-color .18s ease;
+      white-space: nowrap;
+    }
+    button:hover { transform: translateY(-1px); border-color: rgba(96,165,250,.35); background: rgba(15,23,42,1); }
+    button:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+    .danger { border-color: rgba(239,68,68,.35); }
+    .danger:hover { border-color: rgba(239,68,68,.6); }
+    .ghost { background: rgba(255,255,255,.05); }
+    .stats { display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+    .pill {
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(17,24,39,.7);
+      font-size: 13px;
+    }
+    .dot { width:9px; height:9px; border-radius:999px; background: var(--accent); box-shadow:0 0 0 4px rgba(96,165,250,.14); }
+    .progress { height: 10px; border-radius: 999px; background: rgba(255,255,255,.06); overflow:hidden; border:1px solid var(--border); }
+    .progress > div { height:100%; width:0%; background: linear-gradient(90deg, rgba(96,165,250,.9), rgba(34,197,94,.9)); transition: width .25s ease; }
+    .grid { margin-top: 16px; display:grid; grid-template-columns: 1fr; gap: 14px; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+    }
+    .meta { display:flex; justify-content:space-between; gap: 12px; align-items:flex-start; margin-bottom: 12px; }
+    .tag {
+      font-size: 12px;
+      font-weight: 900;
+      color: rgba(96,165,250,.95);
+      background: rgba(96,165,250,.12);
+      padding: 6px 10px;
+      border: 1px solid rgba(96,165,250,.20);
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .section {
+      font-size: 12px;
+      font-weight: 800;
+      color: rgba(156,163,175,.95);
+      background: rgba(255,255,255,.05);
+      padding: 6px 10px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .qtext { margin: 0; font-size: 15px; }
+    .choices { display:grid; gap: 10px; margin-top: 12px; }
+    .choice {
+      display:grid;
+      grid-template-columns: 44px 1fr;
+      gap: 12px;
+      align-items: start;
+      padding: 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,.55);
+      transition: border-color .16s ease, background .16s ease, transform .08s ease;
+      user-select: none;
+    }
+    .choice:hover { border-color: rgba(96,165,250,.35); transform: translateY(-1px); background: rgba(15,23,42,.75); }
+    .badge {
+      width: 44px; height: 28px;
+      border-radius: 999px;
+      display:inline-flex; align-items:center; justify-content:center;
+      font-weight: 900; letter-spacing: .6px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--border);
+    }
+    .ctext { font-size: 14px; }
+    code {
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--border);
+      padding: 2px 6px;
+      border-radius: 8px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+      font-size: 13px;
+    }
+    .locked .choice { cursor: default; }
+    .locked .choice:hover { transform:none; }
+    .good { border-color: rgba(34,197,94,.55) !important; background: rgba(34,197,94,.12) !important; }
+    .good .badge { background: rgba(34,197,94,.15); border-color: rgba(34,197,94,.35); }
+    .bad { border-color: rgba(239,68,68,.55) !important; background: rgba(239,68,68,.12) !important; }
+    .bad .badge { background: rgba(239,68,68,.15); border-color: rgba(239,68,68,.35); }
+    .selected {
+      outline: 2px solid rgba(96,165,250,.35);
+      outline-offset: 2px;
+    }
+    .hint {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      display: none;
+    }
+    .card.revealed .hint { display:block; }
+    .fillwrap {
+      margin-top: 12px;
+      display:flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .fillinput {
+      flex: 1 1 260px;
+      min-width: 220px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: rgba(15,23,42,.70);
+      color: var(--text);
+      outline: none;
+    }
+    .fillinput:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+    .fillinput.goodin { border-color: rgba(34,197,94,.55); }
+    .fillinput.badin { border-color: rgba(239,68,68,.55); }
+    .smallnote { color: var(--muted); font-size: 12px; margin-top: 10px; }
+    .footer { margin-top: 16px; color: var(--muted); font-size: 12px; text-align:center; }
+    @media (min-width: 950px) { .grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1320px) { .grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+    /* Mobile: compact header */
+    @media (max-width: 520px) {
+      .container { padding: 16px 12px 56px; }
+      .header { padding: 12px; top: 8px; gap: 10px; }
+      h1 { font-size: 16px; }
+      .subtitle { font-size: 12px; }
+      .controls { gap: 8px; }
+      .search { min-width: 0; flex: 1 1 160px; padding: 9px 10px; }
+      button { padding: 8px 10px; border-radius: 10px; font-size: 13px; }
+      .pill { padding: 7px 10px; font-size: 12px; }
+      .progress { height: 8px; }
+      .card { padding: 14px; border-radius: 16px; }
+      .qtext { font-size: 14px; }
+      .choice { grid-template-columns: 40px 1fr; }
+      .badge { width: 40px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="toprow">
+        <div>
+          <h1>Systèmes &amp; Réseaux — QCM complet</h1>
+          <div class="subtitle">Clique une réponse : si faux → rouge + la/les bonne(s) en vert. Texte à trou : tape puis “Vérifier”.</div>
+        </div>
+        <div class="controls">
+          <input id="search" class="search" placeholder="Rechercher (ex: chmod, inode, PATH, jobs…)" />
+          <button id="btnRevealAll" class="ghost" title="Affiche les bonnes réponses (sans répondre)">Révéler tout</button>
+          <button id="btnReset" class="danger" title="Réinitialise le site">Reset</button>
+        </div>
+      </div>
+
+      <div class="chips" id="chips"></div>
+
+      <div class="stats">
+        <div class="pill"><span class="dot"></span> <span><strong id="answered">0</strong> / <span id="total"></span> répondues</span></div>
+        <div class="pill">✅ <strong id="score">0</strong> bonnes</div>
+        <div class="pill">❌ <strong id="wrong">0</strong> mauvaises</div>
+      </div>
+
+      <div class="progress" aria-label="Progression"><div id="bar"></div></div>
+    </div>
+
+    <div class="grid" id="quiz"></div>
+    <div class="footer">Ouvre ce fichier hors-ligne. Les réponses sont sauvegardées localement (LocalStorage).</div>
+  </div>
+
+<script>
+  const DATA = {"questions": [{"id": "1", "label": "Q1", "section": "QCM 60", "type": "single", "text": "Que renvoie <code>echo $SHELL</code> ?", "choices": ["Le nom du PC", "Le répertoire courant", "Le chemin du shell par défaut", "La liste des shells installés"], "answer": 2}, {"id": "2", "label": "Q2", "section": "QCM 60", "type": "single", "text": "Quelle commande affiche les shells installés (TP01) ?", "choices": ["<code>ls /bin/shells</code>", "<code>cat /etc/shells</code>", "<code>echo $SHELLS</code>", "<code>man shells</code>"], "answer": 1}, {"id": "3", "label": "Q3", "section": "QCM 60", "type": "single", "text": "Quelle commande affiche le répertoire courant ?", "choices": ["<code>whereami</code>", "<code>cwd</code>", "<code>pwd</code>", "<code>path</code>"], "answer": 2}, {"id": "4", "label": "Q4", "section": "QCM 60", "type": "single", "text": "Un chemin absolu :", "choices": ["Contient toujours <code>~</code>", "Commence par <code>/</code>", "Commence par <code>.</code>", "Dépend du dossier courant"], "answer": 1}, {"id": "5", "label": "Q5", "section": "QCM 60", "type": "single", "text": "Un chemin relatif :", "choices": ["Commence toujours par <code>/</code>", "Ne dépend pas du dossier courant", "Dépend du dossier courant", "Est interdit dans Linux"], "answer": 2}, {"id": "6", "label": "Q6", "section": "QCM 60", "type": "single", "text": "Quel est l’effet de <code>ls -l</code> ?", "choices": ["Liste en colonnes", "Liste avec détails (droits, propriétaire, taille…)", "Liste en ordre inverse", "Liste uniquement les dossiers"], "answer": 1}, {"id": "7", "label": "Q7", "section": "QCM 60", "type": "single", "text": "Quel est l’effet de <code>ls -r</code> ?", "choices": ["Tri par taille", "Tri par date", "Ordre inverse", "Affiche récursivement"], "answer": 2}, {"id": "8", "label": "Q8", "section": "QCM 60", "type": "single", "text": "Quelle option de <code>ls</code> affiche récursivement ?", "choices": ["<code>-a</code>", "<code>-R</code>", "<code>-S</code>", "<code>-h</code>"], "answer": 1}, {"id": "9", "label": "Q9", "section": "QCM 60", "type": "single", "text": "Dans <code>ls -l</code>, le 1er caractère <code>d</code> signifie :", "choices": ["fichier exécutable", "lien symbolique", "dossier", "fichier caché"], "answer": 2}, {"id": "10", "label": "Q10", "section": "QCM 60", "type": "single", "text": "<code>~</code> représente :", "choices": ["/tmp", "le home directory de l’utilisateur", "la racine <code>/</code>", "le dossier parent <code>..</code>"], "answer": 1}, {"id": "11", "label": "Q11", "section": "QCM 60", "type": "single", "text": "Quel est le bon format d’affectation en bash ?", "choices": ["<code>NOM = JEAN</code>", "<code>NOM=JEAN</code>", "<code>$NOM=JEAN</code>", "<code>set NOM JEAN</code>"], "answer": 1}, {"id": "12", "label": "Q12", "section": "QCM 60", "type": "single", "text": "Que fait <code>unset NOM</code> ?", "choices": ["rend NOM visible aux programmes", "supprime la variable NOM", "affiche la variable NOM", "crée NOM vide"], "answer": 1}, {"id": "13", "label": "Q13", "section": "QCM 60", "type": "single", "text": "<code>export NOM</code> sert à :", "choices": ["supprimer NOM", "rendre NOM variable d’environnement", "protéger NOM en lecture seule", "afficher NOM"], "answer": 1}, {"id": "14", "label": "Q14", "section": "QCM 60", "type": "single", "text": "Que fait <code>echo \"${NOM}_${PRENOM}\"</code> ?", "choices": ["affiche NOM puis PRENOM sans séparation", "affiche NOM et PRENOM séparés par un underscore", "supprime NOM et PRENOM", "affiche littéralement <code>${NOM}_${PRENOM}</code>"], "answer": 1}, {"id": "15", "label": "Q15", "section": "QCM 60", "type": "single", "text": "Quelle commande utilise la substitution moderne ?", "choices": ["<code>echo `date`</code>", "<code>echo $(date)</code>", "<code>echo {date}</code>", "<code>echo date()</code>"], "answer": 1}, {"id": "16", "label": "Q16", "section": "QCM 60", "type": "single", "text": "Dans <code>\"...\"</code> :", "choices": ["<code>$NOM</code> n’est jamais interprété", "<code>$NOM</code> est interprété", "<code>*</code> est toujours affiché littéralement", "aucune commande n’est possible"], "answer": 1}, {"id": "17", "label": "Q17", "section": "QCM 60", "type": "single", "text": "Dans <code>'...'</code> :", "choices": ["<code>$NOM</code> est interprété", "les backticks s’exécutent", "rien n’est interprété", "le texte devient une commande"], "answer": 2}, {"id": "18", "label": "Q18", "section": "QCM 60", "type": "single", "text": "Différence <code>echo D*</code> vs <code>echo \"D*\"</code> :", "choices": ["aucun changement", "les deux affichent toujours D*", "<code>echo D*</code> peut s’étendre en fichiers, <code>\"D*\"</code> reste littéral", "<code>\"D*\"</code> supprime les fichiers"], "answer": 2}, {"id": "19", "label": "Q19", "section": "QCM 60", "type": "single", "text": "Que représente <code>$0</code> dans un script ?", "choices": ["le 1er argument", "le nom du script lancé", "le nombre d’arguments", "le PID du script"], "answer": 1}, {"id": "20", "label": "Q20", "section": "QCM 60", "type": "single", "text": "Que représente <code>$#</code> dans un script ?", "choices": ["le nombre d’arguments", "le nom du script", "le dernier argument", "le home directory"], "answer": 0}, {"id": "21", "label": "Q21", "section": "QCM 60", "type": "single", "text": "Quel fichier contient la liste des utilisateurs (infos) ?", "choices": ["<code>/etc/users</code>", "<code>/etc/passwd</code>", "<code>/etc/shadow</code>", "<code>/etc/login</code>"], "answer": 1}, {"id": "22", "label": "Q22", "section": "QCM 60", "type": "single", "text": "Dans <code>/etc/passwd</code>, le 4ᵉ champ est :", "choices": ["UID", "GID", "mot de passe en clair", "répertoire courant"], "answer": 1}, {"id": "23", "label": "Q23", "section": "QCM 60", "type": "single", "text": "Quelle commande crée un utilisateur (Ubuntu/Debian) ?", "choices": ["<code>mkuser</code>", "<code>adduser</code>", "<code>newlogin</code>", "<code>usercreate</code>"], "answer": 1}, {"id": "24", "label": "Q24", "section": "QCM 60", "type": "single", "text": "Quelle commande crée un groupe ?", "choices": ["<code>mkgroup</code>", "<code>groupadd</code>", "<code>addgrp</code>", "<code>gadd</code>"], "answer": 1}, {"id": "25", "label": "Q25", "section": "QCM 60", "type": "single", "text": "<code>usermod -g</code> sert à :", "choices": ["ajouter un groupe secondaire", "changer le groupe principal", "supprimer un utilisateur", "changer le mot de passe"], "answer": 1}, {"id": "26", "label": "Q26", "section": "QCM 60", "type": "single", "text": "<code>usermod -aG</code> sert à :", "choices": ["changer l’UID", "ajouter des groupes secondaires sans enlever les autres", "supprimer un groupe", "bloquer le compte"], "answer": 1}, {"id": "27", "label": "Q27", "section": "QCM 60", "type": "single", "text": "Pourquoi <code>-a</code> est important avec <code>-G</code> ?", "choices": ["sinon les groupes sont cryptés", "sinon on remplace la liste des groupes secondaires", "sinon l’utilisateur devient root", "sinon la commande ne fonctionne jamais"], "answer": 1}, {"id": "28", "label": "Q28", "section": "QCM 60", "type": "single", "text": "Bloquer un compte avec mot de passe :", "choices": ["<code>passwd -u user1</code>", "<code>passwd -l user1</code>", "<code>passwd -S user1</code>", "<code>passwd -g user1</code>"], "answer": 1}, {"id": "29", "label": "Q29", "section": "QCM 60", "type": "single", "text": "Vérifier le statut d’un compte :", "choices": ["<code>passwd -S user1</code>", "<code>status user1</code>", "<code>checkuser user1</code>", "<code>lock -S user1</code>"], "answer": 0}, {"id": "30", "label": "Q30", "section": "QCM 60", "type": "single", "text": "Quelle commande affiche groupes d’un utilisateur ?", "choices": ["<code>groupshow olivier</code>", "<code>id olivier</code>", "<code>who olivier</code>", "<code>lsgrp olivier</code>"], "answer": 1}, {"id": "31", "label": "Q31", "section": "QCM 60", "type": "single", "text": "Dans les permissions, <code>r</code> vaut :", "choices": ["1", "2", "4", "7"], "answer": 2}, {"id": "32", "label": "Q32", "section": "QCM 60", "type": "single", "text": "Dans les permissions, <code>x</code> vaut :", "choices": ["1", "2", "4", "8"], "answer": 0}, {"id": "33", "label": "Q33", "section": "QCM 60", "type": "single", "text": "<code>chmod 755 fichier</code> signifie :", "choices": ["rwx rwx rwx", "rwx r-x r-x", "rw- r-- r--", "r-- r-- r--"], "answer": 1}, {"id": "34", "label": "Q34", "section": "QCM 60", "type": "single", "text": "<code>chmod 640 fichier</code> signifie :", "choices": ["rw- r-- ---", "rwx r-- ---", "r-- rw- ---", "rw- rw- rw-"], "answer": 0}, {"id": "35", "label": "Q35", "section": "QCM 60", "type": "single", "text": "Pour un dossier, le droit <code>x</code> permet :", "choices": ["lire un fichier", "supprimer le dossier", "entrer/traverser le dossier (<code>cd</code>)", "afficher les droits"], "answer": 2}, {"id": "36", "label": "Q36", "section": "QCM 60", "type": "single", "text": "Pour un dossier, le droit <code>r</code> permet :", "choices": ["exécuter les fichiers", "lister les noms (si <code>x</code> aussi)", "entrer dans le dossier", "changer le propriétaire"], "answer": 1}, {"id": "37", "label": "Q37", "section": "QCM 60", "type": "single", "text": "Changer propriétaire :", "choices": ["<code>chmod</code>", "<code>chgrp</code>", "<code>chown</code>", "<code>usermod</code>"], "answer": 2}, {"id": "38", "label": "Q38", "section": "QCM 60", "type": "single", "text": "Changer groupe :", "choices": ["<code>chgrp</code>", "<code>chown -u</code>", "<code>chmod -g</code>", "<code>groupmod -x</code>"], "answer": 0}, {"id": "39", "label": "Q39", "section": "QCM 60", "type": "single", "text": "Dans <code>-rwxr-xr-x</code>, les permissions groupe sont :", "choices": ["rwx", "r-x", "--x", "---"], "answer": 1}, {"id": "40", "label": "Q40", "section": "QCM 60", "type": "single", "text": "Dans <code>ls -l</code>, le nombre après permissions (ex: <code>1</code>) est :", "choices": ["UID", "taille", "nombre de liens physiques", "nombre de processus"], "answer": 2}, {"id": "41", "label": "Q41", "section": "QCM 60", "type": "single", "text": "Une commande interne typique :", "choices": ["<code>ls</code>", "<code>cat</code>", "<code>cd</code>", "<code>date</code>"], "answer": 2}, {"id": "42", "label": "Q42", "section": "QCM 60", "type": "single", "text": "Commande qui dit builtin/alias/fichier :", "choices": ["<code>which</code>", "<code>type -a</code>", "<code>where</code>", "<code>findcmd</code>"], "answer": 1}, {"id": "43", "label": "Q43", "section": "QCM 60", "type": "single", "text": "<code>which cd</code> renvoie souvent rien car :", "choices": ["cd n’existe pas", "cd est cachée", "cd est builtin", "cd est variable"], "answer": 2}, {"id": "44", "label": "Q44", "section": "QCM 60", "type": "single", "text": "Le premier processus a souvent PID :", "choices": ["0", "1", "2", "10"], "answer": 1}, {"id": "45", "label": "Q45", "section": "QCM 60", "type": "single", "text": "Afficher PID 1 avec détails :", "choices": ["<code>ps -p 1 -o pid,comm,args</code>", "<code>ls -p 1</code>", "<code>pid 1</code>", "<code>top -1</code>"], "answer": 0}, {"id": "46", "label": "Q46", "section": "QCM 60", "type": "single", "text": "<code>&</code> à la fin :", "choices": ["premier plan", "arrière-plan", "tue", "root"], "answer": 1}, {"id": "47", "label": "Q47", "section": "QCM 60", "type": "single", "text": "<code>Ctrl+Z</code> :", "choices": ["tue", "stoppe (SIGTSTP)", "arrière-plan direct", "reboot"], "answer": 1}, {"id": "48", "label": "Q48", "section": "QCM 60", "type": "single", "text": "<code>jobs</code> :", "choices": ["processus système", "jobs du shell courant", "utilisateurs connectés", "arborescence fichiers"], "answer": 1}, {"id": "49", "label": "Q49", "section": "QCM 60", "type": "single", "text": "<code>bg</code> :", "choices": ["premier plan", "reprise en arrière-plan", "tue", "liste"], "answer": 1}, {"id": "50", "label": "Q50", "section": "QCM 60", "type": "single", "text": "<code>fg</code> :", "choices": ["arrière-plan", "remet au premier plan", "bloque clavier", "change shell"], "answer": 1}, {"id": "51", "label": "Q51", "section": "QCM 60", "type": "single", "text": "<code>kill %1</code> tue :", "choices": ["PID 1", "job n°1", "groupe 1", "fichier %1"], "answer": 1}, {"id": "52", "label": "Q52", "section": "QCM 60", "type": "single", "text": "<code>nohup</code> :", "choices": ["accélère", "survit au logout (SIGHUP)", "rend root", "supprime fichier"], "answer": 1}, {"id": "53", "label": "Q53", "section": "QCM 60", "type": "single", "text": "<code>ln -s</code> crée :", "choices": ["hard link", "lien symbolique", "copie", "dossier"], "answer": 1}, {"id": "54", "label": "Q54", "section": "QCM 60", "type": "single", "text": "Un lien symbolique a :", "choices": ["même inode que cible", "son propre inode", "droits 777", "UID différent"], "answer": 1}, {"id": "55", "label": "Q55", "section": "QCM 60", "type": "single", "text": "Un hard link :", "choices": ["pointe vers chemin texte", "partage le même inode", "traverse FS facilement", "toujours cassé"], "answer": 1}, {"id": "56", "label": "Q56", "section": "QCM 60", "type": "single", "text": "Supprimer un lien symbolique supprime :", "choices": ["toujours la cible", "jamais la cible", "la cible si root", "le dossier parent"], "answer": 1}, {"id": "57", "label": "Q57", "section": "QCM 60", "type": "single", "text": "<code>&gt;</code> :", "choices": ["ajoute fin", "écrase/redirige stdout", "redirige stderr", "redirige stdin"], "answer": 1}, {"id": "58", "label": "Q58", "section": "QCM 60", "type": "single", "text": "<code>2&gt;</code> redirige :", "choices": ["stdout", "stdin", "stderr", "tout"], "answer": 2}, {"id": "59", "label": "Q59", "section": "QCM 60", "type": "single", "text": "<code>cmd &gt; out 2&gt;&amp;1</code> met :", "choices": ["stdout seulement", "stderr seulement", "stdout+stderr dans out", "rien"], "answer": 2}, {"id": "60", "label": "Q60", "section": "QCM 60", "type": "single", "text": "<code>cmd1 &amp;&amp; cmd2</code> exécute cmd2 si :", "choices": ["cmd1 échoue", "cmd1 réussit (code 0)", "cmd2 existe", "cmd2 est interne"], "answer": 1}, {"id": "61", "label": "Q1.1", "section": "Texte à trou", "type": "fill", "text": "Soit : <code>id</code> renvoie <code>uid=1648(durand) gid=110(staff) groups=...</code>. Quel est votre nom d’utilisateur ?", "placeholder": "Tape ta réponse…", "answer_text": "durand", "answers": ["durand"]}, {"id": "62", "label": "Q1.2", "section": "Texte à trou", "type": "fill", "text": "Quel est celui du groupe auquel vous appartenez ?", "placeholder": "Tape ta réponse…", "answer_text": "staff", "answers": ["staff"]}, {"id": "63", "label": "Q1.3", "section": "Texte à trou", "type": "fill", "text": "Quel est le nom complet du répertoire contenant votre répertoire personnel ?", "placeholder": "Tape ta réponse…", "answer_text": "/home/staff", "answers": ["/home/staff", "/home/staff/"]}, {"id": "64", "label": "Q1.4", "section": "Texte à trou", "type": "fill", "text": "Donnez la commande Linux pour lister tous les scripts shell <code>.sh</code> dans <code>Telechargements</code> (chemin absolu).", "placeholder": "Tape ta réponse…", "answer_text": "ls /home/staff/durand/Telechargement/*.sh", "answers": ["ls /home/staff/durand/Telechargement/*.sh", "ls /home/staff/durand/Telechargements/*.sh"]}, {"id": "65", "label": "Q1.5", "section": "Texte à trou", "type": "fill", "text": "Donner la commande la plus courte pour vous placer dans votre répertoire personnel.", "placeholder": "Tape ta réponse…", "answer_text": "cd", "answers": ["cd"]}, {"id": "66", "label": "Q2.1", "section": "Texte à trou", "type": "fill", "text": "Avec <code>ls -ld ~</code> → <code>drwx--xr-- ... durand staff ...</code>. Quel est l’utilisateur propriétaire de votre répertoire personnel ?", "placeholder": "Tape ta réponse…", "answer_text": "durand", "answers": ["durand"]}, {"id": "67", "label": "Q2.2", "section": "Texte à trou", "type": "fill", "text": "Qui peuvent changer ce propriétaire ? (séparer par un espace)", "placeholder": "Tape ta réponse…", "answer_text": "root", "answers": ["root"]}, {"id": "68", "label": "Q2.3", "section": "Texte à trou", "type": "fill", "text": "Qui peuvent changer les droits d’accès sur votre répertoire personnel autre que root ? (séparer par un espace)", "placeholder": "Tape ta réponse…", "answer_text": "durand", "answers": ["durand"]}, {"id": "69", "label": "Q2.4", "section": "Texte à trou", "type": "fill", "text": "Quelle est la variable d'environnement qui renseigne le dossier personnel de l'utilisateur ?", "placeholder": "Tape ta réponse…", "answer_text": "HOME", "answers": ["HOME", "$HOME", "home", "$home"]}, {"id": "70", "label": "Q2.5", "section": "Texte à trou", "type": "fill", "text": "Quelle est la commande qui affiche les <em>jobid</em> (et non les PID) des processus en cours dans le shell ?", "placeholder": "Tape ta réponse…", "answer_text": "jobs", "answers": ["jobs"]}, {"id": "71", "label": "Q11", "section": "QCM Cours", "type": "multi", "text": "Quelles commandes parmi les suivantes sont des commandes Linux courantes pour la gestion des répertoires ?", "choices": ["mkdir", "rmdir", "mvdir", "cpdir"], "answer_multi": [0, 1]}, {"id": "72", "label": "Q12", "section": "QCM Cours", "type": "single", "text": "Le processus <code>init</code> a pour <code>ppid</code> 0.", "choices": ["VRAI", "FAUX"], "answer": 0}, {"id": "73", "label": "Q13", "section": "QCM Cours", "type": "single", "text": "Un lien symbolique a le même inode que son fichier cible.", "choices": ["VRAI", "FAUX"], "answer": 1}, {"id": "74", "label": "Q14", "section": "QCM Cours", "type": "single", "text": "Si un fichier exécutable a les permissions <code>764</code>, alors ?", "choices": ["Tout le monde peut lire, le groupe peut seulement exécuter et le propriétaire peut lire, écrire et exécuter.", "Tout le monde peut lire et écrire, mais seul le propriétaire peut exécuter.", "Tout le monde peut lire, uniquement le groupe et le propriétaire peuvent écrire et exécuter.", "Tout le monde peut lire, le groupe peut écrire et lire et le propriétaire peut lire, écrire et exécuter."], "answer": 3}, {"id": "75", "label": "Q15", "section": "QCM Cours", "type": "multi", "text": "Quels droits sont nécessaires pour exécuter : <code>cat /tmp/nestat.log</code> ?", "choices": ["Droit <code>r</code> sur <code>/bin/cat</code>", "Droit <code>x</code> sur <code>/</code> et <code>/tmp</code>", "Droit <code>r</code> sur <code>/tmp/nestat.log</code>", "Droit <code>r</code> sur <code>/</code> et <code>/tmp</code>"], "answer_multi": [1, 2]}, {"id": "76", "label": "Q16", "section": "QCM Cours", "type": "single", "text": "Quelle option de <code>chmod</code> donne : propriétaire lecture seule, groupe lecture/écriture, autres lecture/écriture (file.txt) ?", "choices": ["chmod 777 file.txt", "chmod 644 file.txt", "chmod 555 file.txt", "chmod 466 file.txt", "Aucune de ces réponses"], "answer": 3}, {"id": "77", "label": "Q17", "section": "QCM Cours", "type": "single", "text": "Quelle commande permet de lister les processus en cours d’exécution ?", "choices": ["proc", "ps", "process", "job"], "answer": 1}, {"id": "78", "label": "Q18", "section": "QCM Cours", "type": "single", "text": "Debian est :", "choices": ["distribution Linux", "Shell Linux", "compilateur Linux", "Console Linux"], "answer": 0}, {"id": "79", "label": "Q19", "section": "QCM Cours", "type": "single", "text": "VirtualBox est :", "choices": ["Hyperviseur", "Système d'exploitation", "Distribution Linux", "OS"], "answer": 0}, {"id": "80", "label": "Q20", "section": "QCM Cours", "type": "single", "text": "Pour avoir une VM Linux sur son PC, il faut installer VirtualBox.", "choices": ["VRAI", "FAUX"], "answer": 1}, {"id": "81", "label": "Q21", "section": "QCM Cours", "type": "single", "text": "Pour créer une VM Linux avec VirtualBox, il faut disposer d'au moins 20 Go de disque.", "choices": ["VRAI", "FAUX"], "answer": 1}, {"id": "82", "label": "Q22", "section": "QCM Cours", "type": "single", "text": "Il est possible de faire un copier/coller entre la VM et la machine physique dans VirtualBox.", "choices": ["VRAI", "FAUX"], "answer": 0}, {"id": "83", "label": "Q23", "section": "QCM Cours", "type": "single", "text": "Le compte utilisateur ayant tous les pouvoirs sous Linux est :", "choices": ["admin", "administrateur", "route", "root"], "answer": 3}, {"id": "84", "label": "Q24", "section": "QCM Cours", "type": "single", "text": "Pour lancer <code>xclock</code> en tâche de fond (background), on utilise :", "choices": ["xclock &", "xclock bg", "xclock fg>bg", "xclock 2"], "answer": 0}, {"id": "85", "label": "Q25", "section": "QCM Cours", "type": "single", "text": "Un processus est :", "choices": ["une copie d'un exécutable en mémoire centrale", "un fichier daemon", "un répertoire daemon", "un fichier qui a un droit x"], "answer": 0}, {"id": "86", "label": "Q26", "section": "QCM Cours", "type": "single", "text": "PID permet d'identifier de manière unique :", "choices": ["un fichier programme", "un processus", "un inode", "un uid"], "answer": 1}, {"id": "87", "label": "Q27", "section": "QCM Cours", "type": "single", "text": "Afficher les 12 dernières lignes de <code>fic.txt</code> :", "choices": ["cat -n 12 fic.txt", "dump -n 12 fic.txt", "head -n 12 fic.txt", "tail -n 12 fic.txt"], "answer": 3}, {"id": "88", "label": "Q28", "section": "QCM Cours", "type": "single", "text": "La commande <code>ls -l /etc</code> :", "choices": ["affiche tout le contenu du répertoire /etc", "affiche tout le contenu par ordre alphabétique décroissant", "affiche que les fichiers dont le nom commence par l", "affiche que les fichiers dont le nom contient la lettre l"], "answer": 0}, {"id": "89", "label": "Q29", "section": "QCM Cours", "type": "single", "text": "Pour rechercher l’exécutable <code>foo</code> placé dans un répertoire non inclus dans <code>$PATH</code>, on peut utiliser :", "choices": ["which", "find", "whereis", "type"], "answer": 1}, {"id": "90", "label": "Q30", "section": "QCM Cours", "type": "single", "text": "Dans <code>liste.txt</code> (champs séparés par <code>;</code>), commande qui retourne toutes les lignes des étudiants de niveau A1 :", "choices": ["grep A1 liste.txt", "find A1 liste.txt", "cat A1 Liste.txt", "ls -l A1<liste.txt"], "answer": 0}]};
+
+  (function() {
+    const elQuiz = document.getElementById('quiz');
+    const elAnswered = document.getElementById('answered');
+    const elScore = document.getElementById('score');
+    const elWrong = document.getElementById('wrong');
+    const elTotal = document.getElementById('total');
+    const elBar = document.getElementById('bar');
+    const btnReset = document.getElementById('btnReset');
+    const btnRevealAll = document.getElementById('btnRevealAll');
+    const elSearch = document.getElementById('search');
+    const elChips = document.getElementById('chips');
+
+    const KEY = "sysreseaux_site_complet_v1";
+    let state = loadState();
+    let activeSection = "Toutes";
+    let query = "";
+
+    const sections = ["Toutes", ...Array.from(new Set(DATA.questions.map(q => q.section)))];
+    elTotal.textContent = DATA.questions.length;
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(KEY);
+        if(!raw) return {};
+        const obj = JSON.parse(raw);
+        return obj && typeof obj === 'object' ? obj : {};
+      } catch(e) { return {}; }
+    }
+
+    function saveState() {
+      localStorage.setItem(KEY, JSON.stringify(state));
+    }
+
+    function letter(idx) { return ["A","B","C","D","E","F"][idx] || String(idx+1); }
+
+    function normalizeFill(s) {
+      if(s == null) return "";
+      // trim + collapse whitespace
+      return String(s).trim().replace(/\s+/g, " ");
+    }
+
+    function buildChips() {
+      elChips.innerHTML = "";
+      sections.forEach(sec => {
+        const c = document.createElement('div');
+        c.className = "chip" + (sec === activeSection ? " active" : "");
+        c.textContent = sec;
+        c.addEventListener('click', () => {
+          activeSection = sec;
+          buildChips();
+          render();
+          window.scrollTo({top:0, behavior:"smooth"});
+        });
+        elChips.appendChild(c);
+      });
+    }
+
+    function passesFilter(q) {
+      const secOK = (activeSection === "Toutes") || (q.section === activeSection);
+      if(!secOK) return false;
+      if(!query) return true;
+      const hay = (q.label + " " + q.section + " " + stripHtml(q.text) + " " + (q.choices ? q.choices.map(stripHtml).join(" ") : "")).toLowerCase();
+      return hay.includes(query.toLowerCase());
+    }
+
+    function stripHtml(s) {
+      const div = document.createElement('div');
+      div.innerHTML = s || "";
+      return (div.textContent || div.innerText || "");
+    }
+
+    function render() {
+      elQuiz.innerHTML = "";
+
+      const visible = DATA.questions.filter(passesFilter);
+
+      visible.forEach(q => {
+        const card = document.createElement('div');
+        card.className = "card";
+        card.dataset.qid = q.id;
+
+        const meta = document.createElement('div');
+        meta.className = "meta";
+
+        const left = document.createElement('div');
+        left.style.display = "flex";
+        left.style.gap = "8px";
+        left.style.flexWrap = "wrap";
+
+        const tag = document.createElement('div');
+        tag.className = "tag";
+        tag.textContent = q.label;
+
+        const sec = document.createElement('div');
+        sec.className = "section";
+        sec.textContent = q.section;
+
+        left.appendChild(tag);
+        left.appendChild(sec);
+
+        meta.appendChild(left);
+
+        const p = document.createElement('p');
+        p.className = "qtext";
+        p.innerHTML = q.text;
+
+        card.appendChild(meta);
+        card.appendChild(p);
+
+        // Types
+        if(q.type === "single") {
+          const choices = renderChoicesSingle(q, card);
+          card.appendChild(choices);
+
+          const hint = document.createElement('div');
+          hint.className = "hint";
+          hint.innerHTML = `Bonne réponse : <strong>${letter(q.answer)}</strong>`;
+          card.appendChild(hint);
+
+          // apply saved
+          if(state[q.id] && state[q.id].locked) {
+            applyStateSingle(q, card, choices, state[q.id]);
+          }
+        }
+
+        if(q.type === "multi") {
+          const block = renderChoicesMulti(q, card);
+          card.appendChild(block.wrap);
+
+          const hint = document.createElement('div');
+          hint.className = "hint";
+          hint.innerHTML = `Bonnes réponses : <strong>${q.answer_multi.map(letter).join(" , ")}</strong>`;
+          card.appendChild(hint);
+
+          if(state[q.id] && state[q.id].locked) {
+            applyStateMulti(q, card, block, state[q.id]);
+          }
+        }
+
+        if(q.type === "fill") {
+          const wrap = document.createElement('div');
+          wrap.className = "fillwrap";
+
+          const input = document.createElement('input');
+          input.className = "fillinput";
+          input.placeholder = q.placeholder || "Réponse…";
+          input.autocomplete = "off";
+          input.spellcheck = false;
+
+          const btn = document.createElement('button');
+          btn.textContent = "Vérifier";
+
+          const hint = document.createElement('div');
+          hint.className = "hint";
+          hint.innerHTML = `Réponse attendue : <strong>${q.answer_text}</strong>`;
+
+          btn.addEventListener('click', () => onCheckFill(q, card, input, hint));
+          input.addEventListener('keydown', (ev) => {
+            if(ev.key === "Enter") onCheckFill(q, card, input, hint);
+          });
+
+          wrap.appendChild(input);
+          wrap.appendChild(btn);
+          card.appendChild(wrap);
+          card.appendChild(hint);
+
+          const note = document.createElement('div');
+          note.className = "smallnote";
+          note.textContent = "Astuce : on ignore les espaces en trop (mais pas le contenu).";
+          card.appendChild(note);
+
+          if(state[q.id] && state[q.id].locked) {
+            applyStateFill(q, card, input, hint, state[q.id]);
+          }
+        }
+
+        elQuiz.appendChild(card);
+      });
+
+      updateStats();
+    }
+
+    function renderChoicesSingle(q, card) {
+      const choices = document.createElement('div');
+      choices.className = "choices";
+      q.choices.forEach((choiceText, idx) => {
+        const row = document.createElement('div');
+        row.className = "choice";
+        row.tabIndex = 0;
+
+        const badge = document.createElement('div');
+        badge.className = "badge";
+        badge.textContent = letter(idx);
+
+        const c = document.createElement('div');
+        c.className = "ctext";
+        c.innerHTML = choiceText;
+
+        row.appendChild(badge);
+        row.appendChild(c);
+
+        row.addEventListener('click', () => onPickSingle(q, idx, card, choices));
+        row.addEventListener('keydown', (ev) => {
+          if(ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); onPickSingle(q, idx, card, choices); }
+        });
+
+        choices.appendChild(row);
+      });
+      return choices;
+    }
+
+    function onPickSingle(q, idx, card, choices) {
+      if(state[q.id] && state[q.id].locked) return;
+      const rows = Array.from(choices.querySelectorAll('.choice'));
+      card.classList.add('locked');
+      card.classList.add('revealed');
+
+      rows[q.answer].classList.add('good');
+      const correct = (idx === q.answer);
+      if(correct) rows[idx].classList.add('good');
+      else rows[idx].classList.add('bad');
+
+      state[q.id] = { type: "single", selected: idx, locked: true, correct };
+      saveState();
+      updateStats();
+    }
+
+    function applyStateSingle(q, card, choices, s) {
+      const rows = Array.from(choices.querySelectorAll('.choice'));
+      card.classList.add('locked');
+      card.classList.add('revealed');
+      rows[q.answer].classList.add('good');
+      if(typeof s.selected === 'number') {
+        if(s.selected === q.answer) rows[s.selected].classList.add('good');
+        else rows[s.selected].classList.add('bad');
+      }
+    }
+
+    function renderChoicesMulti(q, card) {
+      const wrap = document.createElement('div');
+      const choices = document.createElement('div');
+      choices.className = "choices";
+
+      const picked = new Set();
+
+      q.choices.forEach((choiceText, idx) => {
+        const row = document.createElement('div');
+        row.className = "choice";
+        row.tabIndex = 0;
+
+        const badge = document.createElement('div');
+        badge.className = "badge";
+        badge.textContent = letter(idx);
+
+        const c = document.createElement('div');
+        c.className = "ctext";
+        c.innerHTML = choiceText;
+
+        row.appendChild(badge);
+        row.appendChild(c);
+
+        row.addEventListener('click', () => {
+          if(state[q.id] && state[q.id].locked) return;
+          // first click reveals all correct in green (to match the requested behavior)
+          card.classList.add('revealed');
+          revealCorrectMulti(q, choices);
+
+          if(picked.has(idx)) {
+            picked.delete(idx);
+            row.classList.remove('selected');
+          } else {
+            picked.add(idx);
+            row.classList.add('selected');
+          }
+          // immediate feedback: mark selected option red/green
+          if(picked.has(idx)) {
+            if(q.answer_multi.includes(idx)) row.classList.add('good');
+            else row.classList.add('bad');
+          } else {
+            // remove status when unselect
+            row.classList.remove('good','bad');
+            // keep correct highlight if it's correct option
+            if(q.answer_multi.includes(idx)) row.classList.add('good');
+          }
+        });
+
+        row.addEventListener('keydown', (ev) => {
+          if(ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); row.click(); }
+        });
+
+        choices.appendChild(row);
+      });
+
+      const actions = document.createElement('div');
+      actions.style.marginTop = "10px";
+      actions.style.display = "flex";
+      actions.style.gap = "10px";
+      actions.style.flexWrap = "wrap";
+
+      const btnValidate = document.createElement('button');
+      btnValidate.textContent = "Valider";
+      btnValidate.className = "ghost";
+
+      btnValidate.addEventListener('click', () => {
+        if(state[q.id] && state[q.id].locked) return;
+        card.classList.add('locked');
+        card.classList.add('revealed');
+        revealCorrectMulti(q, choices);
+
+        const selected = Array.from(picked).sort((a,b)=>a-b);
+        const correctSet = q.answer_multi.slice().sort((a,b)=>a-b);
+        const correct = JSON.stringify(selected) === JSON.stringify(correctSet);
+
+        // ensure wrong selected are red
+        const rows = Array.from(choices.querySelectorAll('.choice'));
+        rows.forEach((row, idx) => {
+          if(selected.includes(idx) && !q.answer_multi.includes(idx)) row.classList.add('bad');
+          if(q.answer_multi.includes(idx)) row.classList.add('good');
+        });
+
+        state[q.id] = { type:"multi", selected, locked:true, correct };
+        saveState();
+        updateStats();
+      });
+
+      const btnClear = document.createElement('button');
+      btnClear.textContent = "Effacer sélection";
+      btnClear.className = "ghost";
+
+      btnClear.addEventListener('click', () => {
+        if(state[q.id] && state[q.id].locked) return;
+        picked.clear();
+        const rows = Array.from(choices.querySelectorAll('.choice'));
+        rows.forEach((row, idx) => {
+          row.classList.remove('selected','bad');
+          // keep green highlight for correct answers if revealed
+          if(card.classList.contains('revealed') && q.answer_multi.includes(idx)) row.classList.add('good');
+          else row.classList.remove('good');
+        });
+      });
+
+      actions.appendChild(btnValidate);
+      actions.appendChild(btnClear);
+
+      wrap.appendChild(choices);
+      wrap.appendChild(actions);
+
+      return { wrap, choices };
+    }
+
+    function revealCorrectMulti(q, choices) {
+      const rows = Array.from(choices.querySelectorAll('.choice'));
+      q.answer_multi.forEach(i => rows[i].classList.add('good'));
+    }
+
+    function applyStateMulti(q, card, block, s) {
+      card.classList.add('locked');
+      card.classList.add('revealed');
+      revealCorrectMulti(q, block.choices);
+      const rows = Array.from(block.choices.querySelectorAll('.choice'));
+      const selected = Array.isArray(s.selected) ? s.selected : [];
+      rows.forEach((row, idx) => {
+        if(selected.includes(idx)) row.classList.add('selected');
+        if(q.answer_multi.includes(idx)) row.classList.add('good');
+        if(selected.includes(idx) && !q.answer_multi.includes(idx)) row.classList.add('bad');
+      });
+    }
+
+    function onCheckFill(q, card, input, hint) {
+      if(state[q.id] && state[q.id].locked) return;
+
+      const user = normalizeFill(input.value);
+      const accept = (q.answers || []).map(normalizeFill);
+
+      const correct = accept.includes(user);
+
+      card.classList.add('locked');
+      card.classList.add('revealed');
+
+      input.classList.remove('goodin','badin');
+      input.classList.add(correct ? 'goodin' : 'badin');
+
+      state[q.id] = { type: "fill", locked: true, correct, value: user };
+      saveState();
+      updateStats();
+    }
+
+    function applyStateFill(q, card, input, hint, s) {
+      card.classList.add('locked');
+      card.classList.add('revealed');
+      input.value = (s.value ?? "");
+      input.classList.add(s.correct ? "goodin" : "badin");
+    }
+
+    function updateStats() {
+      const entries = Object.values(state).filter(v => v && v.locked);
+      const answered = entries.length;
+      const score = entries.filter(v => v.correct).length;
+      const wrong = answered - score;
+
+      elAnswered.textContent = answered;
+      elScore.textContent = score;
+      elWrong.textContent = wrong;
+
+      const pct = Math.round((answered / DATA.questions.length) * 100);
+      elBar.style.width = pct + "%";
+    }
+
+    btnReset.addEventListener('click', () => {
+      if(confirm("Réinitialiser toutes les réponses ?")) {
+        state = {};
+        saveState();
+        render();
+        window.scrollTo({top:0, behavior:"smooth"});
+      }
+    });
+
+    btnRevealAll.addEventListener('click', () => {
+      // Reveal correct answers without locking
+      DATA.questions.forEach(q => {
+        if(!(state[q.id] && state[q.id].locked)) {
+          state[q.id] = { ...(state[q.id] || {}), revealed: true, locked: false };
+        }
+      });
+      saveState();
+      // Add "revealed" class + show greens in view without locking score
+      document.querySelectorAll('.card').forEach(card => card.classList.add('revealed'));
+      // Re-render for clean visuals, then highlight correct
+      render();
+      // For singles: we already show only after answered. Let's highlight correct for visible cards:
+      DATA.questions.forEach(q => {
+        const card = document.querySelector(`.card[data-qid="${q.id}"]`);
+        if(!card) return;
+        if(q.type === "single") {
+          const rows = card.querySelectorAll('.choice');
+          if(rows && rows[q.answer]) rows[q.answer].classList.add('good');
+          card.classList.add('revealed');
+        }
+        if(q.type === "multi") {
+          const rows = card.querySelectorAll('.choice');
+          q.answer_multi.forEach(i => rows[i] && rows[i].classList.add('good'));
+          card.classList.add('revealed');
+        }
+        if(q.type === "fill") {
+          card.classList.add('revealed');
+        }
+      });
+    });
+
+    elSearch.addEventListener('input', () => {
+      query = elSearch.value.trim();
+      render();
+    });
+
+    buildChips();
+    render();
+  })();
+</script>
+</body>
+</html>
