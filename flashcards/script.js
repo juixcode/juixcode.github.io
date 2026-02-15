@@ -782,11 +782,24 @@ function startLearningMode(theme) {
     overlay.id = 'learning-overlay';
     overlay.className = "fixed inset-0 z-[60] bg-slate-950 flex flex-col items-center justify-center p-4 animate-fade-in";
 
+    // --- HISTORY NAVIGATION FIX ---
+    history.pushState({ mode: 'learning' }, '', '#learning');
+
+    const handlePopState = () => {
+        const ov = document.getElementById('learning-overlay');
+        if (ov) ov.remove();
+        renderView();
+        window.removeEventListener('popstate', handlePopState);
+    };
+    window.addEventListener('popstate', handlePopState);
+
+
+
     let currentIndex = 0;
-    let isAnimating = false; // MUTEX
+    let isAnimating = false;
 
     function renderCard(direction = 'init') {
-        if (isAnimating && direction !== 'init') return; // Prevent double click
+        if (isAnimating && direction !== 'init') return;
 
         const container = document.getElementById('learning-card-container');
 
@@ -860,6 +873,7 @@ function startLearningMode(theme) {
             `;
             document.body.appendChild(overlay);
         } else {
+            // ... existing animation logic ...
             isAnimating = true;
             const oldCard = container.firstElementChild;
             const wrapper = document.createElement('div');
@@ -937,8 +951,12 @@ function startLearningMode(theme) {
 }
 
 function closeLearningMode() {
-    document.getElementById('learning-overlay').remove();
-    renderView();
+    if (location.hash === '#learning') {
+        history.back(); // This will trigger popstate which removes overlay
+    } else {
+        document.getElementById('learning-overlay')?.remove();
+        renderView();
+    }
 }
 
 

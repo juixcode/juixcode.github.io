@@ -71,6 +71,8 @@ body {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     border-radius: 1rem;
+    transform: translate3d(0, 0, 0);
+    /* Force hardware accel for iOS */
 }
 
 .card-back {
@@ -201,7 +203,10 @@ body {
 #learning-card-container {
     perspective: 1000px;
     position: relative;
-    /* overflow: visible; */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .slide-enter-next {
