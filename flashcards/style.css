@@ -215,7 +215,10 @@ body {
 /* Ensure child cards don't shrink too much or explode */
 #learning-card-container>div {
     flex-shrink: 0;
-    max-width: 100%;
+    width: 100%;
+    /* On mobile, take full width available but respect aspect ratio */
+    max-width: 24rem;
+    /* Equivalent to max-w-sm. Restores PC behavior */
     max-height: 100%;
 }
 
