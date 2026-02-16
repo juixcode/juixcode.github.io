@@ -523,6 +523,11 @@ function renderView() {
             container.appendChild(listContainer);
         }
 
+        // Batch Render Math for the whole container after DOM insertion
+        setTimeout(() => {
+            if (typeof renderMathInElement !== 'undefined') initKatex(container);
+        }, 0);
+
         fabContainer.innerHTML = `
             <button onclick="openModal('card')" class="group relative flex items-center justify-center gap-3 pl-6 pr-7 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full shadow-2xl shadow-emerald-900/60 transition-all duration-300 transform hover:-translate-y-1 active:translate-y-0 active:scale-95 border border-white/10 hover:border-white/30 whitespace-nowrap">
                 <div class="absolute inset-0 rounded-full bg-gradient-to-t from-black/20 to-transparent pointer-events-none"></div>
@@ -532,7 +537,30 @@ function renderView() {
         `;
     }
     lucide.createIcons();
-    if (typeof renderMathInElement !== 'undefined') initKatex();
+    // initKatex() removed from here, moved to specific sections
+}
+
+// ...
+
+function createCardDOM(card) {
+    const cardWrapper = document.createElement('div');
+    // ... (rest of creation logic)
+
+    cardWrapper.innerHTML = `...`; // (content)
+
+    cardWrapper.appendChild(inner);
+
+    // REMOVED: setTimeout initKatex(cardWrapper) - Optimization
+
+    return cardWrapper;
+}
+
+// ... learning mode ...
+
+lucide.createIcons();
+if (typeof renderMathInElement !== 'undefined') {
+    // Optimize: Only render the new card's content
+    initKatex(newCard || overlay);
 }
 
 // --- DOM CREATION ---
@@ -706,10 +734,8 @@ function createCardDOM(card) {
 
     cardWrapper.appendChild(inner);
 
-    // Render Math
-    setTimeout(() => {
-        if (typeof renderMathInElement !== 'undefined') initKatex(cardWrapper);
-    }, 0);
+    // Render Math - OPTIMIZATION: Removed per-card initKatex. 
+    // It is now handled in batch by the parent container or specific logic.
 
     return cardWrapper;
 }
@@ -916,7 +942,12 @@ function startLearningMode(theme) {
         }
 
         lucide.createIcons();
-        if (typeof renderMathInElement !== 'undefined') initKatex(overlay);
+        if (typeof renderMathInElement !== 'undefined') {
+            // Optimization: partial render
+            // usage of newCard or overlay depending on context
+            const target = (typeof newCard !== 'undefined' && newCard) ? newCard : overlay;
+            initKatex(target);
+        }
 
         document.getElementById('btn-prev').disabled = currentIndex === 0;
         document.getElementById('btn-prev').onclick = () => { if (currentIndex > 0 && !isAnimating) { currentIndex--; renderCard('prev'); } };
@@ -951,11 +982,17 @@ function startLearningMode(theme) {
 }
 
 function closeLearningMode() {
+    // Ensure we clean up listener if it wasn't triggered by popstate
+    // However, since handlePopState removes itself, we just need to ensure we go back if needed.
     if (location.hash === '#learning') {
-        history.back(); // This will trigger popstate which removes overlay
+        history.back(); // This will trigger popstate which removes overlay & listener
     } else {
+        // Fallback if hash was lost but overlay remains
         document.getElementById('learning-overlay')?.remove();
         renderView();
+        // We can't easily reference handlePopState here without scope, 
+        // but since it's an arrow function inside startLearningMode, it's bound to that closure.
+        // The robust way is to rely on history.back() mostly.
     }
 }
 
