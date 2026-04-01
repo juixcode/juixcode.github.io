@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Juix Links</title>
+  <link rel="icon" href="../Medias/favicon.ico">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,14 +32,26 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      /* Fix pour anti-tremblement et décalage au hover */
+      will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
     }
 
     /* Effet Hover Neon */
     .link-card:hover {
       background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-2px) scale(1.01);
+      transform: translateY(-2px) scale(1.01) translateZ(0);
       border-color: rgba(34, 211, 238, 0.5); /* Cyan border on hover */
       box-shadow: 0 0 20px rgba(34, 211, 238, 0.15);
+    }
+
+    /* Synchronisation et correction du pixel shift de l'icône */
+    .link-card .group-hover\:scale-110 {
+      will-change: transform;
+      backface-visibility: hidden;
+      transition-duration: 0.3s;
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     /* Variante Rose pour la 2ème zone */

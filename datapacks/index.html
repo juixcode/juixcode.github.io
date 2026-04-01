@@ -1,0 +1,881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Juix Recipes</title>
+  <meta name="description" content="Browse and discover free Minecraft datapacks by Juix. Bombs, Hammers, Tree Axes, Teleporters and more!">
+  <link rel="icon" href="../Medias/favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    /* ═══════════════════════════════════════════
+       RESET & BASE
+       ═══════════════════════════════════════════ */
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: #0a0f1e;
+      color: #cbd5e1;
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    ::selection {
+      background: rgba(34, 211, 238, 0.4);
+      color: #fff;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* ═══════════════════════════════════════════
+       ANIMATED BACKGROUND
+       ═══════════════════════════════════════════ */
+    .bg-orbs {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(100px);
+      animation: orbFloat 14s infinite ease-in-out;
+    }
+
+    .orb-1 {
+      width: 500px;
+      height: 500px;
+      background: rgba(34, 211, 238, 0.15);
+      top: -8%;
+      left: -8%;
+      animation-duration: 10s;
+    }
+
+    .orb-2 {
+      width: 600px;
+      height: 600px;
+      background: rgba(168, 85, 247, 0.12);
+      bottom: -12%;
+      right: -12%;
+      animation-duration: 14s;
+      animation-delay: -3s;
+    }
+
+    .orb-3 {
+      width: 350px;
+      height: 350px;
+      background: rgba(244, 114, 182, 0.1);
+      top: 45%;
+      left: 55%;
+      animation-duration: 12s;
+      animation-delay: -6s;
+    }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(30px, -25px) scale(1.05); }
+      66% { transform: translate(-20px, 15px) scale(0.95); }
+    }
+
+    /* Subtle grain overlay */
+    .bg-orbs::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+      opacity: 0.4;
+    }
+
+    /* ═══════════════════════════════════════════
+       MAIN CONTAINER
+       ═══════════════════════════════════════════ */
+    .main-container {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 48px 24px 60px;
+    }
+
+    /* ═══════════════════════════════════════════
+       HERO / PROFILE SECTION (compact)
+       ═══════════════════════════════════════════ */
+    .hero {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      padding: 20px 28px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      margin-bottom: 16px;
+      animation: fadeSlideUp 0.6s ease-out;
+    }
+
+    .hero-logo {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .hero-logo .glow {
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #22d3ee, #a855f7, #ec4899);
+      filter: blur(8px);
+      opacity: 0.6;
+      animation: pulse 3s infinite ease-in-out;
+    }
+
+    .hero-logo img {
+      position: relative;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .hero-info h1 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #22d3ee, #a78bfa, #f472b6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+
+    .hero-info p {
+      font-size: 0.82rem;
+      color: #94a3b8;
+      font-weight: 300;
+      margin-top: 4px;
+      line-height: 1.4;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .hero-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #94a3b8;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hero-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #22d3ee;
+      transform: translateY(-2px);
+      border-color: rgba(34, 211, 238, 0.3);
+      box-shadow: 0 0 20px rgba(34, 211, 238, 0.15);
+    }
+
+    .hero-link svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* ═══════════════════════════════════════════
+       SHOW ALL BUTTON
+       ═══════════════════════════════════════════ */
+    .show-all-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 36px;
+      animation: fadeSlideUp 0.7s ease-out;
+    }
+
+    .show-all-btn {
+      position: relative;
+      padding: 14px 36px;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: #fff;
+      background: transparent;
+      overflow: hidden;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .show-all-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      padding: 1.5px;
+      background: linear-gradient(135deg, #22d3ee, #a855f7, #ec4899);
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+    }
+
+    .show-all-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.1), rgba(168, 85, 247, 0.1), rgba(236, 72, 153, 0.1));
+      opacity: 1;
+      transition: opacity 0.35s;
+    }
+
+    .show-all-btn:hover::after {
+      opacity: 0;
+    }
+
+    .show-all-btn:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
+    }
+
+    .show-all-btn span {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .show-all-btn .icon {
+      font-size: 1.2rem;
+      transition: transform 0.3s;
+    }
+
+    .show-all-btn:hover .icon {
+      transform: rotate(15deg) scale(1.1);
+    }
+
+    .show-all-btn.active {
+      background: linear-gradient(135deg, rgba(34, 211, 238, 0.15), rgba(168, 85, 247, 0.15));
+    }
+
+    .show-all-btn.active::after {
+      opacity: 0;
+    }
+
+    /* ═══════════════════════════════════════════
+       SECTION HEADERS
+       ═══════════════════════════════════════════ */
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+      animation: fadeSlideUp 0.8s ease-out;
+    }
+
+    .section-header .line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.08), transparent);
+    }
+
+    .section-header .line:last-child {
+      background: linear-gradient(270deg, rgba(255, 255, 255, 0.08), transparent);
+    }
+
+    .section-header h2 {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .section-header h2.installed {
+      color: #22d3ee;
+    }
+
+    .section-header h2.uninstalled {
+      color: #64748b;
+    }
+
+    .section-header h2.all-packs {
+      color: #a78bfa;
+    }
+
+    .section-header .badge {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 100px;
+      letter-spacing: 0.08em;
+    }
+
+    .badge-installed {
+      background: rgba(34, 211, 238, 0.12);
+      color: #22d3ee;
+      border: 1px solid rgba(34, 211, 238, 0.2);
+    }
+
+    .badge-uninstalled {
+      background: rgba(100, 116, 139, 0.12);
+      color: #64748b;
+      border: 1px solid rgba(100, 116, 139, 0.2);
+    }
+
+    .badge-all {
+      background: rgba(167, 139, 250, 0.12);
+      color: #a78bfa;
+      border: 1px solid rgba(167, 139, 250, 0.2);
+    }
+
+    /* ═══════════════════════════════════════════
+       PACKS GRID
+       ═══════════════════════════════════════════ */
+    .packs-section {
+      margin-bottom: 48px;
+    }
+
+    .packs-grid {
+      column-count: 3;
+      column-gap: 20px;
+    }
+
+    /* ═══════════════════════════════════════════
+       PACK CARD
+       ═══════════════════════════════════════════ */
+    .pack-card {
+      position: relative;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      animation: slideUp 0.6s ease-out both;
+      cursor: pointer;
+      display: block;
+      break-inside: avoid;
+      margin-bottom: 20px;
+    }
+
+    .pack-card:nth-child(1) { animation-delay: 0.05s; }
+    .pack-card:nth-child(2) { animation-delay: 0.1s; }
+    .pack-card:nth-child(3) { animation-delay: 0.15s; }
+    .pack-card:nth-child(4) { animation-delay: 0.2s; }
+    .pack-card:nth-child(5) { animation-delay: 0.25s; }
+    .pack-card:nth-child(6) { animation-delay: 0.3s; }
+    .pack-card:nth-child(7) { animation-delay: 0.35s; }
+
+    .pack-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      border-color: rgba(34, 211, 238, 0.3);
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.3),
+        0 0 40px rgba(34, 211, 238, 0.08);
+    }
+
+    .pack-card .card-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #22d3ee, #a855f7, #ec4899);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .pack-card:hover .card-glow {
+      opacity: 1;
+    }
+
+    .pack-card .image-wrapper {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      padding: 12px 12px 0;
+    }
+
+    .pack-card .image-wrapper img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 8px;
+    }
+
+    .pack-card .image-wrapper .overlay {
+      display: none;
+    }
+
+    .pack-card .card-body {
+      padding: 18px 22px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .pack-card .pack-name {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #f1f5f9;
+      transition: color 0.3s;
+    }
+
+    .pack-card:hover .pack-name {
+      background: linear-gradient(135deg, #22d3ee, #a78bfa);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .pack-card .arrow-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      transition: all 0.3s;
+    }
+
+    .pack-card:hover .arrow-icon {
+      background: rgba(34, 211, 238, 0.15);
+      border-color: rgba(34, 211, 238, 0.3);
+      color: #22d3ee;
+      transform: translateX(4px);
+    }
+
+    .arrow-icon svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ═══════════════════════════════════════════
+       UNINSTALLED PACK STYLING — transparency fade
+       ═══════════════════════════════════════════ */
+    .pack-card.uninstalled {
+      opacity: 0.25;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .pack-card.uninstalled:hover {
+      opacity: 0.55;
+      border-color: rgba(100, 116, 139, 0.25);
+      box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        0 0 20px rgba(100, 116, 139, 0.04);
+    }
+
+    .pack-card.uninstalled:hover .pack-name {
+      background: linear-gradient(135deg, #94a3b8, #64748b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .pack-card.uninstalled:hover .arrow-icon {
+      background: rgba(100, 116, 139, 0.12);
+      border-color: rgba(100, 116, 139, 0.25);
+      color: #94a3b8;
+    }
+
+    /* ═══════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════ */
+    .footer {
+      text-align: center;
+      font-size: 0.72rem;
+      color: #334155;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      animation: fadeSlideUp 1s ease-out;
+    }
+
+    /* ═══════════════════════════════════════════
+       ANIMATIONS
+       ═══════════════════════════════════════════ */
+    @keyframes slideUp {
+      from { transform: translateY(24px); }
+      to   { transform: translateY(0); }
+    }
+
+
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 0.3; }
+    }
+
+    /* ═══════════════════════════════════════════
+       RESPONSIVE
+       ═══════════════════════════════════════════ */
+    @media (max-width: 700px) {
+      .main-container {
+        padding: 28px 16px 40px;
+      }
+
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        gap: 14px;
+        padding: 24px 20px;
+      }
+
+      .hero-links {
+        justify-content: center;
+      }
+
+      .packs-grid {
+        column-count: 1;
+      }
+
+      .hero-info h1 {
+        font-size: 1.1rem;
+      }
+
+      .show-all-btn {
+        padding: 12px 28px;
+        font-size: 0.88rem;
+      }
+    }
+
+    @media (min-width: 701px) and (max-width: 950px) {
+      .packs-grid {
+        column-count: 2;
+      }
+    }
+
+    /* ═══════════════════════════════════════════
+       TRANSITIONS FOR FILTERING
+       ═══════════════════════════════════════════ */
+    .packs-section.hidden-section {
+      display: none;
+    }
+
+    .pack-card.filtered-out {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated Background -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <div class="main-container">
+
+    <!-- ═══════ HERO / PROFILE ═══════ -->
+    <header class="hero" id="hero">
+      <div class="hero-logo">
+        <div class="glow"></div>
+        <img src="../Medias/logo.jpg" alt="Juix Logo">
+      </div>
+      <div class="hero-info">
+        <h1>Juix Datapacks recipes list</h1>
+        <p>Free Minecraft datapacks for everyone! 💎 Making the game more fun, one download at a time. ❤️</p>
+      </div>
+      <nav class="hero-links">
+        <!-- Modrinth -->
+        <a href="https://modrinth.com/user/Juix" target="_blank" class="hero-link" title="Modrinth Creator Page" id="link-modrinth">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          </svg>
+        </a>
+        <!-- Links Page -->
+        <a href="https://juixcode.github.io/links/" target="_blank" class="hero-link" title="All Links" id="link-links">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+        </a>
+        <!-- Contact -->
+        <a href="https://juixcode.github.io/contact/" target="_blank" class="hero-link" title="Contact" id="link-contact">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </a>
+      </nav>
+    </header>
+
+    <!-- ═══════ SHOW ALL BUTTON ═══════ -->
+    <div class="show-all-wrapper">
+      <button class="show-all-btn" id="show-all-btn" type="button">
+        <span>
+          <span class="icon">📦</span>
+          <span id="show-all-text">Show all the recipes</span>
+        </span>
+      </button>
+    </div>
+
+    <!-- ═══════ INSTALLED PACKS ═══════ -->
+    <section class="packs-section" id="installed-section">
+      <div class="section-header">
+        <div class="line"></div>
+        <h2 class="installed">Installed Packs</h2>
+        <span class="badge badge-installed" id="installed-count">0</span>
+        <div class="line"></div>
+      </div>
+      <div class="packs-grid" id="installed-grid"></div>
+    </section>
+
+    <!-- ═══════ UNINSTALLED PACKS ═══════ -->
+    <section class="packs-section" id="uninstalled-section">
+      <div class="section-header">
+        <div class="line"></div>
+        <h2 class="uninstalled">Available Packs</h2>
+        <span class="badge badge-uninstalled" id="uninstalled-count">0</span>
+        <div class="line"></div>
+      </div>
+      <div class="packs-grid" id="uninstalled-grid"></div>
+    </section>
+
+    <!-- ═══════ ALL PACKS (no tags mode) ═══════ -->
+    <section class="packs-section" id="all-section">
+      <div class="section-header">
+        <div class="line"></div>
+        <h2 class="all-packs">All Recipes</h2>
+        <span class="badge badge-all" id="all-count">0</span>
+        <div class="line"></div>
+      </div>
+      <div class="packs-grid" id="all-grid"></div>
+    </section>
+
+    <!-- ═══════ FOOTER ═══════ -->
+    <footer class="footer">
+      &copy; <span id="year"></span> Juix. All rights reserved.
+    </footer>
+
+  </div>
+
+  <script>
+    // ═══════════════════════════════════════════
+    // DATA
+    // ═══════════════════════════════════════════
+    const PACKS = [
+      {
+        name: 'Bombs',
+        tag: 'bombs',
+        url: 'https://modrinth.com/datapack/bombs-by-juix',
+        image: 'images/Bombs Recipes.webp'
+      },
+      {
+        name: 'Hammers',
+        tag: 'hammers',
+        url: 'https://modrinth.com/datapack/hammers-by-juix',
+        image: 'images/Hammers Recipes.webp'
+      },
+      {
+        name: 'Vein Pickaxe',
+        tag: 'vein-pickaxe',
+        url: 'https://modrinth.com/datapack/vein-pickaxe-by-juix',
+        image: 'images/Excavator Recipes.webp'
+      },
+      {
+        name: 'Tree Axes',
+        tag: 'tree-axes',
+        url: 'https://modrinth.com/datapack/tree-axes-by-juix',
+        image: 'images/Tree Axes Recipes.webp'
+      },
+      {
+        name: 'Teleporters',
+        tag: 'teleporters',
+        url: 'https://modrinth.com/datapack/teleporters-by-juix',
+        image: 'images/Teleporters Recipes.webp'
+      },
+      {
+        name: 'Fireballs',
+        tag: 'fireballs',
+        url: 'https://modrinth.com/datapack/fireballs-by-juix',
+        image: 'images/Fireballs Recipes.webp'
+      },
+      {
+        name: 'Bridge Eggs',
+        tag: 'bridge-eggs',
+        url: 'https://modrinth.com/datapack/bridge-eggs-by-juix',
+        image: 'images/Bridge Eggs Recipes.webp'
+      }
+    ];
+
+    // ═══════════════════════════════════════════
+    // DOM ELEMENTS
+    // ═══════════════════════════════════════════
+    const installedSection = document.getElementById('installed-section');
+    const uninstalledSection = document.getElementById('uninstalled-section');
+    const allSection = document.getElementById('all-section');
+    const installedGrid = document.getElementById('installed-grid');
+    const uninstalledGrid = document.getElementById('uninstalled-grid');
+    const allGrid = document.getElementById('all-grid');
+    const installedCount = document.getElementById('installed-count');
+    const uninstalledCount = document.getElementById('uninstalled-count');
+    const allCount = document.getElementById('all-count');
+    const showAllBtn = document.getElementById('show-all-btn');
+    const showAllText = document.getElementById('show-all-text');
+
+    // ═══════════════════════════════════════════
+    // CARD CREATION
+    // ═══════════════════════════════════════════
+    function createCard(pack, isUninstalled = false) {
+      const card = document.createElement('a');
+      card.href = pack.url;
+      card.target = '_blank';
+      card.className = 'pack-card' + (isUninstalled ? ' uninstalled' : '');
+      card.id = 'pack-' + pack.tag;
+
+      card.innerHTML = `
+        <div class="card-glow"></div>
+        <div class="image-wrapper">
+          <img src="${pack.image}" alt="${pack.name} Recipes" loading="lazy">
+          <div class="overlay"></div>
+        </div>
+        <div class="card-body">
+          <span class="pack-name">${pack.name}</span>
+          <div class="arrow-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"></path>
+              <path d="m12 5 7 7-7 7"></path>
+            </svg>
+          </div>
+        </div>
+      `;
+
+      return card;
+    }
+
+    // ═══════════════════════════════════════════
+    // PARSE URL TAGS
+    // ═══════════════════════════════════════════
+    function getTagsFromHash() {
+      const hash = window.location.hash;
+      if (!hash || hash === '#') return [];
+      // Support #tag1,tag2 and #tag1#tag2 formats
+      return hash
+        .replace(/^#/, '')
+        .split(/[#,]+/)
+        .map(t => t.trim().toLowerCase())
+        .filter(t => t.length > 0);
+    }
+
+    // ═══════════════════════════════════════════
+    // STATE
+    // ═══════════════════════════════════════════
+    let showingAll = false;
+
+    // ═══════════════════════════════════════════
+    // RENDER
+    // ═══════════════════════════════════════════
+    function render() {
+      const tags = getTagsFromHash();
+      const hasFilter = tags.length > 0;
+
+      // Clear grids
+      installedGrid.innerHTML = '';
+      uninstalledGrid.innerHTML = '';
+      allGrid.innerHTML = '';
+
+      if (hasFilter && !showingAll) {
+        // FILTERED MODE: show installed + uninstalled
+        const installed = PACKS.filter(p => tags.includes(p.tag));
+        const uninstalled = PACKS.filter(p => !tags.includes(p.tag));
+
+        installed.forEach(p => installedGrid.appendChild(createCard(p, false)));
+        uninstalled.forEach(p => uninstalledGrid.appendChild(createCard(p, true)));
+
+        installedCount.textContent = installed.length;
+        uninstalledCount.textContent = uninstalled.length;
+
+        installedSection.classList.remove('hidden-section');
+        uninstalledSection.classList.remove('hidden-section');
+        allSection.classList.add('hidden-section');
+
+        showAllText.textContent = 'Show all the recipes';
+        showAllBtn.classList.remove('active');
+
+      } else {
+        // ALL MODE (no tags or "show all" pressed)
+        PACKS.forEach(p => allGrid.appendChild(createCard(p, false)));
+        allCount.textContent = PACKS.length;
+
+        installedSection.classList.add('hidden-section');
+        uninstalledSection.classList.add('hidden-section');
+        allSection.classList.remove('hidden-section');
+
+        if (hasFilter) {
+          showAllText.textContent = 'Show filtered view';
+          showAllBtn.classList.add('active');
+        } else {
+          showAllText.textContent = 'Show all the recipes';
+          showAllBtn.classList.add('active');
+        }
+      }
+
+      // Hide or adjust button visibility
+      if (!hasFilter) {
+        showAllBtn.style.display = 'none';
+      } else {
+        showAllBtn.style.display = '';
+      }
+    }
+
+    // ═══════════════════════════════════════════
+    // EVENT LISTENERS
+    // ═══════════════════════════════════════════
+    showAllBtn.addEventListener('click', () => {
+      showingAll = !showingAll;
+      render();
+    });
+
+    window.addEventListener('hashchange', () => {
+      showingAll = false;
+      render();
+    });
+
+    // ═══════════════════════════════════════════
+    // INIT
+    // ═══════════════════════════════════════════
+    document.getElementById('year').textContent = new Date().getFullYear();
+    render();
+  </script>
+</body>
+</html>
