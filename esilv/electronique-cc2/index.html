@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Électronique CC2 — QCM de révisions</title>
+  <meta name="description" content="QCM de révisions pour l'examen d'Électronique CC2 - Transistors bipolaires, FET, AOP - ESILV" />
+  <style>
+    :root {
+      --bg: #070b12;
+      --panel: rgba(17,24,39,.78);
+      --panel2: rgba(15,23,42,.78);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(255,255,255,.085);
+      --shadow: 0 12px 34px rgba(0,0,0,.40);
+      --accent: #a78bfa;
+      --good: #22c55e;
+      --bad: #ef4444;
+      --focus: rgba(167,139,250,.35);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 800px at 10% 0%, rgba(167,139,250,.14), transparent 60%),
+        radial-gradient(900px 700px at 90% 10%, rgba(244,114,182,.10), transparent 55%),
+        radial-gradient(900px 700px at 50% 100%, rgba(56,189,248,.08), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      background-attachment: fixed;
+    }
+    .container { max-width: 1120px; margin: 0 auto; padding: 22px 16px 72px; }
+    .header {
+      display: grid; gap: 12px; padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); position: sticky; top: 12px; z-index: 10;
+      backdrop-filter: blur(12px);
+    }
+    .toprow { display:flex; align-items:flex-start; justify-content:space-between; gap: 14px; flex-wrap: wrap; }
+    h1 { font-size: 20px; margin: 0; letter-spacing: .2px; background: linear-gradient(135deg, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .subtitle { color: var(--muted); font-size: 13px; margin: 4px 0 0; }
+    .controls { display:flex; gap: 10px; flex-wrap: wrap; align-items:center; justify-content:flex-end; }
+    .search {
+      min-width: 240px; flex: 1 1 260px;
+      background: rgba(15,23,42,.70); border: 1px solid var(--border);
+      border-radius: 12px; padding: 10px 12px; color: var(--text); outline: none;
+    }
+    .search:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+    .chips { display:flex; gap: 8px; flex-wrap: wrap; }
+    .chip {
+      cursor: pointer; user-select: none; padding: 8px 10px; border-radius: 999px;
+      border: 1px solid var(--border); background: rgba(15,23,42,.65);
+      color: var(--text); font-size: 12px; font-weight: 800;
+      transition: border-color .18s ease, transform .08s ease;
+    }
+    .chip:hover { border-color: rgba(167,139,250,.38); transform: translateY(-1px); }
+    .chip.active { border-color: rgba(167,139,250,.58); background: rgba(167,139,250,.14); }
+    button {
+      cursor:pointer; border: 1px solid var(--border); background: rgba(15,23,42,.85);
+      color: var(--text); padding: 9px 12px; border-radius: 12px; font-weight: 800;
+      transition: transform .08s ease, background .18s ease, border-color .18s ease; white-space: nowrap;
+    }
+    button:hover { transform: translateY(-1px); border-color: rgba(167,139,250,.35); background: rgba(15,23,42,1); }
+    button:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+    .danger { border-color: rgba(239,68,68,.35); }
+    .danger:hover { border-color: rgba(239,68,68,.6); }
+    .ghost { background: rgba(255,255,255,.05); }
+    .stats { display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+    .pill {
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 12px; border-radius: 999px;
+      border: 1px solid var(--border); background: rgba(17,24,39,.7); font-size: 13px;
+    }
+    .dot { width:9px; height:9px; border-radius:999px; background: var(--accent); box-shadow:0 0 0 4px rgba(167,139,250,.14); }
+    .progress { height: 10px; border-radius: 999px; background: rgba(255,255,255,.06); overflow:hidden; border:1px solid var(--border); }
+    .progress > div { height:100%; width:0%; background: linear-gradient(90deg, rgba(167,139,250,.9), rgba(244,114,182,.9)); transition: width .25s ease; }
+    .grid { margin-top: 16px; display:grid; grid-template-columns: 1fr; gap: 14px; }
+    .card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+    }
+    .meta { display:flex; justify-content:space-between; gap: 12px; align-items:flex-start; margin-bottom: 12px; }
+    .tag {
+      font-size: 12px; font-weight: 900; color: rgba(167,139,250,.95);
+      background: rgba(167,139,250,.12); padding: 6px 10px;
+      border: 1px solid rgba(167,139,250,.20); border-radius: 999px; white-space: nowrap;
+    }
+    .section {
+      font-size: 12px; font-weight: 800; color: rgba(156,163,175,.95);
+      background: rgba(255,255,255,.05); padding: 6px 10px;
+      border: 1px solid var(--border); border-radius: 999px; white-space: nowrap;
+    }
+    .qtext { margin: 0; font-size: 15px; }
+    .choices { display:grid; gap: 10px; margin-top: 12px; }
+    .choice {
+      display:grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: start;
+      padding: 12px; border-radius: 14px; border: 1px solid var(--border);
+      background: rgba(15,23,42,.55);
+      transition: border-color .16s ease, background .16s ease, transform .08s ease;
+      user-select: none;
+    }
+    .choice:hover { border-color: rgba(167,139,250,.35); transform: translateY(-1px); background: rgba(15,23,42,.75); }
+    .badge {
+      width: 44px; height: 28px; border-radius: 999px;
+      display:inline-flex; align-items:center; justify-content:center;
+      font-weight: 900; letter-spacing: .6px;
+      background: rgba(255,255,255,.06); border: 1px solid var(--border);
+    }
+    .ctext { font-size: 14px; }
+    code {
+      background: rgba(255,255,255,.06); border: 1px solid var(--border);
+      padding: 2px 6px; border-radius: 8px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 13px;
+    }
+    .locked .choice { cursor: default; }
+    .locked .choice:hover { transform:none; }
+    .good { border-color: rgba(34,197,94,.55) !important; background: rgba(34,197,94,.12) !important; }
+    .good .badge { background: rgba(34,197,94,.15); border-color: rgba(34,197,94,.35); }
+    .bad { border-color: rgba(239,68,68,.55) !important; background: rgba(239,68,68,.12) !important; }
+    .bad .badge { background: rgba(239,68,68,.15); border-color: rgba(239,68,68,.35); }
+    .selected { outline: 2px solid rgba(167,139,250,.35); outline-offset: 2px; }
+    .hint { margin-top: 10px; color: var(--muted); font-size: 12px; display: none; }
+    .card.revealed .hint { display:block; }
+    .fillwrap { margin-top: 12px; display:flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .fillinput {
+      flex: 1 1 260px; min-width: 220px; padding: 10px 12px; border-radius: 12px;
+      border: 1px solid var(--border); background: rgba(15,23,42,.70); color: var(--text); outline: none;
+    }
+    .fillinput:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+    .fillinput.goodin { border-color: rgba(34,197,94,.55); }
+    .fillinput.badin { border-color: rgba(239,68,68,.55); }
+    .smallnote { color: var(--muted); font-size: 12px; margin-top: 10px; }
+    .footer { margin-top: 16px; color: var(--muted); font-size: 12px; text-align:center; }
+    @media (min-width: 950px) { .grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1320px) { .grid { grid-template-columns: 1fr 1fr 1fr; } }
+    @media (max-width: 520px) {
+      .container { padding: 16px 12px 56px; }
+      .header { padding: 12px; top: 8px; gap: 10px; }
+      h1 { font-size: 16px; }
+      .subtitle { font-size: 12px; }
+      .controls { gap: 8px; }
+      .search { min-width: 0; flex: 1 1 160px; padding: 9px 10px; }
+      button { padding: 8px 10px; border-radius: 10px; font-size: 13px; }
+      .pill { padding: 7px 10px; font-size: 12px; }
+      .progress { height: 8px; }
+      .card { padding: 14px; border-radius: 16px; }
+      .qtext { font-size: 14px; }
+      .choice { grid-template-columns: 40px 1fr; }
+      .badge { width: 40px; }
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="toprow">
+        <div>
+          <h1>⚡ Électronique CC2 — QCM de révisions</h1>
+          <div class="subtitle">Transistors bipolaires · FET / MOSFET · AOP · Exercices type CC2 — Clique une réponse pour vérifier.</div>
+        </div>
+        <div class="controls">
+          <input id="search" class="search" placeholder="Rechercher (ex: AOP, bipolaire, FET, VBE…)" />
+          <button id="btnRevealAll" class="ghost" title="Affiche les bonnes réponses">Révéler tout</button>
+          <button id="btnReset" class="danger" title="Réinitialise">Reset</button>
+        </div>
+      </div>
+      <div class="chips" id="chips"></div>
+      <div class="stats">
+        <div class="pill"><span class="dot"></span> <span><strong id="answered">0</strong> / <span id="total"></span> répondues</span></div>
+        <div class="pill">✅ <strong id="score">0</strong> bonnes</div>
+        <div class="pill">❌ <strong id="wrong">0</strong> mauvaises</div>
+      </div>
+      <div class="progress" aria-label="Progression"><div id="bar"></div></div>
+    </div>
+    <div class="grid" id="quiz"></div>
+    <div class="footer">ESILV — Électronique CC2. Les réponses sont sauvegardées localement (LocalStorage).</div>
+  </div>
+
+<script>
+const DATA = {"questions":[
+{"id":"1","label":"Q1","section":"Transistor Bipolaire","type":"single","text":"Un transistor bipolaire NPN est constitué de :","choices":["Deux zones P séparées par une zone N","Deux zones N séparées par une zone P","Trois zones N","Une zone P et une zone N"],"answer":1},
+{"id":"2","label":"Q2","section":"Transistor Bipolaire","type":"single","text":"Les trois électrodes d'un transistor bipolaire sont :","choices":["Grille, Drain, Source","Base, Émetteur, Collecteur","Anode, Cathode, Gate","Entrée, Sortie, Masse"],"answer":1},
+{"id":"3","label":"Q3","section":"Transistor Bipolaire","type":"single","text":"Dans un transistor NPN passant, la tension V<sub>BE</sub> est approximée à :","choices":["0 V","0,3 V","0,6 V","1,2 V"],"answer":2},
+{"id":"4","label":"Q4","section":"Transistor Bipolaire","type":"single","text":"Le gain en courant β d'un transistor bipolaire relie :","choices":["I<sub>C</sub> et I<sub>E</sub> : β = I<sub>C</sub> / I<sub>E</sub>","I<sub>C</sub> et I<sub>B</sub> : β = I<sub>C</sub> / I<sub>B</sub>","I<sub>B</sub> et I<sub>E</sub> : β = I<sub>B</sub> / I<sub>E</sub>","V<sub>CE</sub> et V<sub>BE</sub> : β = V<sub>CE</sub> / V<sub>BE</sub>"],"answer":1},
+{"id":"5","label":"Q5","section":"Transistor Bipolaire","type":"single","text":"La relation entre les courants d'un transistor bipolaire est :","choices":["I<sub>E</sub> = I<sub>C</sub> − I<sub>B</sub>","I<sub>E</sub> = I<sub>C</sub> + I<sub>B</sub>","I<sub>B</sub> = I<sub>C</sub> + I<sub>E</sub>","I<sub>C</sub> = I<sub>E</sub> + I<sub>B</sub>"],"answer":1},
+{"id":"6","label":"Q6","section":"Transistor Bipolaire","type":"single","text":"Quand un transistor bipolaire est en régime saturé :","choices":["V<sub>CE</sub> est très grande (proche de V<sub>CC</sub>)","V<sub>CE</sub> est très faible (V<sub>CE,sat</sub> ≈ 0.2 V)","I<sub>C</sub> = 0","Le transistor est bloqué"],"answer":1},
+{"id":"7","label":"Q7","section":"Transistor Bipolaire","type":"single","text":"La polarisation par pont de base est préférée car :","choices":["Elle simplifie le circuit","Elle rend le point de fonctionnement indépendant de β","Elle augmente le gain","Elle supprime la résistance d'émetteur"],"answer":1},
+{"id":"8","label":"Q8","section":"Transistor Bipolaire","type":"single","text":"Dans le modèle dynamique (petits signaux) du transistor bipolaire, le paramètre h<sub>21</sub> représente :","choices":["La résistance d'entrée dynamique","Le gain en courant ≈ β","L'admittance de sortie","La réaction inverse"],"answer":1},
+{"id":"9","label":"Q9","section":"Transistor Bipolaire","type":"single","text":"Le paramètre h<sub>11</sub> d'un transistor bipolaire est :","choices":["Le gain en courant","La résistance dynamique d'entrée (quelques kΩ)","La conductance de sortie","La tension d'Early"],"answer":1},
+{"id":"10","label":"Q10","section":"Transistor Bipolaire","type":"single","text":"La transconductance g<sub>m</sub> d'un transistor bipolaire vaut :","choices":["g<sub>m</sub> = I<sub>C</sub> / 0.026 (à 27°C)","g<sub>m</sub> = β / I<sub>C</sub>","g<sub>m</sub> = V<sub>BE</sub> / I<sub>B</sub>","g<sub>m</sub> = I<sub>B</sub> / V<sub>CE</sub>"],"answer":0},
+{"id":"11","label":"Q11","section":"Transistor Bipolaire","type":"single","text":"L'effet Early dans un transistor bipolaire se manifeste par :","choices":["Un gain en courant β infini","Une augmentation de I<sub>C</sub> avec V<sub>CE</sub> en zone active","Une saturation immédiate","Un blocage du transistor"],"answer":1},
+{"id":"12","label":"Q12","section":"Transistor Bipolaire","type":"single","text":"Dans un montage émetteur commun (EC) avec découplage, le gain en tension est :","choices":["A<sub>v</sub> = −g<sub>m</sub> · R<sub>C</sub>","A<sub>v</sub> = 1 + R<sub>2</sub>/R<sub>1</sub>","A<sub>v</sub> = −R<sub>1</sub>/R<sub>2</sub>","A<sub>v</sub> = β"],"answer":0},
+{"id":"13","label":"Q13","section":"Transistor Bipolaire","type":"single","text":"Le principe du miroir de courant nécessite :","choices":["Deux transistors identiques sur le même substrat","Deux résistances égales","Un seul transistor et un AOP","Un pont de Wheatstone"],"answer":0},
+{"id":"14","label":"Q14","section":"Transistor Bipolaire","type":"fill","text":"Avec V<sub>CC</sub> = 10 V, R<sub>B</sub> = 44 kΩ, V<sub>BB</sub> = 5 V, V<sub>BE</sub> = 0.6 V et β = 100, calculer I<sub>B</sub> en µA.","placeholder":"Réponse en µA (ex: 100)","answer_text":"100","answers":["100","100µA","0.1mA"]},
+{"id":"15","label":"Q15","section":"Transistor Bipolaire","type":"fill","text":"Avec les données de la question précédente (I<sub>B</sub> = 100 µA, β = 100), calculer I<sub>C</sub> en mA.","placeholder":"Réponse en mA","answer_text":"10","answers":["10","10mA"]},
+{"id":"16","label":"Q16","section":"Transistor Bipolaire","type":"fill","text":"Toujours avec V<sub>CC</sub> = 10 V, R<sub>C</sub> = 500 Ω, I<sub>C</sub> = 10 mA. Calculer V<sub>CE</sub> en V.","placeholder":"Réponse en V","answer_text":"5","answers":["5","5V","5.0"]},
+{"id":"17","label":"Q17","section":"Transistor Bipolaire","type":"single","text":"Un transistor bipolaire est un composant :","choices":["Unipolaire (un seul type de porteur)","Bipolaire (deux types de porteurs : électrons et trous)","Tripolaire","Quadripolaire"],"answer":1},
+{"id":"18","label":"Q18","section":"Transistor Bipolaire","type":"single","text":"La polarisation par résistance de base seule est instable car :","choices":["La tension V<sub>CC</sub> varie","Le point de fonctionnement dépend fortement de β qui varie d'un transistor à l'autre et avec la température","La résistance de base est trop petite","V<sub>BE</sub> n'est jamais constant"],"answer":1},
+{"id":"19","label":"Q19","section":"FET / MOSFET","type":"single","text":"FET signifie :","choices":["Fast Electronic Transistor","Field Effect Transistor","Frequency Enhanced Transistor","Forward Emitter Transistor"],"answer":1},
+{"id":"20","label":"Q20","section":"FET / MOSFET","type":"single","text":"Les trois électrodes d'un FET sont :","choices":["Base, Émetteur, Collecteur","Grille (Gate), Drain, Source","Anode, Cathode, Grille","Entrée, Sortie, Contrôle"],"answer":1},
+{"id":"21","label":"Q21","section":"FET / MOSFET","type":"single","text":"Le FET est un composant :","choices":["Bipolaire (deux types de porteurs)","Unipolaire (un seul type de porteur)","Sans porteurs de charge","Tripolaire"],"answer":1},
+{"id":"22","label":"Q22","section":"FET / MOSFET","type":"single","text":"Par rapport au transistor bipolaire, le FET est piloté :","choices":["En courant (courant de grille important)","En tension (courant de grille nul, i<sub>G</sub> = 0)","En puissance","En fréquence"],"answer":1},
+{"id":"23","label":"Q23","section":"FET / MOSFET","type":"single","text":"MOSFET signifie :","choices":["Metal Oxide Semiconductor Field Effect Transistor","Multiple Output Source Emitter Feedback Transistor","Magnetic Oscillation Semiconductor FET","Modulated Optical Signal FET"],"answer":0},
+{"id":"24","label":"Q24","section":"FET / MOSFET","type":"single","text":"Un MOSFET à enrichissement :","choices":["A un canal pré-établi qu'il faut détruire","N'a pas de canal pré-établi, il faut appliquer V<sub>GS</sub> pour le créer","Fonctionne toujours en régime saturé","N'a pas besoin de tension de grille"],"answer":1},
+{"id":"25","label":"Q25","section":"FET / MOSFET","type":"single","text":"Dans un MOSFET à enrichissement (enhanced) NMOS, le transistor commence à conduire quand :","choices":["V<sub>GS</sub> < 0","V<sub>GS</sub> > V<sub>GS(th)</sub> (tension de seuil)","V<sub>DS</sub> = 0","V<sub>GS</sub> = 0"],"answer":1},
+{"id":"26","label":"Q26","section":"FET / MOSFET","type":"single","text":"La relation de courant d'un JFET en zone de pincement est :","choices":["I<sub>D</sub> = I<sub>DSS</sub> · (1 + V<sub>GS</sub>/V<sub>P</sub>)²","I<sub>D</sub> = β · I<sub>B</sub>","I<sub>D</sub> = V<sub>DS</sub> / R<sub>DS</sub>","I<sub>D</sub> = g<sub>m</sub> · V<sub>DS</sub>"],"answer":0},
+{"id":"27","label":"Q27","section":"FET / MOSFET","type":"single","text":"I<sub>DSS</sub> représente :","choices":["Le courant de drain maximal quand V<sub>GS</sub> = 0","Le courant de saturation de la grille","Le courant de fuite du drain","Le courant inverse de la source"],"answer":0},
+{"id":"28","label":"Q28","section":"FET / MOSFET","type":"single","text":"La tension V<sub>P</sub> (tension de pincement) d'un JFET type N :","choices":["Est toujours positive","Est négative : le canal se ferme quand V<sub>GS</sub> = V<sub>P</sub>","Est nulle","Dépend de V<sub>DS</sub> uniquement"],"answer":1},
+{"id":"29","label":"Q29","section":"FET / MOSFET","type":"single","text":"Le CMOS (Complementary MOS) associe :","choices":["Deux transistors NMOS","Un NMOS et un PMOS","Deux transistors bipolaires","Un JFET et un MOSFET"],"answer":1},
+{"id":"30","label":"Q30","section":"FET / MOSFET","type":"single","text":"Un avantage majeur du CMOS dans les circuits numériques est :","choices":["Pas de consommation statique (consomme uniquement lors des commutations)","Un gain en courant très élevé","Une tension de seuil nulle","Un courant de fuite important"],"answer":0},
+{"id":"31","label":"Q31","section":"FET / MOSFET","type":"single","text":"Le gain en tension d'un amplificateur source commune (JFET) est :","choices":["A<sub>v</sub> = 1 + R<sub>D</sub>/R<sub>S</sub>","A<sub>v</sub> = −g<sub>m</sub> · R<sub>D</sub>","A<sub>v</sub> = β · R<sub>D</sub>","A<sub>v</sub> = R<sub>S</sub> / R<sub>D</sub>"],"answer":1},
+{"id":"32","label":"Q32","section":"FET / MOSFET","type":"single","text":"La transconductance g<sub>m</sub> d'un JFET s'exprime :","choices":["g<sub>m</sub> = (2·I<sub>DSS</sub> / V<sub>P</sub>) · (1 + V<sub>GS</sub>/V<sub>P</sub>)","g<sub>m</sub> = I<sub>C</sub> / 0.026","g<sub>m</sub> = β / h<sub>11</sub>","g<sub>m</sub> = V<sub>DS</sub> / I<sub>D</sub>"],"answer":0},
+{"id":"33","label":"Q33","section":"FET / MOSFET","type":"single","text":"Les FET sont sensibles :","choices":["Aux champs magnétiques uniquement","Aux décharges électrostatiques (ESD)","À la gravité","Aux variations de pression"],"answer":1},
+{"id":"34","label":"Q34","section":"FET / MOSFET","type":"single","text":"R<sub>DS(on)</sub> d'un MOSFET :","choices":["Diminue avec la température","Augmente avec la température","Est constant quelle que soit la température","N'est pas défini pour un MOSFET"],"answer":1},
+{"id":"35","label":"Q35","section":"FET / MOSFET","type":"single","text":"V<sub>GS(th)</sub> d'un MOSFET :","choices":["Augmente avec la température","Diminue avec la température","Est toujours exactement 0 V","Est identique pour tous les MOSFETs"],"answer":1},
+{"id":"36","label":"Q36","section":"FET / MOSFET","type":"single","text":"Un JFET utilisé en source de courant fonctionne :","choices":["En zone ohmique","En zone de pincement (saturation), I<sub>D</sub> stable sur une large plage de V<sub>DS</sub>","En zone de claquage","Hors de toute zone utile"],"answer":1},
+{"id":"37","label":"Q37","section":"AOP","type":"single","text":"AOP signifie :","choices":["Amplificateur Opérationnel","Amplificateur Oscillant Polarisé","Analyseur Optique de Phase","Amplificateur à Offset Programmable"],"answer":0},
+{"id":"38","label":"Q38","section":"AOP","type":"single","text":"Un AOP idéal possède :","choices":["Un gain infini, une impédance d'entrée infinie, une impédance de sortie nulle","Un gain de 1, une impédance d'entrée nulle","Un gain fini, une impédance de sortie infinie","Des courants d'entrée élevés"],"answer":0},
+{"id":"39","label":"Q39","section":"AOP","type":"single","text":"En mode linéaire (contre-réaction sur e−), l'AOP idéal vérifie :","choices":["ε = V<sup>+</sup> − V<sup>−</sup> = 0","V<sub>S</sub> = V<sub>CC</sub>","i<sup>+</sup> = i<sup>−</sup> ≠ 0","ε est très grand"],"answer":0},
+{"id":"40","label":"Q40","section":"AOP","type":"single","text":"Un AOP fonctionne en mode comparateur (non linéaire) quand :","choices":["La contre-réaction est sur l'entrée inverseuse","Il n'y a pas de rétroaction ou la rétroaction est sur l'entrée non-inverseuse","Le gain est fini","L'impédance de sortie est infinie"],"answer":1},
+{"id":"41","label":"Q41","section":"AOP","type":"single","text":"Le gain du montage <strong>non-inverseur</strong> avec AOP est :","choices":["H₀ = −R₂/R₁","H₀ = 1 + R₂/R₁","H₀ = R₁/R₂","H₀ = −1 − R₂/R₁"],"answer":1},
+{"id":"42","label":"Q42","section":"AOP","type":"single","text":"Le gain du montage <strong>inverseur</strong> avec AOP est :","choices":["H₀ = 1 + R₂/R₁","H₀ = −R₂/R₁","H₀ = R₂/R₁","H₀ = −R₁/R₂"],"answer":1},
+{"id":"43","label":"Q43","section":"AOP","type":"single","text":"Le montage <strong>suiveur</strong> (buffer) avec AOP a pour gain :","choices":["H₀ = −1","H₀ = 0","H₀ = 1 (V<sub>S</sub> = V<sub>E</sub>)","H₀ = ∞"],"answer":2},
+{"id":"44","label":"Q44","section":"AOP","type":"single","text":"L'intérêt principal du montage suiveur est :","choices":["Amplifier le signal","Adapter l'impédance : Z<sub>E</sub> = ∞ et Z<sub>S</sub> = 0","Filtrer le signal","Inverser le signal"],"answer":1},
+{"id":"45","label":"Q45","section":"AOP","type":"single","text":"L'impédance d'entrée du montage inverseur est :","choices":["Infinie","Nulle","Égale à R₁","Égale à R₂"],"answer":2},
+{"id":"46","label":"Q46","section":"AOP","type":"single","text":"On parle de « masse virtuelle » en e<sup>−</sup> dans le montage inverseur car :","choices":["L'entrée e<sup>−</sup> est physiquement reliée à la masse","ε = 0, donc e<sup>−</sup> est au même potentiel que e<sup>+</sup> qui est à la masse","L'AOP est court-circuité","La sortie est à 0 V"],"answer":1},
+{"id":"47","label":"Q47","section":"AOP","type":"single","text":"Le montage additionneur inverseur avec R₁ = R₂ = R₃ donne :","choices":["V<sub>S</sub> = V₁ + V₂","V<sub>S</sub> = −(V₁ + V₂)","V<sub>S</sub> = V₁ − V₂","V<sub>S</sub> = V₁ · V₂"],"answer":1},
+{"id":"48","label":"Q48","section":"AOP","type":"single","text":"Le montage soustracteur (différentiel) avec R₁·R₄ = R₂·R₃ donne :","choices":["V<sub>S</sub> = (R₄/R₃)·(V₁ + V₂)","V<sub>S</sub> = (R₄/R₃)·(V₁ − V₂)","V<sub>S</sub> = V₁ / V₂","V<sub>S</sub> = −V₁ · V₂"],"answer":1},
+{"id":"49","label":"Q49","section":"AOP","type":"single","text":"Le montage intégrateur avec AOP réalise :","choices":["V<sub>S</sub>(jω) / V<sub>E</sub>(jω) = −1/(RCjω)","V<sub>S</sub> = −R₂/R₁ · V<sub>E</sub>","V<sub>S</sub> = 1 + R₂/R₁","V<sub>S</sub> = −RCjω · V<sub>E</sub>"],"answer":0},
+{"id":"50","label":"Q50","section":"AOP","type":"single","text":"Le montage dérivateur avec AOP réalise :","choices":["V<sub>S</sub>(jω) / V<sub>E</sub>(jω) = −RCjω","V<sub>S</sub> = −1/(RCjω) · V<sub>E</sub>","V<sub>S</sub> = V<sub>E</sub>","V<sub>S</sub> = V<sub>E</sub>²"],"answer":0},
+{"id":"51","label":"Q51","section":"AOP","type":"single","text":"Le trigger de Schmitt est un :","choices":["Amplificateur linéaire","Comparateur avec hystérésis","Filtre passe-bas","Oscillateur sinusoïdal"],"answer":1},
+{"id":"52","label":"Q52","section":"AOP","type":"single","text":"Le produit Gain-Bande (GBW) d'un AOP signifie :","choices":["Plus le gain est élevé, plus la bande passante est large","H₀ · f<sub>C</sub>' = A₀ · f<sub>C</sub> = Constante","Le gain est toujours proportionnel à la fréquence","La bande passante ne dépend jamais du gain"],"answer":1},
+{"id":"53","label":"Q53","section":"AOP","type":"single","text":"Le slew rate d'un AOP définit :","choices":["Le gain maximal","La vitesse maximale de variation de la tension de sortie (V/µs)","L'impédance de sortie","Le courant de court-circuit"],"answer":1},
+{"id":"54","label":"Q54","section":"AOP","type":"single","text":"Un AOP nécessite typiquement :","choices":["Une alimentation simple (+V<sub>CC</sub>)","Une alimentation symétrique (+V<sub>CC</sub> / −V<sub>CC</sub>)","Pas d'alimentation","Une alimentation en courant"],"answer":1},
+{"id":"55","label":"Q55","section":"Exercices CC2","type":"single","text":"Pour un montage redresseur simple alternance, le composant essentiel est :","choices":["Un transistor","Une diode","Un condensateur","Une résistance variable"],"answer":1},
+{"id":"56","label":"Q56","section":"Exercices CC2","type":"single","text":"Pour « lisser » un signal redressé et se rapprocher du continu, on ajoute :","choices":["Une inductance en série","Un condensateur en parallèle avec la charge","Une résistance supplémentaire","Un deuxième AOP"],"answer":1},
+{"id":"57","label":"Q57","section":"Exercices CC2","type":"single","text":"Si un AOP a une rétroaction (contre-réaction) sur l'entrée inverseuse (e<sup>−</sup>), il fonctionne en :","choices":["Mode non-linéaire (comparateur)","Mode linéaire","Mode oscillateur","Mode bloqué"],"answer":1},
+{"id":"58","label":"Q58","section":"Exercices CC2","type":"fill","text":"Montage inverseur avec R₁ = 10 kΩ et R₂ = 30 kΩ. Le gain est H₀ = ?","placeholder":"Ex: -3","answer_text":"-3","answers":["-3","-3.0"]},
+{"id":"59","label":"Q59","section":"Exercices CC2","type":"fill","text":"Montage non-inverseur avec R₁ = 10 kΩ et R₂ = 20 kΩ. Le gain est H₀ = ?","placeholder":"Ex: 3","answer_text":"3","answers":["3","3.0"]},
+{"id":"60","label":"Q60","section":"Exercices CC2","type":"single","text":"Dans l'exercice du TD révision (AOP avec deux étages), si le 1er étage est un inverseur avec R₁ = 2R₂, alors V<sub>S1</sub> = ?","choices":["V<sub>S1</sub> = −V₁/2","V<sub>S1</sub> = −2·V₁","V<sub>S1</sub> = V₁","V<sub>S1</sub> = 2·V₁"],"answer":0},
+{"id":"61","label":"Q61","section":"Exercices CC2","type":"single","text":"Fonction de transfert H(jω) = −A·(jω/ω₀) / (1 + jω/ω₀). Quand ω → 0, le gain en dB vaut :","choices":["0 dB","−∞ dB","+∞ dB","20·log(A) dB"],"answer":1},
+{"id":"62","label":"Q62","section":"Exercices CC2","type":"single","text":"Même H(jω). Quand ω → +∞, le gain en dB vaut :","choices":["−∞ dB","0 dB","20·log(A) dB","+∞ dB"],"answer":2},
+{"id":"63","label":"Q63","section":"Exercices CC2","type":"single","text":"L'impédance complexe Z d'une résistance R en série avec un condensateur C est :","choices":["Z = R + 1/(Cjω)","Z = R · 1/(Cjω)","Z = R − Cjω","Z = 1/(R + Cjω)"],"answer":0},
+{"id":"64","label":"Q64","section":"Exercices CC2","type":"single","text":"Dans un montage à AOP, si V<sup>+</sup> = V<sub>e1</sub>·R₄/(R₃+R₄) et V<sup>−</sup> = V<sub>S</sub>·R₁/(R₁+R₂), la fonction réalisée est :","choices":["Un intégrateur","Un dérivateur","Un soustracteur (amplificateur différentiel)","Un oscillateur"],"answer":2},
+{"id":"65","label":"Q65","section":"FET / MOSFET","type":"fill","text":"Pour un JFET avec I<sub>DSS</sub> = 6 mA, V<sub>P</sub> = 10 V, I<sub>D</sub> = 3 mA, R<sub>D</sub> = 10 kΩ. Le gain A<sub>v</sub> = −g<sub>m</sub>·R<sub>D</sub>. Sachant g<sub>m</sub> ≈ 0.85 mA/V, le gain vaut environ :","placeholder":"Ex: -8.5","answer_text":"-8.5","answers":["-8.5","-8,5","8.5","8,5"]}
+]};
+
+(function() {
+  const elQuiz = document.getElementById('quiz');
+  const elAnswered = document.getElementById('answered');
+  const elScore = document.getElementById('score');
+  const elWrong = document.getElementById('wrong');
+  const elTotal = document.getElementById('total');
+  const elBar = document.getElementById('bar');
+  const btnReset = document.getElementById('btnReset');
+  const btnRevealAll = document.getElementById('btnRevealAll');
+  const elSearch = document.getElementById('search');
+  const elChips = document.getElementById('chips');
+
+  const KEY = "electronique_cc2_qcm_v1";
+  let state = loadState();
+  let activeSection = "Toutes";
+  let query = "";
+
+  const sections = ["Toutes", ...Array.from(new Set(DATA.questions.map(q => q.section)))];
+  elTotal.textContent = DATA.questions.length;
+
+  function loadState() {
+    try { const r = localStorage.getItem(KEY); if(!r) return {}; const o = JSON.parse(r); return o && typeof o === 'object' ? o : {}; } catch(e) { return {}; }
+  }
+  function saveState() { localStorage.setItem(KEY, JSON.stringify(state)); }
+  function letter(idx) { return ["A","B","C","D","E","F"][idx] || String(idx+1); }
+  function normalizeFill(s) { return s == null ? "" : String(s).trim().replace(/\s+/g, " "); }
+
+  function buildChips() {
+    elChips.innerHTML = "";
+    sections.forEach(sec => {
+      const c = document.createElement('div');
+      c.className = "chip" + (sec === activeSection ? " active" : "");
+      c.textContent = sec;
+      c.addEventListener('click', () => { activeSection = sec; buildChips(); render(); window.scrollTo({top:0, behavior:"smooth"}); });
+      elChips.appendChild(c);
+    });
+  }
+
+  function passesFilter(q) {
+    const secOK = (activeSection === "Toutes") || (q.section === activeSection);
+    if(!secOK) return false;
+    if(!query) return true;
+    const hay = (q.label + " " + q.section + " " + stripHtml(q.text) + " " + (q.choices ? q.choices.map(stripHtml).join(" ") : "")).toLowerCase();
+    return hay.includes(query.toLowerCase());
+  }
+
+  function stripHtml(s) { const d = document.createElement('div'); d.innerHTML = s || ""; return d.textContent || d.innerText || ""; }
+
+  function render() {
+    elQuiz.innerHTML = "";
+    const visible = DATA.questions.filter(passesFilter);
+    visible.forEach(q => {
+      const card = document.createElement('div');
+      card.className = "card"; card.dataset.qid = q.id;
+      const meta = document.createElement('div'); meta.className = "meta";
+      const left = document.createElement('div'); left.style.display = "flex"; left.style.gap = "8px"; left.style.flexWrap = "wrap";
+      const tag = document.createElement('div'); tag.className = "tag"; tag.textContent = q.label;
+      const sec = document.createElement('div'); sec.className = "section"; sec.textContent = q.section;
+      left.appendChild(tag); left.appendChild(sec); meta.appendChild(left);
+      const p = document.createElement('p'); p.className = "qtext"; p.innerHTML = q.text;
+      card.appendChild(meta); card.appendChild(p);
+
+      if(q.type === "single") {
+        const choices = renderChoicesSingle(q, card); card.appendChild(choices);
+        const hint = document.createElement('div'); hint.className = "hint"; hint.innerHTML = `Bonne réponse : <strong>${letter(q.answer)}</strong>`; card.appendChild(hint);
+        if(state[q.id] && state[q.id].locked) applyStateSingle(q, card, choices, state[q.id]);
+      }
+      if(q.type === "multi") {
+        const block = renderChoicesMulti(q, card); card.appendChild(block.wrap);
+        const hint = document.createElement('div'); hint.className = "hint"; hint.innerHTML = `Bonnes réponses : <strong>${q.answer_multi.map(letter).join(", ")}</strong>`; card.appendChild(hint);
+        if(state[q.id] && state[q.id].locked) applyStateMulti(q, card, block, state[q.id]);
+      }
+      if(q.type === "fill") {
+        const wrap = document.createElement('div'); wrap.className = "fillwrap";
+        const input = document.createElement('input'); input.className = "fillinput"; input.placeholder = q.placeholder || "Réponse…"; input.autocomplete = "off"; input.spellcheck = false;
+        const btn = document.createElement('button'); btn.textContent = "Vérifier";
+        const hint = document.createElement('div'); hint.className = "hint"; hint.innerHTML = `Réponse attendue : <strong>${q.answer_text}</strong>`;
+        btn.addEventListener('click', () => onCheckFill(q, card, input, hint));
+        input.addEventListener('keydown', ev => { if(ev.key === "Enter") onCheckFill(q, card, input, hint); });
+        wrap.appendChild(input); wrap.appendChild(btn); card.appendChild(wrap); card.appendChild(hint);
+        const note = document.createElement('div'); note.className = "smallnote"; note.textContent = "Astuce : on ignore les espaces en trop."; card.appendChild(note);
+        if(state[q.id] && state[q.id].locked) applyStateFill(q, card, input, hint, state[q.id]);
+      }
+      elQuiz.appendChild(card);
+    });
+    updateStats();
+  }
+
+  function renderChoicesSingle(q, card) {
+    const choices = document.createElement('div'); choices.className = "choices";
+    q.choices.forEach((ct, idx) => {
+      const row = document.createElement('div'); row.className = "choice"; row.tabIndex = 0;
+      const badge = document.createElement('div'); badge.className = "badge"; badge.textContent = letter(idx);
+      const c = document.createElement('div'); c.className = "ctext"; c.innerHTML = ct;
+      row.appendChild(badge); row.appendChild(c);
+      row.addEventListener('click', () => onPickSingle(q, idx, card, choices));
+      row.addEventListener('keydown', ev => { if(ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); onPickSingle(q, idx, card, choices); } });
+      choices.appendChild(row);
+    });
+    return choices;
+  }
+
+  function onPickSingle(q, idx, card, choices) {
+    if(state[q.id] && state[q.id].locked) return;
+    const rows = Array.from(choices.querySelectorAll('.choice'));
+    card.classList.add('locked','revealed');
+    rows[q.answer].classList.add('good');
+    const correct = (idx === q.answer);
+    if(!correct) rows[idx].classList.add('bad');
+    state[q.id] = { type:"single", selected:idx, locked:true, correct };
+    saveState(); updateStats();
+  }
+
+  function applyStateSingle(q, card, choices, s) {
+    const rows = Array.from(choices.querySelectorAll('.choice'));
+    card.classList.add('locked','revealed');
+    rows[q.answer].classList.add('good');
+    if(typeof s.selected === 'number' && s.selected !== q.answer) rows[s.selected].classList.add('bad');
+  }
+
+  function renderChoicesMulti(q, card) {
+    const wrap = document.createElement('div');
+    const choices = document.createElement('div'); choices.className = "choices";
+    const picked = new Set();
+    q.choices.forEach((ct, idx) => {
+      const row = document.createElement('div'); row.className = "choice"; row.tabIndex = 0;
+      const badge = document.createElement('div'); badge.className = "badge"; badge.textContent = letter(idx);
+      const c = document.createElement('div'); c.className = "ctext"; c.innerHTML = ct;
+      row.appendChild(badge); row.appendChild(c);
+      row.addEventListener('click', () => {
+        if(state[q.id] && state[q.id].locked) return;
+        if(picked.has(idx)) { picked.delete(idx); row.classList.remove('selected'); } else { picked.add(idx); row.classList.add('selected'); }
+      });
+      choices.appendChild(row);
+    });
+    const actions = document.createElement('div'); actions.style.cssText = "margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;";
+    const btnV = document.createElement('button'); btnV.textContent = "Valider"; btnV.className = "ghost";
+    btnV.addEventListener('click', () => {
+      if(state[q.id] && state[q.id].locked) return;
+      card.classList.add('locked','revealed');
+      const rows = Array.from(choices.querySelectorAll('.choice'));
+      const selected = Array.from(picked).sort((a,b)=>a-b);
+      const correctSet = q.answer_multi.slice().sort((a,b)=>a-b);
+      const correct = JSON.stringify(selected) === JSON.stringify(correctSet);
+      rows.forEach((row,i) => { if(q.answer_multi.includes(i)) row.classList.add('good'); if(selected.includes(i) && !q.answer_multi.includes(i)) row.classList.add('bad'); });
+      state[q.id] = { type:"multi", selected, locked:true, correct }; saveState(); updateStats();
+    });
+    actions.appendChild(btnV); wrap.appendChild(choices); wrap.appendChild(actions);
+    return { wrap, choices };
+  }
+
+  function applyStateMulti(q, card, block, s) {
+    card.classList.add('locked','revealed');
+    const rows = Array.from(block.choices.querySelectorAll('.choice'));
+    const selected = Array.isArray(s.selected) ? s.selected : [];
+    rows.forEach((row,i) => { if(selected.includes(i)) row.classList.add('selected'); if(q.answer_multi.includes(i)) row.classList.add('good'); if(selected.includes(i) && !q.answer_multi.includes(i)) row.classList.add('bad'); });
+  }
+
+  function onCheckFill(q, card, input, hint) {
+    if(state[q.id] && state[q.id].locked) return;
+    const user = normalizeFill(input.value);
+    const accept = (q.answers || []).map(normalizeFill);
+    const correct = accept.includes(user);
+    card.classList.add('locked','revealed');
+    input.classList.remove('goodin','badin'); input.classList.add(correct ? 'goodin' : 'badin');
+    state[q.id] = { type:"fill", locked:true, correct, value:user }; saveState(); updateStats();
+  }
+
+  function applyStateFill(q, card, input, hint, s) {
+    card.classList.add('locked','revealed');
+    input.value = s.value ?? ""; input.classList.add(s.correct ? "goodin" : "badin");
+  }
+
+  function updateStats() {
+    const entries = Object.values(state).filter(v => v && v.locked);
+    const answered = entries.length;
+    const score = entries.filter(v => v.correct).length;
+    elAnswered.textContent = answered; elScore.textContent = score; elWrong.textContent = answered - score;
+    elBar.style.width = Math.round((answered / DATA.questions.length) * 100) + "%";
+  }
+
+  btnReset.addEventListener('click', () => { if(confirm("Réinitialiser toutes les réponses ?")) { state = {}; saveState(); render(); window.scrollTo({top:0, behavior:"smooth"}); } });
+
+  btnRevealAll.addEventListener('click', () => {
+    render();
+    DATA.questions.forEach(q => {
+      const card = document.querySelector(`.card[data-qid="${q.id}"]`);
+      if(!card) return;
+      card.classList.add('revealed');
+      if(q.type === "single") { const rows = card.querySelectorAll('.choice'); if(rows[q.answer]) rows[q.answer].classList.add('good'); }
+      if(q.type === "multi") { const rows = card.querySelectorAll('.choice'); q.answer_multi.forEach(i => rows[i] && rows[i].classList.add('good')); }
+    });
+  });
+
+  elSearch.addEventListener('input', () => { query = elSearch.value.trim(); render(); });
+
+  buildChips(); render();
+})();
+</script>
+</body>
+</html>

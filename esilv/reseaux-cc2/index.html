@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Réseaux CC2 — QCM de révisions</title>
+  <meta name="description" content="QCM de révisions pour l'examen de Réseaux CC2 - Modèle OSI, TCP/IP, Ethernet, ARP, IP, DNS, Routage - ESILV" />
+  <style>
+    :root {
+      --bg: #070b12;
+      --panel: rgba(17,24,39,.78);
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --border: rgba(255,255,255,.085);
+      --shadow: 0 12px 34px rgba(0,0,0,.40);
+      --accent: #38bdf8;
+      --good: #22c55e;
+      --bad: #ef4444;
+      --focus: rgba(56,189,248,.35);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      background:
+        radial-gradient(1200px 800px at 10% 0%, rgba(56,189,248,.14), transparent 60%),
+        radial-gradient(900px 700px at 90% 10%, rgba(52,211,153,.10), transparent 55%),
+        radial-gradient(900px 700px at 50% 100%, rgba(167,139,250,.08), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      background-attachment: fixed;
+    }
+    .container { max-width: 1120px; margin: 0 auto; padding: 22px 16px 72px; }
+    .header {
+      display: grid; gap: 12px; padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow); position: sticky; top: 12px; z-index: 10;
+      backdrop-filter: blur(12px);
+    }
+    .toprow { display:flex; align-items:flex-start; justify-content:space-between; gap: 14px; flex-wrap: wrap; }
+    h1 { font-size: 20px; margin: 0; letter-spacing: .2px; background: linear-gradient(135deg, #38bdf8, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .subtitle { color: var(--muted); font-size: 13px; margin: 4px 0 0; }
+    .controls { display:flex; gap: 10px; flex-wrap: wrap; align-items:center; justify-content:flex-end; }
+    .search {
+      min-width: 240px; flex: 1 1 260px;
+      background: rgba(15,23,42,.70); border: 1px solid var(--border);
+      border-radius: 12px; padding: 10px 12px; color: var(--text); outline: none;
+    }
+    .search:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+    .chips { display:flex; gap: 8px; flex-wrap: wrap; }
+    .chip {
+      cursor: pointer; user-select: none; padding: 8px 10px; border-radius: 999px;
+      border: 1px solid var(--border); background: rgba(15,23,42,.65);
+      color: var(--text); font-size: 12px; font-weight: 800;
+      transition: border-color .18s ease, transform .08s ease;
+    }
+    .chip:hover { border-color: rgba(56,189,248,.38); transform: translateY(-1px); }
+    .chip.active { border-color: rgba(56,189,248,.58); background: rgba(56,189,248,.14); }
+    button {
+      cursor:pointer; border: 1px solid var(--border); background: rgba(15,23,42,.85);
+      color: var(--text); padding: 9px 12px; border-radius: 12px; font-weight: 800;
+      transition: transform .08s ease, background .18s ease, border-color .18s ease; white-space: nowrap;
+    }
+    button:hover { transform: translateY(-1px); border-color: rgba(56,189,248,.35); background: rgba(15,23,42,1); }
+    button:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+    .danger { border-color: rgba(239,68,68,.35); }
+    .danger:hover { border-color: rgba(239,68,68,.6); }
+    .ghost { background: rgba(255,255,255,.05); }
+    .stats { display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+    .pill {
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 8px 12px; border-radius: 999px;
+      border: 1px solid var(--border); background: rgba(17,24,39,.7); font-size: 13px;
+    }
+    .dot { width:9px; height:9px; border-radius:999px; background: var(--accent); box-shadow:0 0 0 4px rgba(56,189,248,.14); }
+    .progress { height: 10px; border-radius: 999px; background: rgba(255,255,255,.06); overflow:hidden; border:1px solid var(--border); }
+    .progress > div { height:100%; width:0%; background: linear-gradient(90deg, rgba(56,189,248,.9), rgba(52,211,153,.9)); transition: width .25s ease; }
+    .grid { margin-top: 16px; display:grid; grid-template-columns: 1fr; gap: 14px; }
+    .card {
+      background: var(--panel); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.22);
+    }
+    .meta { display:flex; justify-content:space-between; gap: 12px; align-items:flex-start; margin-bottom: 12px; }
+    .tag {
+      font-size: 12px; font-weight: 900; color: rgba(56,189,248,.95);
+      background: rgba(56,189,248,.12); padding: 6px 10px;
+      border: 1px solid rgba(56,189,248,.20); border-radius: 999px; white-space: nowrap;
+    }
+    .section {
+      font-size: 12px; font-weight: 800; color: rgba(156,163,175,.95);
+      background: rgba(255,255,255,.05); padding: 6px 10px;
+      border: 1px solid var(--border); border-radius: 999px; white-space: nowrap;
+    }
+    .qtext { margin: 0; font-size: 15px; }
+    .choices { display:grid; gap: 10px; margin-top: 12px; }
+    .choice {
+      display:grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: start;
+      padding: 12px; border-radius: 14px; border: 1px solid var(--border);
+      background: rgba(15,23,42,.55);
+      transition: border-color .16s ease, background .16s ease, transform .08s ease;
+      user-select: none;
+    }
+    .choice:hover { border-color: rgba(56,189,248,.35); transform: translateY(-1px); background: rgba(15,23,42,.75); }
+    .badge {
+      width: 44px; height: 28px; border-radius: 999px;
+      display:inline-flex; align-items:center; justify-content:center;
+      font-weight: 900; letter-spacing: .6px;
+      background: rgba(255,255,255,.06); border: 1px solid var(--border);
+    }
+    .ctext { font-size: 14px; }
+    code {
+      background: rgba(255,255,255,.06); border: 1px solid var(--border);
+      padding: 2px 6px; border-radius: 8px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 13px;
+    }
+    .locked .choice { cursor: default; }
+    .locked .choice:hover { transform:none; }
+    .good { border-color: rgba(34,197,94,.55) !important; background: rgba(34,197,94,.12) !important; }
+    .good .badge { background: rgba(34,197,94,.15); border-color: rgba(34,197,94,.35); }
+    .bad { border-color: rgba(239,68,68,.55) !important; background: rgba(239,68,68,.12) !important; }
+    .bad .badge { background: rgba(239,68,68,.15); border-color: rgba(239,68,68,.35); }
+    .selected { outline: 2px solid rgba(56,189,248,.35); outline-offset: 2px; }
+    .hint { margin-top: 10px; color: var(--muted); font-size: 12px; display: none; }
+    .card.revealed .hint { display:block; }
+    .fillwrap { margin-top: 12px; display:flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+    .fillinput {
+      flex: 1 1 260px; min-width: 220px; padding: 10px 12px; border-radius: 12px;
+      border: 1px solid var(--border); background: rgba(15,23,42,.70); color: var(--text); outline: none;
+    }
+    .fillinput:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+    .fillinput.goodin { border-color: rgba(34,197,94,.55); }
+    .fillinput.badin { border-color: rgba(239,68,68,.55); }
+    .smallnote { color: var(--muted); font-size: 12px; margin-top: 10px; }
+    .footer { margin-top: 16px; color: var(--muted); font-size: 12px; text-align:center; }
+    @media (min-width: 950px) { .grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1320px) { .grid { grid-template-columns: 1fr 1fr 1fr; } }
+    @media (max-width: 520px) {
+      .container { padding: 16px 12px 56px; }
+      .header { padding: 12px; top: 8px; gap: 10px; }
+      h1 { font-size: 16px; }
+      .subtitle { font-size: 12px; }
+      .controls { gap: 8px; }
+      .search { min-width: 0; flex: 1 1 160px; padding: 9px 10px; }
+      button { padding: 8px 10px; border-radius: 10px; font-size: 13px; }
+      .pill { padding: 7px 10px; font-size: 12px; }
+      .progress { height: 8px; }
+      .card { padding: 14px; border-radius: 16px; }
+      .qtext { font-size: 14px; }
+      .choice { grid-template-columns: 40px 1fr; }
+      .badge { width: 40px; }
+    }
+  </style>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="toprow">
+        <div>
+          <h1>🌐 Réseaux CC2 — QCM de révisions</h1>
+          <div class="subtitle">Modèle OSI · TCP/IP · Couche physique · Ethernet · ARP · IP · Routage · DNS · Commandes — Clique une réponse pour vérifier.</div>
+        </div>
+        <div class="controls">
+          <input id="search" class="search" placeholder="Rechercher (ex: ARP, OSI, IP, masque, CSMA…)" />
+          <button id="btnRevealAll" class="ghost" title="Affiche les bonnes réponses">Révéler tout</button>
+          <button id="btnReset" class="danger" title="Réinitialise">Reset</button>
+        </div>
+      </div>
+      <div class="chips" id="chips"></div>
+      <div class="stats">
+        <div class="pill"><span class="dot"></span> <span><strong id="answered">0</strong> / <span id="total"></span> répondues</span></div>
+        <div class="pill">✅ <strong id="score">0</strong> bonnes</div>
+        <div class="pill">❌ <strong id="wrong">0</strong> mauvaises</div>
+      </div>
+      <div class="progress" aria-label="Progression"><div id="bar"></div></div>
+    </div>
+    <div class="grid" id="quiz"></div>
+    <div class="footer">ESILV — Réseaux CC2. Les réponses sont sauvegardées localement (LocalStorage).</div>
+  </div>
+
+<script>
+const DATA = {"questions":[
+{"id":"1","label":"Q1","section":"Modèle OSI","type":"single","text":"Combien de couches comporte le modèle OSI ?","choices":["4","5","7","10"],"answer":2},
+{"id":"2","label":"Q2","section":"Modèle OSI","type":"single","text":"De bas en haut, les couches du modèle OSI sont :","choices":["Physique, Liaison, Réseau, Transport, Session, Présentation, Application","Application, Présentation, Session, Transport, Réseau, Liaison, Physique","Physique, Réseau, Transport, Liaison, Session, Application, Présentation","Physique, Liaison, Transport, Réseau, Session, Présentation, Application"],"answer":0},
+{"id":"3","label":"Q3","section":"Modèle OSI","type":"single","text":"Le modèle TCP/IP comporte combien de couches ?","choices":["4","5","7","3"],"answer":0},
+{"id":"4","label":"Q4","section":"Modèle OSI","type":"single","text":"Les couches du modèle TCP/IP sont :","choices":["Accès réseau, Internet, Transport, Application","Physique, Liaison, Réseau, Transport","Application, Présentation, Session, Transport","Physique, Internet, Session, Application"],"answer":0},
+{"id":"5","label":"Q5","section":"Modèle OSI","type":"single","text":"Le principe d'encapsulation signifie que :","choices":["Chaque couche ajoute ses informations de contrôle (en-tête) au PDU de la couche supérieure","Chaque couche supprime les données de la couche précédente","Les données sont chiffrées à chaque couche","Les couches fonctionnent indépendamment sans échange"],"answer":0},
+{"id":"6","label":"Q6","section":"Modèle OSI","type":"single","text":"Un PDU (Protocol Data Unit) est constitué de :","choices":["Uniquement les données utilisateur","SDU + PCI (données + informations de contrôle de la couche)","Uniquement l'en-tête de la couche","Le PDU de la couche inférieure"],"answer":1},
+{"id":"7","label":"Q7","section":"Modèle OSI","type":"single","text":"Le N-PDU = ?","choices":["L-PDU + N-PCI","N-SDU + N-PCI","T-PDU + N-PCI","N-SDU + L-PCI"],"answer":1},
+{"id":"8","label":"Q8","section":"Modèle OSI","type":"single","text":"Si ||PDU<sub>i</sub>|| est la taille du PDU de la couche i et ||PDU<sub>i+1</sub>|| celle de la couche supérieure i+1, alors :","choices":["||PDU<sub>i</sub>|| > ||PDU<sub>i+1</sub>||","||PDU<sub>i</sub>|| < ||PDU<sub>i+1</sub>||","||PDU<sub>i</sub>|| = ||PDU<sub>i+1</sub>||","Aucune relation"],"answer":0},
+{"id":"9","label":"Q9","section":"Modèle OSI","type":"fill","text":"Un message de 30 octets est transmis de la couche application d'un système A vers la couche application d'un système B (chaque couche ajoute α octets). Quelle est la taille du message reçu par la couche 7 du système B ?","placeholder":"Taille en octets","answer_text":"30","answers":["30","30 octets"]},
+{"id":"10","label":"Q10","section":"Commutation","type":"single","text":"Quel type de commutation établit un circuit physique permanent pendant toute la communication ?","choices":["Commutation de paquets","Commutation de messages","Commutation de circuits","Commutation de trames"],"answer":2},
+{"id":"11","label":"Q11","section":"Commutation","type":"single","text":"Un avantage de la commutation de circuits est :","choices":["Bonne utilisation des ressources","Pas de risque de congestion, délai constant","Adapté aux échanges brefs","Pas besoin d'établissement préalable"],"answer":1},
+{"id":"12","label":"Q12","section":"Commutation","type":"single","text":"Un inconvénient majeur de la commutation de circuits est :","choices":["Délai variable","Risque de congestion","Ressources dédiées même sans échange → mauvaise utilisation","Perte de paquets fréquente"],"answer":2},
+{"id":"13","label":"Q13","section":"Commutation","type":"single","text":"La commutation de messages utilise le principe :","choices":["Circuit dédié","Store and forward (stocker puis retransmettre)","Diffusion broadcast","Multiplexage temporel"],"answer":1},
+{"id":"14","label":"Q14","section":"Commutation","type":"single","text":"La commutation de paquets :","choices":["Établit un circuit avant transmission","Segmente les messages en paquets de taille limitée","Ne nécessite pas de réassemblage","Garantit l'ordre d'arrivée des paquets"],"answer":1},
+{"id":"15","label":"Q15","section":"Couche Physique","type":"single","text":"La couche physique est chargée de :","choices":["Le routage des paquets","La transmission des signaux électriques/optiques et le codage des bits","La gestion des sessions","Le contrôle de flux"],"answer":1},
+{"id":"16","label":"Q16","section":"Couche Physique","type":"single","text":"La transmission en parallèle :","choices":["Envoie les bits les uns après les autres","Envoie les bits sur des fils distincts simultanément","Est utilisée dans les réseaux longue distance","N'a aucun problème de perturbation"],"answer":1},
+{"id":"17","label":"Q17","section":"Couche Physique","type":"single","text":"La transmission en série :","choices":["Envoie les bits les uns après les autres sur un seul canal","Utilise un fil par bit","Est impossible pour les réseaux informatiques","N'a pas besoin de synchronisation"],"answer":0},
+{"id":"18","label":"Q18","section":"Couche Physique","type":"single","text":"La transmission Simplex signifie :","choices":["Bidirectionnelle simultanée","À l'alternat (une direction à la fois)","Unidirectionnelle (toujours dans le même sens)","Sans fil"],"answer":2},
+{"id":"19","label":"Q19","section":"Couche Physique","type":"single","text":"La transmission Half Duplex signifie :","choices":["Unidirectionnelle","Bidirectionnelle simultanée","Bidirectionnelle à l'alternat (pas en même temps)","Sans transmission"],"answer":2},
+{"id":"20","label":"Q20","section":"Couche Physique","type":"single","text":"La transmission Full Duplex signifie :","choices":["Unidirectionnelle","À l'alternat","Bidirectionnelle simultanée","En parallèle uniquement"],"answer":2},
+{"id":"21","label":"Q21","section":"Couche Physique","type":"single","text":"Le connecteur RJ45 est utilisé pour :","choices":["La téléphonie uniquement","Les réseaux informatiques (paires torsadées)","Les fibres optiques","Les câbles coaxiaux"],"answer":1},
+{"id":"22","label":"Q22","section":"Couche Physique","type":"single","text":"Un câble de catégorie 5 offre :","choices":["16 MHz de bande passante","100 MHz de bande passante, débit 100 Mb/s sur 100 m","250 MHz de bande passante","1 GHz de bande passante"],"answer":1},
+{"id":"23","label":"Q23","section":"Couche Physique","type":"single","text":"La fibre optique transmet des données sous forme de :","choices":["Signaux électriques","Ondes radio","Signaux lumineux","Signaux magnétiques"],"answer":2},
+{"id":"24","label":"Q24","section":"Couche Physique","type":"single","text":"Un avantage de la fibre optique par rapport au cuivre est :","choices":["Coût plus faible","Insensibilité aux perturbations électromagnétiques et très haut débit","Facilité de connexion","Plus grande flexibilité mécanique"],"answer":1},
+{"id":"25","label":"Q25","section":"Ethernet","type":"single","text":"Ethernet utilise la méthode d'accès :","choices":["Token Ring","CSMA/CD","FDDI","ATM"],"answer":1},
+{"id":"26","label":"Q26","section":"Ethernet","type":"single","text":"CSMA/CD signifie :","choices":["Carrier Sense Multiple Access with Collision Detection","Circuit Switched Multiple Access / Collision Delay","Central System Management Access / Collision Domain","Carrier Signal Modulation Access / Code Division"],"answer":0},
+{"id":"27","label":"Q27","section":"Ethernet","type":"single","text":"Dans CSMA/CD, une station qui veut émettre :","choices":["Émet immédiatement sans vérification","Écoute le canal avant d'émettre (carrier sense)","Attend un jeton","Envoie une requête au serveur central"],"answer":1},
+{"id":"28","label":"Q28","section":"Ethernet","type":"single","text":"En cas de collision dans Ethernet, l'algorithme utilisé est :","choices":["Round Robin","Binary Exponential Backoff","First Come First Served","Priority Queue"],"answer":1},
+{"id":"29","label":"Q29","section":"Ethernet","type":"single","text":"Dans le Binary Exponential Backoff, après la k<sup>ème</sup> collision, R est choisi dans :","choices":["[0, k]","[0, 2<sup>k</sup> − 1]","[1, k²]","[0, 10]"],"answer":1},
+{"id":"30","label":"Q30","section":"Ethernet","type":"single","text":"Dans Ethernet, le nombre maximal de retransmissions avant abandon est :","choices":["5","10","16","32"],"answer":2},
+{"id":"31","label":"Q31","section":"Ethernet","type":"single","text":"L'efficacité de la méthode Pure ALOHA est d'environ :","choices":["18%","36%","50%","100%"],"answer":0},
+{"id":"32","label":"Q32","section":"Ethernet","type":"single","text":"L'efficacité de la méthode Slotted ALOHA est d'environ :","choices":["18%","36%","50%","72%"],"answer":1},
+{"id":"33","label":"Q33","section":"Ethernet","type":"single","text":"Une trame Ethernet contient notamment :","choices":["Adresses MAC source et destination, type/longueur, données, FCS","Adresses IP uniquement","Numéros de port TCP","Noms DNS"],"answer":0},
+{"id":"34","label":"Q34","section":"Ethernet","type":"single","text":"Le FCS (Frame Check Sequence) dans une trame Ethernet utilise :","choices":["Un simple checksum","Un CRC (Cyclic Redundancy Check)","Un hash MD5","Pas de vérification d'erreur"],"answer":1},
+{"id":"35","label":"Q35","section":"Ethernet","type":"single","text":"L'adresse MAC de broadcast est :","choices":["00:00:00:00:00:00","FF:FF:FF:FF:FF:FF","192.168.1.255","255.255.255.255"],"answer":1},
+{"id":"36","label":"Q36","section":"ARP","type":"single","text":"ARP signifie :","choices":["Address Resolution Protocol","Application Routing Protocol","Automatic Route Processing","Advanced Relay Protocol"],"answer":0},
+{"id":"37","label":"Q37","section":"ARP","type":"single","text":"ARP sert à :","choices":["Résoudre un nom de domaine en adresse IP","Associer une adresse IP à une adresse MAC","Router les paquets entre réseaux","Chiffrer les communications"],"answer":1},
+{"id":"38","label":"Q38","section":"ARP","type":"single","text":"ARP se situe à l'interface entre :","choices":["Couche application et transport","Couche réseau (couche 3) et couche liaison (couche 2)","Couche physique et couche réseau","Couche transport et couche session"],"answer":1},
+{"id":"39","label":"Q39","section":"ARP","type":"single","text":"Une requête ARP est envoyée en :","choices":["Unicast (vers une seule machine)","Broadcast (à toutes les machines du LAN)","Multicast","Point à point"],"answer":1},
+{"id":"40","label":"Q40","section":"ARP","type":"single","text":"Une réponse ARP (ARP Reply) est envoyée en :","choices":["Broadcast","Unicast (directement à la machine ayant fait la requête)","Multicast","Anycast"],"answer":1},
+{"id":"41","label":"Q41","section":"ARP","type":"single","text":"La table ARP stocke :","choices":["Les correspondances nom de domaine ↔ IP","Les correspondances adresse IP ↔ adresse MAC","Les routes vers les réseaux distants","Les numéros de port ouverts"],"answer":1},
+{"id":"42","label":"Q42","section":"ARP","type":"single","text":"Est-il possible d'avoir l'adresse MAC d'un PC d'un autre réseau dans sa table ARP ?","choices":["Oui, toujours","Non, car ARP ne fonctionne que sur le même réseau local (LAN). On obtient la MAC du routeur/passerelle.","Oui, via le routeur","Seulement si on utilise un VPN"],"answer":1},
+{"id":"43","label":"Q43","section":"Adressage IP","type":"single","text":"Une adresse IPv4 est codée sur :","choices":["16 bits","32 bits","48 bits","128 bits"],"answer":1},
+{"id":"44","label":"Q44","section":"Adressage IP","type":"single","text":"Une adresse IPv6 est codée sur :","choices":["32 bits","64 bits","128 bits","256 bits"],"answer":2},
+{"id":"45","label":"Q45","section":"Adressage IP","type":"single","text":"Une adresse IP de classe A a le premier octet compris entre :","choices":["0 et 127","128 et 191","192 et 223","224 et 239"],"answer":0},
+{"id":"46","label":"Q46","section":"Adressage IP","type":"single","text":"Une adresse IP de classe B a le premier octet compris entre :","choices":["0 et 127","128 et 191","192 et 223","224 et 239"],"answer":1},
+{"id":"47","label":"Q47","section":"Adressage IP","type":"single","text":"Une adresse IP de classe C a le premier octet compris entre :","choices":["0 et 127","128 et 191","192 et 223","224 et 239"],"answer":2},
+{"id":"48","label":"Q48","section":"Adressage IP","type":"single","text":"Le masque par défaut d'une adresse de classe C est :","choices":["255.0.0.0","255.255.0.0","255.255.255.0","255.255.255.255"],"answer":2},
+{"id":"49","label":"Q49","section":"Adressage IP","type":"single","text":"L'adresse 192.168.1.0/24 est une adresse :","choices":["Publique de classe A","Privée de classe C","Publique de classe B","De loopback"],"answer":1},
+{"id":"50","label":"Q50","section":"Adressage IP","type":"single","text":"Les plages d'adresses IP privées sont :","choices":["10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16","127.0.0.0/8","224.0.0.0/4","1.0.0.0/8"],"answer":0},
+{"id":"51","label":"Q51","section":"Adressage IP","type":"single","text":"L'adresse 127.0.0.1 est :","choices":["Une adresse de broadcast","L'adresse de loopback (localhost)","Une adresse privée de classe A","L'adresse du routeur par défaut"],"answer":1},
+{"id":"52","label":"Q52","section":"Adressage IP","type":"fill","text":"Quelle est l'adresse réseau de 192.168.10.45 avec le masque 255.255.255.0 ?","placeholder":"Ex: 192.168.10.0","answer_text":"192.168.10.0","answers":["192.168.10.0"]},
+{"id":"53","label":"Q53","section":"Adressage IP","type":"fill","text":"Quelle est l'adresse de broadcast de 192.168.10.0/24 ?","placeholder":"Ex: 192.168.10.255","answer_text":"192.168.10.255","answers":["192.168.10.255"]},
+{"id":"54","label":"Q54","section":"Adressage IP","type":"fill","text":"Combien d'hôtes utilisables dans un réseau /24 ?","placeholder":"Nombre","answer_text":"254","answers":["254"]},
+{"id":"55","label":"Q55","section":"Adressage IP","type":"fill","text":"Le masque /24 correspond en notation décimale à :","placeholder":"Ex: 255.255.255.0","answer_text":"255.255.255.0","answers":["255.255.255.0"]},
+{"id":"56","label":"Q56","section":"Adressage IP","type":"fill","text":"Le masque /16 correspond en notation décimale à :","placeholder":"Ex: 255.255.0.0","answer_text":"255.255.0.0","answers":["255.255.0.0"]},
+{"id":"57","label":"Q57","section":"Routage & ICMP","type":"single","text":"La commande <code>ping</code> utilise le protocole :","choices":["TCP","UDP","ICMP","ARP"],"answer":2},
+{"id":"58","label":"Q58","section":"Routage & ICMP","type":"single","text":"Les messages échangés lors d'un <code>ping</code> sont :","choices":["SYN et SYN-ACK","Echo Request et Echo Reply","ARP Request et ARP Reply","DNS Query et DNS Response"],"answer":1},
+{"id":"59","label":"Q59","section":"Routage & ICMP","type":"single","text":"La commande <code>traceroute</code> (ou <code>tracert</code>) permet de :","choices":["Afficher la table ARP","Afficher la route (les routeurs traversés) vers une destination","Configurer une adresse IP","Vider le cache DNS"],"answer":1},
+{"id":"60","label":"Q60","section":"Routage & ICMP","type":"single","text":"Le TTL (Time To Live) dans un paquet IP :","choices":["Indique le temps d'expiration du cache DNS","Est décrémenté de 1 par chaque routeur traversé, le paquet est détruit si TTL = 0","Définit la durée d'une session TCP","N'est jamais modifié"],"answer":1},
+{"id":"61","label":"Q61","section":"Routage & ICMP","type":"single","text":"La table de routage d'un hôte contient :","choices":["Les correspondances IP ↔ MAC","Les routes vers les réseaux de destination et la passerelle par défaut","Les numéros de port ouverts","Les noms de domaine résolus"],"answer":1},
+{"id":"62","label":"Q62","section":"Routage & ICMP","type":"single","text":"La passerelle par défaut (default gateway) est :","choices":["Le serveur DNS","Le routeur utilisé pour atteindre les réseaux extérieurs","Le switch du réseau local","Le serveur DHCP"],"answer":1},
+{"id":"63","label":"Q63","section":"DNS & Commandes","type":"single","text":"DNS signifie :","choices":["Dynamic Network System","Domain Name System","Data Network Service","Distributed Node Server"],"answer":1},
+{"id":"64","label":"Q64","section":"DNS & Commandes","type":"single","text":"DNS permet de :","choices":["Résoudre un nom de domaine en adresse IP (et inversement)","Résoudre une adresse IP en adresse MAC","Router les paquets","Configurer les adresses IP"],"answer":0},
+{"id":"65","label":"Q65","section":"DNS & Commandes","type":"single","text":"La commande <code>nslookup</code> sert à :","choices":["Afficher la table ARP","Interroger un serveur DNS pour résoudre un nom","Configurer l'adresse IP","Afficher la table de routage"],"answer":1},
+{"id":"66","label":"Q66","section":"DNS & Commandes","type":"single","text":"Le fichier <code>/etc/hosts</code> (Linux) ou <code>%windir%\\system32\\drivers\\etc\\hosts</code> (Windows) contient :","choices":["La table de routage","Des correspondances statiques nom ↔ adresse IP","Les mots de passe réseau","La configuration du pare-feu"],"answer":1},
+{"id":"67","label":"Q67","section":"DNS & Commandes","type":"single","text":"La commande <code>ipconfig /flushdns</code> (Windows) sert à :","choices":["Renouveler l'adresse IP","Vider le cache de résolution DNS","Afficher les interfaces réseau","Supprimer la table ARP"],"answer":1},
+{"id":"68","label":"Q68","section":"DNS & Commandes","type":"single","text":"La commande <code>ipconfig /all</code> affiche :","choices":["Uniquement l'adresse IP","Un résumé complet : adresse IP, masque, passerelle, MAC, serveur DNS, DHCP","Uniquement la table de routage","Uniquement les connexions actives"],"answer":1},
+{"id":"69","label":"Q69","section":"DNS & Commandes","type":"single","text":"La commande <code>arp -a</code> affiche :","choices":["La table de routage","Le cache DNS","La correspondance IP ↔ adresse MAC (table ARP)","Les ports ouverts"],"answer":2},
+{"id":"70","label":"Q70","section":"DNS & Commandes","type":"single","text":"La commande <code>arp -d</code> sert à :","choices":["Ajouter une entrée ARP","Supprimer une entrée du cache ARP","Afficher le cache DNS","Configurer la passerelle"],"answer":1},
+{"id":"71","label":"Q71","section":"DNS & Commandes","type":"single","text":"La commande <code>netstat</code> affiche :","choices":["Les interfaces réseau","Les connexions actives et les ports à l'écoute (TCP et UDP)","La table ARP","Le cache DNS"],"answer":1},
+{"id":"72","label":"Q72","section":"DNS & Commandes","type":"single","text":"La commande <code>route print</code> (Windows) ou <code>route -n</code> (Linux) affiche :","choices":["Le cache ARP","Le cache DNS","La table de routage de la machine","Les ports ouverts"],"answer":2},
+{"id":"73","label":"Q73","section":"Exercices Réseaux","type":"single","text":"Si deux PCs sont connectés via un switch et ont des adresses 192.168.1.1/24 et 192.168.1.2/24, alors :","choices":["Ils ne peuvent pas communiquer","Ils sont dans le même réseau et peuvent communiquer directement","Ils ont besoin d'un routeur","Ils sont dans des VLANs différents"],"answer":1},
+{"id":"74","label":"Q74","section":"Exercices Réseaux","type":"single","text":"Pour communiquer avec un PC dans un autre réseau (ex: 10.0.0.0/8), un hôte 192.168.1.1/24 doit :","choices":["Envoyer directement la trame au PC distant","Envoyer la trame à sa passerelle par défaut (routeur)","Modifier son adresse IP","Faire une requête DNS"],"answer":1},
+{"id":"75","label":"Q75","section":"Exercices Réseaux","type":"single","text":"Lors d'un <code>ping</code> vers un PC du même réseau, la table ARP est mise à jour avec :","choices":["L'adresse MAC du serveur DNS","L'adresse MAC du PC cible","L'adresse MAC du routeur","Rien : la table ARP ne change pas"],"answer":1},
+{"id":"76","label":"Q76","section":"Exercices Réseaux","type":"single","text":"Lors d'un <code>ping</code> vers un serveur distant (ex: google.fr), la table ARP est mise à jour avec :","choices":["L'adresse MAC de google.fr","L'adresse MAC de la passerelle par défaut (routeur)","Rien","L'adresse IP de google.fr"],"answer":1},
+{"id":"77","label":"Q77","section":"Exercices Réseaux","type":"single","text":"Un hub :","choices":["Envoie les trames uniquement au destinataire","Diffuse les trames sur tous ses ports","Effectue du routage","Filtre les trames par adresse IP"],"answer":1},
+{"id":"78","label":"Q78","section":"Exercices Réseaux","type":"single","text":"Un switch :","choices":["Diffuse toujours toutes les trames sur tous les ports","Apprend les adresses MAC et envoie les trames uniquement au port du destinataire","Effectue du routage IP","Est identique à un hub"],"answer":1},
+{"id":"79","label":"Q79","section":"Exercices Réseaux","type":"single","text":"Un routeur opère à :","choices":["Couche 1 (Physique)","Couche 2 (Liaison)","Couche 3 (Réseau)","Couche 4 (Transport)"],"answer":2},
+{"id":"80","label":"Q80","section":"Exercices Réseaux","type":"single","text":"Un switch opère principalement à :","choices":["Couche 1 (Physique)","Couche 2 (Liaison de données)","Couche 3 (Réseau)","Couche 7 (Application)"],"answer":1},
+{"id":"81","label":"Q81","section":"Adressage IP","type":"fill","text":"L'adresse 172.16.5.130 avec le masque 255.255.255.128 (/25). Quelle est l'adresse réseau ?","placeholder":"Ex: 172.16.5.128","answer_text":"172.16.5.128","answers":["172.16.5.128"]},
+{"id":"82","label":"Q82","section":"Adressage IP","type":"fill","text":"Combien d'hôtes utilisables dans un réseau /25 ?","placeholder":"Nombre","answer_text":"126","answers":["126"]},
+{"id":"83","label":"Q83","section":"Adressage IP","type":"fill","text":"Combien de sous-réseaux peut-on créer en découpant un réseau /24 en sous-réseaux /26 ?","placeholder":"Nombre","answer_text":"4","answers":["4"]},
+{"id":"84","label":"Q84","section":"Adressage IP","type":"fill","text":"Combien d'hôtes utilisables par sous-réseau en /26 ?","placeholder":"Nombre","answer_text":"62","answers":["62"]},
+{"id":"85","label":"Q85","section":"Ethernet","type":"single","text":"Dans le protocole Slotted ALOHA, les stations ne peuvent émettre qu'en :","choices":["N'importe quel moment","Début de slot (temps discrétisé)","Fin de slot","Milieu de slot"],"answer":1},
+{"id":"86","label":"Q86","section":"Ethernet","type":"single","text":"Le CSMA persistant :","choices":["Attend un temps aléatoire avant de réécouter","Écoute de manière persistante et émet dès que le canal est libre","N'écoute jamais le canal","Émet sans vérification"],"answer":1},
+{"id":"87","label":"Q87","section":"Modèle OSI","type":"single","text":"Le PDU de la couche Transport est appelé :","choices":["Trame (Frame)","Paquet (Packet)","Segment","Bit"],"answer":2},
+{"id":"88","label":"Q88","section":"Modèle OSI","type":"single","text":"Le PDU de la couche Réseau est appelé :","choices":["Trame","Paquet (ou datagramme)","Segment","Message"],"answer":1},
+{"id":"89","label":"Q89","section":"Modèle OSI","type":"single","text":"Le PDU de la couche Liaison de données est appelé :","choices":["Paquet","Segment","Trame (Frame)","Bit"],"answer":2},
+{"id":"90","label":"Q90","section":"Couche Physique","type":"single","text":"Un câble UTP (Unshielded Twisted Pair) est :","choices":["Un câble à paires torsadées non blindées","Un câble coaxial","Un câble blindé avec écran métallique","Une fibre optique"],"answer":0},
+{"id":"91","label":"Q91","section":"Couche Physique","type":"single","text":"Un câble STP (Shielded Twisted Pair) est :","choices":["Non blindé","Blindé (avec écran métallique pour réduire les interférences)","Un câble coaxial","Une fibre optique"],"answer":1},
+{"id":"92","label":"Q92","section":"Exercices Réseaux","type":"single","text":"Wireshark est un outil qui permet de :","choices":["Configurer les adresses IP","Capturer et analyser les paquets réseau","Gérer le pare-feu","Créer des réseaux virtuels"],"answer":1},
+{"id":"93","label":"Q93","section":"Exercices Réseaux","type":"fill","text":"La commande pour afficher la configuration IP sous Windows est :","placeholder":"Commande","answer_text":"ipconfig","answers":["ipconfig","ipconfig /all"]},
+{"id":"94","label":"Q94","section":"Exercices Réseaux","type":"fill","text":"La commande pour afficher la configuration IP sous Linux est :","placeholder":"Commande","answer_text":"ifconfig","answers":["ifconfig","ip a","ip addr"]},
+{"id":"95","label":"Q95","section":"DNS & Commandes","type":"fill","text":"La commande pour afficher le cache DNS sous Windows est :","placeholder":"Commande","answer_text":"ipconfig /displaydns","answers":["ipconfig /displaydns","ipconfig/displaydns"]}
+]};
+
+(function() {
+  const elQuiz = document.getElementById('quiz');
+  const elAnswered = document.getElementById('answered');
+  const elScore = document.getElementById('score');
+  const elWrong = document.getElementById('wrong');
+  const elTotal = document.getElementById('total');
+  const elBar = document.getElementById('bar');
+  const btnReset = document.getElementById('btnReset');
+  const btnRevealAll = document.getElementById('btnRevealAll');
+  const elSearch = document.getElementById('search');
+  const elChips = document.getElementById('chips');
+
+  const KEY = "reseaux_cc2_qcm_v1";
+  let state = loadState();
+  let activeSection = "Toutes";
+  let query = "";
+
+  const sections = ["Toutes", ...Array.from(new Set(DATA.questions.map(q => q.section)))];
+  elTotal.textContent = DATA.questions.length;
+
+  function loadState() {
+    try { const r = localStorage.getItem(KEY); if(!r) return {}; const o = JSON.parse(r); return o && typeof o === 'object' ? o : {}; } catch(e) { return {}; }
+  }
+  function saveState() { localStorage.setItem(KEY, JSON.stringify(state)); }
+  function letter(idx) { return ["A","B","C","D","E","F"][idx] || String(idx+1); }
+  function normalizeFill(s) { return s == null ? "" : String(s).trim().replace(/\s+/g, " "); }
+
+  function buildChips() {
+    elChips.innerHTML = "";
+    sections.forEach(sec => {
+      const c = document.createElement('div');
+      c.className = "chip" + (sec === activeSection ? " active" : "");
+      c.textContent = sec;
+      c.addEventListener('click', () => { activeSection = sec; buildChips(); render(); window.scrollTo({top:0, behavior:"smooth"}); });
+      elChips.appendChild(c);
+    });
+  }
+
+  function passesFilter(q) {
+    const secOK = (activeSection === "Toutes") || (q.section === activeSection);
+    if(!secOK) return false;
+    if(!query) return true;
+    const hay = (q.label + " " + q.section + " " + stripHtml(q.text) + " " + (q.choices ? q.choices.map(stripHtml).join(" ") : "")).toLowerCase();
+    return hay.includes(query.toLowerCase());
+  }
+
+  function stripHtml(s) { const d = document.createElement('div'); d.innerHTML = s || ""; return d.textContent || d.innerText || ""; }
+
+  function render() {
+    elQuiz.innerHTML = "";
+    const visible = DATA.questions.filter(passesFilter);
+    visible.forEach(q => {
+      const card = document.createElement('div');
+      card.className = "card"; card.dataset.qid = q.id;
+      const meta = document.createElement('div'); meta.className = "meta";
+      const left = document.createElement('div'); left.style.display = "flex"; left.style.gap = "8px"; left.style.flexWrap = "wrap";
+      const tag = document.createElement('div'); tag.className = "tag"; tag.textContent = q.label;
+      const sec = document.createElement('div'); sec.className = "section"; sec.textContent = q.section;
+      left.appendChild(tag); left.appendChild(sec); meta.appendChild(left);
+      const p = document.createElement('p'); p.className = "qtext"; p.innerHTML = q.text;
+      card.appendChild(meta); card.appendChild(p);
+
+      if(q.type === "single") {
+        const choices = renderChoicesSingle(q, card); card.appendChild(choices);
+        const hint = document.createElement('div'); hint.className = "hint"; hint.innerHTML = `Bonne réponse : <strong>${letter(q.answer)}</strong>`; card.appendChild(hint);
+        if(state[q.id] && state[q.id].locked) applyStateSingle(q, card, choices, state[q.id]);
+      }
+      if(q.type === "multi") {
+        const block = renderChoicesMulti(q, card); card.appendChild(block.wrap);
+        const hint = document.createElement('div'); hint.className = "hint"; hint.innerHTML = `Bonnes réponses : <strong>${q.answer_multi.map(letter).join(", ")}</strong>`; card.appendChild(hint);
+        if(state[q.id] && state[q.id].locked) applyStateMulti(q, card, block, state[q.id]);
+      }
+      if(q.type === "fill") {
+        const wrap = document.createElement('div'); wrap.className = "fillwrap";
+        const input = document.createElement('input'); input.className = "fillinput"; input.placeholder = q.placeholder || "Réponse…"; input.autocomplete = "off"; input.spellcheck = false;
+        const btn = document.createElement('button'); btn.textContent = "Vérifier";
+        const hint = document.createElement('div'); hint.className = "hint"; hint.innerHTML = `Réponse attendue : <strong>${q.answer_text}</strong>`;
+        btn.addEventListener('click', () => onCheckFill(q, card, input, hint));
+        input.addEventListener('keydown', ev => { if(ev.key === "Enter") onCheckFill(q, card, input, hint); });
+        wrap.appendChild(input); wrap.appendChild(btn); card.appendChild(wrap); card.appendChild(hint);
+        const note = document.createElement('div'); note.className = "smallnote"; note.textContent = "Astuce : on ignore les espaces en trop."; card.appendChild(note);
+        if(state[q.id] && state[q.id].locked) applyStateFill(q, card, input, hint, state[q.id]);
+      }
+      elQuiz.appendChild(card);
+    });
+    updateStats();
+  }
+
+  function renderChoicesSingle(q, card) {
+    const choices = document.createElement('div'); choices.className = "choices";
+    q.choices.forEach((ct, idx) => {
+      const row = document.createElement('div'); row.className = "choice"; row.tabIndex = 0;
+      const badge = document.createElement('div'); badge.className = "badge"; badge.textContent = letter(idx);
+      const c = document.createElement('div'); c.className = "ctext"; c.innerHTML = ct;
+      row.appendChild(badge); row.appendChild(c);
+      row.addEventListener('click', () => onPickSingle(q, idx, card, choices));
+      row.addEventListener('keydown', ev => { if(ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); onPickSingle(q, idx, card, choices); } });
+      choices.appendChild(row);
+    });
+    return choices;
+  }
+
+  function onPickSingle(q, idx, card, choices) {
+    if(state[q.id] && state[q.id].locked) return;
+    const rows = Array.from(choices.querySelectorAll('.choice'));
+    card.classList.add('locked','revealed');
+    rows[q.answer].classList.add('good');
+    const correct = (idx === q.answer);
+    if(!correct) rows[idx].classList.add('bad');
+    state[q.id] = { type:"single", selected:idx, locked:true, correct };
+    saveState(); updateStats();
+  }
+
+  function applyStateSingle(q, card, choices, s) {
+    const rows = Array.from(choices.querySelectorAll('.choice'));
+    card.classList.add('locked','revealed');
+    rows[q.answer].classList.add('good');
+    if(typeof s.selected === 'number' && s.selected !== q.answer) rows[s.selected].classList.add('bad');
+  }
+
+  function renderChoicesMulti(q, card) {
+    const wrap = document.createElement('div');
+    const choices = document.createElement('div'); choices.className = "choices";
+    const picked = new Set();
+    q.choices.forEach((ct, idx) => {
+      const row = document.createElement('div'); row.className = "choice"; row.tabIndex = 0;
+      const badge = document.createElement('div'); badge.className = "badge"; badge.textContent = letter(idx);
+      const c = document.createElement('div'); c.className = "ctext"; c.innerHTML = ct;
+      row.appendChild(badge); row.appendChild(c);
+      row.addEventListener('click', () => {
+        if(state[q.id] && state[q.id].locked) return;
+        if(picked.has(idx)) { picked.delete(idx); row.classList.remove('selected'); } else { picked.add(idx); row.classList.add('selected'); }
+      });
+      choices.appendChild(row);
+    });
+    const actions = document.createElement('div'); actions.style.cssText = "margin-top:10px;display:flex;gap:10px;flex-wrap:wrap;";
+    const btnV = document.createElement('button'); btnV.textContent = "Valider"; btnV.className = "ghost";
+    btnV.addEventListener('click', () => {
+      if(state[q.id] && state[q.id].locked) return;
+      card.classList.add('locked','revealed');
+      const rows = Array.from(choices.querySelectorAll('.choice'));
+      const selected = Array.from(picked).sort((a,b)=>a-b);
+      const correctSet = q.answer_multi.slice().sort((a,b)=>a-b);
+      const correct = JSON.stringify(selected) === JSON.stringify(correctSet);
+      rows.forEach((row,i) => { if(q.answer_multi.includes(i)) row.classList.add('good'); if(selected.includes(i) && !q.answer_multi.includes(i)) row.classList.add('bad'); });
+      state[q.id] = { type:"multi", selected, locked:true, correct }; saveState(); updateStats();
+    });
+    actions.appendChild(btnV); wrap.appendChild(choices); wrap.appendChild(actions);
+    return { wrap, choices };
+  }
+
+  function applyStateMulti(q, card, block, s) {
+    card.classList.add('locked','revealed');
+    const rows = Array.from(block.choices.querySelectorAll('.choice'));
+    const selected = Array.isArray(s.selected) ? s.selected : [];
+    rows.forEach((row,i) => { if(selected.includes(i)) row.classList.add('selected'); if(q.answer_multi.includes(i)) row.classList.add('good'); if(selected.includes(i) && !q.answer_multi.includes(i)) row.classList.add('bad'); });
+  }
+
+  function onCheckFill(q, card, input, hint) {
+    if(state[q.id] && state[q.id].locked) return;
+    const user = normalizeFill(input.value);
+    const accept = (q.answers || []).map(normalizeFill);
+    const correct = accept.includes(user);
+    card.classList.add('locked','revealed');
+    input.classList.remove('goodin','badin'); input.classList.add(correct ? 'goodin' : 'badin');
+    state[q.id] = { type:"fill", locked:true, correct, value:user }; saveState(); updateStats();
+  }
+
+  function applyStateFill(q, card, input, hint, s) {
+    card.classList.add('locked','revealed');
+    input.value = s.value ?? ""; input.classList.add(s.correct ? "goodin" : "badin");
+  }
+
+  function updateStats() {
+    const entries = Object.values(state).filter(v => v && v.locked);
+    const answered = entries.length;
+    const score = entries.filter(v => v.correct).length;
+    elAnswered.textContent = answered; elScore.textContent = score; elWrong.textContent = answered - score;
+    elBar.style.width = Math.round((answered / DATA.questions.length) * 100) + "%";
+  }
+
+  btnReset.addEventListener('click', () => { if(confirm("Réinitialiser toutes les réponses ?")) { state = {}; saveState(); render(); window.scrollTo({top:0, behavior:"smooth"}); } });
+
+  btnRevealAll.addEventListener('click', () => {
+    render();
+    DATA.questions.forEach(q => {
+      const card = document.querySelector(`.card[data-qid="${q.id}"]`);
+      if(!card) return;
+      card.classList.add('revealed');
+      if(q.type === "single") { const rows = card.querySelectorAll('.choice'); if(rows[q.answer]) rows[q.answer].classList.add('good'); }
+      if(q.type === "multi") { const rows = card.querySelectorAll('.choice'); q.answer_multi.forEach(i => rows[i] && rows[i].classList.add('good')); }
+    });
+  });
+
+  elSearch.addEventListener('input', () => { query = elSearch.value.trim(); render(); });
+
+  buildChips(); render();
+})();
+</script>
+</body>
+</html>
