@@ -144,10 +144,12 @@
       .header { padding: 12px; top: 8px; gap: 10px; }
       h1 { font-size: 16px; }
       .subtitle { font-size: 12px; }
+      .chips { display: none; }
       .controls { gap: 8px; }
       .search { min-width: 0; flex: 1 1 160px; padding: 9px 10px; }
       button { padding: 8px 10px; border-radius: 10px; font-size: 13px; }
-      .pill { padding: 7px 10px; font-size: 12px; }
+      .pill { padding: 6px 8px; font-size: 11px; }
+      .pill .lbl { display: none; }
       .progress { height: 8px; }
       .card { padding: 14px; border-radius: 16px; }
       .qtext { font-size: 14px; }
@@ -174,9 +176,9 @@
       </div>
       <div class="chips" id="chips"></div>
       <div class="stats">
-        <div class="pill"><span class="dot"></span> <span><strong id="answered">0</strong> / <span id="total"></span> répondues</span></div>
-        <div class="pill">✅ <strong id="score">0</strong> bonnes</div>
-        <div class="pill">❌ <strong id="wrong">0</strong> mauvaises</div>
+        <div class="pill"><span class="dot"></span> <span><strong id="answered">0</strong> / <span id="total"></span> <span class="lbl">répondues</span></span></div>
+        <div class="pill">✅ <strong id="score">0</strong> <span class="lbl">bonnes</span></div>
+        <div class="pill">❌ <strong id="wrong">0</strong> <span class="lbl">mauvaises</span></div>
       </div>
       <div class="progress" aria-label="Progression"><div id="bar"></div></div>
     </div>
