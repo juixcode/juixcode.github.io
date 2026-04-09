@@ -45,7 +45,7 @@
     .toprow { display:flex; align-items:flex-start; justify-content:space-between; gap: 14px; flex-wrap: wrap; }
     h1 { font-size: 20px; margin: 0; letter-spacing: .2px; background: linear-gradient(135deg, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .subtitle { color: var(--muted); font-size: 13px; margin: 4px 0 0; }
-    .controls { display:flex; gap: 10px; flex-wrap: wrap; align-items:center; justify-content:flex-end; }
+    .controls { display:flex; gap: 10px; flex-wrap: nowrap; align-items:center; justify-content:flex-end; }
     .search {
       min-width: 240px; flex: 1 1 260px;
       background: rgba(15,23,42,.70); border: 1px solid var(--border);
@@ -86,6 +86,15 @@
       border-radius: var(--radius); padding: 18px;
       box-shadow: 0 10px 24px rgba(0,0,0,.22);
     }
+    .card-back { display: none; }
+    .card.flipped .card-front { display: none; }
+    .card.flipped .card-back { display: block; }
+    @keyframes cardFlip { 0%{transform:scaleX(1)} 50%{transform:scaleX(0)} 100%{transform:scaleX(1)} }
+    .card.flipping { animation: cardFlip .45s ease-in-out; }
+    .explain-btn { margin-top: 12px; width: 100%; background: rgba(167,139,250,.08); border-color: rgba(167,139,250,.22); color: rgba(167,139,250,.9); }
+    .explain-btn:hover { background: rgba(167,139,250,.15); border-color: rgba(167,139,250,.4); }
+    .explain-title { font-weight: 900; font-size: 15px; margin-bottom: 10px; background: linear-gradient(135deg, #a78bfa, #f472b6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .explain-text { font-size: 14px; line-height: 1.7; color: var(--text); }
     .meta { display:flex; justify-content:space-between; gap: 12px; align-items:flex-start; margin-bottom: 12px; }
     .tag {
       font-size: 12px; font-weight: 900; color: rgba(167,139,250,.95);
@@ -138,15 +147,17 @@
     .fillinput.badin { border-color: rgba(239,68,68,.55); }
     .smallnote { color: var(--muted); font-size: 12px; margin-top: 10px; }
     .footer { margin-top: 16px; color: var(--muted); font-size: 12px; text-align:center; }
+    .toggle-header { display: none; }
     @media (min-width: 950px) { .grid { grid-template-columns: 1fr 1fr; } }
     @media (min-width: 1320px) { .grid { grid-template-columns: 1fr 1fr 1fr; } }
     @media (max-width: 520px) {
       .container { padding: 16px 12px 56px; }
-      .header { padding: 12px; top: 8px; gap: 10px; }
+      .header { padding: 12px; top: 8px; gap: 10px; transition: transform .3s ease, opacity .3s ease; }
+      .header.collapsed { transform: translateY(-110%); opacity: 0; pointer-events: none; position: sticky; }
       h1 { font-size: 16px; }
       .subtitle { font-size: 12px; }
       .chips { display: none; }
-      .controls { gap: 8px; }
+      .controls { gap: 8px; flex-wrap: wrap; }
       .search { min-width: 0; flex: 1 1 160px; padding: 9px 10px; }
       button { padding: 8px 10px; border-radius: 10px; font-size: 13px; }
       .pill { padding: 6px 8px; font-size: 11px; }
@@ -156,6 +167,16 @@
       .qtext { font-size: 14px; }
       .choice { grid-template-columns: 40px 1fr; }
       .badge { width: 40px; }
+      .toggle-header {
+        display: flex; align-items: center; justify-content: center;
+        position: fixed; top: 14px; right: 14px; z-index: 30;
+        width: 36px; height: 36px; border-radius: 999px;
+        background: rgba(17,24,39,.45); border: 1px solid rgba(255,255,255,.18);
+        box-shadow: 0 2px 12px rgba(0,0,0,.5); backdrop-filter: blur(8px);
+        color: #fff; font-size: 18px; cursor: pointer; line-height: 1;
+        transition: transform .15s ease, background .18s ease;
+      }
+      .toggle-header:active { transform: scale(0.9); }
     }
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -186,6 +207,7 @@
     <div class="grid" id="quiz"></div>
     <div class="footer">ESILV — Électronique CC2. Les réponses sont sauvegardées localement (LocalStorage).</div>
   </div>
+  <button class="toggle-header" id="toggleHeader" title="Masquer/afficher le menu">✕</button>
 
 <script>
 const DATA = {"questions":[
@@ -255,6 +277,8 @@ const DATA = {"questions":[
 {"id":"64","label":"Q64","section":"Exercices CC2","type":"single","text":"Dans un montage à AOP, si V<sup>+</sup> = V<sub>e1</sub>·R₄/(R₃+R₄) et V<sup>−</sup> = V<sub>S</sub>·R₁/(R₁+R₂), la fonction réalisée est :","choices":["Un intégrateur","Un dérivateur","Un soustracteur (amplificateur différentiel)","Un oscillateur"],"answer":2},
 {"id":"65","label":"Q65","section":"FET / MOSFET","type":"fill","text":"Pour un JFET avec I<sub>DSS</sub> = 6 mA, V<sub>P</sub> = 10 V, I<sub>D</sub> = 3 mA, R<sub>D</sub> = 10 kΩ. Le gain A<sub>v</sub> = −g<sub>m</sub>·R<sub>D</sub>. Sachant g<sub>m</sub> ≈ 0.85 mA/V, le gain vaut environ :","placeholder":"Ex: -8.5","answer_text":"-8.5","answers":["-8.5","-8,5","8.5","8,5"]}
 ]};
+
+const EXPL={"1":"Un NPN = deux zones N (Émetteur et Collecteur) séparées par une zone P (Base). C'est la structure de base du transistor bipolaire NPN.","2":"Les trois électrodes d'un BJT sont la Base (commande), l'Émetteur (sortie des porteurs majoritaires) et le Collecteur (collecte les porteurs). Ne pas confondre avec les électrodes du FET.","3":"Pour un transistor silicium en fonctionnement normal, la jonction B-E est polarisée en direct. La chute de tension typique d'une jonction silicium est ≈ 0.6 V (0.3 V pour le germanium).","4":"β = I_C / I_B est le gain en courant statique. Il relie le courant de collecteur au courant de base. Typiquement β ∈ [50, 300]. Plus β est grand, plus le transistor amplifie.","5":"Par la loi des nœuds (Kirchhoff), le courant entrant par l'émetteur est la somme des courants entrant par la base et le collecteur : I_E = I_C + I_B.","6":"En saturation, les deux jonctions (B-E et B-C) sont polarisées en direct. V_CE chute à une valeur très faible (≈ 0.2 V). Le transistor se comporte comme un interrupteur fermé.","7":"Le pont de base fixe V_B par un diviseur résistif indépendant de β. Grâce à R_E qui stabilise par contre-réaction, le point de repos est quasi-indépendant des dispersions de β.","8":"h₂₁ = ΔI_C/ΔI_B à V_CE constant. C'est le gain en courant dynamique (petits signaux), approximativement égal à β. Il fait partie de la matrice hybride [h].","9":"h₁₁ = ΔV_BE/ΔI_B à V_CE constant. C'est la résistance d'entrée dynamique du transistor, typiquement quelques kΩ. Elle varie avec le point de polarisation.","10":"g_m = I_C / V_T où V_T = kT/q ≈ 26 mV à 27°C. Donc g_m = I_C / 0.026. Plus I_C est grand, plus la transconductance est élevée.","11":"L'effet Early : en zone active, I_C augmente légèrement quand V_CE augmente car la largeur effective de la base diminue (modulation de la largeur de base). On le modélise avec la tension d'Early V_A.","12":"En montage EC avec condensateur de découplage sur R_E, le gain AC est A_v = −g_m·R_C. Le signe − indique une inversion de phase. Sans découplage : A_v = −g_m·R_C/(1+g_m·R_E).","13":"Le miroir de courant utilise deux transistors identiques (même V_BE) sur le même substrat. Le courant de référence fixé par une résistance est recopié dans le second transistor.","14":"I_B = (V_BB − V_BE) / R_B = (5 − 0.6) / 44000 = 4.4/44000 = 100 µA. On applique simplement la loi d'Ohm sur la maille de base.","15":"I_C = β × I_B = 100 × 100 µA = 10 mA. Le courant de collecteur est proportionnel au courant de base via le gain β.","16":"V_CE = V_CC − R_C × I_C = 10 − 500 × 0.01 = 10 − 5 = 5 V. Loi des mailles sur le circuit collecteur-émetteur.","17":"'Bipolaire' signifie que le fonctionnement repose sur deux types de porteurs de charge : les électrons (zones N) ET les trous (zones P). Contrairement au FET qui est unipolaire.","18":"Avec polarisation par R_B seule : I_C = β·(V_CC−V_BE)/R_B. Comme β varie fortement d'un transistor à l'autre et avec la température, le point de repos est instable.","19":"FET = Field Effect Transistor. Le courant est contrôlé par un champ électrique appliqué sur la grille, d'où 'effet de champ'.","20":"Gate (Grille) = électrode de commande, Drain = sortie du courant, Source = entrée du courant. Analogie BJT : Gate↔Base, Drain↔Collecteur, Source↔Émetteur.","21":"Le FET est unipolaire : seul un type de porteur participe à la conduction (électrons pour canal N, trous pour canal P). Contrairement au BJT qui utilise les deux.","22":"Le FET est commandé en tension : i_G = 0 (impédance d'entrée quasi-infinie). Le BJT est commandé en courant (i_B ≠ 0). C'est un avantage majeur du FET.","23":"MOSFET = Metal Oxide Semiconductor FET. L'oxyde (SiO₂) isole la grille du canal, créant une capacité MOS. C'est la technologie dominante des circuits intégrés modernes.","24":"Un MOSFET à enrichissement n'a pas de canal au repos. Il faut appliquer V_GS > V_GS(th) pour créer une couche d'inversion et permettre la conduction.","25":"Pour un NMOS enhanced, le canal N se forme quand V_GS dépasse la tension de seuil V_GS(th). En dessous de ce seuil, le transistor est bloqué.","26":"Équation de Shockley : I_D = I_DSS·(1 + V_GS/V_P)² en zone de pincement. C'est une relation parabolique entre I_D et V_GS.","27":"I_DSS = courant Drain-Source à Saturation quand V_GS = 0. C'est le courant maximal pour un JFET, obtenu quand la grille n'applique aucune tension.","28":"Pour un JFET N, V_P < 0. Quand V_GS diminue vers V_P, le canal se rétrécit jusqu'à se fermer complètement (pincement). I_D = 0 quand V_GS = V_P.","29":"Le CMOS associe un NMOS et un PMOS en complémentaire. Quand l'un conduit, l'autre est bloqué. C'est la base de toute la logique numérique moderne.","30":"En CMOS, un des deux transistors est toujours OFF → aucun chemin de courant statique entre V_DD et masse. La consommation n'a lieu que lors des transitions (charge/décharge des capacités).","31":"Le montage source commune est l'équivalent FET de l'émetteur commun. Le gain est A_v = −g_m·R_D, avec inversion de phase (signe −).","32":"g_m = −2·I_DSS/V_P · (1 + V_GS/V_P) = dérivée de I_D par rapport à V_GS. La transconductance augmente quand V_GS se rapproche de 0 (I_D proche de I_DSS).","33":"L'oxyde de grille très fin des FET les rend vulnérables aux décharges électrostatiques (ESD) qui peuvent percer l'isolant. Des protections ESD sont toujours intégrées.","34":"R_DS(on) augmente avec la température car la mobilité des porteurs diminue quand T augmente. Cela crée un auto-équilibrage thermique (avantage pour la mise en parallèle).","35":"V_GS(th) diminue avec la température (~−2 mV/°C) à cause de l'augmentation de la concentration intrinsèque des porteurs. Le transistor conduit 'plus facilement' à chaud.","36":"En zone de pincement, I_D est quasi-constant sur une large plage de V_DS (caractéristique plate). Le JFET se comporte comme une source de courant I ≈ I_DSS·(1+V_GS/V_P)².","37":"AOP = Amplificateur OPérationnel. C'est un amplificateur différentiel à très fort gain, composant de base de l'électronique analogique.","38":"L'AOP idéal : gain différentiel A → ∞, impédance d'entrée Z_e → ∞ (i⁺ = i⁻ = 0), impédance de sortie Z_s = 0. Ces hypothèses simplifient considérablement les calculs.","39":"En régime linéaire (contre-réaction sur e⁻), le gain infini impose ε = V⁺ − V⁻ → 0. C'est le principe de 'court-circuit virtuel' entre les entrées.","40":"Sans rétroaction ou avec rétroaction positive (sur e⁺), l'AOP fonctionne en comparateur : V_S = +V_CC si ε > 0, V_S = −V_CC si ε < 0. La sortie sature.","41":"Non-inverseur : V⁺ = V_E et V⁻ = V_S·R₁/(R₁+R₂). Avec ε = 0 : V_E = V_S·R₁/(R₁+R₂), donc H₀ = V_S/V_E = 1 + R₂/R₁. Le gain est toujours ≥ 1.","42":"Inverseur : e⁺ = 0 (masse), e⁻ = masse virtuelle. Par le nœud en e⁻ : V_E/R₁ + V_S/R₂ = 0, donc H₀ = −R₂/R₁. Le signe − indique l'inversion de phase.","43":"Suiveur : la sortie est directement rebouclée sur e⁻. Avec ε = 0 : V_S = V⁺ = V_E, donc H₀ = 1. Le signal est transmis sans amplification.","44":"Le suiveur a Z_E = ∞ et Z_S = 0 (idéalement). Il sert de tampon (buffer) pour adapter l'impédance entre un étage haute impédance et une charge basse impédance.","45":"Dans le montage inverseur, e⁻ est à la masse virtuelle (0 V). Le courant d'entrée i = V_E/R₁ traverse R₁. L'impédance d'entrée vue par la source est donc R₁.","46":"Comme ε = 0 et e⁺ est reliée à la masse, e⁻ est aussi à 0 V. Ce n'est PAS un vrai court-circuit avec la masse (aucun courant ne circule vers la masse par e⁻), d'où le terme 'virtuelle'.","47":"Additionneur inverseur : par superposition, V_S = −(R₃/R₁·V₁ + R₃/R₂·V₂). Avec toutes les résistances égales : V_S = −(V₁ + V₂).","48":"Le soustracteur (différentiel) : la condition R₁·R₄ = R₂·R₃ assure le rejet du mode commun. Le gain différentiel est R₄/R₃ = R₂/R₁.","49":"Intégrateur : Z₂ = 1/(Cjω) en feedback. H(jω) = −Z₂/R₁ = −1/(R₁Cjω). Le gain diminue avec la fréquence (−20 dB/déc). La sortie est l'intégrale temporelle de l'entrée.","50":"Dérivateur : Z₁ = 1/(Cjω) en entrée. H(jω) = −R₂/Z₁ = −R₂Cjω. Le gain augmente avec la fréquence (+20 dB/déc). La sortie est la dérivée temporelle de l'entrée.","51":"Le trigger de Schmitt utilise une rétroaction positive (sur e⁺) qui crée deux seuils de basculement distincts. L'hystérésis évite les oscillations parasites autour du seuil de commutation.","52":"GBW = Gain × Bande passante = constante. Si on augmente le gain en boucle fermée H₀, la bande passante f_C' diminue : H₀·f_C' = A₀·f_C = GBW.","53":"Le slew rate (SR) en V/µs limite la vitesse de variation de V_S. Pour un signal sinusoïdal : SR ≥ 2π·f·V_max. Au-delà, la sortie est déformée (triangularisée).","54":"L'AOP nécessite +V_CC et −V_CC (alimentation symétrique) pour pouvoir fournir des tensions de sortie positives ET négatives. Typiquement ±12 V ou ±15 V.","55":"La diode ne laisse passer le courant que dans un sens. Pendant l'alternance positive, elle conduit ; pendant l'alternance négative, elle bloque → redressement simple alternance.","56":"Le condensateur en parallèle se charge pendant la conduction de la diode et se décharge lentement dans la charge entre les pics. Cela lisse les ondulations du signal redressé.","57":"Contre-réaction sur e⁻ = mode linéaire (ε ≈ 0, gain fini en boucle fermée). Sans rétroaction ou rétroaction sur e⁺ = mode comparateur (sortie saturée à ±V_CC).","58":"H₀ = −R₂/R₁ = −30k/10k = −3. Le gain de l'inverseur est le rapport des résistances avec un signe négatif.","59":"H₀ = 1 + R₂/R₁ = 1 + 20k/10k = 1 + 2 = 3. Le gain du non-inverseur est toujours ≥ 1.","60":"Inverseur avec R₁ = 2R₂ : H₀ = −R₂/R₁ = −R₂/(2R₂) = −1/2. Donc V_S1 = −V₁/2. Attention à ne pas confondre R₁ et R₂ dans la formule.","61":"Quand ω → 0, le numérateur jω/ω₀ → 0 donc |H| → 0. En dB : 20·log(0) = −∞. Le filtre coupe les basses fréquences (passe-haut).","62":"Quand ω → ∞, H → −A·(jω/ω₀)/(jω/ω₀) = −A. En dB : 20·log(A). Le gain se stabilise à la valeur A aux hautes fréquences.","63":"En série, les impédances s'ajoutent : Z = Z_R + Z_C = R + 1/(Cjω). Rappel : Z_R = R, Z_C = 1/(Cjω), Z_L = Ljω.","64":"V⁺ dépend de V_e1 via un diviseur, V⁻ dépend de V_S via un autre diviseur. Cette structure réalise un amplificateur différentiel (soustracteur) : V_S ∝ (V₁ − V₂).","65":"A_v = −g_m·R_D = −0.85×10⁻³ × 10×10³ = −8.5. Le signe − indique l'inversion de phase typique du montage source commune."};
 
 (function() {
   const elQuiz = document.getElementById('quiz');
@@ -339,6 +363,19 @@ const DATA = {"questions":[
         const note = document.createElement('div'); note.className = "smallnote"; note.textContent = "Astuce : on ignore les espaces en trop."; card.appendChild(note);
         if(state[q.id] && state[q.id].locked) applyStateFill(q, card, input, hint, state[q.id]);
       }
+      // Wrap in card-front / card-back for flip
+      const cardFront = document.createElement('div'); cardFront.className = 'card-front';
+      while(card.firstChild) cardFront.appendChild(card.firstChild);
+      const explBtn = document.createElement('button'); explBtn.className = 'explain-btn ghost'; explBtn.textContent = '💡 Expliquer';
+      explBtn.addEventListener('click', () => flipCard(card));
+      cardFront.appendChild(explBtn);
+      const cardBack = document.createElement('div'); cardBack.className = 'card-back';
+      const et = document.createElement('div'); et.className = 'explain-title'; et.textContent = q.label + ' — Explication';
+      const ex = document.createElement('div'); ex.className = 'explain-text'; ex.innerHTML = EXPL[q.id] || '';
+      const rb = document.createElement('button'); rb.className = 'explain-btn ghost'; rb.textContent = '↩ Retour à la question';
+      rb.addEventListener('click', () => flipCard(card));
+      cardBack.appendChild(et); cardBack.appendChild(ex); cardBack.appendChild(rb);
+      card.appendChild(cardFront); card.appendChild(cardBack);
       elQuiz.appendChild(card);
     });
     updateStats();
@@ -452,7 +489,21 @@ const DATA = {"questions":[
 
   elSearch.addEventListener('input', () => { query = elSearch.value.trim(); render(); });
 
+  function flipCard(card) {
+    card.classList.add('flipping');
+    setTimeout(() => card.classList.toggle('flipped'), 220);
+    setTimeout(() => card.classList.remove('flipping'), 450);
+  }
+
   buildChips(); render();
+
+  // Toggle header on mobile
+  const toggleBtn = document.getElementById('toggleHeader');
+  const header = document.querySelector('.header');
+  toggleBtn.addEventListener('click', () => {
+    header.classList.toggle('collapsed');
+    toggleBtn.textContent = header.classList.contains('collapsed') ? '☰' : '✕';
+  });
 })();
 </script>
 </body>

@@ -44,7 +44,7 @@
     .toprow { display:flex; align-items:flex-start; justify-content:space-between; gap: 14px; flex-wrap: wrap; }
     h1 { font-size: 20px; margin: 0; letter-spacing: .2px; background: linear-gradient(135deg, #38bdf8, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
     .subtitle { color: var(--muted); font-size: 13px; margin: 4px 0 0; }
-    .controls { display:flex; gap: 10px; flex-wrap: wrap; align-items:center; justify-content:flex-end; }
+    .controls { display:flex; gap: 10px; flex-wrap: nowrap; align-items:center; justify-content:flex-end; }
     .search {
       min-width: 240px; flex: 1 1 260px;
       background: rgba(15,23,42,.70); border: 1px solid var(--border);
@@ -85,6 +85,15 @@
       border-radius: var(--radius); padding: 18px;
       box-shadow: 0 10px 24px rgba(0,0,0,.22);
     }
+    .card-back { display: none; }
+    .card.flipped .card-front { display: none; }
+    .card.flipped .card-back { display: block; }
+    @keyframes cardFlip { 0%{transform:scaleX(1)} 50%{transform:scaleX(0)} 100%{transform:scaleX(1)} }
+    .card.flipping { animation: cardFlip .45s ease-in-out; }
+    .explain-btn { margin-top: 12px; width: 100%; background: rgba(56,189,248,.08); border-color: rgba(56,189,248,.22); color: rgba(56,189,248,.9); }
+    .explain-btn:hover { background: rgba(56,189,248,.15); border-color: rgba(56,189,248,.4); }
+    .explain-title { font-weight: 900; font-size: 15px; margin-bottom: 10px; background: linear-gradient(135deg, #38bdf8, #34d399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .explain-text { font-size: 14px; line-height: 1.7; color: var(--text); }
     .meta { display:flex; justify-content:space-between; gap: 12px; align-items:flex-start; margin-bottom: 12px; }
     .tag {
       font-size: 12px; font-weight: 900; color: rgba(56,189,248,.95);
@@ -137,15 +146,17 @@
     .fillinput.badin { border-color: rgba(239,68,68,.55); }
     .smallnote { color: var(--muted); font-size: 12px; margin-top: 10px; }
     .footer { margin-top: 16px; color: var(--muted); font-size: 12px; text-align:center; }
+    .toggle-header { display: none; }
     @media (min-width: 950px) { .grid { grid-template-columns: 1fr 1fr; } }
     @media (min-width: 1320px) { .grid { grid-template-columns: 1fr 1fr 1fr; } }
     @media (max-width: 520px) {
       .container { padding: 16px 12px 56px; }
-      .header { padding: 12px; top: 8px; gap: 10px; }
+      .header { padding: 12px; top: 8px; gap: 10px; transition: transform .3s ease, opacity .3s ease; }
+      .header.collapsed { transform: translateY(-110%); opacity: 0; pointer-events: none; position: sticky; }
       h1 { font-size: 16px; }
       .subtitle { font-size: 12px; }
       .chips { display: none; }
-      .controls { gap: 8px; }
+      .controls { gap: 8px; flex-wrap: wrap; }
       .search { min-width: 0; flex: 1 1 160px; padding: 9px 10px; }
       button { padding: 8px 10px; border-radius: 10px; font-size: 13px; }
       .pill { padding: 6px 8px; font-size: 11px; }
@@ -155,6 +166,16 @@
       .qtext { font-size: 14px; }
       .choice { grid-template-columns: 40px 1fr; }
       .badge { width: 40px; }
+      .toggle-header {
+        display: flex; align-items: center; justify-content: center;
+        position: fixed; top: 14px; right: 14px; z-index: 30;
+        width: 36px; height: 36px; border-radius: 999px;
+        background: rgba(17,24,39,.45); border: 1px solid rgba(255,255,255,.18);
+        box-shadow: 0 2px 12px rgba(0,0,0,.5); backdrop-filter: blur(8px);
+        color: #fff; font-size: 18px; cursor: pointer; line-height: 1;
+        transition: transform .15s ease, background .18s ease;
+      }
+      .toggle-header:active { transform: scale(0.9); }
     }
   </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -185,6 +206,7 @@
     <div class="grid" id="quiz"></div>
     <div class="footer">ESILV — Réseaux CC2. Les réponses sont sauvegardées localement (LocalStorage).</div>
   </div>
+  <button class="toggle-header" id="toggleHeader" title="Masquer/afficher le menu">✕</button>
 
 <script>
 const DATA = {"questions":[
@@ -285,6 +307,8 @@ const DATA = {"questions":[
 {"id":"95","label":"Q95","section":"DNS & Commandes","type":"fill","text":"La commande pour afficher le cache DNS sous Windows est :","placeholder":"Commande","answer_text":"ipconfig /displaydns","answers":["ipconfig /displaydns","ipconfig/displaydns"]}
 ]};
 
+const EXPL={"1":"Le modèle OSI (Open Systems Interconnection) définit 7 couches, de la couche physique (1) à la couche application (7). C'est un modèle de référence normatif de l'ISO.","2":"De bas en haut : Physique (bits), Liaison (trames), Réseau (paquets), Transport (segments), Session, Présentation, Application. Mnémotechnique : 'Please Do Not Throw Sausage Pizza Away'.","3":"TCP/IP simplifie le modèle OSI en 4 couches : Accès réseau (couches 1+2), Internet (couche 3), Transport (couche 4), Application (couches 5+6+7).","4":"Les 4 couches TCP/IP : Accès réseau (Ethernet, Wi-Fi), Internet (IP), Transport (TCP/UDP), Application (HTTP, DNS, FTP, SMTP...).","5":"L'encapsulation : chaque couche ajoute son en-tête (PCI) au PDU reçu de la couche supérieure. À la réception, chaque couche retire son en-tête (décapsulation).","6":"PDU = SDU + PCI. Le SDU (Service Data Unit) est le contenu utile, le PCI (Protocol Control Information) est l'en-tête ajouté par la couche pour assurer son service.","7":"N-PDU = N-SDU + N-PCI. Chaque couche N prend le PDU de la couche supérieure comme SDU et y ajoute son propre PCI pour former son PDU.","8":"Chaque couche inférieure ajoute un en-tête → le PDU grossit en descendant les couches. ||PDU_i|| > ||PDU_{i+1}|| car la couche i ajoute son PCI au PDU de i+1.","9":"Les en-têtes sont ajoutés à l'émission et retirés à la réception. La couche 7 du système B reçoit le message original de 30 octets, sans aucun en-tête.","10":"Commutation de circuits : un chemin physique dédié est établi (phase d'établissement), maintenu pendant toute la communication, puis libéré. Exemple : téléphone classique (RTC).","11":"Le circuit dédié garantit un délai constant et pas de congestion car les ressources sont réservées. Idéal pour les communications en temps réel (voix).","12":"Les ressources restent réservées même pendant les silences de la conversation → gaspillage de bande passante. Mauvaise utilisation pour les échanges intermittents (data).","13":"Store and forward : le message entier est stocké à chaque nœud intermédiaire avant d'être retransmis au suivant. Inconvénient : délai important pour les gros messages.","14":"La commutation de paquets découpe les messages en paquets de taille limitée, chacun routé indépendamment. Meilleure utilisation des ressources, mais pas de garantie d'ordre.","15":"La couche 1 (Physique) gère la transmission brute des bits sur le medium : codage des signaux (électriques, optiques, radio), connecteurs, câbles, débits.","16":"Transmission parallèle : plusieurs bits envoyés simultanément sur des fils distincts. Utilisée en interne (bus CPU) mais problèmes de synchronisation sur longue distance.","17":"Transmission série : bits envoyés les uns après les autres sur un seul canal. Utilisée dans les réseaux (Ethernet, USB) car fiable sur longue distance.","18":"Simplex = unidirectionnel permanent. Un seul sens de transmission, comme la télévision hertzienne ou la radio FM.","19":"Half Duplex = bidirectionnel à l'alternat. Les deux sens sont possibles mais pas simultanément. Exemple : talkie-walkie, Wi-Fi.","20":"Full Duplex = bidirectionnel simultané. Émission et réception en même temps. Exemple : téléphone, Ethernet en paire torsadée (paires TX/RX séparées).","21":"RJ45 est le connecteur standard 8P8C utilisé pour l'Ethernet sur câble à paires torsadées (Cat 5/5e/6/6a). 8 broches pour 4 paires.","22":"Cat 5 : bande passante 100 MHz, débit 100 Mb/s (Fast Ethernet), distance max 100 m. Cat 5e : 1 Gb/s. Cat 6 : 250 MHz. Cat 6a : 500 MHz, 10 Gb/s.","23":"La fibre optique utilise des impulsions lumineuses dans un cœur de verre ou plastique. Monomode (longue distance, laser) ou multimode (courte distance, LED).","24":"Fibre optique : insensible aux EMI (électromagnétisme), très hauts débits (Tb/s), longues distances (dizaines de km sans répéteur). Sécurité : difficile à écouter.","25":"Ethernet (IEEE 802.3) utilise CSMA/CD comme méthode d'accès au médium partagé. Chaque station écoute avant d'émettre et détecte les collisions.","26":"CSMA/CD : Carrier Sense (on écoute le canal), Multiple Access (accès partagé), Collision Detection (on détecte les collisions et on retransmet après un délai aléatoire).","27":"Carrier Sense : la station écoute le canal avant d'émettre. Si le canal est occupé, elle attend. Cela réduit (mais n'élimine pas) la probabilité de collision.","28":"BEB (Binary Exponential Backoff) : après une collision, chaque station attend un délai aléatoire qui augmente exponentiellement avec le nombre de collisions.","29":"Après la kème collision, R est choisi uniformément dans [0, 2^k − 1]. Le temps d'attente est R × slot_time. L'intervalle double à chaque collision successive.","30":"Après 16 tentatives infructueuses, Ethernet abandonne la transmission de la trame et signale une erreur à la couche supérieure.","31":"Pure ALOHA : émission à tout moment → vulnérabilité = 2×T_trame. Efficacité max = 1/(2e) ≈ 18.4%. Très simple mais très inefficace.","32":"Slotted ALOHA : émission uniquement en début de slot → vulnérabilité réduite à T_trame. Efficacité max = 1/e ≈ 36.8%. Deux fois mieux que Pure ALOHA.","33":"Trame Ethernet : Préambule (synchro) + @MAC dest + @MAC src + Type/Longueur + Données (46-1500 octets) + FCS (CRC-32). Taille totale : 64 à 1518 octets.","34":"Le FCS utilise un CRC-32 (Cyclic Redundancy Check) polynomial pour détecter les erreurs de transmission. Le récepteur recalcule le CRC et compare.","35":"FF:FF:FF:FF:FF:FF = tous les bits à 1 = adresse de broadcast MAC. Une trame envoyée à cette adresse est reçue par TOUTES les stations du réseau local.","36":"ARP = Address Resolution Protocol. Défini dans la RFC 826, il opère à l'interface entre les couches 2 et 3.","37":"ARP résout : 'Je connais l'IP, je veux la MAC'. Nécessaire car Ethernet utilise des adresses MAC et IP utilise des adresses IP. La correspondance n'est pas automatique.","38":"ARP fait le pont entre la couche Réseau (adresses IP, couche 3) et la couche Liaison (adresses MAC, couche 2). Sans ARP, impossible d'envoyer une trame à la bonne machine.","39":"L'émetteur ne connaît pas la MAC du destinataire → il envoie la requête ARP en broadcast (FF:FF:FF:FF:FF:FF). Toutes les machines du LAN la reçoivent, seule celle concernée répond.","40":"La réponse ARP est envoyée en unicast directement à l'émetteur de la requête (dont l'adresse MAC est connue grâce à la requête broadcast).","41":"Le cache ARP stocke les correspondances IP ↔ MAC pour éviter de refaire une requête broadcast à chaque trame. Les entrées expirent après quelques minutes.","42":"ARP opère uniquement sur le LAN local. Pour un PC distant (autre réseau), la trame est envoyée au routeur/passerelle. La table ARP contient donc la MAC du routeur, pas celle du PC distant.","43":"IPv4 = 32 bits = 4 octets notés en décimal pointé (ex: 192.168.1.1). Permet 2³² ≈ 4.3 milliards d'adresses (insuffisant → NAT + IPv6).","44":"IPv6 = 128 bits = 8 groupes de 4 chiffres hexadécimaux (ex: 2001:0db8::1). Permet 2¹²⁸ adresses, résolvant la pénurie IPv4.","45":"Classe A : 1er bit = 0, premier octet de 0 à 127. Masque par défaut /8 (255.0.0.0). Réseaux très grands (16 millions d'hôtes par réseau).","46":"Classe B : premiers bits = 10, premier octet de 128 à 191. Masque /16 (255.255.0.0). Réseaux moyens (65534 hôtes).","47":"Classe C : premiers bits = 110, premier octet de 192 à 223. Masque /24 (255.255.255.0). Petits réseaux (254 hôtes).","48":"Le masque /24 = 255.255.255.0 réserve 24 bits pour le réseau et 8 bits pour les hôtes. C'est le masque par défaut des adresses de classe C.","49":"192.168.x.x fait partie de la plage privée de classe C (192.168.0.0/16). Ces adresses ne sont pas routables sur Internet, seulement en LAN.","50":"RFC 1918 définit 3 plages privées : 10.0.0.0/8 (classe A), 172.16.0.0/12 (classe B), 192.168.0.0/16 (classe C). Le NAT permet à ces adresses d'accéder à Internet.","51":"127.0.0.1 = loopback/localhost. Tout paquet envoyé à cette adresse est rebouclé localement sans passer par le réseau. Utile pour tester la pile TCP/IP de la machine.","52":"Adresse réseau = IP AND masque. 192.168.10.45 AND 255.255.255.0 = 192.168.10.0. L'opération AND bit à bit met à zéro la partie hôte.","53":"Broadcast = adresse réseau avec tous les bits hôte à 1. Pour 192.168.10.0/24, les 8 bits hôte à 1 donnent 192.168.10.255.","54":"/24 = 8 bits pour les hôtes. 2⁸ = 256 adresses − 2 (réseau + broadcast) = 254 hôtes utilisables.","55":"/24 = 24 bits de réseau = 11111111.11111111.11111111.00000000 en binaire = 255.255.255.0 en décimal.","56":"/16 = 16 bits de réseau = 11111111.11111111.00000000.00000000 = 255.255.0.0.","57":"ICMP (Internet Control Message Protocol) : protocole de couche 3 pour les messages de contrôle et d'erreur. ping utilise les messages ICMP Echo Request (type 8) et Echo Reply (type 0).","58":"L'émetteur envoie un Echo Request et attend un Echo Reply. Le temps aller-retour (RTT) est mesuré. Si pas de réponse = host unreachable ou timeout.","59":"traceroute envoie des paquets avec TTL incrémental (1, 2, 3...). Chaque routeur qui décrémente le TTL à 0 répond avec ICMP Time Exceeded, révélant son adresse.","60":"Le TTL évite que les paquets tournent indéfiniment en boucle. Chaque routeur décrémente le TTL de 1. Si TTL = 0, le paquet est détruit et un ICMP Time Exceeded est renvoyé.","61":"La table de routage contient : réseau de destination, masque, passerelle (next hop), interface de sortie, métrique. La route par défaut (0.0.0.0/0) est utilisée quand aucune route spécifique ne correspond.","62":"La passerelle par défaut (default gateway) est l'adresse du routeur qui sert de point de sortie vers les réseaux extérieurs. Sans elle, la machine ne peut communiquer qu'en local.","63":"DNS = Domain Name System. Système hiérarchique distribué qui traduit les noms de domaine en adresses IP et inversement (DNS inverse / PTR).","64":"DNS traduit les noms lisibles (google.com) en adresses IP (142.250.x.x). Résolution inverse (PTR) : IP → nom. CNAME, MX, NS, A, AAAA sont des types d'enregistrements DNS.","65":"nslookup interroge un serveur DNS pour résoudre un nom en IP (ou inversement). Alternative plus moderne : dig (Linux). On peut spécifier le serveur DNS à interroger.","66":"Le fichier hosts est consulté AVANT le DNS. Il permet de forcer des correspondances nom ↔ IP localement, sans requête DNS. Utile pour le développement ou le blocage de sites.","67":"ipconfig /flushdns vide le cache DNS local de Windows. Utile quand un enregistrement DNS a changé et que l'ancien est encore en cache, causant des erreurs de résolution.","68":"ipconfig /all affiche : adresse IP, masque, passerelle, serveur DNS, adresse MAC, bail DHCP, et plus. C'est la commande la plus complète pour le diagnostic réseau sous Windows.","69":"arp -a affiche le contenu du cache ARP : les correspondances IP ↔ MAC apprises dynamiquement ou configurées statiquement. Les entrées dynamiques expirent après quelques minutes.","70":"arp -d supprime une entrée spécifique ou toutes les entrées du cache ARP. Utile si une adresse MAC a changé (remplacement de carte réseau) et que l'ancienne est en cache.","71":"netstat affiche les connexions TCP/UDP actives, les ports à l'écoute (-l), les PID des processus (-p), les statistiques (-s). Très utile pour le dépannage réseau.","72":"route print (Windows) / route -n (Linux) affiche la table de routage : destination, masque, passerelle, interface, métrique. Permet de comprendre comment les paquets sont acheminés.","73":"192.168.1.1/24 et 192.168.1.2/24 ont la même adresse réseau (192.168.1.0). Ils sont dans le même sous-réseau et communiquent directement via le switch (couche 2).","74":"Destination dans un autre réseau → la trame est envoyée à la passerelle par défaut (routeur). La MAC destination de la trame est celle du routeur, pas du PC distant.","75":"Lors d'un ping local, ARP résout l'IP cible en adresse MAC. Cette correspondance est stockée dans le cache ARP pour les communications ultérieures.","76":"Pour un serveur distant, la trame va au routeur. C'est donc la MAC du routeur (passerelle) qui est résolue par ARP et stockée en cache, PAS la MAC de google.fr.","77":"Un hub est un répéteur de couche 1. Il reçoit un signal électrique et le répète sur TOUS ses ports. Aucune intelligence, crée un seul domaine de collision.","78":"Un switch (commutateur) apprend les adresses MAC via les trames reçues (table CAM). Il n'envoie la trame QUE vers le port du destinataire. Chaque port = un domaine de collision séparé.","79":"Le routeur opère à la couche 3 (Réseau). Il prend des décisions de routage basées sur les adresses IP et sa table de routage. Il sépare les domaines de broadcast.","80":"Le switch opère à la couche 2 (Liaison). Il utilise les adresses MAC pour transférer les trames. Il ne voit pas les adresses IP (sauf switch L3).","81":"172.16.5.130 AND 255.255.255.128 : dernier octet 130 (10000010) AND 128 (10000000) = 128 (10000000). Adresse réseau : 172.16.5.128.","82":"/25 = 7 bits pour les hôtes. 2⁷ − 2 = 126 hôtes utilisables (on retire l'adresse réseau et le broadcast).","83":"/24 en /26 : on emprunte 2 bits (26−24=2). Nombre de sous-réseaux = 2² = 4. Plages : .0-.63, .64-.127, .128-.191, .192-.255.","84":"/26 = 6 bits pour les hôtes. 2⁶ − 2 = 62 hôtes utilisables par sous-réseau.","85":"Slotted ALOHA discrétise le temps en slots. Les stations ne peuvent émettre qu'au début d'un slot, ce qui réduit la période de vulnérabilité et double l'efficacité par rapport à Pure ALOHA.","86":"CSMA 1-persistant : si le canal est occupé, la station écoute en continu (persistante) et émet DÈS que le canal se libère. Risque de collision si plusieurs stations attendent.","87":"Le PDU de la couche Transport est le segment (TCP) ou datagramme (UDP). Il contient les numéros de port source et destination pour le multiplexage applicatif.","88":"Le PDU de la couche Réseau est le paquet (ou datagramme IP). Il contient les adresses IP source et destination pour le routage.","89":"Le PDU de la couche Liaison est la trame (frame). Elle contient les adresses MAC source et destination pour la livraison locale sur le LAN.","90":"UTP = pas de blindage métallique. Les paires sont torsadées pour réduire les interférences électromagnétiques mutuelles (diaphonie). C'est le câblage Ethernet le plus courant.","91":"STP = blindage métallique (feuille ou tresse) autour des paires. Meilleure protection contre les EMI externes. Plus cher et rigide que l'UTP, utilisé en environnement industriel.","92":"Wireshark capture les paquets en mode promiscuous et les décode couche par couche. Indispensable pour le dépannage réseau, l'analyse de protocoles et la sécurité.","93":"ipconfig est la commande Windows native pour afficher la configuration IP. /all pour les détails, /release et /renew pour le DHCP, /flushdns pour le cache DNS.","94":"ifconfig (deprecated) ou ip a / ip addr (moderne, paquet iproute2) affiche la configuration IP sous Linux : adresses, masques, état des interfaces.","95":"ipconfig /displaydns affiche toutes les entrées du cache DNS local : noms résolus, TTL restant, adresses IP. Utile pour vérifier si une résolution DNS est en cache."};
+
 (function() {
   const elQuiz = document.getElementById('quiz');
   const elAnswered = document.getElementById('answered');
@@ -368,6 +392,19 @@ const DATA = {"questions":[
         const note = document.createElement('div'); note.className = "smallnote"; note.textContent = "Astuce : on ignore les espaces en trop."; card.appendChild(note);
         if(state[q.id] && state[q.id].locked) applyStateFill(q, card, input, hint, state[q.id]);
       }
+      // Wrap in card-front / card-back for flip
+      const cardFront = document.createElement('div'); cardFront.className = 'card-front';
+      while(card.firstChild) cardFront.appendChild(card.firstChild);
+      const explBtn = document.createElement('button'); explBtn.className = 'explain-btn ghost'; explBtn.textContent = '💡 Expliquer';
+      explBtn.addEventListener('click', () => flipCard(card));
+      cardFront.appendChild(explBtn);
+      const cardBack = document.createElement('div'); cardBack.className = 'card-back';
+      const et = document.createElement('div'); et.className = 'explain-title'; et.textContent = q.label + ' — Explication';
+      const ex = document.createElement('div'); ex.className = 'explain-text'; ex.innerHTML = EXPL[q.id] || '';
+      const rb = document.createElement('button'); rb.className = 'explain-btn ghost'; rb.textContent = '↩ Retour à la question';
+      rb.addEventListener('click', () => flipCard(card));
+      cardBack.appendChild(et); cardBack.appendChild(ex); cardBack.appendChild(rb);
+      card.appendChild(cardFront); card.appendChild(cardBack);
       elQuiz.appendChild(card);
     });
     updateStats();
@@ -481,7 +518,21 @@ const DATA = {"questions":[
 
   elSearch.addEventListener('input', () => { query = elSearch.value.trim(); render(); });
 
+  function flipCard(card) {
+    card.classList.add('flipping');
+    setTimeout(() => card.classList.toggle('flipped'), 220);
+    setTimeout(() => card.classList.remove('flipping'), 450);
+  }
+
   buildChips(); render();
+
+  // Toggle header on mobile
+  const toggleBtn = document.getElementById('toggleHeader');
+  const header = document.querySelector('.header');
+  toggleBtn.addEventListener('click', () => {
+    header.classList.toggle('collapsed');
+    toggleBtn.textContent = header.classList.contains('collapsed') ? '☰' : '✕';
+  });
 })();
 </script>
 </body>
