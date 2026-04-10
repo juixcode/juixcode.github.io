@@ -1,12 +1,23 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
 
+/* ===== BASE ===== */
 body {
     font-family: 'Inter', sans-serif;
     background-color: #0f172a;
     color: #f8fafc;
+    /* Prevent iOS overscroll bounce causing white flash */
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+    /* Fix iOS tap delay */
+    touch-action: manipulation;
 }
 
-/* Scrollbar */
+/* Prevent double-tap zoom on interactive elements - iOS fix */
+button, a, input, select, textarea, [onclick] {
+    touch-action: manipulation;
+}
+
+/* ===== SCROLLBAR ===== */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -24,7 +35,7 @@ body {
     background: #475569;
 }
 
-/* KaTeX adjustments */
+/* ===== KATEX ADJUSTMENTS ===== */
 .katex {
     font-size: 1.1em;
     color: inherit !important;
@@ -32,22 +43,40 @@ body {
 
 .katex-display {
     margin: 0.5em 0;
+    /* Prevent KaTeX display mode from overflowing on mobile */
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
 }
 
 .katex-html {
     color: inherit !important;
 }
 
-/* 3D Flip Mechanics */
+/* KaTeX loading placeholder - show subtle pulse while waiting */
+.katex-pending .latex-content {
+    opacity: 0.5;
+    transition: opacity 0.3s ease;
+}
+
+.katex-rendered .latex-content {
+    opacity: 1;
+}
+
+/* ===== 3D FLIP MECHANICS ===== */
+/* Safari/iOS require -webkit- prefixes for 3D transforms */
 .perspective-1000 {
+    -webkit-perspective: 1000px;
     perspective: 1000px;
 }
 
 .transform-style-3d {
+    -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
 }
 
 .backface-hidden {
+    -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
 }
 
@@ -56,10 +85,14 @@ body {
     width: 100%;
     height: 100%;
     transition: transform 0.6s;
+    -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
+    /* Force GPU compositing on iOS for smoother flips */
+    will-change: transform;
 }
 
 .card-flipped .card-inner {
+    -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
 }
 
@@ -71,27 +104,28 @@ body {
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     border-radius: 1rem;
+    /* Force GPU layer for iOS Safari backface-visibility */
+    -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
-    /* Force hardware accel for iOS */
 }
 
 .card-back {
+    -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
 }
 
-/* Utility */
+/* ===== UTILITY ===== */
 .custom-scrollbar {
     scrollbar-width: thin;
     scrollbar-color: #475569 transparent;
 }
 
-/* Animations */
+/* ===== ANIMATIONS ===== */
 @keyframes fadeIn {
     from {
         opacity: 0;
         transform: translateY(10px);
     }
-
     to {
         opacity: 1;
         transform: translateY(0);
@@ -102,7 +136,7 @@ body {
     animation: fadeIn 0.5s ease-out forwards;
 }
 
-/* Deck Gradients Defaults */
+/* ===== DECK CARDS ===== */
 .deck-card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -112,7 +146,7 @@ body {
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
 }
 
-/* Context Menu */
+/* ===== CONTEXT MENU ===== */
 .context-menu {
     animation: scaleIn 0.1s ease-out forwards;
     transform-origin: top right;
@@ -123,14 +157,13 @@ body {
         transform: scale(0.95);
         opacity: 0;
     }
-
     to {
         transform: scale(1);
         opacity: 1;
     }
 }
 
-/* Drag & Drop */
+/* ===== DRAG & DROP ===== */
 .dragging {
     opacity: 0.4;
     border: 2px dashed #6366f1;
@@ -152,16 +185,20 @@ body {
     cursor: grabbing;
 }
 
-/* Learning Mode Overlay */
+/* ===== LEARNING MODE OVERLAY ===== */
 #learning-overlay {
-    backdrop-filter: blur(10px);
+    /* Reduced blur on all platforms for performance; iOS especially benefits */
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    /* Use dvh with vh fallback for iOS dynamic viewport */
+    height: 100vh;
+    height: 100dvh;
 }
 
-/* Toast Notification */
+/* ===== TOAST NOTIFICATION ===== */
 .toast-container {
     position: fixed;
     bottom: 6rem;
-    /* Raised to be more visible and avoid FAB */
     left: 50%;
     transform: translateX(-50%);
     z-index: 100;
@@ -169,11 +206,14 @@ body {
     flex-direction: column;
     gap: 0.5rem;
     pointer-events: none;
+    /* Safe area inset for notched iPhones */
+    padding-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 .toast {
     background: rgba(15, 23, 42, 0.95);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border: 1px solid rgba(148, 163, 184, 0.2);
     padding: 1rem 1.5rem;
     border-radius: 9999px;
@@ -185,6 +225,9 @@ body {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    /* Prevent toast from being too wide on mobile */
+    max-width: 90vw;
+    word-break: break-word;
 }
 
 @keyframes toastIn {
@@ -192,51 +235,56 @@ body {
         opacity: 0;
         transform: translateY(20px) scale(0.95);
     }
-
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
     }
 }
 
+/* ===== LEARNING MODE CARD CONTAINER ===== */
 #learning-card-container {
+    -webkit-perspective: 1000px;
     perspective: 1000px;
     position: relative;
     width: 100%;
-    height: 100%;
-    /* Ensure it takes full height */
+    /* Explicit flex behavior — critical for iOS layout */
     display: flex;
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    /* Contain overflowing animations */
+    /* Use flex-grow from parent instead of height:100% which breaks on Safari */
+    flex: 1 1 auto;
+    min-height: 0; /* Allow flex shrinking on iOS */
 }
 
-/* Ensure child cards don't shrink too much or explode */
-#learning-card-container>div {
+/* Ensure child cards have explicit constraints */
+#learning-card-container > div {
     flex-shrink: 0;
     width: 100%;
-    /* On mobile, take full width available but respect aspect ratio */
     max-width: 24rem;
-    /* Equivalent to max-w-sm. Restores PC behavior */
+    /* Explicit aspect ratio with fallback for older Safari */
     max-height: 100%;
 }
 
+/* ===== LEARNING MODE SLIDE ANIMATIONS ===== */
 .slide-enter-next {
     animation: slideInUp 0.4s ease-out forwards;
+    will-change: transform, opacity;
 }
 
-/* Exit animations account for absolute positioning (translate -50%, -50%) */
 .slide-exit-next {
     animation: slideOutUp 0.4s ease-in forwards;
+    will-change: transform, opacity;
 }
 
 .slide-enter-prev {
     animation: slideInDown 0.4s ease-out forwards;
+    will-change: transform, opacity;
 }
 
 .slide-exit-prev {
     animation: slideOutDown 0.4s ease-in forwards;
+    will-change: transform, opacity;
 }
 
 @keyframes slideInUp {
@@ -244,7 +292,6 @@ body {
         opacity: 0;
         transform: translateY(40px) scale(0.95);
     }
-
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -256,7 +303,6 @@ body {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1);
     }
-
     to {
         opacity: 0;
         transform: translate(-50%, -90px) scale(0.95);
@@ -268,7 +314,6 @@ body {
         opacity: 0;
         transform: translateY(-40px) scale(0.95);
     }
-
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -280,14 +325,13 @@ body {
         opacity: 1;
         transform: translate(-50%, -50%) scale(1);
     }
-
     to {
         opacity: 0;
         transform: translate(-50%, 40px) scale(0.95);
     }
 }
 
-/* Success Animation */
+/* ===== SUCCESS ANIMATION ===== */
 .success-overlay {
     position: absolute;
     inset: 0;
@@ -305,42 +349,24 @@ body {
 }
 
 @keyframes successFade {
-    0% {
-        opacity: 0;
-    }
-
-    20% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-    }
+    0% { opacity: 0; }
+    20% { opacity: 1; }
+    100% { opacity: 0; }
 }
 
 @keyframes successPop {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
-
-    50% {
-        transform: scale(1.2);
-    }
-
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+    0% { transform: scale(0); opacity: 0; }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
 }
 
-/* Color Picker */
+/* ===== COLOR PICKER ===== */
 .color-dot {
     width: 1.5rem;
     height: 1.5rem;
     border-radius: 9999px;
     cursor: pointer;
-    transition: transform 0.2s, ring 0.2s;
+    transition: transform 0.2s;
     border: 2px solid transparent;
 }
 
@@ -354,21 +380,19 @@ body {
     box-shadow: 0 0 0 2px #6366f1;
 }
 
-/* Drop Zone */
+/* ===== DROP ZONE ===== */
 #import-drop-zone.drag-over {
     border-color: #6366f1;
-    /* Indigo-500 */
     background-color: rgba(99, 102, 241, 0.1);
 }
 
-/* Card Content Typography & Scroll */
+/* ===== CARD CONTENT TYPOGRAPHY & SCROLL ===== */
 .card-text-container {
     width: 100%;
     height: 100%;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    /* align-items/justify-content removed to prevent flex overflow clipping */
 
     font-size: 0.95rem;
     line-height: 1.6;
@@ -378,7 +402,8 @@ body {
     scrollbar-width: thin;
     scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
 
-    /* Smooth Scroll */
+    /* iOS smooth scroll */
+    -webkit-overflow-scrolling: touch;
     scroll-behavior: smooth;
 }
 
@@ -386,7 +411,6 @@ body {
 .card-text-inner {
     width: 100%;
     margin: auto;
-    /* Vertically center if content is short */
     text-align: center;
 }
 
@@ -401,4 +425,86 @@ body {
 .card-text-container::-webkit-scrollbar-thumb {
     background-color: rgba(255, 255, 255, 0.3);
     border-radius: 999px;
+}
+
+/* ===== MOBILE-SPECIFIC FIXES ===== */
+@media (max-width: 768px) {
+    /* Learning mode full-screen layout on mobile */
+    #learning-overlay {
+        /* Remove expensive blur on mobile */
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: #0f172a;
+        /* Safe viewport height for iOS */
+        height: 100vh;
+        height: 100dvh;
+        /* Account for safe areas on notched iPhones */
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    /* Learning mode card — explicit sizing for mobile */
+    #learning-card-container > div {
+        max-width: calc(100vw - 2rem);
+        /* Explicit height to prevent Safari collapse */
+        height: auto;
+        /* Aspect ratio with fallback */
+        aspect-ratio: 3 / 4;
+    }
+
+    /* Support aspect-ratio fallback for older iOS versions */
+    @supports not (aspect-ratio: 3 / 4) {
+        #learning-card-container > div {
+            height: 0;
+            padding-bottom: 133.33%; /* 4/3 ratio */
+            position: relative;
+        }
+        #learning-card-container > div > * {
+            position: absolute;
+            inset: 0;
+        }
+    }
+
+    /* Reduce card text on small screens to prevent overflow */
+    .card-text-container {
+        font-size: 0.85rem;
+        line-height: 1.5;
+        padding: 0 0.75rem;
+    }
+
+    /* Toast positioning on mobile — above FAB with safe area */
+    .toast-container {
+        bottom: 5rem;
+        width: 90vw;
+        max-width: 90vw;
+    }
+
+    .toast {
+        font-size: 0.875rem;
+        padding: 0.75rem 1rem;
+        border-radius: 1rem;
+    }
+
+    /* Prevent sticky elements from using too much space */
+    .sticky {
+        position: -webkit-sticky;
+        position: sticky;
+    }
+}
+
+/* Extra small screens */
+@media (max-width: 380px) {
+    .card-text-container {
+        font-size: 0.8rem;
+        padding: 0 0.5rem;
+    }
+
+    #learning-card-container > div {
+        max-width: calc(100vw - 1rem);
+    }
+}
+
+/* ===== SAFE AREA BOTTOM PADDING FOR FAB ===== */
+#fab-container {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
 }

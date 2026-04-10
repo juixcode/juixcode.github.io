@@ -1,21 +1,48 @@
 // --- CONFIGURATION ---
-tailwind.config = {
-    theme: {
-        extend: {
-            colors: {
-                background: '#0f172a',
-                surface: '#1e293b',
-                primary: '#6366f1',
-                secondary: '#10b981',
+// Tailwind config applied when CDN loads
+if (typeof tailwind !== 'undefined') {
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    background: '#0f172a',
+                    surface: '#1e293b',
+                    primary: '#6366f1',
+                    secondary: '#10b981',
+                },
+                fontFamily: {
+                    sans: ['Inter', 'sans-serif'],
+                },
+                animation: {
+                    'fade-in': 'fadeIn 0.5s ease-out forwards',
+                }
             },
-            fontFamily: {
-                sans: ['Inter', 'sans-serif'],
-            },
-            animation: {
-                'fade-in': 'fadeIn 0.5s ease-out forwards',
-            }
         },
-    },
+    };
+} else {
+    // Deferred: apply config once tailwind loads
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof tailwind !== 'undefined') {
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            background: '#0f172a',
+                            surface: '#1e293b',
+                            primary: '#6366f1',
+                            secondary: '#10b981',
+                        },
+                        fontFamily: {
+                            sans: ['Inter', 'sans-serif'],
+                        },
+                        animation: {
+                            'fade-in': 'fadeIn 0.5s ease-out forwards',
+                        }
+                    },
+                },
+            };
+        }
+    });
 }
 
 // --- DATA CONSTANTS ---
@@ -33,6 +60,106 @@ let activeDeckId = null;
 let currentSortMode = 'date';
 let isCustomSortMode = false;
 let draggedItem = null;
+
+// --- PERFORMANCE UTILITIES ---
+
+// Debounced save to avoid repeated synchronous localStorage writes
+let _saveTimeout = null;
+function saveData() {
+    if (_saveTimeout) clearTimeout(_saveTimeout);
+    _saveTimeout = setTimeout(() => {
+        try {
+            localStorage.setItem(STORAGE_KEY_DECKS, JSON.stringify(decks));
+            localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(cards));
+            localStorage.setItem(PREFS_KEY, JSON.stringify({ sortMode: currentSortMode }));
+            localStorage.setItem(THEME_COLORS_KEY, JSON.stringify(themeColors));
+        } catch (e) {
+            console.warn('saveData error:', e);
+        }
+    }, 100);
+}
+
+// Immediate save (for critical operations like before page unload)
+function saveDataNow() {
+    if (_saveTimeout) clearTimeout(_saveTimeout);
+    try {
+        localStorage.setItem(STORAGE_KEY_DECKS, JSON.stringify(decks));
+        localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(cards));
+        localStorage.setItem(PREFS_KEY, JSON.stringify({ sortMode: currentSortMode }));
+        localStorage.setItem(THEME_COLORS_KEY, JSON.stringify(themeColors));
+    } catch (e) {
+        console.warn('saveDataNow error:', e);
+    }
+}
+
+// Targeted Lucide icon creation — only scan a subtree
+function createIconsIn(element) {
+    if (!element || typeof lucide === 'undefined') return;
+    try {
+        lucide.createIcons({ nodes: element.querySelectorAll ? [element] : undefined });
+    } catch (e) {
+        // Fallback to full scan
+        try { lucide.createIcons(); } catch (e2) { /* ignore */ }
+    }
+}
+
+// KaTeX lazy rendering via IntersectionObserver
+let _katexObserver = null;
+
+function initKatexObserver() {
+    if (_katexObserver) _katexObserver.disconnect();
+    
+    _katexObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const el = entry.target;
+                if (!el.dataset.katexRendered) {
+                    renderKatexElement(el);
+                    el.dataset.katexRendered = 'true';
+                    el.classList.remove('katex-pending');
+                    el.classList.add('katex-rendered');
+                }
+                _katexObserver.unobserve(el);
+            }
+        });
+    }, {
+        rootMargin: '200px 0px', // Pre-render cards 200px before they become visible
+        threshold: 0.01
+    });
+}
+
+function renderKatexElement(element) {
+    if (typeof renderMathInElement === 'undefined') return;
+    try {
+        renderMathInElement(element, {
+            delimiters: [
+                { left: "$$", right: "$$", display: true },
+                { left: "\\[", right: "\\]", display: true },
+                { left: "\\(", right: "\\)", display: false },
+                { left: "$", right: "$", display: false }
+            ],
+            throwOnError: false
+        });
+    } catch (e) {
+        console.warn('KaTeX render error:', e);
+    }
+}
+
+// Observe a card element for lazy KaTeX rendering
+function observeForKatex(cardElement) {
+    if (!_katexObserver) initKatexObserver();
+    cardElement.classList.add('katex-pending');
+    _katexObserver.observe(cardElement);
+}
+
+// Direct KaTeX render for a single element (used in Learning Mode)
+function renderKatexDirect(element) {
+    if (!element) return;
+    // Use requestAnimationFrame to avoid blocking the main thread
+    requestAnimationFrame(() => {
+        renderKatexElement(element);
+    });
+}
 
 // --- PRESETS ---
 const GRADIENTS = [
@@ -229,18 +356,25 @@ function loadData() {
     const isSeeded = localStorage.getItem('v3_seeded_colles2');
 
     if (storedPrefs) {
-        const prefs = JSON.parse(storedPrefs);
-        currentSortMode = prefs.sortMode || 'date';
-        isCustomSortMode = currentSortMode === 'custom';
+        try {
+            const prefs = JSON.parse(storedPrefs);
+            currentSortMode = prefs.sortMode || 'date';
+            isCustomSortMode = currentSortMode === 'custom';
+        } catch (e) { /* ignore corrupt prefs */ }
     }
 
     if (storedColors) {
-        themeColors = JSON.parse(storedColors);
+        try { themeColors = JSON.parse(storedColors); } catch (e) { themeColors = {}; }
     }
 
     if (storedDecks && storedCards) {
-        decks = JSON.parse(storedDecks);
-        cards = JSON.parse(storedCards);
+        try {
+            decks = JSON.parse(storedDecks);
+            cards = JSON.parse(storedCards);
+        } catch (e) {
+            decks = [];
+            cards = [];
+        }
     } else {
         decks = [];
         cards = [];
@@ -258,7 +392,7 @@ function loadData() {
             order: -1
         };
         decks.push(publicDeck);
-        saveData();
+        saveDataNow();
     }
 
     // Default Cards Seeding (Run once if not seeded OR if public deck has 0 cards)
@@ -285,7 +419,7 @@ function loadData() {
         });
         if (count > 0) {
             console.log(`Seeded/Restored ${count} default cards.`);
-            saveData();
+            saveDataNow();
         }
         localStorage.setItem('v3_seeded_colles2', 'true');
     }
@@ -293,12 +427,6 @@ function loadData() {
     cards.forEach((c, i) => { if (typeof c.order === 'undefined') c.order = i; });
 }
 
-function saveData() {
-    localStorage.setItem(STORAGE_KEY_DECKS, JSON.stringify(decks));
-    localStorage.setItem(STORAGE_KEY_CARDS, JSON.stringify(cards));
-    localStorage.setItem(PREFS_KEY, JSON.stringify({ sortMode: currentSortMode }));
-    localStorage.setItem(THEME_COLORS_KEY, JSON.stringify(themeColors));
-}
 
 // --- SORTING & UTILS ---
 const SORT_MODES = ['date', 'color', 'alpha', 'custom'];
@@ -351,7 +479,7 @@ function showToast(message, type = 'info', action = null) {
     }
     toast.innerHTML = content;
     container.appendChild(toast);
-    lucide.createIcons();
+    createIconsIn(toast);
 
     if (type === 'confirm') {
         const cleanup = () => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); };
@@ -367,10 +495,14 @@ function showToast(message, type = 'info', action = null) {
 
 function initApp() {
     loadData();
+    // Initialize KaTeX observer
+    initKatexObserver();
     renderView();
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.context-menu-trigger') && !e.target.closest('.context-menu')) closeAllContextMenus();
     });
+    // Save data before unload
+    window.addEventListener('beforeunload', saveDataNow);
 }
 
 function renderView() {
@@ -487,6 +619,8 @@ function renderView() {
                 });
 
                 const themeSection = document.createElement('div');
+                // Escape theme name for use in onclick handlers
+                const escapedTheme = theme.replace(/'/g, "\\'");
                 themeSection.innerHTML = `
                     <div class="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4 border-b border-slate-800 pb-4 sticky top-[72px] bg-[#0f172a]/95 backdrop-blur z-30 py-4 -mx-2 px-2">
                         <div class="flex items-center gap-3">
@@ -494,14 +628,14 @@ function renderView() {
                             <h2 class="text-xl font-bold text-white tracking-tight">${theme}</h2>
                             <span class="px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 text-xs font-medium border border-slate-700">${themeCards.length}</span>
                         </div>
-                        <div class="flex items-center gap-2 w-full md:w-auto">
-                            <button onclick="startLearningMode('${theme}')" class="flex items-center gap-2 px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold rounded-lg shadow-lg shadow-indigo-500/20 transition-all">
+                        <div class="flex items-center gap-2 w-full md:w-auto flex-wrap">
+                            <button onclick="startLearningMode('${escapedTheme}')" class="flex items-center gap-2 px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold rounded-lg shadow-lg shadow-indigo-500/20 transition-all">
                                 <i data-lucide="play-circle" class="w-4 h-4"></i> <span>Apprendre</span>
                             </button>
-                            <button onclick="shuffleTheme('${theme}')" class="p-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition" title="Mélanger"><i data-lucide="shuffle" class="w-4 h-4"></i></button>
-                            <button onclick="emptyThemeTrash('${theme}')" class="p-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-red-900/30 hover:text-red-400 transition" title="Vider"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                            <button onclick="shuffleTheme('${escapedTheme}')" class="p-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition" title="Mélanger"><i data-lucide="shuffle" class="w-4 h-4"></i></button>
+                            <button onclick="emptyThemeTrash('${escapedTheme}')" class="p-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-red-900/30 hover:text-red-400 transition" title="Vider"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                             <div class="relative flex-grow md:flex-grow-0 md:w-48 ml-2">
-                                <input type="text" placeholder="Rechercher..." oninput="filterCards(this.value, '${theme}')" class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-sm rounded-lg pl-8 p-2">
+                                <input type="text" placeholder="Rechercher..." oninput="filterCards(this.value, '${escapedTheme}')" class="w-full bg-slate-900 border border-slate-700 text-slate-200 text-sm rounded-lg pl-8 p-2">
                                 <div class="absolute inset-y-0 left-0 flex items-center pl-2.5 pointer-events-none text-slate-500"><i data-lucide="search" class="w-3.5 h-3.5"></i></div>
                             </div>
                         </div>
@@ -514,7 +648,10 @@ function renderView() {
                 grid.dataset.theme = theme; // Identifier for Drop
 
                 themeCards.forEach(card => {
-                    grid.appendChild(createCardDOM(card));
+                    const cardEl = createCardDOM(card);
+                    grid.appendChild(cardEl);
+                    // Lazy KaTeX: observe each card individually
+                    observeForKatex(cardEl);
                 });
 
                 themeSection.appendChild(grid);
@@ -523,10 +660,7 @@ function renderView() {
             container.appendChild(listContainer);
         }
 
-        // Batch Render Math for the whole container after DOM insertion
-        setTimeout(() => {
-            if (typeof renderMathInElement !== 'undefined') initKatex(container);
-        }, 0);
+        // NO batch KaTeX here — handled by IntersectionObserver per card
 
         fabContainer.innerHTML = `
             <button onclick="openModal('card')" class="group relative flex items-center justify-center gap-3 pl-6 pr-7 py-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-full shadow-2xl shadow-emerald-900/60 transition-all duration-300 transform hover:-translate-y-1 active:translate-y-0 active:scale-95 border border-white/10 hover:border-white/30 whitespace-nowrap">
@@ -536,32 +670,11 @@ function renderView() {
             </button>
         `;
     }
-    lucide.createIcons();
-    // initKatex() removed from here, moved to specific sections
+    createIconsIn(container);
+    createIconsIn(fabContainer);
+    createIconsIn(document.getElementById('nav-action'));
 }
 
-// ...
-
-function createCardDOM(card) {
-    const cardWrapper = document.createElement('div');
-    // ... (rest of creation logic)
-
-    cardWrapper.innerHTML = `...`; // (content)
-
-    cardWrapper.appendChild(inner);
-
-    // REMOVED: setTimeout initKatex(cardWrapper) - Optimization
-
-    return cardWrapper;
-}
-
-// ... learning mode ...
-
-lucide.createIcons();
-if (typeof renderMathInElement !== 'undefined') {
-    // Optimize: Only render the new card's content
-    initKatex(newCard || overlay);
-}
 
 // --- DOM CREATION ---
 
@@ -734,8 +847,8 @@ function createCardDOM(card) {
 
     cardWrapper.appendChild(inner);
 
-    // Render Math - OPTIMIZATION: Removed per-card initKatex. 
-    // It is now handled in batch by the parent container or specific logic.
+    // KaTeX rendering is handled by IntersectionObserver (observeForKatex called by parent)
+    // Lucide icons are handled in batch by parent
 
     return cardWrapper;
 }
@@ -753,15 +866,13 @@ function handleDragOver(e, targetId, type) {
     e.preventDefault();
     if (!draggedItem || draggedItem.type !== type || draggedItem.id === targetId) return;
 
-    // REAL-TIME SWAP LOGIC
-    // Simple array swap and re-render
-
+    // DOM-level swap — avoids full renderView() which causes flicker
     const array = type === 'deck' ? decks : cards;
     const fromIdx = array.findIndex(x => x.id === draggedItem.id);
     const toIdx = array.findIndex(x => x.id === targetId);
 
     if (fromIdx !== -1 && toIdx !== -1) {
-        // Swap locally
+        // Swap in data array
         const item = array[fromIdx];
         array.splice(fromIdx, 1);
         array.splice(toIdx, 0, item);
@@ -769,16 +880,21 @@ function handleDragOver(e, targetId, type) {
         // Re-number orders
         array.forEach((d, i) => d.order = i);
 
-        renderView();
+        // DOM swap — find the two elements and swap their positions
+        const draggedEl = document.querySelector(`[data-id="${draggedItem.id}"]`);
+        const targetEl = document.querySelector(`[data-id="${targetId}"]`);
 
-        // Restore Drag style
-        setTimeout(() => {
-            const newEl = document.querySelector(`[data-id="${draggedItem.id}"]`);
-            if (newEl) {
-                if (type === 'deck') newEl.classList.add('dragging');
-                else newEl.firstElementChild?.classList.add('dragging'); // Card container
+        if (draggedEl && targetEl && draggedEl.parentNode === targetEl.parentNode) {
+            const parent = draggedEl.parentNode;
+            // Determine visual order
+            if (fromIdx < toIdx) {
+                // Moving down: insert dragged after target
+                parent.insertBefore(draggedEl, targetEl.nextSibling);
+            } else {
+                // Moving up: insert dragged before target
+                parent.insertBefore(draggedEl, targetEl);
             }
-        }, 0);
+        }
     }
 }
 
@@ -790,7 +906,7 @@ function handleDrop(e, targetId, type) {
     saveData(); // Commit
 }
 
-// --- LEARNING MODE (Refined) ---
+// --- LEARNING MODE (Optimized for mobile) ---
 function startLearningMode(theme) {
     const grid = document.getElementById(`grid-${theme}`);
     if (!grid) return;
@@ -806,7 +922,9 @@ function startLearningMode(theme) {
 
     const overlay = document.createElement('div');
     overlay.id = 'learning-overlay';
-    overlay.className = "fixed inset-0 z-[60] bg-slate-950 flex flex-col items-center justify-center p-4 animate-fade-in";
+    // Use explicit flex layout — critical for iOS
+    overlay.className = "fixed inset-0 z-[60] bg-slate-950 flex flex-col items-center p-4 animate-fade-in";
+    overlay.style.cssText = "height: 100vh; height: 100dvh;";
 
     // --- HISTORY NAVIGATION FIX ---
     history.pushState({ mode: 'learning' }, '', '#learning');
@@ -819,8 +937,6 @@ function startLearningMode(theme) {
     };
     window.addEventListener('popstate', handlePopState);
 
-
-
     let currentIndex = 0;
     let isAnimating = false;
 
@@ -831,39 +947,40 @@ function startLearningMode(theme) {
 
         if (currentIndex >= sessionCards.length) {
             overlay.innerHTML = `
-                <div class="text-center animate-fade-in px-6">
+                <div class="text-center animate-fade-in px-6" style="margin: auto;">
                     <div class="inline-flex p-6 bg-emerald-500/20 rounded-full mb-6"><i data-lucide="trophy" class="w-16 h-16 text-emerald-400"></i></div>
                     <h2 class="text-3xl font-bold text-white mb-2">Session Terminée !</h2>
                     <p class="text-slate-400 mb-8 text-lg">Vous avez revu ${sessionCards.length} cartes.</p>
                     <button onclick="closeLearningMode()" class="px-8 py-3 bg-indigo-600 rounded-xl text-white font-bold hover:bg-indigo-500 transition shadow-lg shadow-indigo-500/25">Retour aux fiches</button>
                 </div>
             `;
-            lucide.createIcons();
+            createIconsIn(overlay);
             return;
         }
 
         const card = sessionCards[currentIndex];
+
+        // Build card HTML — using explicit dimensions, no aspect-ratio dependency
         const cardHTML = `
-            <div class="relative w-full max-w-sm aspect-[3/4] perspective-1000 cursor-pointer group select-none" onclick="this.classList.toggle('card-flipped')">
+            <div class="relative w-full max-w-sm perspective-1000 cursor-pointer group select-none learning-card-wrapper" onclick="this.classList.toggle('card-flipped')" style="height: min(70vh, 28rem); height: min(70dvh, 28rem);">
                 <div class="card-inner relative w-full h-full transform-style-3d transition-all duration-500">
                     <div class="card-front absolute inset-0 bg-slate-800 rounded-3xl border border-slate-700 p-6 flex flex-col items-center justify-center text-center shadow-2xl backface-hidden">
-                        <span class="text-indigo-400 text-xs font-bold uppercase tracking-widest mb-4">Question</span>
-                        <div class="flex-grow w-full overflow-hidden relative">
+                        <span class="text-indigo-400 text-xs font-bold uppercase tracking-widest mb-4 shrink-0">Question</span>
+                        <div class="flex-grow w-full overflow-hidden relative min-h-0">
                              <div class="card-text-container">
                                 <div class="card-text-inner latex-content font-medium text-white">${card.question}</div>
                              </div>
-                             <!-- Scroll Fade Hints (Optional, can be added via CSS mask in future) -->
                         </div>
-                        <div class="mt-4 text-slate-500 text-xs flex items-center gap-2"><i data-lucide="touchpad" class="w-4 h-4"></i> Taper pour retourner</div>
+                        <div class="mt-4 text-slate-500 text-xs flex items-center gap-2 shrink-0"><i data-lucide="touchpad" class="w-4 h-4"></i> Taper pour retourner</div>
                     </div>
-                    <div class="card-back absolute inset-0 bg-gradient-to-br from-slate-800 to-indigo-900/40 rounded-3xl border border-indigo-500/30 p-6 flex flex-col items-center justify-center text-center shadow-2xl backface-hidden" style="transform: rotateY(180deg)">
-                        <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-4">Réponse</span>
-                        <div class="flex-grow w-full overflow-hidden relative">
+                    <div class="card-back absolute inset-0 bg-gradient-to-br from-slate-800 to-indigo-900/40 rounded-3xl border border-indigo-500/30 p-6 flex flex-col items-center justify-center text-center shadow-2xl backface-hidden" style="-webkit-transform: rotateY(180deg); transform: rotateY(180deg)">
+                        <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-4 shrink-0">Réponse</span>
+                        <div class="flex-grow w-full overflow-hidden relative min-h-0">
                              <div class="card-text-container">
                                 <div class="card-text-inner latex-content font-medium text-white">${card.answer}</div>
                              </div>
                         </div>
-                         <div class="mt-4 text-slate-400 text-xs flex items-center gap-2"><i data-lucide="rotate-ccw" class="w-4 h-4"></i> Revérifier</div>
+                         <div class="mt-4 text-slate-400 text-xs flex items-center gap-2 shrink-0"><i data-lucide="rotate-ccw" class="w-4 h-4"></i> Revérifier</div>
                     </div>
                 </div>
                 <div id="success-anim-${card.id}"></div>
@@ -871,97 +988,113 @@ function startLearningMode(theme) {
         `;
 
         const actionsHTML = `
-             <div class="flex flex-col gap-4 z-50 w-full max-w-sm mx-auto pb-4">
+             <div class="flex flex-col gap-3 z-50 w-full max-w-sm mx-auto pb-4 shrink-0" style="padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));">
                  <div class="flex items-center gap-3">
                     <button id="btn-later-3" class="flex-1 py-3 rounded-xl bg-slate-800 text-amber-400 text-sm font-bold border border-slate-700 hover:bg-slate-700 active:scale-95 transition">Pas su<br><span class="text-[10px] font-normal opacity-70">+3 rangs</span></button>
                     <button id="btn-later-7" class="flex-1 py-3 rounded-xl bg-slate-800 text-blue-400 text-sm font-bold border border-slate-700 hover:bg-slate-700 active:scale-95 transition">A peu près<br><span class="text-[10px] font-normal opacity-70">+7 rangs</span></button>
                 </div>
                 <div class="flex items-center gap-4">
-                     <button id="btn-prev" class="p-4 rounded-full bg-slate-800 text-slate-400 hover:text-white border border-slate-700 disabled:opacity-30"><i data-lucide="arrow-left" class="w-6 h-6"></i></button>
+                     <button id="btn-prev" class="p-4 rounded-full bg-slate-800 text-slate-400 hover:text-white border border-slate-700 disabled:opacity-30 shrink-0"><i data-lucide="arrow-left" class="w-6 h-6"></i></button>
                      <button id="btn-validate" class="flex-grow py-4 rounded-2xl font-bold bg-emerald-600 text-white hover:bg-emerald-500 shadow-xl active:scale-95 transition flex items-center justify-center gap-2"><i data-lucide="check" class="w-6 h-6"></i> Maîtrisé</button>
-                     <button id="btn-next" class="p-4 rounded-full bg-slate-800 text-white border border-slate-700"><i data-lucide="arrow-right" class="w-6 h-6"></i></button>
+                     <button id="btn-next" class="p-4 rounded-full bg-slate-800 text-white border border-slate-700 shrink-0"><i data-lucide="arrow-right" class="w-6 h-6"></i></button>
                 </div>
              </div>
         `;
 
+        let newCard = null;
+
         if (!container) {
             overlay.innerHTML = `
-                <div class="absolute top-0 left-0 right-0 p-6 flex justify-between items-center text-slate-400 z-50">
+                <div class="w-full flex justify-between items-center text-slate-400 z-50 shrink-0 pt-2" style="padding-top: max(0.5rem, env(safe-area-inset-top, 0px));">
                     <button onclick="closeLearningMode()" class="p-2 hover:bg-white/10 rounded-full text-white transition"><i data-lucide="x" class="w-6 h-6"></i></button>
                     <div class="font-mono text-sm bg-black/30 px-3 py-1 rounded-full border border-white/10" id="progress-indicator">${currentIndex + 1} / ${sessionCards.length}</div>
                     <div class="w-10"></div>
                 </div>
-                <!-- Container is RELATIVE. Cards will be Absolute/Relative inside. -->
-                <div id="learning-card-container" class="w-full h-full flex justify-center items-center py-4 flex-grow relative overflow-visible">
+                <div id="learning-card-container" class="w-full flex justify-center items-center py-4 flex-grow relative overflow-visible min-h-0">
                     ${cardHTML}
                 </div>
                 ${actionsHTML}
             `;
             document.body.appendChild(overlay);
+            // Render KaTeX only for THIS card
+            const cardContainer = document.getElementById('learning-card-container');
+            if (cardContainer) {
+                renderKatexDirect(cardContainer);
+            }
         } else {
-            // ... existing animation logic ...
             isAnimating = true;
             const oldCard = container.firstElementChild;
             const wrapper = document.createElement('div');
             wrapper.innerHTML = cardHTML;
-            const newCard = wrapper.firstElementChild;
-
-            // Positioning Logic for Animation
-            // To prevent pushing, we ensure valid stacking.
+            newCard = wrapper.firstElementChild;
 
             if (direction === 'next') {
-                oldCard.style.position = 'absolute'; // Remove from flow
-                oldCard.style.top = '50%';
-                oldCard.style.left = '50%';
-                oldCard.style.transform = 'translate(-50%, -50%)'; // Centered
-
-                oldCard.classList.add('slide-exit-next');
-
-                // New card takes the flow space
+                if (oldCard) {
+                    oldCard.style.position = 'absolute';
+                    oldCard.style.top = '50%';
+                    oldCard.style.left = '50%';
+                    oldCard.style.transform = 'translate(-50%, -50%)';
+                    oldCard.classList.add('slide-exit-next');
+                }
                 newCard.classList.add('slide-enter-next');
                 container.appendChild(newCard);
 
             } else if (direction === 'prev') {
-                oldCard.style.position = 'absolute';
-                oldCard.style.top = '50%';
-                oldCard.style.left = '50%';
-                oldCard.style.transform = 'translate(-50%, -50%)';
-
-                oldCard.classList.add('slide-exit-prev');
+                if (oldCard) {
+                    oldCard.style.position = 'absolute';
+                    oldCard.style.top = '50%';
+                    oldCard.style.left = '50%';
+                    oldCard.style.transform = 'translate(-50%, -50%)';
+                    oldCard.classList.add('slide-exit-prev');
+                }
                 newCard.classList.add('slide-enter-prev');
                 container.appendChild(newCard);
             }
 
             setTimeout(() => {
-                oldCard.remove();
-                newCard.classList.remove('slide-enter-next', 'slide-enter-prev');
-                isAnimating = false; // Unlock
-            }, 500); // Match CSS duration
+                if (oldCard) oldCard.remove();
+                if (newCard) newCard.classList.remove('slide-enter-next', 'slide-enter-prev');
+                isAnimating = false;
+            }, 500);
 
-            document.getElementById('progress-indicator').innerText = `${currentIndex + 1} / ${sessionCards.length}`;
+            const progressEl = document.getElementById('progress-indicator');
+            if (progressEl) progressEl.innerText = `${currentIndex + 1} / ${sessionCards.length}`;
+
+            // Render KaTeX only for the NEW card
+            renderKatexDirect(newCard);
         }
 
-        lucide.createIcons();
-        if (typeof renderMathInElement !== 'undefined') {
-            // Optimization: partial render
-            // usage of newCard or overlay depending on context
-            const target = (typeof newCard !== 'undefined' && newCard) ? newCard : overlay;
-            initKatex(target);
+        createIconsIn(overlay);
+
+        // Wire up buttons (safe — buttons exist by now)
+        const btnPrev = document.getElementById('btn-prev');
+        const btnNext = document.getElementById('btn-next');
+        const btnValidate = document.getElementById('btn-validate');
+        const btnLater3 = document.getElementById('btn-later-3');
+        const btnLater7 = document.getElementById('btn-later-7');
+
+        if (btnPrev) {
+            btnPrev.disabled = currentIndex === 0;
+            btnPrev.onclick = () => { if (currentIndex > 0 && !isAnimating) { currentIndex--; renderCard('prev'); } };
+        }
+        if (btnNext) {
+            btnNext.onclick = () => { if (!isAnimating) { currentIndex++; renderCard('next'); } };
         }
 
-        document.getElementById('btn-prev').disabled = currentIndex === 0;
-        document.getElementById('btn-prev').onclick = () => { if (currentIndex > 0 && !isAnimating) { currentIndex--; renderCard('prev'); } };
-        document.getElementById('btn-next').onclick = () => { if (!isAnimating) { currentIndex++; renderCard('next'); } };
-
-        document.getElementById('btn-validate').onclick = (e) => {
-            e.stopPropagation();
-            if (isAnimating) return;
-            document.getElementById(`success-anim-${card.id}`).innerHTML = `<div class="success-overlay"><div class="success-icon bg-emerald-500 text-white p-4 rounded-full shadow-lg"><i data-lucide="check" class="w-8 h-8"></i></div></div>`;
-            lucide.createIcons();
-            card.isLearned = true;
-            saveData();
-            setTimeout(() => { currentIndex++; renderCard('next'); }, 600);
-        };
+        if (btnValidate) {
+            btnValidate.onclick = (e) => {
+                e.stopPropagation();
+                if (isAnimating) return;
+                const animEl = document.getElementById(`success-anim-${card.id}`);
+                if (animEl) {
+                    animEl.innerHTML = `<div class="success-overlay"><div class="success-icon bg-emerald-500 text-white p-4 rounded-full shadow-lg"><i data-lucide="check" class="w-8 h-8"></i></div></div>`;
+                    createIconsIn(animEl);
+                }
+                card.isLearned = true;
+                saveData();
+                setTimeout(() => { currentIndex++; renderCard('next'); }, 600);
+            };
+        }
 
         const deferCard = (offset) => {
             if (isAnimating) return;
@@ -974,26 +1107,37 @@ function startLearningMode(theme) {
             renderCard('next');
         };
 
-        document.getElementById('btn-later-3').onclick = (e) => { e.stopPropagation(); deferCard(3); };
-        document.getElementById('btn-later-7').onclick = (e) => { e.stopPropagation(); deferCard(7); };
+        if (btnLater3) btnLater3.onclick = (e) => { e.stopPropagation(); deferCard(3); };
+        if (btnLater7) btnLater7.onclick = (e) => { e.stopPropagation(); deferCard(7); };
     }
 
     renderCard();
 }
 
 function closeLearningMode() {
-    // Ensure we clean up listener if it wasn't triggered by popstate
-    // However, since handlePopState removes itself, we just need to ensure we go back if needed.
     if (location.hash === '#learning') {
         history.back(); // This will trigger popstate which removes overlay & listener
     } else {
         // Fallback if hash was lost but overlay remains
         document.getElementById('learning-overlay')?.remove();
         renderView();
-        // We can't easily reference handlePopState here without scope, 
-        // but since it's an arrow function inside startLearningMode, it's bound to that closure.
-        // The robust way is to rely on history.back() mostly.
     }
+}
+
+
+// --- QUICK ACTIONS (OPTIMIZED — no full re-render) ---
+
+function toggleCardLearned(e, id) {
+    e.stopPropagation();
+    const card = cards.find(c => c.id === id);
+    if (!card) return;
+    
+    card.isLearned = !card.isLearned;
+    saveData();
+    // Full re-render to reposition card (learned cards sort to end of theme group)
+    // Lazy KaTeX via IntersectionObserver prevents the performance hit
+    renderView();
+    showToast(card.isLearned ? "Carte maîtrisée !" : "Carte à revoir", "success");
 }
 
 
@@ -1035,6 +1179,7 @@ function openModal(type, entity = null) {
             editingId = null;
         }
     }
+    createIconsIn(modal);
 }
 
 function toggleThemeMode(isNew) {
@@ -1155,20 +1300,6 @@ function closeModal() {
     closeAllContextMenus();
 }
 
-function initKatex(element = document.body) {
-    if (window.renderMathInElement) {
-        renderMathInElement(element, {
-            delimiters: [
-                { left: "$$", right: "$$", display: true },
-                { left: "\\[", right: "\\]", display: true },
-                { left: "\\(", right: "\\)", display: false },
-                { left: "$", right: "$", display: false } // Added inline support
-            ],
-            throwOnError: false
-        });
-    }
-}
-
 function closeAllContextMenus() {
     document.querySelectorAll('.context-menu').forEach(el => el.classList.add('hidden'));
 }
@@ -1227,7 +1358,13 @@ function deleteCard(e, id) {
     showToast("Supprimer cette carte ?", "confirm", () => {
         cards = cards.filter(c => c.id !== id);
         saveData();
-        renderView();
+        // Targeted removal instead of full re-render
+        const cardWrapper = document.querySelector(`.card-container[data-id="${id}"]`);
+        if (cardWrapper) {
+            cardWrapper.remove();
+        } else {
+            renderView();
+        }
         showToast("Carte supprimée", "success");
     });
 }
@@ -1254,18 +1391,6 @@ function emptyThemeTrash(theme) {
         renderView();
         showToast(`${count} cartes supprimées`, "success");
     });
-}
-
-// QUICK ACTION
-function toggleCardLearned(e, id) {
-    e.stopPropagation();
-    const card = cards.find(c => c.id === id);
-    if (card) {
-        card.isLearned = !card.isLearned;
-        saveData();
-        renderView();
-        showToast(card.isLearned ? "Carte maîtrisée !" : "Carte à revoir", "success");
-    }
 }
 
 // SHUFFLE (Unlearned Only)
@@ -1340,10 +1465,10 @@ function openDeck(id) {
 function filterCards(query, theme) {
     const grid = document.getElementById(`grid-${theme}`);
     if (!grid) return;
-    const cards = Array.from(grid.children);
+    const cardEls = Array.from(grid.children);
     const lowerQ = query.toLowerCase();
 
-    cards.forEach(cardWrapper => {
+    cardEls.forEach(cardWrapper => {
         const text = cardWrapper.innerText.toLowerCase();
         if (text.includes(lowerQ)) {
             cardWrapper.style.display = '';
@@ -1388,6 +1513,8 @@ function openImportModal() {
         dropZone.classList.remove('drag-over');
         if (e.dataTransfer.files.length > 0) readFile(e.dataTransfer.files[0]);
     };
+    
+    createIconsIn(modal);
 }
 
 function exportDeck() {
@@ -1424,6 +1551,7 @@ function exportDeck() {
     document.getElementById('btn-download-txt').classList.remove('hidden');
 
     modal.classList.remove('hidden');
+    createIconsIn(modal);
 }
 
 function handleFileSelect(event) {
@@ -1505,4 +1633,11 @@ async function pasteFromClipboard() {
     }
 }
 
-window.onload = initApp;
+// --- INITIALIZATION ---
+// Use DOMContentLoaded for deferred scripts compatibility
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initApp);
+} else {
+    // DOM already loaded (e.g. script at end of body)
+    window.onload = initApp;
+}
