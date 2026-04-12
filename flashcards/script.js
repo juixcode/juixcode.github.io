@@ -585,6 +585,9 @@ function renderView() {
                             <button onclick="startLearningMode('${escapedTheme}')" class="flex items-center gap-2 px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold rounded-lg shadow-lg shadow-indigo-500/20 transition-all">
                                 <i data-lucide="play-circle" class="w-4 h-4"></i> <span>Apprendre</span>
                             </button>
+                            <button onclick="toggleThemeLearned('${escapedTheme}')" class="p-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-emerald-900/30 hover:text-emerald-400 transition" title="${themeCards.every(c => c.isLearned) ? 'Tout dévalider' : 'Tout valider'}">
+                                <i data-lucide="${themeCards.every(c => c.isLearned) ? 'rotate-ccw' : 'check-circle'}" class="w-4 h-4"></i>
+                            </button>
                             <button onclick="shuffleTheme('${escapedTheme}')" class="p-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition" title="Mélanger"><i data-lucide="shuffle" class="w-4 h-4"></i></button>
                             <button onclick="emptyThemeTrash('${escapedTheme}')" class="p-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-red-900/30 hover:text-red-400 transition" title="Vider"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
                             <div class="relative flex-grow md:flex-grow-0 md:w-48 ml-2">
@@ -1358,6 +1361,23 @@ function shuffleTheme(theme) {
     saveData();
     renderView();
     showToast("Cartes à apprendre mélangées", "success");
+}
+
+// TOGGLE LEARNED ALL FOR THEME
+function toggleThemeLearned(theme) {
+    const themeCards = cards.filter(c => c.deckId === activeDeckId && c.theme === theme);
+    if (themeCards.length === 0) return;
+
+    const allLearned = themeCards.every(c => c.isLearned);
+    const targetState = !allLearned;
+
+    themeCards.forEach(c => {
+        c.isLearned = targetState;
+    });
+
+    saveData();
+    renderView();
+    showToast(targetState ? `Catégorie "${theme}" validée` : `Catégorie "${theme}" réinitialisée`, "success");
 }
 
 
