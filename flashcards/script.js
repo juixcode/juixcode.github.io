@@ -136,10 +136,15 @@ const THEME_COLORS = [
     { name: 'Rose', class: 'bg-pink-500' },
 ];
 
-const DEFAULT_DECK_ID = 'colles-n2-public';
-
-const DEFAULT_CARDS = [
-    // Probas
+const DEFAULT_DECKS_CONFIG = [
+    {
+        id: 'default-probas',
+        title: 'Probas',
+        gradient: GRADIENTS[1].class,
+        order: -2,
+        isPublic: true,
+        cards: [
+            // Probas
     { question: "1. Définition d'une tribu sur Ω:", answer: "On appelle tribu (ou $\\sigma$-algèbre) sur $\\Omega$ toute famille $\\mathcal{A} \\subset \\mathcal{P}(\\Omega)$ telle que : \n- $\\Omega \\in \\mathcal{A}$, \n- si $A \\in \\mathcal{A}$ alors $\\overline{A}=\\Omega \\backslash A \\in \\mathcal{A}$ \n- si $(A_{n})_{n \\in \\mathbb{N}}$ est une suite d'éléments de $\\mathcal{A}$, alors $\\bigcup_{n \\in \\mathbb{N}} A_{n} \\in \\mathcal{A}$.", theme: "Probas : Introduction aux probabilités" },
     { question: "2. Définition d'un espace probabilisable :", answer: "Un espace probabilisable est un couple $(\\Omega, \\mathcal{A})$ où $\\Omega$ est un ensemble (univers) et $\\mathcal{A}$ une tribu sur $\\Omega$.", theme: "Probas : Introduction aux probabilités" },
     { question: "3. Définition d'une probabilité sur (Ω, A) et d'un espace probabilisé :", answer: "Une probabilité sur $(\\Omega, \\mathcal{A})$ est une application $P : \\mathcal{A} \\rightarrow \\mathbb{R}$ vérifiant : \n- $\\forall A \\in \\mathcal{A}, P(A) \\ge 0$, \n- $P(\\Omega)=1$, \n- si $(A_{n})_{n \\ge 1}$ sont deux à deux incompatibles (i.e. $A_{n} \\cap A_{m}=\\emptyset$ si $n \\neq m$), alors $P\\left(\\bigcup_{n \\ge 1} A_{n}\\right)=\\sum_{n \\ge 1} P(A_{n}).$ \nLe triplet $(\\Omega, \\mathcal{A}, P)$ est appelé espace probabilisé.", theme: "Probas : Introduction aux probabilités" },
@@ -165,10 +170,17 @@ const DEFAULT_CARDS = [
     { question: "4. Définition de l'indépendance de X et Y (discret):", answer: "$X$ et $Y$ sont indépendantes si et seulement si $\\forall i, j, P(X=x_{i}, Y=y_{j})=P(X=x_{i})P(Y=y_{j}),$ i.e. $p_{ij}=p_{i \\cdot} p_{\\cdot j}.$", theme: "Probas : Couples de variables aléatoires discrètes" },
     { question: "5. Espérance d'une fonction g(X,Y) (transfert en dimension 2, discret):", answer: "Si $g : \\mathbb{R}^{2} \\rightarrow \\mathbb{R}$ et si les sommes convergent, $\\mathbb{E}(g(X,Y))=\\sum_{i=1}^{l} \\sum_{j=1}^{k} g(x_{i}, y_{j}) p_{ij}.$", theme: "Probas : Couples de variables aléatoires discrètes" },
     { question: "6. Covariance définition, interprétation, lien avec indépendance:", answer: "La covariance de $X$ et $Y$ est $Cov(X,Y)=\\mathbb{E}[(X-\\mathbb{E}(X))(Y-\\mathbb{E}(Y))]=\\mathbb{E}(XY)-\\mathbb{E}(X)\\mathbb{E}(Y).$ Interprétation : mesure de liaison linéaire. Si $X$ et $Y$ sont indépendantes et intégrables, alors $\\mathbb{E}(XY)=\\mathbb{E}(X)\\mathbb{E}(Y)$ donc $Cov(X,Y)=0$ (mais la réciproque est fausse en général).", theme: "Probas : Couples de variables aléatoires discrètes" },
-    { question: "7. Corrélation définition:", answer: "Si $\\sigma_{X} > 0$ et $\\sigma_{Y} > 0,$ le coefficient de corrélation est $\\rho_{X,Y}=\\frac{Cov(X,Y)}{\\sigma_{X} \\sigma_{Y}},$ et vérifie $-1 \\le \\rho_{X,Y} \\le 1.$", theme: "Probas : Couples de variables aléatoires discrètes" },
-
-    // Der & Int
+    { question: "7. Corrélation définition:", answer: "Si $\\sigma_{X} > 0$ et $\\sigma_{Y} > 0,$ le coefficient de corrélation est $\\rho_{X,Y}=\\frac{Cov(X,Y)}{\\sigma_{X} \\sigma_{Y}},$ et vérifie $-1 \\le \\rho_{X,Y} \\le 1.$", theme: "Probas : Couples de variables aléatoires discrètes" }
+        ]
+    },
     {
+        id: 'default-derint',
+        title: 'Dér & Int',
+        gradient: GRADIENTS[2].class,
+        order: -1,
+        isPublic: true,
+        cards: [
+            {
         "question": "Définition 1.1.1. Donner la définition d'une distance sur un ensemble E et donner un exemple de métrique usuelle.",
         "answer": "Soit $E$ un ensemble non vide. Une distance sur $E$ est une application $d: E \\times E \\rightarrow \\mathbb{R}^{+}$ qui vérifie $\\forall(x,y,z) \\in E \\times E \\times E$ :\n- $d(x,y)=0 \\iff x=y$ (homogénéité)\n- $d(x,y)=d(y,x)$ (symétrie)\n- $d(x,z) \\le d(x,y)+d(y,z)$ (inégalité triangulaire).\nSi $d$ est une distance sur $E$, le couple $(E,d)$ est appelé espace métrique.\nExemples : Sur $\\mathbb{R}$, la métrique usuelle est $d(x,y):=|x-y|$. Sur $\\mathbb{C}$, la métrique usuelle est $d(z_{1},z_{2}):=|z_{2}-z_{1}|$.",
         "theme": "Dér & Int"
@@ -293,7 +305,9 @@ const DEFAULT_CARDS = [
         "answer": "L'existence d'une tangente non verticale en $x_{0}$ est équivalente à l'existence d'un DL à l'ordre 1 en $x_{0}$. L'étude du signe de $f(x)-f(x_{0})-(x-x_{0})f^{\\prime}(x_{0})$ précise la position relative. Plus généralement, avec un DL à l'ordre $p \\ge 2$ : $f(x)=a_{0}+a_{1}(x-x_{0})+\\dots+a_{k}(x-x_{0})^{k}+o((x-x_{0})^{k})$ où $a_{k}$ est le premier coefficient non nul pour $k \\ge 2$.\n- Si $k$ est pair et $a_{k}>0$ : courbe au-dessus de la tangente.\n- Si $k$ est pair et $a_{k}<0$ : courbe en dessous.\n- Si $k$ est impair et $a_{k}>0$ : traverse la tangente en passant au-dessus.\n- Si $k$ est impair et $a_{k}<0$ : traverse la tangente en passant en dessous.",
         "theme": "Dér & Int : Développements limités"
     }
-]
+        ]
+    }
+];
 
 // --- DATA MANAGEMENT ---
 
@@ -306,7 +320,7 @@ function loadData() {
     const storedColors = localStorage.getItem(THEME_COLORS_KEY);
 
     // Seed Check
-    const isSeeded = localStorage.getItem('v3_seeded_colles2');
+    const isSeeded = localStorage.getItem('v3_seeded_multiple_defaults_3');
 
     if (storedPrefs) {
         try {
@@ -333,48 +347,41 @@ function loadData() {
         cards = [];
     }
 
-    // Default Deck creation
-    let publicDeck = decks.find(d => d.id === DEFAULT_DECK_ID);
-    if (!publicDeck) {
-        publicDeck = {
-            id: DEFAULT_DECK_ID,
-            title: "Colles n°2",
-            gradient: GRADIENTS[1].class,
-            createdAt: Date.now(),
-            isPublic: true,
-            order: -1
-        };
-        decks.push(publicDeck);
-        saveDataNow();
-    }
-
-    // Default Cards Seeding (Run once if not seeded OR if public deck has 0 cards)
-    const hasPublicCards = cards.some(c => c.deckId === DEFAULT_DECK_ID);
-
-    if (!isSeeded || !hasPublicCards) {
-        let count = 0;
-        DEFAULT_CARDS.forEach(item => {
-            // Avoid duplicates if already exists roughly (optional, but good)
-            const exists = cards.find(c => c.question === item.question && c.deckId === DEFAULT_DECK_ID);
-            if (!exists) {
-                cards.push({
-                    id: generateId(),
-                    deckId: DEFAULT_DECK_ID,
-                    question: item.question,
-                    answer: item.answer,
-                    theme: item.theme,
-                    isLearned: false,
+    // Default Decks Seeding
+    if (!isSeeded) {
+        DEFAULT_DECKS_CONFIG.forEach(deckConf => {
+            // Check if deck already exists
+            let existingDeck = decks.find(d => d.id === deckConf.id);
+            if (!existingDeck) {
+                existingDeck = {
+                    id: deckConf.id,
+                    title: deckConf.title,
+                    gradient: deckConf.gradient,
                     createdAt: Date.now(),
-                    order: cards.length
-                });
-                count++;
+                    isPublic: deckConf.isPublic,
+                    order: deckConf.order
+                };
+                decks.push(existingDeck);
             }
+            
+            deckConf.cards.forEach(item => {
+                const exists = cards.find(c => c.question === item.question && c.deckId === deckConf.id);
+                if (!exists) {
+                    cards.push({
+                        id: generateId(),
+                        deckId: deckConf.id,
+                        question: item.question,
+                        answer: item.answer,
+                        theme: item.theme,
+                        isLearned: false,
+                        createdAt: Date.now(),
+                        order: cards.length
+                    });
+                }
+            });
         });
-        if (count > 0) {
-            console.log(`Seeded/Restored ${count} default cards.`);
-            saveDataNow();
-        }
-        localStorage.setItem('v3_seeded_colles2', 'true');
+        localStorage.setItem('v3_seeded_multiple_defaults_3', 'true');
+        saveDataNow();
     }
 
     cards.forEach((c, i) => { if (typeof c.order === 'undefined') c.order = i; });
