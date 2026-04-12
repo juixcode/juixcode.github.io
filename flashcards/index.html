@@ -8,20 +8,14 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
     <!-- Preconnect to CDN origins for faster loading -->
-    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <title>Flash Cards</title>
 
-    <!-- Dependencies -->
-    <!-- Tailwind must be synchronous to avoid FOUC (it generates CSS at runtime) -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Dependencies (no Tailwind CDN — all CSS is static) -->
     <script defer src="https://unpkg.com/lucide@latest"></script>
-
-    <!-- Prevent FOUC: hide body until styles are applied -->
-    <style>body { opacity: 0; transition: opacity 0.15s ease; } body.ready { opacity: 1; }</style>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
@@ -32,8 +26,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="min-h-screen pb-24 selection:bg-indigo-500/30">
-    <script>document.body.classList.add('ready');</script>
+<body class="min-h-screen pb-24">
 
     <!-- Header -->
     <header
@@ -70,7 +63,7 @@
         <div
             class="relative w-full max-w-lg bg-slate-900 rounded-2xl shadow-2xl border border-slate-700 flex flex-col max-h-[90vh] overflow-hidden animate-fade-in">
             <!-- Close Button -->
-            <button onclick="closeModal()"
+            <button onclick="closeModal()" aria-label="Fermer"
                 class="absolute top-4 right-4 text-slate-400 hover:text-white z-10 p-1 rounded-full hover:bg-slate-800">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
@@ -104,12 +97,12 @@
                 </div>
                 <form onsubmit="handleCreateCard(event)" class="p-6 overflow-y-auto max-h-[70vh] space-y-5">
                     <div class="space-y-2">
-                        <label class="text-sm font-medium text-slate-300">Question</label>
+                        <label for="card-question" class="text-sm font-medium text-slate-300">Question</label>
                         <textarea id="card-question" required
                             class="w-full h-20 bg-slate-950 border border-slate-700 rounded-xl p-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none resize-none"></textarea>
                     </div>
                     <div class="space-y-2">
-                        <label class="text-sm font-medium text-slate-300">Réponse</label>
+                        <label for="card-answer" class="text-sm font-medium text-slate-300">Réponse</label>
                         <textarea id="card-answer" required
                             class="w-full h-20 bg-slate-950 border border-slate-700 rounded-xl p-3 text-white focus:ring-2 focus:ring-emerald-500 outline-none resize-none"></textarea>
                     </div>
@@ -122,7 +115,7 @@
                                 class="flex-1 py-1.5 text-sm rounded-lg bg-slate-800 text-slate-400">Nouvelle</button>
                         </div>
                         <div id="container-theme-select">
-                            <select id="card-theme-select"
+                            <select id="card-theme-select" aria-label="Catégorie"
                                 class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-white outline-none focus:ring-2 focus:ring-indigo-500"></select>
                         </div>
                         <input id="input-new-theme" type="text" placeholder="Nom de la catégorie"
@@ -146,7 +139,7 @@
                         class="w-full border-2 border-dashed border-slate-700 rounded-xl p-6 flex flex-col items-center justify-center text-slate-500 transition-all hover:border-indigo-500 hover:bg-slate-900/50 cursor-pointer"
                         onclick="document.getElementById('import-file-input').click()">
                         <input type="file" id="import-file-input" class="hidden" accept=".json,.txt"
-                            onchange="handleFileSelect(event)">
+                            aria-label="Importer un fichier" onchange="handleFileSelect(event)">
                         <i data-lucide="upload-cloud" class="w-8 h-8 mb-2 text-slate-400"></i>
                         <span class="text-xs font-medium">Cliquez ou déposez un fichier ici</span>
                     </div>
