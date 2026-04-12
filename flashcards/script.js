@@ -56,28 +56,41 @@ function createIconsIn(element) {
     }
 }
 
-// KaTeX lazy rendering via IntersectionObserver
-let _katexObserver = null;
+// Lazy Rendering AND Aggressive DOM Memory Unloading via IntersectionObserver
+let _cardVisibilityObserver = null;
 
-function initKatexObserver() {
-    if (_katexObserver) _katexObserver.disconnect();
+function initCardVisibilityObserver() {
+    if (_cardVisibilityObserver) _cardVisibilityObserver.disconnect();
     
-    _katexObserver = new IntersectionObserver((entries) => {
+    _cardVisibilityObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
+            const cardEl = entry.target;
+            const inner = cardEl.querySelector('.card-inner');
+
             if (entry.isIntersecting) {
-                const el = entry.target;
-                if (!el.dataset.katexRendered) {
-                    renderKatexElement(el);
-                    el.dataset.katexRendered = 'true';
-                    el.classList.remove('katex-pending');
-                    el.classList.add('katex-rendered');
+                // 1. Wake up card and restore Compositor Layers
+                if (inner && inner.style.display === 'none') {
+                    inner.style.display = '';
                 }
-                _katexObserver.unobserve(el);
+
+                // 2. Render KaTeX if not done yet
+                if (!cardEl.dataset.katexRendered) {
+                    renderKatexElement(cardEl);
+                    cardEl.dataset.katexRendered = 'true';
+                    cardEl.classList.remove('katex-pending');
+                    cardEl.classList.add('katex-rendered');
+                }
+            } else {
+                // 3. Sleep card when > 800px away (Aggressively strips WebKit 3D memory on iOS)
+                // We keep the cardEl wrapper visible to preserve scroll dimensions natively.
+                if (inner && cardEl.dataset.katexRendered === 'true') {
+                    inner.style.display = 'none';
+                }
             }
         });
     }, {
-        rootMargin: '200px 0px', // Pre-render cards 200px before they become visible
-        threshold: 0.01
+        rootMargin: '800px 0px', // Pre-render / Keeps loaded 800px around viewport
+        threshold: 0
     });
 }
 
@@ -98,11 +111,11 @@ function renderKatexElement(element) {
     }
 }
 
-// Observe a card element for lazy KaTeX rendering
+// Observe a card element for memory unloading and lazy KaTeX
 function observeForKatex(cardElement) {
-    if (!_katexObserver) initKatexObserver();
+    if (!_cardVisibilityObserver) initCardVisibilityObserver();
     cardElement.classList.add('katex-pending');
-    _katexObserver.observe(cardElement);
+    _cardVisibilityObserver.observe(cardElement);
 }
 
 // Direct KaTeX render for a single element (used in Learning Mode)
@@ -319,8 +332,7 @@ function loadData() {
     const storedPrefs = localStorage.getItem(PREFS_KEY);
     const storedColors = localStorage.getItem(THEME_COLORS_KEY);
 
-    // Seed Check
-    const isSeeded = localStorage.getItem('v3_seeded_multiple_defaults_3');
+    // No more seed check (always verify default decks exist)
 
     if (storedPrefs) {
         try {
@@ -348,8 +360,7 @@ function loadData() {
     }
 
     // Default Decks Seeding
-    if (!isSeeded) {
-        DEFAULT_DECKS_CONFIG.forEach(deckConf => {
+    DEFAULT_DECKS_CONFIG.forEach(deckConf => {
             // Check if deck already exists
             let existingDeck = decks.find(d => d.id === deckConf.id);
             if (!existingDeck) {
@@ -380,9 +391,7 @@ function loadData() {
                 }
             });
         });
-        localStorage.setItem('v3_seeded_multiple_defaults_3', 'true');
         saveDataNow();
-    }
 
     cards.forEach((c, i) => { if (typeof c.order === 'undefined') c.order = i; });
 }
@@ -456,7 +465,7 @@ function showToast(message, type = 'info', action = null) {
 function initApp() {
     loadData();
     // Initialize KaTeX observer
-    initKatexObserver();
+    initCardVisibilityObserver();
     renderView();
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.context-menu-trigger') && !e.target.closest('.context-menu')) closeAllContextMenus();
@@ -667,7 +676,7 @@ function createDeckGrid(deckList) {
 
     deckList.forEach(deck => {
         const deckCard = document.createElement('div');
-        deckCard.className = `group relative h-48 rounded-2xl p-6 flex flex-col justify-between cursor-pointer overflow-hidden transition-all duration-300 hover:scale-[1.02] shadow-xl hover:shadow-2xl border border-white/10 bg-gradient-to-br ${deck.gradient} ${isCustomSortMode ? 'hover:border-indigo-400/50' : ''}`;
+        deckCard.className = `group relative h-48 rounded-2xl p-6 flex flex-col justify-between cursor-pointer transition-all duration-300 hover:scale-[1.02] shadow-xl hover:shadow-2xl border border-white/10 bg-gradient-to-br ${deck.gradient} ${isCustomSortMode ? 'hover:border-indigo-400/50' : ''}`;
         deckCard.dataset.id = deck.id;
 
         // Drag Logic
@@ -687,7 +696,7 @@ function createDeckGrid(deckList) {
         const progress = cardCount > 0 ? Math.round((masteredCount / cardCount) * 100) : 0;
 
         deckCard.innerHTML = `
-            <div class="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+            <div class="absolute inset-0 rounded-2xl bg-black/10 group-hover:bg-transparent transition-colors"></div>
             
             <div class="absolute top-4 right-4 z-20 flex gap-2">
                  ${isCustomSortMode ? `
@@ -701,6 +710,7 @@ function createDeckGrid(deckList) {
                 <div id="menu-deck-${deck.id}" class="context-menu hidden absolute right-0 top-8 w-40 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-50 overflow-hidden text-sm">
                     <button onclick="editDeck('${deck.id}')" class="w-full text-left px-4 py-2.5 text-slate-300 hover:bg-slate-800 hover:text-white flex items-center gap-2"><i data-lucide="pencil" class="w-4 h-4"></i> Modifier</button>
                     <button onclick="duplicateDeck('${deck.id}')" class="w-full text-left px-4 py-2.5 text-slate-300 hover:bg-slate-800 hover:text-white flex items-center gap-2"><i data-lucide="copy" class="w-4 h-4"></i> Dupliquer</button>
+                    <button onclick="downloadDeckDirectly('${deck.id}')" class="w-full text-left px-4 py-2.5 text-slate-300 hover:bg-slate-800 hover:text-white flex items-center gap-2"><i data-lucide="download" class="w-4 h-4"></i> Télécharger</button>
                     <div class="h-px bg-slate-800"></div>
                     <button onclick="deleteDeck('${deck.id}')" class="w-full text-left px-4 py-2.5 text-red-400 hover:bg-red-900/30 flex items-center gap-2"><i data-lucide="trash" class="w-4 h-4"></i> Supprimer</button>
                 </div>
@@ -753,7 +763,7 @@ function createCardDOM(card) {
     const inner = document.createElement('div');
     inner.className = "card-inner relative h-full w-full transition-all duration-500 transform-style-3d";
     inner.innerHTML = `
-        <div class="card-front absolute inset-0 rounded-2xl shadow-xl flex flex-col overflow-hidden border-2 transition-all duration-300 ${styles.border}">
+        <div class="card-front absolute inset-0 rounded-2xl shadow-xl flex flex-col border-2 transition-all duration-300 ${styles.border}">
              <!-- Header / Controls -->
              <div class="relative z-20 flex justify-between items-start p-4 pb-2 shrink-0">
                  <span class="text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-md ${styles.badge}">Question</span>
@@ -1601,6 +1611,34 @@ function downloadExport(type) {
 function copyToClipboard() {
     const text = document.getElementById('ie-content').value;
     navigator.clipboard.writeText(text).then(() => showToast("Copié !", "success"));
+}
+
+function downloadDeckDirectly(deckId) {
+    const deckCards = cards.filter(c => c.deckId === deckId);
+    if (deckCards.length === 0) return showToast("Aucune carte à télécharger", "error");
+
+    const exportData = deckCards.map(c => ({
+        question: c.question,
+        answer: c.answer,
+        theme: c.theme
+    }));
+
+    const content = JSON.stringify(exportData, null, 2);
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    
+    // Create a clean filename from the deck title
+    const d = decks.find(d => d.id === deckId);
+    const title = d ? d.title.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'bloc';
+
+    a.download = `flashcards_${title}_${Date.now()}.txt`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast("Téléchargement lancé", "success");
 }
 
 async function pasteFromClipboard() {
