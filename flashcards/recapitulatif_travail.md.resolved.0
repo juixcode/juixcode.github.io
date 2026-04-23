@@ -1,0 +1,111 @@
+# Récapitulatif du Travail - Système de Flashcards & QCM
+
+Ce document récapitule l'ensemble des fonctionnalités, correctifs et améliorations apportés aujourd'hui pour transformer l'application en un système hybride gérant à la fois les **Flashcards** classiques et les **QCM** (Questions à Choix Multiples).
+
+---
+
+## 🚀 Nouvelles Fonctionnalités Majeures
+
+### 1. Système de QCM Intégré
+- **Modes de jeu hybrides** : Chaque bloc (deck) peut désormais être défini comme un bloc "Flashcards" ou "QCM".
+- **Interface QCM Interactive** : 
+    - Mode **Vrai/Faux** (boutons horizontaux).
+    - Mode **Choix Multiples** (liste verticale scrollable).
+    - **Validation en temps réel** : Les couleurs (Vert/Rouge) s'affichent immédiatement après validation.
+    - **Explications** : Possibilité d'ajouter et d'afficher une explication au dos de la carte après avoir répondu.
+
+### 2. Gestion de la Progression
+- **Validation Intelligente** : Les cartes QCM marquent désormais leur progression réelle. Une réponse correcte valide la carte dans les statistiques globales.
+- **Bouton de Réinitialisation** : Pour les blocs QCM, le bouton de validation de catégorie a été transformé en bouton de **Réinitialisation** (remise à zéro des réponses et de l'état "appris").
+
+### 3. Amélioration de l'Export/Import
+- **Format Étendu** : Le système de téléchargement (.txt) et de copier/coller gère maintenant les données complexes des QCM (liste de réponses, bonnes réponses, explications, mode).
+- **Interopérabilité** : L'import détecte automatiquement si le fichier entrant est un QCM ou une Flashcard selon le bloc de destination.
+
+---
+
+## 🎨 Améliorations UI/UX & Design
+
+- **Badges de Type** : Ajout d'étiquettes "Flashcards" ou "QCM" sur chaque bloc de la page d'accueil pour une identification rapide.
+- **Refonte des Modals** :
+    - Remplacement des boutons radio par des boutons "Toggle" élégants pour le choix du mode de bloc.
+    - Réduction de la hauteur du champ "Question" pour éviter que les boutons de validation ne sortent de l'écran sur les petits moniteurs.
+    - Centrage parfait des icônes de coche dans les sélecteurs de bonnes réponses.
+- **Layout des Cartes** :
+    - Gestion de l'overflow pour les questions longues et listes de réponses multiples.
+    - Ajout d'une barre de défilement personnalisée et discrète pour les choix multiples.
+- **Context Menus** : Correction des problèmes de superposition (z-index) où le menu était caché par les bordures des blocs.
+
+---
+
+## 🛠 Correctifs de Stabilité et Bugs
+
+- **Tri Manuel (Drag & Drop)** : Restauration complète de la fonctionnalité de tri à 6 points qui avait été cassée. Le tri fonctionne maintenant sur l'accueil et à l'intérieur des catégories.
+- **Fonctions Perdues** : Restauration des fonctions de tri, mélange (`shuffle`), suppression de catégorie et recherche qui avaient été accidentellement supprimées lors d'une mise à jour majeure.
+- **Synchronisation Visuelle** : Correction du bug où le compteur "X sur Y cartes maîtrisées" ne se mettait pas à jour lors de la suppression d'une carte.
+- **Erreurs de Syntaxe** : Résolution de plusieurs erreurs "Uncaught ReferenceError" et "SyntaxError" qui bloquaient l'affichage des icônes et des blocs par défaut.
+- **Optimisation Mobile (iOS)** : Amélioration du rendu pour éviter les crashs sur mobile lors de la manipulation de gros blocs contenant du LaTeX.
+
+---
+
+### 📝 Note Technique
+> [!IMPORTANT]
+> L'application utilise maintenant `validationStatus` pour les QCM tout en conservant `isLearned` pour la compatibilité avec l'ancien système de statistiques. Les données sont persistées dans le `localStorage` sous les clés `flash-cards-v3` et `flash-decks-v3`.
+
+
+
+### Prompt initial pour le mode QCM (sur lequel se baser):
+
+Règle un petit bug pour commencer :
+Lorsque l'on utilise un bouton poubelle pour supprimer une ou plusieurs cartes dasn un bloc, l'information "X sur Y cartes maîtrisées" n'est pas visuellement mise à jour. Il faut que le nomveau nombre de cartes soit actualisé.
+
+Ensuite :
+Soyons ambitieux : rajoutons un système de QCM à notre application
+
+# Différenciation entre QCM et Flashcards
+- Lorsqu'un bloc est défini par l'utilisateur, il a le choix sur le type du bloc. Soit "Flashcards", soit "QCM"
+- Le type d'un bloc est affiché sur le bloc (un petit tag entouré et discret à coté du nom du bloc par exemple)
+- Pense à affecter le type "Flashcards" aux deux blocs publics qui sont déjà présents actuellement
+
+# Fonctionnalités d'un bloc de type QCM
+- Une question d'un bloc de type QCM présente une question avec 1 ou plusieurs réponses en dessous, qui sont des boutons cliquables. Elle possède également une explication au dos de la carte, sauf si l'utilisateur n'en a simplement pas écrit
+- Une question d'un bloc de type QCM contient :
+>> Une question (comme pour les flashcards)
+>> Une catégorie (comme pour les flashcards)
+>> Un mode : "Vrai/Faux" ou Réponses multiples"
+>>>> Si le mode est "Vrai/Faux", le bouton de réponse "Faux" est placé sur la gauche et prend toute la hauteur de la zone de réponse, et le bouton de réponse "Vrai" est placé sur la droite et prend aussi toute la hauteur de la zone de réponse
+>>>> Si le mode est "Réponses multiples", les boutons de réponses prennent toute la largeur de la zone de réponse, et se placent les uns au dessus des autres (Ils sont nummérotés en A,B,C,D selon le nombre de réponses)
+>> Des réponses : 2 réponses possibles pour le mode Vrai/Faux, et entre 2 et 4 réponses pour le mode Multiple (c'est à l'utilisateur de rajouter ou non des réponses, jusqu'à 4 maximum)
+>> Une explication (qui se trouve au dos de la carte, de la même manière que la Réponse d'une flashcard se trouve au dos de la carte)
+>> Si le mode est Multiple, on ajoute un bouton "Valider" en bas à droite de la carte, qui permet de confirmer ses choix sélectionnés
+- Une carte fait toujours la même taille :
+>> En mode Multiple, si une carte contient 2 réponses possibles, alors les réponses seront plus hautes que si une cartes contient 4 réponses, car les boutons de réponse se répartissent l'espace de la zone en hauteur.
+>> En mode Vrai/Faux, les boutons Vrai et Faux font toujours la hauteur de la zone, mais ils se partagent la largeur de la zone entre eux
+
+# Nouveau menu d'ajout d'une question
+- On demande donc à l'utilisateur la question, le mode de la carte, une explication (qui peut être laissée vide), et si le mode de la carte est "Réponses multiple" :
+>> 2 champs de texte permettent de remplir 2 réponses (ces deux champs sont obligatoires car c'est le nombre minimum de réponses)
+>> Sous les deux champs on a un bouton "+" qui permet d'ajouter un 3e champ si besoin, puis un 4e si besoin encore. (4 réponses maximum) !
+>> Les deux derniers champs ajoutés de cette manière ont un petit icone poubelle individuel à leur droite qui permet de supprimer la réponse si besoin
+(Il faut prévoir la nouvelle structure d'enregistrement des blocs de questions QCM)
+
+# Fonctionnement d'une carte QCM
+- Une carte QCM ne peut pas être retournée avant d'avoir été "validée"
+- L'utilisateur clique sur la ou les réponses qu'il pense correctes (elles sont sélectionnées en bleu pour le mode Multiple)
+- Si le mode est Vrai/Faux, la carte se "valide" à partir du moment ou l'utilisateur clique sur Vrai ou sur Faux
+- Si le mode est Multiple, la carte se "valide" lorsque l'utilisateur clique sur le bouton vert "Valider"
+- Après qu'une carte ait été validée, les mauvaises réponses choisies par l'utilisateur s'affichent en rouge, et les bonnes réponses en vert (trouve un moyen d'afficher les bonnes réponses en vert mais d'une manière qui distingue de si cette bonne réponse avait été sélectionnée par l'utilisateur, ou si elle ne l'a pas été)
+- Après qu'une carte ait été validée, si le bouton de validation existe, alors il est remplacé par le bouton "Expliquer". S'il n'existe pas, un bouton "Expliquer" apparait, en bas à droite de la carte comme le bouton "Valider". 
+- Le bouton "Expliquer" retourne simplement la carte, comme lorsqu'on clique dessus
+- Après qu'une carte ait été validée, on peut simplement cliquer dessus pour la retourner et lire l'explication, sans forcément cliquer sur le bouton "Expliquer"
+- Après qu'une carte ait été validée, on note le score : si la ou toutes les bonnes réponses ont été choisies par l'utilisateur SANS que l'utilisateur n'ait choisi de mauvaise réponse (on veut un résultat exact de la part de l'utilisateur), alors on ajoute 1 à la progression des cartes (même système que pour les flashcards)
+>> Ce qui change : si la réponse est mauvaise, on ajoute quand meme 1 à la progression des cartes mais la roue de progression n'est plus uniquement verte : une partie rouge de la roue émerge. On note en petit à coté de la roue le nombre précis de bonnes réponses et de mauvaises réponses (mais pas sur mobile car cet affichage prendrait trop de place sur l'interface)
+
+# Le mode "Apprendre" pour les blocs QCM
+- Similaire aux flashcards : affiche la carte en gros, possibilité de la "skip" en cliquant sur la flèche vers la droite, ou de revenir en arrière avec la flèche vers la gauche. Par contre, on abandonne le système de "reculement des cartes" avec le +3rangs ou +7rangs si l'utilisateur ne savait pas bien répondre à la question, on garde simplement le système pour sélectionner la/les réponses puis valider(pour une question de type Multiple).
+
+# Importation & Exportation de blocs
+- Comme pour les flashcards, essaie d'adapter le système selon la structure d'enregistrement des blocs de type QCM
+
+# Général
+Garde de la cohérence dans tout le site, les interfaces se ressemblent avec le système pré-établi des flashcards. Pense bien à l'optimisation et la compatibilité mobile et iOS

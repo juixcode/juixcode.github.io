@@ -153,6 +153,7 @@ const DEFAULT_DECKS_CONFIG = [
     {
         id: 'default-probas',
         title: 'Probas',
+        type: 'flashcard',
         gradient: GRADIENTS[1].class,
         order: -2,
         isPublic: true,
@@ -189,6 +190,7 @@ const DEFAULT_DECKS_CONFIG = [
     {
         id: 'default-derint',
         title: 'Dér & Int',
+        type: 'flashcard',
         gradient: GRADIENTS[2].class,
         order: -1,
         isPublic: true,
@@ -367,6 +369,7 @@ function loadData() {
                 existingDeck = {
                     id: deckConf.id,
                     title: deckConf.title,
+                    type: deckConf.type || 'flashcard',
                     gradient: deckConf.gradient,
                     createdAt: Date.now(),
                     isPublic: deckConf.isPublic,
@@ -385,6 +388,7 @@ function loadData() {
                         answer: item.answer,
                         theme: item.theme,
                         isLearned: false,
+                        validationStatus: 'unlearned',
                         createdAt: Date.now(),
                         order: cards.length
                     });
@@ -542,20 +546,28 @@ function renderView() {
         navAction.onclick = openHome;
 
         const deckCards = cards.filter(c => c.deckId === activeDeckId);
-        const learnedCount = deckCards.filter(c => c.isLearned).length;
+        const correctCount = deckCards.filter(c => deck.type === 'qcm' ? c.validationStatus === 'correct' : c.isLearned).length;
+        const incorrectCount = deckCards.filter(c => deck.type === 'qcm' && c.validationStatus === 'incorrect').length;
         const totalCount = deckCards.length;
-        const percentage = totalCount > 0 ? Math.round((learnedCount / totalCount) * 100) : 0;
+        
+        const greenPct = totalCount > 0 ? (correctCount / totalCount) * 100 : 0;
+        const redPct = totalCount > 0 ? (incorrectCount / totalCount) * 100 : 0;
 
         // Stats + Import/Export Buttons
         container.innerHTML += `
             <div class="mb-8 flex flex-col md:flex-row gap-6 animate-fade-in">
                 <div class="flex-grow flex items-center justify-between p-6 bg-slate-900/50 border border-slate-800 rounded-2xl">
-                    <div><h3 class="text-lg font-bold text-white">Progression Globale</h3><p class="text-slate-400 text-sm">${learnedCount} sur ${totalCount} cartes maîtrisées</p></div>
-                    <div class="relative w-16 h-16 flex items-center justify-center">
+                    <div>
+                        <h3 class="text-lg font-bold text-white flex items-center gap-2">Progression Globale</h3>
+                        <p id="deck-stats-text" class="text-slate-400 text-sm mt-1"> ${deck.type === 'qcm' ? (correctCount + incorrectCount) : correctCount} sur ${totalCount} ${deck.type === 'qcm' ? 'cartes étudiées' : 'cartes maîtrisées'}</p>
+                        ${deck.type === 'qcm' ? `<div id="deck-stats-qcm" class="text-xs mt-1 font-medium hidden md:block"><span class="text-emerald-400">${correctCount} bonnes</span>  |  <span class="text-red-400">${incorrectCount} mauvaises</span></div>` : ''}
+                    </div>
+                    <div class="relative w-16 h-16 flex items-center justify-center shrink-0">
                         <svg class="w-full h-full rotate-[-90deg]" viewBox="0 0 36 36">
                             <path class="text-slate-800" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke-width="3" />
-                            <path class="text-emerald-500 transition-all duration-1000 ease-out" stroke-dasharray="${percentage}, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3" />
-                        </svg> <span class="absolute text-xs font-bold text-white">${percentage}%</span>
+                            <path id="deck-stats-ring-green" class="text-emerald-500 transition-all duration-1000 ease-out" stroke-dasharray="${greenPct}, 100" stroke-dashoffset="0" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3" />
+                            <path id="deck-stats-ring-red" class="text-red-500 transition-all duration-1000 ease-out" stroke-dasharray="${redPct}, 100" stroke-dashoffset="-${greenPct}" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3" />
+                        </svg> <span id="deck-stats-pct" class="absolute text-xs font-bold text-white">${Math.round(deck.type === 'qcm' ? (greenPct + redPct) : greenPct)}%</span>
                     </div>
                 </div>
                 <div class="flex flex-col gap-2 min-w-[140px]">
@@ -601,8 +613,8 @@ function renderView() {
                             <button onclick="startLearningMode('${escapedTheme}')" class="flex items-center gap-2 px-3 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold rounded-lg shadow-lg shadow-indigo-500/20 transition-all">
                                 <i data-lucide="play-circle" class="w-4 h-4"></i> <span>Apprendre</span>
                             </button>
-                            <button onclick="toggleThemeLearned('${escapedTheme}')" class="p-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-emerald-900/30 hover:text-emerald-400 transition" title="${themeCards.every(c => c.isLearned) ? 'Tout dévalider' : 'Tout valider'}">
-                                <i data-lucide="${themeCards.every(c => c.isLearned) ? 'rotate-ccw' : 'check-circle'}" class="w-4 h-4"></i>
+                            <button onclick="toggleAllTheme('${escapedTheme}')" class="p-2 bg-slate-800 text-slate-300 rounded-lg ${deck.type === 'qcm' ? 'hover:bg-amber-900/30 hover:text-amber-400' : 'hover:bg-emerald-900/30 hover:text-emerald-400'} transition" title="${deck.type === 'qcm' ? 'Tout réinitialiser' : (themeCards.every(c => c.isLearned) ? 'Tout dévalider' : 'Tout valider')}">
+                                <i data-lucide="${(deck.type === 'qcm' || themeCards.every(c => c.isLearned)) ? 'rotate-ccw' : 'check-circle'}" class="w-4 h-4"></i>
                             </button>
                             <button onclick="shuffleTheme('${escapedTheme}')" class="p-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-slate-700 transition" title="Mélanger"><i data-lucide="shuffle" class="w-4 h-4"></i></button>
                             <button onclick="emptyThemeTrash('${escapedTheme}')" class="p-2 bg-slate-800 text-slate-300 rounded-lg hover:bg-red-900/30 hover:text-red-400 transition" title="Vider"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
@@ -692,8 +704,8 @@ function createDeckGrid(deckList) {
         };
 
         const cardCount = cards.filter(c => c.deckId === deck.id).length;
-        const masteredCount = cards.filter(c => c.deckId === deck.id && c.isLearned).length;
-        const progress = cardCount > 0 ? Math.round((masteredCount / cardCount) * 100) : 0;
+        const studiedCount = cards.filter(c => c.deckId === deck.id && (deck.type === 'qcm' ? c.validationStatus !== 'unlearned' : c.isLearned)).length;
+        const progress = cardCount > 0 ? Math.round((studiedCount / cardCount) * 100) : 0;
 
         deckCard.innerHTML = `
             <div class="absolute inset-0 rounded-2xl bg-black/10 group-hover:bg-transparent transition-colors"></div>
@@ -717,7 +729,10 @@ function createDeckGrid(deckList) {
             </div>
 
             <div class="relative z-10 pointer-events-none">
-                <h3 class="text-2xl font-bold text-white mb-1 shadow-black/50 drop-shadow-md">${deck.title}</h3>
+                <div class="flex items-center gap-2 mb-1">
+                    <h3 class="text-2xl font-bold text-white shadow-black/50 drop-shadow-md">${deck.title}</h3>
+                    <span class="text-[10px] bg-black/30 text-white/70 px-2 py-0.5 rounded-md uppercase tracking-widest font-bold border border-white/10">${deck.type === 'qcm' ? 'QCM' : 'Flashcards'}</span>
+                </div>
                 <p class="text-white/80 text-sm font-medium">${cardCount} cartes</p>
                 ${isCustomSortMode ? '<div class="mt-1 flex items-center gap-1 text-white/50 text-xs text-indigo-200">Mode tri activé</div>' : ''}
             </div>
@@ -737,39 +752,129 @@ function createCardDOM(card) {
     cardWrapper.className = "group h-80 w-full perspective-1000 cursor-pointer card-container select-none";
     cardWrapper.dataset.id = card.id;
 
-    // Card DnD logic
-    cardWrapper.draggable = true;
-    cardWrapper.ondragstart = (e) => handleDragStart(e, card.id, 'card');
+    // Allow dropping on any card
     cardWrapper.ondragover = (e) => handleDragOver(e, card.id, 'card');
     cardWrapper.ondrop = (e) => handleDrop(e, card.id, 'card');
+    
+    // The actual dragging is initiated by the .grab-handle element's ondragstart,
+    // but we can also bind it to the wrapper if needed. For now, the handle does it.
+    const activeDeck = decks.find(d => d.id === card.deckId);
+    const isQcm = activeDeck && activeDeck.type === 'qcm';
+    card.selectedAnswers = card.selectedAnswers || [];
+    const isVal = card.validationStatus === 'correct' || card.validationStatus === 'incorrect';
 
     cardWrapper.onclick = function (e) {
-        if (!e.target.closest('.context-menu') && !e.target.closest('button') && !e.target.closest('.grab-handle')) this.classList.toggle('card-flipped');
+        if (!isQcm || isVal) {
+            if (!e.target.closest('.context-menu') && !e.target.closest('button.no-flip') && !e.target.closest('.grab-handle')) {
+                this.classList.toggle('card-flipped');
+            }
+        }
     };
 
-    const isLearned = card.isLearned;
-    const styles = isLearned ? {
-        border: 'border-emerald-500/50 bg-gradient-to-br from-slate-800 to-emerald-900/20',
-        badge: 'bg-emerald-500/20 text-emerald-400',
-        icon: 'undo-2',
-        btnClass: 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-900/50'
-    } : {
-        border: 'border-slate-700 bg-slate-800 hover:border-slate-600',
-        badge: 'bg-slate-700/50 text-slate-400',
-        icon: 'check',
-        btnClass: 'bg-slate-700 hover:bg-indigo-500 text-slate-300 hover:text-white'
-    };
+    let styles, badge, icon, btnClass, border, contentFront, footerFront, actionBtnHTML;
+
+    if (isQcm) {
+        border = isVal ? (card.validationStatus === 'correct' ? 'border-emerald-500 bg-gradient-to-br from-slate-800 to-emerald-900/20' : 'border-red-500 bg-gradient-to-br from-slate-800 to-red-900/20') : 'border-slate-700 bg-slate-800 hover:border-slate-600';
+        badge = isVal ? (card.validationStatus === 'correct' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400') : 'bg-slate-700/50 text-slate-400';
+        icon = isVal ? 'rotate-cw' : 'check';
+        
+        let answersHTML = '';
+        if (card.qcmMode === 'tf') {
+            answersHTML = `<div class="flex w-full gap-2 mt-2 items-center justify-center py-2">
+                ${(card.answers || []).map((ans, i) => {
+                    const isSelected = card.selectedAnswers.includes(i);
+                    const isCorrectAns = card.correctAnswers && card.correctAnswers.includes(i);
+                    let localBtnClass = "bg-slate-700/50 hover:bg-slate-600 border-2 border-slate-600 text-slate-300";
+                    if (isVal) {
+                        if (isCorrectAns) {
+                            if (!isSelected) localBtnClass = "bg-slate-700/50 border-2 border-emerald-500 ring-2 ring-emerald-500 text-emerald-400 cursor-default";
+                            else localBtnClass = "bg-emerald-600 border-2 border-emerald-500 text-white cursor-default";
+                        } else if (isSelected) {
+                            localBtnClass = "bg-red-600 border-2 border-red-500 text-white cursor-default";
+                        } else {
+                            localBtnClass = "bg-slate-800/20 border-2 border-slate-700 text-slate-500 opacity-50 cursor-default";
+                        }
+                    } else if (isSelected) {
+                        localBtnClass = "bg-indigo-600 border-2 border-indigo-600 text-white";
+                    }
+                    return `<button type="button" class="no-flip flex-1 rounded-xl transition-all h-[4.5rem] flex-shrink-0 font-bold ${localBtnClass} flex items-center justify-center p-2" onclick="handleQcmSelect(event, '${card.id}', ${i})"><span class="latex-content">${ans}</span></button>`;
+                }).join('')}
+            </div>`;
+        } else {
+            answersHTML = `<div class="flex flex-col gap-1.5 mt-1 overflow-y-auto qcm-answers-scroll pr-1 flex-grow min-h-0">
+                ${(card.answers || []).map((ans, i) => {
+                    const isSelected = card.selectedAnswers.includes(i);
+                    const isCorrectAns = card.correctAnswers && card.correctAnswers.includes(i);
+                    let localBtnClass = "bg-slate-700/50 hover:bg-slate-600 border-2 border-slate-600 text-slate-300 text-left";
+                    if (isVal) {
+                        if (isCorrectAns) {
+                            if (!isSelected) localBtnClass = "bg-slate-700/50 border-2 border-emerald-500 ring-2 ring-emerald-500 text-emerald-400 cursor-default";
+                            else localBtnClass = "bg-emerald-600 border-2 border-emerald-500 text-white cursor-default";
+                        } else if (isSelected) {
+                            localBtnClass = "bg-red-600 border-2 border-red-500 text-white cursor-default";
+                        } else {
+                            localBtnClass = "bg-slate-800 border-2 border-slate-700 text-slate-500 opacity-50 cursor-default";
+                        }
+                    } else if (isSelected) {
+                        localBtnClass = "bg-indigo-600 border-2 border-indigo-600 text-white";
+                    }
+                    const prefix = ['A', 'B', 'C', 'D'][i] || i+1;
+                    return `<button type="button" class="no-flip w-full rounded-xl transition-all font-medium text-xs p-2 flex gap-2 shrink-0 ${localBtnClass}" onclick="handleQcmSelect(event, '${card.id}', ${i})"><span class="font-bold opacity-75 shrink-0 mt-0.5">${prefix}.</span> <span class="latex-content break-words min-w-0">${ans}</span></button>`;
+                }).join('')}
+            </div>`;
+        }
+
+        contentFront = `
+            <div class="relative z-0 flex-grow flex flex-col min-h-0 w-full overflow-hidden px-4">
+                <div class="shrink-0 overflow-hidden" style="max-height: 35%;">
+                    <div class="latex-content font-medium text-slate-100" style="font-size: 0.85rem;">${card.question}</div>
+                </div>
+                <div class="w-full h-px bg-slate-700/50 my-1.5 shrink-0"></div>
+                ${answersHTML}
+            </div>
+        `;
+
+        if (isVal) {
+            btnClass = "no-flip bg-slate-700 hover:bg-indigo-500 text-slate-300 hover:text-white px-4 py-2 text-sm font-bold w-auto shadow-lg";
+            actionBtnHTML = `<button onclick="this.closest('.card-container').classList.add('card-flipped');" class="absolute bottom-4 right-4 p-2 rounded-xl z-30 transition-all ${btnClass}"><div class="flex items-center gap-2"><i data-lucide="info" class="w-4 h-4"></i> Explication</div></button>`;
+            footerFront = ``;
+        } else {
+            if (card.qcmMode === 'multi') {
+                btnClass = "no-flip bg-indigo-600 hover:bg-indigo-500 text-white px-4 py-2 text-sm font-bold w-auto shadow-lg shadow-indigo-900/30";
+                actionBtnHTML = `<button onclick="validateQcmCard(event, '${card.id}')" class="absolute bottom-4 right-4 p-2 rounded-xl z-30 transition-all ${btnClass}"><div class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4"></i> Valider</div></button>`;
+            } else {
+                actionBtnHTML = ``;
+            }
+            footerFront = `<div class="p-4 pt-2 text-center text-slate-500 text-xs flex items-center justify-start gap-2 shrink-0"><i data-lucide="lock" class="w-3 h-3"></i> Flipping bloqué</div>`;
+        }
+    } else {
+        const isLearned = card.isLearned;
+        border = isLearned ? 'border-emerald-500/50 bg-gradient-to-br from-slate-800 to-emerald-900/20' : 'border-slate-700 bg-slate-800 hover:border-slate-600';
+        badge = isLearned ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-700/50 text-slate-400';
+        icon = isLearned ? 'undo-2' : 'check';
+        btnClass = isLearned ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-emerald-900/50' : 'bg-slate-700 hover:bg-indigo-500 text-slate-300 hover:text-white';
+        
+        contentFront = `
+            <div class="relative z-0 flex-grow flex flex-col min-h-0 w-full">
+                <div class="card-text-container" style="font-size: 0.85rem;">
+                    <div class="card-text-inner latex-content font-medium text-slate-100">${card.question}</div>
+                </div>
+            </div>
+        `;
+        actionBtnHTML = `<button onclick="toggleCardLearned(event, '${card.id}')" class="no-flip absolute bottom-4 right-4 p-3 rounded-full shadow-lg z-30 transition-all ${btnClass}"><i data-lucide="${icon}" class="w-5 h-5"></i></button>`;
+        footerFront = `<div class="p-4 pt-2 text-center text-slate-500 text-xs flex items-center justify-start gap-2 shrink-0"><i data-lucide="rotate-cw" class="w-3 h-3"></i> <span>Retourner</span></div>`;
+    }
 
     const inner = document.createElement('div');
     inner.className = "card-inner relative h-full w-full transition-all duration-500 transform-style-3d";
     inner.innerHTML = `
-        <div class="card-front absolute inset-0 rounded-2xl shadow-xl flex flex-col border-2 transition-all duration-300 ${styles.border}">
+        <div class="card-front absolute inset-0 rounded-2xl shadow-xl flex flex-col overflow-hidden border-2 transition-all duration-300 ${border}">
              <!-- Header / Controls -->
              <div class="relative z-20 flex justify-between items-start p-4 pb-2 shrink-0">
-                 <span class="text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-md ${styles.badge}">Question</span>
+                 <span class="text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-md ${badge}">Question</span>
                  <div class="flex gap-2">
-                     <div class="p-1.5 rounded-full hover:bg-slate-700/50 text-slate-500 hover:text-white cursor-grab active:cursor-grabbing grab-handle" draggable="true" ondragstart="handleDragStart(event, '${card.id}', 'card')"><i data-lucide="grip-horizontal" class="w-4 h-4"></i></div>
-                     <button class="context-menu-trigger p-1.5 rounded-full hover:bg-slate-700/50 text-slate-400 hover:text-indigo-400 transition-colors" onclick="toggleCardMenu(event, '${card.id}')"><i data-lucide="more-vertical" class="w-4 h-4"></i></button>
+                     <div class="no-flip p-1.5 rounded-full hover:bg-slate-700/50 text-slate-500 hover:text-white cursor-grab active:cursor-grabbing grab-handle" draggable="true" ondragstart="handleDragStart(event, '${card.id}', 'card')"><i data-lucide="grip-horizontal" class="w-4 h-4"></i></div>
+                     <button class="no-flip context-menu-trigger p-1.5 rounded-full hover:bg-slate-700/50 text-slate-400 hover:text-indigo-400 transition-colors" onclick="toggleCardMenu(event, '${card.id}')"><i data-lucide="more-vertical" class="w-4 h-4"></i></button>
                      <div id="menu-card-${card.id}" class="context-menu hidden absolute right-0 top-8 w-32 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-50 overflow-hidden text-xs">
                         <button onclick="editCard(event, '${card.id}')" class="w-full text-left px-3 py-2 text-slate-300 hover:bg-slate-800 flex items-center gap-2"><i data-lucide="pencil" class="w-3 h-3"></i> Modifier</button>
                         <button onclick="duplicateCard(event, '${card.id}')" class="w-full text-left px-3 py-2 text-slate-300 hover:bg-slate-800 flex items-center gap-2"><i data-lucide="copy" class="w-3 h-3"></i> Dupliquer</button>
@@ -780,41 +885,30 @@ function createCardDOM(card) {
              </div>
 
              <!-- Content -->
-             <div class="relative z-0 flex-grow flex flex-col min-h-0 w-full">
-                <div class="card-text-container" style="font-size: 0.85rem;">
-                    <div class="card-text-inner latex-content font-medium text-slate-100">${card.question}</div>
-                </div>
-             </div>
+             ${contentFront}
 
              <!-- Footer -->
-             <div class="p-4 pt-2 text-center text-slate-500 text-xs flex items-center justify-start gap-2 shrink-0">
-                <i data-lucide="rotate-cw" class="w-3 h-3"></i> <span>Retourner</span>
-             </div>
+             ${footerFront}
 
              <!-- Quick Action Button -->
-            <button onclick="toggleCardLearned(event, '${card.id}')" class="absolute bottom-4 right-4 p-3 rounded-full shadow-lg z-30 transition-all ${styles.btnClass}">
-                <i data-lucide="${styles.icon}" class="w-5 h-5"></i>
-            </button>
+             ${actionBtnHTML}
         </div>
 
         <div class="card-back absolute inset-0 rounded-2xl shadow-xl flex flex-col overflow-hidden border-2 border-indigo-500/30 bg-gradient-to-br from-slate-800 to-indigo-900/20">
              <div class="p-4 pb-2 flex justify-end shrink-0">
-                <span class="text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-indigo-500/20 text-indigo-400">Réponse</span>
+                <span class="text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-md bg-indigo-500/20 text-indigo-400">${isQcm ? 'Explication' : 'Réponse'}</span>
              </div>
 
              <div class="relative z-0 flex-grow flex flex-col min-h-0 w-full">
                 <div class="card-text-container" style="font-size: 0.85rem;">
-                    <div class="card-text-inner latex-content font-medium text-white">${card.answer}</div>
+                    <div class="card-text-inner latex-content font-medium text-white">${isQcm ? (card.answer || "<span class='opacity-50 italic'>Aucune explication fournie.</span>") : card.answer}</div>
                 </div>
              </div>
 
              <div class="p-4 pt-2 text-center text-slate-400 text-xs flex items-center gap-2 shrink-0">
-                <i data-lucide="rotate-ccw" class="w-3 h-3"></i> Revérifier
+                <i data-lucide="rotate-ccw" class="w-3 h-3"></i> Taper pour pivoter
              </div>
-             <!-- Quick Action Button Back -->
-             <button onclick="toggleCardLearned(event, '${card.id}')" class="absolute bottom-4 right-4 p-3 rounded-full shadow-lg z-30 transition-all ${styles.btnClass}">
-                <i data-lucide="${styles.icon}" class="w-5 h-5"></i>
-            </button>
+             ${!isQcm ? `<button onclick="toggleCardLearned(event, '${card.id}')" class="no-flip absolute bottom-4 right-4 p-3 rounded-full shadow-lg z-30 transition-all ${btnClass}"><i data-lucide="${icon}" class="w-5 h-5"></i></button>` : ''}
         </div>
     `;
 
@@ -826,11 +920,157 @@ function createCardDOM(card) {
     return cardWrapper;
 }
 
+// --- QCM INTERACTION IN GRID ---
+function handleQcmSelect(e, cardId, index) {
+    if (e) e.stopPropagation();
+    const card = cards.find(c => c.id === cardId);
+    if (!card) return;
+    
+    // Ignore clicks if already validated
+    if (card.validationStatus === 'correct' || card.validationStatus === 'incorrect') return;
+
+    card.selectedAnswers = card.selectedAnswers || [];
+    
+    if (card.qcmMode === 'tf') {
+        card.selectedAnswers = [index];
+        validateQcmCard(null, cardId); // Auto-validate for TF
+        return;
+    } else {
+        if (card.selectedAnswers.includes(index)) {
+            card.selectedAnswers = card.selectedAnswers.filter(i => i !== index);
+        } else {
+            card.selectedAnswers.push(index);
+        }
+    }
+    
+    // Re-render specifically this card
+    updateSingleCardDOM(card);
+}
+
+function validateQcmCard(e, cardId) {
+    if (e) e.stopPropagation();
+    const card = cards.find(c => c.id === cardId);
+    if (!card) return;
+
+    const selected = card.selectedAnswers || [];
+    const correct = card.correctAnswers || [];
+    
+    // Perfect match? Selected contains all correct, and lengths match.
+    const isPerfect = selected.length === correct.length && correct.every(val => selected.includes(val));
+    
+    // Update data state
+    card.validationStatus = isPerfect ? 'correct' : 'incorrect';
+    card.isLearned = isPerfect; // Keeps backwards compatibility for global progress logic (sort of)
+
+    updateSingleCardDOM(card);
+    saveData();
+    if (activeDeckId) updateDeckStats(activeDeckId);
+    
+    // Check if we are in learning mode and should do the success animation
+    if (window.learningScope_renderCard && isPerfect) {
+        const animEl = document.getElementById(`success-anim-${card.id}`);
+        if (animEl) {
+            animEl.innerHTML = `<div class="success-overlay"><div class="success-icon bg-emerald-500 text-white p-4 rounded-full shadow-lg"><i data-lucide="check" class="w-8 h-8"></i></div></div>`;
+            createIconsIn(animEl);
+        }
+        setTimeout(() => { 
+            const btnNext = document.getElementById('btn-next');
+            if (btnNext) btnNext.click();
+        }, 800);
+    }
+}
+
+function updateSingleCardDOM(card) {
+    const oldWrapper = document.querySelector(`.card-container[data-id="${card.id}"]`);
+    if (!oldWrapper) return;
+    
+    const newWrapper = createCardDOM(card);
+    oldWrapper.replaceWith(newWrapper);
+    
+    // Need to trigger KaTeX manually for new elements since IntersectionObserver takes a tick
+    const ktxNodes = newWrapper.querySelectorAll('.katex-pending, .latex-content');
+    ktxNodes.forEach(node => {
+        if (typeof renderMathInElement !== 'undefined') {
+            try {
+                renderMathInElement(node, { delimiters: [{ left: "$$", right: "$$", display: true }, { left: "\\[", right: "\\]", display: true }, { left: "\\(", right: "\\)", display: false }, { left: "$", right: "$", display: false }], throwOnError: false });
+            } catch(e) {}
+        }
+        node.classList.remove('katex-pending');
+        node.classList.add('katex-rendered');
+    });
+    
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
+// --- QCM INTERACTION IN LEARNING MODE ---
+function handleLearningQcmSelect(e, cardId, index) {
+    if (e) e.stopPropagation();
+    const card = cards.find(c => c.id === cardId);
+    if (!card) return;
+    
+    // Ignore if already validated
+    if (card.validationStatus === 'correct' || card.validationStatus === 'incorrect') return;
+
+    card.selectedAnswers = card.selectedAnswers || [];
+    
+    if (card.qcmMode === 'tf') {
+        card.selectedAnswers = [index];
+        validateLearningQcmCard(null, cardId); // Auto-validate for TF
+        return;
+    } else {
+        if (card.selectedAnswers.includes(index)) {
+            card.selectedAnswers = card.selectedAnswers.filter(i => i !== index);
+        } else {
+            card.selectedAnswers.push(index);
+        }
+    }
+    
+    // Re-render learning card
+    if (window.learningScope_renderCard) {
+        window.learningScope_renderCard('refresh');
+    }
+}
+
+function validateLearningQcmCard(e, cardId) {
+    if (e) e.stopPropagation();
+    const card = cards.find(c => c.id === cardId);
+    if (!card) return;
+
+    const selected = card.selectedAnswers || [];
+    const correct = card.correctAnswers || [];
+    const isPerfect = selected.length === correct.length && correct.every(val => selected.includes(val));
+    
+    card.validationStatus = isPerfect ? 'correct' : 'incorrect';
+    card.isLearned = isPerfect;
+
+    saveData();
+    
+    if (window.learningScope_renderCard) {
+        window.learningScope_renderCard('refresh');
+        
+        if (isPerfect) {
+            const animEl = document.getElementById(`success-anim-${card.id}`);
+            if (animEl) {
+                animEl.innerHTML = `<div class="success-overlay"><div class="success-icon bg-emerald-500 text-white p-4 rounded-full shadow-lg"><i data-lucide="check" class="w-8 h-8"></i></div></div>`;
+                if (typeof lucide !== 'undefined') lucide.createIcons({ nodes: [animEl] });
+            }
+            // Auto-advance removed to let user see explanation
+        }
+    }
+    if (activeDeckId) updateDeckStats(activeDeckId);
+}
+
 // --- DRAG AND DROP (REAL-TIME VISUAL) ---
 function handleDragStart(e, id, type) {
     e.stopPropagation(); // Prevent propagation if handle inside card
     draggedItem = { id, type };
-    e.target.closest(type === 'deck' ? '.group' : '.card-container').classList.add('dragging');
+    const container = e.target.closest(type === 'deck' ? '.group' : '.card-container');
+    if (container) {
+        container.classList.add('dragging');
+        if (e.dataTransfer.setDragImage) {
+            e.dataTransfer.setDragImage(container, 20, 20);
+        }
+    }
     e.dataTransfer.effectAllowed = 'move';
     e.dataTransfer.setData('text', id);
 }
@@ -886,9 +1126,19 @@ function startLearningMode(theme) {
     const visibleIds = Array.from(grid.children).map(c => c.dataset.id);
     let sessionCards = visibleIds.map(id => cards.find(c => c.id === id)).filter(c => c);
 
-    let unlearned = sessionCards.filter(c => !c.isLearned);
+    const activeDeck = activeDeckId ? decks.find(d => d.id === activeDeckId) : null;
+    const isQcm = activeDeck && activeDeck.type === 'qcm';
+
+    let unlearned = sessionCards.filter(c => isQcm ? c.validationStatus === 'unlearned' : !c.isLearned);
     if (unlearned.length === 0) {
         if (!confirm("Tout est maîtrisé. Tout réviser ?")) return;
+        if (isQcm) {
+            sessionCards.forEach(c => {
+                c.validationStatus = 'unlearned';
+                c.selectedAnswers = [];
+                c.isLearned = false;
+            });
+        }
     } else {
         sessionCards = unlearned;
     }
@@ -913,8 +1163,10 @@ function startLearningMode(theme) {
     let currentIndex = 0;
     let isAnimating = false;
 
+    window.learningScope_renderCard = (dir) => { if (!isAnimating || dir === 'refresh') renderCard(dir); };
+
     function renderCard(direction = 'init') {
-        if (isAnimating && direction !== 'init') return;
+        if (isAnimating && direction !== 'init' && direction !== 'refresh') return;
 
         const container = document.getElementById('learning-card-container');
 
@@ -933,46 +1185,157 @@ function startLearningMode(theme) {
 
         const card = sessionCards[currentIndex];
 
+        let flipClass = '';
+        let contentFront = '';
+        let footerFront = '';
+        let actionBtnHTML = '';
+        const isVal = card.validationStatus === 'correct' || card.validationStatus === 'incorrect';
+
+        if (isQcm) {
+            let answersHTML = '';
+            if (card.qcmMode === 'tf') {
+                answersHTML = `<div class="flex w-full gap-2 mt-4 pb-16 px-4 items-center justify-center">
+                    ${(card.answers || []).map((ans, i) => {
+                        const isSelected = (card.selectedAnswers || []).includes(i);
+                        const isCorrectAns = card.correctAnswers && card.correctAnswers.includes(i);
+                        let localBtnClass = "bg-slate-700/50 hover:bg-slate-600 border-2 border-slate-600 text-slate-300";
+                        if (isVal) {
+                            if (isCorrectAns) {
+                                if (!isSelected) localBtnClass = "bg-slate-700/50 border-2 border-emerald-500 ring-2 ring-emerald-500 text-emerald-400 cursor-default";
+                                else localBtnClass = "bg-emerald-600 border-2 border-emerald-500 text-white cursor-default";
+                            } else if (isSelected) {
+                                localBtnClass = "bg-red-600 border-2 border-red-500 text-white cursor-default";
+                            } else {
+                                localBtnClass = "bg-slate-800/20 border-2 border-slate-700 text-slate-500 opacity-50 cursor-default";
+                            }
+                        } else if (isSelected) {
+                            localBtnClass = "bg-indigo-600 border-2 border-indigo-600 text-white";
+                        }
+                        // Need learning-specific click handler, we can reuse handleQcmSelect but ensure learning redraws!
+                        // Actually handleQcmSelect calls updateSingleCardDOM, which searches for .card-container! 
+                        // The learning overlay uses .learning-card-wrapper!
+                        // We must define a new learning-specific handler or update handleQcmSelect.
+                        return `<button type="button" class="no-flip flex-1 rounded-xl transition-all h-[8rem] font-bold ${localBtnClass} flex items-center justify-center p-2" onclick="handleLearningQcmSelect(event, '${card.id}', ${i})"><span class="latex-content">${ans}</span></button>`;
+                    }).join('')}
+                </div>`;
+            } else {
+                answersHTML = `<div class="flex flex-col gap-2 mt-2 pb-16 overflow-y-auto qcm-answers-scroll px-4 flex-grow min-h-0">
+                    ${(card.answers || []).map((ans, i) => {
+                        const isSelected = (card.selectedAnswers || []).includes(i);
+                        const isCorrectAns = card.correctAnswers && card.correctAnswers.includes(i);
+                        let localBtnClass = "bg-slate-700/50 hover:bg-slate-600 border-2 border-slate-600 text-slate-300 text-left";
+                        if (isVal) {
+                            if (isCorrectAns) {
+                                if (!isSelected) localBtnClass = "bg-slate-700/50 border-2 border-emerald-500 ring-2 ring-emerald-500 text-emerald-400 cursor-default";
+                                else localBtnClass = "bg-emerald-600 border-2 border-emerald-500 text-white cursor-default";
+                            } else if (isSelected) {
+                                localBtnClass = "bg-red-600 border-2 border-red-500 text-white cursor-default";
+                            } else {
+                                localBtnClass = "bg-slate-800 border-2 border-slate-700 text-slate-500 opacity-50 cursor-default";
+                            }
+                        } else if (isSelected) {
+                            localBtnClass = "bg-indigo-600 border-2 border-indigo-600 text-white";
+                        }
+                        const prefix = ['A', 'B', 'C', 'D'][i] || i+1;
+                        return `<button type="button" class="no-flip w-full rounded-xl transition-all font-medium text-xs p-2.5 flex gap-2.5 ${localBtnClass}" onclick="handleLearningQcmSelect(event, '${card.id}', ${i})"><span class="font-bold opacity-75 shrink-0 mt-0.5">${prefix}.</span> <span class="latex-content break-words min-w-0">${ans}</span></button>`;
+                    }).join('')}
+                </div>`;
+            }
+            
+            contentFront = `
+                 <div class="flex-grow w-full overflow-hidden relative min-h-0 flex flex-col px-4">
+                     <div class="card-text-container shrink-0" style="max-height: 30%;">
+                        <div class="card-text-inner latex-content font-medium text-white">${card.question}</div>
+                     </div>
+                     <div class="w-full h-px bg-slate-700/50 my-1.5 shrink-0"></div>
+                     ${answersHTML}
+                 </div>
+            `;
+            
+            if (isVal) {
+                // Use an invisible placeholder to maintain vertical alignment and prevent layout shifts
+                footerFront = `<div class="mt-auto text-slate-500 text-xs flex items-center gap-2 shrink-0 pb-2 opacity-0 select-none" aria-hidden="true"><i data-lucide="lock" class="w-4 h-4"></i> Space Placeholder</div>`;
+                flipClass = "onclick=\"if(!event.target.closest('button.no-flip')) this.classList.toggle('card-flipped')\"";
+            } else {
+                footerFront = `<div class="mt-auto text-slate-500 text-xs flex items-center gap-2 shrink-0 pb-2"><i data-lucide="lock" class="w-4 h-4"></i> Flipping bloqué</div>`;
+                flipClass = "";
+            }
+        } else {
+            contentFront = `
+                 <div class="flex-grow w-full overflow-hidden relative min-h-0 flex flex-col justify-center">
+                     <div class="card-text-container">
+                        <div class="card-text-inner latex-content font-medium text-white">${card.question}</div>
+                     </div>
+                 </div>
+            `;
+            footerFront = `<div class="mt-auto text-slate-500 text-xs flex items-center gap-2 shrink-0 pb-2"><i data-lucide="touchpad" class="w-4 h-4"></i> Taper pour retourner</div>`;
+            flipClass = "onclick=\"if(!event.target.closest('button.no-flip')) this.classList.toggle('card-flipped')\"";
+        }
+
+        const borderFace = isVal ? (card.validationStatus === 'correct' ? 'border-emerald-500 bg-gradient-to-br from-slate-800 to-emerald-900/20' : 'border-red-500 bg-gradient-to-br from-slate-800 to-red-900/20') : 'border-slate-700 bg-slate-800';
+
+        const badgeFace = isVal ? (card.validationStatus === 'correct' ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400') : 'bg-slate-700/50 text-slate-400';
+
         // Build card HTML — using explicit dimensions, no aspect-ratio dependency
         const cardHTML = `
-            <div class="relative w-full max-w-sm perspective-1000 cursor-pointer group select-none learning-card-wrapper" onclick="this.classList.toggle('card-flipped')" style="height: min(70vh, 28rem); height: min(70dvh, 28rem);">
+            <div class="relative w-full max-w-sm perspective-1000 cursor-pointer group select-none learning-card-wrapper" data-id="${card.id}" ${flipClass} style="height: min(70vh, 28rem); height: min(70dvh, 28rem);">
                 <div class="card-inner relative w-full h-full transform-style-3d transition-all duration-500">
-                    <div class="card-front absolute inset-0 bg-slate-800 rounded-3xl border border-slate-700 p-6 flex flex-col items-center justify-center text-center shadow-2xl backface-hidden">
-                        <span class="text-indigo-400 text-xs font-bold uppercase tracking-widest mb-4 shrink-0">Question</span>
-                        <div class="flex-grow w-full overflow-hidden relative min-h-0">
-                             <div class="card-text-container">
-                                <div class="card-text-inner latex-content font-medium text-white">${card.question}</div>
-                             </div>
-                        </div>
-                        <div class="mt-4 text-slate-500 text-xs flex items-center gap-2 shrink-0"><i data-lucide="touchpad" class="w-4 h-4"></i> Taper pour retourner</div>
+                    <div class="card-front absolute inset-0 ${borderFace} rounded-3xl border-2 p-6 pt-10 pb-6 flex flex-col items-center justify-start text-center shadow-2xl backface-hidden">
+                        <span class="${badgeFace} text-xs font-bold uppercase tracking-widest px-2 py-1 rounded-md mb-4 mt-0 shrink-0">Question</span>
+                        ${contentFront}
+                        ${footerFront}
                     </div>
-                    <div class="card-back absolute inset-0 bg-gradient-to-br from-slate-800 to-indigo-900/40 rounded-3xl border border-indigo-500/30 p-6 flex flex-col items-center justify-center text-center shadow-2xl backface-hidden" style="-webkit-transform: rotateY(180deg); transform: rotateY(180deg)">
-                        <span class="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-4 shrink-0">Réponse</span>
-                        <div class="flex-grow w-full overflow-hidden relative min-h-0">
+                    <div class="card-back absolute inset-0 bg-gradient-to-br from-slate-800 to-indigo-900/40 rounded-3xl border border-indigo-500/30 p-6 pt-10 pb-6 flex flex-col items-center justify-start text-center shadow-2xl backface-hidden" style="-webkit-transform: rotateY(180deg); transform: rotateY(180deg)">
+                        <span class="bg-indigo-500/20 text-indigo-400 text-xs font-bold uppercase tracking-widest px-2 py-1 rounded-md mb-4 mt-0 shrink-0">${isQcm ? 'Explication' : 'Réponse'}</span>
+                        <div class="flex-grow w-full overflow-hidden relative min-h-0 flex flex-col justify-center">
                              <div class="card-text-container">
-                                <div class="card-text-inner latex-content font-medium text-white">${card.answer}</div>
+                                <div class="card-text-inner latex-content font-medium text-white">${isQcm ? (card.answer || "<span class='opacity-50 italic'>Aucune explication fournie.</span>") : card.answer}</div>
                              </div>
                         </div>
-                         <div class="mt-4 text-slate-400 text-xs flex items-center gap-2 shrink-0"><i data-lucide="rotate-ccw" class="w-4 h-4"></i> Revérifier</div>
+                         <div class="mt-auto text-slate-400 text-xs flex items-center gap-2 shrink-0 pb-2"><i data-lucide="rotate-ccw" class="w-4 h-4"></i> Taper pour pivoter</div>
                     </div>
                 </div>
                 <div id="success-anim-${card.id}"></div>
             </div>
         `;
 
-        const actionsHTML = `
-             <div class="flex flex-col gap-3 z-50 w-full max-w-sm mx-auto pb-4 shrink-0" style="padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));">
-                 <div class="flex items-center gap-3">
-                    <button id="btn-later-3" class="flex-1 py-3 rounded-xl bg-slate-800 text-amber-400 text-sm font-bold border border-slate-700 hover:bg-slate-700 active:scale-95 transition">Pas su<br><span class="text-[10px] font-normal opacity-70">+3 rangs</span></button>
-                    <button id="btn-later-7" class="flex-1 py-3 rounded-xl bg-slate-800 text-blue-400 text-sm font-bold border border-slate-700 hover:bg-slate-700 active:scale-95 transition">A peu près<br><span class="text-[10px] font-normal opacity-70">+7 rangs</span></button>
-                </div>
-                <div class="flex items-center gap-4">
+        let actionsHTML = '';
+        if (isQcm) {
+            let qcmMainActionBtnHTML = '';
+            if (isVal) {
+                qcmMainActionBtnHTML = `<button onclick="const wrapper = document.querySelector('.learning-card-wrapper'); if(wrapper) wrapper.classList.toggle('card-flipped')" class="flex-grow py-4 rounded-2xl font-bold bg-indigo-600 text-white hover:bg-indigo-500 shadow-xl active:scale-95 transition flex items-center justify-center gap-2"><i data-lucide="info" class="w-6 h-6"></i> Expliquer</button>`;
+            } else {
+                if (card.qcmMode === 'multi') {
+                    qcmMainActionBtnHTML = `<button onclick="validateLearningQcmCard(event, '${card.id}')" class="flex-grow py-4 rounded-2xl font-bold bg-emerald-600 text-white hover:bg-emerald-500 shadow-xl active:scale-95 transition flex items-center justify-center gap-2"><i data-lucide="check" class="w-6 h-6"></i> Valider</button>`;
+                } else {
+                    qcmMainActionBtnHTML = `<button disabled class="flex-grow py-4 rounded-2xl font-bold bg-slate-700/50 text-slate-500 border border-slate-600/50 flex items-center justify-center gap-2 cursor-not-allowed opacity-50"><i data-lucide="info" class="w-6 h-6"></i> Expliquer</button>`;
+                }
+            }
+
+            actionsHTML = `
+             <div id="learning-actions-container" class="flex flex-col gap-3 z-50 w-full max-w-sm mx-auto pb-4 shrink-0" style="padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));">
+                <div class="flex items-center gap-4 py-2 w-full justify-between">
                      <button id="btn-prev" class="p-4 rounded-full bg-slate-800 text-slate-400 hover:text-white border border-slate-700 disabled:opacity-30 shrink-0"><i data-lucide="arrow-left" class="w-6 h-6"></i></button>
-                     <button id="btn-validate" class="flex-grow py-4 rounded-2xl font-bold bg-emerald-600 text-white hover:bg-emerald-500 shadow-xl active:scale-95 transition flex items-center justify-center gap-2"><i data-lucide="check" class="w-6 h-6"></i> Maîtrisé</button>
-                     <button id="btn-next" class="p-4 rounded-full bg-slate-800 text-white border border-slate-700 shrink-0"><i data-lucide="arrow-right" class="w-6 h-6"></i></button>
+                     ${qcmMainActionBtnHTML}
+                     <button id="btn-next" class="p-4 rounded-full bg-slate-800 text-white border border-slate-700 hover:bg-slate-700 shrink-0 shadow-lg"><i data-lucide="arrow-right" class="w-6 h-6"></i></button>
                 </div>
              </div>
-        `;
+            `;
+        } else {
+            actionsHTML = `
+                 <div id="learning-actions-container" class="flex flex-col gap-3 z-50 w-full max-w-sm mx-auto pb-4 shrink-0" style="padding-bottom: max(1rem, env(safe-area-inset-bottom, 0px));">
+                     <div class="flex items-center gap-3">
+                        <button id="btn-later-3" class="flex-1 py-3 rounded-xl bg-slate-800 text-amber-400 text-sm font-bold border border-slate-700 hover:bg-slate-700 active:scale-95 transition">Pas su<br><span class="text-[10px] font-normal opacity-70">+3 rangs</span></button>
+                        <button id="btn-later-7" class="flex-1 py-3 rounded-xl bg-slate-800 text-blue-400 text-sm font-bold border border-slate-700 hover:bg-slate-700 active:scale-95 transition">A peu près<br><span class="text-[10px] font-normal opacity-70">+7 rangs</span></button>
+                    </div>
+                    <div class="flex items-center gap-4">
+                         <button id="btn-prev" class="p-4 rounded-full bg-slate-800 text-slate-400 hover:text-white border border-slate-700 disabled:opacity-30 shrink-0"><i data-lucide="arrow-left" class="w-6 h-6"></i></button>
+                         <button id="btn-validate" class="flex-grow py-4 rounded-2xl font-bold bg-emerald-600 text-white hover:bg-emerald-500 shadow-xl active:scale-95 transition flex items-center justify-center gap-2"><i data-lucide="check" class="w-6 h-6"></i> Maîtrisé</button>
+                         <button id="btn-next" class="p-4 rounded-full bg-slate-800 text-white border border-slate-700 shrink-0"><i data-lucide="arrow-right" class="w-6 h-6"></i></button>
+                    </div>
+                 </div>
+            `;
+        }
 
         let newCard = null;
 
@@ -1000,6 +1363,28 @@ function startLearningMode(theme) {
             const wrapper = document.createElement('div');
             wrapper.innerHTML = cardHTML;
             newCard = wrapper.firstElementChild;
+
+            if (direction === 'refresh') {
+                container.innerHTML = '';
+                container.appendChild(newCard);
+                const actionContainer = document.getElementById('learning-actions-container');
+                if (actionContainer) {
+                    actionContainer.outerHTML = actionsHTML;
+                }
+                renderKatexDirect(newCard);
+                createIconsIn(overlay);
+                isAnimating = false;
+                
+                // Re-bind events for actions if needed
+                const btnPrev = document.getElementById('btn-prev');
+                const btnNext = document.getElementById('btn-next');
+                const btnVal = document.getElementById('btn-validate');
+                if (btnPrev) btnPrev.onclick = () => { if (currentIndex > 0 && !isAnimating) { currentIndex--; renderCard('prev'); } };
+                if (btnNext) btnNext.onclick = () => { if (!isAnimating) { currentIndex++; renderCard('next'); } };
+                if (btnVal) btnVal.onclick = (e) => { e.stopPropagation(); if (!isAnimating) { card.isLearned = true; saveData(); currentIndex++; renderCard('next'); } };
+                
+                return; // Early return for refresh
+            }
 
             if (direction === 'next') {
                 if (oldCard) {
@@ -1032,6 +1417,11 @@ function startLearningMode(theme) {
 
             const progressEl = document.getElementById('progress-indicator');
             if (progressEl) progressEl.innerText = `${currentIndex + 1} / ${sessionCards.length}`;
+
+            const actionContainer = document.getElementById('learning-actions-container');
+            if (actionContainer) {
+                actionContainer.outerHTML = actionsHTML;
+            }
 
             // Render KaTeX only for the NEW card
             renderKatexDirect(newCard);
@@ -1088,6 +1478,7 @@ function startLearningMode(theme) {
 }
 
 function closeLearningMode() {
+    window.learningScope_renderCard = null;
     if (location.hash === '#learning') {
         history.back(); // This will trigger popstate which removes overlay & listener
     } else {
@@ -1130,25 +1521,51 @@ function openModal(type, entity = null) {
         renderGradientSelector();
         if (entity) {
             document.getElementById('deck-title').value = entity.title;
+            const typeEls = document.getElementsByName('deck-type');
+            for(const el of typeEls) { el.checked = (el.value === (entity.type || 'flashcard')); }
             selectedGradient = entity.gradient;
             editingId = entity.id;
         } else {
             document.getElementById('deck-title').value = '';
+            document.getElementsByName('deck-type')[0].checked = true;
             editingId = null;
         }
     } else {
         contentDeck.classList.add('hidden');
         contentCard.classList.remove('hidden');
+        
+        const activeDeck = decks.find(d => d.id === activeDeckId);
+        const isQcm = activeDeck && activeDeck.type === 'qcm';
+        
+        document.getElementById('card-flashcard-fields').classList.toggle('hidden', isQcm);
+        document.getElementById('card-qcm-fields').classList.toggle('hidden', !isQcm);
+        
+        // Form Validation toggle
+        document.getElementById('card-answer').required = !isQcm;
+
         initCardModal();
 
         if (entity) {
             document.getElementById('card-question').value = entity.question;
-            document.getElementById('card-answer').value = entity.answer;
             document.getElementById('card-theme-select').value = entity.theme;
+            if (isQcm) {
+                document.getElementById('card-explanation').value = entity.answer || '';
+                currentQcmCorrect = entity.correctAnswers ? [...entity.correctAnswers] : [];
+                currentQcmAnswers = entity.answers ? [...entity.answers] : [];
+                setQcmMode(entity.qcmMode || 'tf'); // Will also trigger renderQcmAnswersUI
+            } else {
+                document.getElementById('card-answer').value = entity.answer;
+            }
             editingId = entity.id;
         } else {
             document.getElementById('card-question').value = '';
             document.getElementById('card-answer').value = '';
+            document.getElementById('card-explanation').value = '';
+            if (isQcm) {
+                currentQcmCorrect = [];
+                currentQcmAnswers = [];
+                setQcmMode('tf');
+            }
             editingId = null;
         }
     }
@@ -1203,14 +1620,142 @@ function toggleThemeMode(isNew) {
     }
 }
 
+// --- QCM MODAL LOGIC ---
+let currentQcmMode = 'tf';
+let currentQcmAnswers = [];
+let currentQcmCorrect = [];
+
+function setQcmMode(mode) {
+    currentQcmMode = mode;
+    const btnTf = document.getElementById('btn-qcm-tf');
+    const btnMulti = document.getElementById('btn-qcm-multi');
+    const container = document.getElementById('qcm-answers-container');
+    const addBtn = document.getElementById('btn-qcm-add-ans');
+
+    if (mode === 'tf') {
+        btnTf.className = "flex-1 py-1.5 text-sm rounded-lg bg-indigo-600 text-white";
+        btnMulti.className = "flex-1 py-1.5 text-sm rounded-lg bg-slate-800 text-slate-400 border border-slate-700 hover:bg-slate-700";
+        addBtn.classList.add('hidden');
+        renderQcmAnswersUI(['Vrai', 'Faux'], true);
+    } else {
+        btnMulti.className = "flex-1 py-1.5 text-sm rounded-lg bg-indigo-600 text-white";
+        btnTf.className = "flex-1 py-1.5 text-sm rounded-lg bg-slate-800 text-slate-400 border border-slate-700 hover:bg-slate-700";
+        addBtn.classList.remove('hidden');
+        if (currentQcmAnswers.length < 2 || (currentQcmAnswers.length === 2 && currentQcmAnswers[0] === 'Vrai')) {
+            currentQcmAnswers = ['', ''];
+            currentQcmCorrect = [];
+        }
+        renderQcmAnswersUI(currentQcmAnswers, false);
+    }
+}
+
+function addQcmAnswer() {
+    if (currentQcmMode !== 'multi' || currentQcmAnswers.length >= 4) return;
+    currentQcmAnswers.push('');
+    renderQcmAnswersUI(currentQcmAnswers, false);
+}
+
+function removeQcmAnswer(index) {
+    if (currentQcmAnswers.length <= 2) return;
+    currentQcmAnswers.splice(index, 1);
+    currentQcmCorrect = currentQcmCorrect.filter(c => c !== index).map(c => c > index ? c - 1 : c);
+    renderQcmAnswersUI(currentQcmAnswers, false);
+}
+
+function toggleQcmCorrect(index) {
+    if (currentQcmMode === 'tf') {
+        currentQcmCorrect = [index];
+    } else {
+        if (currentQcmCorrect.includes(index)) {
+            currentQcmCorrect = currentQcmCorrect.filter(c => c !== index);
+        } else {
+            currentQcmCorrect.push(index);
+        }
+    }
+    renderQcmAnswersUI(currentQcmAnswers, currentQcmMode === 'tf');
+}
+
+function updateQcmText(index, value) {
+    if (currentQcmMode === 'multi') {
+        currentQcmAnswers[index] = value;
+    }
+}
+
+function renderQcmAnswersUI(answers, readOnly) {
+    currentQcmAnswers = answers;
+    const container = document.getElementById('qcm-answers-container');
+    container.innerHTML = '';
+    
+    answers.forEach((ans, i) => {
+        const isCorrect = currentQcmCorrect.includes(i);
+        const div = document.createElement('div');
+        div.className = "flex items-center gap-3";
+        
+        const checkClass = isCorrect ? "bg-emerald-500 border-emerald-500" : "bg-slate-900 border-slate-600";
+        const checkIcon = isCorrect ? `<i data-lucide="check" class="w-3 h-3 text-white mx-auto mt-0.5"></i>` : "";
+        
+        div.innerHTML = `
+            <div onclick="toggleQcmCorrect(${i})" class="w-5 h-5 rounded-full border-2 cursor-pointer flex-shrink-0 transition-colors flex items-center justify-center ${checkClass}">
+                ${checkIcon}
+            </div>
+            ${readOnly 
+                ? `<div class="flex-grow bg-slate-900 border border-slate-700 rounded-lg p-2.5 text-slate-300 select-none">${ans}</div>`
+                : `<input type="text" value="${ans}" onchange="updateQcmText(${i}, this.value)" placeholder="Réponse ${i+1}" class="flex-grow bg-slate-950 border border-slate-700 rounded-lg p-2.5 text-white focus:ring-2 focus:ring-indigo-500 outline-none">`
+            }
+            ${(!readOnly && answers.length > 2) 
+                ? `<button type="button" onclick="removeQcmAnswer(${i})" class="p-2 bg-slate-800 text-red-400 hover:bg-red-900/30 rounded-lg"><i data-lucide="trash-2" class="w-4 h-4"></i></button>`
+                : ''}
+        `;
+        container.appendChild(div);
+    });
+    
+    // Add logic for button "+" hiding
+    const addBtn = document.getElementById('btn-qcm-add-ans');
+    if (addBtn) {
+        if (currentQcmMode === 'multi' && answers.length < 4) addBtn.classList.remove('hidden');
+        else addBtn.classList.add('hidden');
+    }
+    
+    if (typeof lucide !== 'undefined') lucide.createIcons();
+}
+
 function handleCreateCard(e) {
     e.preventDefault();
+    const activeDeck = decks.find(d => d.id === activeDeckId);
+    if (!activeDeck) return;
+    
+    const isQcm = activeDeck.type === 'qcm';
     const q = document.getElementById('card-question').value;
-    const a = document.getElementById('card-answer').value;
+    
+    let a = '';
+    let qcmData = null;
+    
+    if (isQcm) {
+        if (currentQcmCorrect.length === 0) {
+            showToast("Veuillez sélectionner au moins une bonne réponse.", "error");
+            return;
+        }
+        if (currentQcmMode === 'multi' && currentQcmAnswers.some(ans => !ans.trim())) {
+            showToast("Veuillez remplir tous les champs de réponse.", "error");
+            return;
+        }
+        
+        a = document.getElementById('card-explanation').value || '';
+        qcmData = {
+            mode: currentQcmMode,
+            answers: [...currentQcmAnswers],
+            correct: [...currentQcmCorrect],
+            explanation: a
+        };
+    } else {
+        a = document.getElementById('card-answer').value;
+        if (!a) return; // Flashcard requires an answer natively ignored due to hidden fields removing 'required'
+    }
+    
     let theme = isNewTheme ? document.getElementById('input-new-theme').value : document.getElementById('card-theme-select').value;
     if (!theme) theme = "Divers";
 
-    if (q && a) {
+    if (q) {
         if (isNewTheme && selectedThemeColor) {
             themeColors[`${activeDeckId}_${theme}`] = selectedThemeColor;
         }
@@ -1221,18 +1766,32 @@ function handleCreateCard(e) {
                 cards[idx].question = q;
                 cards[idx].answer = a;
                 cards[idx].theme = theme;
+                if (isQcm) {
+                    cards[idx].qcmMode = qcmData.mode;
+                    cards[idx].answers = qcmData.answers;
+                    cards[idx].correctAnswers = qcmData.correct;
+                    cards[idx].explanation = qcmData.explanation;
+                }
             }
         } else {
-            cards.unshift({
+            const newCard = {
                 id: generateId(),
                 deckId: activeDeckId,
                 question: q,
                 answer: a,
                 theme,
                 isLearned: false,
+                validationStatus: 'unlearned',
                 createdAt: Date.now(),
                 order: -1
-            });
+            };
+            if (isQcm) {
+                newCard.qcmMode = qcmData.mode;
+                newCard.answers = qcmData.answers;
+                newCard.correctAnswers = qcmData.correct;
+                newCard.explanation = qcmData.explanation;
+            }
+            cards.unshift(newCard);
             cards.forEach((c, i) => c.order = i); // Re-index
         }
         saveData();
@@ -1274,21 +1833,58 @@ function closeModal() {
 }
 
 function closeAllContextMenus() {
-    document.querySelectorAll('.context-menu').forEach(el => el.classList.add('hidden'));
+    document.querySelectorAll('.context-menu').forEach(el => {
+        el.classList.add('hidden');
+        const parentGroup = el.closest('.group, .card-container');
+        if (parentGroup) parentGroup.style.zIndex = '';
+    });
 }
 
 function toggleDeckMenu(e, id) {
     e.stopPropagation();
     closeAllContextMenus();
     const menu = document.getElementById(`menu-deck-${id}`);
-    if (menu) menu.classList.remove('hidden');
+    if (menu) {
+        menu.classList.remove('hidden');
+        const container = menu.closest('.group');
+        if (container) container.style.zIndex = '50';
+    }
 }
 
 function toggleCardMenu(e, id) {
     e.stopPropagation();
     closeAllContextMenus();
     const menu = document.getElementById(`menu-card-${id}`);
-    if (menu) menu.classList.remove('hidden');
+    if (menu) {
+        menu.classList.remove('hidden');
+        const container = menu.closest('.card-container');
+        if (container) container.style.zIndex = '50';
+    }
+}
+
+function downloadDeckDirectly(id) {
+    const deck = decks.find(d => d.id === id);
+    if (!deck) return;
+    const exportData = {
+        meta: {
+            appVersion: "3.0",
+            exportDate: new Date().toISOString()
+        },
+        decks: [deck],
+        cards: cards.filter(c => c.deckId === deck.id)
+    };
+    
+    // Convert to JSON and offer as .txt download
+    const jsonStr = JSON.stringify(exportData, null, 2);
+    const blob = new Blob([jsonStr], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `deck_${deck.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.txt`;
+    a.click();
+    URL.revokeObjectURL(url);
+    showToast("Téléchargement démarré", "success");
+    closeAllContextMenus();
 }
 
 function deleteDeck(id) {
@@ -1335,6 +1931,7 @@ function deleteCard(e, id) {
         const cardWrapper = document.querySelector(`.card-container[data-id="${id}"]`);
         if (cardWrapper) {
             cardWrapper.remove();
+            if (activeDeckId) updateDeckStats(activeDeckId);
         } else {
             renderView();
         }
@@ -1397,6 +1994,36 @@ function toggleThemeLearned(theme) {
     showToast(targetState ? `Catégorie "${theme}" validée` : `Catégorie "${theme}" réinitialisée`, "success");
 }
 
+function updateDeckStats(deckId) {
+    const deck = decks.find(d => d.id === deckId);
+    if (!deck) return;
+    
+    const deckCards = cards.filter(c => c.deckId === deckId);
+    const correctCount = deckCards.filter(c => deck.type === 'qcm' ? c.validationStatus === 'correct' : c.isLearned).length;
+    const incorrectCount = deckCards.filter(c => deck.type === 'qcm' && c.validationStatus === 'incorrect').length;
+    const totalCount = deckCards.length;
+    
+    const greenPct = totalCount > 0 ? (correctCount / totalCount) * 100 : 0;
+    const redPct = totalCount > 0 ? (incorrectCount / totalCount) * 100 : 0;
+
+    const elText = document.getElementById('deck-stats-text');
+    const elQcmText = document.getElementById('deck-stats-qcm');
+    const elRingG = document.getElementById('deck-stats-ring-green');
+    const elRingR = document.getElementById('deck-stats-ring-red');
+    const elPct = document.getElementById('deck-stats-pct');
+
+    if (elText) elText.innerText = `${deck.type === 'qcm' ? (correctCount + incorrectCount) : correctCount} sur ${totalCount} ${deck.type === 'qcm' ? 'cartes étudiées' : 'cartes maîtrisées'}`;
+    if (elQcmText) elQcmText.innerHTML = `<span class="text-emerald-400">${correctCount} bonnes</span>  |  <span class="text-red-400">${incorrectCount} mauvaises</span>`;
+    if (elPct) elPct.innerText = `${Math.round(deck.type === 'qcm' ? (greenPct + redPct) : greenPct)}%`;
+    if (elRingG) {
+        elRingG.setAttribute('stroke-dasharray', `${greenPct}, 100`);
+    }
+    if (elRingR) {
+        elRingR.setAttribute('stroke-dasharray', `${redPct}, 100`);
+        elRingR.setAttribute('stroke-dashoffset', `-${greenPct}`);
+    }
+}
+
 
 // Modal Handlers
 let editingId = null;
@@ -1414,20 +2041,51 @@ function editCard(e, id) {
     openModal('card', card);
 }
 
+function toggleAllTheme(themeName) {
+    const deckCards = cards.filter(c => c.deckId === activeDeckId && c.theme === themeName);
+    const activeDeck = decks.find(d => d.id === activeDeckId);
+    if (!activeDeck || deckCards.length === 0) return;
+    const isQcm = activeDeck.type === 'qcm';
+    
+    if (isQcm) {
+        deckCards.forEach(c => {
+            c.validationStatus = 'unlearned';
+            c.isLearned = false; 
+            c.selectedAnswers = [];
+        });
+        showToast(`Questions réinitialisées`, "success");
+    } else {
+        const allLearned = deckCards.every(c => c.isLearned);
+        deckCards.forEach(c => {
+            c.isLearned = !allLearned;
+        });
+        showToast(allLearned ? `Catégorie "${themeName}" réinitialisée` : `Catégorie "${themeName}" validée`, "success");
+    }
+    
+    saveData();
+    renderView();
+}
+
 function handleCreateDeck(e) {
     e.preventDefault();
     const title = document.getElementById('deck-title').value;
+    const typeEls = document.getElementsByName('deck-type');
+    let type = 'flashcard';
+    for (const el of typeEls) { if (el.checked) type = el.value; }
+
     if (title) {
         if (editingId) {
             const idx = decks.findIndex(d => d.id === editingId);
             if (idx !== -1) {
                 decks[idx].title = title;
+                decks[idx].type = type;
                 decks[idx].gradient = selectedGradient;
             }
         } else {
             decks.push({
                 id: generateId(),
                 title,
+                type,
                 gradient: selectedGradient,
                 createdAt: Date.now(),
                 isPublic: false,
@@ -1478,9 +2136,44 @@ function openImportModal() {
     contentCard.classList.add('hidden');
     contentImport.classList.remove('hidden');
 
+    const deck = activeDeckId ? decks.find(d => d.id === activeDeckId) : null;
+    const isQcm = deck && deck.type === 'qcm';
+    const exampleJson = isQcm 
+        ? `[
+  {
+    "question": "Quelle est la capitale de la France ?",
+    "qcmMode": "multi",
+    "answers": ["Paris", "Lyon", "Marseille", "Bordeaux"],
+    "correctAnswers": [0],
+    "explanation": "Paris est la capitale et la ville la plus peuplée de France.",
+    "theme": "Géographie"
+  },
+  {
+    "question": "La Terre est plate.",
+    "qcmMode": "tf",
+    "answers": ["Vrai", "Faux"],
+    "correctAnswers": [1],
+    "explanation": "La Terre est un ellipsoïde de révolution.",
+    "theme": "Sciences"
+  }
+]`
+        : `[
+    {
+        "question":"Question1 ?",
+        "answer":"Answer1 !",
+        "theme":"Général"
+    },
+    {
+        "question":"Question2 ?",
+        "answer":"Answer2 !",
+        "theme":"Général"
+    }, ...
+]`;
+
     document.getElementById('modal-ie-title').innerText = "Importer des cartes";
     document.getElementById('modal-ie-desc').innerText = "Collez du JSON ou déposez un fichier.";
     document.getElementById('ie-content').value = "";
+    document.getElementById('ie-content').placeholder = exampleJson;
     document.getElementById('ie-content').readOnly = false;
 
     // Toggle UI Elements
@@ -1510,12 +2203,26 @@ function openImportModal() {
 function exportDeck() {
     const deckCards = cards.filter(c => c.deckId === activeDeckId);
     if (deckCards.length === 0) return showToast("Aucune carte à exporter", "error");
+    const activeDeck = decks.find(d => d.id === activeDeckId);
+    const isQcm = activeDeck && activeDeck.type === 'qcm';
 
-    const exportData = deckCards.map(c => ({
-        question: c.question,
-        answer: c.answer,
-        theme: c.theme
-    }));
+    const exportData = deckCards.map(c => {
+        if (isQcm) {
+            return {
+                question: c.question,
+                qcmMode: c.qcmMode,
+                answers: c.answers,
+                correctAnswers: c.correctAnswers,
+                explanation: c.explanation || c.answer,
+                theme: c.theme
+            };
+        }
+        return {
+            question: c.question,
+            answer: c.answer,
+            theme: c.theme
+        };
+    });
 
     const modal = document.getElementById('modal-overlay');
     const contentImport = document.getElementById('modal-import-export');
@@ -1564,9 +2271,30 @@ function handleImportAction() {
         const data = JSON.parse(raw);
         if (!Array.isArray(data)) throw new Error("Format invalide (doit être un tableau)");
 
+        const activeDeck = decks.find(d => d.id === activeDeckId);
+        const isQcm = activeDeck && activeDeck.type === 'qcm';
+
         let count = 0;
         data.forEach(item => {
-            if (item.question && item.answer) {
+            if (isQcm && item.question && Array.isArray(item.answers) && item.correctAnswers !== undefined) {
+                cards.push({
+                    id: generateId(),
+                    deckId: activeDeckId,
+                    question: item.question,
+                    qcmMode: item.qcmMode || 'multi',
+                    answers: item.answers,
+                    correctAnswers: item.correctAnswers,
+                    explanation: item.explanation || "",
+                    answer: item.explanation || item.answer || "",
+                    theme: item.theme || "Importé",
+                    isLearned: false,
+                    validationStatus: 'unlearned',
+                    selectedAnswers: [],
+                    createdAt: Date.now(),
+                    order: cards.length
+                });
+                count++;
+            } else if (!isQcm && item.question && item.answer) {
                 cards.push({
                     id: generateId(),
                     deckId: activeDeckId,
@@ -1617,11 +2345,26 @@ function downloadDeckDirectly(deckId) {
     const deckCards = cards.filter(c => c.deckId === deckId);
     if (deckCards.length === 0) return showToast("Aucune carte à télécharger", "error");
 
-    const exportData = deckCards.map(c => ({
-        question: c.question,
-        answer: c.answer,
-        theme: c.theme
-    }));
+    const d = decks.find(d => d.id === deckId);
+    const isQcm = d && d.type === 'qcm';
+
+    const exportData = deckCards.map(c => {
+        if (isQcm) {
+            return {
+                question: c.question,
+                qcmMode: c.qcmMode,
+                answers: c.answers,
+                correctAnswers: c.correctAnswers,
+                explanation: c.explanation || c.answer,
+                theme: c.theme
+            };
+        }
+        return {
+            question: c.question,
+            answer: c.answer,
+            theme: c.theme
+        };
+    });
 
     const content = JSON.stringify(exportData, null, 2);
     const blob = new Blob([content], { type: 'text/plain' });
@@ -1630,7 +2373,6 @@ function downloadDeckDirectly(deckId) {
     a.href = url;
     
     // Create a clean filename from the deck title
-    const d = decks.find(d => d.id === deckId);
     const title = d ? d.title.replace(/[^a-z0-9]/gi, '_').toLowerCase() : 'bloc';
 
     a.download = `flashcards_${title}_${Date.now()}.txt`;
@@ -1649,6 +2391,11 @@ async function pasteFromClipboard() {
     } catch (err) {
         showToast("Impossible de coller : " + err, "error");
     }
+}
+
+// --- UI HELPERS ---
+function updateDeckTypeUI() {
+    // Just re-renders peer classes visually handled by CSS logic but hook exists in case JS behavior is needed later
 }
 
 // --- INITIALIZATION ---
