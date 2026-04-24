@@ -2774,10 +2774,8 @@ function startLearningMode(theme) {
     history.pushState({ mode: 'learning' }, '', '#learning');
 
     const handlePopState = () => {
-        const ov = document.getElementById('learning-overlay');
-        if (ov) ov.remove();
-        renderView();
         window.removeEventListener('popstate', handlePopState);
+        exitLearningOverlay();
     };
     window.addEventListener('popstate', handlePopState);
 
@@ -3101,12 +3099,38 @@ function startLearningMode(theme) {
 function closeLearningMode() {
     window.learningScope_renderCard = null;
     if (location.hash === '#learning') {
-        history.back(); // This will trigger popstate which removes overlay & listener
+        history.back(); // This will trigger popstate → handlePopState → exitLearningOverlay
     } else {
-        // Fallback if hash was lost but overlay remains
-        document.getElementById('learning-overlay')?.remove();
-        renderView();
+        exitLearningOverlay();
     }
+}
+
+// Remove learning overlay WITHOUT rebuilding the entire deck view.
+// The deck grid behind the overlay is still intact — we just need to
+// refresh cards whose state changed during the learning session.
+function exitLearningOverlay() {
+    window.learningScope_renderCard = null;
+
+    // 1. Remove the overlay
+    const overlay = document.getElementById('learning-overlay');
+    if (overlay) overlay.remove();
+
+    // 2. Clean up hash if it's still there (e.g. fallback path)
+    if (location.hash === '#learning') {
+        history.replaceState(null, '', location.pathname + location.search);
+    }
+
+    // 3. Update stats (progress ring, counters)
+    if (activeDeckId) updateDeckStats(activeDeckId);
+
+    // 4. Deflate all currently inflated cards so the observer
+    //    re-inflates them with fresh data via the batch queue.
+    //    This is safe because the queue processes only 4 per frame.
+    document.querySelectorAll('.card-container[data-inflated="true"]').forEach(el => {
+        deflateCard(el);
+    });
+
+    saveData();
 }
 
 
