@@ -63,6 +63,7 @@ function createIconsIn(element) {
 let _cardVisibilityObserver = null;
 let _inflationQueue = [];
 let _inflationRunning = false;
+let _observerPaused = false; // Pause deflation during Learning Mode
 const INFLATE_BATCH_SIZE = 4; // Cards inflated per animation frame
 
 function queueInflation(skeleton) {
@@ -126,12 +127,15 @@ function initCardVisibilityObserver() {
                 }
             } else {
                 // --- DEFLATE: aggressively remove inner DOM to free memory ---
-                if (cardEl.dataset.inflated === 'true') {
+                // Skip deflation when Learning Mode overlay is active (cards behind stay intact)
+                if (!_observerPaused && cardEl.dataset.inflated === 'true') {
                     deflateCard(cardEl);
                 }
                 // Also remove from queue if it was pending
-                const qi = _inflationQueue.indexOf(cardEl);
-                if (qi !== -1) _inflationQueue.splice(qi, 1);
+                if (!_observerPaused) {
+                    const qi = _inflationQueue.indexOf(cardEl);
+                    if (qi !== -1) _inflationQueue.splice(qi, 1);
+                }
             }
         });
     }, {
@@ -2808,6 +2812,9 @@ function startLearningMode(theme) {
     overlay.className = "fixed inset-0 z-[60] bg-slate-950 flex flex-col items-center p-4 animate-fade-in";
     overlay.style.cssText = "height: 100vh; height: 100dvh;";
 
+    // Pause card deflation so cards behind the overlay stay intact
+    _observerPaused = true;
+
     // --- HISTORY NAVIGATION FIX ---
     history.pushState({ mode: 'learning' }, '', '#learning');
 
@@ -3144,28 +3151,36 @@ function closeLearningMode() {
 }
 
 // Remove learning overlay WITHOUT rebuilding the entire deck view.
-// The deck grid behind the overlay is still intact — we just need to
-// refresh cards whose state changed during the learning session.
+// Cards behind the overlay stayed intact (observer was paused).
+// We just refresh cards whose state changed during learning.
 function exitLearningOverlay() {
     window.learningScope_renderCard = null;
 
-    // 1. Remove the overlay
+    // 1. Resume the observer (was paused during learning mode)
+    _observerPaused = false;
+
+    // 2. Remove the overlay
     const overlay = document.getElementById('learning-overlay');
     if (overlay) overlay.remove();
 
-    // 2. Clean up hash if it's still there (e.g. fallback path)
+    // 3. Clean up hash if it's still there (e.g. fallback path)
     if (location.hash === '#learning') {
         history.replaceState(null, '', location.pathname + location.search);
     }
 
-    // 3. Update stats (progress ring, counters)
+    // 4. Update stats (progress ring, counters)
     if (activeDeckId) updateDeckStats(activeDeckId);
 
-    // 4. Deflate all currently inflated cards so the observer
-    //    re-inflates them with fresh data via the batch queue.
-    //    This is safe because the queue processes only 4 per frame.
+    // 5. Refresh only the cards that were modified during learning.
+    //    Their data changed but their DOM is stale. updateSingleCardDOM
+    //    replaces just those cards and re-observes them.
     document.querySelectorAll('.card-container[data-inflated="true"]').forEach(el => {
-        deflateCard(el);
+        const cardId = el.dataset.id;
+        const card = cards.find(c => c.id === cardId);
+        if (card) {
+            // Re-render this card with fresh data
+            updateSingleCardDOM(card);
+        }
     });
 
     saveData();
