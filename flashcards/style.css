@@ -622,6 +622,18 @@ img { max-width: 100%; }
 svg path[stroke-width] { stroke: currentColor; }
 svg path[stroke] { /* already has explicit stroke */ }
 
+/* === CARD SKELETON PLACEHOLDER === */
+.card-container[data-inflated="false"] {
+    background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+    border-radius: 1rem;
+    border: 2px solid #334155;
+    animation: skeletonPulse 2s ease-in-out infinite;
+}
+@keyframes skeletonPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.2; }
+}
+
 /* === TUTORIAL POPUP === */
 .z-\[70\] { z-index: 70; }
 .bg-slate-950\/85 { background-color: rgba(2,6,23,0.85); }

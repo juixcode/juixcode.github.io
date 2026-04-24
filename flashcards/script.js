@@ -57,6 +57,9 @@ function createIconsIn(element) {
 }
 
 // Lazy Rendering AND Aggressive DOM Memory Unloading via IntersectionObserver
+// Cards are created as lightweight skeletons and only "inflated" to full DOM
+// when near the viewport. When scrolled far away, they are "deflated" back to
+// empty shells, aggressively freeing WebKit GPU/DOM memory on iOS.
 let _cardVisibilityObserver = null;
 
 function initCardVisibilityObserver() {
@@ -65,33 +68,99 @@ function initCardVisibilityObserver() {
     _cardVisibilityObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             const cardEl = entry.target;
-            const inner = cardEl.querySelector('.card-inner');
 
             if (entry.isIntersecting) {
-                // 1. Wake up card and restore Compositor Layers
-                if (inner && inner.style.display === 'none') {
-                    inner.style.display = '';
-                }
-
-                // 2. Render KaTeX if not done yet
-                if (!cardEl.dataset.katexRendered) {
-                    renderKatexElement(cardEl);
-                    cardEl.dataset.katexRendered = 'true';
-                    cardEl.classList.remove('katex-pending');
-                    cardEl.classList.add('katex-rendered');
+                // --- INFLATE: create full card DOM when entering viewport ---
+                if (cardEl.dataset.inflated !== 'true') {
+                    inflateCard(cardEl);
+                } else {
+                    // Wake up previously hidden card
+                    const inner = cardEl.querySelector('.card-inner');
+                    if (inner && inner.style.display === 'none') {
+                        inner.style.display = '';
+                    }
+                    // Render KaTeX if not done yet
+                    if (!cardEl.dataset.katexRendered) {
+                        renderKatexElement(cardEl);
+                        cardEl.dataset.katexRendered = 'true';
+                        cardEl.classList.remove('katex-pending');
+                        cardEl.classList.add('katex-rendered');
+                    }
                 }
             } else {
-                // 3. Sleep card when > 800px away (Aggressively strips WebKit 3D memory on iOS)
-                // We keep the cardEl wrapper visible to preserve scroll dimensions natively.
-                if (inner && cardEl.dataset.katexRendered === 'true') {
-                    inner.style.display = 'none';
+                // --- DEFLATE: aggressively remove inner DOM to free memory ---
+                if (cardEl.dataset.inflated === 'true') {
+                    deflateCard(cardEl);
                 }
             }
         });
     }, {
-        rootMargin: '800px 0px', // Pre-render / Keeps loaded 800px around viewport
+        rootMargin: '400px 0px', // Tighter than 800px — reduces peak DOM on iOS
         threshold: 0
     });
+}
+
+// Inflate a skeleton into a full card DOM
+function inflateCard(skeleton) {
+    const cardId = skeleton.dataset.id;
+    const card = cards.find(c => c.id === cardId);
+    if (!card) return;
+
+    // Build the full card inner DOM
+    const fullCard = createCardDOM(card);
+    // Transfer the inner content to the skeleton shell
+    const inner = fullCard.querySelector('.card-inner');
+    if (inner) {
+        skeleton.innerHTML = '';
+        skeleton.appendChild(inner);
+    } else {
+        skeleton.innerHTML = fullCard.innerHTML;
+    }
+
+    // Copy click handler
+    const activeDeck = decks.find(d => d.id === card.deckId);
+    const isQcm = activeDeck && activeDeck.type === 'qcm';
+    const isVal = card.validationStatus === 'correct' || card.validationStatus === 'incorrect';
+    skeleton.onclick = function (e) {
+        if (!isQcm || isVal) {
+            if (!e.target.closest('.context-menu') && !e.target.closest('button.no-flip') && !e.target.closest('.grab-handle')) {
+                this.classList.toggle('card-flipped');
+            }
+        }
+    };
+
+    skeleton.dataset.inflated = 'true';
+    skeleton.classList.remove('katex-pending');
+
+    // Render KaTeX and icons for THIS card only
+    renderKatexElement(skeleton);
+    skeleton.dataset.katexRendered = 'true';
+    skeleton.classList.add('katex-rendered');
+    createIconsIn(skeleton);
+}
+
+// Deflate a card back to an empty skeleton to free memory
+function deflateCard(cardEl) {
+    cardEl.innerHTML = '';
+    cardEl.dataset.inflated = 'false';
+    cardEl.dataset.katexRendered = '';
+    cardEl.classList.remove('card-flipped', 'katex-rendered');
+    cardEl.classList.add('katex-pending');
+    cardEl.onclick = null; // Remove handler to free closure memory
+}
+
+// Create a lightweight skeleton placeholder for a card
+function createCardSkeleton(card) {
+    const skeleton = document.createElement('div');
+    skeleton.className = "group h-80 w-full perspective-1000 cursor-pointer card-container select-none";
+    skeleton.dataset.id = card.id;
+    skeleton.dataset.inflated = 'false';
+
+    // Drag support (needed even on skeletons for drop targets)
+    skeleton.ondragover = (e) => handleDragOver(e, card.id, 'card');
+    skeleton.ondrop = (e) => handleDrop(e, card.id, 'card');
+
+    return skeleton;
 }
 
 function renderKatexElement(element) {
@@ -111,7 +180,7 @@ function renderKatexElement(element) {
     }
 }
 
-// Observe a card element for memory unloading and lazy KaTeX
+// Observe a card skeleton/element for lazy inflation and memory unloading
 function observeForKatex(cardElement) {
     if (!_cardVisibilityObserver) initCardVisibilityObserver();
     cardElement.classList.add('katex-pending');
@@ -2138,9 +2207,9 @@ function renderView() {
                 grid.dataset.theme = theme; // Identifier for Drop
 
                 themeCards.forEach(card => {
-                    const cardEl = createCardDOM(card);
+                    const cardEl = createCardSkeleton(card);
                     grid.appendChild(cardEl);
-                    // Lazy KaTeX: observe each card individually
+                    // Observer will inflate skeleton to full card when near viewport
                     observeForKatex(cardEl);
                 });
 
@@ -2491,7 +2560,13 @@ function updateSingleCardDOM(card) {
     if (!oldWrapper) return;
     
     const newWrapper = createCardDOM(card);
+    // Mark as already inflated so the observer doesn't try to re-inflate
+    newWrapper.dataset.inflated = 'true';
+    newWrapper.dataset.katexRendered = 'true';
     oldWrapper.replaceWith(newWrapper);
+    
+    // Re-observe for deflation when scrolled away
+    observeForKatex(newWrapper);
     
     // Need to trigger KaTeX manually for new elements since IntersectionObserver takes a tick
     const ktxNodes = newWrapper.querySelectorAll('.katex-pending, .latex-content');
