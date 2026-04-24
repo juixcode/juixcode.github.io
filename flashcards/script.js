@@ -151,6 +151,1505 @@ const THEME_COLORS = [
 
 const DEFAULT_DECKS_CONFIG = [
     {
+        id: 'default-english',
+        title: 'Anglais Voc',
+        type: 'qcm',
+        gradient: GRADIENTS[3].class,
+        order: -3,
+        isPublic: true,
+        cards: [
+            // Anglais
+        {
+            "question": "Que signifie le mot 'apparatus' ?",
+            "qcmMode": "multi",
+            "answers": ["Un vêtement.", "Un ensemble d'équipements ou d'outils pour un but précis.", "Une réunion de personnes.", "Une petite ouverture."],
+            "correctAnswers": [1],
+            "explanation": "Apparatus: A set of equipment or tools used for a specific purpose. [cite: 22]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Le mot 'applause' désigne une approbation exprimée en applaudissant.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "Applause: Approval or praise expressed by clapping. [cite: 24]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Comment traduis-tu 'ashamed' ?",
+            "qcmMode": "multi",
+            "answers": ["Fier", "Honteux / Gêné", "Fatigué", "Fou"],
+            "correctAnswers": [1],
+            "explanation": "Ashamed: Feeling embarrassed or guilty about something. [cite: 26]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Un 'attendant' est une personne qui fournit un service ou qui est présente à un événement.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "Attendant: A person who provides a service or is present at an event. [cite: 27]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Que veut dire 'beyond measure' ?",
+            "qcmMode": "multi",
+            "answers": ["Sans limite / À un degré extrême", "Une petite quantité", "Mesurer une distance", "En retard"],
+            "correctAnswers": [0],
+            "explanation": "Beyond measure: To an extreme or immeasurable degree. [cite: 29]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Faire un 'blunder' signifie réussir une tâche brillamment.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "Blunder: To make a careless or stupid mistake. [cite: 30]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Que signifie 'brood' ?",
+            "qcmMode": "multi",
+            "answers": ["Mélanger", "Penser profondément à quelque chose qui rend malheureux", "Briser en morceaux", "S'envoler"],
+            "correctAnswers": [1],
+            "explanation": "Brood: To think deeply about something that makes one unhappy. [cite: 32]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "'Careless' veut dire qu'on ne fait pas assez attention pour éviter les erreurs.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "Careless: Not giving sufficient attention or thought to avoiding harm or errors. [cite: 33]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Quel mot décrit le fait d'être inquiet ou troublé ('worried or troubled') ?",
+            "qcmMode": "multi",
+            "answers": ["Glad", "Concerned", "Wearily", "Well-bred"],
+            "correctAnswers": [1],
+            "explanation": "Concerned: Worried or troubled about something. [cite: 35]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Le mot 'conduct' se réfère à la manière dont une personne se comporte.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "Conduct: The manner in which a person behaves. [cite: 36]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Que veut dire l'expression 'dashed to pieces' ?",
+            "qcmMode": "multi",
+            "answers": ["Construit solidement", "Brisé ou fracassé complètement", "Mis de côté", "Vendu rapidement"],
+            "correctAnswers": [1],
+            "explanation": "Dashed to pieces: Broken or shattered completely. [cite: 37]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "'Dim' signifie quelque chose qui est très clair et brillant.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "Dim: Not bright or clear. [cite: 39]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Quel verbe signifie ignorer ou ne pas prêter attention ('to ignore') ?",
+            "qcmMode": "multi",
+            "answers": ["Disregard", "Drag", "Mend", "Peep"],
+            "correctAnswers": [0],
+            "explanation": "Disregard: To ignore or pay no attention to. [cite: 41]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "'Drag' signifie tirer quelque chose ou quelqu'un avec force.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "Drag: To pull something or someone along forcefully. [cite: 43]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Que signifie l'adverbe 'fairly' dans ce contexte ?",
+            "qcmMode": "multi",
+            "answers": ["De manière injuste", "À un degré modérément élevé", "Rarement", "Complètement"],
+            "correctAnswers": [1],
+            "explanation": "Fairly: To a moderately high degree. [cite: 44]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "'Faint' est utilisé pour décrire quelque chose de fort et puissant.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "Faint: Weak, light, or barely perceptible. [cite: 46]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Qu'est-ce qu'un 'garment' ?",
+            "qcmMode": "multi",
+            "answers": ["Une pièce d'équipement", "Une pièce de vêtement", "Un déchet", "Un outil"],
+            "correctAnswers": [1],
+            "explanation": "Garment: A piece of clothing. [cite: 47]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Le verbe 'gasp' signifie inspirer soudainement la bouche ouverte, souvent sous le choc.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "Gasp: To inhale suddenly with the mouth open, usually in shock or surprise. [cite: 49]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Quel mot désigne une assemblée ou une réunion de personnes ?",
+            "qcmMode": "multi",
+            "answers": ["Hive", "Lump", "Gathering", "Tide"],
+            "correctAnswers": [2],
+            "explanation": "Gathering: A meeting or assembly of people. [cite: 51]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Un 'hive' peut désigner un endroit très animé et bondé, ou une ruche.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "Hive: A structure for housing bees or a busy, crowded place. [cite: 53]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Qu'est-ce qu'un 'hinge' ?",
+            "qcmMode": "multi",
+            "answers": ["Une charnière", "Une serrure", "Un mur", "Un toit"],
+            "correctAnswers": [0],
+            "explanation": "Hinge: A joint or mechanism that allows a door or lid to swing open and shut. [cite: 55]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "'Imponderable' signifie facile à estimer ou à comprendre.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "Imponderable: Difficult or impossible to estimate or understand. [cite: 57]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Que veut dire 'keep pace with' ?",
+            "qcmMode": "multi",
+            "answers": ["Ignorer", "Avancer à la même vitesse que", "Ralentir", "S'arrêter complètement"],
+            "correctAnswers": [1],
+            "explanation": "Keep pace with: To progress or move at the same speed as someone or something. [cite: 58]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "'Latent' décrit quelque chose qui existe mais qui n'est pas encore développé ou visible.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "Latent: Existing but not yet developed or visible. [cite: 60]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Quel est le sens de 'lecture' en anglais ?",
+            "qcmMode": "multi",
+            "answers": ["Une lecture silencieuse", "Un discours formel pour enseigner (une conférence)", "Une punition", "Un livre"],
+            "correctAnswers": [1],
+            "explanation": "Lecture: A formal talk given to teach or explain something. [cite: 61]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Le mot 'litter' désigne des déchets laissés dans un espace public.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "Litter: Trash left in an open or public place. [cite: 63]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Qu'est-ce qu'un 'lump' ?",
+            "qcmMode": "multi",
+            "answers": ["Une masse compacte ou un morceau", "Une lumière brillante", "Une erreur stupide", "Une émotion forte"],
+            "correctAnswers": [0],
+            "explanation": "Lump: A compact mass or piece of something. [cite: 64]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "'Mad' signifie complètement retenu par la raison, capable de penser clairement.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "Mad: Completely unrestrained by reason; unable to think clearly. [cite: 65]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Que veut dire le verbe 'mend' ?",
+            "qcmMode": "multi",
+            "answers": ["Détruire", "Ignorer", "Réparer ce qui est cassé", "Mélanger"],
+            "correctAnswers": [2],
+            "explanation": "Mend: To repair something that is broken or damaged. [cite: 66]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Le verbe 'mingle' signifie mélanger ou se mêler aux autres.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "Mingle: To mix or blend. [cite: 68]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Quel mot décrit une libération soudaine d'une forte émotion ?",
+            "qcmMode": "multi",
+            "answers": ["Outright", "Outburst", "Uproar", "Unrest"],
+            "correctAnswers": [1],
+            "explanation": "Outburst: A sudden release of strong emotion. [cite: 70]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "'Outright' signifie partiellement ou avec réserve.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "Outright: Completely or without reservation. [cite: 72]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Que signifie 'owing to' ?",
+            "qcmMode": "multi",
+            "answers": ["En dépit de", "À cause de / En raison de", "Afin de", "Contrairement à"],
+            "correctAnswers": [1],
+            "explanation": "Owing to: Because of or due to. [cite: 73]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "'Peep' signifie regarder rapidement ou secrètement quelque chose.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "Peep: To look quickly or secretly at something. [cite: 74]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Comment définis-tu 'praise' ?",
+            "qcmMode": "multi",
+            "answers": ["Une insulte", "Une prière silencieuse", "Des expressions d'approbation ou d'admiration", "Une punition"],
+            "correctAnswers": [2],
+            "explanation": "Praise: Expressions of approval or admiration. [cite: 76]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Le verbe 'repel' signifie attirer fortement.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "Repel: To drive back or push away. [cite: 78]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Que signifie 'resent' ?",
+            "qcmMode": "multi",
+            "answers": ["Renvoyer", "Ressentir de l'amertume ou de la colère à propos de quelque chose", "Se réjouir", "Accepter calmement"],
+            "correctAnswers": [1],
+            "explanation": "Resent: To feel bitterness or anger about something. [cite: 80]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "'Sigh' signifie expirer de façon audible, exprimant tristesse ou soulagement (soupirer).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "Sigh: To exhale audibly, expressing sadness or relief. [cite: 81]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Quel verbe signifie s'élever rapidement ou atteindre un haut niveau ?",
+            "qcmMode": "multi",
+            "answers": ["Soar", "Sway", "Drag", "Peep"],
+            "correctAnswers": [0],
+            "explanation": "Soar: To rise quickly or reach a high level. [cite: 82]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "'Steadily' signifie à un rythme irrégulier et instable.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "Steadily: At a constant and consistent rate. [cite: 83]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Que veut dire 'stranded' ?",
+            "qcmMode": "multi",
+            "answers": ["Heureux", "Laissé sans moyen de bouger de quelque part (coincé)", "En voyage", "Bien habillé"],
+            "correctAnswers": [1],
+            "explanation": "Stranded: Left without the means to move from somewhere. [cite: 85]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "L'expression 'sway to and fro' signifie bouger d'avant en arrière en rythme.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "Sway to and fro: To move back and forth rhythmically. [cite: 87]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Qu'est-ce que la 'tide' ?",
+            "qcmMode": "multi",
+            "answers": ["La saleté", "La marée (montée et descente du niveau de la mer)", "Le temps", "Un outil de nettoyage"],
+            "correctAnswers": [1],
+            "explanation": "Tide: The rise and fall of sea levels. [cite: 89]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "'To be accounted for' signifie devoir être expliqué ou justifié.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "To be accounted for: To be explained or justified. [cite: 91]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Que veut dire 'to be in touch with' ?",
+            "qcmMode": "multi",
+            "answers": ["Perdre contact", "Maintenir la communication avec quelqu'un", "Toucher physiquement", "Être en retard"],
+            "correctAnswers": [1],
+            "explanation": "To be in touch with: To maintain communication with someone. [cite: 93]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "'To be out of hand' veut dire être sous contrôle parfait.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "To be out of hand: To be unmanageable or out of control. [cite: 95]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Quel mot décrit un état d'insatisfaction ou de perturbation (agitation) ?",
+            "qcmMode": "multi",
+            "answers": ["Uproar", "Unrest", "Gathering", "Outburst"],
+            "correctAnswers": [1],
+            "explanation": "Unrest: A state of dissatisfaction or disturbance. [cite: 97]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Un 'uproar' est un état de confusion bruyante ou de tumulte.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "Uproar: A state of noisy confusion or disturbance. [cite: 98]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Comment traduis-tu 'wearily' ?",
+            "qcmMode": "multi",
+            "answers": ["De manière joyeuse", "De manière fatiguée ou épuisée", "Rapidement", "Silencieusement"],
+            "correctAnswers": [1],
+            "explanation": "Wearily: In a tired or exhausted manner. [cite: 100]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "'Well-bred' décrit quelqu'un qui a de mauvaises manières.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "Well-bred: Having or showing good manners and proper upbringing. [cite: 102]",
+            "theme": "The Machine Stops"
+        },
+        {
+            "question": "Que signifie le verbe 'afford' ?",
+            "qcmMode": "multi",
+            "answers": ["Ignorer", "Avoir assez d'argent ou de ressources pour acheter/faire quelque chose", "Faire un effort", "Travailler dur"],
+            "correctAnswers": [1],
+            "explanation": "afford: To have enough money or resources to do or buy something. [cite: 123]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Les 'appliances' sont des appareils ménagers utilisés pour effectuer des tâches domestiques.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "appliances: Devices or machines used in households to perform tasks. [cite: 125]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Qu'est-ce qu'un 'bargain' ?",
+            "qcmMode": "multi",
+            "answers": ["Une arnaque", "Un accord mutuel avantageux, souvent une bonne affaire", "Un bateau", "Une erreur"],
+            "correctAnswers": [1],
+            "explanation": "bargain: An agreement between two parties where both benefit, often involving a good deal. [cite: 127]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Le 'bare minimum' désigne la quantité maximale possible.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "bare minimum: The least amount necessary. [cite: 129]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Qu'est-ce qu'un 'billboard' ?",
+            "qcmMode": "multi",
+            "answers": ["Une facture d'électricité", "Un grand panneau d'affichage publicitaire", "Un tableau noir", "Une planche de bois"],
+            "correctAnswers": [1],
+            "explanation": "billboard: A large outdoor board for displaying advertisements. [cite: 131]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Le mot 'blade' désigne la partie plate et tranchante d'un outil ou d'une arme (la lame).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "blade: The flat, sharp-edged part of a tool or weapon. [cite: 133]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Que décrit l'expression 'bumper to bumper' ?",
+            "qcmMode": "multi",
+            "answers": ["Un accident de voiture", "Des véhicules tassés de très près dans les embouteillages", "Un nouveau modèle de voiture", "Une course de vitesse"],
+            "correctAnswers": [1],
+            "explanation": "bumper to bumper: Referring to vehicles packed closely together in traffic. [cite: 135]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Un 'crumb' est un énorme morceau de nourriture.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "crumb: A small piece of food, especially from bread or cake. [cite: 137]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Que veut dire l'adjectif 'damp' ?",
+            "qcmMode": "multi",
+            "answers": ["Brillant", "Totalement sec", "Légèrement mouillé / Humide", "Froid"],
+            "correctAnswers": [2],
+            "explanation": "damp: Slightly wet. [cite: 139]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "L'adjectif 'dazzling' signifie extrêmement brillant ou impressionnant (éblouissant).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "dazzling: Extremely bright or impressive. [cite: 141]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Comment traduis-tu 'dully' ?",
+            "qcmMode": "multi",
+            "answers": ["De manière ennuyeuse ou sans éclat", "Avec une grande intelligence", "Très rapidement", "En cachette"],
+            "correctAnswers": [0],
+            "explanation": "dully: In a way that lacks brightness or interest. [cite: 143]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Le verbe 'frown' signifie sourire de toutes ses dents.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "frown: A facial expression indicating disapproval, displeasure, or concentration (froncer les sourcils). [cite: 145]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Que signifie 'free riding on the backs of others' ?",
+            "qcmMode": "multi",
+            "answers": ["Faire du cheval", "Profiter des efforts des autres sans contribuer soi-même", "Travailler bénévolement", "Aider ses amis"],
+            "correctAnswers": [1],
+            "explanation": "free riding on the backs of others: Benefiting from others' efforts without contributing oneself. [cite: 147]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Un 'gimmick' est un stratagème ou un gadget utilisé pour attirer l'attention ou faire vendre.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "gimmick: A trick or device used to attract attention or increase sales. [cite: 149]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Que veut dire l'adjectif 'glad' ?",
+            "qcmMode": "multi",
+            "answers": ["Triste", "Ressentir du plaisir ou de la joie (content)", "Malade", "Perdu"],
+            "correctAnswers": [1],
+            "explanation": "glad: Feeling pleasure or happiness. [cite: 151]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "'Grimly' signifie d'une manière très joyeuse et amusante.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "grimly: In a serious or gloomy manner. [cite: 152]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Que signifie 'groundless' ?",
+            "qcmMode": "multi",
+            "answers": ["Sans fondement (sans base factuelle)", "Au niveau du sol", "Très lourd", "Sûr et certain"],
+            "correctAnswers": [0],
+            "explanation": "groundless: Without any basis in fact; unfounded. [cite: 153]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Le 'gross national product' est la valeur totale des biens et services produits par un pays en un an.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "gross national product: The total value of goods and services produced by a country in a year. [cite: 155]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Qu'est-ce qu'une 'hedge' ?",
+            "qcmMode": "multi",
+            "answers": ["Une clôture en métal", "Une haie (buissons) ou une stratégie pour minimiser les risques", "Une petite maison", "Un compte en banque"],
+            "correctAnswers": [1],
+            "explanation": "hedge: A row of bushes or trees forming a boundary, or a strategy to minimize risk. [cite: 157]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Le verbe 'hunch' signifie se pencher en arrière pour se détendre.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "hunch: To bend the body forward. [cite: 159]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Que veut dire 'intact' ?",
+            "qcmMode": "multi",
+            "answers": ["Détruit", "Resté entier ou non endommagé", "En morceaux", "Malade"],
+            "correctAnswers": [1],
+            "explanation": "intact: Remaining whole or undamaged. [cite: 161]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Un 'junkyard' est un endroit où l'on collectionne de vieux objets, souvent des voitures (une casse).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "junkyard: A place where old or discarded items, especially vehicles, are collected. [cite: 163]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Qu'est-ce que le 'leisure' ?",
+            "qcmMode": "multi",
+            "answers": ["Le travail acharné", "Du temps libre pour la détente", "Un vêtement de sport", "Une sanction"],
+            "correctAnswers": [1],
+            "explanation": "leisure: Free time for relaxation or enjoyment. [cite: 165]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Le verbe 'mutter' veut dire crier à pleins poumons.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "mutter: To speak in a low and indistinct voice (marmonner). [cite: 166]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Que signifie 'noncommittally' ?",
+            "qcmMode": "multi",
+            "answers": ["De manière très engagée", "D'une manière qui ne révèle pas d'opinion claire (évasivement)", "Agricole", "Ici et là"],
+            "correctAnswers": [1],
+            "explanation": "noncommittally: In a way that does not reveal a clear opinion or decision. [cite: 167]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Un 'outline' est une description générale montrant les points principaux.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "outline: A general description or plan showing the main points. [cite: 169]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Que désigne le terme 'output' ?",
+            "qcmMode": "multi",
+            "answers": ["La quantité de quelque chose de produit (le rendement/la sortie)", "Une porte de sortie", "Une prise de courant", "Une erreur"],
+            "correctAnswers": [0],
+            "explanation": "output: The amount of something produced. [cite: 171]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "L'adjectif 'offbeat' veut dire tout à fait classique et habituel.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "offbeat: Unconventional or unusual. [cite: 172]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Qu'est-ce qu'un 'pattern' ?",
+            "qcmMode": "multi",
+            "answers": ["Un patron de l'entreprise", "Un design répété ou une séquence récurrente (un motif)", "Un outil de jardin", "Un animal"],
+            "correctAnswers": [1],
+            "explanation": "pattern: A repeated design or recurring sequence. [cite: 174]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Une 'plant' peut désigner un bâtiment où des biens sont fabriqués (une usine).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "plant: A building where goods are manufactured. [cite: 175]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Que signifie 'prey on' ?",
+            "qcmMode": "multi",
+            "answers": ["Prier pour quelqu'un", "Exploiter ou blesser quelqu'un de vulnérable (s'en prendre à)", "Manger de l'herbe", "Jouer à un jeu"],
+            "correctAnswers": [1],
+            "explanation": "prey on: To exploit or harm someone vulnerable. [cite: 176]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Le verbe 'seal' veut dire ouvrir en grand.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "seal: To close something securely (sceller). [cite: 177]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Qu'est-ce qu'un 'shift' dans le monde du travail ?",
+            "qcmMode": "multi",
+            "answers": ["Un vêtement de sécurité", "Une période définie pendant laquelle les employés travaillent", "Un bouton d'ordinateur", "Une promotion"],
+            "correctAnswers": [1],
+            "explanation": "shift: A set period during which employees work. [cite: 178]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Le verbe 'shrug' signifie lever et baisser les épaules pour exprimer l'indifférence (hausser les épaules).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "shrug: To raise and lower the shoulders to express indifference or uncertainty. [cite: 179]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Que veut dire 'snub' ?",
+            "qcmMode": "multi",
+            "answers": ["Couper court", "Traiter quelqu'un froidement ou le snober", "Aider quelqu'un", "Dormir profondément"],
+            "correctAnswers": [1],
+            "explanation": "snub: To treat someone coldly or dismissively. [cite: 181]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Le verbe 'spare' veut dire gaspiller tout ce qu'on possède.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "spare: To give something that one has extra of or to refrain from harming (épargner/accorder). [cite: 182]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Que signifie le verbe 'sprawl' ?",
+            "qcmMode": "multi",
+            "answers": ["Courir vite", "S'étaler de manière irrégulière", "Crier fort", "Nettoyer"],
+            "correctAnswers": [1],
+            "explanation": "sprawl: To spread out irregularly. [cite: 184]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "'Straggle' veut dire marcher parfaitement au pas avec les autres.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "straggle: To move slowly and irregularly behind others (traîner derrière). [cite: 185]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Que veut dire 'stuff' en tant que verbe ?",
+            "qcmMode": "multi",
+            "answers": ["Vider complètement", "Remplir quelque chose fermement (fourrer)", "Cuisiner", "Étudier"],
+            "correctAnswers": [1],
+            "explanation": "stuff: To fill something tightly with items. [cite: 187]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Un 'tag' est une étiquette attachée à quelque chose pour l'identifier.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "tag: A label attached to something for identification. [cite: 188]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Que signifie le verbe 'tap' ?",
+            "qcmMode": "multi",
+            "answers": ["Boire de l'eau", "Frapper légèrement", "Déchirer", "Danser"],
+            "correctAnswers": [1],
+            "explanation": "tap: To strike lightly or gain access to something. [cite: 189]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Le mot 'tire' (en tant que nom) désigne la vitre d'une voiture.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "tire: A rubber covering for a wheel (un pneu). [cite: 191]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Que veut dire 'to trade something in' ?",
+            "qcmMode": "multi",
+            "answers": ["Voler quelque chose", "Échanger quelque chose contre un crédit ou un autre article", "Jeter à la poubelle", "Collectionner"],
+            "correctAnswers": [1],
+            "explanation": "to trade something in: To exchange something for credit or another item. [cite: 193]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "L'adjectif 'trim' décrit quelque chose de soigné ou mince.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "trim: Neat, well-groomed, or slim. [cite: 195]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Que signifie 'trying to keep pace with' ?",
+            "qcmMode": "multi",
+            "answers": ["Essayer de courir plus vite", "S'efforcer d'avancer aussi vite qu'un autre (suivre le rythme)", "Marcher lentement", "Ne pas s'en soucier"],
+            "correctAnswers": [1],
+            "explanation": "trying to keep pace with: Striving to move as quickly or progress equally with someone or something. [cite: 197]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "'Weary' (adverbe) signifie d'une manière reposée et pleine d'énergie.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "weary: In a tired or worn-out manner. [cite: 199]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Qu'est-ce qu'un 'windshield' ?",
+            "qcmMode": "multi",
+            "answers": ["Le volant", "Le pot d'échappement", "Le pare-brise (vitre avant d'un véhicule)", "Un essuie-glace"],
+            "correctAnswers": [2],
+            "explanation": "windshield: The glass panel at the front of a vehicle. [cite: 201]",
+            "theme": "The Subliminal Man"
+        },
+        {
+            "question": "Qu'est-ce qu'un 'big-ticket purchase' ?",
+            "qcmMode": "multi",
+            "answers": ["Un billet de cinéma", "Un objet très coûteux (un gros achat)", "Un billet d'avion", "Un achat impulsif"],
+            "correctAnswers": [1],
+            "explanation": "a big-ticket purchase: A very expensive item. [cite: 204]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Un 'double whammy' décrit une seule chose positive qui arrive.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "a double whammy: Two negative effects happening at the same time (une double peine). [cite: 206]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que veut dire 'a sense of belonging' ?",
+            "qcmMode": "multi",
+            "answers": ["Un sentiment de rejet", "Un sentiment d'appartenance (être accepté)", "L'envie de posséder", "La perte de ses affaires"],
+            "correctAnswers": [1],
+            "explanation": "a sense of belonging: Feeling accepted and included. [cite: 208]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "L'adjectif 'acute' signifie léger ou sans importance.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "acute: Severe or intense (sévère, intense). [cite: 210]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que signifie le verbe 'address' ?",
+            "qcmMode": "multi",
+            "answers": ["Mettre une lettre à la poste", "Faire face ou traiter un problème particulier", "S'habiller", "Ignorer"],
+            "correctAnswers": [1],
+            "explanation": "address: To deal with or speak about a particular issue. [cite: 212]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Une 'advertisement' est une annonce publique pour promouvoir un produit.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "advertisement: A public notice promoting a product or service. [cite: 214]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Qu'est-ce qu'une 'assembly line' ?",
+            "qcmMode": "multi",
+            "answers": ["Une ligne de code", "Une ligne d'attente", "Une chaîne de montage", "Une réunion politique"],
+            "correctAnswers": [2],
+            "explanation": "assembly line: A manufacturing process where a product is put together in a sequence. [cite: 216]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "'Awestruck' signifie être rempli d'émerveillement ou de stupéfaction.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "awestruck: Filled with amazement or wonder. [cite: 218]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que sont des 'belongings' ?",
+            "qcmMode": "multi",
+            "answers": ["Des membres de la famille", "Des possessions personnelles (des affaires)", "Des sentiments de tristesse", "Des désirs"],
+            "correctAnswers": [1],
+            "explanation": "belongings: Personal possessions. [cite: 219]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "La 'bleakness' est un état plein d'espoir et de promesses.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "bleakness: A state of being hopeless, empty, or without promise (morosité). [cite: 221]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que veut dire le verbe 'blame' ?",
+            "qcmMode": "multi",
+            "answers": ["Louer quelqu'un", "Tenir quelqu'un pour responsable d'une faute (blâmer)", "Ignorer", "Aimer"],
+            "correctAnswers": [1],
+            "explanation": "blame: To hold someone responsible for a fault or mistake. [cite: 223]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "L'adjectif 'blunt' décrit quelqu'un de direct, qui dit les choses sans prendre de gants.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "blunt: Direct and without sugar-coating; not sharp. [cite: 224]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que signifie 'brand-new' ?",
+            "qcmMode": "multi",
+            "answers": ["Une vieille marque", "Totalement neuf et jamais utilisé", "Très connu", "Un produit de luxe"],
+            "correctAnswers": [1],
+            "explanation": "brand-new: Completely new and unused. [cite: 225]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "'Clunky' veut dire léger et très rapide.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "clunky: Heavy, awkward, or outdated (maladroit, lourd). [cite: 226]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que signifie le verbe 'discard' ?",
+            "qcmMode": "multi",
+            "answers": ["Jouer aux cartes", "Jeter ou se débarrasser de quelque chose d'inutile", "Acheter en masse", "Garder précieusement"],
+            "correctAnswers": [1],
+            "explanation": "discard: To throw away or get rid of something that is no longer needed. [cite: 227]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Le mot 'dishes' désigne les assiettes, bols et ustensiles utilisés pour la nourriture.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "dishes: Plates, bowls, and utensils used for serving food. [cite: 229]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que veut dire 'dumbfounded' ?",
+            "qcmMode": "multi",
+            "answers": ["Être très surpris ou choqué (abasourdi)", "Être très intelligent", "Ne pas pouvoir parler", "Trouver quelque chose"],
+            "correctAnswers": [0],
+            "explanation": "dumbfounded: Greatly surprised or shocked. [cite: 230]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Le verbe 'dispose' signifie se débarrasser de quelque chose.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "dispose: To get rid of something, often in a specific way. [cite: 231]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que signifie 'eco-friendly' ?",
+            "qcmMode": "multi",
+            "answers": ["Un ami de l'économie", "Pas cher", "Non nocif pour l'environnement (écolo)", "Un sac en plastique"],
+            "correctAnswers": [2],
+            "explanation": "eco-friendly: Not harmful to the environment. [cite: 232]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Le verbe 'emphasize' signifie donner une importance particulière à quelque chose (souligner).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "emphasize: To give special importance to something in speech or writing. [cite: 234]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que veut dire l'expression 'fix (prices)' ?",
+            "qcmMode": "multi",
+            "answers": ["Réparer une étiquette", "S'entendre illégalement sur les prix avec la concurrence", "Baisser les prix", "Augmenter les salaires"],
+            "correctAnswers": [1],
+            "explanation": "fix (prices): To illegally agree on a price with competitors instead of allowing market competition. [cite: 236]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Le mot 'furniture' (mobilier) inclut les tables, chaises et canapés.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "furniture: Objects like tables, chairs, and sofas used in a home or office. [cite: 238]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que signifie la phrase 'grab what you can' ?",
+            "qcmMode": "multi",
+            "answers": ["Prendre son temps", "Attraper tout ce qui est possible le plus vite possible", "Partager avec les autres", "Mettre dans une boîte"],
+            "correctAnswers": [1],
+            "explanation": "grab what you can: Take as much as possible quickly. [cite: 240]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Le verbe 'halt' veut dire accélérer la cadence.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "halt: To stop or bring something to an end (stopper). [cite: 242]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que signifie 'hard-wired' ?",
+            "qcmMode": "multi",
+            "answers": ["Un fil très dur", "Programmé instinctivement dans une personne ou un système", "Un problème informatique", "Une connexion internet"],
+            "correctAnswers": [1],
+            "explanation": "hard-wired: Instinctively present in a person or system. [cite: 243]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Un 'herd' est un groupe d'animaux qui se déplacent ensemble (un troupeau).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "herd: A group of animals, such as cattle or sheep, that move together. [cite: 245]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que veut dire 'long-lasting' ?",
+            "qcmMode": "multi",
+            "answers": ["Très grand", "Durable dans le temps", "La fin de quelque chose", "Rapide"],
+            "correctAnswers": [1],
+            "explanation": "long-lasting: Durable and enduring over time. [cite: 247]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Le 'peak' est le point le plus bas de quelque chose.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "peak: The highest point of something (le sommet). [cite: 249]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que signifie l'adjectif 'perpetual' ?",
+            "qcmMode": "multi",
+            "answers": ["Temporaire", "Qui s'arrête vite", "Qui continue indéfiniment (perpétuel)", "Bruyant"],
+            "correctAnswers": [2],
+            "explanation": "perpetual: Continuing indefinitely. [cite: 251]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Le mot 'pinnacle' désigne le point de réussite le plus haut ou l'achèvement suprême (l'apogée).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "pinnacle: The most successful point or highest achievement. [cite: 253]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Comment traduis-tu 'relentless' ?",
+            "qcmMode": "multi",
+            "answers": ["Détendu", "Implacable, qui ne cède pas (incessant)", "Paresseux", "Fragile"],
+            "correctAnswers": [1],
+            "explanation": "relentless: Unyielding and constant. [cite: 255]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "L'adjectif 'sleek' signifie rugueux et ancien.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "sleek: Smooth, stylish, and modern (élégant, profilé). [cite: 257]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Qu'est-ce qu'un 'stencil' ?",
+            "qcmMode": "multi",
+            "answers": ["Un crayon", "Un pochoir utilisé pour créer un motif", "Une feuille de papier", "Un pot de peinture"],
+            "correctAnswers": [1],
+            "explanation": "stencil: A template used to create a design or pattern. [cite: 259]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Le verbe 'strew' (ou stew dans le texte, mais strew selon l'exemple) signifie éparpiller des choses de manière désordonnée.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "strew: To scatter or spread things untidily. [cite: 261]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Qu'est-ce qu'un 'stool' ?",
+            "qcmMode": "multi",
+            "answers": ["Un tabouret (siège sans dossier)", "Un outil de jardinage", "Une table basse", "Un tapis"],
+            "correctAnswers": [0],
+            "explanation": "stool: A simple seat without a back or arms. [cite: 263]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Le verbe 'struggle' veut dire réussir facilement sans effort.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "struggle: To try very hard to do something difficult (lutter). [cite: 265]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que veut dire 'supercharged' ?",
+            "qcmMode": "multi",
+            "answers": ["Sans batterie", "Très cher", "Intensément puissant ou amélioré (survolté)", "Lent"],
+            "correctAnswers": [2],
+            "explanation": "supercharged: Intensely powerful or enhanced. [cite: 267]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Un 'suit' est un ensemble de vêtements assortis, généralement porté pour des occasions formelles (un costume).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "suit: A set of matching clothes, typically worn for formal occasions. [cite: 269]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que signifie 'sustainability' ?",
+            "qcmMode": "multi",
+            "answers": ["La destruction", "La capacité de se maintenir sans nuire à l'environnement (durabilité)", "La vitesse", "La consommation"],
+            "correctAnswers": [1],
+            "explanation": "sustainability: The ability to maintain something over time without harming the environment. [cite: 271]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "L'expression 'to be penned in' signifie être totalement libre.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "to be penned in: To be confined or restricted (être parqué/enfermé). [cite: 273]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que veut dire 'to chime with something' ?",
+            "qcmMode": "multi",
+            "answers": ["Sonner une cloche", "Correspondre ou être en accord avec quelque chose", "Casser quelque chose", "Se disputer"],
+            "correctAnswers": [1],
+            "explanation": "to chime with something: To match or agree with something. [cite: 275]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Le verbe 'toil' signifie travailler extrêmement dur, souvent dans des conditions difficiles (trimer).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "toil: To work extremely hard, often in difficult conditions. [cite: 277]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que signifie 'to keep something on the rails' ?",
+            "qcmMode": "multi",
+            "answers": ["Prendre le train", "Faire dérailler un projet", "S'assurer que quelque chose continue à bien se dérouler", "Laisser tomber"],
+            "correctAnswers": [2],
+            "explanation": "to keep something on the rails: To ensure something continues smoothly. [cite: 279]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "L'expression 'to lay the foundations' veut dire établir la base pour quelque chose (poser les fondations).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "to lay the foundations: To establish the basis for something. [cite: 281]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que veut dire 'to square the circle' ?",
+            "qcmMode": "multi",
+            "answers": ["Dessiner des formes", "Tenter d'accomplir quelque chose qui semble impossible (la quadrature du cercle)", "Tourner en rond", "Faire du sport"],
+            "correctAnswers": [1],
+            "explanation": "to square the circle: To achieve something seemingly impossible. [cite: 283]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Un 'trailblazer' est un pionnier ou un innovateur dans un domaine particulier.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "trailblazer: A pioneer or innovator in a particular field. [cite: 285]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Qu'est-ce que le 'turnover' ?",
+            "qcmMode": "multi",
+            "answers": ["Se retourner dans son lit", "Le taux de renouvellement des employés ou le chiffre d'affaires", "Un vêtement d'hiver", "Une voiture décapotable"],
+            "correctAnswers": [1],
+            "explanation": "turnover: The rate at which employees leave and are replaced or the total revenue of a business. [cite: 287]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Le verbe 'usher in' veut dire marquer le début de quelque chose de nouveau.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "usher in: To mark the beginning of something new. [cite: 289]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Que signifie 'wage' ?",
+            "qcmMode": "multi",
+            "answers": ["Un pari", "Le salaire payé à un travailleur", "Une guerre", "Une blague"],
+            "correctAnswers": [1],
+            "explanation": "wage: The money paid to a worker for their labor. [cite: 291]",
+            "theme": "The Men Who Made Us Spend"
+        },
+        {
+            "question": "Une 'assumption' est une croyance ou une idée acceptée comme vraie sans preuve.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "assumption: A belief or idea accepted as true without proof. [cite: 296]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Que désigne le mot 'bank' (en rapport avec l'eau) ?",
+            "qcmMode": "multi",
+            "answers": ["Une institution financière", "La terre le long d'une rivière (la rive)", "Un bateau", "Un pont"],
+            "correctAnswers": [1],
+            "explanation": "bank: The land alongside a river. [cite: 298]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "L'adjectif 'beefy' signifie grand, fort et musclé.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "beefy: Large, strong, or muscular. [cite: 300]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Que veut dire le verbe 'blink' ?",
+            "qcmMode": "multi",
+            "answers": ["Regarder fixement", "Ouvrir et fermer les yeux rapidement (cligner)", "Crier", "Dormir"],
+            "correctAnswers": [1],
+            "explanation": "blink: To quickly open and close the eyes. [cite: 302]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "L'adjectif 'bulging' veut dire qui gonfle ou ressort vers l'extérieur.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "bulging: Swelling outward. [cite: 304]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Qu'est-ce qu'un 'bunk' ?",
+            "qcmMode": "multi",
+            "answers": ["Un coffre", "Un lit étroit, souvent superposé", "Une armoire", "Un tapis"],
+            "correctAnswers": [1],
+            "explanation": "bunk: A narrow bed, often one stacked over another. [cite: 306]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Le verbe 'clasp' veut dire lâcher prise.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "clasp: To grip tightly. [cite: 308]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Que signifie 'cram' ?",
+            "qcmMode": "multi",
+            "answers": ["Prendre son temps", "Fourrer dans un petit espace ou étudier intensément (bachoter)", "Crier", "Manger de la confiture"],
+            "correctAnswers": [1],
+            "explanation": "cram: To stuff something into a small space or to study intensely in a short time. [cite: 310]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Un 'cruiser' est un gros navire ou véhicule conçu pour voyager.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "cruiser: A large vehicle or ship designed for travel. [cite: 312]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Que veut dire 'damp' ?",
+            "qcmMode": "multi",
+            "answers": ["Complètement sec", "Légèrement humide ou mouillé", "Très chaud", "Brillant"],
+            "correctAnswers": [1],
+            "explanation": "damp: Slightly wet or moist. [cite: 314]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "L'adjectif 'dim' signifie qui n'est pas clair ou très peu lumineux.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "dim: Not bright or clear. [cite: 316]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Que signifie le verbe 'doze' ?",
+            "qcmMode": "multi",
+            "answers": ["Travailler dur", "Dormir légèrement (somnoler)", "Courir vite", "Prendre une dose"],
+            "correctAnswers": [1],
+            "explanation": "doze: To sleep lightly. [cite: 318]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Une 'fern' est une plante verte avec des feuilles qui ressemblent à des plumes (une fougère).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "fern: A green plant with feathery leaves. [cite: 320]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Que veut dire 'fidget' ?",
+            "qcmMode": "multi",
+            "answers": ["Bouger sans cesse à cause de la nervosité ou de l'ennui (gigoter)", "Faire un tour de magie", "S'asseoir calmement", "Cuisiner"],
+            "correctAnswers": [0],
+            "explanation": "fidget: To move restlessly out of nervousness or boredom. [cite: 322]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Le verbe 'glide' signifie bouger de manière fluide et sans effort (glisser).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "glide: To move smoothly and effortlessly. [cite: 324]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Que signifie 'grim' ?",
+            "qcmMode": "multi",
+            "answers": ["Joyeux", "Coloré", "Sérieux, sombre ou sévère", "Léger"],
+            "correctAnswers": [2],
+            "explanation": "grim: Serious, gloomy, or harsh. [cite: 326]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Un 'grove' désigne un grand océan.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "grove: A small cluster of trees (un bosquet). [cite: 328]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Qu'est-ce qu'une 'gully' ?",
+            "qcmMode": "multi",
+            "answers": ["Une mouette", "Un fossé ou ravin causé par l'érosion de l'eau", "Une montagne", "Une plage"],
+            "correctAnswers": [1],
+            "explanation": "gully: A deep ditch or channel caused by water erosion. [cite: 330]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Un 'hatch' est une petite ouverture avec souvent une porte ou un couvercle (une trappe).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "hatch: A small opening, often with a door or cover. [cite: 332]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Que veut dire 'interwoven' ?",
+            "qcmMode": "multi",
+            "answers": ["Connecté étroitement ou entremêlé", "Complètement séparé", "Très rapide", "Brouillé"],
+            "correctAnswers": [0],
+            "explanation": "interwoven: Closely connected or blended together. [cite: 333]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "La 'jaw' est la mâchoire (partie inférieure du visage qui bouge).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "jaw: The lower part of the face that moves when talking or chewing. [cite: 335]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Qu'est-ce qu'un 'load' ?",
+            "qcmMode": "multi",
+            "answers": ["Un jeu", "Une lourde quantité portée ou transportée (un chargement)", "Une route", "Un morceau de pain"],
+            "correctAnswers": [1],
+            "explanation": "load: A heavy amount of something that is carried or transported. [cite: 337]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Une 'meadow' est un parking recouvert de ciment.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "meadow: A grassy field, often filled with flowers (une prairie). [cite: 339]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Que sont les 'quarters' dans un contexte militaire ?",
+            "qcmMode": "multi",
+            "answers": ["Des pièces de monnaie", "Un espace de vie, un quartier de résidence", "Une période de temps", "Des armes"],
+            "correctAnswers": [1],
+            "explanation": "quarters: Living space, typically for military or workers. [cite: 341]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "L'adjectif 'repressed' signifie retenu ou réprimé (souvent pour des émotions).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "repressed: Held back or restrained, often referring to emotions. [cite: 343]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Qu'est-ce qu'un 'scrawl' ?",
+            "qcmMode": "multi",
+            "answers": ["Un rire bruyant", "Une écriture désordonnée et hâtive (un gribouillage)", "Un insecte", "Un tissu fin"],
+            "correctAnswers": [1],
+            "explanation": "scrawl: Messy or hurried handwriting. [cite: 345]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Le verbe 'scramble' veut dire marcher de manière très gracieuse.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "scramble: To move quickly or clumsily, often in a hurry. [cite: 347]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Que signifie 'settle one's affairs' ?",
+            "qcmMode": "multi",
+            "answers": ["Mettre de l'ordre dans ses affaires personnelles ou financières", "Commencer un business", "Partir en vacances", "Se disputer"],
+            "correctAnswers": [0],
+            "explanation": "settle one's affairs: To organize one's personal or financial matters. [cite: 349]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "L'adjectif 'sparkling' signifie étincelant, produisant de petits éclairs de lumière.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "sparkling: Shining or giving off tiny flashes of light. [cite: 351]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Que veut dire le verbe 'stride' ?",
+            "qcmMode": "multi",
+            "answers": ["Tomber", "Marcher à grands pas confiants", "Ramper", "Sauter"],
+            "correctAnswers": [1],
+            "explanation": "stride: To walk with long, confident steps. [cite: 352]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "L'adjectif 'sunk' veut dire fermement intégré ou affaissé vers l'intérieur (enfoncé/coulé).",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "sunk: Deeply embedded or collapsed inward. [cite: 353]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Que signifie 'supple' ?",
+            "qcmMode": "multi",
+            "answers": ["Rigide", "En colère", "Flexible et capable de bouger facilement (souple)", "Fatigué"],
+            "correctAnswers": [2],
+            "explanation": "supple: Flexible and able to move easily. [cite: 354]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Faire quelque chose 'on short notice' signifie le faire avec beaucoup de préparation.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "to do something on short notice: To act with little warning or preparation. [cite: 356]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Que veut dire 'to pace back and forth' ?",
+            "qcmMode": "multi",
+            "answers": ["Marcher en rythme militaire", "Faire les cent pas (à cause de l'inquiétude)", "Courir un marathon", "S'arrêter et démarrer"],
+            "correctAnswers": [1],
+            "explanation": "to pace back and forth: To walk repeatedly in one direction and then the opposite due to worry or impatience. [cite: 358]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "L'expression 'to play hooky' signifie sécher les cours ou le travail sans permission.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "to play hooky: To skip school or work without permission. [cite: 360]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Que veut dire 'to poke around' ?",
+            "qcmMode": "multi",
+            "answers": ["Pousser fort", "Chercher ou fouiller de manière curieuse", "Se cacher", "Sauter sur place"],
+            "correctAnswers": [1],
+            "explanation": "to poke around: To search casually or curiously. [cite: 362]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Un 'whir' est un gros boom sonore.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [1],
+            "explanation": "whir: A low, continuous buzzing or humming sound (un bourdonnement). [cite: 363]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Que veut dire le verbe 'wind' dans ce contexte ?",
+            "qcmMode": "multi",
+            "answers": ["Le vent", "Tordre ou enrouler quelque chose", "Crier", "Aider"],
+            "correctAnswers": [1],
+            "explanation": "wind: To twist or wrap something around another object. [cite: 364]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "L'adjectif 'worthwhile' décrit une expérience qui vaut la peine, précieuse ou gratifiante.",
+            "qcmMode": "tf",
+            "answers": ["Vrai", "Faux"],
+            "correctAnswers": [0],
+            "explanation": "worthwhile: Valuable or rewarding. [cite: 365]",
+            "theme": "Piper in the Woods"
+        },
+        {
+            "question": "Que signifie le verbe 'yawn' ?",
+            "qcmMode": "multi",
+            "answers": ["Crier de douleur", "Ouvrir grand la bouche par fatigue ou ennui (bâiller)", "Manger bruyamment", "Fermer les yeux"],
+            "correctAnswers": [1],
+            "explanation": "yawn: To open one's mouth wide due to tiredness or boredom. [cite: 366]",
+            "theme": "Piper in the Woods"
+        }
+    ]
+    },
+    {
         id: 'default-probas',
         title: 'Probas',
         type: 'flashcard',
@@ -381,17 +1880,24 @@ function loadData() {
             deckConf.cards.forEach(item => {
                 const exists = cards.find(c => c.question === item.question && c.deckId === deckConf.id);
                 if (!exists) {
-                    cards.push({
+                    const newCard = {
                         id: generateId(),
                         deckId: deckConf.id,
                         question: item.question,
-                        answer: item.answer,
+                        answer: item.answer || item.explanation || '',
                         theme: item.theme,
                         isLearned: false,
                         validationStatus: 'unlearned',
                         createdAt: Date.now(),
                         order: cards.length
-                    });
+                    };
+                    // QCM-specific fields
+                    if (item.qcmMode) newCard.qcmMode = item.qcmMode;
+                    if (item.answers) newCard.answers = item.answers;
+                    if (item.correctAnswers) newCard.correctAnswers = item.correctAnswers;
+                    if (item.explanation !== undefined) newCard.explanation = item.explanation;
+                    if (item.qcmMode) newCard.selectedAnswers = [];
+                    cards.push(newCard);
                 }
             });
         });
@@ -2184,6 +3690,7 @@ function openImportModal() {
     document.getElementById('btn-perform-import').classList.remove('hidden');
     document.getElementById('btn-download-json').classList.add('hidden');
     document.getElementById('btn-download-txt').classList.add('hidden');
+    document.getElementById('btn-open-tuto').classList.remove('hidden');
 
     modal.classList.remove('hidden');
 
@@ -2246,6 +3753,7 @@ function exportDeck() {
     document.getElementById('btn-perform-import').classList.add('hidden');
     document.getElementById('btn-download-json').classList.remove('hidden');
     document.getElementById('btn-download-txt').classList.remove('hidden');
+    document.getElementById('btn-open-tuto').classList.add('hidden');
 
     modal.classList.remove('hidden');
     createIconsIn(modal);
@@ -2396,6 +3904,135 @@ async function pasteFromClipboard() {
 // --- UI HELPERS ---
 function updateDeckTypeUI() {
     // Just re-renders peer classes visually handled by CSS logic but hook exists in case JS behavior is needed later
+}
+
+// --- TUTORIAL POPUP ---
+
+const TUTO_PROMPTS = {
+    flashcard: `A partir de mes documents, g\u00e9n\u00e8re une structure de donn\u00e9es JSON pour en extraire des Flashcards de r\u00e9vision, en regroupant les questions dans des groupes/th\u00e8mes, en suivant ce mod\u00e8le (pour le langage mathématique, utilise le format LaTeX et vérifie ta syntaxe à plusieurs reprises):
+[
+    {
+        "question":"Question1 ?",
+        "answer":"Answer1 !",
+        "theme":"G\u00e9n\u00e9ral"
+    },
+    {
+        "question":"Question2 ?",
+        "answer":"Answer2 !",
+        "theme":"G\u00e9n\u00e9ral"
+    }, ...
+]`,
+    qcm: `A partir de mes documents, g\u00e9n\u00e8re une structure de donn\u00e9es JSON pour en extraire des QCM de r\u00e9vision, en regroupant les questions dans des groupes/th\u00e8mes, en suivant ce mod\u00e8le (pour le langage mathématique, utilise le format LaTeX et vérifie ta syntaxe à plusieurs reprises):
+[
+  {
+    "question": "Quelle est la capitale de la France ?",
+    "qcmMode": "multi",
+    "answers": ["Paris", "Lyon", "Marseille", "Bordeaux"],
+    "correctAnswers": [0],
+    "explanation": "Paris est la capitale et la ville la plus peupl\u00e9e de France.",
+    "theme": "G\u00e9ographie"
+  },
+  {
+    "question": "La Terre est plate.",
+    "qcmMode": "tf",
+    "answers": ["Vrai", "Faux"],
+    "correctAnswers": [1],
+    "explanation": "La Terre est un ellipso\u00efde de r\u00e9volution.",
+    "theme": "Sciences"
+  },...
+]`
+};
+
+function openTutoPopup() {
+    const deck = activeDeckId ? decks.find(d => d.id === activeDeckId) : null;
+    const isQcm = deck && deck.type === 'qcm';
+    const type = isQcm ? 'qcm' : 'flashcard';
+
+    const title = isQcm
+        ? 'Comment g\u00e9n\u00e9rer ses QCM \u00e0 partir de ses cours ?'
+        : 'Comment g\u00e9n\u00e9rer ses flashcards \u00e0 partir de ses cours ?';
+
+    const prompt = TUTO_PROMPTS[type];
+
+    const contentEl = document.getElementById('tuto-content');
+    contentEl.innerHTML = `
+        <div class="p-6 border-b border-slate-800">
+            <div class="flex items-center gap-3">
+                <div class="p-2 bg-indigo-500/20 rounded-xl">
+                    <i data-lucide="${isQcm ? 'list-checks' : 'layers'}" class="w-5 h-5 text-indigo-400"></i>
+                </div>
+                <h2 class="text-lg font-bold text-white pr-8">${title}</h2>
+            </div>
+        </div>
+        <div class="p-6 space-y-5">
+            <div class="tuto-step">
+                <span class="tuto-step-icon">1\uFE0F\u20E3</span>
+                <span>Copie ce prompt <span class="text-slate-500">(adapte-le selon tes besoins)</span> :</span>
+            </div>
+            <div class="relative">
+                <div class="tuto-code-block" id="tuto-prompt-code">${escapeHtml(prompt)}</div>
+                <button onclick="copyTutoPrompt()" class="tuto-copy-btn" id="tuto-copy-btn" title="Copier le prompt">
+                    <i data-lucide="copy" class="w-4 h-4"></i>
+                </button>
+            </div>
+            <div class="tuto-step">
+                <span class="tuto-step-icon">2\uFE0F\u20E3</span>
+                <span>Utilise ton IA pr\u00e9f\u00e9r\u00e9e et fournis-lui le prompt & tes documents de cours :</span>
+            </div>
+            <div>
+                <a href="https://gemini.google.com/app" target="_blank" rel="noopener noreferrer" class="tuto-link-btn">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i> Gemini
+                    <i data-lucide="external-link" class="w-3.5 h-3.5 opacity-60"></i>
+                </a>
+            </div>
+            <div class="tuto-step">
+                <span class="tuto-step-icon">3\uFE0F\u20E3</span>
+                <span>Copie le r\u00e9sultat ou t\u00e9l\u00e9charge sous forme de fichier la structure de donn\u00e9es g\u00e9n\u00e9r\u00e9e, et ins\u00e8re-le dans la zone d\u2019importation apr\u00e8s avoir ferm\u00e9 ce tutoriel</span>
+            </div>
+        </div>
+    `;
+
+    const overlay = document.getElementById('tuto-overlay');
+    overlay.classList.remove('hidden');
+
+    // Re-trigger animation
+    const popup = document.getElementById('tuto-popup');
+    popup.classList.remove('tuto-animate-in');
+    void popup.offsetWidth; // Force reflow
+    popup.classList.add('tuto-animate-in');
+
+    createIconsIn(overlay);
+}
+
+function closeTutoPopup() {
+    document.getElementById('tuto-overlay').classList.add('hidden');
+}
+
+function copyTutoPrompt() {
+    const codeEl = document.getElementById('tuto-prompt-code');
+    const btn = document.getElementById('tuto-copy-btn');
+    if (!codeEl) return;
+
+    const text = codeEl.textContent;
+    navigator.clipboard.writeText(text).then(() => {
+        btn.classList.add('copied');
+        btn.innerHTML = '<i data-lucide="check" class="w-4 h-4"></i>';
+        createIconsIn(btn);
+        showToast('Prompt copi\u00e9 !', 'success');
+        setTimeout(() => {
+            btn.classList.remove('copied');
+            btn.innerHTML = '<i data-lucide="copy" class="w-4 h-4"></i>';
+            createIconsIn(btn);
+        }, 2000);
+    }).catch(() => {
+        showToast('Erreur lors de la copie', 'error');
+    });
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 // --- INITIALIZATION ---

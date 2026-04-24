@@ -170,7 +170,12 @@
                     <h2 id="modal-ie-title" class="text-xl font-bold text-white">Importer / Exporter</h2>
                 </div>
                 <div class="p-6 space-y-4">
-                    <p id="modal-ie-desc" class="text-sm text-slate-400">Copiez/Collez ou Déposez un fichier JSON.</p>
+                    <div class="flex items-center justify-between">
+                        <p id="modal-ie-desc" class="text-sm text-slate-400">Copiez/Collez ou Déposez un fichier JSON.</p>
+                        <button id="btn-open-tuto" onclick="openTutoPopup()" class="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg transition-all shadow-lg shadow-indigo-500/20 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 border border-indigo-400/20 hidden">
+                            <i data-lucide="lightbulb" class="w-3.5 h-3.5"></i> TUTO
+                        </button>
+                    </div>
 
                     <!-- Drop Zone (Import Only) -->
                     <div id="import-drop-zone"
@@ -228,6 +233,20 @@
                 </div>
             </div>
 
+        </div>
+    </div>
+
+    <!-- Tutorial Popup Overlay -->
+    <div id="tuto-overlay" class="fixed inset-0 z-[70] flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0 bg-slate-950/85 backdrop-blur-md" onclick="closeTutoPopup()"></div>
+        <div id="tuto-popup" class="relative w-full max-w-lg bg-slate-900 rounded-2xl shadow-2xl border border-slate-700 flex flex-col max-h-[90vh] overflow-hidden tuto-animate-in">
+            <!-- Close Button -->
+            <button onclick="closeTutoPopup()" aria-label="Fermer le tutoriel"
+                class="absolute top-4 right-4 text-slate-400 hover:text-white z-10 p-1 rounded-full hover:bg-slate-800 transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <!-- Content injected by JS -->
+            <div id="tuto-content" class="overflow-y-auto"></div>
         </div>
     </div>
 

@@ -430,6 +430,12 @@ img { max-width: 100%; }
 /* === GROUP HOVER === */
 .group:hover .group-hover\:bg-transparent { background-color: transparent; }
 
+/* === PEER-CHECKED STATES (radio/checkbox toggles) === */
+.peer.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border-width: 0; }
+.peer:checked ~ .peer-checked\:bg-indigo-600 { background-color: #4f46e5; }
+.peer:checked ~ .peer-checked\:text-white { color: #ffffff; }
+.peer:checked ~ .peer-checked\:border-indigo-500 { border-color: #6366f1; }
+
 /* === ACTIVE STATES === */
 .active\:translate-y-0:active { transform: translateY(0); }
 .active\:scale-95:active { transform: scale(0.95); }
@@ -615,3 +621,97 @@ img { max-width: 100%; }
 /* SVG stroke fix for progress ring */
 svg path[stroke-width] { stroke: currentColor; }
 svg path[stroke] { /* already has explicit stroke */ }
+
+/* === TUTORIAL POPUP === */
+.z-\[70\] { z-index: 70; }
+.bg-slate-950\/85 { background-color: rgba(2,6,23,0.85); }
+.border-indigo-400\/20 { border-color: rgba(129,140,248,0.2); }
+
+.hover\:-translate-y-0\.5:hover { transform: translateY(-0.125rem); }
+
+@keyframes tutoSlideIn {
+    from { opacity: 0; transform: translateY(30px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.tuto-animate-in { animation: tutoSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+
+/* Tutorial content styling */
+.tuto-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #cbd5e1;
+}
+.tuto-step-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    line-height: 1.6;
+}
+
+.tuto-code-block {
+    position: relative;
+    background: #020617;
+    border: 1px solid #334155;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    padding-right: 3rem;
+    font-family: ui-monospace, SFMono-Regular, 'Courier New', monospace;
+    font-size: 0.75rem;
+    line-height: 1.5;
+    color: #94a3b8;
+    white-space: pre-wrap;
+    word-break: break-word;
+    max-height: 14rem;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #334155 transparent;
+}
+.tuto-code-block::-webkit-scrollbar { width: 6px; }
+.tuto-code-block::-webkit-scrollbar-track { background: transparent; }
+.tuto-code-block::-webkit-scrollbar-thumb { background-color: #334155; border-radius: 10px; }
+
+.tuto-copy-btn {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.375rem;
+    background: #1e293b;
+    border: 1px solid #475569;
+    border-radius: 0.5rem;
+    color: #94a3b8;
+    cursor: pointer;
+    transition: all 150ms ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.tuto-copy-btn:hover { background: #334155; color: #fff; }
+.tuto-copy-btn.copied {
+    background: #059669;
+    border-color: #10b981;
+    color: #fff;
+}
+
+.tuto-link-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.875rem;
+    border-radius: 0.75rem;
+    text-decoration: none;
+    transition: all 200ms ease;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 4px 12px rgba(79,70,229,0.3);
+}
+.tuto-link-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(79,70,229,0.4);
+    border-color: rgba(255,255,255,0.2);
+}
+.tuto-link-btn:active { transform: translateY(0); }
