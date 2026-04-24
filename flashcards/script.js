@@ -61,18 +61,55 @@ function createIconsIn(element) {
 // when near the viewport. When scrolled far away, they are "deflated" back to
 // empty shells, aggressively freeing WebKit GPU/DOM memory on iOS.
 let _cardVisibilityObserver = null;
+let _inflationQueue = [];
+let _inflationRunning = false;
+const INFLATE_BATCH_SIZE = 4; // Cards inflated per animation frame
+
+function queueInflation(skeleton) {
+    if (!_inflationQueue.includes(skeleton)) {
+        _inflationQueue.push(skeleton);
+    }
+    if (!_inflationRunning) {
+        _inflationRunning = true;
+        requestAnimationFrame(processInflationQueue);
+    }
+}
+
+function processInflationQueue() {
+    if (_inflationQueue.length === 0) {
+        _inflationRunning = false;
+        return;
+    }
+
+    const batch = _inflationQueue.splice(0, INFLATE_BATCH_SIZE);
+    batch.forEach(skeleton => {
+        // Only inflate if still in DOM and not already inflated
+        if (skeleton.isConnected && skeleton.dataset.inflated !== 'true') {
+            inflateCard(skeleton);
+        }
+    });
+
+    if (_inflationQueue.length > 0) {
+        requestAnimationFrame(processInflationQueue);
+    } else {
+        _inflationRunning = false;
+    }
+}
 
 function initCardVisibilityObserver() {
     if (_cardVisibilityObserver) _cardVisibilityObserver.disconnect();
+    // Clear any pending inflation queue from previous view
+    _inflationQueue = [];
+    _inflationRunning = false;
     
     _cardVisibilityObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             const cardEl = entry.target;
 
             if (entry.isIntersecting) {
-                // --- INFLATE: create full card DOM when entering viewport ---
+                // --- INFLATE: queue card DOM creation (batched across frames) ---
                 if (cardEl.dataset.inflated !== 'true') {
-                    inflateCard(cardEl);
+                    queueInflation(cardEl);
                 } else {
                     // Wake up previously hidden card
                     const inner = cardEl.querySelector('.card-inner');
@@ -92,6 +129,9 @@ function initCardVisibilityObserver() {
                 if (cardEl.dataset.inflated === 'true') {
                     deflateCard(cardEl);
                 }
+                // Also remove from queue if it was pending
+                const qi = _inflationQueue.indexOf(cardEl);
+                if (qi !== -1) _inflationQueue.splice(qi, 1);
             }
         });
     }, {
