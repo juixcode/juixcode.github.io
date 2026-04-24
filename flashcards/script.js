@@ -260,11 +260,209 @@ const THEME_COLORS = [
 
 const DEFAULT_DECKS_CONFIG = [
     {
-        id: 'default-english',
-        title: 'Anglais Voc',
+        id: 'default-englishdefs',
+        title: 'Anglais Définitions',
+        type: 'flashcard',
+        gradient: GRADIENTS[0].class,
+        order: -2,
+        isPublic: true,
+        cards: 
+            // Anglais
+        [
+  {"question":"Que signifie 'apparatus' ?","answer":"A set of equipment or tools used for a specific purpose. / Un ensemble d'équipements ou d'outils (appareil)","theme":"The Machine Stops"},
+  {"question":"Que signifie 'applause' ?","answer":"Approval or praise expressed by clapping. / Applaudissements","theme":"The Machine Stops"},
+  {"question":"Que signifie 'ashamed' ?","answer":"Feeling embarrassed or guilty about something. / Honteux, gêné","theme":"The Machine Stops"},
+  {"question":"Que signifie 'attendant' ?","answer":"A person who provides a service or is present at an event. / Accompagnateur, préposé","theme":"The Machine Stops"},
+  {"question":"Que signifie 'beyond measure' ?","answer":"To an extreme or immeasurable degree. / Au-delà de toute mesure","theme":"The Machine Stops"},
+  {"question":"Que signifie 'blunder' ?","answer":"To make a careless or stupid mistake. / Faire une gaffe, une erreur stupide","theme":"The Machine Stops"},
+  {"question":"Que signifie 'brood' ?","answer":"To think deeply about something that makes one unhappy. / Broyer du noir, ruminer","theme":"The Machine Stops"},
+  {"question":"Que signifie 'careless' ?","answer":"Not giving sufficient attention or thought to avoiding harm or errors. / Négligent, imprudent","theme":"The Machine Stops"},
+  {"question":"Que signifie 'concerned' ?","answer":"Worried or troubled about something. / Inquiet, préoccupé","theme":"The Machine Stops"},
+  {"question":"Que signifie 'conduct' ?","answer":"The manner in which a person behaves. / Comportement, conduite","theme":"The Machine Stops"},
+  {"question":"Que signifie 'dashed to pieces' ?","answer":"Broken or shattered completely. / Brisé en morceaux","theme":"The Machine Stops"},
+  {"question":"Que signifie 'dim' ?","answer":"Not bright or clear. / Sombre, faible","theme":"The Machine Stops"},
+  {"question":"Que signifie 'disregard' ?","answer":"To ignore or pay no attention to. / Ignorer, ne pas tenir compte de","theme":"The Machine Stops"},
+  {"question":"Que signifie 'drag' ?","answer":"To pull something or someone along forcefully. / Traîner, tirer avec force","theme":"The Machine Stops"},
+  {"question":"Que signifie 'fairly' ?","answer":"To a moderately high degree. / Assez, plutôt","theme":"The Machine Stops"},
+  {"question":"Que signifie 'faint' ?","answer":"Weak, light, or barely perceptible. / Faible, léger","theme":"The Machine Stops"},
+  {"question":"Que signifie 'garment' ?","answer":"A piece of clothing. / Un vêtement","theme":"The Machine Stops"},
+  {"question":"Que signifie 'gasp' ?","answer":"To inhale suddenly with the mouth open, usually in shock or surprise. / Haleter, avoir le souffle coupé","theme":"The Machine Stops"},
+  {"question":"Que signifie 'gathering' ?","answer":"A meeting or assembly of people. / Un rassemblement","theme":"The Machine Stops"},
+  {"question":"Que signifie 'hive' ?","answer":"A structure for housing bees or a busy, crowded place. / Ruche, ou endroit très animé","theme":"The Machine Stops"},
+  {"question":"Que signifie 'hinge' ?","answer":"A joint or mechanism that allows a door or lid to swing open and shut. / Charnière, gond","theme":"The Machine Stops"},
+  {"question":"Que signifie 'imponderable' ?","answer":"Difficult or impossible to estimate or understand. / Impondérable, difficile à estimer","theme":"The Machine Stops"},
+  {"question":"Que signifie 'keep pace with' ?","answer":"To progress or move at the same speed as someone or something. / Suivre le rythme de","theme":"The Machine Stops"},
+  {"question":"Que signifie 'latent' ?","answer":"Existing but not yet developed or visible. / Latent, caché","theme":"The Machine Stops"},
+  {"question":"Que signifie 'lecture' ?","answer":"A formal talk given to teach or explain something. / Conférence, cours magistral","theme":"The Machine Stops"},
+  {"question":"Que signifie 'litter' ?","answer":"Trash left in an open or public place. / Déchets (dans un lieu public)","theme":"The Machine Stops"},
+  {"question":"Que signifie 'lump' ?","answer":"A compact mass or piece of something. / Un bloc, un tas, une masse","theme":"The Machine Stops"},
+  {"question":"Que signifie 'mad' ?","answer":"Completely unrestrained by reason; unable to think clearly. / Fou, aliéné","theme":"The Machine Stops"},
+  {"question":"Que signifie 'mend' ?","answer":"To repair something that is broken or damaged. / Réparer, raccommoder","theme":"The Machine Stops"},
+  {"question":"Que signifie 'mingle' ?","answer":"To mix or blend. / Se mêler, se mélanger","theme":"The Machine Stops"},
+  {"question":"Que signifie 'outburst' ?","answer":"A sudden release of strong emotion. / Éruption, explosion d'émotion","theme":"The Machine Stops"},
+  {"question":"Que signifie 'outright' ?","answer":"Completely or without reservation. / Catégoriquement, totalement","theme":"The Machine Stops"},
+  {"question":"Que signifie 'owing to' ?","answer":"Because of or due to. / En raison de, à cause de","theme":"The Machine Stops"},
+  {"question":"Que signifie 'peep' ?","answer":"To look quickly or secretly at something. / Jeter un coup d'œil","theme":"The Machine Stops"},
+  {"question":"Que signifie 'praise' ?","answer":"Expressions of approval or admiration. / Éloges, compliments","theme":"The Machine Stops"},
+  {"question":"Que signifie 'repel' ?","answer":"To drive back or push away. / Repousser","theme":"The Machine Stops"},
+  {"question":"Que signifie 'resent' ?","answer":"To feel bitterness or anger about something. / S'offusquer, être rancunier","theme":"The Machine Stops"},
+  {"question":"Que signifie 'sigh' ?","answer":"To exhale audibly, expressing sadness or relief. / Soupirer","theme":"The Machine Stops"},
+  {"question":"Que signifie 'soar' ?","answer":"To rise quickly or reach a high level. / S'élever, monter en flèche","theme":"The Machine Stops"},
+  {"question":"Que signifie 'steadily' ?","answer":"At a constant and consistent rate. / Constamment, régulièrement","theme":"The Machine Stops"},
+  {"question":"Que signifie 'stranded' ?","answer":"Left without the means to move from somewhere. / Bloqué, en rade","theme":"The Machine Stops"},
+  {"question":"Que signifie 'sway to and fro' ?","answer":"To move back and forth rhythmically. / Se balancer d'avant en arrière","theme":"The Machine Stops"},
+  {"question":"Que signifie 'tide' ?","answer":"The rise and fall of sea levels. / La marée","theme":"The Machine Stops"},
+  {"question":"Que signifie 'to be accounted for' ?","answer":"To be explained or justified. / Être justifié, expliqué","theme":"The Machine Stops"},
+  {"question":"Que signifie 'to be in touch with' ?","answer":"To maintain communication with someone. / Être en contact avec","theme":"The Machine Stops"},
+  {"question":"Que signifie 'to be out of hand' ?","answer":"To be unmanageable or out of control. / Être hors de contrôle","theme":"The Machine Stops"},
+  {"question":"Que signifie 'unrest' ?","answer":"A state of dissatisfaction or disturbance. / Agitation, troubles","theme":"The Machine Stops"},
+  {"question":"Que signifie 'uproar' ?","answer":"A state of noisy confusion or disturbance. / Tumulte, vacarme","theme":"The Machine Stops"},
+  {"question":"Que signifie 'wearily' ?","answer":"In a tired or exhausted manner. / Avec lassitude","theme":"The Machine Stops"},
+  {"question":"Que signifie 'well-bred' ?","answer":"Having or showing good manners and proper upbringing. / Bien élevé","theme":"The Machine Stops"},
+  {"question":"Que signifie 'afford' ?","answer":"To have enough money or resources to do or buy something. / Avoir les moyens de","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'appliances' ?","answer":"Devices or machines used in households to perform tasks. / Appareils électroménagers","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'bargain' ?","answer":"An agreement between two parties where both benefit, often involving a good deal. / Une bonne affaire","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'bare minimum' ?","answer":"The least amount necessary. / Le strict minimum","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'billboard' ?","answer":"A large outdoor board for displaying advertisements. / Panneau d'affichage","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'blade' ?","answer":"The flat, sharp-edged part of a tool or weapon. / Lame","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'bumper to bumper' ?","answer":"Referring to vehicles packed closely together in traffic. / Pare-chocs contre pare-chocs, embouteillage","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'crumb' ?","answer":"A small piece of food, especially from bread or cake. / Miette","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'damp' ?","answer":"Slightly wet. / Humide","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'dazzling' ?","answer":"Extremely bright or impressive. / Éblouissant","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'dully' ?","answer":"In a way that lacks brightness or interest. / Sourdement, de manière terne","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'frown' ?","answer":"A facial expression indicating disapproval, displeasure, or concentration. / Froncer les sourcils","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'free riding on the backs of others' ?","answer":"Benefiting from others' efforts without contributing oneself. / Profiter des autres, passager clandestin","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'gimmick' ?","answer":"A trick or device used to attract attention or increase sales. / Gadget, stratagème marketing","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'glad' ?","answer":"Feeling pleasure or happiness. / Content, heureux","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'grimly' ?","answer":"In a serious or gloomy manner. / Sévèrement, d'un air sombre","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'groundless' ?","answer":"Without any basis in fact; unfounded. / Sans fondement","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'gross national product' ?","answer":"The total value of goods and services produced by a country in a year. / Produit National Brut (PNB)","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'hedge' ?","answer":"A row of bushes or trees forming a boundary, or a strategy to minimize risk. / Haie, ou couverture contre les risques","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'hunch' ?","answer":"To bend the body forward. / Se courber, se voûter","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'intact' ?","answer":"Remaining whole or undamaged. / Intact, entier","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'junkyard' ?","answer":"A place where old or discarded items, especially vehicles, are collected. / Casse, dépotoir","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'leisure' ?","answer":"Free time for relaxation or enjoyment. / Loisir, temps libre","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'mutter' ?","answer":"To speak in a low and indistinct voice. / Marmonner, murmurer","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'noncommittally' ?","answer":"In a way that does not reveal a clear opinion or decision. / De façon évasive, sans s'engager","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'outline' ?","answer":"A general description or plan showing the main points. / Plan, grandes lignes","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'output' ?","answer":"The amount of something produced. / Production, rendement","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'offbeat' ?","answer":"Unconventional or unusual. / Décalé, insolite","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'pattern' ?","answer":"A repeated design or recurring sequence. / Motif, modèle","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'plant' ?","answer":"A building where goods are manufactured. / Usine","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'prey on' ?","answer":"To exploit or harm someone vulnerable. / S'en prendre à, exploiter","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'seal' ?","answer":"To close something securely. / Sceller, fermer hermétiquement","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'shift' ?","answer":"A set period during which employees work. / Quart de travail (ex: 3x8)","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'shrug' ?","answer":"To raise and lower the shoulders to express indifference or uncertainty. / Hausser les épaules","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'snub' ?","answer":"To treat someone coldly or dismissively. / Snober, ignorer","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'spare' ?","answer":"To give something that one has extra of or to refrain from harming. / Épargner, céder","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'sprawl' ?","answer":"To spread out irregularly. / S'étaler, s'étendre","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'straggle' ?","answer":"To move slowly and irregularly behind others. / Traîner à l'arrière","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'stuff' ?","answer":"Τo fill something tightly with items. / Fourrer, remplir","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'tag' ?","answer":"A label attached to something for identification. / Étiquette","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'tap' ?","answer":"To strike lightly or gain access to something. / Tapoter, exploiter","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'tire' ?","answer":"A rubber covering for a wheel. / Pneu","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'to trade something in' ?","answer":"To exchange something for credit or another item. / Échanger (pour crédit/réduction)","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'trim' ?","answer":"Neat, well-groomed, or slim. / Bien entretenu, soigné","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'trying to keep pace with' ?","answer":"Striving to move as quickly or progress equally with someone or something. / Essayer de suivre le rythme","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'weary' ?","answer":"In a tired or worn-out manner. / Fatigué, las","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'windshield' ?","answer":"The glass panel at the front of a vehicle. / Pare-brise","theme":"The Subliminal Man"},
+  {"question":"Que signifie 'a big-ticket purchase' ?","answer":"A very expensive item. / Un gros achat, un article très coûteux","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'a double whammy' ?","answer":"Two negative effects happening at the same time. / Une double peine","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'a sense of belonging' ?","answer":"Feeling accepted and included. / Un sentiment d'appartenance","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'acute' ?","answer":"Severe or intense. / Aigu, intense","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'address' ?","answer":"To deal with or speak about a particular issue. / Aborder, traiter un problème","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'advertisement' ?","answer":"A public notice promoting a product or service. / Publicité","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'assembly line' ?","answer":"A manufacturing process where a product is put together in a sequence. / Chaîne de montage","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'awestruck' ?","answer":"Filled with amazement or wonder. / Émerveillé, frappé de stupeur","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'belongings' ?","answer":"Personal possessions. / Affaires personnelles, biens","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'bleakness' ?","answer":"A state of being hopeless, empty, or without promise. / Morosité, tristesse","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'blame' ?","answer":"To hold someone responsible for a fault or mistake. / Blâmer, accuser","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'blunt' ?","answer":"Direct and without sugar-coating; not sharp. / Direct, franc, émoussé","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'brand-new' ?","answer":"Completely new and unused. / Flambant neuf","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'clunky' ?","answer":"Heavy, awkward, or outdated. / Lourd, maladroit, obsolète","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'discard' ?","answer":"To throw away or get rid of something that is no longer needed. / Jeter, se débarrasser de","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'dishes' ?","answer":"Plates, bowls, and utensils used for serving food. / Vaisselle","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'dumbfounded' ?","answer":"Greatly surprised or shocked. / Abasourdi, stupéfait","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'dispose' ?","answer":"To get rid of something, often in a specific way. / Éliminer, jeter","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'eco-friendly' ?","answer":"Not harmful to the environment. / Écologique","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'emphasize' ?","answer":"To give special importance to something in speech or writing. / Souligner, mettre l'accent sur","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'fix (prices)' ?","answer":"To illegally agree on a price with competitors instead of allowing market competition. / Fixer les prix illégalement","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'furniture' ?","answer":"Objects like tables, chairs, and sofas used in a home or office. / Meubles, mobilier","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'grab what you can' ?","answer":"Take as much as possible quickly. / Prends ce que tu peux, rafle tout","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'halt' ?","answer":"To stop or bring something to an end. / Stopper, arrêter","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'hard-wired' ?","answer":"Instinctively present in a person or system. / Inné, programmé instinctivement","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'herd' ?","answer":"A group of animals, such as cattle or sheep, that move together. / Troupeau","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'long-lasting' ?","answer":"Durable and enduring over time. / Durable, de longue durée","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'peak' ?","answer":"The highest point of something. / Sommet, apogée","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'perpetual' ?","answer":"Continuing indefinitely. / Perpétuel","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'pinnacle' ?","answer":"The most successful point or highest achievement. / Apogée, summum","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'relentless' ?","answer":"Unyielding and constant. / Implacable, incessant","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'sleek' ?","answer":"Smooth, stylish, and modern. / Lisse, élégant, profilé","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'stencil' ?","answer":"A template used to create a design or pattern. / Pochoir","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'strew' ?","answer":"To scatter or spread things untidily. / Éparpiller, joncher","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'stool' ?","answer":"A simple seat without a back or arms. / Tabouret","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'struggle' ?","answer":"To try very hard to do something difficult. / Lutter, se démener","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'supercharged' ?","answer":"Intensely powerful or enhanced. / Survolté, hyper puissant","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'suit' ?","answer":"A set of matching clothes, typically worn for formal occasions. / Costume","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'sustainability' ?","answer":"The ability to maintain something over time without harming the environment. / Durabilité","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'to be penned in' ?","answer":"To be confined or restricted. / Être enfermé, parqué","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'to chime with something' ?","answer":"To match or agree with something. / S'accorder avec, correspondre à","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'toil' ?","answer":"To work extremely hard, often in difficult conditions. / Labeur, travailler dur (trimer)","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'to keep something on the rails' ?","answer":"To ensure something continues smoothly. / Maintenir sur les bons rails","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'to lay the foundations' ?","answer":"To establish the basis for something. / Poser les fondations","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'to square the circle' ?","answer":"To achieve something seemingly impossible. / Résoudre la quadrature du cercle (faire l'impossible)","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'trailblazer' ?","answer":"A pioneer or innovator in a particular field. / Pionnier","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'turnover' ?","answer":"The rate at which employees leave and are replaced or the total revenue of a business. / Rotation du personnel ou chiffre d'affaires","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'usher in' ?","answer":"To mark the beginning of something new. / Marquer le début de, inaugurer","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'wage' ?","answer":"The money paid to a worker for their labor. / Salaire","theme":"The Men Who Made Us Spend"},
+  {"question":"Que signifie 'assumption' ?","answer":"A belief or idea accepted as true without proof. / Hypothèse, supposition","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'bank' ?","answer":"The land alongside a river. / Rive (d'un cours d'eau)","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'beefy' ?","answer":"Large, strong, or muscular. / Costaud, musclé","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'blink' ?","answer":"To quickly open and close the eyes. / Cligner des yeux","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'bulging' ?","answer":"Swelling outward. / Bombé, protubérant","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'bunk' ?","answer":"A narrow bed, often one stacked over another. / Couchette, lit superposé","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'clasp' ?","answer":"To grip tightly. / Étreindre, serrer fermement","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'cram' ?","answer":"To stuff something into a small space or to study intensely in a short time. / Fourrer, ou bachoter","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'cruiser' ?","answer":"A large vehicle or ship designed for travel. / Croiseur (véhicule/vaisseau)","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'damp' ?","answer":"Slightly wet or moist. / Humide","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'dim' ?","answer":"Not bright or clear. / Sombre, tamisé","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'doze' ?","answer":"To sleep lightly. / Somnoler","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'fern' ?","answer":"A green plant with feathery leaves. / Fougère","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'fidget' ?","answer":"To move restlessly out of nervousness or boredom. / Gigoter, s'agiter","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'glide' ?","answer":"To move smoothly and effortlessly. / Glisser, planer","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'grim' ?","answer":"Serious, gloomy, or harsh. / Sinistre, sombre, sévère","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'grove' ?","answer":"A small cluster of trees. / Bosquet, verger","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'gully' ?","answer":"A deep ditch or channel caused by water erosion. / Ravine, rigole","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'hatch' ?","answer":"A small opening, often with a door or cover. / Trappe, écoutille","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'interwoven' ?","answer":"Closely connected or blended together. / Entremêlé","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'jaw' ?","answer":"The lower part of the face that moves when talking or chewing. / Mâchoire","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'load' ?","answer":"A heavy amount of something that is carried or transported. / Chargement, charge","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'meadow' ?","answer":"A grassy field, often filled with flowers. / Prairie","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'quarters' ?","answer":"Living space, typically for military or workers. / Quartiers (logement)","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'repressed' ?","answer":"Held back or restrained, often referring to emotions. / Refoulé, réprimé","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'scrawl' ?","answer":"Messy or hurried handwriting. / Gribouillage","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'scramble' ?","answer":"To move quickly or clumsily, often in a hurry. / Se ruer, crapahuter","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'settle one's affairs' ?","answer":"To organize one's personal or financial matters. / Mettre de l'ordre dans ses affaires","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'sparkling' ?","answer":"Shining or giving off tiny flashes of light. / Étincelant","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'stride' ?","answer":"To walk with long, confident steps. / Marcher à grands pas","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'sunk' ?","answer":"Deeply embedded or collapsed inward. / Coulé, enfoncé","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'supple' ?","answer":"Flexible and able to move easily. / Souple, flexible","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'to do something on short notice' ?","answer":"To act with little warning or preparation. / Faire quelque chose au pied levé","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'to pace back and forth' ?","answer":"To walk repeatedly in one direction and then the opposite due to worry or impatience. / Faire les cent pas","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'to play hooky' ?","answer":"To skip school or work without permission. / Faire l'école buissonnière","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'to poke around' ?","answer":"To search casually or curiously. / Fouiner, fouiller","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'whir' ?","answer":"A low, continuous buzzing or humming sound. / Bourdonnement, vrombissement","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'wind' ?","answer":"To twist or wrap something around another object. / Enrouler, remonter","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'worthwhile' ?","answer":"Valuable or rewarding. / Qui en vaut la peine, gratifiant","theme":"Piper in the Woods"},
+  {"question":"Que signifie 'yawn' ?","answer":"To open one's mouth wide due to tiredness or boredom. / Bâiller","theme":"Piper in the Woods"}
+]
+    },
+    {
+        id: 'default-englishquiz',
+        title: 'Anglais Quiz',
         type: 'qcm',
         gradient: GRADIENTS[3].class,
-        order: -3,
+        order: -1,
         isPublic: true,
         cards: [
             // Anglais
@@ -273,7 +471,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Un vêtement.", "Un ensemble d'équipements ou d'outils pour un but précis.", "Une réunion de personnes.", "Une petite ouverture."],
             "correctAnswers": [1],
-            "explanation": "Apparatus: A set of equipment or tools used for a specific purpose. [cite: 22]",
+            "explanation": "Apparatus: A set of equipment or tools used for a specific purpose. ",
             "theme": "The Machine Stops"
         },
         {
@@ -281,7 +479,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "Applause: Approval or praise expressed by clapping. [cite: 24]",
+            "explanation": "Applause: Approval or praise expressed by clapping. ",
             "theme": "The Machine Stops"
         },
         {
@@ -289,7 +487,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Fier", "Honteux / Gêné", "Fatigué", "Fou"],
             "correctAnswers": [1],
-            "explanation": "Ashamed: Feeling embarrassed or guilty about something. [cite: 26]",
+            "explanation": "Ashamed: Feeling embarrassed or guilty about something. ",
             "theme": "The Machine Stops"
         },
         {
@@ -297,7 +495,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "Attendant: A person who provides a service or is present at an event. [cite: 27]",
+            "explanation": "Attendant: A person who provides a service or is present at an event. ",
             "theme": "The Machine Stops"
         },
         {
@@ -305,7 +503,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Sans limite / À un degré extrême", "Une petite quantité", "Mesurer une distance", "En retard"],
             "correctAnswers": [0],
-            "explanation": "Beyond measure: To an extreme or immeasurable degree. [cite: 29]",
+            "explanation": "Beyond measure: To an extreme or immeasurable degree. ",
             "theme": "The Machine Stops"
         },
         {
@@ -313,7 +511,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "Blunder: To make a careless or stupid mistake. [cite: 30]",
+            "explanation": "Blunder: To make a careless or stupid mistake. ",
             "theme": "The Machine Stops"
         },
         {
@@ -321,7 +519,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Mélanger", "Penser profondément à quelque chose qui rend malheureux", "Briser en morceaux", "S'envoler"],
             "correctAnswers": [1],
-            "explanation": "Brood: To think deeply about something that makes one unhappy. [cite: 32]",
+            "explanation": "Brood: To think deeply about something that makes one unhappy. ",
             "theme": "The Machine Stops"
         },
         {
@@ -329,7 +527,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "Careless: Not giving sufficient attention or thought to avoiding harm or errors. [cite: 33]",
+            "explanation": "Careless: Not giving sufficient attention or thought to avoiding harm or errors. ",
             "theme": "The Machine Stops"
         },
         {
@@ -337,7 +535,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Glad", "Concerned", "Wearily", "Well-bred"],
             "correctAnswers": [1],
-            "explanation": "Concerned: Worried or troubled about something. [cite: 35]",
+            "explanation": "Concerned: Worried or troubled about something. ",
             "theme": "The Machine Stops"
         },
         {
@@ -345,7 +543,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "Conduct: The manner in which a person behaves. [cite: 36]",
+            "explanation": "Conduct: The manner in which a person behaves. ",
             "theme": "The Machine Stops"
         },
         {
@@ -353,7 +551,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Construit solidement", "Brisé ou fracassé complètement", "Mis de côté", "Vendu rapidement"],
             "correctAnswers": [1],
-            "explanation": "Dashed to pieces: Broken or shattered completely. [cite: 37]",
+            "explanation": "Dashed to pieces: Broken or shattered completely. ",
             "theme": "The Machine Stops"
         },
         {
@@ -361,7 +559,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "Dim: Not bright or clear. [cite: 39]",
+            "explanation": "Dim: Not bright or clear. ",
             "theme": "The Machine Stops"
         },
         {
@@ -369,7 +567,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Disregard", "Drag", "Mend", "Peep"],
             "correctAnswers": [0],
-            "explanation": "Disregard: To ignore or pay no attention to. [cite: 41]",
+            "explanation": "Disregard: To ignore or pay no attention to. ",
             "theme": "The Machine Stops"
         },
         {
@@ -377,7 +575,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "Drag: To pull something or someone along forcefully. [cite: 43]",
+            "explanation": "Drag: To pull something or someone along forcefully. ",
             "theme": "The Machine Stops"
         },
         {
@@ -385,7 +583,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["De manière injuste", "À un degré modérément élevé", "Rarement", "Complètement"],
             "correctAnswers": [1],
-            "explanation": "Fairly: To a moderately high degree. [cite: 44]",
+            "explanation": "Fairly: To a moderately high degree. ",
             "theme": "The Machine Stops"
         },
         {
@@ -393,7 +591,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "Faint: Weak, light, or barely perceptible. [cite: 46]",
+            "explanation": "Faint: Weak, light, or barely perceptible. ",
             "theme": "The Machine Stops"
         },
         {
@@ -401,7 +599,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Une pièce d'équipement", "Une pièce de vêtement", "Un déchet", "Un outil"],
             "correctAnswers": [1],
-            "explanation": "Garment: A piece of clothing. [cite: 47]",
+            "explanation": "Garment: A piece of clothing. ",
             "theme": "The Machine Stops"
         },
         {
@@ -409,7 +607,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "Gasp: To inhale suddenly with the mouth open, usually in shock or surprise. [cite: 49]",
+            "explanation": "Gasp: To inhale suddenly with the mouth open, usually in shock or surprise. ",
             "theme": "The Machine Stops"
         },
         {
@@ -417,7 +615,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Hive", "Lump", "Gathering", "Tide"],
             "correctAnswers": [2],
-            "explanation": "Gathering: A meeting or assembly of people. [cite: 51]",
+            "explanation": "Gathering: A meeting or assembly of people. ",
             "theme": "The Machine Stops"
         },
         {
@@ -425,7 +623,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "Hive: A structure for housing bees or a busy, crowded place. [cite: 53]",
+            "explanation": "Hive: A structure for housing bees or a busy, crowded place. ",
             "theme": "The Machine Stops"
         },
         {
@@ -433,7 +631,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Une charnière", "Une serrure", "Un mur", "Un toit"],
             "correctAnswers": [0],
-            "explanation": "Hinge: A joint or mechanism that allows a door or lid to swing open and shut. [cite: 55]",
+            "explanation": "Hinge: A joint or mechanism that allows a door or lid to swing open and shut. ",
             "theme": "The Machine Stops"
         },
         {
@@ -441,7 +639,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "Imponderable: Difficult or impossible to estimate or understand. [cite: 57]",
+            "explanation": "Imponderable: Difficult or impossible to estimate or understand. ",
             "theme": "The Machine Stops"
         },
         {
@@ -449,7 +647,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Ignorer", "Avancer à la même vitesse que", "Ralentir", "S'arrêter complètement"],
             "correctAnswers": [1],
-            "explanation": "Keep pace with: To progress or move at the same speed as someone or something. [cite: 58]",
+            "explanation": "Keep pace with: To progress or move at the same speed as someone or something. ",
             "theme": "The Machine Stops"
         },
         {
@@ -457,7 +655,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "Latent: Existing but not yet developed or visible. [cite: 60]",
+            "explanation": "Latent: Existing but not yet developed or visible. ",
             "theme": "The Machine Stops"
         },
         {
@@ -465,7 +663,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Une lecture silencieuse", "Un discours formel pour enseigner (une conférence)", "Une punition", "Un livre"],
             "correctAnswers": [1],
-            "explanation": "Lecture: A formal talk given to teach or explain something. [cite: 61]",
+            "explanation": "Lecture: A formal talk given to teach or explain something. ",
             "theme": "The Machine Stops"
         },
         {
@@ -473,7 +671,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "Litter: Trash left in an open or public place. [cite: 63]",
+            "explanation": "Litter: Trash left in an open or public place. ",
             "theme": "The Machine Stops"
         },
         {
@@ -481,7 +679,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Une masse compacte ou un morceau", "Une lumière brillante", "Une erreur stupide", "Une émotion forte"],
             "correctAnswers": [0],
-            "explanation": "Lump: A compact mass or piece of something. [cite: 64]",
+            "explanation": "Lump: A compact mass or piece of something. ",
             "theme": "The Machine Stops"
         },
         {
@@ -489,7 +687,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "Mad: Completely unrestrained by reason; unable to think clearly. [cite: 65]",
+            "explanation": "Mad: Completely unrestrained by reason; unable to think clearly. ",
             "theme": "The Machine Stops"
         },
         {
@@ -497,7 +695,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Détruire", "Ignorer", "Réparer ce qui est cassé", "Mélanger"],
             "correctAnswers": [2],
-            "explanation": "Mend: To repair something that is broken or damaged. [cite: 66]",
+            "explanation": "Mend: To repair something that is broken or damaged. ",
             "theme": "The Machine Stops"
         },
         {
@@ -505,7 +703,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "Mingle: To mix or blend. [cite: 68]",
+            "explanation": "Mingle: To mix or blend. ",
             "theme": "The Machine Stops"
         },
         {
@@ -513,7 +711,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Outright", "Outburst", "Uproar", "Unrest"],
             "correctAnswers": [1],
-            "explanation": "Outburst: A sudden release of strong emotion. [cite: 70]",
+            "explanation": "Outburst: A sudden release of strong emotion. ",
             "theme": "The Machine Stops"
         },
         {
@@ -521,7 +719,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "Outright: Completely or without reservation. [cite: 72]",
+            "explanation": "Outright: Completely or without reservation. ",
             "theme": "The Machine Stops"
         },
         {
@@ -529,7 +727,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["En dépit de", "À cause de / En raison de", "Afin de", "Contrairement à"],
             "correctAnswers": [1],
-            "explanation": "Owing to: Because of or due to. [cite: 73]",
+            "explanation": "Owing to: Because of or due to. ",
             "theme": "The Machine Stops"
         },
         {
@@ -537,7 +735,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "Peep: To look quickly or secretly at something. [cite: 74]",
+            "explanation": "Peep: To look quickly or secretly at something. ",
             "theme": "The Machine Stops"
         },
         {
@@ -545,7 +743,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Une insulte", "Une prière silencieuse", "Des expressions d'approbation ou d'admiration", "Une punition"],
             "correctAnswers": [2],
-            "explanation": "Praise: Expressions of approval or admiration. [cite: 76]",
+            "explanation": "Praise: Expressions of approval or admiration. ",
             "theme": "The Machine Stops"
         },
         {
@@ -553,7 +751,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "Repel: To drive back or push away. [cite: 78]",
+            "explanation": "Repel: To drive back or push away. ",
             "theme": "The Machine Stops"
         },
         {
@@ -561,7 +759,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Renvoyer", "Ressentir de l'amertume ou de la colère à propos de quelque chose", "Se réjouir", "Accepter calmement"],
             "correctAnswers": [1],
-            "explanation": "Resent: To feel bitterness or anger about something. [cite: 80]",
+            "explanation": "Resent: To feel bitterness or anger about something. ",
             "theme": "The Machine Stops"
         },
         {
@@ -569,7 +767,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "Sigh: To exhale audibly, expressing sadness or relief. [cite: 81]",
+            "explanation": "Sigh: To exhale audibly, expressing sadness or relief. ",
             "theme": "The Machine Stops"
         },
         {
@@ -577,7 +775,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Soar", "Sway", "Drag", "Peep"],
             "correctAnswers": [0],
-            "explanation": "Soar: To rise quickly or reach a high level. [cite: 82]",
+            "explanation": "Soar: To rise quickly or reach a high level. ",
             "theme": "The Machine Stops"
         },
         {
@@ -585,7 +783,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "Steadily: At a constant and consistent rate. [cite: 83]",
+            "explanation": "Steadily: At a constant and consistent rate. ",
             "theme": "The Machine Stops"
         },
         {
@@ -593,7 +791,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Heureux", "Laissé sans moyen de bouger de quelque part (coincé)", "En voyage", "Bien habillé"],
             "correctAnswers": [1],
-            "explanation": "Stranded: Left without the means to move from somewhere. [cite: 85]",
+            "explanation": "Stranded: Left without the means to move from somewhere. ",
             "theme": "The Machine Stops"
         },
         {
@@ -601,7 +799,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "Sway to and fro: To move back and forth rhythmically. [cite: 87]",
+            "explanation": "Sway to and fro: To move back and forth rhythmically. ",
             "theme": "The Machine Stops"
         },
         {
@@ -609,7 +807,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["La saleté", "La marée (montée et descente du niveau de la mer)", "Le temps", "Un outil de nettoyage"],
             "correctAnswers": [1],
-            "explanation": "Tide: The rise and fall of sea levels. [cite: 89]",
+            "explanation": "Tide: The rise and fall of sea levels. ",
             "theme": "The Machine Stops"
         },
         {
@@ -617,7 +815,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "To be accounted for: To be explained or justified. [cite: 91]",
+            "explanation": "To be accounted for: To be explained or justified. ",
             "theme": "The Machine Stops"
         },
         {
@@ -625,7 +823,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Perdre contact", "Maintenir la communication avec quelqu'un", "Toucher physiquement", "Être en retard"],
             "correctAnswers": [1],
-            "explanation": "To be in touch with: To maintain communication with someone. [cite: 93]",
+            "explanation": "To be in touch with: To maintain communication with someone. ",
             "theme": "The Machine Stops"
         },
         {
@@ -633,7 +831,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "To be out of hand: To be unmanageable or out of control. [cite: 95]",
+            "explanation": "To be out of hand: To be unmanageable or out of control. ",
             "theme": "The Machine Stops"
         },
         {
@@ -641,7 +839,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Uproar", "Unrest", "Gathering", "Outburst"],
             "correctAnswers": [1],
-            "explanation": "Unrest: A state of dissatisfaction or disturbance. [cite: 97]",
+            "explanation": "Unrest: A state of dissatisfaction or disturbance. ",
             "theme": "The Machine Stops"
         },
         {
@@ -649,7 +847,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "Uproar: A state of noisy confusion or disturbance. [cite: 98]",
+            "explanation": "Uproar: A state of noisy confusion or disturbance. ",
             "theme": "The Machine Stops"
         },
         {
@@ -657,7 +855,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["De manière joyeuse", "De manière fatiguée ou épuisée", "Rapidement", "Silencieusement"],
             "correctAnswers": [1],
-            "explanation": "Wearily: In a tired or exhausted manner. [cite: 100]",
+            "explanation": "Wearily: In a tired or exhausted manner. ",
             "theme": "The Machine Stops"
         },
         {
@@ -665,7 +863,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "Well-bred: Having or showing good manners and proper upbringing. [cite: 102]",
+            "explanation": "Well-bred: Having or showing good manners and proper upbringing. ",
             "theme": "The Machine Stops"
         },
         {
@@ -673,7 +871,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Ignorer", "Avoir assez d'argent ou de ressources pour acheter/faire quelque chose", "Faire un effort", "Travailler dur"],
             "correctAnswers": [1],
-            "explanation": "afford: To have enough money or resources to do or buy something. [cite: 123]",
+            "explanation": "afford: To have enough money or resources to do or buy something. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -681,7 +879,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "appliances: Devices or machines used in households to perform tasks. [cite: 125]",
+            "explanation": "appliances: Devices or machines used in households to perform tasks. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -689,7 +887,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Une arnaque", "Un accord mutuel avantageux, souvent une bonne affaire", "Un bateau", "Une erreur"],
             "correctAnswers": [1],
-            "explanation": "bargain: An agreement between two parties where both benefit, often involving a good deal. [cite: 127]",
+            "explanation": "bargain: An agreement between two parties where both benefit, often involving a good deal. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -697,7 +895,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "bare minimum: The least amount necessary. [cite: 129]",
+            "explanation": "bare minimum: The least amount necessary. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -705,7 +903,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Une facture d'électricité", "Un grand panneau d'affichage publicitaire", "Un tableau noir", "Une planche de bois"],
             "correctAnswers": [1],
-            "explanation": "billboard: A large outdoor board for displaying advertisements. [cite: 131]",
+            "explanation": "billboard: A large outdoor board for displaying advertisements. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -713,7 +911,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "blade: The flat, sharp-edged part of a tool or weapon. [cite: 133]",
+            "explanation": "blade: The flat, sharp-edged part of a tool or weapon. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -721,7 +919,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Un accident de voiture", "Des véhicules tassés de très près dans les embouteillages", "Un nouveau modèle de voiture", "Une course de vitesse"],
             "correctAnswers": [1],
-            "explanation": "bumper to bumper: Referring to vehicles packed closely together in traffic. [cite: 135]",
+            "explanation": "bumper to bumper: Referring to vehicles packed closely together in traffic. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -729,7 +927,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "crumb: A small piece of food, especially from bread or cake. [cite: 137]",
+            "explanation": "crumb: A small piece of food, especially from bread or cake. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -737,7 +935,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Brillant", "Totalement sec", "Légèrement mouillé / Humide", "Froid"],
             "correctAnswers": [2],
-            "explanation": "damp: Slightly wet. [cite: 139]",
+            "explanation": "damp: Slightly wet. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -745,7 +943,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "dazzling: Extremely bright or impressive. [cite: 141]",
+            "explanation": "dazzling: Extremely bright or impressive. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -753,7 +951,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["De manière ennuyeuse ou sans éclat", "Avec une grande intelligence", "Très rapidement", "En cachette"],
             "correctAnswers": [0],
-            "explanation": "dully: In a way that lacks brightness or interest. [cite: 143]",
+            "explanation": "dully: In a way that lacks brightness or interest. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -761,7 +959,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "frown: A facial expression indicating disapproval, displeasure, or concentration (froncer les sourcils). [cite: 145]",
+            "explanation": "frown: A facial expression indicating disapproval, displeasure, or concentration (froncer les sourcils). ",
             "theme": "The Subliminal Man"
         },
         {
@@ -769,7 +967,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Faire du cheval", "Profiter des efforts des autres sans contribuer soi-même", "Travailler bénévolement", "Aider ses amis"],
             "correctAnswers": [1],
-            "explanation": "free riding on the backs of others: Benefiting from others' efforts without contributing oneself. [cite: 147]",
+            "explanation": "free riding on the backs of others: Benefiting from others' efforts without contributing oneself. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -777,7 +975,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "gimmick: A trick or device used to attract attention or increase sales. [cite: 149]",
+            "explanation": "gimmick: A trick or device used to attract attention or increase sales. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -785,7 +983,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Triste", "Ressentir du plaisir ou de la joie (content)", "Malade", "Perdu"],
             "correctAnswers": [1],
-            "explanation": "glad: Feeling pleasure or happiness. [cite: 151]",
+            "explanation": "glad: Feeling pleasure or happiness. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -793,7 +991,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "grimly: In a serious or gloomy manner. [cite: 152]",
+            "explanation": "grimly: In a serious or gloomy manner. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -801,7 +999,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Sans fondement (sans base factuelle)", "Au niveau du sol", "Très lourd", "Sûr et certain"],
             "correctAnswers": [0],
-            "explanation": "groundless: Without any basis in fact; unfounded. [cite: 153]",
+            "explanation": "groundless: Without any basis in fact; unfounded. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -809,7 +1007,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "gross national product: The total value of goods and services produced by a country in a year. [cite: 155]",
+            "explanation": "gross national product: The total value of goods and services produced by a country in a year. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -817,7 +1015,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Une clôture en métal", "Une haie (buissons) ou une stratégie pour minimiser les risques", "Une petite maison", "Un compte en banque"],
             "correctAnswers": [1],
-            "explanation": "hedge: A row of bushes or trees forming a boundary, or a strategy to minimize risk. [cite: 157]",
+            "explanation": "hedge: A row of bushes or trees forming a boundary, or a strategy to minimize risk. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -825,7 +1023,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "hunch: To bend the body forward. [cite: 159]",
+            "explanation": "hunch: To bend the body forward. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -833,7 +1031,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Détruit", "Resté entier ou non endommagé", "En morceaux", "Malade"],
             "correctAnswers": [1],
-            "explanation": "intact: Remaining whole or undamaged. [cite: 161]",
+            "explanation": "intact: Remaining whole or undamaged. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -841,7 +1039,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "junkyard: A place where old or discarded items, especially vehicles, are collected. [cite: 163]",
+            "explanation": "junkyard: A place where old or discarded items, especially vehicles, are collected. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -849,7 +1047,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Le travail acharné", "Du temps libre pour la détente", "Un vêtement de sport", "Une sanction"],
             "correctAnswers": [1],
-            "explanation": "leisure: Free time for relaxation or enjoyment. [cite: 165]",
+            "explanation": "leisure: Free time for relaxation or enjoyment. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -857,7 +1055,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "mutter: To speak in a low and indistinct voice (marmonner). [cite: 166]",
+            "explanation": "mutter: To speak in a low and indistinct voice (marmonner). ",
             "theme": "The Subliminal Man"
         },
         {
@@ -865,7 +1063,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["De manière très engagée", "D'une manière qui ne révèle pas d'opinion claire (évasivement)", "Agricole", "Ici et là"],
             "correctAnswers": [1],
-            "explanation": "noncommittally: In a way that does not reveal a clear opinion or decision. [cite: 167]",
+            "explanation": "noncommittally: In a way that does not reveal a clear opinion or decision. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -873,7 +1071,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "outline: A general description or plan showing the main points. [cite: 169]",
+            "explanation": "outline: A general description or plan showing the main points. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -881,7 +1079,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["La quantité de quelque chose de produit (le rendement/la sortie)", "Une porte de sortie", "Une prise de courant", "Une erreur"],
             "correctAnswers": [0],
-            "explanation": "output: The amount of something produced. [cite: 171]",
+            "explanation": "output: The amount of something produced. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -889,7 +1087,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "offbeat: Unconventional or unusual. [cite: 172]",
+            "explanation": "offbeat: Unconventional or unusual. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -897,7 +1095,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Un patron de l'entreprise", "Un design répété ou une séquence récurrente (un motif)", "Un outil de jardin", "Un animal"],
             "correctAnswers": [1],
-            "explanation": "pattern: A repeated design or recurring sequence. [cite: 174]",
+            "explanation": "pattern: A repeated design or recurring sequence. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -905,7 +1103,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "plant: A building where goods are manufactured. [cite: 175]",
+            "explanation": "plant: A building where goods are manufactured. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -913,7 +1111,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Prier pour quelqu'un", "Exploiter ou blesser quelqu'un de vulnérable (s'en prendre à)", "Manger de l'herbe", "Jouer à un jeu"],
             "correctAnswers": [1],
-            "explanation": "prey on: To exploit or harm someone vulnerable. [cite: 176]",
+            "explanation": "prey on: To exploit or harm someone vulnerable. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -921,7 +1119,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "seal: To close something securely (sceller). [cite: 177]",
+            "explanation": "seal: To close something securely (sceller). ",
             "theme": "The Subliminal Man"
         },
         {
@@ -929,7 +1127,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Un vêtement de sécurité", "Une période définie pendant laquelle les employés travaillent", "Un bouton d'ordinateur", "Une promotion"],
             "correctAnswers": [1],
-            "explanation": "shift: A set period during which employees work. [cite: 178]",
+            "explanation": "shift: A set period during which employees work. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -937,7 +1135,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "shrug: To raise and lower the shoulders to express indifference or uncertainty. [cite: 179]",
+            "explanation": "shrug: To raise and lower the shoulders to express indifference or uncertainty. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -945,7 +1143,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Couper court", "Traiter quelqu'un froidement ou le snober", "Aider quelqu'un", "Dormir profondément"],
             "correctAnswers": [1],
-            "explanation": "snub: To treat someone coldly or dismissively. [cite: 181]",
+            "explanation": "snub: To treat someone coldly or dismissively. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -953,7 +1151,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "spare: To give something that one has extra of or to refrain from harming (épargner/accorder). [cite: 182]",
+            "explanation": "spare: To give something that one has extra of or to refrain from harming (épargner/accorder). ",
             "theme": "The Subliminal Man"
         },
         {
@@ -961,7 +1159,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Courir vite", "S'étaler de manière irrégulière", "Crier fort", "Nettoyer"],
             "correctAnswers": [1],
-            "explanation": "sprawl: To spread out irregularly. [cite: 184]",
+            "explanation": "sprawl: To spread out irregularly. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -969,7 +1167,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "straggle: To move slowly and irregularly behind others (traîner derrière). [cite: 185]",
+            "explanation": "straggle: To move slowly and irregularly behind others (traîner derrière). ",
             "theme": "The Subliminal Man"
         },
         {
@@ -977,7 +1175,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Vider complètement", "Remplir quelque chose fermement (fourrer)", "Cuisiner", "Étudier"],
             "correctAnswers": [1],
-            "explanation": "stuff: To fill something tightly with items. [cite: 187]",
+            "explanation": "stuff: To fill something tightly with items. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -985,7 +1183,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "tag: A label attached to something for identification. [cite: 188]",
+            "explanation": "tag: A label attached to something for identification. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -993,7 +1191,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Boire de l'eau", "Frapper légèrement", "Déchirer", "Danser"],
             "correctAnswers": [1],
-            "explanation": "tap: To strike lightly or gain access to something. [cite: 189]",
+            "explanation": "tap: To strike lightly or gain access to something. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -1001,7 +1199,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "tire: A rubber covering for a wheel (un pneu). [cite: 191]",
+            "explanation": "tire: A rubber covering for a wheel (un pneu). ",
             "theme": "The Subliminal Man"
         },
         {
@@ -1009,7 +1207,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Voler quelque chose", "Échanger quelque chose contre un crédit ou un autre article", "Jeter à la poubelle", "Collectionner"],
             "correctAnswers": [1],
-            "explanation": "to trade something in: To exchange something for credit or another item. [cite: 193]",
+            "explanation": "to trade something in: To exchange something for credit or another item. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -1017,7 +1215,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "trim: Neat, well-groomed, or slim. [cite: 195]",
+            "explanation": "trim: Neat, well-groomed, or slim. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -1025,7 +1223,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Essayer de courir plus vite", "S'efforcer d'avancer aussi vite qu'un autre (suivre le rythme)", "Marcher lentement", "Ne pas s'en soucier"],
             "correctAnswers": [1],
-            "explanation": "trying to keep pace with: Striving to move as quickly or progress equally with someone or something. [cite: 197]",
+            "explanation": "trying to keep pace with: Striving to move as quickly or progress equally with someone or something. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -1033,7 +1231,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "weary: In a tired or worn-out manner. [cite: 199]",
+            "explanation": "weary: In a tired or worn-out manner. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -1041,7 +1239,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Le volant", "Le pot d'échappement", "Le pare-brise (vitre avant d'un véhicule)", "Un essuie-glace"],
             "correctAnswers": [2],
-            "explanation": "windshield: The glass panel at the front of a vehicle. [cite: 201]",
+            "explanation": "windshield: The glass panel at the front of a vehicle. ",
             "theme": "The Subliminal Man"
         },
         {
@@ -1049,7 +1247,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Un billet de cinéma", "Un objet très coûteux (un gros achat)", "Un billet d'avion", "Un achat impulsif"],
             "correctAnswers": [1],
-            "explanation": "a big-ticket purchase: A very expensive item. [cite: 204]",
+            "explanation": "a big-ticket purchase: A very expensive item. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1057,7 +1255,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "a double whammy: Two negative effects happening at the same time (une double peine). [cite: 206]",
+            "explanation": "a double whammy: Two negative effects happening at the same time (une double peine). ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1065,7 +1263,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Un sentiment de rejet", "Un sentiment d'appartenance (être accepté)", "L'envie de posséder", "La perte de ses affaires"],
             "correctAnswers": [1],
-            "explanation": "a sense of belonging: Feeling accepted and included. [cite: 208]",
+            "explanation": "a sense of belonging: Feeling accepted and included. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1073,7 +1271,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "acute: Severe or intense (sévère, intense). [cite: 210]",
+            "explanation": "acute: Severe or intense (sévère, intense). ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1081,7 +1279,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Mettre une lettre à la poste", "Faire face ou traiter un problème particulier", "S'habiller", "Ignorer"],
             "correctAnswers": [1],
-            "explanation": "address: To deal with or speak about a particular issue. [cite: 212]",
+            "explanation": "address: To deal with or speak about a particular issue. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1089,7 +1287,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "advertisement: A public notice promoting a product or service. [cite: 214]",
+            "explanation": "advertisement: A public notice promoting a product or service. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1097,7 +1295,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Une ligne de code", "Une ligne d'attente", "Une chaîne de montage", "Une réunion politique"],
             "correctAnswers": [2],
-            "explanation": "assembly line: A manufacturing process where a product is put together in a sequence. [cite: 216]",
+            "explanation": "assembly line: A manufacturing process where a product is put together in a sequence. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1105,7 +1303,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "awestruck: Filled with amazement or wonder. [cite: 218]",
+            "explanation": "awestruck: Filled with amazement or wonder. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1113,7 +1311,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Des membres de la famille", "Des possessions personnelles (des affaires)", "Des sentiments de tristesse", "Des désirs"],
             "correctAnswers": [1],
-            "explanation": "belongings: Personal possessions. [cite: 219]",
+            "explanation": "belongings: Personal possessions. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1121,7 +1319,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "bleakness: A state of being hopeless, empty, or without promise (morosité). [cite: 221]",
+            "explanation": "bleakness: A state of being hopeless, empty, or without promise (morosité). ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1129,7 +1327,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Louer quelqu'un", "Tenir quelqu'un pour responsable d'une faute (blâmer)", "Ignorer", "Aimer"],
             "correctAnswers": [1],
-            "explanation": "blame: To hold someone responsible for a fault or mistake. [cite: 223]",
+            "explanation": "blame: To hold someone responsible for a fault or mistake. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1137,7 +1335,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "blunt: Direct and without sugar-coating; not sharp. [cite: 224]",
+            "explanation": "blunt: Direct and without sugar-coating; not sharp. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1145,7 +1343,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Une vieille marque", "Totalement neuf et jamais utilisé", "Très connu", "Un produit de luxe"],
             "correctAnswers": [1],
-            "explanation": "brand-new: Completely new and unused. [cite: 225]",
+            "explanation": "brand-new: Completely new and unused. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1153,7 +1351,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "clunky: Heavy, awkward, or outdated (maladroit, lourd). [cite: 226]",
+            "explanation": "clunky: Heavy, awkward, or outdated (maladroit, lourd). ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1161,7 +1359,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Jouer aux cartes", "Jeter ou se débarrasser de quelque chose d'inutile", "Acheter en masse", "Garder précieusement"],
             "correctAnswers": [1],
-            "explanation": "discard: To throw away or get rid of something that is no longer needed. [cite: 227]",
+            "explanation": "discard: To throw away or get rid of something that is no longer needed. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1169,7 +1367,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "dishes: Plates, bowls, and utensils used for serving food. [cite: 229]",
+            "explanation": "dishes: Plates, bowls, and utensils used for serving food. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1177,7 +1375,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Être très surpris ou choqué (abasourdi)", "Être très intelligent", "Ne pas pouvoir parler", "Trouver quelque chose"],
             "correctAnswers": [0],
-            "explanation": "dumbfounded: Greatly surprised or shocked. [cite: 230]",
+            "explanation": "dumbfounded: Greatly surprised or shocked. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1185,7 +1383,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "dispose: To get rid of something, often in a specific way. [cite: 231]",
+            "explanation": "dispose: To get rid of something, often in a specific way. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1193,7 +1391,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Un ami de l'économie", "Pas cher", "Non nocif pour l'environnement (écolo)", "Un sac en plastique"],
             "correctAnswers": [2],
-            "explanation": "eco-friendly: Not harmful to the environment. [cite: 232]",
+            "explanation": "eco-friendly: Not harmful to the environment. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1201,7 +1399,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "emphasize: To give special importance to something in speech or writing. [cite: 234]",
+            "explanation": "emphasize: To give special importance to something in speech or writing. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1209,7 +1407,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Réparer une étiquette", "S'entendre illégalement sur les prix avec la concurrence", "Baisser les prix", "Augmenter les salaires"],
             "correctAnswers": [1],
-            "explanation": "fix (prices): To illegally agree on a price with competitors instead of allowing market competition. [cite: 236]",
+            "explanation": "fix (prices): To illegally agree on a price with competitors instead of allowing market competition. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1217,7 +1415,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "furniture: Objects like tables, chairs, and sofas used in a home or office. [cite: 238]",
+            "explanation": "furniture: Objects like tables, chairs, and sofas used in a home or office. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1225,7 +1423,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Prendre son temps", "Attraper tout ce qui est possible le plus vite possible", "Partager avec les autres", "Mettre dans une boîte"],
             "correctAnswers": [1],
-            "explanation": "grab what you can: Take as much as possible quickly. [cite: 240]",
+            "explanation": "grab what you can: Take as much as possible quickly. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1233,7 +1431,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "halt: To stop or bring something to an end (stopper). [cite: 242]",
+            "explanation": "halt: To stop or bring something to an end (stopper). ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1241,7 +1439,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Un fil très dur", "Programmé instinctivement dans une personne ou un système", "Un problème informatique", "Une connexion internet"],
             "correctAnswers": [1],
-            "explanation": "hard-wired: Instinctively present in a person or system. [cite: 243]",
+            "explanation": "hard-wired: Instinctively present in a person or system. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1249,7 +1447,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "herd: A group of animals, such as cattle or sheep, that move together. [cite: 245]",
+            "explanation": "herd: A group of animals, such as cattle or sheep, that move together. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1257,7 +1455,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Très grand", "Durable dans le temps", "La fin de quelque chose", "Rapide"],
             "correctAnswers": [1],
-            "explanation": "long-lasting: Durable and enduring over time. [cite: 247]",
+            "explanation": "long-lasting: Durable and enduring over time. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1265,7 +1463,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "peak: The highest point of something (le sommet). [cite: 249]",
+            "explanation": "peak: The highest point of something (le sommet). ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1273,7 +1471,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Temporaire", "Qui s'arrête vite", "Qui continue indéfiniment (perpétuel)", "Bruyant"],
             "correctAnswers": [2],
-            "explanation": "perpetual: Continuing indefinitely. [cite: 251]",
+            "explanation": "perpetual: Continuing indefinitely. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1281,7 +1479,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "pinnacle: The most successful point or highest achievement. [cite: 253]",
+            "explanation": "pinnacle: The most successful point or highest achievement. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1289,7 +1487,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Détendu", "Implacable, qui ne cède pas (incessant)", "Paresseux", "Fragile"],
             "correctAnswers": [1],
-            "explanation": "relentless: Unyielding and constant. [cite: 255]",
+            "explanation": "relentless: Unyielding and constant. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1297,7 +1495,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "sleek: Smooth, stylish, and modern (élégant, profilé). [cite: 257]",
+            "explanation": "sleek: Smooth, stylish, and modern (élégant, profilé). ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1305,7 +1503,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Un crayon", "Un pochoir utilisé pour créer un motif", "Une feuille de papier", "Un pot de peinture"],
             "correctAnswers": [1],
-            "explanation": "stencil: A template used to create a design or pattern. [cite: 259]",
+            "explanation": "stencil: A template used to create a design or pattern. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1313,7 +1511,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "strew: To scatter or spread things untidily. [cite: 261]",
+            "explanation": "strew: To scatter or spread things untidily. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1321,7 +1519,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Un tabouret (siège sans dossier)", "Un outil de jardinage", "Une table basse", "Un tapis"],
             "correctAnswers": [0],
-            "explanation": "stool: A simple seat without a back or arms. [cite: 263]",
+            "explanation": "stool: A simple seat without a back or arms. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1329,7 +1527,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "struggle: To try very hard to do something difficult (lutter). [cite: 265]",
+            "explanation": "struggle: To try very hard to do something difficult (lutter). ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1337,7 +1535,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Sans batterie", "Très cher", "Intensément puissant ou amélioré (survolté)", "Lent"],
             "correctAnswers": [2],
-            "explanation": "supercharged: Intensely powerful or enhanced. [cite: 267]",
+            "explanation": "supercharged: Intensely powerful or enhanced. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1345,7 +1543,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "suit: A set of matching clothes, typically worn for formal occasions. [cite: 269]",
+            "explanation": "suit: A set of matching clothes, typically worn for formal occasions. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1353,7 +1551,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["La destruction", "La capacité de se maintenir sans nuire à l'environnement (durabilité)", "La vitesse", "La consommation"],
             "correctAnswers": [1],
-            "explanation": "sustainability: The ability to maintain something over time without harming the environment. [cite: 271]",
+            "explanation": "sustainability: The ability to maintain something over time without harming the environment. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1361,7 +1559,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "to be penned in: To be confined or restricted (être parqué/enfermé). [cite: 273]",
+            "explanation": "to be penned in: To be confined or restricted (être parqué/enfermé). ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1369,7 +1567,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Sonner une cloche", "Correspondre ou être en accord avec quelque chose", "Casser quelque chose", "Se disputer"],
             "correctAnswers": [1],
-            "explanation": "to chime with something: To match or agree with something. [cite: 275]",
+            "explanation": "to chime with something: To match or agree with something. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1377,7 +1575,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "toil: To work extremely hard, often in difficult conditions. [cite: 277]",
+            "explanation": "toil: To work extremely hard, often in difficult conditions. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1385,7 +1583,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Prendre le train", "Faire dérailler un projet", "S'assurer que quelque chose continue à bien se dérouler", "Laisser tomber"],
             "correctAnswers": [2],
-            "explanation": "to keep something on the rails: To ensure something continues smoothly. [cite: 279]",
+            "explanation": "to keep something on the rails: To ensure something continues smoothly. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1393,7 +1591,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "to lay the foundations: To establish the basis for something. [cite: 281]",
+            "explanation": "to lay the foundations: To establish the basis for something. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1401,7 +1599,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Dessiner des formes", "Tenter d'accomplir quelque chose qui semble impossible (la quadrature du cercle)", "Tourner en rond", "Faire du sport"],
             "correctAnswers": [1],
-            "explanation": "to square the circle: To achieve something seemingly impossible. [cite: 283]",
+            "explanation": "to square the circle: To achieve something seemingly impossible. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1409,7 +1607,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "trailblazer: A pioneer or innovator in a particular field. [cite: 285]",
+            "explanation": "trailblazer: A pioneer or innovator in a particular field. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1417,7 +1615,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Se retourner dans son lit", "Le taux de renouvellement des employés ou le chiffre d'affaires", "Un vêtement d'hiver", "Une voiture décapotable"],
             "correctAnswers": [1],
-            "explanation": "turnover: The rate at which employees leave and are replaced or the total revenue of a business. [cite: 287]",
+            "explanation": "turnover: The rate at which employees leave and are replaced or the total revenue of a business. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1425,7 +1623,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "usher in: To mark the beginning of something new. [cite: 289]",
+            "explanation": "usher in: To mark the beginning of something new. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1433,7 +1631,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Un pari", "Le salaire payé à un travailleur", "Une guerre", "Une blague"],
             "correctAnswers": [1],
-            "explanation": "wage: The money paid to a worker for their labor. [cite: 291]",
+            "explanation": "wage: The money paid to a worker for their labor. ",
             "theme": "The Men Who Made Us Spend"
         },
         {
@@ -1441,7 +1639,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "assumption: A belief or idea accepted as true without proof. [cite: 296]",
+            "explanation": "assumption: A belief or idea accepted as true without proof. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1449,7 +1647,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Une institution financière", "La terre le long d'une rivière (la rive)", "Un bateau", "Un pont"],
             "correctAnswers": [1],
-            "explanation": "bank: The land alongside a river. [cite: 298]",
+            "explanation": "bank: The land alongside a river. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1457,7 +1655,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "beefy: Large, strong, or muscular. [cite: 300]",
+            "explanation": "beefy: Large, strong, or muscular. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1465,7 +1663,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Regarder fixement", "Ouvrir et fermer les yeux rapidement (cligner)", "Crier", "Dormir"],
             "correctAnswers": [1],
-            "explanation": "blink: To quickly open and close the eyes. [cite: 302]",
+            "explanation": "blink: To quickly open and close the eyes. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1473,7 +1671,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "bulging: Swelling outward. [cite: 304]",
+            "explanation": "bulging: Swelling outward. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1481,7 +1679,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Un coffre", "Un lit étroit, souvent superposé", "Une armoire", "Un tapis"],
             "correctAnswers": [1],
-            "explanation": "bunk: A narrow bed, often one stacked over another. [cite: 306]",
+            "explanation": "bunk: A narrow bed, often one stacked over another. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1489,7 +1687,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "clasp: To grip tightly. [cite: 308]",
+            "explanation": "clasp: To grip tightly. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1497,7 +1695,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Prendre son temps", "Fourrer dans un petit espace ou étudier intensément (bachoter)", "Crier", "Manger de la confiture"],
             "correctAnswers": [1],
-            "explanation": "cram: To stuff something into a small space or to study intensely in a short time. [cite: 310]",
+            "explanation": "cram: To stuff something into a small space or to study intensely in a short time. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1505,7 +1703,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "cruiser: A large vehicle or ship designed for travel. [cite: 312]",
+            "explanation": "cruiser: A large vehicle or ship designed for travel. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1513,7 +1711,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Complètement sec", "Légèrement humide ou mouillé", "Très chaud", "Brillant"],
             "correctAnswers": [1],
-            "explanation": "damp: Slightly wet or moist. [cite: 314]",
+            "explanation": "damp: Slightly wet or moist. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1521,7 +1719,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "dim: Not bright or clear. [cite: 316]",
+            "explanation": "dim: Not bright or clear. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1529,7 +1727,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Travailler dur", "Dormir légèrement (somnoler)", "Courir vite", "Prendre une dose"],
             "correctAnswers": [1],
-            "explanation": "doze: To sleep lightly. [cite: 318]",
+            "explanation": "doze: To sleep lightly. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1537,7 +1735,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "fern: A green plant with feathery leaves. [cite: 320]",
+            "explanation": "fern: A green plant with feathery leaves. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1545,7 +1743,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Bouger sans cesse à cause de la nervosité ou de l'ennui (gigoter)", "Faire un tour de magie", "S'asseoir calmement", "Cuisiner"],
             "correctAnswers": [0],
-            "explanation": "fidget: To move restlessly out of nervousness or boredom. [cite: 322]",
+            "explanation": "fidget: To move restlessly out of nervousness or boredom. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1553,7 +1751,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "glide: To move smoothly and effortlessly. [cite: 324]",
+            "explanation": "glide: To move smoothly and effortlessly. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1561,7 +1759,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Joyeux", "Coloré", "Sérieux, sombre ou sévère", "Léger"],
             "correctAnswers": [2],
-            "explanation": "grim: Serious, gloomy, or harsh. [cite: 326]",
+            "explanation": "grim: Serious, gloomy, or harsh. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1569,7 +1767,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "grove: A small cluster of trees (un bosquet). [cite: 328]",
+            "explanation": "grove: A small cluster of trees (un bosquet). ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1577,7 +1775,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Une mouette", "Un fossé ou ravin causé par l'érosion de l'eau", "Une montagne", "Une plage"],
             "correctAnswers": [1],
-            "explanation": "gully: A deep ditch or channel caused by water erosion. [cite: 330]",
+            "explanation": "gully: A deep ditch or channel caused by water erosion. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1585,7 +1783,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "hatch: A small opening, often with a door or cover. [cite: 332]",
+            "explanation": "hatch: A small opening, often with a door or cover. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1593,7 +1791,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Connecté étroitement ou entremêlé", "Complètement séparé", "Très rapide", "Brouillé"],
             "correctAnswers": [0],
-            "explanation": "interwoven: Closely connected or blended together. [cite: 333]",
+            "explanation": "interwoven: Closely connected or blended together. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1601,7 +1799,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "jaw: The lower part of the face that moves when talking or chewing. [cite: 335]",
+            "explanation": "jaw: The lower part of the face that moves when talking or chewing. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1609,7 +1807,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Un jeu", "Une lourde quantité portée ou transportée (un chargement)", "Une route", "Un morceau de pain"],
             "correctAnswers": [1],
-            "explanation": "load: A heavy amount of something that is carried or transported. [cite: 337]",
+            "explanation": "load: A heavy amount of something that is carried or transported. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1617,7 +1815,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "meadow: A grassy field, often filled with flowers (une prairie). [cite: 339]",
+            "explanation": "meadow: A grassy field, often filled with flowers (une prairie). ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1625,7 +1823,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Des pièces de monnaie", "Un espace de vie, un quartier de résidence", "Une période de temps", "Des armes"],
             "correctAnswers": [1],
-            "explanation": "quarters: Living space, typically for military or workers. [cite: 341]",
+            "explanation": "quarters: Living space, typically for military or workers. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1633,7 +1831,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "repressed: Held back or restrained, often referring to emotions. [cite: 343]",
+            "explanation": "repressed: Held back or restrained, often referring to emotions. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1641,7 +1839,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Un rire bruyant", "Une écriture désordonnée et hâtive (un gribouillage)", "Un insecte", "Un tissu fin"],
             "correctAnswers": [1],
-            "explanation": "scrawl: Messy or hurried handwriting. [cite: 345]",
+            "explanation": "scrawl: Messy or hurried handwriting. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1649,7 +1847,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "scramble: To move quickly or clumsily, often in a hurry. [cite: 347]",
+            "explanation": "scramble: To move quickly or clumsily, often in a hurry. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1657,7 +1855,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Mettre de l'ordre dans ses affaires personnelles ou financières", "Commencer un business", "Partir en vacances", "Se disputer"],
             "correctAnswers": [0],
-            "explanation": "settle one's affairs: To organize one's personal or financial matters. [cite: 349]",
+            "explanation": "settle one's affairs: To organize one's personal or financial matters. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1665,7 +1863,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "sparkling: Shining or giving off tiny flashes of light. [cite: 351]",
+            "explanation": "sparkling: Shining or giving off tiny flashes of light. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1673,7 +1871,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Tomber", "Marcher à grands pas confiants", "Ramper", "Sauter"],
             "correctAnswers": [1],
-            "explanation": "stride: To walk with long, confident steps. [cite: 352]",
+            "explanation": "stride: To walk with long, confident steps. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1681,7 +1879,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "sunk: Deeply embedded or collapsed inward. [cite: 353]",
+            "explanation": "sunk: Deeply embedded or collapsed inward. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1689,7 +1887,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Rigide", "En colère", "Flexible et capable de bouger facilement (souple)", "Fatigué"],
             "correctAnswers": [2],
-            "explanation": "supple: Flexible and able to move easily. [cite: 354]",
+            "explanation": "supple: Flexible and able to move easily. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1697,7 +1895,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "to do something on short notice: To act with little warning or preparation. [cite: 356]",
+            "explanation": "to do something on short notice: To act with little warning or preparation. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1705,7 +1903,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Marcher en rythme militaire", "Faire les cent pas (à cause de l'inquiétude)", "Courir un marathon", "S'arrêter et démarrer"],
             "correctAnswers": [1],
-            "explanation": "to pace back and forth: To walk repeatedly in one direction and then the opposite due to worry or impatience. [cite: 358]",
+            "explanation": "to pace back and forth: To walk repeatedly in one direction and then the opposite due to worry or impatience. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1713,7 +1911,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "to play hooky: To skip school or work without permission. [cite: 360]",
+            "explanation": "to play hooky: To skip school or work without permission. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1721,7 +1919,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Pousser fort", "Chercher ou fouiller de manière curieuse", "Se cacher", "Sauter sur place"],
             "correctAnswers": [1],
-            "explanation": "to poke around: To search casually or curiously. [cite: 362]",
+            "explanation": "to poke around: To search casually or curiously. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1729,7 +1927,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [1],
-            "explanation": "whir: A low, continuous buzzing or humming sound (un bourdonnement). [cite: 363]",
+            "explanation": "whir: A low, continuous buzzing or humming sound (un bourdonnement). ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1737,7 +1935,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Le vent", "Tordre ou enrouler quelque chose", "Crier", "Aider"],
             "correctAnswers": [1],
-            "explanation": "wind: To twist or wrap something around another object. [cite: 364]",
+            "explanation": "wind: To twist or wrap something around another object. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1745,7 +1943,7 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "tf",
             "answers": ["Vrai", "Faux"],
             "correctAnswers": [0],
-            "explanation": "worthwhile: Valuable or rewarding. [cite: 365]",
+            "explanation": "worthwhile: Valuable or rewarding. ",
             "theme": "Piper in the Woods"
         },
         {
@@ -1753,182 +1951,10 @@ const DEFAULT_DECKS_CONFIG = [
             "qcmMode": "multi",
             "answers": ["Crier de douleur", "Ouvrir grand la bouche par fatigue ou ennui (bâiller)", "Manger bruyamment", "Fermer les yeux"],
             "correctAnswers": [1],
-            "explanation": "yawn: To open one's mouth wide due to tiredness or boredom. [cite: 366]",
+            "explanation": "yawn: To open one's mouth wide due to tiredness or boredom. ",
             "theme": "Piper in the Woods"
         }
     ]
-    },
-    {
-        id: 'default-probas',
-        title: 'Probas',
-        type: 'flashcard',
-        gradient: GRADIENTS[1].class,
-        order: -2,
-        isPublic: true,
-        cards: [
-            // Probas
-    { question: "1. Définition d'une tribu sur Ω:", answer: "On appelle tribu (ou $\\sigma$-algèbre) sur $\\Omega$ toute famille $\\mathcal{A} \\subset \\mathcal{P}(\\Omega)$ telle que : \n- $\\Omega \\in \\mathcal{A}$, \n- si $A \\in \\mathcal{A}$ alors $\\overline{A}=\\Omega \\backslash A \\in \\mathcal{A}$ \n- si $(A_{n})_{n \\in \\mathbb{N}}$ est une suite d'éléments de $\\mathcal{A}$, alors $\\bigcup_{n \\in \\mathbb{N}} A_{n} \\in \\mathcal{A}$.", theme: "Probas : Introduction aux probabilités" },
-    { question: "2. Définition d'un espace probabilisable :", answer: "Un espace probabilisable est un couple $(\\Omega, \\mathcal{A})$ où $\\Omega$ est un ensemble (univers) et $\\mathcal{A}$ une tribu sur $\\Omega$.", theme: "Probas : Introduction aux probabilités" },
-    { question: "3. Définition d'une probabilité sur (Ω, A) et d'un espace probabilisé :", answer: "Une probabilité sur $(\\Omega, \\mathcal{A})$ est une application $P : \\mathcal{A} \\rightarrow \\mathbb{R}$ vérifiant : \n- $\\forall A \\in \\mathcal{A}, P(A) \\ge 0$, \n- $P(\\Omega)=1$, \n- si $(A_{n})_{n \\ge 1}$ sont deux à deux incompatibles (i.e. $A_{n} \\cap A_{m}=\\emptyset$ si $n \\neq m$), alors $P\\left(\\bigcup_{n \\ge 1} A_{n}\\right)=\\sum_{n \\ge 1} P(A_{n}).$ \nLe triplet $(\\Omega, \\mathcal{A}, P)$ est appelé espace probabilisé.", theme: "Probas : Introduction aux probabilités" },
-    { question: "4. Définition de la probabilité uniforme sur un univers fini:", answer: "Soit $\\Omega$ fini et $\\mathcal{A}=\\mathcal{P}(\\Omega)$. On dit que $P$ est la probabilité uniforme si $\\forall \\omega, \\omega^{\\prime} \\in \\Omega, P(\\{\\omega\\})=P(\\{\\omega^{\\prime}\\}).$ Dans ce cas, $\\forall A \\in \\mathcal{A}, P(A)=\\frac{Card(A)}{Card(\\Omega)}.$", theme: "Probas : Introduction aux probabilités" },
-    { question: "5. Définition de la probabilité conditionnelle et formule des probabilités composées:", answer: "Soit $B \\in \\mathcal{A}$ tel que $P(B)>0$. La probabilité conditionnelle de $A$ sachant $B$ est $P(A|B)=\\frac{P(A \\cap B)}{P(B)}.$ On en déduit la formule des probabilités composées : $P(A \\cap B)=P(A|B)P(B)=P(B|A)P(A)$ (si $P(A)>0$ et $P(B)>0$).", theme: "Probas : Introduction aux probabilités" },
-    { question: "6. Formule des probabilités totales (avec SCE) :", answer: "Si $(B_{n})_{n \\ge 0}$ est un système complet d'événements (partition dénombrable de $\\Omega$ par des événements de $\\mathcal{A}$, deux à deux incompatibles, dont l'union vaut $\\Omega$), alors $\\forall A \\in \\mathcal{A}, P(A)=\\sum_{n \\ge 0} P(A \\cap B_{n})=\\sum_{n \\ge 0} P(A|B_{n})P(B_{n})$ (en supposant $P(B_{n})>0$ pour écrire $P(A|B_{n})$).", theme: "Probas : Introduction aux probabilités" },
-    { question: "7. Formule de Bayes:", answer: "Si $P(A)>0$ et $P(B)>0$ alors $P(B|A)=\\frac{P(A|B)P(B)}{P(A)}$. Plus généralement, si $(B_{n})_{n \\ge 0}$ est un SCE avec $P(B_{n})>0$ et si $P(A)>0$ alors $P(B_{i}|A)=\\frac{P(A|B_{i})P(B_{i})}{\\sum_{n \\ge 0} P(A|B_{n})P(B_{n})}.$", theme: "Probas : Introduction aux probabilités" },
-    { question: "8. Définition de l'indépendance de deux événements:", answer: "Deux événements $A$ et $B$ sont indépendants si et seulement si $P(A \\cap B)=P(A)P(B)$.", theme: "Probas : Introduction aux probabilités" },
-    { question: "1. Variable aléatoire réelle définition et intuition:", answer: "Soit $(\\Omega, \\mathcal{A}, P)$ un espace probabilisé. Une variable aléatoire réelle est une application $X : \\Omega \\rightarrow \\mathbb{R}.$ Intuition historique : l'expérience est le \"jeu\", la variable aléatoire est le \"gain\", la loi décrit le comportement probabiliste de ce gain.", theme: "Probas : Variables aléatoires discrètes" },
-    { question: "2. Définition d'une variable aléatoire discrète et de sa loi de probabilité:", answer: "On dit que $X$ est discrète si $X(\\Omega)$ est fini ou dénombrable. Si $X(\\Omega)=\\{x_{1}, x_{2}, ...\\}$, la loi de $X$ est donnée par $p(x_{i})=P(X=x_{i})$ ($i \\ge 1$), $p(x_{i}) \\ge 0$ et $\\sum_{i \\ge 1} p(x_{i})=1.$ Pour tout $B \\subset \\mathbb{R}$, on a $P(X \\in B)=\\sum_{i: x_{i} \\in B} p(x_{i}).$", theme: "Probas : Variables aléatoires discrètes" },
-    { question: "3. Définition de la fonction de répartition (cas discret) et son rôle:", answer: "La fonction de répartition de $X$ est $F_{X}(a)=P(X \\le a)=\\sum_{i: x_{i} \\le a} P(X=x_{i})$ pour $a \\in \\mathbb{R}.$ Rôle : $F_{X}$ caractérise la loi de $X$ (c'est un \"identifiant\" de la loi, comme un numéro d'immatriculation : deux v.a. ont la même loi ssi elles ont la même fonction de répartition).", theme: "Probas : Variables aléatoires discrètes" },
-    { question: "4. Propriétés essentielles de $F_{X}$ (discret):", answer: "$F_{X}$ est une fonction en escalier, non décroissante, continue à droite, et vérifie $\\lim_{a \\rightarrow -\\infty} F_{X}(a)=0$ , $\\lim_{a \\rightarrow +\\infty} F_{X}(a)=1$ . De plus, pour $a < b, P(a < X \\le b)=F_{X}(b)-F_{X}(a).$", theme: "Probas : Variables aléatoires discrètes" },
-    { question: "5. Définition de l'espérance (cas discret):", answer: "Si $X$ est discrète de loi $p(x_{i})$, l'espérance de $X$ est $\\mathbb{E}(X)=\\sum_{i \\ge 1} x_{i} p(x_{i})$ (lorsque la série converge absolument).", theme: "Probas : Variables aléatoires discrètes" },
-    { question: "6. Linéarité de l'espérance:", answer: "Pour $a, b \\in \\mathbb{R}$ et pour des v.a. intégrables $X, Y,$ $\\mathbb{E}(aX+b)=a\\mathbb{E}(X)+b,$ $\\mathbb{E}(X+Y)=\\mathbb{E}(X)+\\mathbb{E}(Y).$", theme: "Probas : Variables aléatoires discrètes" },
-    { question: "7. Théorème de transfert (cas discret) et son importance:", answer: "Pour toute fonction $g : \\mathbb{R} \\rightarrow \\mathbb{R}$ telle que la somme ait un sens, $\\mathbb{E}(g(X))=\\sum_{i \\ge 1} g(x_{i}) P(X=x_{i}).$ Importance : cela permet de calculer $\\mathbb{E}(g(X))$ sans déterminer explicitement la loi de $Y=g(X)$, ce qui évite parfois des calculs de lois difficiles.", theme: "Probas : Variables aléatoires discrètes" },
-    { question: "8. Moments non centrés et moments centrés (cas discret):", answer: "Le moment non centré d'ordre $r \\in \\mathbb{N}^{*}$ est $m_{r}(X)=\\mathbb{E}(X^{r})=\\sum_{i \\ge 1} x_{i}^{r} P(X=x_{i}).$ Le moment centré d'ordre $r \\in \\mathbb{N}^{*}$ est $\\mu_{r}(X)=\\mathbb{E}[(X-\\mathbb{E}(X))^{r}].$", theme: "Probas : Variables aléatoires discrètes" },
-    { question: "9. Définition de la variance et formule pratique :", answer: "La variance de $X$ est $Var(X)=\\mathbb{E}[(X-\\mathbb{E}(X))^{2}].$ On a aussi la formule $Var(X)=\\mathbb{E}(X^{2})-(\\mathbb{E}(X))^{2}.$", theme: "Probas : Variables aléatoires discrètes" },
-    { question: "10. Ecart-type: définition et pourquoi on ne garde pas seulement la variance:", answer: "L'écart-type de $X$ est $\\sigma_{X}=\\sqrt{Var(X)}.$ Pourquoi l'écart-type ? Parce que $\\sigma_{X}$ est dans la même unité que $X$, alors que la variance est en unité \"carrée\".", theme: "Probas : Variables aléatoires discrètes" },
-    { question: "11. Inégalité de Bienaymé-Tchebychev: énoncé et utilité :", answer: "Si $X$ admet une espérance $\\mu$ et une variance $\\sigma^{2}$ alors $\\forall \\epsilon > 0, P(|X-\\mu| \\ge \\epsilon) \\le \\frac{\\sigma^{2}}{\\epsilon^{2}}.$ Utilité : donner un encadrement de probabilités d'écart à la moyenne ; utile pour répondre à des questions du type \"quelle dispersion/quelle précision pour garantir une probabilité d'écart faible ?\".", theme: "Probas : Variables aléatoires discrètes" },
-    { question: "1. Pourquoi introduire des couples de variables aléatoires?", answer: "Dans de nombreux phénomènes, une seule variable ne suffit pas : on observe plusieurs grandeurs simultanément (ex. deux mesures physiques couplées, intensité et tension, position et vitesse, etc.). Les couples permettent de modéliser des dépendances entre variables.", theme: "Probas : Couples de variables aléatoires discrètes" },
-    { question: "2. Définition de la loi conjointe d'un couple discret:", answer: "Soient $X$ et $Y$ discrètes avec $X(\\Omega)=\\{x_{1}, ..., x_{l}\\}$ et $Y(\\Omega)=\\{y_{1}, ..., y_{k}\\}$. La loi du couple $(X, Y)$ est donnée par $p_{ij}=P(X=x_{i}, Y=y_{j})=P(\\{X=x_{i}\\} \\cap \\{Y=y_{j}\\}),$ avec $p_{ij} \\ge 0$ et $\\sum_{i=1}^{l} \\sum_{j=1}^{k} p_{ij}=1.$", theme: "Probas : Couples de variables aléatoires discrètes" },
-    { question: "3. Définition des lois marginales (cas discret) et calcul sur le tableau:", answer: "Les lois marginales sont : $p_{i \\cdot}=P(X=x_{i})=\\sum_{j=1}^{k} p_{ij}$ et $p_{\\cdot j}=P(Y=y_{j})=\\sum_{i=1}^{l} p_{ij}.$ Dans une table conjointe, on obtient les marginales par sommes sur lignes/colonnes.", theme: "Probas : Couples de variables aléatoires discrètes" },
-    { question: "4. Définition de l'indépendance de X et Y (discret):", answer: "$X$ et $Y$ sont indépendantes si et seulement si $\\forall i, j, P(X=x_{i}, Y=y_{j})=P(X=x_{i})P(Y=y_{j}),$ i.e. $p_{ij}=p_{i \\cdot} p_{\\cdot j}.$", theme: "Probas : Couples de variables aléatoires discrètes" },
-    { question: "5. Espérance d'une fonction g(X,Y) (transfert en dimension 2, discret):", answer: "Si $g : \\mathbb{R}^{2} \\rightarrow \\mathbb{R}$ et si les sommes convergent, $\\mathbb{E}(g(X,Y))=\\sum_{i=1}^{l} \\sum_{j=1}^{k} g(x_{i}, y_{j}) p_{ij}.$", theme: "Probas : Couples de variables aléatoires discrètes" },
-    { question: "6. Covariance définition, interprétation, lien avec indépendance:", answer: "La covariance de $X$ et $Y$ est $Cov(X,Y)=\\mathbb{E}[(X-\\mathbb{E}(X))(Y-\\mathbb{E}(Y))]=\\mathbb{E}(XY)-\\mathbb{E}(X)\\mathbb{E}(Y).$ Interprétation : mesure de liaison linéaire. Si $X$ et $Y$ sont indépendantes et intégrables, alors $\\mathbb{E}(XY)=\\mathbb{E}(X)\\mathbb{E}(Y)$ donc $Cov(X,Y)=0$ (mais la réciproque est fausse en général).", theme: "Probas : Couples de variables aléatoires discrètes" },
-    { question: "7. Corrélation définition:", answer: "Si $\\sigma_{X} > 0$ et $\\sigma_{Y} > 0,$ le coefficient de corrélation est $\\rho_{X,Y}=\\frac{Cov(X,Y)}{\\sigma_{X} \\sigma_{Y}},$ et vérifie $-1 \\le \\rho_{X,Y} \\le 1.$", theme: "Probas : Couples de variables aléatoires discrètes" }
-        ]
-    },
-    {
-        id: 'default-derint',
-        title: 'Dér & Int',
-        type: 'flashcard',
-        gradient: GRADIENTS[2].class,
-        order: -1,
-        isPublic: true,
-        cards: [
-            {
-        "question": "Définition 1.1.1. Donner la définition d'une distance sur un ensemble E et donner un exemple de métrique usuelle.",
-        "answer": "Soit $E$ un ensemble non vide. Une distance sur $E$ est une application $d: E \\times E \\rightarrow \\mathbb{R}^{+}$ qui vérifie $\\forall(x,y,z) \\in E \\times E \\times E$ :\n- $d(x,y)=0 \\iff x=y$ (homogénéité)\n- $d(x,y)=d(y,x)$ (symétrie)\n- $d(x,z) \\le d(x,y)+d(y,z)$ (inégalité triangulaire).\nSi $d$ est une distance sur $E$, le couple $(E,d)$ est appelé espace métrique.\nExemples : Sur $\\mathbb{R}$, la métrique usuelle est $d(x,y):=|x-y|$. Sur $\\mathbb{C}$, la métrique usuelle est $d(z_{1},z_{2}):=|z_{2}-z_{1}|$.",
-        "theme": "Dér & Int"
-    },
-    {
-        "question": "Définition 1.1.2. [Boule ouverte, boule fermée] Donner la définition d'une boule ouverte ou d'une boule fermée sur un espace métrique. Caractériser une boule ouverte sur l'espace métrique (R.).",
-        "answer": "Soit $(E,d)$ un espace métrique, $a \\in E$ et $r \\in \\mathbb{R}^{+}$. La boule ouverte de centre $a$ et de rayon $r$ est l'ensemble $B(a,r):=\\{x \\in E, \\text{ tel que } d(x,a)<r\\}$. Sur l'espace métrique $(\\mathbb{R}, |\\cdot|)$, la boule ouverte de centre $a$ et de rayon $r$ est l'intervalle $]a-r, a+r[$. La boule fermée de centre $a$ et de rayon $r$ est l'ensemble $B_{f}(a,r):=\\{x \\in E, \\text{ tel que } d(x,a) \\le r\\}$. Sur l'espace métrique $(\\mathbb{R}, |\\cdot|)$, la boule fermée de centre $a$ et de rayon $r$ est l'intervalle $[a-r, a+r]$.",
-        "theme": "Dér & Int"
-    },
-    {
-        "question": "Définition 1.1.3. [Ouvert] Donner la définition d'un ouvert sur un espace métrique. Donnez un exemple d'ensemble ouvert.",
-        "answer": "Soit $(E,d)$ un espace métrique. On dit que $\\mathcal{A} \\in \\mathcal{P}(E)$ est un ouvert de $E$ si $\\mathcal{A}$ contient une boule ouverte. Autrement dit, si $\\forall a \\in \\mathcal{A}, \\exists r>0$ tel que $B(a,r) \\subset \\mathcal{A}$. Exemple : Dans l'espace vectoriel $\\mathbb{R}$, les ouverts sont tous les intervalles du type $]a, b[$ où $(a,b) \\in \\mathbb{R}^{2}$.",
-        "theme": "Dér & Int"
-    },
-    {
-        "question": "Définition 1.1.4. [Fermé] Donner la définition d'un fermé sur un espace métrique. Donnez un exemple d'ensemble fermé.",
-        "answer": "Soit $(E,d)$ un espace métrique. On dit que $\\mathcal{A} \\in \\mathcal{P}(E)$ est un fermé si $\\mathcal{C}_{E}\\mathcal{A}$ est un ouvert de $E$.",
-        "theme": "Dér & Int"
-    },
-    {
-        "question": "Définition 1.1.5. [Voisinage] Donner la définition d'un voisinage d'un point a appartenant à un espace métrique (E.d).",
-        "answer": "Soit $(E, d)$ un espace métrique et $a \\in E$. On dit que $\\mathcal{V} \\subset E$ est un voisinage de $a$ si, et seulement si, il existe un ouvert $O \\subset \\mathcal{V}$ contenant $a$. Autrement dit s'il existe une boule ouverte de centre $a$ et de rayon $r>0$ contenue dans $\\mathcal{V} : B(a,r) \\subset \\mathcal{V}$.",
-        "theme": "Dér & Int"
-    },
-    {
-        "question": "1.2 Continuité. Donner la définition d'une fonction continue en un point $a \\in I$ où I est un intervalle inclus dans R. Apporter ensuite une illustration graphique d'une fonction continue et d'une fonction discontinue.",
-        "answer": "Définition 1.2.1. [Caractérisation de Weierstrass] : Soit $f$ une fonction définie sur un intervalle $I \\subset \\mathbb{R}$, non vide, non réduit à un point, et $a \\in I$. La fonction $f$ est dite continue en $a$ si $\\forall \\epsilon > 0, \\exists \\eta > 0, \\forall x \\in I, |x-a| \\le \\eta \\Rightarrow |f(x)-f(a)| \\le \\epsilon$. Cela veut dire qu'en fixant un seuil $\\epsilon > 0$, on peut trouver un intervalle autour de $a$ (voisinage de $a$) tel que $f(x)$ soit à une distance inférieure à $\\epsilon$ de $f(a)$.",
-        "theme": "Dér & Int"
-    },
-    {
-        "question": "Enoncer le théorème des valeurs intermédiaires.",
-        "answer": "Théorème 1.2.2. [Théorème des valeurs intermédiaires] : Soit $f$ une application continue sur un intervalle $[a, b]$. Toute valeur comprise entre $f(a)$ et $f(b)$ est atteinte par la fonction $f$ sur $[a, b]$.",
-        "theme": "Dér & Int"
-    },
-    {
-        "question": "Définition 2.1.1. Donner la définition d'une fonction dominée par une autre au voisinage d'un point a. Donner un exemple.",
-        "answer": "Soit $f$ et $\\varphi$ des fonctions définies sur un intervalle $I \\subset \\mathbb{R}$ et soit $a \\in I$. On dit que $f$ est dominée par la fonction $\\varphi$ au voisinage de $a$, s'il existe une fonction $u$ définie sur $I$, bornée au voisinage de $a$ et telle que $f=\\varphi u$ au voisinage de $a$. On note $f=\\mathcal{O}(\\varphi)$. Exemple 2.1.2 : Soit $f: \\mathbb{R} \\rightarrow \\mathbb{R}$ définie par $f(x)=x^{2}\\sin(1/x)$ et $\\varphi: \\mathbb{R} \\rightarrow \\mathbb{R}$ définie par $\\varphi(x)=x^{2}$. On a $f(x)=\\varphi(x)u(x)$ où $u(x)=\\sin(1/x)$. La fonction $u$ est bornée sur $\\mathbb{R}$, ainsi $f=\\mathcal{O}(\\varphi)$.",
-        "theme": "Dér & Int : Relations de comparaison"
-    },
-    {
-        "question": "Définition 2.1.3. Donner la définition d'une fonction négligeable par une autre au voisinage d'un point a. Donner un exemple.",
-        "answer": "On dit que $f$ est négligeable devant $\\varphi$ au voisinage de $a$, s'il existe une fonction $\\epsilon$ définie sur $I$ tel que $f=\\varphi \\epsilon$ au voisinage de $a$ et $\\lim_{a} \\epsilon = 0$. Exemple 2.1.4 : Au voisinage de 0, la fonction $x \\mapsto x^{3}$ est négligeable devant la fonction $x \\mapsto x^{2}$. En effet, $\\lim_{x \\rightarrow 0} \\frac{x^{3}}{x^{2}} = 0$.",
-        "theme": "Dér & Int : Relations de comparaison"
-    },
-    {
-        "question": "Définition 2.1.5. Donner la définition de deux fonctions équivalentes au voisinage d'un point a.",
-        "answer": "Étant donné deux fonctions $f$ et $g$ définies sur un intervalle $I$, on dit que $f$ est équivalente à $g$ au voisinage de $a$ s'il existe une fonction $h$ définie sur $I$ telle que $f=gh$ au voisinage de $a$ et $\\lim_{x \\rightarrow a} h(x)=1$. On note alors $f \\sim_{a} g$ ou $f \\sim g$. Exemple 2.1.6 : Soit $f$ définie par $f(x)=\\sin(x)$ et $g$ par $g(x)=x$. On a $f \\sim_{0} g$ car $\\forall x \\in \\mathbb{R}^{*}, f(x)=\\frac{\\sin(x)}{x} \\times g(x)$ et $\\lim_{x \\rightarrow 0} \\frac{\\sin(x)}{x} = 1$.",
-        "theme": "Dér & Int : Relations de comparaison"
-    },
-    {
-        "question": "Donner la définition d'une fonction dérivable en un point a. Donner une fonction qui n'est pas dérivable sur R.",
-        "answer": "Définition 3.1.1. On dit que $f$ est dérivable en $a$ si la fonction $\\mathcal{T}$, appelée taux d'accroissement de $f$ en $a$, définie sur $I \\backslash \\{a\\}$ par $\\mathcal{T}(x)=\\frac{f(x)-f(a)}{x-a}$ possède une limite finie en $a$. Cette limite s'appelle le nombre dérivé de $f$ en $a$ et se note $f^{\\prime}(a)$. Exemple 3.1.2 : La fonction $f: x \\mapsto |x|$ n'est pas dérivable en 0 car $\\lim_{x \\rightarrow 0} \\frac{|x|-0}{x}$ n'est pas unique (vaut +1 à droite et -1 à gauche).",
-        "theme": "Dér & Int : Dérivation"
-    },
-    {
-        "question": "Donnez le théorème de dérivation des fonctions composées.",
-        "answer": "Propriété 3.1.3. Soient $I$ et $J$ deux intervalles, $f$ une application de $I$ dans $J$ et $g$ une aplicação définie sur $J$. Si $f$ est dérivable en $a \\in I$ et $g$ dérivable en $b=f(a)$, alors $g \\circ f$ est dérivable en $a$ et $(g \\circ f)^{\\prime}(a) = g^{\\prime}(f(a))f^{\\prime}(a)$.",
-        "theme": "Dér & Int : Dérivation"
-    },
-    {
-        "question": "Donnez le théorème de dérivation d'une application réciproque.",
-        "answer": "Propriété 3.1.4. Soit $f$ une application continue et strictement monotone de l'intervalle $I$ sur l'intervalle $J=f(I)$, dérivable en $a \\in I$. La fonction $f^{-1}$ est dérivable en $b=f(a)$ si, et seulement si, $f^{\\prime}(a) \\neq 0$ et l'on a alors : $(f^{-1})^{\\prime}(b) = \\frac{1}{f^{\\prime}(f^{-1}(b))}$.",
-        "theme": "Dér & Int : Dérivation"
-    },
-    {
-        "question": "Énoncer le théorème de Rolle. Donnez une interprétation de ce théorème (Bonus).",
-        "answer": "Théorème 3.1.5. Soit $(a,b) \\in \\mathbb{R}^{2}$ tel que $a<b$. Soit $f$ une fonction continue sur $[a, b]$ et dérivable sur $]a, b[$ et vérifiant $f(a)=f(b)$. Alors $\\exists c \\in ]a, b[$ tel que $f^{\\prime}(c)=0$. Interprétation : Le graphe possède au moins une tangente horizontale. En cinématique, si un mobile est à la même position à deux instants, il existe un instant intermédiaire où sa vitesse est nulle.",
-        "theme": "Dér & Int : Dérivation"
-    },
-    {
-        "question": "Énoncer l'égalité des accroissements finis et fournir une interprétation physique (Bonus).",
-        "answer": "Théorème 3.1.6. Étant donnés des réels $a$ et $b$ tels que $a<b$ ainsi qu'une fonction $f$ continue sur $[a, b]$, dérivable sur $]a, b[$, il existe un réel $c$ appartenant à $]a, b[$ tel que $f(b)-f(a)=(b-a)f^{\\prime}(c)$. Interprétation géométrique : Il existe un point où la tangente est parallèle à la droite passant par les points d'abscisses $a$ et $b$. Interprétation physique : Si une voiture fait un parcours à $90 \\text{ km/h}$ de moyenne, il existe un instant où sa vitesse instantanée est exactement $90 \\text{ km/h}$.",
-        "theme": "Dér & Int : Dérivation"
-    },
-    {
-        "question": "Énoncer l'inégalité des accroissements finis.",
-        "answer": "Théorème 3.1.7. Soit $(a,b) \\in \\mathbb{R}^{2}$ tels que $a<b$ ainsi qu'une fonction $f \\in \\mathcal{C}^{0}([a,b])$ et dérivable sur $]a, b[$. S'il existe des réels $m$ et $M$ vérifiant $\\forall x \\in ]a, b[, m \\le f^{\\prime}(x) \\le M$, alors on a $m(b-a) \\le f(b)-f(a) \\le M(b-a)$.",
-        "theme": "Dér & Int : Dérivation"
-    },
-    {
-        "question": "Énoncer le théorème de Taylor avec reste intégral.",
-        "answer": "Théorème 4.0.1. Si $f$ est une fonction de classe $\\mathcal{C}^{n+1}$ sur $I$ et soient $a$ et $b$ des points de $I$, on a : $f(b)=\\sum_{k=0}^{n} \\frac{(b-a)^{k}}{k!}f^{(k)}(a) + \\int_{a}^{b} \\frac{(b-t)^{n}}{n!}f^{(n+1)}(t) dt$.",
-        "theme": "Dér & Int : Développements limités"
-    },
-    {
-        "question": "Énoncer l'inégalité de Taylor-Lagrange.",
-        "answer": "Théorème 4.0.2. Soit $f$ une fonction de classe $\\mathcal{C}^{n+1}$ sur $I$. Si $M$ majore $|f^{(n+1)}|$ sur le segment $[a, b]$, on a : $|f(b)-\\sum_{k=0}^{n} \\frac{(b-a)^{k}}{k!}f^{(k)}(a)| \\le M \\frac{|b-a|^{n+1}}{(n+1)!}$.",
-        "theme": "Dér & Int : Développements limités"
-    },
-    {
-        "question": "Énoncer la formule de Taylor Young.",
-        "answer": "Théorème 4.0.3. Si $f$ est une fonction de classe $\\mathcal{C}^{n}$ sur $I$, il existe une fonction $\\epsilon$ définie sur $I$ telle que : $\\forall x \\in I \\cap \\mathcal{V}_{a}, f(x)=\\sum_{k=0}^{n} \\frac{(x-a)^{k}}{k!}f^{(k)}(a)+(x-a)^{n}\\epsilon(x)$ avec $\\lim_{x \\rightarrow a} \\epsilon(x)=0$.",
-        "theme": "Dér & Int : Développements limités"
-    },
-    {
-        "question": "Donner la définition du développement limité d'une fonction à l'ordre n au voisinage de 0.",
-        "answer": "Définition 4.0.4. Une fonction $f$ admet un développement limité d'ordre $n$ au voisinage de 0, s'il existe des réels $a_{0}, a_{1}, \\dots, a_{n}$ et une fonction $\\epsilon$ définie sur $\\mathcal{D}_{f}$ tels que : $\\forall x \\in \\mathcal{D}_{f}, f(x)=\\sum_{k=0}^{n} a_{k}x^{k}+x^{n}\\epsilon(x)$ avec $\\lim_{x \\rightarrow 0} \\epsilon(x)=0$.",
-        "theme": "Dér & Int : Développements limités"
-    },
-    {
-        "question": "Donner le développement limité au voisinage de 0 à l'ordre n des fonctions élémentaires suivantes. En choisir 2.",
-        "answer": "- Exponentielle : $e^{x}=1+\\frac{x}{1!}+\\frac{x^{2}}{2!}+\\dots+\\frac{x^{n}}{n!}+o(x^{n})$\n- Cosinus : $\\cos(x)=1-\\frac{x^{2}}{2!}+\\frac{x^{4}}{4!}+\\dots+(-1)^{n}\\frac{x^{2n}}{(2n)!}+o(x^{2n})$\n- Sinus : $\\sin(x)=x-\\frac{x^{3}}{3!}+\\frac{x^{5}}{5!}+\\dots+(-1)^{n}\\frac{x^{2n+1}}{(2n+1)!}+o(x^{2n+1})$\n- Logarithme : $\\ln(1+x)=x-\\frac{x^{2}}{2}+\\frac{x^{3}}{3}+\\dots+(-1)^{n-1}\\frac{x^{n}}{n}+o(x^{n})$\n- Puissance : $(1+x)^{\\alpha}=1+\\alpha x+\\frac{\\alpha(\\alpha-1)}{2!}x^{2}+\\dots+\\frac{\\alpha(\\alpha-1)\\dots(\\alpha-n+1)}{n!}x^{n}+o(x^{n})$\n- Inverse : $\\frac{1}{1-x}=\\sum_{k=0}^{n} x^{k}+o(x^{n})$.",
-        "theme": "Dér & Int : Développements limités"
-    },
-    {
-        "question": "Définition 4.1.1. Donner la définition du développement limité à droite et à gauche à l'ordre n au voisinage d'un point xo.",
-        "answer": "On dit qu'une fonction $f$ admet un développement limité à droite (resp. à gauche) à l'ordre $n$ au voisinage de $x_{0}$ si la restriction de $f$ à $\\mathcal{D}_{f} \\cap [x_{0}, +\\infty[$ (resp. à $\\mathcal{D}_{f} \\cap ]-\\infty, x_{0}]$) admet un développement limité à l'ordre $n$ en $x_{0}$.",
-        "theme": "Dér & Int : Développements limités"
-    },
-    {
-        "question": "Donner les règles permettant de calculer le développement limité d'une somme et d'un produit.",
-        "answer": "Propriété 4.2.1. Soient $f$ et $g$ deux applications admettant en $0$ des DL à l'ordre $n$ : $f(x)=P(x)+o(x^{n})$ et $g(x)=Q(x)+o(x^{n})$. Alors $f+g$ admet le DL : $(f+g)(x)=P(x)+Q(x)+o(x^{n})$. Et $fg$ admet le DL : $(fg)(x)=R(x)+o(x^{n})$ où $R$ est le polynôme obtenu en ne gardant, dans le produit $PQ$, que les termes de degré inférieur ou égal à $n$.",
-        "theme": "Dér & Int : Développements limités"
-    },
-    {
-        "question": "Donner la propriété donnant le développement limité d'une primitive d'une fonction possédant un développement limité.",
-        "answer": "Propriété 4.2.2. Soit $I$ un intervalle contenant 0 et $f: I \\rightarrow \\mathbb{R}$ une fonction continue possédant en $0$ un DL à l'ordre $n$ qui vaut $\\sum_{k=0}^{n} a_{k}x^{k}$. Si $F$ est une primitive de $f$, alors elle admet un DL à l'ordre $n+1$ en 0 qui est : $F(0)+\\sum_{k=0}^{n} \\frac{a_{k}}{k+1}x^{k+1}$.",
-        "theme": "Dér & Int : Développements limités"
-    },
-    {
-        "question": "Expliquez comment étudier la position d'une tangente par rapport à la courbe représentative d'une fonction f en un point $x_{0}$.",
-        "answer": "L'existence d'une tangente non verticale en $x_{0}$ est équivalente à l'existence d'un DL à l'ordre 1 en $x_{0}$. L'étude du signe de $f(x)-f(x_{0})-(x-x_{0})f^{\\prime}(x_{0})$ précise la position relative. Plus généralement, avec un DL à l'ordre $p \\ge 2$ : $f(x)=a_{0}+a_{1}(x-x_{0})+\\dots+a_{k}(x-x_{0})^{k}+o((x-x_{0})^{k})$ où $a_{k}$ est le premier coefficient non nul pour $k \\ge 2$.\n- Si $k$ est pair et $a_{k}>0$ : courbe au-dessus de la tangente.\n- Si $k$ est pair et $a_{k}<0$ : courbe en dessous.\n- Si $k$ est impair et $a_{k}>0$ : traverse la tangente en passant au-dessus.\n- Si $k$ est impair et $a_{k}<0$ : traverse la tangente en passant en dessous.",
-        "theme": "Dér & Int : Développements limités"
-    }
-        ]
     }
 ];
 
@@ -2010,6 +2036,18 @@ function loadData() {
                 }
             });
         });
+
+        // Cleanup: remove public decks that no longer exist in the code.
+        // This lets the developer retire/remove a public deck from DEFAULT_DECKS_CONFIG
+        // and have it automatically purged from all users' localStorage on next visit.
+        const validPublicIds = DEFAULT_DECKS_CONFIG.map(d => d.id);
+        const obsoletePublicDecks = decks.filter(d => d.isPublic && !validPublicIds.includes(d.id));
+        if (obsoletePublicDecks.length > 0) {
+            const obsoleteIds = obsoletePublicDecks.map(d => d.id);
+            decks = decks.filter(d => !obsoleteIds.includes(d.id));
+            cards = cards.filter(c => !obsoleteIds.includes(c.deckId));
+        }
+
         saveDataNow();
 
     cards.forEach((c, i) => { if (typeof c.order === 'undefined') c.order = i; });
