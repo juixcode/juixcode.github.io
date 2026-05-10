@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Révisions QCM : Systèmes & Réseaux</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="toprow">
+        <div>
+          <h1>💻 Systèmes & 🌐 Réseaux — Entraînement Partiel</h1>
+          <div class="subtitle">20% Systèmes (Linux) | 80% Réseaux (OSI, TCP/IP, Ethernet, Routage...). Let's go !</div>
+        </div>
+        <div class="controls">
+          <input id="search" class="search" placeholder="Rechercher un concept..." />
+          <button id="btnReset" class="danger">Reset</button>
+        </div>
+      </div>
+      <div class="chips" id="chips"></div>
+      <div class="stats">
+        <div class="pill"><span class="dot"></span> <span><strong id="answered">0</strong> / <span id="total"></span> checkées</span></div>
+        <div class="pill">✅ <strong id="score">0</strong> top</div>
+        <div class="pill">❌ <strong id="wrong">0</strong> ratées</div>
+      </div>
+      <div class="progress"><div id="bar"></div></div>
+    </div>
+    
+    <div class="grid" id="quiz"></div>
+  </div>
+
+<script>
+// La base de données de révision (80 questions !)
+const Q_DATA = [
+  // --- PARTIE SYSTÈMES (20% -> 16 questions) ---
+  { s: "Systèmes", t: "single", q: "Que permet d'afficher la commande <code>id</code> sous Linux ?", c: ["Le répertoire courant", "L'UID, le GID et les groupes de l'utilisateur", "L'adresse IP de la machine", "Les processus en cours"], a: 1, e: "La commande 'id' (identity) affiche les identifiants réels et effectifs de l'utilisateur (UID) et du groupe (GID)." },
+  { s: "Systèmes", t: "fill", q: "Quelle variable d'environnement contient le chemin vers ton répertoire personnel ?", p: "...", a: "HOME", e: "La variable $HOME est définie automatiquement au login et pointe vers ton dossier utilisateur (ex: /home/durand)." },
+  { s: "Systèmes", t: "single", q: "Quel est le PPID (Parent PID) du processus <code>init</code> ?", c: ["1", "-1", "0", "100"], a: 2, e: "Le processus init (PID 1) est le tout premier processus lancé par le noyau. Son PPID est virtuellement 0." },
+  { s: "Systèmes", t: "single", q: "Que signifie <code>chmod 764 fichier</code> ?", c: ["Proprio: rwx, Groupe: rw-, Autres: r--", "Proprio: rw-, Groupe: rwx, Autres: r--", "Proprio: rwx, Groupe: r--, Autres: rw-", "Proprio: r--, Groupe: rw-, Autres: rwx"], a: 0, e: "En octal: 7 = 4(r)+2(w)+1(x) = rwx. 6 = 4(r)+2(w) = rw-. 4 = 4(r) = r--." },
+  { s: "Systèmes", t: "single", q: "Un lien symbolique possède le même inode que son fichier cible.", c: ["VRAI", "FAUX"], a: 1, e: "FAUX. Contrairement à un lien physique (hard link), un lien symbolique est un fichier à part entière qui pointe vers un chemin, il a donc son propre inode." },
+  { s: "Systèmes", t: "single", q: "Quelle commande permet de lister les processus en cours d'exécution ?", c: ["proc", "jobs", "ps", "show-proc"], a: 2, e: "La commande 'ps' (Process Status) liste les processus. 'jobs' liste uniquement les tâches lancées dans le shell courant." },
+  { s: "Systèmes", t: "single", q: "VirtualBox est un :", c: ["Système d'exploitation", "Hyperviseur", "Shell Linux", "Conteneur"], a: 1, e: "VirtualBox est un hyperviseur de type 2 (hosted) qui permet de virtualiser des systèmes d'exploitation sur un OS hôte." },
+  { s: "Systèmes", t: "single", q: "Le compte ayant les droits absolus sous Linux se nomme :", c: ["admin", "administrator", "root", "su"], a: 2, e: "L'utilisateur 'root' a l'UID 0 et détient tous les privilèges sur le système Linux." },
+  { s: "Systèmes", t: "single", q: "Comment lancer un programme <code>script.sh</code> en arrière-plan ?", c: ["script.sh bg", "script.sh &", "bg script.sh", "run script.sh -b"], a: 1, e: "Ajouter l'esperluette '&' à la fin d'une commande permet de la lancer en tâche de fond (background)." },
+  { s: "Systèmes", t: "single", q: "Un processus est :", c: ["Un programme stocké sur le disque", "Un fichier avec le droit d'exécution", "Une instance d'un programme en cours d'exécution", "Un composant matériel"], a: 2, e: "Un programme est passif (fichier), un processus est actif (chargé en RAM avec un état, un compteur ordinal, etc)." },
+  { s: "Systèmes", t: "single", q: "Dans <code>ls -l</code>, le premier caractère <code>d</code> indique :", c: ["Un document", "Un dossier (directory)", "Un device", "Un lien (link)"], a: 1, e: "d = directory, - = fichier classique, l = lien symbolique, c = caractère device, b = block device." },
+  { s: "Systèmes", t: "fill", q: "Tape la commande pour afficher les 12 dernières lignes du fichier <code>logs.txt</code>", p: "Commande courte...", a: "tail -n 12 logs.txt", e: "'tail' affiche la fin d'un fichier. L'option -n spécifie le nombre de lignes." },
+  { s: "Systèmes", t: "single", q: "Quels droits sont nécessaires pour exécuter <code>cat /tmp/test.txt</code> ?", c: ["r sur /bin/cat et r sur /tmp/test.txt", "x sur / et /tmp, r sur /bin/cat, r sur /tmp/test.txt", "x sur le fichier test.txt", "w sur /tmp"], a: 1, e: "Il faut le droit de traverser (x) les dossiers parents, pouvoir lire/exécuter cat (r/x), et lire (r) le fichier cible." },
+  { s: "Systèmes", t: "single", q: "Laquelle de ces commandes recherche un exécutable non inclus dans la variable $PATH ?", c: ["which", "find", "whereis", "type"], a: 1, e: "'find' balaie l'arborescence du disque, alors que 'which' et 'type' ne cherchent que dans les dossiers listés dans $PATH." },
+  { s: "Systèmes", t: "single", q: "Quelle commande supprime un répertoire non vide ?", c: ["rmdir", "rm -r", "del", "remove -all"], a: 1, e: "'rmdir' ne supprime que des dossiers vides. Pour un dossier avec du contenu, il faut utiliser 'rm -r' (récursif)." },
+  { s: "Systèmes", t: "single", q: "Debian est :", c: ["Un noyau", "Une distribution Linux", "Un environnement de bureau", "Un chargeur d'amorçage"], a: 1, e: "Debian est une distribution (un OS complet basé sur le noyau Linux et des utilitaires GNU)." },
+
+  // --- PARTIE RÉSEAUX (80% -> 64 questions) ---
+  { s: "Réseaux OSI", t: "single", q: "Combien de couches comporte le modèle OSI ?", c: ["4", "5", "7", "9"], a: 2, e: "Le modèle OSI (Open Systems Interconnection) est composé de 7 couches: Physique, Liaison, Réseau, Transport, Session, Présentation, Application." },
+  { s: "Réseaux OSI", t: "single", q: "Quelle est la couche 3 du modèle OSI ?", c: ["Liaison de données", "Réseau", "Transport", "Physique"], a: 1, e: "Couche 1=Physique, 2=Liaison, 3=Réseau (gère le routage et l'adressage IP), 4=Transport." },
+  { s: "TCP/IP", t: "single", q: "Le modèle TCP/IP contient combien de couches ?", c: ["3", "4", "5", "7"], a: 1, e: "Le modèle original TCP/IP a 4 couches : Accès réseau, Internet, Transport, Application." },
+  { s: "Réseaux OSI", t: "single", q: "Comment s'appelle le PDU (Protocol Data Unit) de la couche Transport ?", c: ["Trame", "Paquet", "Segment", "Bit"], a: 2, e: "L2=Trame, L3=Paquet(Datagramme), L4=Segment(TCP)/Datagramme(UDP), L7=Message/Donnée." },
+  { s: "Concepts Réseaux", t: "single", q: "Qu'est-ce que l'encapsulation ?", c: ["Chiffrer les données", "L'ajout d'en-têtes à chaque descente de couche", "Retirer les en-têtes à la réception", "Un tunnel VPN"], a: 1, e: "À l'émission, chaque couche ajoute ses propres informations de contrôle (header/PCI) aux données qu'elle reçoit de la couche supérieure." },
+  { s: "Couche Physique", t: "single", q: "Le mode de transmission où les données circulent dans un seul sens en permanence est :", c: ["Simplex", "Half-Duplex", "Full-Duplex", "Auto-MDIX"], a: 0, e: "Simplex = 1 sens (ex: Radio). Half-Duplex = 2 sens mais alternés (Talkie-Walkie). Full-Duplex = 2 sens simultanés (Téléphone)." },
+  { s: "Couche Physique", t: "single", q: "Quel connecteur est utilisé pour les câbles Ethernet à paires torsadées ?", c: ["RJ11", "BNC", "RJ45", "SC"], a: 2, e: "RJ45 (8P8C) est le connecteur standard pour les réseaux Ethernet cuivre (Cat5, Cat6...)." },
+  { s: "Couche Physique", t: "single", q: "Un des grands avantages de la fibre optique est :", c: ["Son faible coût d'installation", "Sa flexibilité pour les pliures", "Son immunité aux interférences électromagnétiques", "Son utilisation de signaux électriques"], a: 2, e: "Contrairement au cuivre, la lumière dans la fibre optique n'est pas perturbée par les ondes électromagnétiques (EMI)." },
+  { s: "Topologies", t: "single", q: "Laquelle de ces topologies utilise un point central de connexion (comme un switch) ?", c: ["Bus", "Anneau", "Étoile", "Maillée"], a: 2, e: "La topologie en étoile relie tous les nœuds à un équipement central. Si le câble d'un PC casse, seul ce PC est impacté." },
+  { s: "Topologies", t: "single", q: "Un réseau LAN (Local Area Network) :", c: ["Couvre un pays entier", "Couvre un espace restreint (bureau, maison)", "Connecte uniquement des capteurs Bluetooth", "Nécessite toujours un routeur BGP"], a: 1, e: "LAN = Réseau local. WAN = Réseau étendu (Internet). PAN = Réseau personnel (Bluetooth)." },
+  { s: "Équipements", t: "single", q: "Un Hub (Concentrateur) :", c: ["Apprend les adresses MAC", "Transfère la trame uniquement au port de destination", "Diffuse le signal reçu sur tous ses autres ports (Broadcast matériel)", "Filtre les paquets IP"], a: 2, e: "Le Hub est bête (Couche 1). Il reçoit un signal électrique et le répète partout, créant un seul grand domaine de collision." },
+  { s: "Équipements", t: "single", q: "À quelle couche de l'OSI opère principalement un Switch (Commutateur) ?", c: ["Couche 1", "Couche 2", "Couche 3", "Couche 4"], a: 1, e: "Le Switch travaille à la couche Liaison (2). Il lit les adresses MAC pour diriger les trames intelligemment." },
+  { s: "Équipements", t: "single", q: "Quel équipement permet d'interconnecter des réseaux logiques différents (ex: deux LANs séparés) ?", c: ["Switch", "Hub", "Répéteur", "Routeur"], a: 3, e: "Le routeur (Couche 3) utilise les adresses IP pour acheminer les paquets entre différents sous-réseaux." },
+  { s: "Ethernet", t: "single", q: "Quelle méthode d'accès au média est utilisée par l'Ethernet classique ?", c: ["Token Ring", "CSMA/CA", "CSMA/CD", "Polling"], a: 2, e: "CSMA/CD (Carrier Sense Multiple Access with Collision Detection). On écoute, on émet, on détecte les collisions." },
+  { s: "Ethernet", t: "single", q: "Dans CSMA/CD, si une collision se produit :", c: ["La trame est perdue définitivement", "Les stations émettent un signal de brouillage (jam) et attendent un temps aléatoire (Backoff)", "Le routeur intervient pour corriger", "La station relance instantanément"], a: 1, e: "L'algorithme de Binary Exponential Backoff gère l'attente aléatoire pour éviter que les stations entrent à nouveau en collision immédiatement." },
+  { s: "Ethernet", t: "single", q: "Laquelle de ces affirmations sur CSMA/CD est VRAIE ?", c: ["Il élimine complètement les collisions", "Il est utilisé dans le Wi-Fi", "Une station doit écouter le canal avant de transmettre", "Il ne fonctionne qu'en topologie en anneau"], a: 2, e: "Carrier Sense = Écoute de la porteuse. Si le canal est libre, la station émet. (Le Wi-Fi utilise CSMA/CA, Collision Avoidance)." },
+  { s: "Adressage MAC", t: "single", q: "Sur combien de bits est codée une adresse MAC ?", c: ["32 bits", "48 bits", "64 bits", "128 bits"], a: 1, e: "48 bits (soit 6 octets), généralement notés en hexadécimal (ex: 00:1A:2B:3C:4D:5E)." },
+  { s: "Adressage MAC", t: "single", q: "Quelle est l'adresse MAC de Broadcast (diffusion) ?", c: ["00:00:00:00:00:00", "FF:FF:FF:FF:FF:FF", "255.255.255.255", "AA:AA:AA:AA:AA:AA"], a: 1, e: "Tous les bits à 1 donnent FF en hexadécimal. Une trame envoyée à cette MAC sera lue par toutes les machines du segment local." },
+  { s: "Protocole ARP", t: "single", q: "Le protocole ARP (Address Resolution Protocol) sert à :", c: ["Résoudre un nom de domaine en IP", "Trouver l'adresse IP à partir d'une MAC", "Trouver l'adresse MAC correspondant à une adresse IP connue", "Router des paquets sur Internet"], a: 2, e: "Quand un PC veut parler à une IP locale, il envoie une requête ARP (en broadcast) : 'Qui a cette IP ? Donne-moi ta MAC !'" },
+  { s: "Protocole ARP", t: "single", q: "Une requête ARP (ARP Request) est envoyée en :", c: ["Unicast", "Multicast", "Broadcast", "Anycast"], a: 2, e: "L'émetteur ne connaissant pas la MAC cible, il doit crier à tout le monde (Broadcast MAC FF:FF...) pour trouver la machine qui détient l'IP." },
+  { s: "Protocole ARP", t: "single", q: "La réponse ARP (ARP Reply) est envoyée en :", c: ["Unicast", "Multicast", "Broadcast", "Anycast"], a: 0, e: "Celui qui répond connaît la MAC de l'émetteur grâce à la requête. Il répond donc directement (Unicast)." },
+  { s: "Protocole ARP", t: "single", q: "Si je veux joindre un PC distant (sur un autre réseau), ma requête ARP demandera la MAC de :", c: ["La machine distante", "Le serveur DNS", "Ma passerelle par défaut (Routeur)", "Le switch"], a: 2, e: "ARP ne traverse pas les routeurs. On envoie la trame au routeur local, on a donc besoin de la MAC de l'interface locale du routeur." },
+  { s: "Adressage IP", t: "single", q: "Sur combien de bits est codée une adresse IPv4 ?", c: ["16", "32", "64", "128"], a: 1, e: "32 bits, divisés en 4 octets séparés par des points (ex: 192.168.1.10)." },
+  { s: "Adressage IP", t: "single", q: "Sur combien de bits est codée une adresse IPv6 ?", c: ["32", "64", "128", "256"], a: 2, e: "128 bits, écrits en notation hexadécimale. Ça permet de pallier la pénurie mondiale d'adresses IPv4." },
+  { s: "Adressage IP", t: "single", q: "Une adresse de classe C classique utilise quel masque de sous-réseau par défaut ?", c: ["255.0.0.0", "255.255.0.0", "255.255.255.0", "255.255.255.255"], a: 2, e: "La classe C réserve 24 bits pour le réseau (les 3 premiers octets) et 8 bits pour les hôtes." },
+  { s: "Adressage IP", t: "single", q: "L'adresse 192.168.1.0/24 correspond à :", c: ["Une adresse de machine utilisable", "Une adresse de Broadcast", "Une adresse Réseau", "Une adresse Loopback"], a: 2, e: "Tous les bits de la partie hôte sont à 0. C'est l'identifiant du réseau, impossible à attribuer à un PC." },
+  { s: "Adressage IP", t: "fill", q: "Quelle est l'adresse de diffusion (Broadcast) du réseau 192.168.10.0/24 ?", p: "Tape l'IP...", a: "192.168.10.255", e: "Pour le broadcast, on met tous les bits de la partie hôte à 1. Sur un /24, le dernier octet devient 255." },
+  { s: "Adressage IP", t: "single", q: "Combien d'hôtes utilisables y a-t-il dans un sous-réseau /24 ?", c: ["256", "255", "254", "128"], a: 2, e: "2^8 = 256. On retire 2 adresses : l'adresse Réseau (tout à 0) et le Broadcast (tout à 1). Reste 254." },
+  { s: "Adressage IP", t: "single", q: "Laquelle de ces adresses IP est PRIVÉE ?", c: ["8.8.8.8", "172.16.5.10", "200.100.50.25", "9.3.67.5"], a: 1, e: "Plages privées (RFC 1918) : 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16. Elles ne sont pas routées sur Internet public." },
+  { s: "Adressage IP", t: "fill", q: "Quelle est l'adresse de bouclage local (localhost) en IPv4 standard ?", p: "1xx.x.x.x", a: "127.0.0.1", e: "La plage 127.0.0.0/8 est réservée au loopback. Ça permet à la machine de s'envoyer des paquets à elle-même." },
+  { s: "Routage & ICMP", t: "single", q: "Le protocole ICMP est utilisé par quelle commande célèbre pour tester la connectivité ?", c: ["netstat", "ipconfig", "ping", "arp"], a: 2, e: "La commande 'ping' envoie des paquets ICMP 'Echo Request' et attend des 'Echo Reply'." },
+  { s: "Routage & ICMP", t: "single", q: "Que se passe-t-il si le champ TTL (Time To Live) d'un paquet IP atteint 0 ?", c: ["Le paquet est renvoyé à l'expéditeur tel quel", "Le routeur détruit le paquet et envoie un message ICMP d'erreur", "Le paquet passe en priorité haute", "Le paquet est diffusé en broadcast"], a: 1, e: "Le TTL évite qu'un paquet boucle à l'infini. À chaque routeur traversé, le TTL diminue de 1." },
+  { s: "Routage & ICMP", t: "single", q: "Quel outil utilise l'astuce du TTL (en l'incrémentant de 1 en 1) pour lister les routeurs traversés ?", c: ["ping", "traceroute (ou tracert)", "route print", "nslookup"], a: 1, e: "Traceroute reçoit les erreurs 'ICMP Time Exceeded' de chaque routeur successif pour tracer le chemin du paquet." },
+  { s: "DNS & Couche 7", t: "single", q: "À quoi sert le service DNS (Domain Name System) ?", c: ["Associer une IP à une MAC", "Distribuer des IP dynamiques", "Associer des noms de domaine compréhensibles (ex: google.com) à des adresses IP", "Chiffrer le trafic réseau"], a: 2, e: "C'est l'annuaire d'Internet. Les humains mémorisent des noms, les machines ont besoin d'IP." },
+  { s: "DNS & Couche 7", t: "fill", q: "Quelle commande Windows (ou Linux) permet d'interroger manuellement un serveur DNS ?", p: "nsl...", a: "nslookup", e: "nslookup (Name Server Lookup) ou 'dig' (sous Linux) servent à interroger les enregistrements DNS d'un domaine." },
+  { s: "Commandes Réseau", t: "single", q: "La commande <code>ipconfig /all</code> (Windows) affiche notamment :", c: ["Seulement l'adresse IP", "L'adresse IP, le masque, la passerelle, l'adresse MAC et les serveurs DNS", "Les ports ouverts", "La table de routage globale"], a: 1, e: "C'est l'outil ultime sous Windows pour voir toute la configuration de ses cartes réseau." },
+  { s: "Commandes Réseau", t: "fill", q: "Quelle commande Linux est l'équivalent moderne de 'ifconfig' pour voir ses adresses IP ?", p: "i...", a: "ip a", e: "'ip addr' (ou 'ip a') a remplacé ifconfig dans les distributions Linux modernes (paquet iproute2)." },
+  { s: "Commandes Réseau", t: "single", q: "Que permet de visualiser la commande <code>netstat</code> ?", c: ["Le cache DNS", "La table de routage et les statistiques ICMP", "Les connexions réseau actives (TCP/UDP) et les ports en écoute", "La liste des utilisateurs connectés"], a: 2, e: "Netstat = Network Statistics. Utile pour savoir quel programme écoute sur quel port." },
+  { s: "Commandes Réseau", t: "single", q: "La commande <code>arp -a</code> sert à afficher :", c: ["La table des routes", "Le contenu du cache ARP de la machine", "Les serveurs DNS configurés", "Le cache HTTP"], a: 1, e: "Affiche les correspondances IP <-> MAC récemment apprises par ta machine." },
+  { s: "Commutation", t: "single", q: "La commutation de circuits (Circuit switching) se caractérise par :", c: ["Un chemin dédié établi avant la communication", "Un découpage en paquets routés séparément", "Un fonctionnement exclusif sur le Web", "Une absence de délai d'établissement"], a: 0, e: "Comme pour le vieux réseau téléphonique (RTC), on réserve physiquement un circuit continu de bout en bout avant de parler." },
+  { s: "Commutation", t: "single", q: "Internet repose principalement sur :", c: ["La commutation de circuits", "La commutation de paquets", "La commutation de mots", "La diffusion broadcast totale"], a: 1, e: "La commutation de paquets (Packet switching) découpe la donnée en morceaux indépendants. C'est plus résilient et optimise les liens réseau." },
+  { s: "Sous-réseaux", t: "single", q: "Si je découpe un réseau /24 en empruntant 2 bits pour créer des sous-réseaux (donc /26), combien de sous-réseaux j'obtiens ?", c: ["2", "4", "6", "8"], a: 1, e: "2^n où n est le nombre de bits empruntés. Ici 2^2 = 4 sous-réseaux." },
+  { s: "Sous-réseaux", t: "single", q: "Dans un sous-réseau /26, combien d'hôtes sont utilisables par sous-réseau ?", c: ["126", "64", "62", "30"], a: 2, e: "Il reste 32 - 26 = 6 bits pour les hôtes. 2^6 = 64. On enlève le Réseau (0) et le Broadcast (63), il reste 62." },
+  { s: "Couche Physique", t: "single", q: "La Bande Passante (Bandwidth) correspond :", c: ["Au délai de propagation du signal", "À la capacité maximale de transmission du support (en bits/s)", "Au temps de traversée d'un routeur", "À la taille physique du câble"], a: 1, e: "C'est le 'tuyau'. Plus la bande passante est large, plus on peut faire passer de bits par seconde." },
+  { s: "Couche Physique", t: "single", q: "Dans le multiplexage fréquentiel (FDM), comment partage-t-on le médium ?", c: ["On attribue une plage de temps à chaque utilisateur", "On découpe le spectre en différentes bandes de fréquences (canaux)", "On envoie des paquets avec des adresses différentes", "On utilise plusieurs câbles"], a: 1, e: "FDM = Frequency Division Multiplexing (comme les stations de radio FM qui ont chacune leur fréquence)." },
+  { s: "Ethernet", t: "single", q: "L'algorithme ALOHA pur a une efficacité maximale d'environ :", c: ["18%", "36%", "50%", "100%"], a: 0, e: "Pure ALOHA est très inefficace (18.4%) car les stations émettent n'importe quand = beaucoup de collisions." },
+  { s: "Ethernet", t: "single", q: "Slotted ALOHA (ALOHA discrétisé) améliore l'efficacité en :", c: ["Supprimant le canal", "Obligeant les stations à n'émettre qu'au début d'un 'slot' temporel", "Demandant la permission à un maître", "Multipliant la bande passante par 10"], a: 1, e: "En forçant la synchronisation sur des slots, on réduit le temps de vulnérabilité, doublant l'efficacité (36%)." },
+  { s: "Concepts Réseaux", t: "single", q: "Un fichier de configuration local permet de résoudre des noms d'hôtes statiques AVANT de solliciter le DNS. Lequel ?", c: ["/etc/network", "/etc/hosts (ou system32/drivers/etc/hosts)", "resolv.conf", "dhcp.conf"], a: 1, e: "Le fichier 'hosts' est prioritaire sur le DNS. Souvent utilisé par les devs pour pointer un faux domaine vers 'localhost'." },
+  { s: "Couche Transport", t: "single", q: "Parmi ces protocoles de la couche Transport, lequel est 'fiable' et orienté connexion ?", c: ["UDP", "IP", "TCP", "ICMP"], a: 2, e: "TCP met en place un 'Three-way handshake' (SYN, SYN-ACK, ACK) et vérifie la bonne réception des segments." },
+  { s: "Couche Transport", t: "single", q: "UDP est dit 'Best effort' ou 'Non-fiable'. Pourquoi l'utiliser ?", c: ["Il est inutile", "Il chiffre les données par défaut", "Il est plus rapide car il n'a pas la lourdeur du contrôle de TCP (utile pour streaming/VoIP)", "Il fragmente mieux les paquets"], a: 2, e: "En VoIP (téléphone, Discord), si tu perds 2 ms d'audio, tu t'en fous, tu veux que ça aille vite sans bloquer." },
+  { s: "Adressage IP", t: "single", q: "Le masque par défaut d'une adresse IPv4 de classe B est :", c: ["/8 (255.0.0.0)", "/16 (255.255.0.0)", "/24 (255.255.255.0)", "/32 (255.255.255.255)"], a: 1, e: "Classe B (commence de 128 à 191), utilise 16 bits réseau, 16 bits hôtes." },
+  { s: "Couche Liaison", t: "single", q: "Le champ FCS (Frame Check Sequence) d'une trame Ethernet sert à :", c: ["Connaître la priorité de la trame", "Détecter les erreurs de transmission via un calcul CRC", "Stocker l'adresse MAC source", "Déterminer la longueur de la trame"], a: 1, e: "Le récepteur recalcule le CRC sur la trame reçue. Si le résultat diffère du FCS, la trame est corrompue et jetée." },
+  { s: "Couche Physique", t: "single", q: "Un câble STP (Shielded Twisted Pair) par rapport à un UTP (Unshielded) :", c: ["Possède un blindage pour réduire les interférences (EMI)", "Est utilisé pour la fibre optique", "N'a qu'une seule paire de fils", "Transmet les données plus lentement"], a: 0, e: "Le blindage métallique (STP) protège les signaux dans les environnements industriels bruyants." },
+  { s: "Équipements", t: "single", q: "Wireshark est principalement un :", c: ["Pare-feu réseau", "Simulateur de réseau comme Packet Tracer", "Analyseur de trames / Sniffer de paquets", "Serveur DHCP"], a: 2, e: "Il capture les trames qui passent sur ta carte réseau et les décode couche par couche." },
+  { s: "Adressage IP", t: "single", q: "Quelle commande permet de nettoyer (vider) le cache DNS sous Windows ?", c: ["ipconfig /renew", "ipconfig /flushdns", "netsh winsock reset", "dns -clear"], a: 1, e: "Très utile si l'IP d'un site a changé mais que ton navigateur tape encore sur l'ancienne IP mémorisée localement." },
+  { s: "Adressage IP", t: "fill", q: "Pour l'IP 172.16.5.130/25, quelle est l'adresse Réseau ?", p: "172.16.5.xxx", a: "172.16.5.128", e: "Le masque /25 = 255.255.255.128. Le dernier octet (130) en binaire donne 10000010. Le masque (128) est 10000000. Le ET logique donne 128." },
+  { s: "Systèmes", t: "single", q: "Quel symbole indique le répertoire racine du système de fichiers sous Linux ?", c: ["\\", "/", "C:", "~"], a: 1, e: "La racine absolue sous les systèmes Unix/Linux est le slash '/'." },
+  { s: "Systèmes", t: "single", q: "Pour changer le propriétaire d'un fichier (ex: le donner à 'durand'), la commande est :", c: ["chmod durand fichier", "chgrp durand fichier", "chown durand fichier", "usermod durand fichier"], a: 2, e: "chown = CHange OWNer. chgrp change le groupe, chmod les permissions." },
+  { s: "Réseaux OSI", t: "single", q: "Quel est le PDU de la couche Liaison (Couche 2) ?", c: ["Message", "Paquet", "Trame (Frame)", "Bit"], a: 2, e: "La couche Liaison gère l'accès au support local. Elle encapsule les paquets dans des trames." },
+  { s: "Réseaux OSI", t: "single", q: "Laquelle de ces couches de l'OSI s'occupe du formatage des données (ex: ASCII, JPEG, chiffrement SSL) ?", c: ["Application", "Présentation", "Session", "Transport"], a: 1, e: "La couche 6 (Présentation) s'assure que la syntaxe des données est lisible par la couche Application cible." },
+  { s: "Ethernet", t: "single", q: "Quelle est la taille maximale standard (MTU) de la charge utile (données IP) dans une trame Ethernet ?", c: ["1000 octets", "1500 octets", "9000 octets", "65535 octets"], a: 1, e: "Le MTU Ethernet classique est de 1500 octets. Les 'Jumbo Frames' peuvent aller jusqu'à 9000 octets." },
+  { s: "Topologies", t: "single", q: "Un WAN (Wide Area Network) connecte :", c: ["Des composants d'un ordinateur", "Des appareils dans une seule pièce", "Des LANs géographiquement éloignés (ex: villes, pays)", "Exclusivement des smartphones"], a: 2, e: "WAN = Réseau étendu. Internet est le plus grand WAN existant." },
+  { s: "Adressage IP", t: "single", q: "L'adresse 224.0.0.5 appartient à quelle classe ?", c: ["Classe A", "Classe B", "Classe C", "Classe D (Multicast)"], a: 3, e: "La classe D (224 à 239) est réservée à la diffusion Multicast (vers un groupe d'hôtes)." },
+  { s: "Routage & ICMP", t: "single", q: "Qu'est-ce qu'une Passerelle par défaut (Default Gateway) ?", c: ["Le serveur qui donne les IP (DHCP)", "Le routeur vers lequel la machine envoie ses paquets si la destination n'est pas sur le LAN local", "Un pare-feu logiciel", "L'adresse MAC du switch"], a: 1, e: "Si ton PC (192.168.1.10) veut parler à 8.8.8.8, il ne sait pas y aller directement. Il délègue au routeur (la passerelle)." },
+  { s: "Réseaux OSI", t: "single", q: "Quel protocole n'appartient PAS à la couche Application ?", c: ["HTTP", "SMTP", "IP", "FTP"], a: 2, e: "IP est le protocole phare de la couche 3 (Réseau/Internet). Les autres sont des protocoles applicatifs (Web, Mail, Fichiers)." },
+  { s: "Adressage IP", t: "single", q: "Si j'ai l'adresse réseau 10.0.0.0 /8, combien de bits sont disponibles pour identifier les hôtes ?", c: ["8", "16", "24", "32"], a: 2, e: "Sur les 32 bits de l'adresse, 8 sont pris pour le réseau (/8). Il reste 32 - 8 = 24 bits pour les hôtes." },
+  { s: "Concepts Réseaux", t: "single", q: "Dans l'architecture client-serveur :", c: ["Tous les postes sont égaux", "Un client initie la requête, le serveur écoute et répond", "Le serveur demande des ressources au client", "Il n'y a pas besoin de réseau"], a: 1, e: "Typiquement : Ton navigateur Web (client) demande une page au serveur de Google qui lui répond." },
+  { s: "Couche Transport", t: "single", q: "Les numéros de Port (ex: 80 pour HTTP, 443 pour HTTPS) interviennent à quelle couche ?", c: ["Liaison (Couche 2)", "Réseau (Couche 3)", "Transport (Couche 4)", "Application (Couche 7)"], a: 2, e: "La couche Transport (TCP/UDP) utilise les ports pour multiplexer les connexions applicatives sur une même IP." },
+  { s: "Systèmes", t: "single", q: "Sous Linux, quelle commande affiche le chemin absolu du dossier dans lequel je me trouve ?", c: ["whereami", "path", "pwd", "cwd"], a: 2, e: "pwd (Print Working Directory) affiche l'arborescence depuis la racine jusqu'au dossier courant." },
+  { s: "Systèmes", t: "single", q: "Le chemin <code>../../dossier</code> est un chemin :", c: ["Absolu", "Relatif", "Réseau", "Invalide"], a: 1, e: "Il dépend d'où l'on se trouve actuellement (on remonte de 2 dossiers). Un chemin absolu commence par '/'." },
+  { s: "Systèmes", t: "single", q: "Que signifie <code>~</code> dans le shell Bash ?", c: ["Le répertoire temporaire /tmp", "La racine /", "Le dossier personnel de l'utilisateur actuel", "Le dossier parent"], a: 2, e: "C'est un raccourci super pratique. Tape 'cd ~' (ou juste 'cd') et tu rentres à la maison !" },
+  { s: "Systèmes", t: "single", q: "Comment définir correctement une variable Bash ?", c: ["VAR = test", "VAR=test", "$VAR=test", "set VAR test"], a: 1, e: "En Bash, il ne faut surtout AUCUN espace autour du signe '=' lors d'une assignation." },
+  { s: "Systèmes", t: "single", q: "À quoi sert <code>export VAR</code> ?", c: ["Exporter le fichier VAR", "Supprimer VAR", "Rendre la variable VAR disponible (globale) pour les sous-processus lancés depuis ce shell", "Afficher la valeur de VAR"], a: 2, e: "Sans export, la variable n'est qu'une variable locale du shell courant. Les scripts lancés depuis ce shell ne la verront pas." },
+  { s: "Systèmes", t: "single", q: "Dans un script Bash, que représente la variable spéciale <code>$#</code> ?", c: ["L'identifiant (PID) du script", "Le nombre d'arguments passés au script", "Le nom du script lui-même", "Le code de retour de la dernière commande"], a: 1, e: "$# = nombre d'arguments. $0 = nom du script. $? = code de retour. $$ = PID." },
+  { s: "Systèmes", t: "single", q: "Le fichier qui contient la liste brute des utilisateurs (avec leur UID, GID, Home...) est :", c: ["/etc/shadow", "/etc/users", "/etc/passwd", "/etc/group"], a: 2, e: "/etc/passwd contient les infos publiques. Les mots de passe chiffrés sont isolés dans /etc/shadow." },
+  { s: "Réseaux OSI", t: "single", q: "Quelle instance s'assure que les normes internationales comme le modèle OSI soient écrites ?", c: ["L'IETF", "Le W3C", "L'ISO", "L'IEEE"], a: 2, e: "ISO (International Organization for Standardization). L'IEEE gère notamment les normes Ethernet/WiFi (802.x)." },
+  { s: "Adressage IP", t: "single", q: "Comment appelle-t-on le procédé qui permet de traduire les IP privées d'un LAN en une seule IP publique sur Internet ?", c: ["Le DNS", "Le NAT", "Le DHCP", "Le VLAN"], a: 1, e: "NAT (Network Address Translation). C'est ce que fait ta box Internet pour masquer tous tes appareils derrière son IP publique." },
+  { s: "Concepts Réseaux", t: "single", q: "Quel protocole est utilisé par les routeurs pour configurer automatiquement l'IP d'un PC qui se connecte ?", c: ["ARP", "DNS", "DHCP", "ICMP"], a: 2, e: "DHCP (Dynamic Host Configuration Protocol) distribue un bail avec une IP, un masque, une passerelle et les serveurs DNS." },
+  { s: "Couche Physique", t: "single", q: "Dans une transmission en BANDE DE BASE (Baseband) :", c: ["Le signal numérique est envoyé directement sur le support sans modulation par une porteuse", "On utilise des ondes radio AM/FM", "Plusieurs canaux sont multiplexés en fréquence", "La portée est mondiale"], a: 0, e: "L'Ethernet classique est du Baseband (ex: le mot BASE dans 1000BASE-T). Le signal électrique représente directement les 0 et les 1." },
+  { s: "Couche Physique", t: "single", q: "La diaphonie (crosstalk) dans un câble de cuivre est :", c: ["Une perte de signal due à la distance (atténuation)", "Une perturbation électromagnétique d'une paire de fils sur une autre paire voisine", "Une erreur de CRC", "Le temps de propagation"], a: 1, e: "C'est pour réduire la diaphonie (crosstalk) que les fils des câbles réseaux sont torsadés." }
+];
+
+// App State
+let appState = { answered: 0, correct: 0, locked: new Set(), filter: '' };
+
+// DOM Elements
+const grid = document.getElementById('quiz');
+const chipsContainer = document.getElementById('chips');
+const searchInput = document.getElementById('search');
+
+// Init sections
+const sections = ["Toutes", ...new Set(Q_DATA.map(q => q.s))];
+let activeSection = "Toutes";
+
+function renderChips() {
+  chipsContainer.innerHTML = '';
+  sections.forEach(sec => {
+    const chip = document.createElement('div');
+    chip.className = `chip ${sec === activeSection ? 'active' : ''}`;
+    chip.textContent = sec;
+    chip.onclick = () => { activeSection = sec; renderChips(); renderQuiz(); };
+    chipsContainer.appendChild(chip);
+  });
+}
+
+function updateStats() {
+  document.getElementById('answered').innerText = appState.answered;
+  document.getElementById('total').innerText = Q_DATA.length;
+  document.getElementById('score').innerText = appState.correct;
+  document.getElementById('wrong').innerText = appState.answered - appState.correct;
+  document.getElementById('bar').style.width = `${(appState.answered / Q_DATA.length) * 100}%`;
+}
+
+function renderQuiz() {
+  grid.innerHTML = '';
+  
+  const filteredData = Q_DATA.filter(q => {
+    const matchSec = activeSection === "Toutes" || q.s === activeSection;
+    const matchSearch = q.q.toLowerCase().includes(appState.filter) || 
+                        (q.c && q.c.some(c => c.toLowerCase().includes(appState.filter)));
+    return matchSec && matchSearch;
+  });
+
+  filteredData.forEach((q, index) => {
+    const qIndex = Q_DATA.indexOf(q); // ID absolu
+    const card = document.createElement('div');
+    card.className = `card ${appState.locked.has(qIndex) ? 'locked revealed' : ''}`;
+    
+    // Structure flip 3D
+    const inner = document.createElement('div'); inner.className = "card-inner";
+    const front = document.createElement('div'); front.className = "card-front";
+    const back = document.createElement('div'); back.className = "card-back";
+    
+    // --- FRONT ---
+    front.innerHTML = `
+      <div class="meta">
+        <span class="tag">Q${qIndex + 1}</span>
+        <span class="section">${q.s}</span>
+      </div>
+      <p class="qtext">${q.q}</p>
+    `;
+
+    if (q.t === "single") {
+      const choices = document.createElement('div');
+      choices.className = "choices";
+      q.c.forEach((choiceText, i) => {
+        const choice = document.createElement('div');
+        choice.className = "choice";
+        choice.innerHTML = `<div class="badge">${['A','B','C','D'][i] || i+1}</div><div class="ctext">${choiceText}</div>`;
+        
+        // Handling clicks
+        choice.onclick = () => {
+          if (appState.locked.has(qIndex)) return;
+          appState.locked.add(qIndex);
+          card.classList.add('locked', 'revealed');
+          appState.answered++;
+          
+          if (i === q.a) {
+            choice.classList.add('good');
+            appState.correct++;
+          } else {
+            choice.classList.add('bad');
+            choices.children[q.a].classList.add('good'); // Show true answer
+          }
+          updateStats();
+        };
+
+        choices.appendChild(choice);
+      });
+      front.appendChild(choices);
+    } 
+    else if (q.t === "fill") {
+      const wrap = document.createElement('div'); wrap.className = "fillwrap";
+      const input = document.createElement('input'); 
+      input.className = "fillinput"; input.placeholder = q.p; input.spellcheck = false;
+      const btn = document.createElement('button'); btn.textContent = "Vérifier";
+      
+      const checkVal = () => {
+        if (appState.locked.has(qIndex)) return;
+        if (!input.value.trim()) return;
+        appState.locked.add(qIndex);
+        card.classList.add('locked', 'revealed');
+        appState.answered++;
+        
+        if (input.value.trim().toLowerCase() === q.a.toLowerCase()) {
+          input.classList.add('goodin');
+          appState.correct++;
+        } else {
+          input.classList.add('badin');
+          input.value = `❌ Faux. Réponse: ${q.a}`;
+        }
+        updateStats();
+      };
+      
+      btn.onclick = checkVal;
+      input.onkeydown = e => { if(e.key === "Enter") checkVal(); };
+      
+      wrap.appendChild(input); wrap.appendChild(btn);
+      front.appendChild(wrap);
+    }
+
+    const btnExpl = document.createElement('button');
+    btnExpl.className = "explain-btn";
+    btnExpl.innerHTML = "💡 Explication détaillée";
+    btnExpl.onclick = () => card.classList.add('flipped');
+    front.appendChild(btnExpl);
+
+    // --- BACK ---
+    back.innerHTML = `
+      <div>
+        <div class="explain-title">👨‍🏫 Explication</div>
+        <div class="explain-text">${q.e}</div>
+      </div>
+      <button class="ghost" style="width:100%; border-color: rgba(167,139,250,.3); color: #c4b5fd" onclick="this.closest('.card').classList.remove('flipped')">
+        ↩ Retour
+      </button>
+    `;
+
+    inner.appendChild(front);
+    inner.appendChild(back);
+    card.appendChild(inner);
+    grid.appendChild(card);
+  });
+}
+
+// Events
+searchInput.addEventListener('input', (e) => {
+  appState.filter = e.target.value.toLowerCase();
+  renderQuiz();
+});
+
+document.getElementById('btnReset').addEventListener('click', () => {
+  if (confirm("Tu veux vraiment tout effacer et recommencer ?")) {
+    appState = { answered: 0, correct: 0, locked: new Set(), filter: searchInput.value };
+    renderQuiz();
+    updateStats();
+  }
+});
+
+// Init
+renderChips();
+renderQuiz();
+updateStats();
+</script>
+<style>
+  /* style.css */
+:root {
+  --bg: #070b12;
+  --panel: rgba(17,24,39,.78);
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --border: rgba(255,255,255,.085);
+  --shadow: 0 12px 34px rgba(0,0,0,.40);
+  --accent: #a78bfa;
+  --good: #34d399;
+  --bad: #f87171;
+  --focus: rgba(167,139,250,.35);
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(1200px 800px at 10% 0%, rgba(167,139,250,.15), transparent 60%),
+    radial-gradient(900px 700px at 90% 10%, rgba(52,211,153,.10), transparent 55%),
+    radial-gradient(900px 700px at 50% 100%, rgba(56,189,248,.08), transparent 55%),
+    var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+  background-attachment: fixed;
+}
+
+.container { max-width: 1120px; margin: 0 auto; padding: 22px 16px 72px; }
+
+.header {
+  display: grid; gap: 12px; padding: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); position: sticky; top: 12px; z-index: 10;
+  backdrop-filter: blur(12px);
+}
+
+.toprow { display:flex; align-items:flex-start; justify-content:space-between; gap: 14px; flex-wrap: wrap; }
+
+h1 { 
+  font-size: 22px; margin: 0; letter-spacing: .2px; 
+  background: linear-gradient(135deg, #a78bfa, #38bdf8); 
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+}
+
+.subtitle { color: var(--muted); font-size: 13px; margin: 4px 0 0; }
+
+.controls { display:flex; gap: 10px; flex-wrap: nowrap; align-items:center; justify-content:flex-end; }
+
+.search {
+  min-width: 240px; flex: 1 1 260px;
+  background: rgba(15,23,42,.70); border: 1px solid var(--border);
+  border-radius: 12px; padding: 10px 12px; color: var(--text); outline: none;
+}
+.search:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.chips { display:flex; gap: 8px; flex-wrap: wrap; }
+.chip {
+  cursor: pointer; user-select: none; padding: 8px 12px; border-radius: 999px;
+  border: 1px solid var(--border); background: rgba(15,23,42,.65);
+  color: var(--text); font-size: 12px; font-weight: 700;
+  transition: all .2s ease;
+}
+.chip:hover { border-color: rgba(167,139,250,.4); transform: translateY(-1px); }
+.chip.active { border-color: rgba(167,139,250,.6); background: rgba(167,139,250,.15); }
+
+button {
+  cursor:pointer; border: 1px solid var(--border); background: rgba(15,23,42,.85);
+  color: var(--text); padding: 9px 14px; border-radius: 12px; font-weight: 700;
+  transition: all .2s ease; white-space: nowrap;
+}
+button:hover { transform: translateY(-1px); border-color: rgba(167,139,250,.4); background: rgba(15,23,42,1); }
+button:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.danger { border-color: rgba(239,68,68,.35); }
+.danger:hover { border-color: rgba(239,68,68,.6); }
+.ghost { background: rgba(255,255,255,.05); }
+
+.stats { display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+.pill {
+  display:inline-flex; align-items:center; gap:8px;
+  padding: 8px 12px; border-radius: 999px;
+  border: 1px solid var(--border); background: rgba(17,24,39,.7); font-size: 13px;
+}
+.dot { width:9px; height:9px; border-radius:999px; background: var(--accent); box-shadow:0 0 0 4px rgba(167,139,250,.15); }
+.progress { height: 10px; border-radius: 999px; background: rgba(255,255,255,.06); overflow:hidden; border:1px solid var(--border); }
+.progress > div { height:100%; width:0%; background: linear-gradient(90deg, #a78bfa, #34d399); transition: width .3s ease; }
+
+.grid { margin-top: 20px; display:grid; grid-template-columns: 1fr; gap: 16px; }
+
+.card {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.22);
+  perspective: 1000px;
+}
+
+.card-inner {
+  position: relative; width: 100%; height: 100%;
+  transition: transform 0.5s; transform-style: preserve-3d;
+}
+.card.flipped .card-inner { transform: rotateY(180deg); }
+
+.card-front, .card-back {
+  width: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+}
+.card-back {
+  position: absolute; top: 0; left: 0; transform: rotateY(180deg);
+  display: flex; flex-direction: column; justify-content: space-between; height: 100%;
+}
+
+.meta { display:flex; justify-content:space-between; gap: 12px; align-items:flex-start; margin-bottom: 14px; }
+.tag {
+  font-size: 12px; font-weight: 800; color: rgba(167,139,250,.95);
+  background: rgba(167,139,250,.12); padding: 6px 10px;
+  border: 1px solid rgba(167,139,250,.25); border-radius: 999px; white-space: nowrap;
+}
+.section {
+  font-size: 12px; font-weight: 700; color: rgba(156,163,175,.95);
+  background: rgba(255,255,255,.05); padding: 6px 10px;
+  border: 1px solid var(--border); border-radius: 999px; white-space: nowrap;
+}
+
+.qtext { margin: 0 0 14px 0; font-size: 15.5px; font-weight: 500; }
+
+.choices { display:grid; gap: 10px; }
+.choice {
+  display:grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: center;
+  padding: 10px 14px; border-radius: 12px; border: 1px solid var(--border);
+  background: rgba(15,23,42,.55);
+  transition: all .2s ease; user-select: none; cursor: pointer;
+}
+.choice:hover { border-color: rgba(167,139,250,.4); background: rgba(15,23,42,.8); }
+.badge {
+  width: 32px; height: 32px; border-radius: 8px;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-weight: 800; background: rgba(255,255,255,.08); border: 1px solid var(--border);
+}
+.ctext { font-size: 14px; }
+code {
+  background: rgba(255,255,255,.08); border: 1px solid var(--border);
+  padding: 2px 6px; border-radius: 6px; font-family: monospace; font-size: 13px; color: #bae6fd;
+}
+
+.locked .choice { cursor: default; }
+.locked .choice:hover { transform:none; }
+.good { border-color: rgba(52,211,153,.5) !important; background: rgba(52,211,153,.1) !important; }
+.good .badge { background: rgba(52,211,153,.2); border-color: rgba(52,211,153,.4); }
+.bad { border-color: rgba(248,113,113,.5) !important; background: rgba(248,113,113,.1) !important; }
+.bad .badge { background: rgba(248,113,113,.2); border-color: rgba(248,113,113,.4); }
+
+.fillwrap { display:flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.fillinput {
+  flex: 1 1 200px; padding: 12px 14px; border-radius: 12px;
+  border: 1px solid var(--border); background: rgba(15,23,42,.7); color: var(--text); outline: none;
+}
+.fillinput:focus { border-color: var(--accent); }
+.fillinput.goodin { border-color: rgba(52,211,153,.5); background: rgba(52,211,153,.05); }
+.fillinput.badin { border-color: rgba(248,113,113,.5); background: rgba(248,113,113,.05); }
+
+.explain-btn {
+  margin-top: 16px; width: 100%; background: rgba(167,139,250,.1);
+  border-color: rgba(167,139,250,.3); color: #c4b5fd; display: none;
+}
+.card.revealed .explain-btn { display: block; }
+
+.explain-title { font-weight: 800; font-size: 16px; margin-bottom: 12px; color: #34d399; }
+.explain-text { font-size: 14.5px; line-height: 1.6; color: var(--muted); margin-bottom: 16px; }
+
+@media (min-width: 850px) { .grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1250px) { .grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+/* =========================================
+  OPTIMISATION POUR SMARTPHONES
+   ========================================= */
+@media (max-width: 600px) {
+  
+  /* 1. On fait disparaître les boutons de filtres (chips) */
+  .chips {
+    display: none;
+  }
+
+  /* 2. On réduit la taille globale du header */
+  .header {
+    padding: 10px; /* Moins d'espace à l'intérieur */
+    gap: 8px;
+     /* Enlève le côté "collant" (sticky) si tu veux qu'il disparaisse quand tu descends */
+  }
+
+  /* 3. On rapetisse un peu le titre principal */
+  h1 {
+    font-size: 17px;
+  }
+
+  /* 4. On cache le sous-titre pour gagner un max de place */
+  .subtitle {
+    display: none;
+  }
+
+  /* 5. On adapte la barre de recherche et les boutons */
+  .controls {
+    flex-wrap: wrap; /* Permet aux éléments de passer à la ligne */
+    justify-content: center;
+  }
+  
+  .search {
+    width: 100%; /* La barre prend toute la largeur */
+    padding: 8px;
+  }
+
+  /* 6. On réduit les badges de statistiques */
+  .pill {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+}
+</style>
+</body>
+</html>
