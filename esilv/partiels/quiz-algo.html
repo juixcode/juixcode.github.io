@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Révisions QCM : Algo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+  /* style.css */
+:root {
+  --bg: #070b12;
+  --panel: rgba(17,24,39,.78);
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --border: rgba(255,255,255,.085);
+  --shadow: 0 12px 34px rgba(0,0,0,.40);
+  --accent: #a78bfa;
+  --good: #34d399;
+  --bad: #f87171;
+  --focus: rgba(167,139,250,.35);
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(1200px 800px at 10% 0%, rgba(167,139,250,.15), transparent 60%),
+    radial-gradient(900px 700px at 90% 10%, rgba(52,211,153,.10), transparent 55%),
+    radial-gradient(900px 700px at 50% 100%, rgba(56,189,248,.08), transparent 55%),
+    var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+  background-attachment: fixed;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body.light-mode {
+  --bg: #f5f3ff;
+  --panel: rgba(255, 255, 255, 0.95);
+  --text: #0f172a;
+  --muted: #475569;
+  --border: rgba(139, 92, 246, 0.2);
+  --shadow: 0 10px 30px rgba(109, 40, 217, 0.15);
+  background: 
+    radial-gradient(1200px 800px at 10% 0%, rgba(139, 92, 246, 0.3), transparent 60%),
+    radial-gradient(900px 700px at 90% 10%, rgba(124, 58, 237, 0.25), transparent 55%),
+    radial-gradient(900px 700px at 50% 100%, rgba(196, 181, 253, 0.45), transparent 55%),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+.container { max-width: 1120px; margin: 0 auto; padding: 22px 16px 72px; }
+
+.header {
+  display: grid; gap: 12px; padding: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); position: sticky; top: 12px; z-index: 10;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+body.light-mode .header {
+  background: linear-gradient(180deg, rgba(237, 233, 254, 0.95), rgba(255, 255, 255, 0.8));
+  border-color: rgba(167, 139, 250, 0.4);
+}
+
+.toprow { display:flex; align-items:flex-start; justify-content:space-between; gap: 14px; flex-wrap: wrap; }
+
+h1 { 
+  font-size: 22px; margin: 0; letter-spacing: .2px; 
+  background: linear-gradient(135deg, #a78bfa, #38bdf8); 
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+}
+
+.subtitle { color: var(--muted); font-size: 13px; margin: 4px 0 0; }
+
+.controls { display:flex; gap: 10px; flex-wrap: nowrap; align-items:center; justify-content:flex-end; }
+
+.search {
+  min-width: 240px; flex: 1 1 260px;
+  background: rgba(15,23,42,.70); border: 1px solid var(--border);
+  border-radius: 12px; padding: 10px 12px; color: var(--text); outline: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+body.light-mode .search { background: rgba(255,255,255,.8); }
+.search:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.chips { display:flex; gap: 8px; flex-wrap: wrap; }
+.chips.hidden { display: none !important; }
+.chip {
+  cursor: pointer; -webkit-user-select: none; user-select: none; padding: 8px 12px; border-radius: 999px;
+  border: 1px solid var(--border); background: rgba(15,23,42,.65);
+  color: var(--text); font-size: 12px; font-weight: 700;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+body.light-mode .chip { background: rgba(255,255,255,.8); }
+.chip:hover { border-color: rgba(167,139,250,.4); transform: translateY(-1px); }
+.chip.active { border-color: rgba(167,139,250,.6); background: rgba(167,139,250,.15); }
+
+button {
+  cursor:pointer; border: 1px solid var(--border); background: rgba(15,23,42,.85);
+  color: var(--text); padding: 9px 14px; border-radius: 12px; font-weight: 700;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease; white-space: nowrap;
+}
+body.light-mode button { background: rgba(255,255,255,.8); }
+body.light-mode button:hover { background: rgba(255,255,255,1); }
+button:hover { transform: translateY(-1px); border-color: rgba(167,139,250,.4); background: rgba(15,23,42,1); }
+button:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.danger { border-color: rgba(239,68,68,.35); }
+.danger:hover { border-color: rgba(239,68,68,.6); }
+.ghost { background: rgba(255,255,255,.05); }
+body.light-mode .ghost { background: transparent; border-color: var(--border); }
+
+.stats { display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+.pill {
+  display:inline-flex; align-items:center; gap:8px;
+  padding: 8px 12px; border-radius: 999px;
+  border: 1px solid var(--border); background: rgba(17,24,39,.7); font-size: 13px;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+body.light-mode .pill { background: rgba(255,255,255,.8); }
+.dot { width:9px; height:9px; border-radius:999px; background: var(--accent); box-shadow:0 0 0 4px rgba(167,139,250,.15); }
+.progress { height: 10px; border-radius: 999px; background: rgba(255,255,255,.06); overflow:hidden; border:1px solid var(--border); }
+body.light-mode .progress { background: rgba(0,0,0,.05); }
+.progress > div { height:100%; width:0%; background: linear-gradient(90deg, #a78bfa, #34d399); transition: width .3s ease; }
+
+.grid { margin-top: 20px; display:grid; grid-template-columns: 1fr; gap: 16px; }
+
+.card {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.22);
+  perspective: 1000px;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.card-inner {
+  position: relative; width: 100%; height: 100%;
+  transition: transform 0.5s; transform-style: preserve-3d;
+}
+.card.flipped .card-inner { transform: rotateY(180deg); }
+
+.card-front, .card-back {
+  width: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+}
+.card-back {
+  position: absolute; top: 0; left: 0; transform: rotateY(180deg);
+  display: flex; flex-direction: column; justify-content: space-between; height: 100%;
+}
+
+.meta { display:flex; justify-content:space-between; gap: 12px; align-items:flex-start; margin-bottom: 14px; }
+.tag {
+  font-size: 12px; font-weight: 800; color: rgba(167,139,250,.95);
+  background: rgba(167,139,250,.12); padding: 6px 10px;
+  border: 1px solid rgba(167,139,250,.25); border-radius: 999px; white-space: nowrap;
+}
+.section {
+  font-size: 12px; font-weight: 700; color: rgba(156,163,175,.95);
+  background: rgba(255,255,255,.05); padding: 6px 10px;
+  border: 1px solid var(--border); border-radius: 999px; white-space: nowrap;
+}
+body.light-mode .section { background: rgba(0,0,0,.05); color: #64748b; border-color: rgba(0,0,0,.1); }
+
+.qtext { margin: 0 0 14px 0; font-size: 15.5px; font-weight: 500; }
+
+.choices { display:grid; gap: 10px; }
+.choice {
+  display:grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: center;
+  padding: 10px 14px; border-radius: 12px; border: 1px solid var(--border);
+  background: rgba(15,23,42,.55);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease; -webkit-user-select: none; user-select: none; cursor: pointer;
+}
+body.light-mode .choice { background: rgba(255,255,255,.6); border-color: rgba(0,0,0,.1); }
+.choice:hover { border-color: rgba(167,139,250,.4); background: rgba(15,23,42,.8); }
+body.light-mode .choice:hover { background: rgba(255,255,255,1); border-color: rgba(167,139,250,.4); }
+.badge {
+  width: 32px; height: 32px; border-radius: 8px;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-weight: 800; background: rgba(255,255,255,.08); border: 1px solid var(--border);
+}
+body.light-mode .badge { background: rgba(0,0,0,.05); border-color: rgba(0,0,0,.1); }
+.ctext { font-size: 14px; }
+code {
+  background: rgba(255,255,255,.08); border: 1px solid var(--border);
+  padding: 2px 6px; border-radius: 6px; font-family: monospace; font-size: 13px; color: #bae6fd;
+}
+body.light-mode code { background: rgba(0,0,0,.05); border-color: rgba(0,0,0,.1); color: #0284c7; }
+
+.locked .choice { cursor: default; }
+.locked .choice:hover { transform:none; }
+.good { border-color: rgba(52,211,153,.5) !important; background: rgba(52,211,153,.1) !important; }
+.good .badge { background: rgba(52,211,153,.2); border-color: rgba(52,211,153,.4); }
+.bad { border-color: rgba(248,113,113,.5) !important; background: rgba(248,113,113,.1) !important; }
+.bad .badge { background: rgba(248,113,113,.2); border-color: rgba(248,113,113,.4); }
+
+.fillwrap { display:flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.fillinput {
+  flex: 1 1 200px; padding: 12px 14px; border-radius: 12px;
+  border: 1px solid var(--border); background: rgba(15,23,42,.7); color: var(--text); outline: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+body.light-mode .fillinput { background: rgba(255,255,255,.8); color: #0f172a; }
+.fillinput:focus { border-color: var(--accent); }
+.fillinput.goodin { border-color: rgba(52,211,153,.5); background: rgba(52,211,153,.05); }
+.fillinput.badin { border-color: rgba(248,113,113,.5); background: rgba(248,113,113,.05); }
+
+.explain-btn {
+  margin-top: 16px; width: 100%; background: rgba(255,255,255,.05);
+  border-color: rgba(255,255,255,.1); color: var(--muted); display: block;
+  opacity: 0.6; cursor: not-allowed; pointer-events: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+.card.revealed .explain-btn { 
+  background: rgba(167,139,250,.1); border-color: rgba(167,139,250,.3); color: #c4b5fd;
+  opacity: 1; cursor: pointer; pointer-events: auto;
+}
+body.light-mode .explain-btn {
+  background: rgba(0,0,0,.03); border-color: rgba(0,0,0,.1); color: #94a3b8;
+}
+body.light-mode .card.revealed .explain-btn {
+  background: rgba(167,139,250,.15); border-color: rgba(167,139,250,.3); color: #7c3aed;
+}
+
+.explain-title { font-weight: 800; font-size: 16px; margin-bottom: 12px; color: #34d399; }
+.explain-text { font-size: 14.5px; line-height: 1.6; color: var(--muted); margin-bottom: 16px; }
+
+@media (min-width: 850px) { .grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1250px) { .grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+/* =========================================
+  OPTIMISATION POUR SMARTPHONES
+   ========================================= */
+@media (max-width: 600px) {
+  .container { padding: 12px 10px 48px; }
+  .header { padding: 12px; top: 8px; gap: 8px; }
+  #btnToggleTags, #btnRevealAll { display: none; }
+  
+  .toprow { display: flex; flex-direction: column; gap: 10px; }
+  .toprow > div:first-child { width: 100%; }
+  
+  h1 { font-size: 18px; line-height: 1.3; }
+  .subtitle { display: none; }
+  
+  .controls { display: flex; gap: 8px; width: 100%; justify-content: stretch; }
+  .search { flex: 1; min-width: 0; padding: 10px; font-size: 14px; }
+  button { padding: 8px 12px; font-size: 13px; }
+  
+  .chips { display: none; }
+  
+  .stats { 
+    display: flex;
+    justify-content: center;
+    gap: 8px; 
+    width: 100%; 
+  }
+  .pill { 
+    padding: 8px 12px; 
+    font-size: 12px; 
+    text-align: center; 
+    border-radius: 12px;
+    flex: 1;
+    justify-content: center;
+  }
+  .pill .dot { display: none; }
+  .pill strong { font-size: 13px; }
+  
+  .progress { height: 6px; margin-top: 4px; }
+  
+  .card { padding: 16px; border-radius: 16px; }
+  .qtext { font-size: 14.5px; }
+  .choice { grid-template-columns: 36px 1fr; gap: 10px; padding: 8px 12px; }
+  .badge { width: 28px; height: 28px; font-size: 12px; }
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="toprow">
+        <div>
+          <h1>Partiel Algo</h1>
+        </div>
+        <div class="controls">
+          <input id="search" class="search" placeholder="Rechercher un concept..." />
+          <button id="btnToggleTags" class="ghost" title="Afficher/Masquer les tags">🏷️ Tags</button>
+          <button id="btnRevealAll" class="ghost" title="Révéler toutes les réponses">👀 Révéler</button>
+          <button id="btnTheme" class="ghost" title="Basculer le thème">☀️ Light</button>
+          <button id="btnReset" class="danger">Reset</button>
+        </div>
+      </div>
+      <div class="chips" id="chips"></div>
+      <div class="stats">
+        <div class="pill"><span class="dot"></span> <span><strong id="answered">0</strong> / <span id="total"></span></span></div>
+        <div class="pill">✅ <strong id="score">0</strong></div>
+        <div class="pill">❌ <strong id="wrong">0</strong></div>
+      </div>
+      <div class="progress"><div id="bar"></div></div>
+    </div>
+    
+    <div class="grid" id="quiz"></div>
+  </div>
+
+<script>
+// La base de données de révision (80 questions !)
+const Q_DATA = [
+  // --- BASES ALGORITHMIQUES ---
+  { 
+    s: "Bases", t: "single", 
+    q: "Qu'est-ce qu'une variable en algorithmique ?", 
+    c: ["Une boucle infinie", "Un espace mémoire nommé qui stocke une valeur", "Une condition logique", "Un type de tableau statique"], 
+    a: 1, 
+    e: "<b>Explication :</b> C'est une 'boîte' virtuelle dans la mémoire de l'ordinateur, repérée par un nom, dans laquelle on range une donnée. <br><b>À quoi ça sert :</b> À conserver des informations temporaires le temps que le programme tourne. <br><b>Exemple :</b> <code>score = 10</code> stocke le nombre 10 dans la variable 'score'." 
+  },
+  { 
+    s: "Bases", t: "single", 
+    q: "Quelle est la principale différence entre une boucle 'Pour' (For) et 'Tant Que' (While) ?", 
+    c: ["'Pour' est plus rapide que 'Tant Que'", "On utilise 'Pour' quand on connaît le nombre d'itérations à l'avance", "'Tant Que' ne peut pas utiliser de variables", "Il n'y a aucune différence"], 
+    a: 1, 
+    e: "<b>Explication :</b> La boucle 'Pour' tourne un nombre de fois défini, la boucle 'Tant Que' tourne tant qu'une condition est vraie. <br><b>À quoi ça sert :</b> À répéter des actions selon le contexte d'exécution. <br><b>Exemple :</b> 'Pour' afficher les 10 premiers nombres, 'Tant Que' le joueur a encore des points de vie." 
+  },
+  { 
+    s: "Bases", t: "fill", 
+    q: "Quel opérateur mathématique permet d'obtenir le reste d'une division entière ?", 
+    p: "Le nom de l'opérateur...", 
+    a: "modulo", 
+    e: "<b>Explication :</b> Le modulo (souvent noté %) renvoie le reste de la division d'un nombre par un autre. <br><b>À quoi ça sert :</b> À vérifier si un nombre est pair/impair ou à limiter un compteur. <br><b>Exemple :</b> <code>10 % 3 = 1</code> car 10 = (3 * 3) + 1." 
+  },
+  { 
+    s: "Bases", t: "single", 
+    q: "Que fait l'instruction 'Si ... Sinon' (If ... Else) ?", 
+    c: ["Elle répète une action", "Elle déclare une fonction", "Elle exécute un bloc de code selon une condition logique", "Elle convertit un texte en nombre"], 
+    a: 2, 
+    e: "<b>Explication :</b> C'est une structure de contrôle conditionnelle qui crée un embranchement dans le code. <br><b>À quoi ça sert :</b> À prendre des décisions algorithmiques. <br><b>Exemple :</b> Si <code>age >= 18</code> alors afficher 'Majeur', Sinon afficher 'Mineur'." 
+  },
+  { 
+    s: "Bases", t: "single", 
+    q: "Qu'est-ce que l'incrémentation ?", 
+    c: ["Diviser une variable par 2", "Ajouter 1 à la valeur d'une variable", "Vider la mémoire", "Inverser un tableau"], 
+    a: 1, 
+    e: "<b>Explication :</b> C'est l'action d'augmenter la valeur d'une variable numérique (généralement de 1). <br><b>À quoi ça sert :</b> À tenir les comptes dans les compteurs de boucles. <br><b>Exemple :</b> <code>i++</code> ou <code>i = i + 1</code>." 
+  },
+
+  // --- TABLEAUX 1D ---
+  { 
+    s: "Tableaux 1D", t: "single", 
+    q: "En informatique, à quel index commence généralement le premier élément d'un tableau ?", 
+    c: ["-1", "0", "1", "Dépend de la taille"], 
+    a: 1, 
+    e: "<b>Explication :</b> Les tableaux sont indexés à partir de zéro, c'est l'offset (décalage) par rapport au début de la mémoire. <br><b>À quoi ça sert :</b> C'est un standard pour calculer rapidement l'adresse mémoire de l'élément. <br><b>Exemple :</b> <code>T[0]</code> est le premier élément, <code>T[1]</code> le deuxième." 
+  },
+  { 
+    s: "Tableaux 1D", t: "fill", 
+    q: "Si un tableau se nomme 'tab' et contient N éléments, quel est l'index de son DERNIER élément ?", 
+    p: "Expression mathématique...", 
+    a: "N-1", 
+    e: "<b>Explication :</b> Puisque l'on commence à compter à 0, le dernier index est la taille totale moins un. <br><b>À quoi ça sert :</b> À éviter les erreurs de dépassement (Out of bounds). <br><b>Exemple :</b> Un tableau de 5 éléments va de l'index 0 à l'index 4." 
+  },
+  { 
+    s: "Tableaux 1D", t: "single", 
+    q: "Comment appelle-t-on l'erreur qui survient lorsqu'on tente d'accéder à l'index 10 d'un tableau de taille 5 ?", 
+    c: ["Stack Overflow", "Out of Bounds (Débordement d'indice)", "Null Pointer Exception", "Syntax Error"], 
+    a: 1, 
+    e: "<b>Explication :</b> On demande au programme de lire une zone mémoire qui n'appartient pas au tableau. <br><b>À quoi ça sert :</b> C'est une sécurité (ou un crash) pour éviter de corrompre les données système. <br><b>Exemple :</b> Lire <code>T[10]</code> quand le tableau s'arrête à <code>T[4]</code> fait planter le programme." 
+  },
+  { 
+    s: "Tableaux 1D", t: "single", 
+    q: "Quelle est la meilleure structure pour afficher TOUS les éléments d'un tableau ?", 
+    c: ["Une condition Si", "Une boucle Tant Que", "Une boucle Pour (For)", "Une déclaration de variable"], 
+    a: 2, 
+    e: "<b>Explication :</b> La boucle Pour itère sur une séquence connue, parfaite pour les tableaux. <br><b>À quoi ça sert :</b> À parcourir des données structurées sans oublier un seul élément. <br><b>Exemple :</b> <code>Pour i de 0 à taille-1 Faire afficher(T[i])</code>." 
+  },
+  { 
+    s: "Tableaux 1D", t: "single", 
+    q: "Dans un tableau statique, est-il possible de rajouter un élément à la fin s'il est déjà plein ?", 
+    c: ["Oui, il s'agrandit automatiquement", "Non, sa taille est fixe en mémoire", "Oui, en utilisant un pointeur magique", "Seulement si l'élément est un 0"], 
+    a: 1, 
+    e: "<b>Explication :</b> Un tableau statique réserve une place fixe à sa création. Il ne peut pas s'étendre. <br><b>À quoi ça sert :</b> À avoir des temps d'accès très rapides quand on connaît le volume de données. <br><b>Exemple :</b> Un tableau stockant les 7 jours de la semaine n'a pas besoin de grandir." 
+  },
+  { 
+    s: "Tableaux 1D", t: "fill", 
+    q: "Quel algorithme simple nécessite de stocker une valeur dans une variable 'temp' (temporaire) ?", 
+    p: "L'échange de...", 
+    a: "L'échange de deux variables", 
+    e: "<b>Explication :</b> Pour intervertir deux valeurs A et B, on doit sauvegarder A dans Temp, mettre B dans A, puis Temp dans B. <br><b>À quoi ça sert :</b> C'est la base de tous les algorithmes de tri. <br><b>Exemple :</b> Échanger le contenu de <code>T[0]</code> et <code>T[1]</code>." 
+  },
+
+  // --- TABLEAUX 2D (MATRICES) ---
+  { 
+    s: "Tableaux 2D", t: "single", 
+    q: "Qu'est-ce qu'un tableau à deux dimensions (matrice) ?", 
+    c: ["Un tableau qui contient d'autres tableaux", "Un tableau avec seulement 2 éléments", "Un tableau infini", "Un dictionnaire"], 
+    a: 0, 
+    e: "<b>Explication :</b> C'est une structure en lignes et en colonnes (comme un tableur Excel). <br><b>À quoi ça sert :</b> À représenter des grilles, des cartes ou des images. <br><b>Exemple :</b> <code>grille[ligne][colonne]</code>." 
+  },
+  { 
+    s: "Tableaux 2D", t: "fill", 
+    q: "Comment accède-t-on à l'élément situé à la 3ème ligne et 4ème colonne (en supposant des index à partir de 0) ?", 
+    p: "T[x][y]...", 
+    a: "T[2][3]", 
+    e: "<b>Explication :</b> Ligne 3 = index 2. Colonne 4 = index 3. <br><b>À quoi ça sert :</b> À cibler précisément une coordonnée dans une grille. <br><b>Exemple :</b> Modifier le pixel <code>image[2][3]</code> en rouge." 
+  },
+  { 
+    s: "Tableaux 2D", t: "single", 
+    q: "Combien de boucles imbriquées faut-il généralement pour parcourir l'intégralité d'une matrice 2D ?", 
+    c: ["0", "1", "2", "3"], 
+    a: 2, 
+    e: "<b>Explication :</b> Une boucle pour parcourir les lignes (i), et à l'intérieur, une boucle pour les colonnes (j). <br><b>À quoi ça sert :</b> À traiter chaque cellule de la grille une par une. <br><b>Exemple :</b> Initialiser un échiquier vide en mettant toutes les cases à 0." 
+  },
+  { 
+    s: "Tableaux 2D", t: "single", 
+    q: "Dans une matrice carrée, quelle est la particularité des éléments de la diagonale principale ?", 
+    c: ["L'index de ligne est égal à l'index de colonne (i == j)", "Ils valent toujours 0", "L'index de ligne est le double de la colonne", "Ils sont impossibles à lire"], 
+    a: 0, 
+    e: "<b>Explication :</b> La diagonale part d'en haut à gauche jusqu'en bas à droite. <br><b>À quoi ça sert :</b> Utile en algèbre linéaire (matrice identité) ou détection de victoire au Morpion. <br><b>Exemple :</b> Les cases (0,0), (1,1), (2,2)..." 
+  },
+
+  // --- TRIS ---
+  { 
+    s: "Tris", t: "single", 
+    q: "Quel algorithme de tri compare systématiquement les éléments adjacents et les échange s'ils sont dans le mauvais ordre ?", 
+    c: ["Tri par sélection", "Tri à bulles (Bubble Sort)", "Tri rapide", "Tri fusion"], 
+    a: 1, 
+    e: "<b>Explication :</b> Les plus grands éléments 'remontent' vers la fin du tableau comme des bulles à la surface de l'eau. <br><b>À quoi ça sert :</b> C'est un tri pédagogique, simple à coder mais peu performant sur de grandes données. <br><b>Exemple :</b> Trier une petite liste de scores." 
+  },
+  { 
+    s: "Tris", t: "single", 
+    q: "Quel est le principe du Tri par Sélection (Selection Sort) ?", 
+    c: ["Il coupe le tableau en deux", "Il choisit un élément pivot au hasard", "Il cherche le plus petit élément et le place au début, puis recommence", "Il ne trie que les nombres pairs"], 
+    a: 2, 
+    e: "<b>Explication :</b> On cherche le minimum du tableau non trié, et on l'échange avec le premier élément non trié. <br><b>À quoi ça sert :</b> À trier avec un nombre minimum d'échanges en mémoire. <br><b>Exemple :</b> Ranger un jeu de cartes en cherchant toujours la plus petite carte restante." 
+  },
+  { 
+    s: "Tris", t: "single", 
+    q: "Quel algorithme reproduit la façon naturelle dont les humains trient des cartes dans leurs mains ?", 
+    c: ["Tri à bulles", "Tri par sélection", "Tri par insertion (Insertion Sort)", "Tri Bogo"], 
+    a: 2, 
+    e: "<b>Explication :</b> On prend chaque élément un par un et on l'insère à sa place correcte parmi les éléments déjà triés. <br><b>À quoi ça sert :</b> Très rapide sur des tableaux déjà presque triés ou de petite taille. <br><b>Exemple :</b> Insérer le '7 de Coeur' entre le '5' et le '8' dans ta main." 
+  },
+  { 
+    s: "Tris", t: "single", 
+    q: "Le Tri Rapide (QuickSort) est basé sur le principe 'Diviser pour régner'. Quel concept clé utilise-t-il ?", 
+    c: ["Un accumulateur", "Un pivot", "Une file d'attente", "Un dictionnaire"], 
+    a: 1, 
+    e: "<b>Explication :</b> On choisit une valeur 'pivot', on met les plus petits à gauche, les plus grands à droite, puis on recommence récursivement. <br><b>À quoi ça sert :</b> C'est l'un des tris les plus rapides en pratique pour de gros volumes de données. <br><b>Exemple :</b> Trier une base de données de milliers d'utilisateurs." 
+  },
+  { 
+    s: "Tris", t: "single", 
+    q: "Qu'est-ce qui caractérise un tri dit 'stable' ?", 
+    c: ["Il ne plante jamais", "Il conserve l'ordre relatif des éléments égaux", "Il est toujours en O(1)", "Il modifie la taille du tableau"], 
+    a: 1, 
+    e: "<b>Explication :</b> Si deux éléments ont la même valeur, le tri stable les garde dans l'ordre où ils sont apparus initialement. <br><b>À quoi ça sert :</b> Utile quand on trie des données sur plusieurs critères successifs (ex: trier par Nom, puis par Âge). <br><b>Exemple :</b> Deux joueurs ont le score 10, le joueur arrivé en premier reste devant l'autre." 
+  },
+  { 
+    s: "Tris", t: "single", 
+    q: "Dans un Tri à Bulles optimisé, que se passe-t-il si lors d'un passage complet on ne fait aucun échange ?", 
+    c: ["Le programme crash", "On efface le tableau", "Le tri est terminé car le tableau est déjà trié", "On recommence à zéro"], 
+    a: 2, 
+    e: "<b>Explication :</b> Un drapeau (booléen) détecte s'il y a eu des échanges. S'il n'y en a pas, c'est que l'ordre est parfait. <br><b>À quoi ça sert :</b> À économiser du temps d'exécution (le meilleur cas devient O(N)). <br><b>Exemple :</b> Lancer un tri à bulles sur <code>[1, 2, 3, 4]</code> s'arrête dès le premier tour." 
+  },
+
+  // --- RECHERCHE ---
+  { 
+    s: "Recherche", t: "single", 
+    q: "Quel est le principe de la recherche séquentielle (ou linéaire) ?", 
+    c: ["Sauter de 2 en 2", "Regarder le milieu direct", "Parcourir le tableau élément par élément du début à la fin", "Trier le tableau d'abord"], 
+    a: 2, 
+    e: "<b>Explication :</b> C'est la méthode brutale : on teste chaque case l'une après l'autre jusqu'à trouver ce qu'on cherche. <br><b>À quoi ça sert :</b> À trouver une donnée dans un tableau non trié. <br><b>Exemple :</b> Chercher ses clés dans toutes les poches de tous ses manteaux." 
+  },
+  { 
+    s: "Recherche", t: "single", 
+    q: "Quelle CONDITION STRICTE est requise pour pouvoir utiliser la recherche dichotomique (Binary Search) ?", 
+    c: ["Le tableau doit avoir une taille paire", "Le tableau DOIT être trié", "Le tableau ne doit contenir que des entiers", "Le tableau doit être vide"], 
+    a: 1, 
+    e: "<b>Explication :</b> La dichotomie élimine la moitié des possibilités à chaque étape, ce qui est impossible si les données sont dans le désordre. <br><b>À quoi ça sert :</b> À trouver une info très rapidement dans de grandes bases de données. <br><b>Exemple :</b> Chercher un mot dans le dictionnaire (ils sont triés par ordre alphabétique)." 
+  },
+  { 
+    s: "Recherche", t: "fill", 
+    q: "Dans une recherche dichotomique, par combien divise-t-on la zone de recherche à chaque itération ?", 
+    p: "Un chiffre...", 
+    a: "2", 
+    e: "<b>Explication :</b> On compare la valeur cherchée avec l'élément central, et on écarte la moitié gauche ou droite. <br><b>À quoi ça sert :</b> À réduire drastiquement le nombre de recherches (Complexité logarithmique). <br><b>Exemple :</b> Dans le jeu du 'Juste Prix', on dit toujours la moitié du plafond pour cibler plus vite." 
+  },
+  { 
+    s: "Recherche", t: "single", 
+    q: "Comment calcule-t-on l'index du milieu dans une recherche dichotomique ?", 
+    c: ["(debut * fin) / 2", "(debut + fin) / 2", "debut - fin", "fin / 2"], 
+    a: 1, 
+    e: "<b>Explication :</b> On fait la moyenne entre l'index de début et l'index de fin de la zone de recherche. <br><b>À quoi ça sert :</b> À trouver le pivot central pour diviser le tableau. <br><b>Exemple :</b> Si début=0 et fin=10, le milieu est (0+10)/2 = 5." 
+  },
+  { 
+    s: "Recherche", t: "single", 
+    q: "Quel est le pire cas lors d'une recherche séquentielle ?", 
+    c: ["L'élément est au début", "L'élément est au milieu", "L'élément est tout à la fin, ou n'existe pas dans le tableau", "Le tableau est trié"], 
+    a: 2, 
+    e: "<b>Explication :</b> Dans le pire des cas, l'algorithme est forcé de parcourir absolument toutes les cases (N opérations). <br><b>À quoi ça sert :</b> À calculer la complexité temporelle pire cas (Worst-case). <br><b>Exemple :</b> Chercher un mot de passe qui s'avère ne pas être dans la liste des mots de passe compromis." 
+  },
+
+  // --- COMPLEXITÉ ALGORITHMIQUE ---
+  { 
+    s: "Complexité", t: "single", 
+    q: "Que représente la notation Grand O (Big O) en algorithmique ?", 
+    c: ["La quantité de bugs dans le code", "La borne supérieure de la croissance du temps d'exécution ou de l'espace mémoire", "Le temps exact en secondes", "Le nombre de variables"], 
+    a: 1, 
+    e: "<b>Explication :</b> C'est un modèle mathématique qui décrit comment un algorithme ralentit quand le nombre de données (N) grandit. <br><b>À quoi ça sert :</b> À comparer l'efficacité théorique de deux algorithmes indépendamment de la puissance du PC. <br><b>Exemple :</b> O(N) signifie que si la donnée double, le temps double." 
+  },
+  { 
+    s: "Complexité", t: "single", 
+    q: "Accéder directement au 5ème élément d'un tableau (T[4]) a une complexité temporelle de :", 
+    c: ["O(1) - Temps constant", "O(N) - Temps linéaire", "O(N^2) - Temps quadratique", "O(log N) - Temps logarithmique"], 
+    a: 0, 
+    e: "<b>Explication :</b> O(1) signifie que l'opération prend le même temps, peu importe la taille du tableau. <br><b>À quoi ça sert :</b> C'est la force majeure des tableaux : l'accès direct par index. <br><b>Exemple :</b> Lire le nom du gagnant stocké en case [0]." 
+  },
+  { 
+    s: "Complexité", t: "single", 
+    q: "Quelle est la complexité typique du Tri à Bulles ou du Tri par Sélection (avec 2 boucles For imbriquées) ?", 
+    c: ["O(1)", "O(log N)", "O(N)", "O(N^2) - Temps quadratique"], 
+    a: 3, 
+    e: "<b>Explication :</b> Pour chaque élément (N), on parcourt à nouveau le tableau (N). N * N = N^2. <br><b>À quoi ça sert :</b> À comprendre que ces algorithmes deviennent impraticables sur de très grandes bases (ex: 1 million de lignes). <br><b>Exemple :</b> Si 100 éléments prennent 1 seconde, 1000 éléments prendront 100 secondes." 
+  },
+  { 
+    s: "Complexité", t: "single", 
+    q: "La recherche dichotomique possède une complexité temporelle excellente de :", 
+    c: ["O(1)", "O(log N) - Temps logarithmique", "O(N)", "O(N!)"], 
+    a: 1, 
+    e: "<b>Explication :</b> O(log N) signifie qu'à chaque étape on divise les données par 2. La courbe s'aplatit très vite. <br><b>À quoi ça sert :</b> À trouver quasi-instantanément une donnée, même parmi des milliards d'entrées. <br><b>Exemple :</b> Trouver 1 personne parmi 4 milliards prend seulement ~32 étapes !" 
+  },
+  { 
+    s: "Complexité", t: "single", 
+    q: "En plus de la complexité temporelle (Temps CPU), on évalue souvent la complexité...", 
+    c: ["Emotionnelle", "Visuelle", "Spatiale (RAM utilisée)", "Réseau"], 
+    a: 2, 
+    e: "<b>Explication :</b> La complexité spatiale mesure la quantité de mémoire vive dont l'algorithme a besoin pour fonctionner. <br><b>À quoi ça sert :</b> À optimiser les programmes pour les systèmes embarqués ou éviter les Memory Leaks. <br><b>Exemple :</b> Le Tri Fusion nécessite O(N) d'espace supplémentaire, le Tri à bulles nécessite O(1)." 
+  },
+  // --- QUESTIONS DIFFICILES (COMPLEXITÉ & TRIS AVANCÉS) ---
+  { 
+    s: "Questions difficiles", t: "single", 
+    q: "Quelle est la fonction mathématique EXACTE du nombre de comparaisons dans un Tri par Sélection pour un tableau de taille N ?", 
+    c: ["N^2", "N * (N - 1) / 2", "N * log(N)", "2^N"], 
+    a: 1, 
+    e: "<b>Explication :</b> Au premier tour on fait N-1 comparaisons, au deuxième N-2, etc. La somme d'une suite arithmétique de 1 à N-1 donne N(N-1)/2. <br><b>À quoi ça sert :</b> À prouver mathématiquement pourquoi l'algorithme est classé en O(N²). <br><b>Exemple :</b> Pour 10 éléments, on fera exactement 10*9/2 = 45 comparaisons, pas 100." 
+  },
+  { 
+    s: "Questions difficiles", t: "single", 
+    q: "Dans quel scénario le Tri Rapide (QuickSort) classique chute-t-il dans sa pire complexité temporelle de O(N²) ?", 
+    c: ["Quand le tableau est rempli de nombres aléatoires", "Quand le tableau est déjà trié ou trié à l'envers", "Quand la taille du tableau est un nombre impair", "Il ne chute jamais en O(N²)"], 
+    a: 1, 
+    e: "<b>Explication :</b> Si on choisit toujours le premier ou dernier élément comme pivot sur un tableau déjà trié, on ne divise pas le tableau en deux, on retire juste un élément à chaque appel récursif. <br><b>À quoi ça sert :</b> À comprendre l'importance du choix du pivot (ex: prendre un pivot aléatoire ou la médiane de trois). <br><b>Exemple :</b> Lancer QuickSort sur [1, 2, 3, 4, 5] avec le dernier élément comme pivot va créer des sous-tableaux de taille 4, puis 3, puis 2... soit O(N²)." 
+  },
+  { 
+    s: "Questions difficiles", t: "single", 
+    q: "Contrairement à la notation Grand O qui donne la borne supérieure (pire cas), quelle notation donne la borne INFERIEURE (meilleur cas) ?", 
+    c: ["Big Theta (Θ)", "Big Alpha (α)", "Big Omega (Ω)", "Big Sigma (Σ)"], 
+    a: 2, 
+    e: "<b>Explication :</b> Big Omega (Ω) définit la limite basse d'un algorithme. Big Theta (Θ) est utilisé quand le pire et le meilleur cas sont du même ordre de grandeur. <br><b>À quoi ça sert :</b> À analyser les performances de façon ultra précise en théorie de la complexité. <br><b>Exemple :</b> Le Tri à Bulles optimisé a une complexité de Ω(N) dans le meilleur cas (déjà trié)." 
+  },
+  { 
+    s: "Questions difficiles", t: "single", 
+    q: "Quelle est la complexité SPATIALE (en mémoire) du Tri Fusion (Merge Sort) classique ?", 
+    c: ["O(1) - En place", "O(log N)", "O(N) - Linéaire", "O(N²)"], 
+    a: 2, 
+    e: "<b>Explication :</b> Le Tri Fusion a besoin de créer des tableaux temporaires pour fusionner les sous-tableaux triés, nécessitant une mémoire équivalente à la taille des données initiales. <br><b>À quoi ça sert :</b> À choisir le bon algorithme : si ta RAM est saturée, on préférera un QuickSort (O(log N) en espace) ou un HeapSort (O(1)). <br><b>Exemple :</b> Trier une base de 10 Go nécessitera 10 Go de RAM supplémentaire libre." 
+  },
+  { 
+    s: "Questions difficiles", t: "single", 
+    q: "Comment s'appelle la famille d'algorithmes de tri (comme le Counting Sort ou le Radix Sort) qui bat la limite mathématique du O(N log N) ?", 
+    c: ["Les tris magiques", "Les tris par comparaison", "Les tris non-comparatifs (ou par distribution)", "Les tris heuristiques"], 
+    a: 2, 
+    e: "<b>Explication :</b> Ces tris n'utilisent pas d'opérateurs comme < ou >. Ils utilisent la structure même des données (ex: leurs chiffres ou leur fréquence) pour les ranger dans des 'seaux'. <br><b>À quoi ça sert :</b> À trier des données spécifiques (comme des entiers dans une petite plage) en un temps record de O(N). <br><b>Exemple :</b> Trier les notes d'examens d'une promo (qui vont seulement de 0 à 20)." 
+  },
+  { 
+    s: "Questions difficiles", t: "fill", 
+    q: "Quelle relation de récurrence décrit la division du Tri Fusion : T(N) = 2 * T(N/2) + ... ?", 
+    p: "O(...)", 
+    a: "O(N)", 
+    e: "<b>Explication :</b> On lance 2 appels récursifs sur la moitié du tableau, puis on fusionne l'ensemble avec un coût proportionnel à la taille N. <br><b>À quoi ça sert :</b> C'est la base mathématique (Master Theorem) qui prouve que la complexité totale est O(N log N). <br><b>Exemple :</b> Fusionner deux moitiés de 50 éléments nécessite de parcourir les 100 éléments." 
+  },
+  { 
+    s: "Questions difficiles", t: "single", 
+    q: "Insérer un élément à l'index 0 d'un tableau classique de taille N et décaler le reste possède une complexité de :", 
+    c: ["O(1)", "O(log N)", "O(N)", "O(N²)"], 
+    a: 2, 
+    e: "<b>Explication :</b> Il faut copier et décaler chaque élément existant d'une case vers la droite pour faire de la place au début. <br><b>À quoi ça sert :</b> À comprendre pourquoi les listes chaînées sont parfois préférées aux tableaux pour des insertions fréquentes en tête. <br><b>Exemple :</b> Ajouter un nouvel email au tout début de ta boîte de réception." 
+  },
+  { 
+    s: "Questions difficiles", t: "single", 
+    q: "Dans un tableau dynamique (ex: vector en C++), que se passe-t-il en mémoire quand le tableau est plein et qu'on ajoute un élément ?", 
+    c: ["Il plante instantanément", "Il alloue un nouveau bloc mémoire (souvent le double), copie les anciens éléments, et ajoute le nouveau", "Il écrase le premier élément", "Il compresse les données en zip"], 
+    a: 1, 
+    e: "<b>Explication :</b> Le système ne peut pas garantir que l'espace contigu suivant est libre. Il doit donc recréer un tableau plus grand ailleurs. <br><b>À quoi ça sert :</b> Cela donne une complexité d'insertion 'amortie' de O(1), même si le redimensionnement ponctuel coûte O(N). <br><b>Exemple :</b> Ta bibliothèque de jeux s'agrandit, tu achètes une étagère deux fois plus grande et tu déplaces tous tes jeux dessus." 
+  },
+  { 
+    s: "Questions difficiles", t: "fill", 
+    q: "Quelle astuce mathématique (formule de Gauss) permet de trouver un nombre manquant dans un tableau non trié contenant les nombres de 1 à N en O(N) et O(1) espace ?", 
+    p: "Formule...", 
+    a: "N*(N+1)/2", 
+    e: "<b>Explication :</b> On calcule la somme théorique des nombres de 1 à N avec la formule, puis on soustrait la somme de tous les éléments actuels du tableau. Le reste est le nombre manquant. <br><b>À quoi ça sert :</b> À résoudre un problème de recherche sans avoir besoin de trier le tableau (ce qui coûterait O(N log N)). <br><b>Exemple :</b> Si on a [1, 3] pour N=3. Somme théorique = 3*4/2 = 6. Somme réelle = 4. Manquant = 6 - 4 = 2." 
+  },
+  { 
+    s: "Questions difficiles", t: "single", 
+    q: "Le Tri Rapide (QuickSort) classique est-il un algorithme de tri STABLE ?", 
+    c: ["Oui, toujours", "Non, l'ordre des éléments égaux n'est pas garanti", "Seulement si le tableau est de taille paire", "Seulement si on utilise un tri à bulles à la fin"], 
+    a: 1, 
+    e: "<b>Explication :</b> Lors de la partition autour du pivot, des éléments égaux peuvent être envoyés de l'autre côté de manière désordonnée. <br><b>À quoi ça sert :</b> Si tu tries des fichiers par date, puis par nom avec QuickSort, le tri par date précédent risque d'être totalement mélangé. <br><b>Exemple :</b> Trier des cartes de même valeur selon leur couleur ; QuickSort mélangera l'ordre initial des couleurs." 
+  },
+  { 
+    s: "Questions difficiles", t: "single", 
+    q: "Quelle technique algorithmique permet de trouver deux nombres qui s'additionnent pour donner X dans un tableau TRIÉ en O(N) ?", 
+    c: ["La dichotomie", "La technique des deux pointeurs (Two Pointers)", "Le Backtracking", "La programmation dynamique"], 
+    a: 1, 
+    e: "<b>Explication :</b> On place un pointeur au début et un à la fin. Si la somme est trop grande, on recule le pointeur de fin. Si elle est trop petite, on avance celui du début. <br><b>À quoi ça sert :</b> À éviter une double boucle O(N²) désastreuse en performances. <br><b>Exemple :</b> Dans un tableau [1, 2, 4, 5], chercher la cible 6. 1+5=6 direct, pas besoin de tout parcourir." 
+  },
+  { 
+    s: "Questions difficiles", t: "single", 
+    q: "La technique de la 'Fenêtre glissante' (Sliding Window) est idéale pour résoudre quel type de problème sur les tableaux ?", 
+    c: ["Trier les éléments alphabétiquement", "Trouver des sous-tableaux ou sous-chaînes contiguës répondant à une condition (ex: somme maximale de k éléments)", "Inverser l'ordre du tableau", "Trouver l'élément médian"], 
+    a: 1, 
+    e: "<b>Explication :</b> Au lieu de recalculer la somme d'un sous-groupe à chaque fois, on 'glisse' le cadre en ajoutant le nouvel élément entrant et en soustrayant le sortant. <br><b>À quoi ça sert :</b> À transformer un algorithme en O(N*K) en un algorithme ultra-fluide en O(N). <br><b>Exemple :</b> Analyser le trafic réseau maximum sur une période glissante de 5 minutes." 
+  },
+  { 
+    s: "Questions difficiles", t: "single", 
+    q: "Quelle est la principale raison pour laquelle les tableaux 1D sont souvent plus performants que les listes chaînées pour le parcours de données ?", 
+    c: ["Ils sont écrits en binaire", "La localité spatiale (Spatial Locality) qui permet au cache CPU de précharger les données", "Les listes chaînées utilisent le réseau", "Ils n'ont pas besoin de boucle For"], 
+    a: 1, 
+    e: "<b>Explication :</b> Les cases d'un tableau sont collées en mémoire. Le processeur lit de gros blocs d'un coup (Cache L1/L2), contrairement aux listes chaînées où chaque nœud est éparpillé en RAM. <br><b>À quoi ça sert :</b> À optimiser les moteurs physiques de jeux vidéo (ex: Data-Oriented Design) pour éviter les 'Cache Misses'. <br><b>Exemple :</b> Parcourir 1 million d'entiers dans un tableau est drastiquement plus rapide que de suivre 1 million de pointeurs aléatoires." 
+  },
+  { 
+    s: "Questions difficiles", t: "single", 
+    q: "Lequel de ces algorithmes a le même coût temporel O(N log N) dans TOUS les cas (Pire, Moyen, Meilleur) ?", 
+    c: ["Tri Rapide (QuickSort)", "Tri à Bulles (Bubble Sort)", "Tri par Insertion", "Tri Fusion (Merge Sort)"], 
+    a: 3, 
+    e: "<b>Explication :</b> Le Tri Fusion divise toujours le tableau mécaniquement en deux jusqu'à l'unité, sans tenir compte du contenu du tableau, puis recombine le tout. <br><b>À quoi ça sert :</b> C'est un algorithme extrêmement prévisible, parfait pour des systèmes temps réel critiques où l'on veut éviter les mauvaises surprises. <br><b>Exemple :</b> Les systèmes de freinage ABS ou le contrôle aérien aiment les temps d'exécution garantis." 
+  },
+  { 
+    s: "Questions difficiles", t: "single", 
+    q: "Dans l'analyse algorithmique, que signifie une complexité en O(1) pour l'espace ?", 
+    c: ["Le programme utilise 1 octet de mémoire", "La quantité de mémoire supplémentaire requise ne dépend pas de la taille de l'entrée N (mémoire constante)", "Le programme n'a pas besoin de RAM", "Le tableau contient un seul élément"], 
+    a: 1, 
+    e: "<b>Explication :</b> Que l'on trie 10 éléments ou 1 milliard, on n'utilise que quelques variables de plus (comme des compteurs `i`, `j` ou un `temp`). <br><b>À quoi ça sert :</b> À prouver qu'un algorithme est 'En place' (In-place) et respecte les contraintes des petits systèmes embarqués. <br><b>Exemple :</b> Un tri à bulles a besoin seulement de la RAM du tableau initial et d'une variable temporaire." 
+  }
+];
+
+// App State
+let appState = { answered: 0, correct: 0, locked: new Set(), filter: '', history: {} };
+
+try {
+  const saved = localStorage.getItem('quiz_algo_state');
+  if (saved) {
+    const parsed = JSON.parse(saved);
+    appState.answered = parsed.answered || 0;
+    appState.correct = parsed.correct || 0;
+    appState.locked = new Set(parsed.locked || []);
+    appState.history = parsed.history || {};
+  }
+} catch (e) {}
+
+function saveState() {
+  localStorage.setItem('quiz_algo_state', JSON.stringify({
+    answered: appState.answered,
+    correct: appState.correct,
+    locked: Array.from(appState.locked),
+    history: appState.history
+  }));
+}
+
+// DOM Elements
+const grid = document.getElementById('quiz');
+const chipsContainer = document.getElementById('chips');
+const searchInput = document.getElementById('search');
+
+// Init sections
+const sections = ["Toutes", ...new Set(Q_DATA.map(q => q.s))];
+let activeSection = "Toutes";
+
+function renderChips() {
+  chipsContainer.innerHTML = '';
+  sections.forEach(sec => {
+    const chip = document.createElement('div');
+    chip.className = `chip ${sec === activeSection ? 'active' : ''}`;
+    chip.textContent = sec;
+    chip.onclick = () => { activeSection = sec; renderChips(); renderQuiz(); };
+    chipsContainer.appendChild(chip);
+  });
+}
+
+function updateStats() {
+  document.getElementById('answered').innerText = appState.answered;
+  document.getElementById('total').innerText = Q_DATA.length;
+  document.getElementById('score').innerText = appState.correct;
+  document.getElementById('wrong').innerText = appState.answered - appState.correct;
+  document.getElementById('bar').style.width = `${(appState.answered / Q_DATA.length) * 100}%`;
+}
+
+function renderQuiz() {
+  grid.innerHTML = '';
+  
+  const filteredData = Q_DATA.filter(q => {
+    const matchSec = activeSection === "Toutes" || q.s === activeSection;
+    const matchSearch = q.q.toLowerCase().includes(appState.filter) || 
+                        (q.c && q.c.some(c => c.toLowerCase().includes(appState.filter)));
+    return matchSec && matchSearch;
+  });
+
+  filteredData.forEach((q, index) => {
+    const qIndex = Q_DATA.indexOf(q); // ID absolu
+    const card = document.createElement('div');
+    card.className = `card ${appState.locked.has(qIndex) ? 'locked revealed' : ''}`;
+    
+    // Structure flip 3D
+    const inner = document.createElement('div'); inner.className = "card-inner";
+    const front = document.createElement('div'); front.className = "card-front";
+    const back = document.createElement('div'); back.className = "card-back";
+    
+    // --- FRONT ---
+    front.innerHTML = `
+      <div class="meta">
+        <span class="tag">Q${qIndex + 1}</span>
+        <span class="section">${q.s}</span>
+      </div>
+      <p class="qtext">${q.q}</p>
+    `;
+
+    if (q.t === "single") {
+      const choices = document.createElement('div');
+      choices.className = "choices";
+      q.c.forEach((choiceText, i) => {
+        const choice = document.createElement('div');
+        choice.className = "choice";
+        choice.innerHTML = `<div class="badge">${['A','B','C','D'][i] || i+1}</div><div class="ctext">${choiceText}</div>`;
+        
+        // Restore State
+        if (appState.history[qIndex]) {
+          const hist = appState.history[qIndex];
+          if (i === q.a) choice.classList.add('good');
+          else if (i === hist.choice && !hist.revealed) choice.classList.add('bad');
+        }
+
+        // Handling clicks
+        choice.onclick = () => {
+          if (appState.locked.has(qIndex)) return;
+          appState.locked.add(qIndex);
+          card.classList.add('locked', 'revealed');
+          appState.answered++;
+          
+          const isCorrect = (i === q.a);
+          appState.history[qIndex] = { correct: isCorrect, choice: i };
+          saveState();
+
+          if (isCorrect) {
+            choice.classList.add('good');
+            appState.correct++;
+          } else {
+            choice.classList.add('bad');
+            choices.children[q.a].classList.add('good'); // Show true answer
+          }
+          updateStats();
+        };
+
+        choices.appendChild(choice);
+      });
+      front.appendChild(choices);
+    } 
+    else if (q.t === "fill") {
+      const wrap = document.createElement('div'); wrap.className = "fillwrap";
+      const input = document.createElement('input'); 
+      input.className = "fillinput"; input.placeholder = q.p; input.spellcheck = false;
+      const btn = document.createElement('button'); btn.textContent = "Vérifier";
+      
+      // Restore State
+      if (appState.history[qIndex]) {
+        const hist = appState.history[qIndex];
+        if (hist.revealed) {
+          input.value = `💡 Réponse: ${q.a}`;
+          input.classList.add('goodin');
+        } else {
+          input.value = hist.choice;
+          if (hist.correct) {
+            input.classList.add('goodin');
+          } else {
+            input.classList.add('badin');
+            input.value = `❌ Faux. Réponse: ${q.a}`;
+          }
+        }
+        input.disabled = true;
+        btn.disabled = true;
+      }
+
+      const checkVal = () => {
+        if (appState.locked.has(qIndex)) return;
+        if (!input.value.trim()) return;
+        appState.locked.add(qIndex);
+        card.classList.add('locked', 'revealed');
+        appState.answered++;
+        
+        const isCorrect = input.value.trim().toLowerCase() === q.a.toLowerCase();
+        appState.history[qIndex] = { correct: isCorrect, choice: input.value.trim() };
+        saveState();
+
+        if (isCorrect) {
+          input.classList.add('goodin');
+          appState.correct++;
+        } else {
+          input.classList.add('badin');
+          input.value = `❌ Faux. Réponse: ${q.a}`;
+        }
+        updateStats();
+      };
+      
+      btn.onclick = checkVal;
+      input.onkeydown = e => { if(e.key === "Enter") checkVal(); };
+      
+      wrap.appendChild(input); wrap.appendChild(btn);
+      front.appendChild(wrap);
+    }
+
+    const btnExpl = document.createElement('button');
+    btnExpl.className = "explain-btn";
+    btnExpl.innerHTML = "💡 Explication détaillée";
+    btnExpl.onclick = () => card.classList.add('flipped');
+    front.appendChild(btnExpl);
+
+    // --- BACK ---
+    back.innerHTML = `
+      <div>
+        <div class="explain-title">👨‍🏫 Explication</div>
+        <div class="explain-text">${q.e}</div>
+      </div>
+      <button class="ghost" style="width:100%; border-color: rgba(167,139,250,.3); color: #c4b5fd" onclick="this.closest('.card').classList.remove('flipped')">
+        ↩ Retour
+      </button>
+    `;
+
+    inner.appendChild(front);
+    inner.appendChild(back);
+    card.appendChild(inner);
+    grid.appendChild(card);
+  });
+}
+
+// Events
+searchInput.addEventListener('input', (e) => {
+  appState.filter = e.target.value.toLowerCase();
+  renderQuiz();
+});
+
+document.getElementById('btnReset').addEventListener('click', () => {
+  if (confirm("Tu veux vraiment tout effacer et recommencer ?")) {
+    appState = { answered: 0, correct: 0, locked: new Set(), filter: searchInput.value, history: {} };
+    localStorage.removeItem('quiz_algo_state');
+    renderQuiz();
+    updateStats();
+  }
+});
+
+// Theme Toggle
+const btnTheme = document.getElementById('btnTheme');
+
+// Load saved theme
+if (localStorage.getItem('site_theme') === 'light') {
+  document.body.classList.add('light-mode');
+  btnTheme.innerHTML = '🌙 Dark';
+}
+
+btnTheme.addEventListener('click', () => {
+  document.body.classList.toggle('light-mode');
+  const isLight = document.body.classList.contains('light-mode');
+  btnTheme.innerHTML = isLight ? '🌙 Dark' : '☀️ Light';
+  localStorage.setItem('site_theme', isLight ? 'light' : 'dark');
+});
+
+// Tags Toggle
+const btnToggleTags = document.getElementById('btnToggleTags');
+btnToggleTags.addEventListener('click', () => {
+  document.getElementById('chips').classList.toggle('hidden');
+});
+
+// Reveal All
+const btnRevealAll = document.getElementById('btnRevealAll');
+btnRevealAll.addEventListener('click', () => {
+  if (confirm("Révéler toutes les réponses ? Cela ne comptera pas dans ton score.")) {
+    Q_DATA.forEach((q, qIndex) => {
+      if (!appState.locked.has(qIndex)) {
+        appState.locked.add(qIndex);
+        appState.history[qIndex] = { correct: false, choice: -1, revealed: true };
+      }
+    });
+    saveState();
+    renderQuiz();
+  }
+});
+
+// Init
+renderChips();
+renderQuiz();
+updateStats();
+</script>
+
+</body>
+</html>

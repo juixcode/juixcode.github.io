@@ -1,0 +1,1044 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Masterclass Algo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+<style>
+  /* style.css */
+:root {
+  --bg: #070b12;
+  --panel: rgba(17,24,39,.78);
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --border: rgba(255,255,255,.085);
+  --shadow: 0 12px 34px rgba(0,0,0,.40);
+  --accent: #a78bfa;
+  --good: #34d399;
+  --bad: #f87171;
+  --focus: rgba(167,139,250,.35);
+  --radius: 18px;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+  margin: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background:
+    radial-gradient(1200px 800px at 10% 0%, rgba(167,139,250,.15), transparent 60%),
+    radial-gradient(900px 700px at 90% 10%, rgba(52,211,153,.10), transparent 55%),
+    radial-gradient(900px 700px at 50% 100%, rgba(56,189,248,.08), transparent 55%),
+    var(--bg);
+  color: var(--text);
+  line-height: 1.45;
+  background-attachment: fixed;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+body.light-mode {
+  --bg: #f5f3ff;
+  --panel: rgba(255, 255, 255, 0.95);
+  --text: #0f172a;
+  --muted: #475569;
+  --border: rgba(139, 92, 246, 0.2);
+  --shadow: 0 10px 30px rgba(109, 40, 217, 0.15);
+  background: 
+    radial-gradient(1200px 800px at 10% 0%, rgba(139, 92, 246, 0.3), transparent 60%),
+    radial-gradient(900px 700px at 90% 10%, rgba(124, 58, 237, 0.25), transparent 55%),
+    radial-gradient(900px 700px at 50% 100%, rgba(196, 181, 253, 0.45), transparent 55%),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+.container { max-width: 1120px; margin: 0 auto; padding: 22px 16px 72px; }
+
+.header {
+  display: grid; gap: 12px; padding: 18px;
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); position: sticky; top: 12px; z-index: 10;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+body.light-mode .header {
+  background: linear-gradient(180deg, rgba(237, 233, 254, 0.95), rgba(255, 255, 255, 0.8));
+  border-color: rgba(167, 139, 250, 0.4);
+}
+
+.toprow { display:flex; align-items:flex-start; justify-content:space-between; gap: 14px; flex-wrap: wrap; }
+
+h1 { 
+  font-size: 22px; margin: 0; letter-spacing: .2px; 
+  background: linear-gradient(135deg, #a78bfa, #38bdf8); 
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; 
+}
+
+.subtitle { color: var(--muted); font-size: 13px; margin: 4px 0 0; }
+
+.controls { display:flex; gap: 10px; flex-wrap: nowrap; align-items:center; justify-content:flex-end; }
+
+.search {
+  min-width: 240px; flex: 1 1 260px;
+  background: rgba(15,23,42,.70); border: 1px solid var(--border);
+  border-radius: 12px; padding: 10px 12px; color: var(--text); outline: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+body.light-mode .search { background: rgba(255,255,255,.8); }
+.search:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.chips { display:flex; gap: 8px; flex-wrap: wrap; }
+.chips.hidden { display: none !important; }
+.chip {
+  cursor: pointer; -webkit-user-select: none; user-select: none; padding: 8px 12px; border-radius: 999px;
+  border: 1px solid var(--border); background: rgba(15,23,42,.65);
+  color: var(--text); font-size: 12px; font-weight: 700;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+body.light-mode .chip { background: rgba(255,255,255,.8); }
+.chip:hover { border-color: rgba(167,139,250,.4); transform: translateY(-1px); }
+.chip.active { border-color: rgba(167,139,250,.6); background: rgba(167,139,250,.15); }
+
+button {
+  cursor:pointer; border: 1px solid var(--border); background: rgba(15,23,42,.85);
+  color: var(--text); padding: 9px 14px; border-radius: 12px; font-weight: 700;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease; white-space: nowrap;
+}
+body.light-mode button { background: rgba(255,255,255,.8); }
+body.light-mode button:hover { background: rgba(255,255,255,1); }
+button:hover { transform: translateY(-1px); border-color: rgba(167,139,250,.4); background: rgba(15,23,42,1); }
+button:focus { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+.danger { border-color: rgba(239,68,68,.35); }
+.danger:hover { border-color: rgba(239,68,68,.6); }
+.ghost { background: rgba(255,255,255,.05); }
+body.light-mode .ghost { background: transparent; border-color: var(--border); }
+
+.stats { display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+.pill {
+  display:inline-flex; align-items:center; gap:8px;
+  padding: 8px 12px; border-radius: 999px;
+  border: 1px solid var(--border); background: rgba(17,24,39,.7); font-size: 13px;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+body.light-mode .pill { background: rgba(255,255,255,.8); }
+.dot { width:9px; height:9px; border-radius:999px; background: var(--accent); box-shadow:0 0 0 4px rgba(167,139,250,.15); }
+.progress { height: 10px; border-radius: 999px; background: rgba(255,255,255,.06); overflow:hidden; border:1px solid var(--border); }
+body.light-mode .progress { background: rgba(0,0,0,.05); }
+.progress > div { height:100%; width:0%; background: linear-gradient(90deg, #a78bfa, #34d399); transition: width .3s ease; }
+
+.grid { margin-top: 20px; display:grid; grid-template-columns: 1fr; gap: 16px; }
+
+.card {
+  background: var(--panel); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.22);
+  perspective: 1000px;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.card-inner {
+  position: relative; width: 100%; height: 100%;
+  transition: transform 0.5s; transform-style: preserve-3d;
+}
+.card.flipped .card-inner { transform: rotateY(180deg); }
+
+.card-front, .card-back {
+  width: 100%; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+}
+.card-back {
+  position: absolute; top: 0; left: 0; transform: rotateY(180deg);
+  display: flex; flex-direction: column; justify-content: space-between; height: 100%;
+}
+
+.meta { display:flex; justify-content:space-between; gap: 12px; align-items:flex-start; margin-bottom: 14px; }
+.tag {
+  font-size: 12px; font-weight: 800; color: rgba(167,139,250,.95);
+  background: rgba(167,139,250,.12); padding: 6px 10px;
+  border: 1px solid rgba(167,139,250,.25); border-radius: 999px; white-space: nowrap;
+}
+.section {
+  font-size: 12px; font-weight: 700; color: rgba(156,163,175,.95);
+  background: rgba(255,255,255,.05); padding: 6px 10px;
+  border: 1px solid var(--border); border-radius: 999px; white-space: nowrap;
+}
+body.light-mode .section { background: rgba(0,0,0,.05); color: #64748b; border-color: rgba(0,0,0,.1); }
+
+.qtext { margin: 0 0 14px 0; font-size: 15.5px; font-weight: 500; }
+
+.choices { display:grid; gap: 10px; }
+.choice {
+  display:grid; grid-template-columns: 40px 1fr; gap: 12px; align-items: center;
+  padding: 10px 14px; border-radius: 12px; border: 1px solid var(--border);
+  background: rgba(15,23,42,.55);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease; -webkit-user-select: none; user-select: none; cursor: pointer;
+}
+body.light-mode .choice { background: rgba(255,255,255,.6); border-color: rgba(0,0,0,.1); }
+.choice:hover { border-color: rgba(167,139,250,.4); background: rgba(15,23,42,.8); }
+body.light-mode .choice:hover { background: rgba(255,255,255,1); border-color: rgba(167,139,250,.4); }
+.badge {
+  width: 32px; height: 32px; border-radius: 8px;
+  display:inline-flex; align-items:center; justify-content:center;
+  font-weight: 800; background: rgba(255,255,255,.08); border: 1px solid var(--border);
+}
+body.light-mode .badge { background: rgba(0,0,0,.05); border-color: rgba(0,0,0,.1); }
+.ctext { font-size: 14px; }
+code {
+  background: rgba(255,255,255,.08); border: 1px solid var(--border);
+  padding: 2px 6px; border-radius: 6px; font-family: monospace; font-size: 13px; color: #bae6fd;
+}
+body.light-mode code { background: rgba(0,0,0,.05); border-color: rgba(0,0,0,.1); color: #0284c7; }
+
+.locked .choice { cursor: default; }
+.locked .choice:hover { transform:none; }
+.good { border-color: rgba(52,211,153,.5) !important; background: rgba(52,211,153,.1) !important; }
+.good .badge { background: rgba(52,211,153,.2); border-color: rgba(52,211,153,.4); }
+.bad { border-color: rgba(248,113,113,.5) !important; background: rgba(248,113,113,.1) !important; }
+.bad .badge { background: rgba(248,113,113,.2); border-color: rgba(248,113,113,.4); }
+
+.fillwrap { display:flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.fillinput {
+  flex: 1 1 200px; padding: 12px 14px; border-radius: 12px;
+  border: 1px solid var(--border); background: rgba(15,23,42,.7); color: var(--text); outline: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+body.light-mode .fillinput { background: rgba(255,255,255,.8); color: #0f172a; }
+.fillinput:focus { border-color: var(--accent); }
+.fillinput.goodin { border-color: rgba(52,211,153,.5); background: rgba(52,211,153,.05); }
+.fillinput.badin { border-color: rgba(248,113,113,.5); background: rgba(248,113,113,.05); }
+
+.explain-btn {
+  margin-top: 16px; width: 100%; background: rgba(255,255,255,.05);
+  border-color: rgba(255,255,255,.1); color: var(--muted); display: block;
+  opacity: 0.6; cursor: not-allowed; pointer-events: none;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease, opacity 0.3s ease;
+}
+.card.revealed .explain-btn { 
+  background: rgba(167,139,250,.1); border-color: rgba(167,139,250,.3); color: #c4b5fd;
+  opacity: 1; cursor: pointer; pointer-events: auto;
+}
+body.light-mode .explain-btn {
+  background: rgba(0,0,0,.03); border-color: rgba(0,0,0,.1); color: #94a3b8;
+}
+body.light-mode .card.revealed .explain-btn {
+  background: rgba(167,139,250,.15); border-color: rgba(167,139,250,.3); color: #7c3aed;
+}
+
+.explain-title { font-weight: 800; font-size: 16px; margin-bottom: 12px; color: #34d399; }
+.explain-text { font-size: 14.5px; line-height: 1.6; color: var(--muted); margin-bottom: 16px; }
+
+@media (min-width: 850px) { .grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1250px) { .grid { grid-template-columns: 1fr 1fr 1fr; } }
+
+/* =========================================
+  OPTIMISATION POUR SMARTPHONES
+   ========================================= */
+@media (max-width: 600px) {
+  .container { padding: 12px 10px 48px; }
+  .header { padding: 12px; top: 8px; gap: 8px; }
+  #btnToggleTags, #btnRevealAll { display: none; }
+  
+  .toprow { display: flex; flex-direction: column; gap: 10px; }
+  .toprow > div:first-child { width: 100%; }
+  
+  h1 { font-size: 18px; line-height: 1.3; }
+  .subtitle { display: none; }
+  
+  .controls { display: flex; gap: 8px; width: 100%; justify-content: stretch; }
+  .search { flex: 1; min-width: 0; padding: 10px; font-size: 14px; }
+  button { padding: 8px 12px; font-size: 13px; }
+  
+  .chips { display: none; }
+  
+  .stats { 
+    display: flex;
+    justify-content: center;
+    gap: 8px; 
+    width: 100%; 
+  }
+  .pill { 
+    padding: 8px 12px; 
+    font-size: 12px; 
+    text-align: center; 
+    border-radius: 12px;
+    flex: 1;
+    justify-content: center;
+  }
+  .pill .dot { display: none; }
+  .pill strong { font-size: 13px; }
+  
+  .progress { height: 6px; margin-top: 4px; }
+  
+  .card { padding: 16px; border-radius: 16px; }
+  .qtext { font-size: 14.5px; }
+  .choice { grid-template-columns: 36px 1fr; gap: 10px; padding: 8px 12px; }
+  .badge { width: 28px; height: 28px; font-size: 12px; }
+}
+
+/* --- STYLE DU COURS --- */
+.course-container { margin-top: 20px; display: flex; flex-direction: column; gap: 40px; }
+.chapter { background: var(--panel); border: 1px solid var(--border); border-radius: 20px; padding: 32px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); transition: all 0.3s ease; }
+body.light-mode .chapter { box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+
+.chapter-title { font-size: 32px; font-weight: 800; margin-top: 0; margin-bottom: 24px; color: var(--accent); border-bottom: 2px solid var(--border); padding-bottom: 12px; }
+
+.concept { margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px dashed rgba(255,255,255,0.15); }
+body.light-mode .concept { border-bottom: 1px dashed rgba(0,0,0,0.15); }
+.concept:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+
+.concept-title { font-size: 22px; font-weight: 800; margin: 0 0 16px 0; color: #38bdf8; display: flex; align-items: center; gap: 10px; }
+body.light-mode .concept-title { color: #0284c7; }
+
+.concept-part { margin-bottom: 16px; font-size: 16px; line-height: 1.6; }
+.concept-part strong { color: #34d399; font-weight: 700; }
+body.light-mode .concept-part strong { color: #059669; }
+
+/* Customizing Prism.js block */
+pre[class*="language-"], code[class*="language-"] {
+  background: #0f172a !important; /* Deep dark blue instead of opaque gray */
+  text-shadow: none !important;
+}
+
+pre[class*="language-"] * {
+  text-shadow: none !important; /* Remove text shadow on all tokens */
+}
+
+pre[class*="language-"] { 
+  border-radius: 16px !important; 
+  border: 1px solid rgba(255,255,255,0.08) !important; 
+  margin-top: 16px !important; 
+  padding: 20px !important;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.3), 0 5px 15px rgba(0,0,0,0.2) !important;
+  font-family: 'Consolas', monospace !important;
+  font-size: 14.5px !important;
+}
+
+body.light-mode pre[class*="language-"], body.light-mode code[class*="language-"] {
+  background: #1e293b !important;
+}
+
+body.light-mode pre[class*="language-"] {
+  border: 1px solid rgba(0,0,0,0.1) !important;
+  box-shadow: inset 0 2px 10px rgba(0,0,0,0.05), 0 5px 15px rgba(0,0,0,0.05) !important;
+}
+
+</style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="toprow">
+        <div>
+          <h1>Cours : Algo & Tableaux</h1>
+          <p class="subtitle">De la base aux tris complexes et à la notation Big O.</p>
+        </div>
+        <div class="controls">
+          <input id="search" class="search" placeholder="Rechercher une notion..." />
+          <button id="btnTheme" class="ghost" title="Basculer le thème">☀️ Light</button>
+        </div>
+      </div>
+      <div class="chips" id="chips"></div>
+    </div>
+    
+    <div class="course-container" id="course"></div>
+  </div>
+
+<script>
+// --- BASE DE DONNÉES DU COURS ---
+const COURSE_DATA = [
+  {
+    chapitre: "0. Fondations : Structure et Logique",
+    notions: [
+      {
+        titre: "🏗️ Structure d'une fonction (Méthode)",
+        explication: "Une fonction est un bloc de code réutilisable. Elle possède une signature : un type de retour (ou `void` si elle ne renvoie rien), un nom, et des paramètres entre parenthèses.",
+        utilite: "À éviter la duplication de code et à structurer ton programme en modules logiques simples.",
+        code: `// Exemple d'une fonction qui calcule un carré
+static int CalculerCarre(int nombre) 
+{
+    int resultat = nombre * nombre;
+    return resultat;
+}`
+      },
+      {
+        titre: "🔀 La structure Switch (Alternative au If)",
+        explication: "Le `switch` permet de tester une variable par rapport à une liste de valeurs constantes (cas). C'est beaucoup plus lisible qu'une longue suite de `if...else if`.",
+        utilite: "À gérer des menus, des choix d'utilisateurs ou des états (ex: Direction Nord, Sud, Est, Ouest).",
+        code: `int choix = 2;
+switch (choix) 
+{
+    case 1:
+        Console.WriteLine("Action 1");
+        break;
+    case 2:
+        Console.WriteLine("Action 2"); // Sera exécuté
+        break;
+    default:
+        Console.WriteLine("Choix invalide");
+        break;
+}`
+      }
+    ]
+  },
+  {
+    chapitre: "0. #2 La Boîte à Outils Indispensable",
+    notions: [
+      {
+        titre: "🎲 Le Générateur Aléatoire (Random)",
+        explication: "C'est une classe qui génère des nombres pseudo-aléatoires basés sur l'horloge de l'ordinateur. On instancie l'objet une seule fois, puis on utilise la méthode `.Next(min, max)` (attention, le max est exclusif !).",
+        utilite: "À créer de l'imprévisibilité. Indispensable pour coder un jeu, mélanger un tableau, ou générer des données de test à la volée.",
+        code: `// 1. Initialisation (à faire UNE SEULE FOIS au début)
+Random generateur = new Random();
+
+// 2. Générer un nombre entre 1 et 100 (le 101 est exclus)
+int nombreAleatoire = generateur.Next(1, 101);
+
+// 3. Générer un nombre entre 0 et 9
+int indexHasard = generateur.Next(10);`
+      },
+      {
+        titre: "⌨️ Interactions et Saisie Utilisateur",
+        explication: "Les méthodes qui permettent au programme de lire ce que l'utilisateur tape au clavier. `Console.ReadLine()` met le programme en pause et attend que l'utilisateur appuie sur Entrée. Le résultat est TOUJOURS récupéré sous forme de texte (string).",
+        utilite: "À rendre le programme dynamique et interactif en fonction des choix de l'utilisateur, plutôt que d'avoir des variables codées en dur.",
+        code: `Console.Write("Quel est ton pseudo ? ");
+// Le programme s'arrête ici et attend la frappe
+string pseudo = Console.ReadLine(); 
+
+Console.WriteLine("Bienvenue dans la matrice, " + pseudo + " !");`
+      },
+      {
+        titre: "🔄 Les Conversions de Types (Le Casting)",
+        explication: "C'est l'action de transformer un type de donnée en un autre. Par exemple, transformer le texte \"42\" tapé par l'utilisateur en un vrai nombre entier `int` pour pouvoir faire des calculs avec. On utilise souvent `Convert.ToInt32()` ou `int.Parse()`.",
+        utilite: "À manipuler correctement les saisies utilisateur (qui sont toujours du texte) ou à forcer une division pour qu'elle donne un nombre à virgule.",
+        code: `Console.Write("Tape ton âge : ");
+string saisie = Console.ReadLine();
+
+// Conversion du texte en entier
+int age = Convert.ToInt32(saisie);
+
+// Exemple de cast explicite pour garder la virgule
+int a = 5;
+int b = 2;
+// (double) force 'a' à devenir 5.0 pour que le résultat soit 2.5
+double resultat = (double)a / b;`
+      },
+      {
+        titre: "🔁 La Boucle Do...While (Faire...Tant Que)",
+        explication: "Contrairement à la boucle `while` classique qui vérifie la condition AVANT de tourner, la boucle `do...while` exécute le code d'abord, puis vérifie la condition. Elle tournera donc **toujours au moins une fois**.",
+        utilite: "À forcer l'affichage d'un menu d'application, ou à redemander une saisie à l'utilisateur tant qu'il se trompe (gestion d'erreur).",
+        code: `int choix;
+do 
+{
+    Console.WriteLine("--- MENU ---");
+    Console.WriteLine("1. Jouer");
+    Console.WriteLine("2. Quitter");
+    Console.Write("Ton choix : ");
+    
+    choix = Convert.ToInt32(Console.ReadLine());
+    
+} while (choix != 1 && choix != 2); // Recommence si le choix est mauvais`
+      },
+      {
+        titre: "🧮 La Librairie Mathématique (Math)",
+        explication: "C'est une classe intégrée qui contient toutes les opérations mathématiques complexes : puissance, racine carrée, valeur absolue, arrondis, etc.",
+        utilite: "À résoudre des équations, calculer des distances entre des points (Pythagore), ou gérer la physique dans un moteur de jeu.",
+        code: `// Puissance : 2 puissance 3 (donne 8)
+double puissance = Math.Pow(2, 3);
+
+// Racine carrée : Racine de 16 (donne 4)
+double racine = Math.Sqrt(16);
+
+// Valeur absolue : retire le signe moins (donne 5)
+int absolu = Math.Abs(-5);
+
+// Arrondis
+double pi = 3.14159;
+double arrondiBas = Math.Floor(pi); // 3
+double arrondiHaut = Math.Ceiling(pi); // 4`
+      },
+      {
+        titre: "🔤 Les Chaînes de Caractères (String)",
+        explication: "Un objet `string` est en réalité un tableau de caractères (char) caché. On peut donc lire sa longueur, chercher des mots dedans, le découper ou le mettre en majuscules avec des méthodes intégrées.",
+        utilite: "À formater l'affichage, analyser des mots de passe, ou nettoyer les textes entrés par l'utilisateur.",
+        code: `string message = "  Hello World !  ";
+
+// 1. Longueur de la chaîne
+int taille = message.Length;
+
+// 2. Nettoyer les espaces inutiles au début et à la fin
+string propre = message.Trim(); // "Hello World !"
+
+// 3. Mettre tout en majuscules
+string cri = propre.ToUpper(); // "HELLO WORLD !"
+
+// 4. Accéder à une lettre précise (comme un tableau !)
+char premiereLettre = propre[0]; // 'H'`
+      }
+    ]
+  },
+  {
+    chapitre: "1. Manipuler les Tableaux 1D (Les Fondamentaux)",
+    notions: [
+      {
+        titre: "📦 Déclaration et Initialisation",
+        explication: "Un tableau est une structure en mémoire de taille FIXE qui contient des éléments de même type. En C#, on utilise les crochets `[]` après le type.",
+        utilite: "À réserver de l'espace en mémoire une seule fois pour stocker une liste de données (comme 100 notes d'élèves) au lieu de créer 100 variables distinctes.",
+        code: `// Méthode 1 : Déclaration puis instanciation avec une taille fixe (rempli de 0 par défaut)
+int[] tab = new int[5];
+tab[0] = 12;
+tab[1] = 15;
+
+// Méthode 2 : Initialisation directe avec les valeurs
+int[] notes = { 12, 15, 8, 20, 10 };
+
+// Accès au premier et dernier élément
+int premier = notes[0];
+int dernier = notes[notes.Length - 1];`
+      },
+      {
+        titre: "👁️ L'affichage propre et sécurisé (TD1)",
+        explication: "Parcourir un tableau élément par élément pour l'afficher. Il faut toujours vérifier si le tableau est vide ou `null` pour éviter que le programme ne plante (NullReferenceException).",
+        utilite: "À visualiser le contenu de tes structures de données lors du débogage. Très utile pour voir si tes tris ou manipulations ont fonctionné.",
+        code: `static void AfficherTableau(int[] tableau) 
+{
+    if (tableau == null) {
+        Console.WriteLine("(tableau null)");
+        return;
+    }
+    if (tableau.Length == 0) {
+        Console.WriteLine("(tableau vide)");
+        return;
+    }
+
+    // Affichage avec des points-virgules
+    for (int i = 0; i < tableau.Length; i++) {
+        Console.Write(tableau[i]);
+        if (i < tableau.Length - 1) {
+            Console.Write(";");
+        }
+    }
+    Console.WriteLine(); // Retour à la ligne final
+}`
+      },
+      {
+        titre: "🔄 L'art de l'échange (Le Swap) (TD2)",
+        explication: "Pour échanger le contenu de deux cases d'un tableau, on ne peut pas juste faire `tab[i] = tab[j]`, sinon la valeur de `tab[i]` est écrasée et perdue. Il faut utiliser une variable temporaire.",
+        utilite: "À intervertir des données. C'est la brique de base absolument obligatoire pour tous les algorithmes de tri (Bulle, Sélection, Insertion).",
+        code: `static void Echange(int[] tab, int indice1, int indice2) 
+{
+    if (tab != null && indice1 >= 0 && indice2 >= 0 && indice1 < tab.Length && indice2 < tab.Length) 
+    {
+        int temp = tab[indice1]; // On sauvegarde la première valeur
+        tab[indice1] = tab[indice2]; // On écrase la première par la deuxième
+        tab[indice2] = temp; // On met la valeur sauvegardée dans la deuxième
+    }
+}`
+      },
+      {
+        titre: "⏪ Inverser un tableau (Reverse) (TD2)",
+        explication: "L'algorithme pour retourner un tableau sur lui-même consiste à utiliser deux \"pointeurs\" (indices) : un qui part du début et avance, l'autre qui part de la fin et recule. On échange leurs valeurs jusqu'à ce qu'ils se croisent.",
+        utilite: "À changer l'ordre d'un historique (du plus ancien au plus récent) ou vérifier si une suite de valeurs est un palindrome.",
+        code: `static void InverserTableau(int[] tab) 
+{
+    if (tab == null) return;
+
+    int debut = 0;
+    int fin = tab.Length - 1;
+
+    while (debut < fin) 
+    {
+        // On utilise la logique de swap vue précédemment
+        int temp = tab[debut];
+        tab[debut] = tab[fin];
+        tab[fin] = temp;
+
+        debut++; // Le pointeur de début avance
+        fin--;   // Le pointeur de fin recule
+    }
+}`
+      },
+      {
+        titre: "🔗 Concaténer deux tableaux (TD1)",
+        explication: "Comme les tableaux ont une taille fixe, on ne peut pas juste \"pousser\" de nouvelles données dedans. Pour fusionner deux tableaux, il faut en créer un troisième dont la taille est la somme des deux, puis copier les éléments.",
+        utilite: "À regrouper deux sources de données distinctes (ex: les notes du semestre 1 et celles du semestre 2) dans une seule structure.",
+        code: `static int[] ConcatenerTableaux(int[] tab1, int[] tab2) 
+{
+    if (tab1 == null || tab2 == null) return null;
+
+    // 1. Créer le nouveau tableau à la bonne taille
+    int[] resultat = new int[tab1.Length + tab2.Length];
+
+    // 2. Copier le premier tableau
+    for (int i = 0; i < tab1.Length; i++) {
+        resultat[i] = tab1[i];
+    }
+
+    // 3. Copier le deuxième tableau à la suite
+    for (int j = 0; j < tab2.Length; j++) {
+        resultat[tab1.Length + j] = tab2[j]; // On décale l'index !
+    }
+
+    return resultat;
+}`
+      }, // N'oublie pas la virgule après la notion "Concaténer"
+      {
+        titre: "🧬 Passage par Valeur vs Référence (ref)",
+        explication: "Par défaut, un type simple (int, double) est envoyé par **valeur** (une copie). Si tu le modifies dans la fonction, il ne change pas à l'extérieur. Les tableaux, eux, sont envoyés par **référence** par défaut. Pour un type simple, on utilise le mot-clé \`ref\`.",
+        utilite: "À permettre à une fonction de modifier directement une variable déclarée ailleurs (très utilisé pour les fonctions de Swap/Échange).",
+        code: `// Passage par valeur (ne change rien dehors)
+static void IncrementerFaux(int a) { a++; }
+
+// Passage par référence (change la variable dehors)
+static void IncrementerVrai(ref int a) { a++; }
+
+// Utilisation
+int x = 10;
+IncrementerFaux(x); // x vaut toujours 10
+IncrementerVrai(ref x); // x vaut maintenant 11`
+      },
+      {
+        titre: "🏆 Recherche du Maximum",
+        explication: "On initialise une variable 'max' avec le premier élément du tableau, puis on compare avec tout le reste. Si un élément est plus grand, il devient le nouveau 'max'.",
+        utilite: "À extraire la meilleure performance, la note la plus haute ou le score record dans une liste.",
+        code: `static int TrouverMax(int[] tab) 
+{
+    int max = tab[0];
+    for (int i = 1; i < tab.Length; i++) 
+    {
+        if (tab[i] > max) {
+            max = tab[i];
+        }
+    }
+    return max;
+}`
+      }
+    ]
+  },
+  {
+    chapitre: "2. Manipuler les Matrices (Tableaux 2D)",
+    notions: [
+      {
+        titre: "🗺️ Déclaration et Parcours (TD5)",
+        explication: "En C#, une matrice (tableau 2D rectangulaire) se déclare avec `[,]`. Elle possède des lignes (dimension 0) et des colonnes (dimension 1). On la parcourt toujours avec deux boucles `for` imbriquées.",
+        utilite: "À représenter tout ce qui est en 2 dimensions : un écran de pixels, un échiquier, ou comme vu dans ton TD7, le damier du fameux 'Jeu de la Vie'.",
+        code: `// Création d'une matrice de 3 lignes et 4 colonnes
+int[,] matrice = new int[3, 4];
+
+// Remplissage ou parcours
+for (int i = 0; i < matrice.GetLength(0); i++) // Lignes
+{
+    for (int j = 0; j < matrice.GetLength(1); j++) // Colonnes
+    {
+        matrice[i, j] = 1; // Mettre des 1 partout
+        Console.Write(matrice[i, j] + " ");
+    }
+    Console.WriteLine(); // Saut de ligne à la fin de chaque ligne de la matrice
+}`
+      },
+      {
+        titre: "🎯 Trouver le minimum et ses coordonnées (TD5)",
+        explication: "L'algorithme consiste à supposer que le premier élément (en haut à gauche) est le plus petit, puis on parcourt toutes les autres cases. Si on trouve plus petit, on met à jour notre minimum ET on sauvegarde ses coordonnées (i, j).",
+        utilite: "À faire de l'analyse de données (ex: trouver le pixel le plus sombre d'une image, ou le jour de l'année avec la température la plus basse dans un calendrier).",
+        code: `static int[] PositionMinimum(int[,] matrice) 
+{
+    if (matrice == null || matrice.Length == 0) return null;
+
+    int minVal = matrice[0, 0];
+    int minLigne = 0;
+    int minCol = 0;
+
+    for (int i = 0; i < matrice.GetLength(0); i++) {
+        for (int j = 0; j < matrice.GetLength(1); j++) {
+            if (matrice[i, j] < minVal) {
+                minVal = matrice[i, j];
+                minLigne = i;
+                minCol = j;
+            }
+        }
+    }
+    return new int[] { minLigne, minCol }; // On retourne un mini-tableau avec les coordonnées
+}`
+      },
+      {
+        titre: "➕ Addition de deux matrices (TD5)",
+        explication: "Pour additionner deux matrices, elles DOIVENT avoir exactement les mêmes dimensions. On crée une troisième matrice, et chaque case `[i, j]` de la nouvelle matrice est la somme des cases `[i, j]` des deux autres.",
+        utilite: "À combiner des effets en informatique graphique (combiner des calques de couleurs), ou faire des calculs statistiques avancés.",
+        code: `static int[,] AdditionnerMatrices(int[,] mat1, int[,] mat2) 
+{
+    // Vérification des dimensions
+    if (mat1.GetLength(0) != mat2.GetLength(0) || mat1.GetLength(1) != mat2.GetLength(1)) {
+        return null; // Impossible d'additionner
+    }
+
+    int lignes = mat1.GetLength(0);
+    int cols = mat1.GetLength(1);
+    int[,] resultat = new int[lignes, cols];
+
+    for (int i = 0; i < lignes; i++) {
+        for (int j = 0; j < cols; j++) {
+            resultat[i, j] = mat1[i, j] + mat2[i, j];
+        }
+    }
+    return resultat;
+}`
+      },
+      {
+        titre: "🪜 Tableaux de Tableaux (Jagged Arrays)",
+        explication: "Aussi appelés 'tableaux en escalier'. Contrairement à une matrice classique [,] qui forme une grille parfaite, un tableau de tableaux [][] est un tableau à une dimension où chaque case contient... un autre tableau ! Et la magie, c'est que ces sous-tableaux peuvent avoir des tailles différentes.",
+        utilite: "À économiser de la mémoire quand on stocke des données irrégulières. Par exemple : un tableau représentant les jours dans l'année (février n'a pas la même taille que janvier), ou un emploi du temps où chaque étudiant a un nombre de cours différent.",
+        code: `// 1. Déclaration du tableau principal (ex: 3 lignes)
+int[][] enEscalier = new int[3][];
+
+// 2. Initialisation de chaque sous-tableau avec des tailles différentes !
+enEscalier[0] = new int[2]; // Ligne 0 a 2 éléments
+enEscalier[1] = new int[4]; // Ligne 1 a 4 éléments
+enEscalier[2] = new int[1]; // Ligne 2 a 1 élément
+
+// 3. Remplissage et accès
+enEscalier[1][2] = 42;
+
+// 4. Parcours (attention, on utilise Length pour chaque sous-tableau !)
+for (int i = 0; i < enEscalier.Length; i++) 
+{
+    for (int j = 0; j < enEscalier[i].Length; j++) 
+    {
+        Console.Write(enEscalier[i][j] + " ");
+    }
+    Console.WriteLine();
+}`
+      }
+    ]
+  },
+  {
+    chapitre: "3. La Flexibilité : Les Tableaux Dynamiques (Listes)",
+    notions: [
+      {
+        titre: "📈 Découverte du conteneur List<T> (TD9)",
+        explication: "Un tableau classique a le défaut de sa taille fixe. En C#, la `List<T>` est un tableau dynamique : il gère sa mémoire tout seul et s'agrandit automatiquement à chaque fois qu'on lui fait un `.Add()`.",
+        utilite: "À utiliser obligatoirement quand on ne sait pas à l'avance combien d'éléments on va stocker (ex: lire un fichier de logs, stocker le nombre de tirs d'un joueur dans une partie).",
+        code: `using System.Collections.Generic;
+
+// 1. Déclaration et création
+List<double> tabDynamique = new List<double>();
+
+// 2. Ajout d'éléments (taille infinie)
+tabDynamique.Add(3.0);
+tabDynamique.Add(4.0);
+
+// 3. Nombre d'éléments stockés (Count au lieu de Length)
+Console.WriteLine("Nombre d'éléments : " + tabDynamique.Count);
+
+// 4. Parcours facile
+foreach (double valeur in tabDynamique) {
+    Console.WriteLine(valeur);
+}`
+      }
+    ]
+  },
+  {
+    chapitre: "4. Les Algorithmes de Tri (Lents)",
+    notions: [
+      {
+        titre: "🫧 Tri à Bulles (Bubble Sort)",
+        explication: "On parcourt le tableau en comparant les éléments adjacents (2 par 2). S'ils sont mal rangés, on les échange. Les plus grands éléments 'remontent' vers la fin à chaque passage.",
+        utilite: "À apprendre les bases de l'algorithmique. Jamais utilisé en production car sa complexité est quadratique O(N²).",
+        code: `function bubbleSort(arr) {
+    let n = arr.length;
+    let swapped;
+    do {
+        swapped = false;
+        for (let i = 0; i < n - 1; i++) {
+            if (arr[i] > arr[i + 1]) {
+                // Échange
+                let temp = arr[i];
+                arr[i] = arr[i + 1];
+                arr[i + 1] = temp;
+                swapped = true;
+            }
+        }
+        n--; // Optimisation : le dernier est déjà bien placé
+    } while (swapped);
+    return arr;
+}`
+      },
+      {
+        titre: "🎯 Tri par Sélection (Selection Sort)",
+        explication: "On cherche le plus petit élément dans la partie non triée du tableau, et on l'échange avec le premier élément non trié. On avance ensuite d'une case.",
+        utilite: "À minimiser le nombre d'écritures en mémoire (N échanges maximum). Toujours en O(N²).",
+        code: `function selectionSort(arr) {
+    for (let i = 0; i < arr.length - 1; i++) {
+        let minIndex = i;
+        // Recherche du minimum
+        for (let j = i + 1; j < arr.length; j++) {
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+        }
+        // Échange
+        if (minIndex !== i) {
+            let temp = arr[i];
+            arr[i] = arr[minIndex];
+            arr[minIndex] = temp;
+        }
+    }
+    return arr;
+}`
+      },
+      {
+        titre: "🃏 Tri par Insertion (Insertion Sort)",
+        explication: "On simule la façon dont on range des cartes dans sa main : on prend un élément et on le fait glisser vers la gauche jusqu'à trouver sa place exacte parmi les éléments déjà triés.",
+        utilite: "Très rapide (proche de O(N)) si le tableau est DÉJÀ presque trié, ou pour de toutes petites listes de données.",
+        code: `function insertionSort(arr) {
+    for (let i = 1; i < arr.length; i++) {
+        let key = arr[i];
+        let j = i - 1;
+        // Décalage des éléments plus grands vers la droite
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j--;
+        }
+        arr[j + 1] = key;
+    }
+    return arr;
+}`
+      }
+    ]
+  },
+  {
+    chapitre: "5. Les Algorithmes de Tri (Rapides)",
+    notions: [
+      {
+        titre: "⚡ Tri Rapide (Quick Sort)",
+        explication: "Approche 'Diviser pour régner'. On choisit un élément appelé 'pivot'. On place tous les éléments plus petits à sa gauche, les plus grands à sa droite, puis on recommence récursivement sur les deux moitiés.",
+        utilite: "C'est l'un des tris les plus utilisés en conditions réelles (souvent implémenté nativement dans sort()). Très performant en O(N log N) en moyenne.",
+        code: `function quickSort(arr) {
+    if (arr.length <= 1) return arr;
+    
+    let pivot = arr[arr.length - 1]; // On prend le dernier comme pivot
+    let left = [], right = [];
+    
+    for (let i = 0; i < arr.length - 1; i++) {
+        if (arr[i] < pivot) left.push(arr[i]);
+        else right.push(arr[i]);
+    }
+    
+    return [...quickSort(left), pivot, ...quickSort(right)];
+}`
+      },
+      {
+        titre: "🔀 Tri Fusion (Merge Sort)",
+        explication: "On coupe le tableau en deux moitiés jusqu'à avoir des tableaux d'un seul élément. Ensuite, on 'fusionne' ces petits tableaux deux par deux en les gardant triés.",
+        utilite: "À garantir un temps d'exécution strictement O(N log N) quoi qu'il arrive, et faire un tri 'stable' (respecte l'ordre initial des éléments égaux).",
+        code: `function mergeSort(arr) {
+    if (arr.length <= 1) return arr;
+    
+    let mid = Math.floor(arr.length / 2);
+    let left = mergeSort(arr.slice(0, mid));
+    let right = mergeSort(arr.slice(mid));
+    
+    return merge(left, right);
+}
+
+function merge(left, right) {
+    let result = [], i = 0, j = 0;
+    while (i < left.length && j < right.length) {
+        if (left[i] <= right[j]) result.push(left[i++]);
+        else result.push(right[j++]);
+    }
+    return result.concat(left.slice(i)).concat(right.slice(j));
+}`
+      }
+    ]
+  },
+  {
+    chapitre: "6. Recherche et Complexité",
+    notions: [
+      {
+        titre: "🔍 Recherche Dichotomique (Binary Search)",
+        explication: "Au lieu de lire de gauche à droite, on regarde l'élément du milieu. S'il est trop grand, on cherche dans la moitié gauche. S'il est trop petit, dans la moitié droite. On divise la zone de recherche par 2 à chaque fois.",
+        utilite: "À chercher une donnée de façon quasi-instantanée O(log N). MAIS ATTENTION : le tableau DOIT être trié au préalable !",
+        code: `function binarySearch(arr, cible) {
+    let debut = 0;
+    let fin = arr.length - 1;
+
+    while (debut <= fin) {
+        let milieu = Math.floor((debut + fin) / 2);
+
+        if (arr[milieu] === cible) return milieu; // Trouvé !
+        if (arr[milieu] < cible) debut = milieu + 1; // Chercher à droite
+        else fin = milieu - 1; // Chercher à gauche
+    }
+    return -1; // Pas trouvé
+}`
+      },
+      {
+        titre: "⏱️ Notation Big O (Pire Cas)",
+        explication: "La notation O() sert à exprimer mathématiquement comment le temps d'exécution (ou l'espace mémoire) d'un algorithme augmente en fonction du nombre de données (N). On s'intéresse toujours au pire scénario possible.",
+        utilite: "À évaluer et comparer l'efficacité de deux codes avant même de les lancer sur des milliards de lignes.",
+        code: `// O(1) - Constant : Temps fixe peu importe la taille (ex: accès direct)
+let x = arr[5];
+
+// O(N) - Linéaire : Une seule boucle sur le tableau
+for(let i=0; i<n; i++) { ... }
+
+// O(N²) - Quadratique : Double boucle (ex: Tris simples)
+for(let i=0; i<n; i++) { 
+    for(let j=0; j<n; j++) { ... } 
+}
+
+// O(log N) - Logarithmique : On divise la donnée par 2 (ex: Dichotomie)
+while(n > 1) { n = n/2; }`
+      },
+      {
+        titre: "🧮 Calculer la Complexité Exacte T(n)",
+        explication: "Pour trouver la fonction exacte, on décortique chaque ligne en comptant les 'opérations élémentaires' : affectations (=), comparaisons (<, ==), arithmétique (+, *) et accès mémoire. On additionne tout pour obtenir une fonction mathématique dépendant de N.",
+        utilite: "À comparer deux algos qui ont le même Grand O (ex: deux algos en O(N)) mais dont l'un est réellement deux fois plus rapide que l'autre à cause des constantes.",
+        code: `// Analysons ce code pas à pas :
+int Somme(int[] tab, int n) {
+    int s = 0;                           // 1 op (affectation)
+    
+    for (int i = 0; i < n; i++)          // i=0 (1 op)
+                                         // i < n (exécuté n+1 fois)
+                                         // i++ (exécuté n fois)
+    {
+        s += tab[i];                     // n * (accès tab + addition + affectation = 3 ops)
+    }
+    
+    return s;                            // 1 op (retour)
+}
+
+/* Calcul final :
+   T(n) = 1 (s=0) + 1 (i=0) + (n+1) (test i < n) + n (i++) + 3n (corps de boucle) + 1 (return)
+   T(n) = 5n + 4
+   
+   En notation Big O, on garde le terme de plus haut degré et on vire les constantes : O(n).
+*/`
+      },
+      {
+        titre: "📊 Bilan des Complexités",
+        explication: "Résumé des performances temporelles selon l'algorithme choisi.",
+        utilite: "À connaitre par cœur pour les partiels et les entretiens techniques.",
+        code: `| Algorithme        | Meilleur Cas | Pire Cas  | Espace Mem | Stable ? |
+|-------------------|--------------|-----------|------------|----------|
+| Tri à Bulles      | O(N)         | O(N²)     | O(1)       | Oui      |
+| Tri par Sélection | O(N²)        | O(N²)     | O(1)       | Non      |
+| Tri par Insertion | O(N)         | O(N²)     | O(1)       | Oui      |
+| Tri Rapide (Quick)| O(N log N)   | O(N²)     | O(log N)   | Non      |
+| Tri Fusion (Merge)| O(N log N)   | O(N log N)| O(N)       | Oui      |
+| Rech. Séquentielle| O(1)         | O(N)      | O(1)       | -        |
+| Rech. Dichotomique| O(1)         | O(log N)  | O(1)       | -        |`
+      }
+    ]
+  }
+];
+
+// --- LOGIQUE DU SITE ---
+const courseContainer = document.getElementById('course');
+const chipsContainer = document.getElementById('chips');
+const searchInput = document.getElementById('search');
+
+let activeChapter = "Tous";
+const chapterNames = ["Tous", ...COURSE_DATA.map(c => c.chapitre)];
+
+function renderChips() {
+  chipsContainer.innerHTML = '';
+  chapterNames.forEach(chap => {
+    const chip = document.createElement('div');
+    chip.className = `chip ${chap === activeChapter ? 'active' : ''}`;
+    chip.textContent = chap;
+    chip.onclick = () => { activeChapter = chap; renderChips(); renderCourse(); };
+    chipsContainer.appendChild(chip);
+  });
+}
+
+function renderCourse() {
+  courseContainer.innerHTML = '';
+  const filterText = searchInput.value.toLowerCase();
+
+  COURSE_DATA.forEach(chap => {
+    // Filtrage par chapitre
+    if (activeChapter !== "Tous" && chap.chapitre !== activeChapter) return;
+
+    // Filtrage par recherche
+    const notionsFiltrees = chap.notions.filter(n => 
+      n.titre.toLowerCase().includes(filterText) || 
+      n.explication.toLowerCase().includes(filterText) ||
+      n.utilite.toLowerCase().includes(filterText)
+    );
+
+    if (notionsFiltrees.length === 0) return;
+
+    // Création du bloc Chapitre
+    const chapDiv = document.createElement('div');
+    chapDiv.className = 'chapter';
+    
+    const chapTitle = document.createElement('h2');
+    chapTitle.className = 'chapter-title';
+    chapTitle.textContent = chap.chapitre;
+    chapDiv.appendChild(chapTitle);
+
+    // Ajout des notions
+    notionsFiltrees.forEach(notion => {
+      const notionDiv = document.createElement('div');
+      notionDiv.className = 'concept';
+
+      notionDiv.innerHTML = `
+        <h3 class="concept-title">${notion.titre}</h3>
+        
+        <div class="concept-part">
+          <strong>🧠 Explication :</strong> ${notion.explication}
+        </div>
+        
+        <div class="concept-part">
+          <strong>🛠️ À quoi ça sert et quand :</strong> ${notion.utilite}
+        </div>
+        
+        <div class="concept-part">
+          <strong>💻 Exemple d'application :</strong>
+          <pre><code class="language-csharp">${notion.code}</code></pre>
+        </div>
+      `;
+      chapDiv.appendChild(notionDiv);
+    });
+
+    courseContainer.appendChild(chapDiv);
+  });
+  
+  // Appliquer le style PrismJS après l'injection
+  if (window.Prism) Prism.highlightAll();
+}
+
+// Events
+searchInput.addEventListener('input', renderCourse);
+
+const btnTheme = document.getElementById('btnTheme');
+
+// Load saved theme
+if (localStorage.getItem('site_theme') === 'light') {
+  document.body.classList.add('light-mode');
+  btnTheme.innerHTML = '🌙 Dark';
+}
+
+btnTheme.addEventListener('click', () => {
+  document.body.classList.toggle('light-mode');
+  const isLight = document.body.classList.contains('light-mode');
+  btnTheme.innerHTML = isLight ? '🌙 Dark' : '☀️ Light';
+  localStorage.setItem('site_theme', isLight ? 'light' : 'dark');
+});
+
+// Init
+renderChips();
+renderCourse();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+
+</body>
+</html>
