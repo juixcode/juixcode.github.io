@@ -350,6 +350,35 @@ body.light-mode pre[class*="language-"] {
   </div>
 
 <script>
+/**
+ * Sécurise le texte en échappant les caractères HTML spéciaux pour éviter
+ * qu'ils soient interprétés comme des balises (ex: <int> ou <T>).
+ */
+function escapeHTML(str) {
+  if (!str) return "";
+  return str.replace(/[&<>"']/g, function(m) {
+    return {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[m];
+  });
+}
+
+/**
+ * Formate le texte pour le rendu :
+ * 1. Échappe le HTML (sécurité et affichage des chevrons)
+ * 2. Convertit les `code` en balises <code> (esthétique)
+ */
+function formatRichText(str) {
+  if (!str) return "";
+  let escaped = escapeHTML(str);
+  // Transforme le texte entre backticks `...` en code inline
+  return escaped.replace(/`([^`]+)`/g, '<code>$1</code>');
+}
+
 // --- BASE DE DONNÉES DU COURS ---
 const COURSE_DATA = [
   {
@@ -748,15 +777,19 @@ foreach (double valeur in tabDynamique) {
         titre: "🫧 Tri à Bulles (Bubble Sort)",
         explication: "On parcourt le tableau en comparant les éléments adjacents (2 par 2). S'ils sont mal rangés, on les échange. Les plus grands éléments 'remontent' vers la fin à chaque passage.",
         utilite: "À apprendre les bases de l'algorithmique. Jamais utilisé en production car sa complexité est quadratique O(N²).",
-        code: `function bubbleSort(arr) {
-    let n = arr.length;
-    let swapped;
-    do {
+        code: `static void BubbleSort(int[] arr) 
+{
+    int n = arr.Length;
+    bool swapped;
+    do 
+    {
         swapped = false;
-        for (let i = 0; i < n - 1; i++) {
-            if (arr[i] > arr[i + 1]) {
+        for (int i = 0; i < n - 1; i++) 
+        {
+            if (arr[i] > arr[i + 1]) 
+            {
                 // Échange
-                let temp = arr[i];
+                int temp = arr[i];
                 arr[i] = arr[i + 1];
                 arr[i + 1] = temp;
                 swapped = true;
@@ -764,48 +797,53 @@ foreach (double valeur in tabDynamique) {
         }
         n--; // Optimisation : le dernier est déjà bien placé
     } while (swapped);
-    return arr;
 }`
       },
       {
         titre: "🎯 Tri par Sélection (Selection Sort)",
         explication: "On cherche le plus petit élément dans la partie non triée du tableau, et on l'échange avec le premier élément non trié. On avance ensuite d'une case.",
         utilite: "À minimiser le nombre d'écritures en mémoire (N échanges maximum). Toujours en O(N²).",
-        code: `function selectionSort(arr) {
-    for (let i = 0; i < arr.length - 1; i++) {
-        let minIndex = i;
+        code: `static void SelectionSort(int[] arr) 
+{
+    for (int i = 0; i < arr.Length - 1; i++) 
+    {
+        int minIndex = i;
         // Recherche du minimum
-        for (let j = i + 1; j < arr.length; j++) {
-            if (arr[j] < arr[minIndex]) {
+        for (int j = i + 1; j < arr.Length; j++) 
+        {
+            if (arr[j] < arr[minIndex]) 
+            {
                 minIndex = j;
             }
         }
         // Échange
-        if (minIndex !== i) {
-            let temp = arr[i];
+        if (minIndex != i) 
+        {
+            int temp = arr[i];
             arr[i] = arr[minIndex];
             arr[minIndex] = temp;
         }
     }
-    return arr;
 }`
       },
       {
         titre: "🃏 Tri par Insertion (Insertion Sort)",
         explication: "On simule la façon dont on range des cartes dans sa main : on prend un élément et on le fait glisser vers la gauche jusqu'à trouver sa place exacte parmi les éléments déjà triés.",
         utilite: "Très rapide (proche de O(N)) si le tableau est DÉJÀ presque trié, ou pour de toutes petites listes de données.",
-        code: `function insertionSort(arr) {
-    for (let i = 1; i < arr.length; i++) {
-        let key = arr[i];
-        let j = i - 1;
+        code: `static void InsertionSort(int[] arr) 
+{
+    for (int i = 1; i < arr.Length; i++) 
+    {
+        int key = arr[i];
+        int j = i - 1;
         // Décalage des éléments plus grands vers la droite
-        while (j >= 0 && arr[j] > key) {
+        while (j >= 0 && arr[j] > key) 
+        {
             arr[j + 1] = arr[j];
             j--;
         }
         arr[j + 1] = key;
     }
-    return arr;
 }`
       }
     ]
@@ -817,41 +855,64 @@ foreach (double valeur in tabDynamique) {
         titre: "⚡ Tri Rapide (Quick Sort)",
         explication: "Approche 'Diviser pour régner'. On choisit un élément appelé 'pivot'. On place tous les éléments plus petits à sa gauche, les plus grands à sa droite, puis on recommence récursivement sur les deux moitiés.",
         utilite: "C'est l'un des tris les plus utilisés en conditions réelles (souvent implémenté nativement dans sort()). Très performant en O(N log N) en moyenne.",
-        code: `function quickSort(arr) {
-    if (arr.length <= 1) return arr;
+        code: `static List<int> QuickSort(List<int> liste) 
+{
+    if (liste.Count <= 1) return liste;
     
-    let pivot = arr[arr.length - 1]; // On prend le dernier comme pivot
-    let left = [], right = [];
+    int pivot = liste[liste.Count - 1]; // On prend le dernier comme pivot
+    List<int> left = new List<int>();
+    List<int> right = new List<int>();
     
-    for (let i = 0; i < arr.length - 1; i++) {
-        if (arr[i] < pivot) left.push(arr[i]);
-        else right.push(arr[i]);
+    for (int i = 0; i < liste.Count - 1; i++) 
+    {
+        if (liste[i] < pivot) 
+            left.Add(liste[i]);
+        else 
+            right.Add(liste[i]);
     }
     
-    return [...quickSort(left), pivot, ...quickSort(right)];
+    List<int> resultat = QuickSort(left);
+    resultat.Add(pivot);
+    resultat.AddRange(QuickSort(right));
+    
+    return resultat;
 }`
       },
       {
         titre: "🔀 Tri Fusion (Merge Sort)",
         explication: "On coupe le tableau en deux moitiés jusqu'à avoir des tableaux d'un seul élément. Ensuite, on 'fusionne' ces petits tableaux deux par deux en les gardant triés.",
         utilite: "À garantir un temps d'exécution strictement O(N log N) quoi qu'il arrive, et faire un tri 'stable' (respecte l'ordre initial des éléments égaux).",
-        code: `function mergeSort(arr) {
-    if (arr.length <= 1) return arr;
+        code: `static List<int> MergeSort(List<int> liste) 
+{
+    if (liste.Count <= 1) return liste;
     
-    let mid = Math.floor(arr.length / 2);
-    let left = mergeSort(arr.slice(0, mid));
-    let right = mergeSort(arr.slice(mid));
+    int milieu = liste.Count / 2;
+    List<int> gauche = MergeSort(liste.GetRange(0, milieu));
+    List<int> droite = MergeSort(liste.GetRange(milieu, liste.Count - milieu));
     
-    return merge(left, right);
+    return Merge(gauche, droite);
 }
 
-function merge(left, right) {
-    let result = [], i = 0, j = 0;
-    while (i < left.length && j < right.length) {
-        if (left[i] <= right[j]) result.push(left[i++]);
-        else result.push(right[j++]);
+static List<int> Merge(List<int> gauche, List<int> droite) 
+{
+    List<int> resultat = new List<int>();
+    int i = 0, j = 0;
+    
+    while (i < gauche.Count && j < droite.Count) 
+    {
+        if (gauche[i] <= droite[j]) 
+            resultat.Add(gauche[i++]);
+        else 
+            resultat.Add(droite[j++]);
     }
-    return result.concat(left.slice(i)).concat(right.slice(j));
+    
+    while (i < gauche.Count) 
+        resultat.Add(gauche[i++]);
+        
+    while (j < droite.Count) 
+        resultat.Add(droite[j++]);
+        
+    return resultat;
 }`
       }
     ]
@@ -863,14 +924,16 @@ function merge(left, right) {
         titre: "🔍 Recherche Dichotomique (Binary Search)",
         explication: "Au lieu de lire de gauche à droite, on regarde l'élément du milieu. S'il est trop grand, on cherche dans la moitié gauche. S'il est trop petit, dans la moitié droite. On divise la zone de recherche par 2 à chaque fois.",
         utilite: "À chercher une donnée de façon quasi-instantanée O(log N). MAIS ATTENTION : le tableau DOIT être trié au préalable !",
-        code: `function binarySearch(arr, cible) {
-    let debut = 0;
-    let fin = arr.length - 1;
+        code: `static int BinarySearch(int[] arr, int cible) 
+{
+    int debut = 0;
+    int fin = arr.Length - 1;
 
-    while (debut <= fin) {
-        let milieu = Math.floor((debut + fin) / 2);
+    while (debut <= fin) 
+    {
+        int milieu = (debut + fin) / 2;
 
-        if (arr[milieu] === cible) return milieu; // Trouvé !
+        if (arr[milieu] == cible) return milieu; // Trouvé !
         if (arr[milieu] < cible) debut = milieu + 1; // Chercher à droite
         else fin = milieu - 1; // Chercher à gauche
     }
@@ -882,18 +945,19 @@ function merge(left, right) {
         explication: "La notation O() sert à exprimer mathématiquement comment le temps d'exécution (ou l'espace mémoire) d'un algorithme augmente en fonction du nombre de données (N). On s'intéresse toujours au pire scénario possible.",
         utilite: "À évaluer et comparer l'efficacité de deux codes avant même de les lancer sur des milliards de lignes.",
         code: `// O(1) - Constant : Temps fixe peu importe la taille (ex: accès direct)
-let x = arr[5];
+int x = arr[5];
 
 // O(N) - Linéaire : Une seule boucle sur le tableau
-for(let i=0; i<n; i++) { ... }
+for (int i = 0; i < n; i++) { ... }
 
 // O(N²) - Quadratique : Double boucle (ex: Tris simples)
-for(let i=0; i<n; i++) { 
-    for(let j=0; j<n; j++) { ... } 
+for (int i = 0; i < n; i++) 
+{ 
+    for (int j = 0; j < n; j++) { ... } 
 }
 
 // O(log N) - Logarithmique : On divise la donnée par 2 (ex: Dichotomie)
-while(n > 1) { n = n/2; }`
+while (n > 1) { n = n / 2; }`
       },
       {
         titre: "🧮 Calculer la Complexité Exacte T(n)",
@@ -989,19 +1053,19 @@ function renderCourse() {
       notionDiv.className = 'concept';
 
       notionDiv.innerHTML = `
-        <h3 class="concept-title">${notion.titre}</h3>
+        <h3 class="concept-title">${formatRichText(notion.titre)}</h3>
         
         <div class="concept-part">
-          <strong>🧠 Explication :</strong> ${notion.explication}
+          <strong>🧠 Explication :</strong> ${formatRichText(notion.explication)}
         </div>
         
         <div class="concept-part">
-          <strong>🛠️ À quoi ça sert et quand :</strong> ${notion.utilite}
+          <strong>🛠️ À quoi ça sert et quand :</strong> ${formatRichText(notion.utilite)}
         </div>
         
         <div class="concept-part">
           <strong>💻 Exemple d'application :</strong>
-          <pre><code class="language-csharp">${notion.code}</code></pre>
+          <pre><code class="language-csharp">${escapeHTML(notion.code)}</code></pre>
         </div>
       `;
       chapDiv.appendChild(notionDiv);
