@@ -550,6 +550,7 @@
       min-height: 340px;
       display: block;
       cursor: grab;
+      touch-action: none;
     }
 
     #modelCanvas:active { cursor: grabbing; }
@@ -1316,14 +1317,14 @@
       <div class="container stats-row reveal">
         <div class="stats-ticker-track">
           <!-- Groupe 1 -->
-          <div class="stat"><strong>360°</strong><span>Rotation de base, au-delà du bonus 180°</span></div>
-          <div class="stat"><strong>x2 +</strong><span>Allongement télescopique guidé</span></div>
-          <div class="stat"><strong>200g +</strong><span>Charge utile visée à 45°</span></div>
-          <div class="stat"><strong>80°</strong><span>Inclinaison contrôlée</span></div>
-          <div class="stat"><strong>0W</strong><span>Aucune motorisation, tout est manuel</span></div>
-          <div class="stat"><strong>x3</strong><span>d'allongement envisageable</span></div>
+          <div class="stat"><strong>360°</strong><span>Rotation de la base</span></div>
+          <div class="stat"><strong>x2</strong><span>Allongement télescopique guidé</span></div>
+          <div class="stat"><strong>200g</strong><span>Charge utile visée à 45°</span></div>
+          <div class="stat"><strong>0 - 80°</strong><span>Inclinaison contrôlée</span></div>
+          <div class="stat"><strong>0W</strong><span>Aucune motorisation, 100% manuel</span></div>
+          <div class="stat"><strong>x3</strong><span>Facteur d'allongement envisageable</span></div>
           <div class="stat"><strong>95%</strong><span>de matériaux biosourcés</span></div>
-          <div class="stat"><strong>400g</strong><span>sans rompre ni tomber à 45°</span></div>
+          <div class="stat"><strong>400g</strong><span>Sans rompre ni tomber à 45°</span></div>
           <!-- Groupe 2 (Duplication pour défilement infini) -->
           <div class="stat"><strong>360°</strong><span>Rotation de la base</span></div>
           <div class="stat"><strong>x2</strong><span>Allongement télescopique guidé</span></div>
@@ -1430,11 +1431,11 @@
             <img src="equipe.png" alt="Photo de l'équipe LeaderLadder" onerror="this.outerHTML='<div class=&quot;team-photo-fallback&quot;><div><h3>Ajoute ici equipe.png</h3><p>Place une image nommée equipe.png dans le même dossier que ce fichier HTML.</p></div></div>'" />
           </div>
           <div class="team-cards reveal">
-            <article class="member"><div class="avatar"><img src="profile1.png" alt="Julien V." onerror="this.outerHTML='AL'" /></div><div><h3>Julien V.</h3><p>Référent du groupe · Coordination, planning, mécanique d'allongement et d'élévation, CAO et impression 3D</p></div></article>
-            <article class="member"><div class="avatar"><img src="profile2.png" alt="Augustin S." onerror="this.outerHTML='NM'" /></div><div><h3>Augustin S.</h3><p>Modélisateur · Coordination, organisation des réunions, mécanique de base rotative, CAO</p></div></article>
-            <article class="member"><div class="avatar"><img src="profile3.png" alt="Ewen P." onerror="this.outerHTML='IH'" /></div><div><h3>Ewen P.</h3><p>Modélisateur · Découpe bois, mécanique d'échelle coulissante, CAO et impression 3D</p></div></article>
-            <article class="member"><div class="avatar"><img src="profile4.png" alt="Matteo S." onerror="this.outerHTML='CM'" /></div><div><h3>Matteo S.</h3><p>Responsable rédaction · Planning, compte-rendus de réunion, conception technique</p></div></article>
-            <article class="member"><div class="avatar"><img src="profile5.png" alt="Daouda T." onerror="this.outerHTML='SR'" /></div><div><h3>Daouda T.</h3><p>Responsable essais · Stabilité, charge utile, résistance des matériaux, verrouillage</p></div></article>
+            <article class="member"><div class="avatar"><img src="profile1.png" alt="Julien V." onerror="this.outerHTML='JV'" /></div><div><h3>Julien V.</h3><p>Référent du groupe · Coordination, planning, mécanique d'allongement et d'élévation, CAO et impression 3D</p></div></article>
+            <article class="member"><div class="avatar"><img src="profile2.png" alt="Augustin S." onerror="this.outerHTML='AS'" /></div><div><h3>Augustin S.</h3><p>Modélisateur · Coordination, organisation des réunions, mécanique de base rotative, CAO</p></div></article>
+            <article class="member"><div class="avatar"><img src="profile3.png" alt="Ewen P." onerror="this.outerHTML='EP'" /></div><div><h3>Ewen P.</h3><p>Modélisateur · Découpe bois, mécanique d'échelle coulissante, CAO et impression 3D</p></div></article>
+            <article class="member"><div class="avatar"><img src="profile4.png" alt="Matteo S." onerror="this.outerHTML='MS'" /></div><div><h3>Matteo S.</h3><p>Responsable rédaction · Planning, compte-rendus de réunion, conception technique</p></div></article>
+            <article class="member"><div class="avatar"><img src="profile5.png" alt="Daouda T." onerror="this.outerHTML='DT'" /></div><div><h3>Daouda T.</h3><p>Responsable essais · Stabilité, charge utile, résistance des matériaux, verrouillage</p></div></article>
           </div>
         </div>
       </div>
@@ -1988,6 +1989,7 @@
         lastX = e.clientX; lastY = e.clientY;
       });
       canvas.addEventListener('pointerup', () => dragging = false);
+      canvas.addEventListener('pointercancel', () => dragging = false);
       canvas.addEventListener('wheel', e => {
         e.preventDefault();
         zoom += e.deltaY * 0.002;
