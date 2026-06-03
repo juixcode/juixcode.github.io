@@ -1,0 +1,82 @@
+@import "tailwindcss";
+
+/* Configuration de base */
+body {
+  font-family: 'Outfit', sans-serif;
+  background-color: #0f172a; /* Slate 900 */
+}
+
+/* Effet de Verre (Glassmorphism) */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.03);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Bouton Lien (Style unique) */
+.link-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  /* Fix pour anti-tremblement et décalage au hover */
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+
+/* Orb durations */
+.orb-duration-8s {
+  animation-duration: 8s;
+}
+.orb-duration-10s {
+  animation-duration: 10s;
+}
+.orb-duration-12s {
+  animation-duration: 12s;
+}
+
+/* Effet Hover Neon */
+.link-card:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px) scale(1.01) translateZ(0);
+  border-color: rgba(34, 211, 238, 0.5); /* Cyan border on hover */
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.15);
+}
+
+/* Synchronisation et correction du pixel shift de l'icône */
+.link-card .group-hover\:scale-110 {
+  will-change: transform;
+  backface-visibility: hidden;
+  transition-duration: 0.3s;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Variante Rose pour la 2ème zone */
+.zone-social .link-card:hover {
+  border-color: rgba(244, 114, 182, 0.5); /* Pink border */
+  box-shadow: 0 0 20px rgba(244, 114, 182, 0.15);
+}
+
+/* Variante Jaune pour la zone Donations */
+.zone-donations .link-card:hover {
+  border-color: rgba(250, 204, 21, 0.5); /* Yellow border */
+  box-shadow: 0 0 20px rgba(250, 204, 21, 0.15);
+}
+
+/* Animation des orbes */
+.floating-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.5;
+  animation: float 10s infinite ease-in-out;
+  z-index: 0;
+}
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, -20px) scale(1.1); }
+}
