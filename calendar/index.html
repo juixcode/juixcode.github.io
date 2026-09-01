@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <title>Co-op Calendar</title>
+  <meta name="description" content="Visualiseur et comparateur d'emplois du temps ICS. Comparez jusqu'à 10 calendriers, détectez les temps libres et synchronisez vos cours.">
+  
+  <!-- PWA Manifest & Standard Favicons -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+  
+  <!-- Apple iOS PWA Support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Co-op Cal">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  
+  <!-- Android & Browser Theme Color -->
+  <meta name="theme-color" content="#7c3aed">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Modern Icons (Phosphor Icons) -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.0.3"></script>
+
+  <!-- JSZip (for extracting .zip archives containing .ics files) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+    
+    <!-- Top Header Navigation -->
+    <header class="app-header">
+      <!-- Brand Logo & Title -->
+      <div class="brand-section">
+        <div class="brand-icon-wrapper">
+          <i class="ph-bold ph-calendar-check"></i>
+        </div>
+        <div class="brand-text">
+          <h1>Co-op Calendar <span class="badge-version">Multi-ICS</span></h1>
+          <div class="brand-subtitle">Comparateur d'Emplois du Temps</div>
+        </div>
+      </div>
+
+      <!-- Navigation Controls (Previous, Next, Today, Period Title, DatePicker) -->
+      <div class="nav-controls">
+        <button id="btnPrevDate" class="btn-nav-arrow" title="Période précédente (Flèche Gauche)">
+          <i class="ph-bold ph-caret-left"></i>
+        </button>
+        <button id="btnToday" class="btn-today" title="Aller à aujourd'hui (Touche T)">
+          Aujourd'hui
+        </button>
+        <button id="btnNextDate" class="btn-nav-arrow" title="Période suivante (Flèche Droite)">
+          <i class="ph-bold ph-caret-right"></i>
+        </button>
+
+        <div class="current-period-display" id="currentPeriodDisplay" title="Changer de date">
+          <div class="current-period-title" id="currentPeriodTitle">
+            Semaine 36 &bull; Septembre 2026
+          </div>
+          <div class="current-period-range" id="currentPeriodRange">
+            Du 31 août au 5 septembre 2026
+          </div>
+        </div>
+
+        <input type="date" id="periodDatePicker" class="period-date-picker" title="Choisir une date exacte">
+      </div>
+
+      <!-- View Switcher (Week / Day) -->
+      <div class="view-switcher-group" id="viewTypeSwitcher">
+        <button class="view-switch-btn active" id="btnViewWeek" data-view="week" title="Vue Semaine (6 jours : Lundi à Samedi)">
+          <i class="ph-bold ph-calendar"></i>
+          <span>Semaine</span>
+        </button>
+        <button class="view-switch-btn" id="btnViewDay" data-view="day" title="Vue Jour par jour">
+          <i class="ph-bold ph-calendar-blank"></i>
+          <span>Jour</span>
+        </button>
+      </div>
+
+      <!-- Quick Semester Jump Links (Rentrée 2026 & Jan 2027) -->
+      <div class="quick-jump-container">
+        <button class="quick-jump-btn" data-year="2026" data-month="8" data-day="1" title="Rentrée Septembre 2026">Rentrée 2026</button>
+        <button class="quick-jump-btn" data-year="2027" data-month="0" data-day="4" title="Semestre Janvier 2027">Jan 2027</button>
+      </div>
+
+      <!-- Header Action Buttons -->
+      <div class="header-actions">
+        <!-- Prominent Add Calendar Button -->
+        <button id="btnOpenAddModal" class="btn-primary-add" title="Ajouter des fichiers .ics ou une archive .zip à la comparaison">
+          <i class="ph-bold ph-plus-circle"></i>
+          <span>Ajouter un calendrier</span>
+          <span class="cal-count-badge" id="headerCalCountBadge">0/10</span>
+        </button>
+
+        <button id="btnToggleDimCMo" class="action-btn active" title="Rendre discrets et transparents les cours en distanciel (CMo, CAo)">
+          <i class="ph-bold ph-video-camera-slash"></i>
+          <span>Atténuer CMo</span>
+        </button>
+
+        <button id="btnToggleFreeTime" class="action-btn" title="Afficher/masquer les créneaux libres en commun">
+          <i class="ph ph-sparkle"></i>
+          <span>Temps Libre</span>
+        </button>
+        <button id="btnPwaInstall" class="action-btn pwa-install-btn" style="display:none;" title="Installer l'application sur cet appareil (PWA)">
+          <i class="ph-bold ph-download-simple"></i>
+          <span>Installer</span>
+        </button>
+        <button id="btnThemeToggle" class="action-btn icon-only" title="Changer de thème Clair / Sombre">
+          <i class="ph ph-sun"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Subheader: Active Calendars Chips & Filters -->
+    <div class="app-subheader">
+      <!-- Calendar Chips Comparison Legend & Removal Buttons (Collapsible) -->
+      <div class="calendar-chips-wrapper" id="calendarChipsWrapper">
+        <button class="btn-toggle-chips-collapse" id="btnToggleChipsCollapse" title="Rétracter ou Déplier les calendriers comparés">
+          <i class="ph-bold ph-caret-down" id="chipsCollapseIcon"></i>
+          <span class="calendar-chips-label"><i class="ph ph-users-three"></i> Comparaison :</span>
+        </button>
+        <div class="calendar-chips-list" id="calendarChipsList">
+          <!-- Dynamically populated in app.js -->
+        </div>
+      </div>
+
+      <!-- Right Side Filters: Search, Type Filter & Stats -->
+      <div class="subheader-right-group">
+        <!-- Search -->
+        <div class="search-input-wrapper">
+          <i class="ph ph-magnifying-glass search-icon"></i>
+          <input type="text" id="searchInput" class="search-input" placeholder="Rechercher cours, salle, prof, classe...">
+          <button id="btnClearSearch" class="btn-clear-search" style="display:none;" title="Effacer la recherche">
+            <i class="ph ph-x"></i>
+          </button>
+        </div>
+
+        <!-- Course Type Filter -->
+        <select id="typeFilterSelect" class="type-filter-select" title="Filtrer par type de cours">
+          <option value="ALL">Tous les types</option>
+          <option value="CM">CM (Cours Magistral)</option>
+          <option value="CMo">CMo (CM en ligne)</option>
+          <option value="TD">TD (Travaux Dirigés)</option>
+          <option value="TP">TP (Travaux Pratiques)</option>
+          <option value="Examen">Examens & Contrôles</option>
+          <option value="CA">CA (Conférence / Atelier)</option>
+          <option value="CAo">CAo (Atelier en ligne)</option>
+          <option value="Projet">Projets</option>
+          <option value="LV">Langues Vivantes</option>
+          <option value="NR">Rentrée & Administratif</option>
+          <option value="Rattrapage">Rattrapages</option>
+        </select>
+
+        <!-- Stats Summary Pill -->
+        <div class="stats-summary-pill" id="statsSummaryPill">
+          <!-- Dynamically populated in app.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Calendar Area -->
+    <main class="main-content">
+      <div class="calendar-view-wrapper" id="calendarViewWrapper">
+        
+        <!-- Unified Scroll Container (Handles both horizontal sync and vertical scroll) -->
+        <div class="calendar-grid-scroll" id="calendarGridScroll">
+          <!-- Sticky Days Header (Lundi à Samedi pour semaine, ou 1 jour pour vue jour) -->
+          <div class="calendar-days-header" id="calendarDaysHeader">
+            <!-- Dynamically populated in app.js -->
+          </div>
+
+          <!-- Hours & Days Body -->
+          <div class="calendar-grid-body" id="calendarGridBody">
+            <!-- Dynamically populated in app.js -->
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Modal: Add Calendar / Drag & Drop Upload -->
+    <div class="modal-backdrop" id="addCalendarModalBackdrop">
+      <div class="modal-card modal-upload">
+        <div class="modal-header">
+          <div class="modal-header-info">
+            <h2 class="modal-title">
+              <i class="ph-bold ph-calendar-plus" style="color:var(--accent-blue);"></i> 
+              Ajouter des calendriers à la comparaison
+            </h2>
+            <div class="modal-subtitle">
+              Importe des fichiers .ics ou une archive .zip (10 calendriers max)
+            </div>
+          </div>
+          <button class="modal-close-btn" id="btnCloseAddModal" title="Fermer (Échap)">
+            <i class="ph ph-x"></i>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Dropzone -->
+          <div class="dropzone-box" id="modalDropzone">
+            <div class="dropzone-icon-pulse">
+              <i class="ph-bold ph-cloud-arrow-up"></i>
+            </div>
+            <p class="dropzone-title">Glisse & dépose tes fichiers .ICS ou archive .ZIP ici</p>
+            <p class="dropzone-subtitle">ou clique ci-dessous pour sélectionner un ou plusieurs fichiers</p>
+            <button class="btn-browse-file" id="btnBrowseFiles" type="button">
+              <i class="ph-bold ph-folder-open"></i> Parcourir (.ics ou .zip)
+            </button>
+            <input type="file" id="icsFileInput" accept=".ics,text/calendar,.zip,application/zip,application/x-zip-compressed,application/x-zip" multiple style="display:none;">
+            <div class="dropzone-hint">
+              <i class="ph ph-info"></i> Extraction automatique des .ics dans les .zip
+            </div>
+          </div>
+
+          <!-- Current Calendars List in Modal -->
+          <div class="modal-calendars-section" id="modalCalendarsSection">
+            <div class="modal-section-title">
+              <span>Calendriers comparés (<span id="modalCalCount">0</span>/10) :</span>
+              <button class="btn-clear-all" id="btnClearAllCalendars" title="Supprimer tous les calendriers">
+                <i class="ph ph-trash"></i> Tout effacer
+              </button>
+            </div>
+            <div class="modal-calendars-list" id="modalCalendarsList">
+              <!-- Dynamically populated in app.js -->
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="action-btn" id="btnCloseAddModalBtn">Fermer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Event Details Drawer -->
+    <div class="modal-backdrop" id="eventModalBackdrop">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-header-info">
+            <h2 class="modal-title" id="modalEventTitle">Détails du cours</h2>
+            <div class="modal-subtitle" id="modalEventSubtitle">Lundi 1 septembre 2026</div>
+          </div>
+          <button class="modal-close-btn" id="btnCloseEventModal" title="Fermer (Échap)">
+            <i class="ph ph-x"></i>
+          </button>
+        </div>
+
+        <div class="modal-body" id="modalEventBody">
+          <!-- Populated dynamically in app.js -->
+        </div>
+
+        <div class="modal-footer">
+          <button class="action-btn" id="btnCloseEventModalBtn">Fermer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Global Fullscreen Drag & Drop Overlay -->
+    <div class="drag-drop-overlay" id="globalDragDropOverlay">
+      <div class="drag-drop-overlay-box">
+        <i class="ph-bold ph-file-arrow-up overlay-icon"></i>
+        <h3>Dépose tes fichiers .ICS ou .ZIP ici</h3>
+        <p>Les calendriers seront automatiquement extraits et ajoutés à la comparaison</p>
+      </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+  </div>
+
+  <!-- Core App Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

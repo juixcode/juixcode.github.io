@@ -1,0 +1,46 @@
+{
+  "name": "Co-op Calendar",
+  "short_name": "Co-op Cal",
+  "description": "Visualiseur et comparateur d'emplois du temps ICS. Comparez jusqu'à 10 calendriers, détectez les temps libres et synchronisez vos cours.",
+  "id": "co-op-calendar-app",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "window-controls-overlay"],
+  "background_color": "#090d16",
+  "theme_color": "#7c3aed",
+  "orientation": "any",
+  "lang": "fr",
+  "categories": ["productivity", "education", "utilities"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
