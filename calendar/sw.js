@@ -1,5 +1,5 @@
 // Service Worker for Co-op Calendar PWA
-const CACHE_NAME = 'co-op-cal-v1';
+const CACHE_NAME = 'co-op-cal-v1.8';
 
 const PRECACHE_ASSETS = [
   './',

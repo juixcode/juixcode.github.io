@@ -136,6 +136,7 @@
   const FREE_TIME_STORAGE_KEY = 'synccal_show_free_time';
   const TYPE_FILTER_STORAGE_KEY = 'synccal_type_filter';
   const CHIPS_COLLAPSED_STORAGE_KEY = 'synccal_chips_collapsed';
+  const SHOW_TOOLBAR_STORAGE_KEY = 'synccal_show_toolbar';
 
   // --- App State ---
   const state = {
@@ -143,7 +144,8 @@
     currentDate: new Date(2026, 8, 1), // Default: 1st September 2026 (start of academic year)
     viewType: localStorage.getItem(VIEW_TYPE_STORAGE_KEY) || (window.innerWidth < 768 ? 'day' : 'week'),
     dimCMo: localStorage.getItem(DIM_CMO_STORAGE_KEY) !== 'false', // Default: true (dim online courses)
-    chipsCollapsed: localStorage.getItem(CHIPS_COLLAPSED_STORAGE_KEY) === 'true', // Comparison chips collapsed
+    chipsCollapsed: localStorage.getItem(CHIPS_COLLAPSED_STORAGE_KEY) === 'true',
+    showToolbar: localStorage.getItem(SHOW_TOOLBAR_STORAGE_KEY) !== 'false', // Default: true (options visible & button active/enfoncé) // Comparison chips collapsed
     searchQuery: '',
     typeFilter: localStorage.getItem(TYPE_FILTER_STORAGE_KEY) || 'ALL',
     showFreeTime: localStorage.getItem(FREE_TIME_STORAGE_KEY) === 'true', // Saved free time preference
@@ -613,6 +615,9 @@
       btnToggleDimCMo.classList.toggle('active', state.dimCMo);
     }
 
+    // Toggle Toolbar state and active styling
+    updateToolbarState();
+
     // Free Time button active state
     const btnToggleFreeTime = document.getElementById('btnToggleFreeTime');
     if (btnToggleFreeTime) {
@@ -775,19 +780,23 @@
   }
 
   // --- Render Calendar Grid (Week or Day View) ---
-  function renderCalendarGrid() {
+    function renderCalendarGrid() {
+    const emptyContainer = document.getElementById('emptyStateContainer');
+    const scrollContainer = document.getElementById('calendarGridScroll');
     const headerContainer = document.getElementById('calendarDaysHeader');
     const gridBody = document.getElementById('calendarGridBody');
-    if (!headerContainer || !gridBody) return;
+    if (!scrollContainer || !headerContainer || !gridBody) return;
 
-    headerContainer.innerHTML = '';
-    gridBody.innerHTML = '';
-
-    // If no calendars uploaded, render Welcoming Empty State Hero!
     if (state.calendars.length === 0) {
-      renderEmptyStateHero(gridBody);
+      if (emptyContainer) emptyContainer.style.display = 'flex';
+      scrollContainer.style.display = 'none';
       return;
     }
+
+    if (emptyContainer) emptyContainer.style.display = 'none';
+    scrollContainer.style.display = '';
+    headerContainer.innerHTML = '';
+    gridBody.innerHTML = '';
 
     if (state.viewType === 'week') {
       renderWeekView(headerContainer, gridBody);
@@ -1385,6 +1394,20 @@
     });
 
     // Date Picker Input
+    // Trigger date picker on current period display click
+    document.getElementById('currentPeriodDisplay')?.addEventListener('click', () => {
+      const dp = document.getElementById('periodDatePicker');
+      try {
+        if (dp && typeof dp.showPicker === 'function') {
+          dp.showPicker();
+        } else {
+          dp?.focus();
+        }
+      } catch (e) {
+        dp?.focus();
+      }
+    });
+
     document.getElementById('periodDatePicker')?.addEventListener('change', e => {
       if (e.target.value) {
         state.currentDate = new Date(e.target.value);
@@ -1417,6 +1440,46 @@
       state.chipsCollapsed = !state.chipsCollapsed;
       localStorage.setItem(CHIPS_COLLAPSED_STORAGE_KEY, state.chipsCollapsed);
       renderCalendarChips();
+    });
+
+    
+    // --- Toolbar Toggle (Options Visibles / Masquées) ---
+    document.getElementById('btnToggleToolbarCollapse')?.addEventListener('click', () => {
+      state.showToolbar = !state.showToolbar;
+      localStorage.setItem(SHOW_TOOLBAR_STORAGE_KEY, state.showToolbar);
+      updateToolbarState();
+      showToast(state.showToolbar ? 'Options de configuration affichées 🛠️' : 'Options masquées 🧘 (Mode épuré)');
+    });
+
+    // Legal Notice Modal listeners
+    document.getElementById('btnOpenLegalModal')?.addEventListener('click', () => {
+      document.getElementById('legalNoticeModalBackdrop')?.classList.add('open');
+    });
+
+    document.getElementById('btnCloseLegalModalBtn')?.addEventListener('click', () => {
+      document.getElementById('legalNoticeModalBackdrop')?.classList.remove('open');
+    });
+
+    document.getElementById('btnCloseLegalModalFooterBtn')?.addEventListener('click', () => {
+      document.getElementById('legalNoticeModalBackdrop')?.classList.remove('open');
+    });
+
+    // Universal delegation for modals
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('#btnOpenLegalModal')) {
+        e.preventDefault();
+        document.getElementById('legalNoticeModalBackdrop')?.classList.add('open');
+        return;
+      }
+      if (e.target.closest('#btnHeroAddCalendar, #btnOpenAddModal, #btnQuickAddChip, .hero-add-btn')) {
+        e.preventDefault();
+        document.getElementById('addCalendarModalBackdrop')?.classList.add('open');
+        return;
+      }
+      if (e.target.closest('#btnCloseLegalModalBtn, #btnCloseLegalModalFooterBtn')) {
+        e.preventDefault();
+        document.getElementById('legalNoticeModalBackdrop')?.classList.remove('open');
+      }
     });
 
     // Search Input
@@ -1488,7 +1551,7 @@
     document.getElementById('btnClearAllCalendars')?.addEventListener('click', clearAllCalendars);
 
     // Close Modal buttons
-    document.querySelectorAll('.modal-close-btn, #btnCloseAddModalBtn, #btnCloseEventModalBtn').forEach(btn => {
+    document.querySelectorAll('.modal-close-btn, #btnCloseAddModalBtn, #btnCloseEventModalBtn, #btnCloseLegalModalBtn, #btnCloseLegalModalFooterBtn').forEach(btn => {
       btn.addEventListener('click', closeAllModals);
     });
 
@@ -1680,6 +1743,22 @@
     });
   }
 
+  // --- Toolbar Toggle & Collapsed State Helper ---
+  function updateToolbarState() {
+    if (document.body) {
+      document.body.classList.toggle('toolbar-collapsed', !state.showToolbar);
+    }
+    if (document.documentElement) {
+      document.documentElement.classList.toggle('toolbar-collapsed', !state.showToolbar);
+    }
+    const btn = document.getElementById('btnToggleToolbarCollapse');
+    if (btn) {
+      btn.classList.toggle('active', !!state.showToolbar);
+      btn.title = state.showToolbar ? 'Masquer les options de configuration 🧘' : 'Afficher les options de configuration 🛠️';
+      btn.setAttribute('aria-expanded', state.showToolbar ? 'true' : 'false');
+    }
+  }
+
   // --- Theme Setup ---
   function setupTheme() {
     if (!document.body) return;
@@ -1780,11 +1859,28 @@
       if (btnInstall) btnInstall.style.display = 'none';
       showToast('🎉 Co-op Calendar est maintenant installée sur votre appareil !');
     });
+
+    // 5. Automatically synchronize UI version badge with PWA manifest
+    fetch('./manifest.json')
+      .then(res => (res.ok ? res.json() : fetch('./manifest.webmanifest').then(r => r.json())))
+      .then(manifest => {
+        if (manifest && manifest.version) {
+          const badgeSpan = document.querySelector('#app > header > div.brand-section > div.brand-text > h1 > span, .badge-version');
+          if (badgeSpan) {
+            const cleanVer = manifest.version.toString().trim();
+            badgeSpan.textContent = cleanVer.startsWith('v') ? cleanVer : `v${cleanVer}`;
+          }
+        }
+      })
+      .catch(() => {
+        // Silently preserve static default if offline
+      });
   }
 
   // --- App Initialization ---
   function initApp() {
     setupTheme();
+    updateToolbarState();
     setupEventListeners();
     setupPwa();
 

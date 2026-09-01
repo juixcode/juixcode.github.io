@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Co-op Calendar</title>
   <meta name="description" content="Visualiseur et comparateur d'emplois du temps ICS. Comparez jusqu'à 10 calendriers, détectez les temps libres et synchronisez vos cours.">
   
@@ -34,6 +34,20 @@
 
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css">
+
+  <!-- Instant State Restoration (Theme & Toolbar) to eliminate FOUC -->
+  <script>
+    (function() {
+      try {
+        if (localStorage.getItem('synccal_theme') === 'light') {
+          document.documentElement.classList.add('light-theme');
+        }
+        if (localStorage.getItem('synccal_show_toolbar') === 'false') {
+          document.documentElement.classList.add('toolbar-collapsed');
+        }
+      } catch (e) {}
+    })();
+  </script>
 </head>
 <body>
   <div id="app">
@@ -46,7 +60,7 @@
           <i class="ph-bold ph-calendar-check"></i>
         </div>
         <div class="brand-text">
-          <h1>Co-op Calendar <span class="badge-version">Multi-ICS</span></h1>
+          <h1>Co-op Calendar <span class="badge-version">v1.8</span></h1>
           <div class="brand-subtitle">Comparateur d'Emplois du Temps</div>
         </div>
       </div>
@@ -72,7 +86,15 @@
           </div>
         </div>
 
-        <input type="date" id="periodDatePicker" class="period-date-picker" title="Choisir une date exacte">
+        <label class="date-picker-wrapper" id="datePickerWrapper" title="Choisir une date exacte" for="periodDatePicker">
+          <i class="ph-bold ph-calendar-blank date-picker-icon"></i>
+          <input type="date" id="periodDatePicker" class="period-date-picker" aria-label="Choisir une date">
+        </label>
+
+        <!-- Toggle Toolbar / Configuration Options Button -->
+        <button id="btnToggleToolbarCollapse" class="btn-toggle-toolbar" title="Masquer ou Afficher les options de configuration">
+          <i class="ph-bold ph-sliders-horizontal" id="iconToggleToolbar"></i>
+        </button>
       </div>
 
       <!-- View Switcher (Week / Day) -->
@@ -111,7 +133,7 @@
           <i class="ph ph-sparkle"></i>
           <span>Temps Libre</span>
         </button>
-        <button id="btnPwaInstall" class="action-btn pwa-install-btn" style="display:none;" title="Installer l'application sur cet appareil (PWA)">
+        <button id="btnPwaInstall" class="action-btn pwa-install-btn" title="Installer l'application sur cet appareil (PWA)">
           <i class="ph-bold ph-download-simple"></i>
           <span>Installer</span>
         </button>
@@ -140,7 +162,7 @@
         <div class="search-input-wrapper">
           <i class="ph ph-magnifying-glass search-icon"></i>
           <input type="text" id="searchInput" class="search-input" placeholder="Rechercher cours, salle, prof, classe...">
-          <button id="btnClearSearch" class="btn-clear-search" style="display:none;" title="Effacer la recherche">
+          <button id="btnClearSearch" class="btn-clear-search" title="Effacer la recherche">
             <i class="ph ph-x"></i>
           </button>
         </div>
@@ -165,12 +187,39 @@
         <div class="stats-summary-pill" id="statsSummaryPill">
           <!-- Dynamically populated in app.js -->
         </div>
+        <!-- Legal Notice Link -->
+        <button id="btnOpenLegalModal" class="legal-notice-btn" title="Mentions légales, RGPD et Confidentialité">
+          <i class="ph-bold ph-shield-check"></i>
+          <span>Mentions Légales</span>
+        </button>
       </div>
     </div>
 
     <!-- Main Calendar Area -->
     <main class="main-content">
       <div class="calendar-view-wrapper" id="calendarViewWrapper">
+        
+        <!-- Empty State Hero Container (Centered on screen when 0 calendars) -->
+        <div class="empty-state-container" id="emptyStateContainer">
+          <div class="empty-state-hero">
+            <div class="empty-state-hero-icon">
+              <i class="ph-bold ph-calendar-plus"></i>
+            </div>
+            <h2>Co-op Calendar</h2>
+            <p>
+              Compare jusqu'à <strong>10 emplois du temps .ics</strong> à partir de <strong>2026</strong>. Détecte automatiquement les créneaux communs & les temps libres.
+            </p>
+            <div class="empty-state-hero-badges">
+              <span class="hero-pill">🏷️ Détection de classe</span>
+              <span class="hero-pill">💾 Sauvegarde 100% locale</span>
+              <span class="hero-pill">📅 Vue Semaine & Jour</span>
+            </div>
+            <button class="btn-primary-add hero-add-btn" id="btnHeroAddCalendar">
+              <i class="ph-bold ph-plus-circle"></i>
+              <span>Ajouter un premier calendrier (.ics)</span>
+            </button>
+          </div>
+        </div>
         
         <!-- Unified Scroll Container (Handles both horizontal sync and vertical scroll) -->
         <div class="calendar-grid-scroll" id="calendarGridScroll">
@@ -194,7 +243,7 @@
         <div class="modal-header">
           <div class="modal-header-info">
             <h2 class="modal-title">
-              <i class="ph-bold ph-calendar-plus" style="color:var(--accent-blue);"></i> 
+              <i class="ph-bold ph-calendar-plus icon-accent-blue"></i> 
               Ajouter des calendriers à la comparaison
             </h2>
             <div class="modal-subtitle">
@@ -217,7 +266,7 @@
             <button class="btn-browse-file" id="btnBrowseFiles" type="button">
               <i class="ph-bold ph-folder-open"></i> Parcourir (.ics ou .zip)
             </button>
-            <input type="file" id="icsFileInput" accept=".ics,text/calendar,.zip,application/zip,application/x-zip-compressed,application/x-zip" multiple style="display:none;">
+            <input type="file" id="icsFileInput" class="file-input-hidden" accept=".ics,text/calendar,.zip,application/zip,application/x-zip-compressed,application/x-zip" multiple>
             <div class="dropzone-hint">
               <i class="ph ph-info"></i> Extraction automatique des .ics dans les .zip
             </div>
@@ -262,6 +311,62 @@
 
         <div class="modal-footer">
           <button class="action-btn" id="btnCloseEventModalBtn">Fermer</button>
+        </div>
+      </div>
+    </div>
+
+        <!-- Modal: Mentions Légales & Confidentialité RGPD -->
+    <div class="modal-backdrop" id="legalNoticeModalBackdrop">
+      <div class="modal-card modal-upload">
+        <div class="modal-header">
+          <div class="modal-header-info">
+            <h2 class="modal-title">
+              <i class="ph-bold ph-shield-check icon-accent-emerald"></i> 
+              Mentions Légales & Confidentialité
+            </h2>
+            <div class="modal-subtitle">
+              Transparence, conformité RGPD et respect de vos données
+            </div>
+          </div>
+          <button class="modal-close-btn" id="btnCloseLegalModalBtn" title="Fermer">
+            <i class="ph ph-x"></i>
+          </button>
+        </div>
+
+        <div class="legal-modal-body">
+          <div class="legal-section">
+            <h4><i class="ph-bold ph-lock-key icon-legal-green"></i> 1. Données Personnelles & Confidentialité (100% Local)</h4>
+            <p>
+              <strong>Aucune donnée personnelle n'est collectée, transmise ou stockée sur un serveur externe.</strong><br>
+              Le traitement de vos fichiers .ics et l'extraction des emplois du temps s'effectuent <strong>exclusivement en local</strong> dans votre navigateur Web. Vos préférences (filtres, couleurs, affichage) sont conservées uniquement dans la mémoire locale (<em>LocalStorage</em>) de votre appareil.
+            </p>
+          </div>
+
+          <div class="legal-section">
+            <h4><i class="ph-bold ph-cookie icon-legal-amber"></i> 2. Cookies & Traceurs</h4>
+            <p>
+              Ce site web n'utilise <strong>aucun cookie publicitaire ni traceur d'analyse tiers</strong>. Seuls les mécanismes de stockage nécessaires au fonctionnement de la PWA (Service Worker et LocalStorage) sont utilisés pour vous permettre de consulter vos calendriers hors-ligne.
+            </p>
+          </div>
+
+          <div class="legal-section">
+            <h4><i class="ph-bold ph-globe icon-legal-blue"></i> 3. Hébergement</h4>
+            <p>
+              Ce site statique est hébergé par <strong>GitHub Pages</strong> :<br>
+              <em>GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, États-Unis</em>.
+            </p>
+          </div>
+
+          <div class="legal-section">
+            <h4><i class="ph-bold ph-info icon-legal-purple"></i> 4. Propriété & Non-Affiliation</h4>
+            <p>
+              <strong>Co-op Calendar</strong> est un outil indépendant et open-source développé à titre bénévole pour faciliter la synchronisation et la comparaison d'emplois du temps étudiants. Il n'est affilié à aucun établissement d'enseignement supérieur.
+            </p>
+          </div>
+        </div>
+
+        <div class="modal-footer modal-footer-end">
+          <button class="action-btn" id="btnCloseLegalModalFooterBtn">Fermer</button>
         </div>
       </div>
     </div>

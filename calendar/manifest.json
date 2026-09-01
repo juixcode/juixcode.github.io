@@ -6,12 +6,20 @@
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",
-  "display_override": ["standalone", "minimal-ui", "window-controls-overlay"],
+  "display_override": [
+    "standalone",
+    "minimal-ui",
+    "window-controls-overlay"
+  ],
   "background_color": "#090d16",
   "theme_color": "#7c3aed",
   "orientation": "any",
   "lang": "fr",
-  "categories": ["productivity", "education", "utilities"],
+  "categories": [
+    "productivity",
+    "education",
+    "utilities"
+  ],
   "icons": [
     {
       "src": "icons/icon-192.png",
@@ -42,5 +50,6 @@
       "sizes": "180x180",
       "type": "image/png"
     }
-  ]
+  ],
+  "version": "1.8"
 }
