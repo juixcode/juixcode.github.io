@@ -1860,21 +1860,63 @@
       showToast('🎉 Co-op Calendar est maintenant installée sur votre appareil !');
     });
 
-    // 5. Automatically synchronize UI version badge with PWA manifest
-    fetch('./manifest.json')
-      .then(res => (res.ok ? res.json() : fetch('./manifest.webmanifest').then(r => r.json())))
-      .then(manifest => {
-        if (manifest && manifest.version) {
-          const badgeSpan = document.querySelector('#app > header > div.brand-section > div.brand-text > h1 > span, .badge-version');
-          if (badgeSpan) {
-            const cleanVer = manifest.version.toString().trim();
-            badgeSpan.textContent = cleanVer.startsWith('v') ? cleanVer : `v${cleanVer}`;
+    // 5. Automatically synchronize UI version badge with PWA version
+    async function syncAppVersionBadge() {
+      const badgeSpan = document.querySelector('#app > header > div.brand-section > div.brand-text > h1 > span, .badge-version');
+      if (!badgeSpan) return;
+
+      const applyVersion = (ver) => {
+        if (!ver) return;
+        const cleanVer = ver.toString().trim();
+        badgeSpan.textContent = cleanVer.startsWith('v') ? cleanVer : `v${cleanVer}`;
+      };
+
+      // Source 1: Query Service Worker directly via postMessage
+      if (navigator.serviceWorker) {
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          syncAppVersionBadge();
+        });
+
+        if (navigator.serviceWorker.controller) {
+          try {
+            const messageChannel = new MessageChannel();
+            messageChannel.port1.onmessage = (event) => {
+              if (event.data && event.data.version) {
+                applyVersion(event.data.version);
+              }
+            };
+            navigator.serviceWorker.controller.postMessage({ type: 'GET_VERSION' }, [messageChannel.port2]);
+          } catch (e) {}
+        }
+      }
+
+      // Source 2: Inspect Cache Storage keys
+      if ('caches' in window) {
+        try {
+          const keys = await caches.keys();
+          for (const key of keys) {
+            const match = key.match(/co-op-cal-v?([\d.]+)/i);
+            if (match && match[1]) {
+              applyVersion(match[1]);
+              break;
+            }
+          }
+        } catch (e) {}
+      }
+
+      // Source 3: Manifest (manifest.json / manifest.webmanifest)
+      try {
+        const res = await fetch('./manifest.json').catch(() => fetch('./manifest.webmanifest'));
+        if (res && res.ok) {
+          const manifest = await res.json();
+          if (manifest && manifest.version) {
+            applyVersion(manifest.version);
           }
         }
-      })
-      .catch(() => {
-        // Silently preserve static default if offline
-      });
+      } catch (e) {}
+    }
+
+    syncAppVersionBadge();
   }
 
   // --- App Initialization ---

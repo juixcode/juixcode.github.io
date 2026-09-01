@@ -1390,7 +1390,8 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--transition-normal);
-  padding: 20px;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
 .modal-backdrop.open {
@@ -1408,7 +1409,8 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   overflow: hidden;
   transform: scale(0.95) translateY(10px);
   transition: transform var(--transition-bounce);
-  max-height: 90vh;
+  max-height: 85vh;
+  max-height: 85dvh;
   display: flex;
   flex-direction: column;
 }
@@ -1425,6 +1427,7 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
+  flex-shrink: 0;
 }
 
 .modal-header-info {
@@ -1620,6 +1623,7 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
+  flex-shrink: 0;
 }
 
 /* Event Details Modal Sections */
@@ -2022,6 +2026,50 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
     grid-template-columns: 45px repeat(6, minmax(130px, 1fr));
     min-width: 825px;
   }
+
+  /* Modals on Mobile Viewport */
+  .modal-backdrop {
+    padding: 10px 8px;
+  }
+
+  .modal-card {
+    max-height: 82vh;
+    max-height: 82dvh;
+    border-radius: var(--radius-md);
+  }
+
+  .modal-header {
+    padding: 12px 14px;
+  }
+
+  .modal-title {
+    font-size: 1.02rem;
+  }
+
+  .modal-subtitle {
+    font-size: 0.72rem;
+  }
+
+  .legal-modal-body {
+    padding: 12px 14px;
+    gap: 10px;
+    font-size: 0.78rem;
+    line-height: 1.45;
+    max-height: 52vh;
+    max-height: 52dvh;
+  }
+
+  .legal-section {
+    padding: 10px 12px;
+  }
+
+  .legal-section h4 {
+    font-size: 0.82rem;
+  }
+
+  .modal-footer {
+    padding: 10px 14px;
+  }
 }
 
 /* Print Rules */
@@ -2163,15 +2211,18 @@ html.toolbar-collapsed .app-header {
 }
 
 .legal-modal-body {
-  padding: 20px 24px;
+  padding: 16px 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   font-size: 0.82rem;
   color: var(--text-secondary);
-  line-height: 1.6;
-  max-height: 70vh;
+  line-height: 1.55;
+  max-height: 58vh;
+  max-height: 58dvh;
   overflow-y: auto;
+  flex: 1 1 auto;
+  min-height: 0;
 }
 
 .legal-section {

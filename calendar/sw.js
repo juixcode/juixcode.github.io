@@ -1,5 +1,15 @@
 // Service Worker for Co-op Calendar PWA
-const CACHE_NAME = 'co-op-cal-v1.8';
+const APP_VERSION = 'v1.9';
+const CACHE_NAME = `co-op-cal-${APP_VERSION}`;
+
+// Listen for version query messages from client
+self.addEventListener('message', (event) => {
+  if (event.data && event.data.type === 'GET_VERSION') {
+    if (event.ports && event.ports[0]) {
+      event.ports[0].postMessage({ version: APP_VERSION });
+    }
+  }
+});
 
 const PRECACHE_ASSETS = [
   './',
