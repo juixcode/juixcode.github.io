@@ -72,6 +72,7 @@
   --transition-bounce: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 
   --slot-height: 60px; /* Height per 1 hour slot */
+  --time-axis-width: 52px; /* Consistent time axis column width across all views */
 }
 
 /* ==========================================================================
@@ -601,13 +602,8 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   font-size: 17px;
 }
 
-.pwa-install-btn {
-  display: none;
-  background: linear-gradient(135deg, rgba(124, 58, 237, 0.25), rgba(37, 99, 235, 0.25));
-  border: 1px solid var(--accent-purple);
-  color: var(--accent-blue);
-  font-weight: 600;
-  animation: pulseInstallBtn 2.5s infinite;
+.btn-mobile-pwa-install {
+  display: none !important;
 }
 
 .pwa-install-btn:hover {
@@ -635,52 +631,20 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   padding: 6px 18px;
   gap: 12px;
   flex-wrap: wrap;
-  z-index: 40;
+  z-index: 50;
+  overflow: visible;
+  position: relative;
 }
 
 .calendar-chips-wrapper {
   display: flex;
   align-items: center;
   gap: 8px;
-  flex: 1;
-  min-width: 160px;
-  overflow-x: auto;
-  padding-bottom: 2px;
-}
-
-.btn-toggle-chips-collapse {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: transparent;
-  border: 1px solid var(--border-subtle);
-  color: var(--text-secondary);
-  font-family: inherit;
-  font-size: 0.74rem;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 3px 8px;
-  border-radius: var(--radius-sm);
-  transition: var(--transition-fast);
-  -webkit-user-select: none;
-  user-select: none;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.btn-toggle-chips-collapse:hover {
-  background: var(--bg-tertiary);
-  color: var(--text-primary);
-  border-color: var(--border-hover);
-}
-
-#chipsCollapseIcon {
-  font-size: 13px;
-  transition: transform var(--transition-fast);
-}
-
-.calendar-chips-wrapper.collapsed .calendar-chips-list {
-  display: none;
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 650px;
+  overflow: visible;
+  position: relative;
 }
 
 .calendar-chips-label {
@@ -691,14 +655,35 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   align-items: center;
   gap: 4px;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .calendar-chips-list {
   display: flex;
   align-items: center;
   gap: 6px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 480px;
+  padding: 3px 2px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-hover) transparent;
   transition: opacity var(--transition-fast);
+  -webkit-overflow-scrolling: touch;
+}
+
+.calendar-chips-list::-webkit-scrollbar {
+  height: 4px;
+}
+
+.calendar-chips-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.calendar-chips-list::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: 4px;
 }
 
 .calendar-chip {
@@ -895,22 +880,149 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   border-color: var(--accent-purple);
 }
 
-.stats-summary-pill {
-  display: flex;
+/* Stats Popover inside Collapsible Chips Bar */
+.stats-popover-container {
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.72rem;
-  color: var(--text-secondary);
-  background: var(--bg-card);
-  padding: 3px 10px;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--border-subtle);
-  white-space: nowrap;
+  margin-left: 4px;
+  flex-shrink: 0;
+  z-index: 100;
 }
 
-.stat-item strong {
+.btn-stats-info {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  transition: var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.btn-stats-info:hover {
+  background: rgba(59, 130, 246, 0.18);
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+  transform: scale(1.08);
+}
+
+.calendar-chips-wrapper.collapsed .stats-popover-container {
+  display: none !important;
+}
+
+.stats-popover-card {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 1000;
+  min-width: 260px;
+  max-width: 320px;
+  background: var(--bg-glass-heavy);
+  -webkit-backdrop-filter: blur(22px);
+  backdrop-filter: blur(22px);
+  border: 1px solid var(--border-hover);
+  border-radius: var(--radius-md);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.65), 0 0 0 1px var(--border-color);
+  padding: 12px 14px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  animation: popoverFadeIn 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popoverFadeIn {
+  from { opacity: 0; transform: translateY(-4px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.stats-popover-card.open {
+  display: flex !important;
+}
+
+.stats-popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.stats-popover-title {
+  font-size: 0.76rem;
+  font-weight: 700;
   color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stats-popover-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 2px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+.stats-popover-close-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.stats-popover-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.stats-popover-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 0.74rem;
+  padding: 5px 8px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+}
+
+.stats-item-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  overflow: hidden;
+}
+
+.stats-item-name {
+  color: var(--text-primary);
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 140px;
+}
+
+.stats-item-duration {
+  color: var(--accent-blue);
   font-family: var(--font-mono);
+  font-weight: 700;
+  white-space: nowrap;
 }
 
 /* ==========================================================================
@@ -939,7 +1051,7 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
 
 .calendar-days-header {
   display: grid;
-  grid-template-columns: 60px repeat(6, minmax(0, 1fr));
+  grid-template-columns: var(--time-axis-width) repeat(6, minmax(0, 1fr));
   background: var(--bg-glass-heavy);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
@@ -954,14 +1066,13 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.7rem;
+  font-size: 16px;
   color: var(--text-muted);
-  font-family: var(--font-mono);
 }
 
 /* Week Day Header Cells */
 .day-header-cell {
-  padding: 8px 6px;
+  padding: 4px 4px;
   text-align: center;
   border-right: 2px solid var(--day-divider);
   display: flex;
@@ -971,6 +1082,7 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   transition: var(--transition-fast);
   position: relative;
   background: rgba(255, 255, 255, 0.01);
+  min-height: 34px;
 }
 
 .day-header-cell:last-child {
@@ -982,11 +1094,12 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
 }
 
 .day-name {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   color: var(--text-secondary);
+  line-height: 1.1;
 }
 
 .day-header-cell.is-today .day-name {
@@ -995,10 +1108,11 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
 
 .day-date {
   font-family: var(--font-heading);
-  font-size: 1.15rem;
+  font-size: 0.98rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin-top: 1px;
+  line-height: 1.1;
+  margin-top: 0;
 }
 
 .day-header-cell.is-today .day-date {
@@ -1006,9 +1120,7 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
 }
 
 .day-events-count {
-  font-size: 0.65rem;
-  color: var(--text-muted);
-  margin-top: 1px;
+  display: none !important;
 }
 
 /* ==========================================================================
@@ -1020,7 +1132,8 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
 }
 
 .day-lane-header-cell {
-  padding: 8px 10px;
+  padding: 4px 6px;
+  min-height: 32px;
   text-align: center;
   border-right: 2px solid var(--day-divider);
   display: flex;
@@ -1061,17 +1174,20 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
 
 /* Calendar Scrollable Body */
 .calendar-grid-scroll {
-  flex: 1;
+  flex: 1 1 0;
+  min-height: 0;
   overflow-y: auto;
-  overflow-x: hidden;
+  overflow-x: auto;
   position: relative;
+  -webkit-overflow-scrolling: touch;
 }
 
 .calendar-grid-body {
   display: grid;
-  grid-template-columns: 60px repeat(6, minmax(0, 1fr));
+  grid-template-columns: var(--time-axis-width) repeat(6, minmax(0, 1fr));
   position: relative;
-  height: calc(13 * var(--slot-height)); /* Exactly 13 hours: 8h to 21h (780px) */
+  min-height: calc(13 * var(--slot-height));
+  height: max(100%, calc(13 * var(--slot-height)));
 }
 
 /* Time Axis Column */
@@ -1086,6 +1202,7 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
 
 .time-slot-label {
   height: var(--slot-height);
+  min-height: var(--slot-height);
   position: relative;
   display: flex;
   align-items: flex-start;
@@ -1726,9 +1843,35 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
    Empty State Hero (When 0 Calendars are loaded)
    ========================================================================== */
 
+.empty-state-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.calendar-view-wrapper.empty .empty-state-container {
+  display: flex !important;
+}
+
+.calendar-view-wrapper.empty .calendar-grid-scroll {
+  display: none !important;
+}
+
+.calendar-view-wrapper:not(.empty) .empty-state-container {
+  display: none !important;
+}
+
 .empty-state-hero {
   position: absolute;
-  top: 50%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
   background: var(--bg-glass-heavy);
@@ -1849,6 +1992,11 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
 
 /* Mobile Screens (<= 768px) */
 @media (max-width: 768px) {
+  :root {
+    --time-axis-width: 42px;
+    --slot-height: 48px; /* Slightly compacted hour slots for mobile screens */
+  }
+
   #app {
     width: 100vw;
     max-width: 100vw;
@@ -1856,10 +2004,77 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   }
 
   .app-header {
-    padding: 6px 8px;
+    position: relative;
+    padding: 6px 82px 6px 8px;
     gap: 4px;
     flex-wrap: wrap;
     justify-content: space-between;
+  }
+
+  /* Mobile Top-Right Toolbar Button */
+  .btn-toggle-toolbar {
+    position: absolute !important;
+    top: 6px !important;
+    right: 8px !important;
+    z-index: 45 !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 17px !important;
+    border-radius: 50% !important;
+    background: rgba(124, 58, 237, 0.28) !important;
+    border: 1.5px solid rgba(168, 85, 247, 0.55) !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  }
+
+  .btn-toggle-toolbar:hover {
+    background: rgba(124, 58, 237, 0.5) !important;
+    border-color: var(--accent-purple) !important;
+    transform: scale(1.08);
+  }
+
+  body.light-theme .btn-toggle-toolbar {
+    background: rgba(124, 58, 237, 0.15) !important;
+    border-color: rgba(124, 58, 237, 0.45) !important;
+    color: #6d28d9 !important;
+  }
+
+  /* Mobile Top-Right Discreet PWA Install Button (Right beside Toolbar Toggle) */
+  .btn-mobile-pwa-install {
+    position: absolute !important;
+    top: 6px !important;
+    right: 46px !important;
+    z-index: 45 !important;
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 16px !important;
+    border-radius: 50% !important;
+    background: rgba(59, 130, 246, 0.18) !important;
+    border: 1px solid rgba(96, 165, 250, 0.45) !important;
+    color: #60a5fa !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: var(--transition-fast) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35) !important;
+  }
+
+  .btn-mobile-pwa-install:hover {
+    background: rgba(59, 130, 246, 0.38) !important;
+    border-color: var(--accent-blue) !important;
+    color: #ffffff !important;
+    transform: scale(1.08);
+  }
+
+  body.light-theme .btn-mobile-pwa-install {
+    background: rgba(37, 99, 235, 0.12) !important;
+    border-color: rgba(37, 99, 235, 0.35) !important;
+    color: #2563eb !important;
+  }
+
+  body.light-theme .btn-mobile-pwa-install:hover {
+    background: rgba(37, 99, 235, 0.22) !important;
   }
 
   .brand-section {
@@ -1878,7 +2093,7 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
     padding: 2px 4px;
     gap: 2px;
     flex-shrink: 1;
-    max-width: calc(100vw - 16px);
+    max-width: calc(100vw - 90px);
     box-sizing: border-box;
   }
 
@@ -1914,8 +2129,6 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
     display: none; /* Hide range subtitle on mobile to fit perfectly without horizontal scrolling */
   }
 
-  /* Mobile date picker wrapper handled automatically */
-
   .view-switch-btn {
     padding: 4px 8px;
     font-size: 0.72rem;
@@ -1938,15 +2151,20 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   }
 
   .app-subheader {
-    padding: 4px 10px;
+    padding: 4px 8px;
     gap: 6px;
+  }
+
+  .calendar-chips-wrapper {
+    max-width: 100%;
+  }
+
+  .calendar-chips-list {
+    max-width: calc(100vw - 95px);
   }
 
   .calendar-chips-label {
     display: none;
-  }
-  .stats-summary-pill {
-    display: none !important;
   }
 
   .chip-event-count {
@@ -1957,12 +2175,18 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
     width: 110px;
   }
 
-  /* DAY VIEW ON MOBILE: Must fit 100% of available screen with NO horizontal scroll */
+  #typeFilterSelect,
+  .type-filter-select {
+    display: none !important;
+  }
+
+  /* DAY VIEW ON MOBILE: Standard 60px slot height norm, vertical scroll enabled */
   .calendar-days-header.day-view-mode {
     width: 100% !important;
     max-width: 100vw !important;
     min-width: 0 !important;
     overflow-x: hidden !important;
+    flex-shrink: 0 !important;
   }
 
   .calendar-grid-scroll.day-view-mode {
@@ -1970,18 +2194,30 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
     max-width: 100vw !important;
     min-width: 0 !important;
     overflow-x: hidden !important;
+    overflow-y: auto !important;
+    height: 100% !important;
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    -webkit-overflow-scrolling: touch !important;
   }
 
   .calendar-grid-body.day-view-mode {
     width: 100% !important;
     max-width: 100vw !important;
     min-width: 0 !important;
+    min-height: calc(13 * 60px) !important;
+    height: calc(13 * 60px) !important;
+    flex: 0 0 auto !important;
+    display: grid !important;
   }
 
-  .day-view-mode .time-axis-header-cell,
-  .day-view-mode .time-axis-column {
-    width: 45px;
-    min-width: 45px;
+  .calendar-grid-body.day-view-mode .time-slot-label {
+    height: 60px !important;
+    min-height: 60px !important;
+    max-height: 60px !important;
+    flex: 0 0 60px !important;
   }
 
   .day-view-mode .day-lane-header-cell {
@@ -2014,19 +2250,106 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
     display: none !important;
   }
 
-  /* WEEK VIEW ON MOBILE: Horizontally scrollable ONLY */
+  /* WEEK VIEW ON MOBILE: Dynamic height matching exact available remaining viewport height (No vertical scroll, zero cut-off) */
   .calendar-days-header:not(.day-view-mode) {
-    grid-template-columns: 45px repeat(6, minmax(130px, 1fr));
-    min-width: 825px;
+    grid-template-columns: var(--time-axis-width) repeat(6, minmax(130px, 1fr)) !important;
+    min-width: 825px !important;
+    flex-shrink: 0 !important;
   }
 
   .calendar-grid-scroll:not(.day-view-mode) {
-    overflow-x: auto;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: thin !important;
+  }
+
+  .calendar-grid-scroll:not(.day-view-mode)::-webkit-scrollbar {
+    height: 3px !important;
   }
 
   .calendar-grid-body:not(.day-view-mode) {
-    grid-template-columns: 45px repeat(6, minmax(130px, 1fr));
-    min-width: 825px;
+    grid-template-columns: var(--time-axis-width) repeat(6, minmax(130px, 1fr)) !important;
+    min-width: 825px !important;
+    flex: 1 1 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+    max-height: none !important;
+    display: grid !important;
+  }
+
+  .calendar-grid-body:not(.day-view-mode) .time-axis-column,
+  .calendar-grid-body:not(.day-view-mode) .day-column {
+    height: 100% !important;
+    min-height: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    position: relative !important;
+  }
+
+  .calendar-grid-body:not(.day-view-mode) .time-slot-label {
+    height: calc(100% / 13) !important;
+    min-height: 0 !important;
+    max-height: calc(100% / 13) !important;
+    flex: 1 1 0 !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Stats Popover positioning on mobile (Bounded to viewport to prevent right overflow) */
+  .stats-popover-card {
+    position: fixed !important;
+    top: 92px !important;
+    left: 12px !important;
+    right: 12px !important;
+    max-width: calc(100vw - 24px) !important;
+    min-width: 0 !important;
+    width: auto !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Empty State Hero on Mobile (Lifted up and compact to prevent bottom overflow) */
+  .empty-state-hero {
+    top: 40% !important;
+    transform: translate(-50%, -50%) !important;
+    padding: 18px 14px !important;
+    gap: 10px !important;
+    width: 92% !important;
+    max-width: 360px !important;
+    max-height: 80dvh !important;
+    max-height: 80vh !important;
+    overflow-y: auto !important;
+  }
+
+  .empty-state-hero-icon {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 24px !important;
+    border-radius: var(--radius-lg) !important;
+  }
+
+  .empty-state-hero h2 {
+    font-size: 1.05rem !important;
+  }
+
+  .empty-state-hero p {
+    font-size: 0.76rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .empty-state-hero-badges {
+    gap: 4px !important;
+  }
+
+  .empty-state-hero .hero-add-btn {
+    height: 36px !important;
+    padding: 0 14px !important;
+    font-size: 0.78rem !important;
   }
 
   /* Modals on Mobile Viewport */
@@ -2283,4 +2606,144 @@ html.toolbar-collapsed .app-header {
 
 .modal-footer-end {
   justify-content: flex-end !important;
+}
+
+/* ==========================================================================
+   PWA Install Popup Banner
+   ========================================================================== */
+.pwa-install-banner {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 95;
+  max-width: 370px;
+  width: calc(100% - 32px);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+}
+
+.pwa-install-banner.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.pwa-banner-card {
+  background: var(--bg-glass-heavy);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(168, 85, 247, 0.45);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 24px rgba(124, 58, 237, 0.25);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pwa-banner-icon {
+  flex-shrink: 0;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.pwa-banner-img {
+  display: block;
+  border-radius: var(--radius-sm);
+}
+
+.pwa-banner-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.pwa-banner-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pwa-banner-desc {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+
+.pwa-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.pwa-banner-btn-install {
+  padding: 6px 12px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #2563eb, #7c3aed);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: var(--transition-fast);
+  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.4);
+  white-space: nowrap;
+}
+
+.pwa-banner-btn-install:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.6);
+}
+
+.pwa-banner-btn-close {
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  transition: var(--transition-fast);
+}
+
+.pwa-banner-btn-close:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .pwa-install-banner {
+    bottom: 12px;
+    right: 8px;
+    left: 8px;
+    width: auto;
+    max-width: none;
+  }
+  .pwa-banner-card {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+  .pwa-banner-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 }

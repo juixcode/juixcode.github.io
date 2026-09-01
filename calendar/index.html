@@ -60,7 +60,7 @@
           <i class="ph-bold ph-calendar-check"></i>
         </div>
         <div class="brand-text">
-          <h1>Co-op Calendar <span class="badge-version" id="appVersionBadge">v1.9</span></h1>
+          <h1>Co-op Calendar <span class="badge-version" id="appVersionBadge">v2.0</span></h1>
           <div class="brand-subtitle">Comparateur d'Emplois du Temps</div>
         </div>
       </div>
@@ -90,6 +90,11 @@
           <i class="ph-bold ph-calendar-blank date-picker-icon"></i>
           <input type="date" id="periodDatePicker" class="period-date-picker" aria-label="Choisir une date">
         </label>
+
+        <!-- Mobile Discreet PWA Install Button (Shown on mobile for compatible devices) -->
+        <button id="btnMobilePwaInstall" class="btn-mobile-pwa-install" title="Installer l'application sur cet appareil (PWA)" aria-label="Installer l'application" style="display: none;">
+          <i class="ph-bold ph-download-simple"></i>
+        </button>
 
         <!-- Toggle Toolbar / Configuration Options Button -->
         <button id="btnToggleToolbarCollapse" class="btn-toggle-toolbar" title="Masquer ou Afficher les options de configuration">
@@ -126,16 +131,12 @@
 
         <button id="btnToggleDimCMo" class="action-btn active" title="Rendre discrets et transparents les cours en distanciel (CMo, CAo)">
           <i class="ph-bold ph-video-camera-slash"></i>
-          <span>Atténuer CMo</span>
+          <span>CMo</span>
         </button>
 
         <button id="btnToggleFreeTime" class="action-btn" title="Afficher/masquer les créneaux libres en commun">
           <i class="ph ph-sparkle"></i>
           <span>Temps Libre</span>
-        </button>
-        <button id="btnPwaInstall" class="action-btn pwa-install-btn" title="Installer l'application sur cet appareil (PWA)">
-          <i class="ph-bold ph-download-simple"></i>
-          <span>Installer</span>
         </button>
         <button id="btnThemeToggle" class="action-btn icon-only" title="Changer de thème Clair / Sombre">
           <i class="ph ph-sun"></i>
@@ -145,18 +146,24 @@
 
     <!-- Subheader: Active Calendars Chips & Filters -->
     <div class="app-subheader">
-      <!-- Calendar Chips Comparison Legend & Removal Buttons (Collapsible) -->
+      <!-- Calendar Chips Comparison Area (Scrollable with max width) -->
       <div class="calendar-chips-wrapper" id="calendarChipsWrapper">
-        <button class="btn-toggle-chips-collapse" id="btnToggleChipsCollapse" title="Rétracter ou Déplier les calendriers comparés">
-          <i class="ph-bold ph-caret-down" id="chipsCollapseIcon"></i>
-          <span class="calendar-chips-label"><i class="ph ph-users-three"></i> Comparaison :</span>
-        </button>
+        <span class="calendar-chips-label"><i class="ph ph-users-three"></i> Comparaison :</span>
         <div class="calendar-chips-list" id="calendarChipsList">
           <!-- Dynamically populated in app.js -->
         </div>
+        <!-- Stats Info Button & Lightweight Popover -->
+        <div class="stats-popover-container" id="statsPopoverContainer">
+          <button class="btn-stats-info" id="btnStatsInfo" title="Statistiques de la semaine (volume horaire par calendrier)" aria-label="Statistiques de la semaine">
+            <i class="ph-bold ph-info"></i>
+          </button>
+          <div class="stats-popover-card" id="statsSummaryPill">
+            <!-- Dynamically populated in app.js -->
+          </div>
+        </div>
       </div>
 
-      <!-- Right Side Filters: Search, Type Filter & Stats -->
+      <!-- Right Side Filters: Search, Type Filter & Legal Notice -->
       <div class="subheader-right-group">
         <!-- Search -->
         <div class="search-input-wrapper">
@@ -183,10 +190,6 @@
           <option value="Rattrapage">Rattrapages</option>
         </select>
 
-        <!-- Stats Summary Pill -->
-        <div class="stats-summary-pill" id="statsSummaryPill">
-          <!-- Dynamically populated in app.js -->
-        </div>
         <!-- Legal Notice Link -->
         <button id="btnOpenLegalModal" class="legal-notice-btn" title="Mentions légales, RGPD et Confidentialité">
           <i class="ph-bold ph-shield-check"></i>
@@ -377,6 +380,27 @@
         <i class="ph-bold ph-file-arrow-up overlay-icon"></i>
         <h3>Dépose tes fichiers .ICS ou .ZIP ici</h3>
         <p>Les calendriers seront automatiquement extraits et ajoutés à la comparaison</p>
+      </div>
+    </div>
+
+    <!-- PWA Install Popup Banner (Discreet & Dismissible on First Visit) -->
+    <div class="pwa-install-banner" id="pwaInstallBanner" style="display:none;">
+      <div class="pwa-banner-card">
+        <div class="pwa-banner-icon">
+          <img src="icons/icon-192.png" alt="Co-op Calendar" width="38" height="38" class="pwa-banner-img">
+        </div>
+        <div class="pwa-banner-content">
+          <div class="pwa-banner-title">Installer Co-op Calendar</div>
+          <div class="pwa-banner-desc">Accède à tes emplois du temps hors-ligne et en 1 clic sur ton appareil.</div>
+        </div>
+        <div class="pwa-banner-actions">
+          <button class="pwa-banner-btn-install" id="btnPwaBannerInstall">
+            <i class="ph-bold ph-download-simple"></i> Installer
+          </button>
+          <button class="pwa-banner-btn-close" id="btnPwaBannerClose" title="Fermer" aria-label="Fermer">
+            <i class="ph ph-x"></i>
+          </button>
+        </div>
       </div>
     </div>
 

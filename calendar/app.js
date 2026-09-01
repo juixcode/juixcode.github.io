@@ -7,7 +7,7 @@
   'use strict';
 
   // --- Configuration & Constants ---
-  const APP_VERSION = 'v1.9';
+  const APP_VERSION = 'v2.0';
 
   const TIME_START_HOUR = 8;  // 8h00
   const TIME_END_HOUR = 21;   // 21h00
@@ -137,7 +137,6 @@
   const DIM_CMO_STORAGE_KEY = 'synccal_dim_cmo';
   const FREE_TIME_STORAGE_KEY = 'synccal_show_free_time';
   const TYPE_FILTER_STORAGE_KEY = 'synccal_type_filter';
-  const CHIPS_COLLAPSED_STORAGE_KEY = 'synccal_chips_collapsed';
   const SHOW_TOOLBAR_STORAGE_KEY = 'synccal_show_toolbar';
 
   // --- App State ---
@@ -146,8 +145,7 @@
     currentDate: new Date(2026, 8, 1), // Default: 1st September 2026 (start of academic year)
     viewType: localStorage.getItem(VIEW_TYPE_STORAGE_KEY) || (window.innerWidth < 768 ? 'day' : 'week'),
     dimCMo: localStorage.getItem(DIM_CMO_STORAGE_KEY) !== 'false', // Default: true (dim online courses)
-    chipsCollapsed: localStorage.getItem(CHIPS_COLLAPSED_STORAGE_KEY) === 'true',
-    showToolbar: localStorage.getItem(SHOW_TOOLBAR_STORAGE_KEY) !== 'false', // Default: true (options visible & button active/enfoncé) // Comparison chips collapsed
+    showToolbar: localStorage.getItem(SHOW_TOOLBAR_STORAGE_KEY) !== 'false', // Default: true (options visible & button active/enfoncé)
     searchQuery: '',
     typeFilter: localStorage.getItem(TYPE_FILTER_STORAGE_KEY) || 'ALL',
     showFreeTime: localStorage.getItem(FREE_TIME_STORAGE_KEY) === 'true', // Saved free time preference
@@ -184,7 +182,7 @@
 
       // Pattern 1: ESILV-...-FT([A-Z]) (e.g. ESILV-2-A2-PAR-ST-FTM -> M, ESILV-1-A1-PAR-TP-FTJ2 -> J)
       const ftMatch = g.match(/ESILV-[A-Za-z0-9-]+-FT([A-Za-z])(?:\d*|\b)/i) ||
-                      g.match(/\bFT([A-Za-z])(?:\d*|\b)/i);
+        g.match(/\bFT([A-Za-z])(?:\d*|\b)/i);
       if (ftMatch) {
         const letter = ftMatch[1].toUpperCase();
         letterCounts[letter] = (letterCounts[letter] || 0) + 3;
@@ -638,17 +636,8 @@
   // --- Render Subheader Calendar Chips ---
   function renderCalendarChips() {
     const listEl = document.getElementById('calendarChipsList');
-    const wrapperEl = document.getElementById('calendarChipsWrapper');
-    const collapseIcon = document.getElementById('chipsCollapseIcon');
     if (!listEl) return;
     listEl.innerHTML = '';
-
-    if (wrapperEl) {
-      wrapperEl.classList.toggle('collapsed', !!state.chipsCollapsed);
-    }
-    if (collapseIcon) {
-      collapseIcon.className = state.chipsCollapsed ? 'ph-bold ph-caret-right' : 'ph-bold ph-caret-down';
-    }
 
     if (state.calendars.length === 0) {
       listEl.innerHTML = `
@@ -782,28 +771,33 @@
   }
 
   // --- Render Calendar Grid (Week or Day View) ---
-    function renderCalendarGrid() {
+  function renderCalendarGrid() {
+    const wrapper = document.getElementById('calendarViewWrapper');
     const emptyContainer = document.getElementById('emptyStateContainer');
     const scrollContainer = document.getElementById('calendarGridScroll');
     const headerContainer = document.getElementById('calendarDaysHeader');
     const gridBody = document.getElementById('calendarGridBody');
     if (!scrollContainer || !headerContainer || !gridBody) return;
 
+    // Always clear grid containers first
+    headerContainer.innerHTML = '';
+    gridBody.innerHTML = '';
+
     if (state.calendars.length === 0) {
+      if (wrapper) wrapper.classList.add('empty');
       if (emptyContainer) emptyContainer.style.display = 'flex';
       scrollContainer.style.display = 'none';
       return;
     }
 
+    if (wrapper) wrapper.classList.remove('empty');
     if (emptyContainer) emptyContainer.style.display = 'none';
     scrollContainer.style.display = '';
-    headerContainer.innerHTML = '';
-    gridBody.innerHTML = '';
 
     if (state.viewType === 'week') {
-      renderWeekView(headerContainer, gridBody);
+      renderWeekView(scrollContainer, headerContainer, gridBody);
     } else {
-      renderDayView(headerContainer, gridBody);
+      renderDayView(scrollContainer, headerContainer, gridBody);
     }
   }
 
@@ -822,7 +816,8 @@
   }
 
   // --- 1. Render Week View (6 Days: Lundi à Samedi) ---
-  function renderWeekView(headerContainer, gridBody) {
+  function renderWeekView(scrollContainer, headerContainer, gridBody) {
+    scrollContainer.classList.remove('day-view-mode');
     headerContainer.classList.remove('day-view-mode');
     gridBody.classList.remove('day-view-mode');
     headerContainer.style.gridTemplateColumns = '';
@@ -833,22 +828,21 @@
     const today = new Date();
     const enabledCals = state.calendars.filter(c => c.enabled);
     const numEnabled = enabledCals.length;
-    const isCompactMode = numEnabled > 2; // When > 2 calendars compared, use simplified colored blocks!
+    const isMobile = window.innerWidth < 768;
+    const isCompactMode = isMobile ? true : (numEnabled > 2); // On mobile, week view is ALWAYS simplified compact mode!
 
-    // Header Time Axis Cell
-    headerContainer.innerHTML = '<div class="time-axis-header-cell"><i class="ph ph-clock"></i> Heures</div>';
+    // Header Time Axis Cell (Icon only)
+    headerContainer.innerHTML = '<div class="time-axis-header-cell" title="Heures"><i class="ph-bold ph-clock"></i></div>';
 
     // 6 Day Header Cells
     weekDays.forEach((day, index) => {
       const isToday = isSameDay(day, today);
-      const dayEvents = getEventsForDay(day);
 
       const dayCell = document.createElement('div');
       dayCell.className = `day-header-cell ${isToday ? 'is-today' : ''}`;
       dayCell.innerHTML = `
         <span class="day-name">${DAYS_FR_6[index]}</span>
         <span class="day-date">${day.getDate()}</span>
-        <span class="day-events-count">${dayEvents.length} cours</span>
       `;
       headerContainer.appendChild(dayCell);
     });
@@ -917,7 +911,8 @@
   }
 
   // --- 2. Render Day View (Jour par jour - Distinct Column per Calendar) ---
-  function renderDayView(headerContainer, gridBody) {
+  function renderDayView(scrollContainer, headerContainer, gridBody) {
+    scrollContainer.classList.add('day-view-mode');
     headerContainer.classList.add('day-view-mode');
     gridBody.classList.add('day-view-mode');
 
@@ -929,12 +924,12 @@
     const numEnabled = enabledCals.length;
     const numCols = Math.max(1, numEnabled);
 
-    // Explicit grid column template for Day View
-    headerContainer.style.gridTemplateColumns = `60px repeat(${numCols}, minmax(0, 1fr))`;
-    gridBody.style.gridTemplateColumns = `60px repeat(${numCols}, minmax(0, 1fr))`;
+    // Explicit grid column template for Day View using CSS variable for precision
+    headerContainer.style.gridTemplateColumns = `var(--time-axis-width) repeat(${numCols}, minmax(0, 1fr))`;
+    gridBody.style.gridTemplateColumns = `var(--time-axis-width) repeat(${numCols}, minmax(0, 1fr))`;
 
     // 1. Day Header: Time Axis Cell + 1 Lane Header Cell per Calendar
-    headerContainer.innerHTML = '<div class="time-axis-header-cell"><i class="ph ph-clock"></i> Heures</div>';
+    headerContainer.innerHTML = '<div class="time-axis-header-cell" title="Heures"><i class="ph-bold ph-clock"></i></div>';
 
     if (numEnabled === 0) {
       const emptyHeaderCell = document.createElement('div');
@@ -961,7 +956,6 @@
             <span class="chip-dot" style="background:${palette.primary}; width:9px; height:9px; box-shadow:0 0 8px ${palette.primary};"></span>
             <span class="lane-cal-name" title="${escapeHTML(cal.name)}">${escapeHTML(cal.name)}</span>
             ${classBadge}
-            <span class="lane-cal-count">(${calEvents.length})</span>
           </div>
         `;
         headerContainer.appendChild(laneHeader);
@@ -1164,23 +1158,25 @@
     }
   }
 
-  // --- Weekly Stats Summary ---
+  // --- Weekly Stats Summary Popover ---
   function renderWeeklyStats() {
+    const statsContainer = document.getElementById('statsPopoverContainer');
     const statsPill = document.getElementById('statsSummaryPill');
-    if (!statsPill) return;
+    if (!statsPill || !statsContainer) return;
 
     const enabledCals = state.calendars.filter(c => c.enabled);
     if (enabledCals.length === 0) {
-      statsPill.style.display = 'none';
+      statsContainer.style.display = 'none';
+      statsPill.classList.remove('open');
       return;
     }
 
-    statsPill.style.display = 'flex';
+    statsContainer.style.display = 'inline-flex';
 
     const monday = getMonday(state.currentDate);
     const weekDays = getWeekDays6(monday);
 
-    let html = '';
+    let itemsHtml = '';
     enabledCals.forEach((cal) => {
       let totalMin = 0;
       weekDays.forEach(day => {
@@ -1191,15 +1187,35 @@
       });
 
       const palette = CALENDAR_PALETTES[cal.colorIndex % CALENDAR_PALETTES.length];
-      html += `
-        <span class="stat-item" style="color:${palette.primary};">
-          <span class="chip-dot" style="display:inline-block; width:6px; height:6px; background:${palette.primary};"></span>
-          ${escapeHTML(cal.name.split(' ')[0])}: <strong>${formatDuration(totalMin)}</strong>
-        </span>
+      const letter = cal.classLetter || (cal.name ? cal.name.trim().charAt(0).toUpperCase() : '?');
+      itemsHtml += `
+        <div class="stats-popover-item">
+          <div class="stats-item-info">
+            <span class="chip-dot" style="background:${palette.primary}; box-shadow:0 0 6px ${palette.primary};"></span>
+            <span class="stats-item-name" title="${escapeHTML(cal.name)}">${escapeHTML(cal.name)}</span>
+            <span class="chip-class-tag" style="background:${palette.badgeBg}; font-size:0.62rem; padding:1px 4px;">${escapeHTML(letter)}</span>
+          </div>
+          <strong class="stats-item-duration">${formatDuration(totalMin)}</strong>
+        </div>
       `;
     });
 
-    statsPill.innerHTML = html;
+    statsPill.innerHTML = `
+      <div class="stats-popover-header">
+        <span class="stats-popover-title"><i class="ph-bold ph-chart-pie-slice"></i> Volume horaire (Semaine)</span>
+        <button class="stats-popover-close-btn" id="btnCloseStatsPopover" title="Fermer" aria-label="Fermer">
+          <i class="ph ph-x"></i>
+        </button>
+      </div>
+      <div class="stats-popover-list">
+        ${itemsHtml}
+      </div>
+    `;
+
+    document.getElementById('btnCloseStatsPopover')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      statsPill.classList.remove('open');
+    });
   }
 
   // --- Empty State Hero ---
@@ -1437,14 +1453,23 @@
       });
     });
 
-    // Toggle Comparison Chips Collapse/Expand
-    document.getElementById('btnToggleChipsCollapse')?.addEventListener('click', () => {
-      state.chipsCollapsed = !state.chipsCollapsed;
-      localStorage.setItem(CHIPS_COLLAPSED_STORAGE_KEY, state.chipsCollapsed);
-      renderCalendarChips();
+    // Toggle Stats Popover
+    document.getElementById('btnStatsInfo')?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      document.getElementById('statsSummaryPill')?.classList.toggle('open');
     });
 
-    
+    // Close Stats Popover when clicking outside
+    document.addEventListener('click', (e) => {
+      const statsPill = document.getElementById('statsSummaryPill');
+      const statsBtn = document.getElementById('btnStatsInfo');
+      if (statsPill && statsPill.classList.contains('open')) {
+        if (!statsPill.contains(e.target) && !statsBtn?.contains(e.target)) {
+          statsPill.classList.remove('open');
+        }
+      }
+    });
+
     // --- Toolbar Toggle (Options Visibles / Masquées) ---
     document.getElementById('btnToggleToolbarCollapse')?.addEventListener('click', () => {
       state.showToolbar = !state.showToolbar;
@@ -1823,19 +1848,61 @@
       });
     }
 
-    const btnInstall = document.getElementById('btnPwaInstall');
+    const pwaBanner = document.getElementById('pwaInstallBanner');
+    const btnBannerInstall = document.getElementById('btnPwaBannerInstall');
+    const btnBannerClose = document.getElementById('btnPwaBannerClose');
+    const isDismissed = localStorage.getItem('synccal_pwa_banner_dismissed') === 'true';
 
-    // 2. Intercept beforeinstallprompt for Android, Windows, macOS, Linux, ChromeOS
+    const showBanner = () => {
+      if (isDismissed || !pwaBanner) return;
+      setTimeout(() => {
+        pwaBanner.style.display = 'block';
+        requestAnimationFrame(() => pwaBanner.classList.add('visible'));
+      }, 1200);
+    };
+
+    const hideBanner = () => {
+      if (!pwaBanner) return;
+      pwaBanner.classList.remove('visible');
+      setTimeout(() => {
+        pwaBanner.style.display = 'none';
+      }, 300);
+    };
+
+    const btnMobilePwa = document.getElementById('btnMobilePwaInstall');
+
+    const updateMobilePwaBtnVisibility = () => {
+      if (!btnMobilePwa) return;
+      const isStandaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+      if (isStandaloneMode) {
+        btnMobilePwa.style.display = 'none';
+        return;
+      }
+      if (deferredInstallPrompt || isIOS) {
+        btnMobilePwa.style.display = 'inline-flex';
+      } else {
+        btnMobilePwa.style.display = 'none';
+      }
+    };
+
+    // 2. Intercept beforeinstallprompt for Android, Windows, macOS, ChromeOS
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
       deferredInstallPrompt = e;
-      if (btnInstall) {
-        btnInstall.style.display = 'inline-flex';
-      }
+      showBanner();
+      updateMobilePwaBtnVisibility();
     });
 
-    // 3. Handle Install Button Click
-    btnInstall?.addEventListener('click', async () => {
+    // iOS Safari Detection (if non-standalone and first visit)
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+    if (isIOS && !isStandalone) {
+      if (!isDismissed) showBanner();
+      updateMobilePwaBtnVisibility();
+    }
+
+    // 3. Handle Install Action (Shared for Popup Banner & Mobile Header Button)
+    const triggerInstallFlow = async () => {
       if (deferredInstallPrompt) {
         deferredInstallPrompt.prompt();
         const choiceResult = await deferredInstallPrompt.userChoice;
@@ -1843,22 +1910,31 @@
           showToast('Installation de Co-op Calendar en cours... 📲');
         }
         deferredInstallPrompt = null;
-        btnInstall.style.display = 'none';
+        updateMobilePwaBtnVisibility();
+      } else if (isIOS) {
+        showToast("📲 Sur iPhone/iPad : Utilise 'Partager' puis 'Sur l'écran d'accueil'", 6000);
       } else {
-        // iOS Safari Helper
-        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        if (isIOS) {
-          showToast("📲 Pour installer sur iPhone/iPad : touchez Partager ⎋ puis 'Sur l'écran d'accueil' ➕");
-        } else {
-          showToast("📲 Ouvrez le menu de votre navigateur et choisissez 'Installer l'application'");
-        }
+        showToast("📲 Ouvrez le menu de votre navigateur et choisissez 'Installer l'application'", 5000);
       }
+      localStorage.setItem('synccal_pwa_banner_dismissed', 'true');
+      hideBanner();
+    };
+
+    btnBannerInstall?.addEventListener('click', triggerInstallFlow);
+    btnMobilePwa?.addEventListener('click', triggerInstallFlow);
+
+    // 4. Handle Close Button Click in Popup Banner
+    btnBannerClose?.addEventListener('click', () => {
+      localStorage.setItem('synccal_pwa_banner_dismissed', 'true');
+      hideBanner();
     });
 
-    // 4. Track successful install
+    // 5. Track successful install
     window.addEventListener('appinstalled', () => {
       deferredInstallPrompt = null;
-      if (btnInstall) btnInstall.style.display = 'none';
+      localStorage.setItem('synccal_pwa_banner_dismissed', 'true');
+      hideBanner();
+      if (btnMobilePwa) btnMobilePwa.style.display = 'none';
       showToast('🎉 Co-op Calendar est maintenant installée sur votre appareil !');
     });
   }
