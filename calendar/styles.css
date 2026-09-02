@@ -1194,6 +1194,17 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
 }
 
 /* Calendar Scrollable Body */
+
+/* Global Day View Mode: Strictly no horizontal scrollbar, full available width */
+.calendar-grid-scroll.day-view-mode {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+.calendar-days-header.day-view-mode {
+  overflow-x: hidden !important;
+}
+
 .calendar-grid-scroll {
   flex: 1 1 0;
   min-height: 0;
@@ -1211,7 +1222,7 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   height: max(100%, calc(13 * var(--slot-height)));
 }
 
-/* Time Axis Column */
+/* Time Axis Column: Grid of 13 proportional rows (8h to 21h) guaranteeing 100% horizontal alignment on any screen size */
 .time-axis-column {
   border-right: 2px solid var(--day-divider);
   background: var(--bg-glass);
@@ -1219,11 +1230,14 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   -webkit-user-select: none;
   user-select: none;
   height: 100%;
+  display: grid;
+  grid-template-rows: repeat(13, 1fr);
+  box-sizing: border-box;
 }
 
 .time-slot-label {
-  height: var(--slot-height);
-  min-height: var(--slot-height);
+  height: 100%;
+  min-height: 0;
   position: relative;
   display: flex;
   align-items: flex-start;
@@ -1340,10 +1354,11 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
 }
 
 .calendar-event-card:hover {
-  transform: translateY(-2px) scale(1.02);
+  transform: translateY(-2px);
   z-index: 40 !important;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 14px var(--cal-primary);
   background: var(--cal-bg-hover);
+  filter: brightness(1.08);
 }
 
 /* Dimmed CMo / Online courses (Transparent & discrete) */
@@ -1355,9 +1370,9 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
 
 .calendar-event-card.is-cmo-dimmed:hover {
   opacity: 1 !important;
-  filter: none !important;
+  filter: brightness(1.08) !important;
   z-index: 50 !important;
-  transform: translateY(-2px) scale(1.02);
+  transform: translateY(-2px);
 }
 
 /* Simplified / Compact block style when > 2 calendars compared in Week View */
@@ -1381,7 +1396,9 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
 }
 
 .calendar-event-card.compact-block:hover {
-  transform: scale(1.08);
+  transform: translateY(-2px);
+  filter: brightness(1.15);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.45), 0 0 10px var(--cal-primary);
 }
 
 /* Detailed Event Card Content */
@@ -2249,11 +2266,15 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
     display: grid !important;
   }
 
+  .calendar-grid-body.day-view-mode .time-axis-column {
+    display: grid !important;
+    grid-template-rows: repeat(13, 1fr) !important;
+    height: 100% !important;
+  }
   .calendar-grid-body.day-view-mode .time-slot-label {
-    height: 60px !important;
-    min-height: 60px !important;
-    max-height: 60px !important;
-    flex: 0 0 60px !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: none !important;
   }
 
   .day-view-mode .day-lane-header-cell {
