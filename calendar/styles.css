@@ -185,6 +185,8 @@ body.light-theme .hour-grid-line.half-hour {
 html, body {
   width: 100%;
   height: 100%;
+  height: -webkit-fill-available;
+  height: var(--app-height, 100dvh);
   font-family: var(--font-body);
   background-color: var(--bg-primary);
   color: var(--text-primary);
@@ -192,6 +194,11 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 /* Custom Scrollbars */
@@ -218,10 +225,17 @@ html, body {
 #app {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100%;
+  height: var(--app-height, 100dvh);
+  max-height: var(--app-height, 100dvh);
   width: 100vw;
   max-width: 100vw;
   overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
               radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.04) 0%, transparent 40%),
               var(--bg-primary);
@@ -258,13 +272,20 @@ html, body {
   width: 38px;
   height: 38px;
   border-radius: var(--radius-md);
-  background: linear-gradient(135deg, #2563eb, #7c3aed 50%, #f43f5e);
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 14px rgba(124, 58, 237, 0.35);
-  color: #ffffff;
-  font-size: 20px;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.5);
+  overflow: hidden;
+  background: transparent;
+}
+
+.brand-app-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  display: block;
 }
 
 .brand-text h1 {
@@ -1895,13 +1916,20 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   width: 64px;
   height: 64px;
   border-radius: var(--radius-xl);
-  background: linear-gradient(135deg, #2563eb, #7c3aed);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ffffff;
-  font-size: 34px;
-  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+  box-shadow: 0 8px 26px rgba(37, 99, 235, 0.5);
+  overflow: hidden;
+  background: transparent;
+}
+
+.hero-app-logo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-xl);
+  display: block;
 }
 
 .empty-state-hero h2 {
@@ -2000,7 +2028,15 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   #app {
     width: 100vw;
     max-width: 100vw;
+    height: 100% !important;
+    height: var(--app-height, 100dvh) !important;
+    max-height: var(--app-height, 100dvh) !important;
     overflow-x: hidden;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
   }
 
   .app-header {
@@ -2329,7 +2365,10 @@ body.light-theme .period-date-picker::-webkit-calendar-picker-indicator {
   .empty-state-hero-icon {
     width: 44px !important;
     height: 44px !important;
-    font-size: 24px !important;
+    border-radius: var(--radius-lg) !important;
+  }
+
+  .hero-app-logo {
     border-radius: var(--radius-lg) !important;
   }
 

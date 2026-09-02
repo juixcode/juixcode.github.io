@@ -7,7 +7,7 @@
   'use strict';
 
   // --- Configuration & Constants ---
-  const APP_VERSION = 'v2.0';
+  const APP_VERSION = 'v2.7';
 
   const TIME_START_HOUR = 8;  // 8h00
   const TIME_END_HOUR = 21;   // 21h00
@@ -1947,8 +1947,24 @@
     }
   }
 
+  // --- Real Viewport Height for Mobile Browser Toolbars ---
+  function setupRealViewportHeight() {
+    const update = () => {
+      const h = window.innerHeight;
+      document.documentElement.style.setProperty('--app-height', `${h}px`);
+      document.documentElement.style.setProperty('--app-vh', `${h * 0.01}px`);
+    };
+    update();
+    window.addEventListener('resize', update);
+    window.addEventListener('orientationchange', update);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', update);
+    }
+  }
+
   // --- App Initialization ---
   function initApp() {
+    setupRealViewportHeight();
     updateVersionBadge();
     setupTheme();
     updateToolbarState();

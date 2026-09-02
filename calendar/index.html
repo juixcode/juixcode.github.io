@@ -35,7 +35,7 @@
   <!-- Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 
-  <!-- Instant State Restoration (Theme & Toolbar) to eliminate FOUC -->
+  <!-- Instant State Restoration (Theme, Toolbar & Real Mobile Viewport Height) to eliminate FOUC -->
   <script>
     (function() {
       try {
@@ -45,6 +45,14 @@
         if (localStorage.getItem('synccal_show_toolbar') === 'false') {
           document.documentElement.classList.add('toolbar-collapsed');
         }
+        const setVh = function() {
+          var h = window.innerHeight;
+          document.documentElement.style.setProperty('--app-height', h + 'px');
+          document.documentElement.style.setProperty('--app-vh', (h * 0.01) + 'px');
+        };
+        setVh();
+        window.addEventListener('resize', setVh);
+        window.addEventListener('orientationchange', setVh);
       } catch (e) {}
     })();
   </script>
@@ -57,10 +65,10 @@
       <!-- Brand Logo & Title -->
       <div class="brand-section">
         <div class="brand-icon-wrapper">
-          <i class="ph-bold ph-calendar-check"></i>
+          <img src="icons/icon-192.png" alt="Co-op Calendar" class="brand-app-logo">
         </div>
         <div class="brand-text">
-          <h1>Co-op Calendar <span class="badge-version" id="appVersionBadge">v2.0</span></h1>
+          <h1>Co-op Calendar <span class="badge-version" id="appVersionBadge">v2.7</span></h1>
           <div class="brand-subtitle">Comparateur d'Emplois du Temps</div>
         </div>
       </div>
@@ -206,7 +214,7 @@
         <div class="empty-state-container" id="emptyStateContainer">
           <div class="empty-state-hero">
             <div class="empty-state-hero-icon">
-              <i class="ph-bold ph-calendar-plus"></i>
+              <img src="icons/icon-192.png" alt="Co-op Calendar" class="hero-app-logo">
             </div>
             <h2>Co-op Calendar</h2>
             <p>
