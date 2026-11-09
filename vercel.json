@@ -1,0 +1,94 @@
+{
+  "routes": [
+    {
+      "src": "^/(?:index\\.html)?$",
+      "has": [
+        {
+          "type": "host",
+          "value": "links.juix.fr"
+        }
+      ],
+      "dest": "/links/index.html"
+    },
+    {
+      "src": "^/((?!links/|Medias/|favicon|apple-touch-icon).+)$",
+      "has": [
+        {
+          "type": "host",
+          "value": "links.juix.fr"
+        }
+      ],
+      "dest": "/links/$1"
+    },
+    {
+      "src": "^/(?:index\\.html)?$",
+      "has": [
+        {
+          "type": "host",
+          "value": "contact.juix.fr"
+        }
+      ],
+      "dest": "/contact/index.html"
+    },
+    {
+      "src": "^/((?!contact/|Medias/|favicon|apple-touch-icon).+)$",
+      "has": [
+        {
+          "type": "host",
+          "value": "contact.juix.fr"
+        }
+      ],
+      "dest": "/contact/$1"
+    },
+    {
+      "src": "^/(?:index\\.html)?$",
+      "has": [
+        {
+          "type": "host",
+          "value": "tools.juix.fr"
+        }
+      ],
+      "dest": "/tools/index.html"
+    },
+    {
+      "src": "^/((?!tools/|Medias/|favicon|apple-touch-icon).+)$",
+      "has": [
+        {
+          "type": "host",
+          "value": "tools.juix.fr"
+        }
+      ],
+      "dest": "/tools/$1"
+    },
+    {
+      "src": "^/(?:index\\.html)?$",
+      "has": [
+        {
+          "type": "host",
+          "value": "leohub.juix.fr"
+        }
+      ],
+      "dest": "/leohub/index.html"
+    },
+    {
+      "src": "^/((?!leohub/|Medias/|favicon|apple-touch-icon).+)$",
+      "has": [
+        {
+          "type": "host",
+          "value": "leohub.juix.fr"
+        }
+      ],
+      "dest": "/leohub/$1"
+    },
+    {
+      "src": "^/((?:[a-zA-Z0-9_-]+/)*[a-zA-Z0-9_-]+)$",
+      "status": 308,
+      "headers": {
+        "Location": "/$1/"
+      }
+    },
+    {
+      "handle": "filesystem"
+    }
+  ]
+}

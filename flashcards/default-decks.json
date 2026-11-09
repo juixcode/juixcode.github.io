@@ -1,0 +1,197 @@
+[
+  {
+    "id": "default-a2-colles1",
+    "title": "A2 Colles 1",
+    "type": "flashcard",
+    "gradient": "from-indigo-600 to-violet-600",
+    "order": -1,
+    "isPublic": true,
+    "cards": [
+    {
+      "question": "Soit $(u_n)_{n \\in \\mathbb{N}} \\subset \\mathbb{R}$. Quelle est la définition de la série de terme général $(u_n)$ ?",
+      "answer": "La série de terme général $(u_n)$ désigne la suite $(S_n)_{n \\in \\mathbb{N}}$ définie par :\n\n$\\forall n \\in \\mathbb{N},\\quad S_n = \\sum_{k=0}^{n} u_k$.",
+      "theme": "Séries"
+    },
+    {
+      "question": "Quelle est la définition de la convergence absolue d'une série $\\sum u_k$ ?",
+      "answer": "On dit que la série $\\sum_{k=0}^{+\\infty} u_k$ converge absolument si :\n\nLa série $\\sum_{k=0}^{+\\infty} |u_k|$ converge.",
+      "theme": "Séries"
+    },
+    {
+      "question": "Quelle est la définition d'une série géométrique de raison $q \\in \\mathbb{R}$ et de premier terme $u_0 \\in \\mathbb{R}^*$ ?",
+      "answer": "On appelle série géométrique de raison $q$ et de premier terme $u_0$ la série :\n\n$\\sum_{k=0}^{+\\infty} u_0 q^k$.",
+      "theme": "Séries"
+    },
+    {
+      "question": "Quelle est la condition nécessaire et suffisante (CNS) de convergence d'une série géométrique de raison $q$ et de premier terme $u_0 \\in \\mathbb{R}^*$, et quelle est sa somme en cas de convergence ?",
+      "answer": "• Condition :\nLa série converge $\\iff q \\in ]-1 ; 1[$.\n\n• Somme :\nDans ce cas, $\\sum_{k=0}^{+\\infty} u_0 q^k = \\frac{u_0}{1 - q}$.",
+      "theme": "Séries"
+    },
+    {
+      "question": "Quelle est la définition de la série de Riemann de paramètre $\\alpha \\in \\mathbb{R}$ ?",
+      "answer": "On appelle série de Riemann de paramètre $\\alpha$ la série :\n\n$\\sum_{k=1}^{+\\infty} \\frac{1}{k^\\alpha}$.",
+      "theme": "Séries"
+    },
+    {
+      "question": "Quelle est la définition de la série harmonique ?",
+      "answer": "On appelle série harmonique la série de Riemann de paramètre $1$ :\n\n$\\sum_{k=1}^{+\\infty} \\frac{1}{k}$.",
+      "theme": "Séries"
+    },
+    {
+      "question": "Quelle est la condition nécessaire et suffisante (CNS) de convergence d'une série de Riemann de paramètre $\\alpha \\in \\mathbb{R}$ ?",
+      "answer": "La série de Riemann de paramètre $\\alpha$ converge si et seulement si :\n\n$\\alpha > 1$.",
+      "theme": "Séries"
+    },
+    {
+      "question": "Quelle est la définition de la série exponentielle en $x \\in \\mathbb{R}$ ?",
+      "answer": "La série exponentielle en $x$ est la série :\n\n$\\sum_{k=0}^{+\\infty} \\frac{x^k}{k!}$.",
+      "theme": "Séries"
+    },
+    {
+      "question": "Énoncer le critère de comparaison pour deux séries à termes réels.",
+      "answer": "Soient $(u_n)_{n \\in \\mathbb{N}}, (v_n)_{n \\in \\mathbb{N}} \\subset \\mathbb{R}$ tels que pour tout $n \\in \\mathbb{N}$ :\n$0 \\le u_n \\le v_n$.\n\nAlors :\n$\\sum_{k=0}^{+\\infty} v_k \\text{ converge} \\implies \\sum_{k=0}^{+\\infty} u_k \\text{ converge}$.",
+      "theme": "Séries"
+    },
+    {
+      "question": "Énoncer le critère d'équivalence pour les séries à termes positifs.",
+      "answer": "Soient $(u_n)_{n \\in \\mathbb{N}}, (v_n)_{n \\in \\mathbb{N}} \\subset \\mathbb{R}$ tels que pour tout $n \\in \\mathbb{N}$ :\n$u_n \\underset{n \\to +\\infty}{\\sim} v_n \\quad \\text{et} \\quad v_n \\ge 0$.\n\nAlors :\n$\\sum_{k=0}^{+\\infty} u_k \\text{ converge} \\iff \\sum_{k=0}^{+\\infty} v_k \\text{ converge}$.",
+      "theme": "Séries"
+    },
+    {
+      "question": "Énoncer le critère du petit $o$ pour les séries à termes positifs.",
+      "answer": "Soient $(u_n)_{n \\in \\mathbb{N}}, (v_n)_{n \\in \\mathbb{N}} \\subset \\mathbb{R}$ tels que pour tout $n \\in \\mathbb{N}$ :\n$u_n = o(v_n) \\quad \\text{et} \\quad v_n \\ge 0$.\n\nAlors :\n$\\sum_{k=0}^{+\\infty} v_k \\text{ converge} \\implies \\sum_{k=0}^{+\\infty} u_k \\text{ converge}$.",
+      "theme": "Séries"
+    },
+    {
+      "question": "Énoncer le critère de D'Alembert.",
+      "answer": "Soit $(u_n)_{n \\in \\mathbb{N}} \\subset \\mathbb{R}$ tel que pour tout $n \\in \\mathbb{N}$, $u_n > 0$, et :\n$\\lim_{n \\to +\\infty} \\frac{u_{n+1}}{u_n} = l \\quad \\text{où } l \\in \\mathbb{R} \\cup \\{+\\infty\\}$.\n\n• Si $l < 1$, alors la série $\\sum u_n$ converge.\n\n• Si $l > 1$, alors la série $\\sum u_n$ diverge.\n\n• Si $l = 1$, alors on ne peut rien dire.",
+      "theme": "Séries"
+    },
+    {
+      "question": "Énoncer le critère de Cauchy.",
+      "answer": "Soit $(u_n)_{n \\in \\mathbb{N}} \\subset \\mathbb{R}$ tel que pour tout $n \\in \\mathbb{N}$, $u_n \\ge 0$, et :\n$\\lim_{n \\to +\\infty} (u_n)^{\\frac{1}{n}} = l \\quad \\text{où } l \\in \\mathbb{R} \\cup \\{+\\infty\\}$.\n\n• Si $l < 1$, alors la série $\\sum u_n$ converge.\n\n• Si $l > 1$, alors la série $\\sum u_n$ diverge.\n\n• Si $l = 1$, alors on ne peut rien dire.",
+      "theme": "Séries"
+    },
+    {
+      "question": "Énoncer le critère d'Abel.",
+      "answer": "Soient $(a_n)_{n \\in \\mathbb{N}}, (b_n)_{n \\in \\mathbb{N}} \\subset \\mathbb{R}$ et $B_n = \\sum_{k=0}^{n} b_k$.\n\nOn suppose que :\n1. La suite $(a_n)_{n \\in \\mathbb{N}}$ est décroissante,\n2. $\\lim_{n \\to +\\infty} a_n = 0$,\n3. $\\exists C \\in \\mathbb{R} : \\forall n \\in \\mathbb{N},\\ |B_n| \\le C$.\n\nAlors :\nLa série $\\sum_{k=0}^{+\\infty} a_k b_k$ converge.",
+      "theme": "Séries"
+    },
+    {
+      "question": "Soit $\\mathcal{F}=(x_1, \\ldots, x_k)$ une famille de vecteurs d'un espace vectoriel $E$. Définir : famille génératrice, famille libre et famille liée.",
+      "answer": "• Famille génératrice :\n$\\mathcal{F}$ est génératrice de $E$ si :\n$\\forall x \\in E,\\ \\exists (\\lambda_1, \\ldots, \\lambda_k) \\in \\mathbb{R}^k,\\quad x = \\sum_{i=1}^k \\lambda_i x_i$.\n\n• Famille libre :\n$\\mathcal{F}$ est libre si :\n$\\sum_{i=1}^k \\lambda_i x_i = 0_E \\implies \\lambda_1 = \\cdots = \\lambda_k = 0$.\n\n• Famille liée :\n$\\mathcal{F}$ est liée s'il existe des scalaires $\\lambda_1, \\ldots, \\lambda_k$, non tous nuls, tels que :\n$\\sum_{i=1}^k \\lambda_i x_i = 0_E$.",
+      "theme": "Algèbre Linéaire"
+    },
+    {
+      "question": "Qu'est-ce qu'une base d'un espace vectoriel $E$, comment est définie la dimension, et quelles sont les propriétés en dimension $n$ ?",
+      "answer": "• Définition d'une base :\nUne base de $E$ est une famille à la fois libre et génératrice de $E$.\n\n• Dimension :\nEn dimension finie, toutes les bases ont le même cardinal, appelé dimension de $E$.\n\n• Dans un espace de dimension $n$ :\n- Toute famille libre de $n$ vecteurs est une base.\n- Toute famille génératrice de $n$ vecteurs est une base.",
+      "theme": "Algèbre Linéaire"
+    },
+    {
+      "question": "Donner la définition d'un sous-espace vectoriel (sev), ses modes de description et la propriété d'égalité par dimension.",
+      "answer": "• Définition :\nSoit $F \\subset E$. $F$ est un sev de $E$ si $F \\neq \\emptyset$ et :\n$\\forall u, v \\in F,\\ \\forall \\lambda \\in \\mathbb{R},\\quad u + \\lambda v \\in F$.\n\n• Deux descriptions possibles :\n1. Par générateurs : $F = \\operatorname{Vect}(x_1, \\ldots, x_k)$.\n2. Par équations linéaires homogènes (dans $\\mathbb{R}^n$) :\n$F = \\{(x_1, \\ldots, x_n) \\in \\mathbb{R}^n ;\\ \\forall j \\in \\{1, \\ldots, r\\},\\ \\sum_{i=1}^n a_{ji}x_i = 0\\}$, avec $a_{ji} \\in \\mathbb{R}$.\n\n• Égalité par dimension :\nEn dimension finie, si $F \\subset G$ et $\\dim F = \\dim G$, alors $F = G$.",
+      "theme": "Algèbre Linéaire"
+    },
+    {
+      "question": "Comment définit-on la somme de deux sous-espaces vectoriels $F$ et $G$, quand est-elle directe, et quelle en est la caractérisation ?",
+      "answer": "• Définition de la somme :\n$F + G = \\{f + g ;\\ f \\in F,\\ g \\in G\\}$.\n\n• Somme directe ($F \\oplus G$) :\nLa somme est dite directe lorsque la décomposition de tout vecteur selon $F + G$ est unique.\n\n• Caractérisation :\n$F + G$ est directe $\\iff F \\cap G = \\{0_E\\}$.",
+      "theme": "Algèbre Linéaire"
+    },
+    {
+      "question": "Énoncer la formule de Grassmann et la caractérisation de deux sous-espaces supplémentaires en dimension finie.",
+      "answer": "• Formule de Grassmann :\nSoient $F$ et $G$ deux sous-espaces d'un espace $E$ de dimension finie :\n$\\dim(F + G) = \\dim F + \\dim G - \\dim(F \\cap G)$.\n\n• Caractérisation d'un supplémentaire :\n$E = F \\oplus G \\iff \\begin{cases} F \\cap G = \\{0_E\\} \\\\ \\dim F + \\dim G = \\dim E \\end{cases}$",
+      "theme": "Algèbre Linéaire"
+    },
+    {
+      "question": "Définir une application linéaire, un endomorphisme, ainsi que le noyau ($\\ker f$) et l'image ($\\operatorname{Im} f$).",
+      "answer": "• Application linéaire :\n$f : E \\to F$ est linéaire si :\n$\\forall x, y \\in E,\\ \\forall \\lambda \\in \\mathbb{R},\\quad f(x + \\lambda y) = f(x) + \\lambda f(y)$.\n\n• Endomorphisme :\nC'est une application linéaire de $E$ dans lui-même ($E \\to E$).\n\n• Noyau et Image :\n- $\\ker f = \\{x \\in E ;\\ f(x) = 0_F\\}$ (sev de $E$)\n- $\\operatorname{Im} f = \\{f(x) ;\\ x \\in E\\}$ (sev de $F$)",
+      "theme": "Algèbre Linéaire"
+    },
+    {
+      "question": "Énoncer le théorème du rang et son corollaire pour un endomorphisme en dimension finie.",
+      "answer": "• Théorème du rang :\nSoit $f \\in \\mathcal{L}(E, F)$ avec $E$ de dimension finie :\n$\\dim E = \\dim(\\ker f) + \\operatorname{rg}(f)$.\n\n• Conséquence pour un endomorphisme en dimension finie :\n$f \\text{ injectif} \\iff f \\text{ surjectif} \\iff f \\text{ bijectif}$.",
+      "theme": "Algèbre Linéaire"
+    },
+    {
+      "question": "Comment est construite la matrice d'une application linéaire $[f]_{\\mathcal{B}, \\mathcal{B}'}$ et quelle est la relation matricielle fondamentale pour l'image d'un vecteur ?",
+      "answer": "• Matrice de $f$ :\nSoient $\\mathcal{B}=(e_1, \\ldots, e_p)$ une base de $E$ et $\\mathcal{B}'$ une base de $F$.\nLes colonnes de la matrice $[f]_{\\mathcal{B}, \\mathcal{B}'}$ sont formées par les coordonnées des images des vecteurs de base de $E$ exprimées dans $\\mathcal{B}'$ :\n$[f]_{\\mathcal{B},\\mathcal{B}'} = \\begin{pmatrix} \\vert & \\vert & & \\vert \\\\ [f(e_1)]_{\\mathcal{B}'} & [f(e_2)]_{\\mathcal{B}'} & \\cdots & [f(e_p)]_{\\mathcal{B}'} \\\\ \\vert & \\vert & & \\vert \\end{pmatrix}$.\n\n• Relation matricielle :\nSi $A = [f]_{\\mathcal{B}, \\mathcal{B}'}$ et $X = [x]_{\\mathcal{B}}$, alors :\n$AX = [f(x)]_{\\mathcal{B}'}$.",
+      "theme": "Algèbre Linéaire"
+    },
+    {
+      "question": "Quand dit-on qu'une matrice carrée $A \\in \\mathcal{M}_n(\\mathbb{R})$ est inversible, et quel est le lien avec son déterminant ?",
+      "answer": "• Définition d'inversibilité :\n$A$ est inversible s'il existe une matrice unique $B \\in \\mathcal{M}_n(\\mathbb{R})$ (notée $A^{-1}$) telle que :\n$AB = BA = I_n$.\n\n• Lien avec le déterminant :\n$A \\text{ est inversible} \\iff \\det(A) \\neq 0$.",
+      "theme": "Algèbre Linéaire"
+    },
+    {
+      "question": "Définir la trace d'une matrice carrée $A \\in \\mathcal{M}_n(\\mathbb{R})$ et rappeler sa propriété de linéarité.",
+      "answer": "• Définition :\nPour $A = (a_{ij}) \\in \\mathcal{M}_n(\\mathbb{R})$, la trace est la somme des éléments diagonaux :\n$\\operatorname{tr}(A) = a_{11} + \\cdots + a_{nn} = \\sum_{i=1}^n a_{ii}$.\n\n• Linéarité :\nPour $A, B \\in \\mathcal{M}_n(\\mathbb{R})$ et $\\lambda \\in \\mathbb{R}$ :\n$\\operatorname{tr}(A + \\lambda B) = \\operatorname{tr}(A) + \\lambda \\operatorname{tr}(B)$.",
+      "theme": "Algèbre Linéaire"
+    },
+    {
+      "question": "Définir le projecteur sur $F$ parallèlement à $G$ (avec $E = F \\oplus G$), sa caractérisation algébrique et la décomposition de l'espace associée.",
+      "answer": "• Définition géométrique :\nPour $u = v + w$ avec $v \\in F$ et $w \\in G$, le projecteur $p$ sur $F$ parallèlement à $G$ vérifie :\n$p(u) = v$.\n\n• Caractérisation algébrique :\nUn endomorphisme $p$ de $E$ est un projecteur $\\iff p^2 = p$.\n\n• Décomposition de l'espace :\nDans ce cas :\n$E = \\operatorname{Im} p \\oplus \\ker p$,\net $p$ est le projecteur sur $\\operatorname{Im} p$ parallèlement à $\\ker p$.",
+      "theme": "Algèbre Linéaire"
+    },
+    {
+      "question": "Définir la symétrie par rapport à $F$ parallèlement à $G$ (avec $E = F \\oplus G$), son action sur $F$ et $G$, et sa caractérisation algébrique.",
+      "answer": "• Définition géométrique :\nPour $u = v + w$ avec $v \\in F$ et $w \\in G$ :\n$s(u) = v - w$.\n\n• Action sur $F$ et $G$ :\n$s(v) = v$ et $s(w) = -w$.\n\n• Caractérisation algébrique :\nUn endomorphisme $s$ de $E$ est une symétrie $\\iff s^2 = \\operatorname{id}_E$.",
+      "theme": "Algèbre Linéaire"
+    },
+    {
+      "question": "Exprimer le lien entre un projecteur $p$ et la symétrie associée $s$, ainsi que leurs matrices dans une base adaptée à $E = F \\oplus G$.",
+      "answer": "• Liens réciproques :\n$s = 2p - \\operatorname{id}_E$\n$p = \\frac{1}{2}(s + \\operatorname{id}_E)$\n\n• Matrices dans une base $\\mathcal{B}$ adaptée (base de $F$ suivie d'une base de $G$) :\n$\\operatorname{Mat}_{\\mathcal{B}}(p) = \\begin{pmatrix} I & 0 \\\\ 0 & 0 \\end{pmatrix}$\n\n$\\operatorname{Mat}_{\\mathcal{B}}(s) = \\begin{pmatrix} I & 0 \\\\ 0 & -I \\end{pmatrix}$.",
+      "theme": "Algèbre Linéaire"
+    },
+    {
+      "question": "Quels sont les 5 types de variables en statistiques ? Expliquer chaque type et donner un exemple.",
+      "answer": "• Variable qualitative nominale :\nChaque modalité est une catégorie sans ordre ni hiérarchie (ex. nom, adresse, couleur, code-barres). Le nombre de modalités est $> 3$.\n\n• Variable qualitative binaire :\nVariable à deux modalités seulement (ex. Vrai/Faux, $0/1$, présent/absent, ouvert/fermé).\n\n• Variable qualitative ordinale :\nChaque modalité est une catégorie classable selon un ordre « naturel » (ex. avis favorable/neutre/défavorable, mention Insuffisant/Moyen/AB/TB/Excellent, date).\n\n• Variable quantitative discrète :\nCorrespond à un comptage discret ou une quantité à nombre fini de valeurs possibles (ex. nombre d'enfants, taux d'imposition). Moins de 10% de la taille de la population en modalités.\n\n• Variable quantitative continue :\nMesure ou quantité continue prenant ses valeurs dans $\\mathbb{R}$ ou un très grand nombre de valeurs discrètes (ex. longueur, poids, durée, âge).",
+      "theme": "Stats"
+    },
+    {
+      "question": "Soit $\\underline{x}=(x_1, \\ldots, x_n)$ une série de données à valeurs dans $\\mathcal{X}=\\{m_1, \\ldots, m_p\\}$. Donner les formules des effectifs $e_k$ et des fréquences $f_k$ à l'aide de fonctions indicatrices, ainsi que leurs ensembles de valeurs.",
+      "answer": "• Effectif $e_k$ :\n$e_k = S_{\\mathrm{eff}}(\\underline{x})(m_k) = \\sum_{i=1}^{n} \\mathbf{1}_{\\{x_i\\}}(m_k) \\in \\{0, 1, 2, \\ldots, n\\}$.\n\n• Fréquence $f_k$ :\n$f_k = S_{\\mathrm{freq}}(\\underline{x})(m_k) = \\frac{1}{n} \\sum_{i=1}^{n} \\mathbf{1}_{\\{x_i\\}}(m_k) = \\frac{e_k}{n} \\in \\left\\{0, \\frac{1}{n}, \\frac{2}{n}, \\ldots, \\frac{n-1}{n}, 1\\right\\}$.",
+      "theme": "Stats"
+    },
+    {
+      "question": "Pour quels types de variables peut-on calculer les effectifs et fréquences cumulés ? Donner leurs formules avec des fonctions indicatrices.",
+      "answer": "• Types de variables éligibles :\nVariable qualitative ordinale ou quantitative (nécessite une relation d'ordre sur les modalités : $m_1 \\le m_2 \\le \\cdots \\le m_p$).\n\n• Effectif cumulé :\n$\\tilde{e}_k = S_{\\mathrm{eff\\_cum}}(\\underline{x})(m_k) = \\sum_{i=1}^{n} \\mathbf{1}_{\\{x_i \\le m_k\\}} \\in [[0, n]]$.\n\n• Fréquence cumulée :\n$\\tilde{f}_k = S_{\\mathrm{freq\\_cum}}(\\underline{x})(m_k) = \\frac{1}{n} \\sum_{i=1}^{n} \\mathbf{1}_{\\{x_i \\le m_k\\}} \\in \\left\\{0, \\frac{1}{n}, \\ldots, \\frac{n-1}{n}, 1\\right\\}$.",
+      "theme": "Stats"
+    },
+    {
+      "question": "Pour une variable quantitative ou qualitative ordinale codée numériquement, donner la formule de la fonction de répartition empirique $\\hat{F}_x$ en fonction d'indicatrices.",
+      "answer": "La fonction de répartition empirique est définie par :\n\n$\\hat{F}_x : m \\in \\mathbb{R} \\mapsto \\left( \\frac{1}{n} \\sum_{i=1}^{n} \\mathbf{1}_{\\{x_i \\le m\\}} \\right) \\in \\left\\{0, \\frac{1}{n}, \\ldots, \\frac{n-1}{n}, 1\\right\\}$.",
+      "theme": "Stats"
+    },
+    {
+      "question": "À partir de la série ordonnée $(x_{(1)}, \\ldots, x_{(n)})$, donner les formules et interprétations du 1er quartile, de la médiane, du 3ème quartile et du quantile d'ordre $\\alpha$.",
+      "answer": "Soit $\\lceil \\cdot \\rceil$ la partie entière supérieure (ceil) :\n\n• 1er quartile :\n$x_{(k_{1/4})}$ avec $k_{1/4} = \\lceil \\frac{n}{4} \\rceil$.\nPlus petite valeur pour laquelle au moins 25% ($\\frac{1}{4}$) des individus ont une modalité inférieure.\n\n• Médiane :\n$x_{(k_{1/2})}$ avec $k_{1/2} = \\lceil \\frac{n}{2} \\rceil$.\nPlus petite valeur pour laquelle au moins 50% ($\\frac{1}{2}$) des individus ont une modalité inférieure.\n\n• 3ème quartile :\n$x_{(k_{3/4})}$ avec $k_{3/4} = \\lceil \\frac{3n}{4} \\rceil$.\nPlus petite valeur pour laquelle au moins 75% ($\\frac{3}{4}$) des individus ont une modalité inférieure.\n\n• Quantile empirique théorique d'ordre $\\alpha$ :\n$\\hat{q}_\\alpha = x_{(\\lceil \\alpha n \\rceil)}$.",
+      "theme": "Stats"
+    },
+    {
+      "question": "Donner la formule du quantile $\\hat{q}_\\alpha^{\\mathrm{lin}}$ par interpolation linéaire pour $\\frac{k}{n-1} < \\alpha < \\frac{k+1}{n-1}$. Expliciter $k$ et la formule pour le 1er quartile ($\\alpha = \\frac{1}{4}$).",
+      "answer": "• Formule générale :\nEn posant $\\alpha = \\frac{k}{n-1} + \\lambda \\frac{1}{n-1}$ avec $0 < \\lambda < 1$ :\n$\\hat{q}_\\alpha^{\\mathrm{lin}} = x_{(k+1)} + \\lambda (x_{(k+2)} - x_{(k+1)})$.\n\n• Pour le premier quartile ($\\alpha = \\frac{1}{4}$) :\n$k = \\left\\lfloor \\frac{n-1}{4} \\right\\rfloor$ (partie entière inférieure),\net on obtient :\n$\\hat{q}_{1/4}^{\\mathrm{lin}} = x_{(k+1)} + \\left( \\frac{n-1}{4} - k \\right) (x_{(k+2)} - x_{(k+1)})$.",
+      "theme": "Stats"
+    },
+    {
+      "question": "Donner les formules de la moyenne, de la variance et de l'écart-type empiriques d'une série quantitative $\\underline{x}=(x_1, \\ldots, x_n)$.",
+      "answer": "• Moyenne empirique :\n$\\overline{x} = \\operatorname{Moy}(\\underline{x}) = \\frac{1}{n} \\sum_{i=1}^{n} x_i$.\n\n• Variance empirique :\n$\\operatorname{Var}(\\underline{x}) = \\hat{\\sigma}^2(\\underline{x}) = \\frac{1}{n} \\sum_{i=1}^{n} (x_i - \\overline{x})^2$.\n\n• Écart-type empirique :\n$\\hat{\\sigma}(\\underline{x}) = \\sqrt{\\frac{1}{n} \\sum_{i=1}^{n} (x_i - \\overline{x})^2}$.",
+      "theme": "Stats"
+    },
+    {
+      "question": "Donner la formule du moment empirique d'ordre $p$ non centré et centré pour une série de données $\\underline{x}=(x_1, \\ldots, x_n)$.",
+      "answer": "• Moment empirique d'ordre $p$ (non centré) :\n$m_p(\\underline{x}) = \\frac{1}{n} \\sum_{i=1}^{n} x_i^p$.\n\n• Moment empirique centré d'ordre $p$ :\n$\\mu_p(\\underline{x}) = \\frac{1}{n} \\sum_{i=1}^{n} (x_i - \\overline{x})^p$.",
+      "theme": "Stats"
+    },
+    {
+      "question": "D'après les graphiques de la fonction de répartition empirique (ECDF) et de la fonction quantile du document, quelles sont les valeurs des quartiles ainsi que des quantiles à 10% et 90% ?",
+      "answer": "D'après la lecture graphique de l'ECDF et de la fonction quantile empirique :\n\n• 1er quartile : $\\hat{q}_{1/4} = 3$\n\n• Médiane : $\\operatorname{med}(\\underline{x}) = \\hat{q}_{1/2} = 5$\n\n• 3ème quartile : $\\hat{q}_{3/4} = 7$\n\n• Quantile à 10% : $\\hat{q}_{0.1} = 1$\n\n• Quantile à 90% : $\\hat{q}_{0.9} = 8$.",
+      "theme": "Stats"
+    },
+    {
+      "question": "Pour une variable quantitative découpée en classes $(\\mathcal{I}_k)_{1 \\le k \\le K}$ de même amplitude $h$, donner l'expression de l'histogramme des fréquences et de l'histogramme en densité.",
+      "answer": "Soient $e_k = \\sum_{i=1}^{n} \\mathbf{1}_{\\mathcal{I}_k}(x_i)$ l'effectif et $f_k = \\frac{e_k}{n}$ la fréquence de la classe $\\mathcal{I}_k$ :\n\n• Histogramme des fréquences :\n$S_{\\mathrm{freq\\_classe}}(\\underline{x}) : v \\in \\mathbb{R} \\mapsto \\sum_{k=1}^{K} f_k \\mathbf{1}_{\\mathcal{I}_k}(v)$.\n\n• Histogramme en densité des fréquences (normalisé par $|\\mathcal{I}_k| = h$) :\n$S_{\\mathrm{dens}}(\\underline{x}) : v \\in \\mathbb{R} \\mapsto \\sum_{k=1}^{K} \\frac{f_k}{|\\mathcal{I}_k|} \\mathbf{1}_{\\mathcal{I}_k}(v) = \\frac{1}{h} \\sum_{k=1}^{K} f_k \\mathbf{1}_{\\mathcal{I}_k}(v)$.",
+      "theme": "Stats"
+    }
+  ]
+  }
+]

@@ -1,0 +1,5 @@
+ai_context/
+bump-version.js
+bump-version.bat
+server.js
+start-server.bat

@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Co-op Calendar</title>
+  <meta name="description" content="Visualiseur et comparateur d'emplois du temps ICS. Comparez jusqu'à 10 calendriers, détectez les temps libres et synchronisez vos cours.">
+  
+  <!-- PWA Manifest & Standard Favicons -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+  
+  <!-- Apple iOS PWA Support -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Co-op Cal">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  
+  <!-- Android & Browser Theme Color -->
+  <meta name="theme-color" content="#0a0e16">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <!-- Modern Icons (Phosphor Icons) -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.0.3"></script>
+
+  <!-- JSZip (for extracting .zip archives containing .ics files) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <!-- Google Fonts : Inter (unique famille, système DeepSeek) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=6.9">
+
+  <!-- Instant State Restoration (Theme, Toolbar & Real Mobile Viewport Height) to eliminate FOUC -->
+  <script>
+    (function() {
+      try {
+        if (localStorage.getItem('synccal_theme') === 'light') {
+          document.documentElement.classList.add('light-theme');
+          const metaTheme = document.querySelector('meta[name="theme-color"]');
+          if (metaTheme) metaTheme.setAttribute('content', '#f5f7fa');
+        } else {
+          const metaTheme = document.querySelector('meta[name="theme-color"]');
+          if (metaTheme) metaTheme.setAttribute('content', '#0a0e16');
+        }
+        // Early Standalone PWA detection (Safari iOS WebClip, Chrome/Edge installed PWA, Android TWA)
+        const isStandalonePWA = Boolean(
+          (window.matchMedia && (
+            window.matchMedia('(display-mode: standalone)').matches ||
+            window.matchMedia('(display-mode: fullscreen)').matches ||
+            window.matchMedia('(display-mode: minimal-ui)').matches ||
+            window.matchMedia('(display-mode: window-controls-overlay)').matches
+          )) ||
+          window.navigator?.standalone === true ||
+          (document.referrer && document.referrer.includes('android-app://')) ||
+          (window.location && new URLSearchParams(window.location.search).get('mode') === 'standalone') ||
+          (window.location && new URLSearchParams(window.location.search).get('source') === 'pwa')
+        );
+        if (isStandalonePWA) {
+          document.documentElement.classList.add('is-standalone-pwa');
+        }
+        const isMobile = window.innerWidth < 768;
+        const toolbarKey = isMobile ? 'synccal_show_toolbar_mobile' : 'synccal_show_toolbar_desktop';
+        const savedToolbar = localStorage.getItem(toolbarKey);
+        const showToolbar = savedToolbar !== null ? savedToolbar === 'true' : !isMobile;
+        if (!showToolbar) {
+          document.documentElement.classList.add('toolbar-collapsed');
+        }
+        const setVh = function() {
+          var h = window.innerHeight;
+          document.documentElement.style.setProperty('--app-height', h + 'px');
+          document.documentElement.style.setProperty('--app-vh', (h * 0.01) + 'px');
+        };
+        setVh();
+        window.addEventListener('resize', setVh);
+        window.addEventListener('orientationchange', setVh);
+      } catch (e) {}
+    })();
+  </script>
+</head>
+<body>
+  <div id="app">
+    
+    <!-- Ambient Background Decor (Atmospheric gradient canvas, DeepSeek-style) -->
+    <div class="app-bg-decor" aria-hidden="true">
+      <div class="bg-beam"></div>
+      <div class="bg-orb orb-1"></div>
+      <div class="bg-orb orb-2"></div>
+      <div class="bg-grid-lines"></div>
+    </div>
+
+    <!-- ==========================================================================
+         HOME PAGE VIEW (Comparison Spaces Manager)
+         ========================================================================== -->
+    <div id="homePageView" class="app-page-view hidden-view">
+      <!-- Top Navigation Header -->
+      <header class="app-header home-header">
+        <div class="brand-section">
+          <div class="brand-icon-wrapper">
+            <img src="icons/icon-192.png" alt="Co-op Calendar" class="brand-app-logo">
+          </div>
+          <div class="brand-text">
+            <h1>Co-op Calendar <span class="badge-version" id="appVersionBadgeHome">v6.9</span></h1>
+            <div class="brand-subtitle">Comparateur d'Emplois du Temps</div>
+          </div>
+        </div>
+
+        <div class="header-corner-actions">
+          <button id="btnHomeOpenSettings" class="action-btn icon-only" title="Paramètres" aria-label="Ouvrir les paramètres">
+            <i class="ph-bold ph-gear"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- Main Home Content (Scrollable) -->
+      <main class="home-main-content">
+        <div class="home-content-container">
+          <!-- Top Bar with Visible "Nouvelle comparaison" Button -->
+          <div class="home-top-bar">
+            <div class="home-title-group">
+              <h2 class="home-heading">Mes comparaisons</h2>
+              <p class="home-subheading">Sélectionnez un espace de comparaison ou créez-en un nouveau</p>
+            </div>
+            <button id="btnNewComparison" class="btn-primary-add btn-new-instance" title="Créer une nouvelle comparaison de calendriers">
+              <i class="ph-bold ph-plus-circle"></i>
+              <span>Nouvelle comparaison</span>
+            </button>
+          </div>
+
+          <!-- Comparison Blocks List (Color blocks, vertically scrollable) -->
+          <div class="comparison-blocks-list" id="comparisonBlocksList">
+            <!-- Dynamically populated in app.js -->
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- ==========================================================================
+         MAIN PAGE VIEW (Calendar Comparison Grid & Tools)
+         ========================================================================== -->
+    <div id="mainPageView" class="app-page-view is-empty">
+      <!-- Top Header Navigation -->
+      <header class="app-header">
+        <!-- Brand Section (Home Navigation & Loaded Instance Title) -->
+        <div class="brand-section">
+          <button class="brand-icon-wrapper brand-home-btn" id="btnGoHome" title="Retourner à l'accueil (Mes comparaisons)" aria-label="Accueil">
+            <i class="ph-bold ph-house brand-home-icon"></i>
+          </button>
+          <div class="brand-text">
+            <h1 id="mainComparisonTitle">MonCalendrier</h1>
+            <div class="brand-subtitle">Chargé</div>
+          </div>
+        </div>
+
+      <!-- Navigation Controls (Previous, Next, Today, Period Title, DatePicker) -->
+      <div class="nav-controls" id="mainNavControls">
+        <div class="swipe-nav-hint-overlay" id="swipeNavHintOverlay" aria-hidden="true"></div>
+        <button id="btnPrevDate" class="btn-nav-arrow" title="Période précédente (Flèche Gauche)">
+          <i class="ph-bold ph-caret-left"></i>
+        </button>
+        <button id="btnToday" class="btn-today" title="Aller à aujourd'hui (Touche T)">
+          Aujourd'hui
+        </button>
+        <button id="btnNextDate" class="btn-nav-arrow" title="Période suivante (Flèche Droite)">
+          <i class="ph-bold ph-caret-right"></i>
+        </button>
+
+        <div class="current-period-display" id="currentPeriodDisplay" title="Changer de date">
+          <div class="current-period-title" id="currentPeriodTitle">
+            Semaine 36 &bull; Septembre 2026
+          </div>
+          <div class="current-period-range" id="currentPeriodRange">
+            Du 31 août au 5 septembre 2026
+          </div>
+        </div>
+
+        <label class="date-picker-wrapper" id="datePickerWrapper" title="Choisir une date exacte" for="periodDatePicker">
+          <i class="ph-bold ph-calendar-blank date-picker-icon"></i>
+          <input type="date" id="periodDatePicker" class="period-date-picker" aria-label="Choisir une date">
+        </label>
+      </div>
+
+      <!-- Controls Row: View Switcher (Week/Day) & Header Action Buttons (Side-by-side on mobile) -->
+      <div class="header-controls-row">
+        <!-- View Switcher (Week / Day) -->
+        <div class="view-switcher-group" id="viewTypeSwitcher">
+          <button class="view-switch-btn active" id="btnViewWeek" data-view="week" title="Vue Semaine (6 jours : Lundi à Samedi)">
+            <i class="ph-bold ph-columns"></i>
+            <span>Semaine</span>
+          </button>
+          <button class="view-switch-btn" id="btnViewDay" data-view="day" title="Vue Jour par jour">
+            <i class="ph-bold ph-calendar-blank"></i>
+            <span>Jour</span>
+          </button>
+        </div>
+
+        <!-- Header Action Buttons -->
+        <div class="header-actions">
+          <!-- Prominent Add Calendar Button -->
+          <button id="btnOpenAddModal" class="btn-primary-add" title="Ajouter des fichiers .ics ou une archive .zip à la comparaison">
+            <i class="ph-bold ph-plus-circle"></i>
+            <span>Ajouter un calendrier</span>
+            <span class="cal-count-badge" id="headerCalCountBadge">0/10</span>
+          </button>
+
+          <button id="btnToggleDimCMo" class="action-btn icon-only active" title="Rendre discrets et transparents les cours en distanciel (CMo, CAo)" aria-label="Atténuation CMo">
+            <i class="ph-bold ph-video-camera-slash"></i>
+          </button>
+
+          <button id="btnToggleFreeTime" class="action-btn icon-only" title="Afficher/masquer les créneaux libres en commun" aria-label="Temps libres">
+            <i class="ph ph-sparkle"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Corner Actions (Eye toggle, mobile PWA install, and Settings) -->
+      <div class="header-corner-actions">
+        <button id="btnMobilePwaInstall" class="action-btn icon-only" title="Installer l'application sur cet appareil (PWA)" aria-label="Installer l'application">
+          <i class="ph-bold ph-download-simple"></i>
+        </button>
+        <button id="btnToggleToolbarCollapse" class="action-btn icon-only" title="Masquer ou Afficher la barre de configuration" aria-label="Afficher/Masquer les outils">
+          <i class="ph-bold ph-eye" id="iconToggleToolbar"></i>
+        </button>
+        <button id="btnOpenSettings" class="action-btn icon-only" title="Paramètres" aria-label="Ouvrir les paramètres">
+          <i class="ph-bold ph-gear"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- Subheader: Active Calendars Chips & Filters -->
+    <div class="app-subheader">
+      <!-- Calendar Chips Comparison Area (Scrollable with max width) -->
+      <div class="calendar-chips-wrapper" id="calendarChipsWrapper">
+        <span class="calendar-chips-label"><i class="ph ph-users-three"></i> Comparaison :</span>
+        <div class="calendar-chips-list" id="calendarChipsList">
+          <!-- Dynamically populated in app.js -->
+        </div>
+        <!-- Stats Info Button & Lightweight Popover -->
+        <div class="stats-popover-container" id="statsPopoverContainer">
+          <button class="btn-stats-info" id="btnStatsInfo" title="Statistiques de la semaine (volume horaire par calendrier)" aria-label="Statistiques de la semaine">
+            <i class="ph-bold ph-info"></i>
+          </button>
+          <div class="stats-popover-card" id="statsSummaryPill">
+            <!-- Dynamically populated in app.js -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Side Filters: Search, Type Filter & Legal Notice -->
+      <div class="subheader-right-group">
+        <!-- Search -->
+        <div class="search-input-wrapper">
+          <i class="ph ph-magnifying-glass search-icon"></i>
+          <input type="text" id="searchInput" class="search-input" placeholder="Rechercher cours, salle, prof, classe...">
+          <button id="btnClearSearch" class="btn-clear-search" title="Effacer la recherche">
+            <i class="ph ph-x"></i>
+          </button>
+        </div>
+
+        <!-- Course Type Filter -->
+        <select id="typeFilterSelect" class="type-filter-select" title="Filtrer par type de cours">
+          <option value="ALL">Tous les types</option>
+          <option value="CM">CM (Cours Magistral)</option>
+          <option value="CMo">CMo (CM en ligne)</option>
+          <option value="TD">TD (Travaux Dirigés)</option>
+          <option value="TP">TP (Travaux Pratiques)</option>
+          <option value="Examen">Examens & Contrôles</option>
+          <option value="CA">CA (Conférence / Atelier)</option>
+          <option value="CAo">CAo (Atelier en ligne)</option>
+          <option value="Projet">Projets</option>
+          <option value="LV">Langues Vivantes</option>
+          <option value="NR">Rentrée & Administratif</option>
+          <option value="Rattrapage">Rattrapages</option>
+        </select>
+
+        <!-- Legal Notice Link -->
+        <button id="btnOpenLegalModal" class="legal-notice-btn" title="Mentions légales, RGPD et Confidentialité">
+          <i class="ph-bold ph-shield-check"></i>
+          <span>Mentions Légales</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Calendar Area -->
+    <main class="main-content">
+      <div class="calendar-view-wrapper empty" id="calendarViewWrapper">
+        
+        <!-- Empty State Hero Container (Centered on screen when 0 calendars) -->
+        <div class="empty-state-container" id="emptyStateContainer">
+          <div class="empty-state-hero">
+            <div class="avatar-ring">
+              <div class="avatar-core">
+                <img src="icons/icon-192.png" alt="Co-op Calendar" class="hero-app-logo">
+              </div>
+            </div>
+            <h2 class="hero-title">Co-op Calendar</h2>
+            <p>
+              Compare jusqu'à <strong>10 emplois du temps .ics</strong>. Détecte automatiquement les créneaux communs & les temps libres.
+            </p>
+            <div class="empty-state-hero-badges">
+              <span class="hero-pill"><span class="pill-dot dot-cyan"></span>⌚ Détection de temps libre</span>
+              <span class="hero-pill"><span class="pill-dot dot-emerald"></span>💾 Sauvegarde 100% locale</span>
+              <span class="hero-pill"><span class="pill-dot dot-blue"></span>📅 Vue Semaine & Jour</span>
+            </div>
+            <button class="btn-primary-add hero-add-btn" id="btnHeroAddCalendar">
+              <i class="ph-bold ph-plus-circle"></i>
+              <span>Ajouter un premier calendrier (.ics)</span>
+            </button>
+          </div>
+        </div>
+        
+        <!-- Unified Scroll Container (Handles both horizontal sync and vertical scroll) -->
+        <div class="calendar-grid-scroll" id="calendarGridScroll">
+          <!-- Sticky Days Header (Lundi à Samedi pour semaine, ou 1 jour pour vue jour) -->
+          <div class="calendar-days-header" id="calendarDaysHeader">
+            <!-- Dynamically populated in app.js -->
+          </div>
+
+          <!-- Hours & Days Body -->
+          <div class="calendar-grid-body" id="calendarGridBody">
+            <!-- Dynamically populated in app.js -->
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ==========================================================================
+       FULLSCREEN SETTINGS MENU OVERLAY (Slide down from top)
+       ========================================================================== -->
+  <div id="settingsOverlay" class="settings-overlay" aria-hidden="true">
+    <header class="settings-header">
+      <div class="settings-header-title">
+        <div class="settings-icon-badge">
+          <i class="ph-bold ph-gear"></i>
+        </div>
+        <div>
+          <h2>Paramètres</h2>
+          <p>Préférences, synchronisation et personnalisation</p>
+        </div>
+      </div>
+      <button id="btnCloseSettings" class="action-btn icon-only btn-close-settings" title="Fermer les paramètres (Échap)" aria-label="Fermer">
+        <i class="ph-bold ph-x"></i>
+      </button>
+    </header>
+
+    <div class="settings-body-scroll">
+      <div class="settings-container">
+
+        <!-- Bouton Mis en Évidence : Importer des calendriers -->
+        <button type="button" class="settings-import-hero-btn" id="btnSettingsOpenAddModal" title="Ajouter des fichiers .ics ou une archive .zip à la comparaison">
+          <div class="settings-import-hero-left">
+            <div class="settings-import-hero-icon">
+              <i class="ph-bold ph-plus-circle"></i>
+            </div>
+            <div class="settings-import-hero-text">
+              <div class="settings-import-hero-title-row">
+                <span class="settings-import-hero-title">Importer des calendriers</span>
+                <span class="settings-import-pill-badge" id="settingsCalCountBadge">0/10</span>
+              </div>
+              <p class="settings-import-hero-desc">Glisser-déposer des fichiers .ics, archive .zip ou importer via un lien cloud</p>
+            </div>
+          </div>
+          <div class="settings-import-action-btn">
+            <span>Importer</span>
+            <i class="ph-bold ph-arrow-right"></i>
+          </div>
+        </button>
+
+        <!-- 1er Paramètre : Mode d'affichage -->
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="settings-card-label">
+              <h3>Mode d'affichage</h3>
+              <p>Basculez entre la vue semaine complète ou la vue par jour</p>
+            </div>
+          </div>
+          <div class="settings-view-switcher">
+            <button type="button" class="settings-view-btn" id="btnSettingsViewWeek" data-view="week">
+              <i class="ph-bold ph-columns"></i>
+              <span>Semaine</span>
+            </button>
+            <button type="button" class="settings-view-btn" id="btnSettingsViewDay" data-view="day">
+              <i class="ph-bold ph-calendar-blank"></i>
+              <span>Jour par jour</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 2e Paramètre : Thème -->
+        <div class="settings-card">
+          <div class="settings-card-header">
+            <div class="settings-card-label">
+              <h3>Thème d'affichage</h3>
+              <p>Choisissez entre le thème sombre, clair ou automatique</p>
+            </div>
+          </div>
+          <div class="settings-theme-segmented">
+            <button type="button" class="settings-theme-segment" id="btnThemeSegmentDark" data-theme="dark">
+              <i class="ph-bold ph-moon"></i>
+              <span>Sombre</span>
+            </button>
+            <button type="button" class="settings-theme-segment" id="btnThemeSegmentLight" data-theme="light">
+              <i class="ph-bold ph-sun"></i>
+              <span>Clair</span>
+            </button>
+            <button type="button" class="settings-theme-segment" id="btnThemeSegmentAuto" data-theme="auto">
+              <i class="ph-bold ph-circle-half"></i>
+              <span>Auto</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3e Paramètre : Atténuation des CMo -->
+        <div class="settings-card settings-row-card">
+          <div class="settings-card-label">
+            <h3>Atténuation des cours en ligne (CMo)</h3>
+            <p>Rendre plus discrets et transparents les cours à distance</p>
+          </div>
+          <label class="apple-switch" title="Activer / Désactiver l'atténuation CMo">
+            <input type="checkbox" id="switchSettingsDimCMo" checked>
+            <span class="apple-switch-slider"></span>
+          </label>
+        </div>
+
+        <!-- 4e Paramètre : Affichage des temps libres -->
+        <div class="settings-card settings-row-card">
+          <div class="settings-card-label">
+            <h3>Affichage des temps libres</h3>
+            <p>Détecter et surligner automatiquement les créneaux libres en commun</p>
+          </div>
+          <label class="apple-switch" title="Activer / Désactiver l'affichage des temps libres">
+            <input type="checkbox" id="switchSettingsFreeTime">
+            <span class="apple-switch-slider"></span>
+          </label>
+        </div>
+
+        <!-- 5e Paramètre : Barre d'outils -->
+        <div class="settings-card settings-row-card">
+          <div class="settings-card-label">
+            <h3>Barre d'outils & raccourcis</h3>
+            <p>Afficher ou masquer la barre secondaire contenant les filtres et la recherche</p>
+          </div>
+          <label class="apple-switch" title="Afficher / Masquer la barre d'outils">
+            <input type="checkbox" id="switchSettingsToolbar" checked>
+            <span class="apple-switch-slider"></span>
+          </label>
+        </div>
+
+        <!-- 6e Paramètre : Dimanches -->
+        <div class="settings-card settings-row-card">
+          <div class="settings-card-label">
+            <h3>Activer les Dimanches</h3>
+            <p>Inclure le dimanche dans la vue semaine et la navigation (désactivé par défaut)</p>
+          </div>
+          <label class="apple-switch" title="Activer / Désactiver les Dimanches">
+            <input type="checkbox" id="switchSettingsShowSundays">
+            <span class="apple-switch-slider"></span>
+          </label>
+        </div>
+
+        <!-- 7e Option : Mettre à jour les données depuis l'URL -->
+        <div class="settings-card">
+          <div class="settings-card-header settings-url-header">
+            <div class="settings-card-label">
+              <div class="settings-title-with-info">
+                <h3>Mettre à jour depuis l'URL</h3>
+                <button type="button" class="btn-info-icon" id="btnUrlUpdateInfo" title="En savoir plus sur la synchronisation cloud" aria-label="Informations sur la mise à jour par URL">
+                  <i class="ph-bold ph-info"></i>
+                </button>
+              </div>
+              <p>Synchronisez ou remplacez vos calendriers via Google Drive (dossier ou fichier) ou URL Webcal</p>
+            </div>
+            <button type="button" class="btn-primary-add btn-load-urls" id="btnTriggerUrlUpdate" title="Télécharger et mettre à jour les calendriers">
+              <i class="ph-bold ph-arrows-clockwise" id="iconLoadUrls"></i>
+              <span id="textLoadUrls">Charger</span>
+            </button>
+          </div>
+
+          <!-- Dynamic URL Input Fields -->
+          <div class="settings-url-fields-list" id="settingsUrlFieldsList">
+            <!-- Dynamically populated in app.js -->
+          </div>
+        </div>
+
+        <!-- 8e Option : Ordre et couleurs -->
+        <div class="settings-card" id="settingsCardOrderColors">
+          <div class="settings-card-header">
+            <div class="settings-card-label">
+              <h3>Ordre et couleurs des calendriers</h3>
+              <p>Réorganisez l'ordre des colonnes et personnalisez les couleurs parmi 30 teintes</p>
+            </div>
+          </div>
+
+          <div class="settings-cal-list" id="settingsCalendarsList">
+            <!-- Dynamically populated in app.js -->
+          </div>
+        </div>
+
+        <!-- Section Infos & Confidentialité -->
+        <div class="settings-info-section">
+          <div class="settings-info-icon">
+            <i class="ph-bold ph-shield-check"></i>
+          </div>
+          <div class="settings-info-text">
+            <strong>Stockage 100% Local & Confidentialité</strong>
+            <p>Tous vos paramètres, couleurs, préférences et fichiers de calendriers sont conservés exclusivement dans la mémoire locale (<em>LocalStorage</em>) de votre navigateur. Aucune donnée personnelle n'est envoyée vers un serveur externe.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Add Calendar / Drag & Drop Upload -->
+    <div class="modal-backdrop" id="addCalendarModalBackdrop">
+      <div class="modal-card modal-upload">
+        <div class="modal-header">
+          <div class="modal-header-info">
+            <h2 class="modal-title">
+              <i class="ph-bold ph-calendar-plus icon-accent-blue"></i> 
+              Ajouter des calendriers à la comparaison
+            </h2>
+            <div class="modal-subtitle">
+              Importe des fichiers .ics, une archive .zip ou un lien Google Drive (10 calendriers max)
+            </div>
+          </div>
+          <button class="modal-close-btn" id="btnCloseAddModal" title="Fermer (Échap)">
+            <i class="ph ph-x"></i>
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <!-- Mode Switcher Tabs -->
+          <div class="import-tabs" role="tablist" aria-label="Mode d'importation">
+            <button class="import-tab-btn active" id="tabUploadFile" role="tab" aria-selected="true" aria-controls="panelUploadFile" type="button">
+              <i class="ph-bold ph-file-arrow-up"></i>
+              <span>Fichier (.ics, .zip)</span>
+            </button>
+            <button class="import-tab-btn" id="tabUploadDrive" role="tab" aria-selected="false" aria-controls="panelUploadDrive" type="button">
+              <i class="ph-bold ph-google-drive-logo"></i>
+              <span>URL</span>
+              <span class="tab-badge-new">Nouveau</span>
+            </button>
+          </div>
+
+          <!-- Panel 1: Local File Dropzone -->
+          <div class="import-tab-panel active" id="panelUploadFile" role="tabpanel" aria-labelledby="tabUploadFile">
+            <div class="dropzone-box" id="modalDropzone">
+              <div class="dropzone-icon-pulse">
+                <i class="ph-bold ph-cloud-arrow-up"></i>
+              </div>
+              <p class="dropzone-title">Glisse & dépose tes fichiers .ICS ou archive .ZIP ici</p>
+              <p class="dropzone-subtitle">ou clique ci-dessous pour sélectionner un ou plusieurs fichiers</p>
+              <button class="btn-browse-file" id="btnBrowseFiles" type="button">
+                <i class="ph-bold ph-folder-open"></i> Parcourir (.ics ou .zip)
+              </button>
+              <input type="file" id="icsFileInput" class="file-input-hidden" accept=".ics,text/calendar,.zip,application/zip,application/x-zip-compressed,application/x-zip" multiple title="Sélectionner des fichiers .ics ou .zip" aria-label="Sélectionner des fichiers .ics ou .zip">
+              <div class="dropzone-hint">
+                <i class="ph ph-info"></i> Compatible avec MyDevinci, Google Agenda, Outlook, Apple Calendar (supporte l'extraction des .ics depuis un .zip)
+              </div>
+            </div>
+          </div>
+
+          <!-- Panel 2: Google Drive & Web URL Import -->
+          <div class="import-tab-panel" id="panelUploadDrive" role="tabpanel" aria-labelledby="tabUploadDrive" style="display: none;">
+            <div class="drive-importer-box">
+              <div class="drive-importer-hero">
+                <div class="drive-icon-badge">
+                  <i class="ph-bold ph-google-drive-logo"></i>
+                </div>
+                <div class="drive-importer-texts">
+                  <h3 class="drive-importer-title">Coller un lien Google Drive ou URL Web</h3>
+                  <p class="drive-importer-desc">
+                    Reconnaît automatiquement un <strong>fichier .ics</strong> ou un <strong>dossier partagé</strong> (charge individuellement chaque .ics contenu).
+                  </p>
+                </div>
+              </div>
+
+              <div class="drive-input-form">
+                <div class="drive-input-wrapper">
+                  <i class="ph-bold ph-link drive-input-icon"></i>
+                  <input 
+                    type="url" 
+                    id="driveUrlInput" 
+                    class="drive-url-input" 
+                    placeholder="https://drive.google.com/file/d/... ou /drive/folders/..." 
+                    autocomplete="off" 
+                    spellcheck="false"
+                    aria-label="Lien Google Drive ou URL .ics"
+                  >
+                  <button class="btn-clear-drive-url" id="btnClearDriveUrl" type="button" title="Effacer le lien" style="display: none;">
+                    <i class="ph ph-x"></i>
+                  </button>
+                </div>
+                <button class="btn-load-drive" id="btnLoadDriveUrl" type="button">
+                  <i class="ph-bold ph-download-simple"></i>
+                  <span>Importer</span>
+                </button>
+              </div>
+
+              <!-- Loading status indicator -->
+              <div class="drive-status-box" id="driveUrlStatus" style="display: none;">
+                <div class="drive-status-spinner"></div>
+                <span class="drive-status-text" id="driveUrlStatusText">Chargement...</span>
+              </div>
+
+              <!-- Feature Hints -->
+              <div class="drive-hints-grid">
+                <div class="drive-hint-card">
+                  <div class="hint-card-icon icon-file"><i class="ph-bold ph-file-text"></i></div>
+                  <div class="hint-card-text">
+                    <strong>Lien de fichier .ics</strong>
+                    <span>Depuis Google Drive ou URL du calendrier depuis le portail étudiant</span>
+                  </div>
+                </div>
+                <div class="drive-hint-card">
+                  <div class="hint-card-icon icon-folder"><i class="ph-bold ph-folders"></i></div>
+                  <div class="hint-card-text">
+                    <strong>Lien de dossier Google Drive</strong>
+                    <span>Importe les fichiers .ics contenus dans le dossier Drive partagé</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Current Calendars List in Modal -->
+          <div class="modal-calendars-section" id="modalCalendarsSection">
+            <div class="modal-section-title">
+              <span>Calendriers comparés (<span id="modalCalCount">0</span>/10) :</span>
+              <button class="btn-clear-all" id="btnClearAllCalendars" title="Supprimer tous les calendriers">
+                <i class="ph ph-trash"></i> Tout effacer
+              </button>
+            </div>
+            <div class="modal-calendars-list" id="modalCalendarsList">
+              <!-- Dynamically populated in app.js -->
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="action-btn" id="btnCloseAddModalBtn">Fermer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Event Details Drawer -->
+    <div class="modal-backdrop" id="eventModalBackdrop">
+      <div class="modal-card">
+        <div class="modal-header">
+          <div class="modal-header-info">
+            <h2 class="modal-title" id="modalEventTitle">Détails du cours</h2>
+            <div class="modal-subtitle" id="modalEventSubtitle">Lundi 1 septembre 2026</div>
+          </div>
+          <button class="modal-close-btn" id="btnCloseEventModal" title="Fermer (Échap)">
+            <i class="ph ph-x"></i>
+          </button>
+        </div>
+
+        <div class="modal-body" id="modalEventBody">
+          <!-- Populated dynamically in app.js -->
+        </div>
+
+        <div class="modal-footer">
+          <button class="action-btn" id="btnCloseEventModalBtn">Fermer</button>
+        </div>
+      </div>
+    </div>
+
+        <!-- Modal: Mentions Légales & Confidentialité RGPD -->
+    <div class="modal-backdrop" id="legalNoticeModalBackdrop">
+      <div class="modal-card modal-upload">
+        <div class="modal-header">
+          <div class="modal-header-info">
+            <h2 class="modal-title">
+              <i class="ph-bold ph-shield-check icon-accent-emerald"></i> 
+              Mentions Légales & Confidentialité
+            </h2>
+            <div class="modal-subtitle">
+              Transparence, conformité RGPD et respect de vos données
+            </div>
+          </div>
+          <button class="modal-close-btn" id="btnCloseLegalModalBtn" title="Fermer">
+            <i class="ph ph-x"></i>
+          </button>
+        </div>
+
+        <div class="legal-modal-body">
+          <div class="legal-section">
+            <h4><i class="ph-bold ph-lock-key icon-legal-green"></i> 1. Données Personnelles & Confidentialité (100% Local)</h4>
+            <p>
+              <strong>Aucune donnée personnelle n'est collectée, transmise ou stockée sur un serveur externe.</strong><br>
+              Le traitement de vos fichiers .ics et l'extraction des emplois du temps s'effectuent <strong>exclusivement en local</strong> dans votre navigateur Web. Vos préférences (filtres, couleurs, affichage) sont conservées uniquement dans la mémoire locale (<em>LocalStorage</em>) de votre appareil.
+            </p>
+          </div>
+
+          <div class="legal-section">
+            <h4><i class="ph-bold ph-cookie icon-legal-amber"></i> 2. Cookies & Traceurs</h4>
+            <p>
+              Ce site web n'utilise <strong>aucun cookie publicitaire ni traceur d'analyse tiers</strong>. Seuls les mécanismes de stockage nécessaires au fonctionnement de la PWA (Service Worker et LocalStorage) sont utilisés pour vous permettre de consulter vos calendriers hors-ligne.
+            </p>
+          </div>
+
+          <div class="legal-section">
+            <h4><i class="ph-bold ph-globe icon-legal-blue"></i> 3. Hébergement</h4>
+            <p>
+              Ce site statique est hébergé par <strong>GitHub Pages</strong> :<br>
+              <em>GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, États-Unis</em>.
+            </p>
+          </div>
+
+          <div class="legal-section">
+            <h4><i class="ph-bold ph-info icon-legal-purple"></i> 4. Propriété & Non-Affiliation</h4>
+            <p>
+              <strong>Co-op Calendar</strong> est un outil indépendant et open-source développé à titre bénévole pour faciliter la synchronisation et la comparaison d'emplois du temps étudiants. Il n'est affilié à aucun établissement d'enseignement supérieur.
+            </p>
+          </div>
+        </div>
+
+        <div class="modal-footer modal-footer-end">
+          <button class="action-btn" id="btnCloseLegalModalFooterBtn">Fermer</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Global Fullscreen Drag & Drop Overlay -->
+    <div class="drag-drop-overlay" id="globalDragDropOverlay">
+      <div class="drag-drop-overlay-box">
+        <i class="ph-bold ph-file-arrow-up overlay-icon"></i>
+        <h3>Dépose tes fichiers .ICS ou .ZIP ici</h3>
+        <p>Compatible avec MyDevinci, Google Agenda, Outlook, Apple Calendar (support de l'extraction des .ics depuis un .zip)</p>
+      </div>
+    </div>
+
+    <!-- PWA Install Popup Banner (Discreet & Dismissible on First Visit) -->
+    <div class="pwa-install-banner" id="pwaInstallBanner">
+      <div class="pwa-banner-card">
+        <div class="pwa-banner-icon">
+          <img src="icons/icon-192.png" alt="Co-op Calendar" width="38" height="38" class="pwa-banner-img">
+        </div>
+        <div class="pwa-banner-content">
+          <div class="pwa-banner-title">Installer Co-op Calendar</div>
+          <div class="pwa-banner-desc">Accède à tes emplois du temps hors-ligne et en 1 clic sur ton appareil.</div>
+        </div>
+        <div class="pwa-banner-actions">
+          <button class="pwa-banner-btn-install" id="btnPwaBannerInstall">
+            <i class="ph-bold ph-download-simple"></i> Installer
+          </button>
+          <button class="pwa-banner-btn-close" id="btnPwaBannerClose" title="Fermer" aria-label="Fermer">
+            <i class="ph ph-x"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Create / Edit Comparison Instance -->
+    <div class="modal-backdrop" id="comparisonModalBackdrop">
+      <div class="modal-card modal-comparison-edit">
+        <div class="modal-header">
+          <div class="modal-header-info">
+            <h2 class="modal-title" id="comparisonModalTitle">
+              <i class="ph-bold ph-plus-circle icon-accent-blue" id="comparisonModalIcon"></i>
+              <span id="comparisonModalTitleText">Nouvelle comparaison</span>
+            </h2>
+            <div class="modal-subtitle" id="comparisonModalSubtitle">
+              Configurez le nom et la couleur de votre espace de comparaison
+            </div>
+          </div>
+          <button class="modal-close-btn" id="btnCloseComparisonModal" title="Fermer (Échap)">
+            <i class="ph ph-x"></i>
+          </button>
+        </div>
+
+        <form id="comparisonForm" class="modal-body modal-form-body">
+          <div class="form-field-group">
+            <label class="form-field-label" for="comparisonNameInput">Nom de l'instance</label>
+            <div class="form-input-wrapper">
+              <i class="ph-bold ph-tag form-field-icon"></i>
+              <input 
+                type="text" 
+                id="comparisonNameInput" 
+                class="comparison-text-input" 
+                placeholder="Ex: MonCalendrier, Semestre 1, Groupe TD..." 
+                maxlength="50" 
+                required 
+                autocomplete="off"
+              >
+            </div>
+          </div>
+
+          <div class="form-field-group">
+            <label class="form-field-label">Couleur du bloc</label>
+            <div class="gradient-picker-grid" id="gradientPickerGrid">
+              <!-- Dynamically populated in app.js -->
+            </div>
+          </div>
+
+          <div class="modal-footer modal-footer-actions">
+            <button type="button" class="action-btn" id="btnCancelComparisonModal">Annuler</button>
+            <button type="submit" class="btn-primary-add" id="btnSaveComparisonModal">
+              <i class="ph-bold ph-check"></i>
+              <span id="btnSaveComparisonText">Créer</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Modal: Confirm Delete Comparison -->
+    <div class="modal-backdrop" id="deleteComparisonModalBackdrop">
+      <div class="modal-card modal-confirm-delete">
+        <div class="modal-header">
+          <div class="modal-header-info">
+            <h2 class="modal-title text-danger">
+              <i class="ph-bold ph-warning-circle icon-accent-red"></i>
+              <span>Supprimer la comparaison</span>
+            </h2>
+            <div class="modal-subtitle">
+              Confirmation de suppression définitive
+            </div>
+          </div>
+          <button class="modal-close-btn" id="btnCloseDeleteComparisonModal" title="Fermer (Échap)">
+            <i class="ph ph-x"></i>
+          </button>
+        </div>
+
+        <div class="modal-body modal-confirm-body">
+          <p class="delete-confirm-message" id="deleteComparisonConfirmMessage">
+            Êtes-vous sûr de vouloir supprimer définitivement cette comparaison ?
+          </p>
+          <div class="delete-warning-callout">
+            <i class="ph-bold ph-info"></i>
+            <span>Tous les calendriers et données associés seront définitivement supprimés du stockage local de cet appareil.</span>
+          </div>
+        </div>
+
+        <div class="modal-footer modal-footer-actions">
+          <button type="button" class="action-btn" id="btnCancelDeleteComparison">Annuler</button>
+          <button type="button" class="action-btn btn-danger-solid" id="btnConfirmDeleteComparison">
+            <i class="ph-bold ph-trash"></i>
+            <span>Supprimer définitivement</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Confirm Clear All Calendars -->
+    <div class="modal-backdrop modal-stacked" id="clearAllCalendarsModalBackdrop">
+      <div class="modal-card modal-confirm-delete">
+        <div class="modal-header">
+          <div class="modal-header-info">
+            <h2 class="modal-title text-danger">
+              <i class="ph-bold ph-warning-circle icon-accent-red"></i>
+              <span>Retirer tous les calendriers</span>
+            </h2>
+            <div class="modal-subtitle">
+              Confirmation de suppression des calendriers
+            </div>
+          </div>
+          <button class="modal-close-btn" id="btnCloseClearAllCalendarsModal" title="Fermer (Échap)">
+            <i class="ph ph-x"></i>
+          </button>
+        </div>
+
+        <div class="modal-body modal-confirm-body">
+          <p class="delete-confirm-message" id="clearAllCalendarsConfirmMessage">
+            Êtes-vous sûr de vouloir retirer tous les calendriers de cette comparaison ?
+          </p>
+          <div class="delete-warning-callout">
+            <i class="ph-bold ph-info"></i>
+            <span>Cette action retirera tous les calendriers actuellement importés. Vous pourrez toujours les réimporter ou en ajouter d'autres à tout moment.</span>
+          </div>
+        </div>
+
+        <div class="modal-footer modal-footer-actions">
+          <button type="button" class="action-btn" id="btnCancelClearAllCalendars">Annuler</button>
+          <button type="button" class="action-btn btn-danger-solid" id="btnConfirmClearAllCalendars">
+            <i class="ph-bold ph-trash"></i>
+            <span>Tout retirer</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: URL Update Guidance Info -->
+    <div class="modal-backdrop" id="urlUpdateInfoModalBackdrop">
+      <div class="modal-card modal-info-card">
+        <div class="modal-header">
+          <div class="modal-header-info">
+            <h2 class="modal-title">
+              <i class="ph-bold ph-info icon-accent-blue"></i>
+              <span>Partage & synchronisation collective</span>
+            </h2>
+            <div class="modal-subtitle">Conseil pour maintenir vos calendriers à jour en groupe</div>
+          </div>
+          <button class="modal-close-btn" id="btnCloseUrlInfoModal" title="Fermer (Échap)">
+            <i class="ph ph-x"></i>
+          </button>
+        </div>
+        <div class="modal-body modal-info-body">
+          <p>
+            Nous vous recommandons de <strong>créer un dossier partagé Google Drive</strong> où stocker les calendriers à comparer et de donner le lien à votre groupe d'amis.
+          </p>
+          <p>
+            Si un calendrier d'un utilisateur venait à changer, il suffirait de <strong>remplacer l'ancien calendrier par le nouveau dans Google Drive</strong>, et tout le monde peut télécharger et mettre à jour ses données en un clic via cette option !
+          </p>
+          <div class="modal-info-tip">
+            <i class="ph-bold ph-sparkle"></i>
+            <span>L'ordre des colonnes et les couleurs attribuées à vos calendriers sont automatiquement préservés lors de la mise à jour.</span>
+          </div>
+        </div>
+        <div class="modal-footer modal-footer-actions">
+          <button type="button" class="btn-primary-add" id="btnAckUrlInfoModal">
+            <span>Compris</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal: Calendar 30-Color Picker -->
+    <div class="modal-backdrop" id="calendarColorPickerModalBackdrop">
+      <div class="modal-card modal-color-picker-card">
+        <div class="modal-header">
+          <div class="modal-header-info">
+            <h2 class="modal-title">
+              <i class="ph-bold ph-palette icon-accent-purple"></i>
+              <span id="calendarColorPickerTitle">Choisir une couleur</span>
+            </h2>
+            <div class="modal-subtitle">30 nuances classées dans l'ordre de l'arc-en-ciel</div>
+          </div>
+          <button class="modal-close-btn" id="btnCloseColorPickerModal" title="Fermer (Échap)">
+            <i class="ph ph-x"></i>
+          </button>
+        </div>
+        <div class="modal-body modal-color-picker-body">
+          <div class="rainbow-palette-grid" id="rainbowPaletteGrid">
+            <!-- 30 pastilles dynamically populated in app.js -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toastContainer" class="toast-container"></div>
+
+  </div>
+
+  <!-- Core App Logic -->
+  <script src="app.js?v=6.9"></script>
+</body>
+</html>

@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <!-- PWA Manifest & Standard Favicons -->
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" type="image/x-icon" href="icons/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512.png">
+
+    <!-- Apple iOS Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Flashcards">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+
+    <!-- Android & Browser Theme Color -->
+    <meta name="theme-color" content="#8b5cf6">
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Early Standalone PWA Detection (Safari iOS WebClip, Android, Chrome) -->
+    <script>
+        (function () {
+            try {
+                const isStandalone = Boolean(
+                    (window.matchMedia && (
+                        window.matchMedia('(display-mode: standalone)').matches ||
+                        window.matchMedia('(display-mode: fullscreen)').matches ||
+                        window.matchMedia('(display-mode: minimal-ui)').matches ||
+                        window.matchMedia('(display-mode: window-controls-overlay)').matches
+                    )) ||
+                    window.navigator?.standalone === true ||
+                    (document.referrer && document.referrer.includes('android-app://')) ||
+                    (window.location && new URLSearchParams(window.location.search).get('mode') === 'standalone') ||
+                    (window.location && new URLSearchParams(window.location.search).get('source') === 'pwa')
+                );
+                if (isStandalone) {
+                    document.documentElement.classList.add('is-standalone-pwa');
+                }
+            } catch (e) { }
+        })();
+    </script>
+
+    <!-- Preconnect to CDN and Firebase origins for faster loading -->
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://flashcards-5e2d4.firebaseapp.com">
+    <link rel="preconnect" href="https://accounts.google.com">
+    <link rel="preconnect" href="https://apis.google.com">
+    <title>Flashcards</title>
+
+    <script defer src="https://unpkg.com/lucide@latest"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"
+        crossorigin="anonymous"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Firebase SDK v10 (compat) -->
+    <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <script defer src="firebase-config.js"></script>
+</head>
+
+<body class="min-h-screen pb-24">
+
+    <!-- Header -->
+    <header
+        class="sticky top-0 z-40 bg-[#0f172a]/90 backdrop-blur-md border-b border-slate-800 shadow-2xl shadow-black/20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+            <div class="flex items-center justify-between gap-2">
+                <div class="flex items-center gap-3 sm:gap-4 min-w-0">
+                    <div id="nav-action" class="transition-all shrink-0">
+                        <!-- Icon injected by JS -->
+                    </div>
+                    <div class="min-w-0">
+                        <div class="flex items-center gap-2">
+                            <h1 id="header-title"
+                                class="text-lg sm:text-xl font-bold text-white tracking-tight truncate">Flashcards App
+                            </h1>
+                            <span id="app-version-badge" class="app-version-badge">v2.1</span>
+                        </div>
+                        <p id="header-subtitle" class="text-slate-400 text-xs font-medium truncate">Chargement...</p>
+                    </div>
+                </div>
+
+                <!-- Header Actions: PWA Install (if eligible) & Storage Mode Switcher -->
+                <!-- Header Actions: PWA Install (if eligible), Settings & Storage Mode Switcher -->
+                <div id="header-actions" class="flex items-center gap-2 shrink-0">
+                    <button id="btn-header-pwa-install" onclick="triggerPwaInstall()" class="pwa-header-btn hidden"
+                        title="Installer l'application sur cet appareil (PWA)" aria-label="Installer l'application">
+                        <i data-lucide="download" class="w-4 h-4"></i>
+                        <span class="pwa-header-text">Installer</span>
+                    </button>
+                    <button id="btn-header-settings" onclick="openSettingsModal()" class="settings-header-btn"
+                        title="Paramètres" aria-label="Paramètres">
+                        <i data-lucide="settings" class="w-4 h-4"></i>
+                    </button>
+                    <!-- Storage Mode Switcher (Local / Cloud) -->
+                    <div id="storage-mode-container" class="flex items-center gap-2 shrink-0">
+                        <!-- Switch button & status injected by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- App Container -->
+    <main id="main-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 min-h-[60vh]">
+        <!-- Content injected by JS -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="legal-footer">
+        <span>© <span id="app-year">2026</span> Flashcards App — Juix</span>
+        <span class="hidden sm:inline text-slate-700">•</span>
+        <button type="button" onclick="openLegalModal()" class="legal-footer-link">
+            Mentions légales
+        </button>
+    </footer>
+
+    <!-- FAB Container -->
+    <div id="fab-container" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[30] pointer-events-auto">
+        <!-- Button injected by JS -->
+    </div>
+
+    <!-- Modals -->
+    <div id="modal-overlay" class="fixed inset-0 z-50 flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0 bg-slate-950/80 backdrop-blur-sm transition-opacity" onclick="closeModal()"></div>
+
+        <div
+            class="relative w-full max-w-lg bg-slate-900 rounded-2xl shadow-2xl border border-slate-700 flex flex-col max-h-[90vh] overflow-hidden animate-fade-in">
+            <!-- Close Button -->
+            <button onclick="closeModal()" aria-label="Fermer"
+                class="absolute top-4 right-4 text-slate-400 hover:text-white z-10 p-1 rounded-full hover:bg-slate-800">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- DECK FORM -->
+            <div id="modal-deck" class="hidden">
+                <div class="p-6 border-b border-slate-800">
+                    <h2 id="modal-deck-title" class="text-xl font-bold text-white">Nouveau Bloc de Fiches</h2>
+                </div>
+                <form onsubmit="handleCreateDeck(event)" class="p-6 space-y-6">
+                    <div class="space-y-3">
+                        <label class="block text-sm font-medium text-slate-300">Nom du bloc</label>
+                        <input type="text" id="deck-title" required placeholder="Ex: Histoire - Dates Clés"
+                            class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none">
+                    </div>
+                    <div id="deck-type-group" class="space-y-3">
+                        <label class="block text-sm font-medium text-slate-300">Type de bloc</label>
+                        <div class="flex gap-2">
+                            <label class="flex-1 cursor-pointer">
+                                <input type="radio" name="deck-type" value="flashcard" checked class="peer sr-only"
+                                    onchange="updateDeckTypeUI()">
+                                <div
+                                    class="py-2 text-center text-sm font-medium rounded-lg bg-slate-800 text-slate-400 border border-slate-700 peer-checked:bg-indigo-600 peer-checked:text-white peer-checked:border-indigo-500 hover:bg-slate-700 transition">
+                                    Flashcards</div>
+                            </label>
+                            <label class="flex-1 cursor-pointer">
+                                <input type="radio" name="deck-type" value="qcm" class="peer sr-only"
+                                    onchange="updateDeckTypeUI()">
+                                <div
+                                    class="py-2 text-center text-sm font-medium rounded-lg bg-slate-800 text-slate-400 border border-slate-700 peer-checked:bg-indigo-600 peer-checked:text-white peer-checked:border-indigo-500 hover:bg-slate-700 transition">
+                                    QCM</div>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <label class="block text-sm font-medium text-slate-300">Style</label>
+                        <div id="gradient-selector" class="flex gap-3 flex-wrap">
+                            <!-- Injected -->
+                        </div>
+                    </div>
+                    <button type="submit"
+                        class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl mt-4">Valider</button>
+                </form>
+            </div>
+
+            <!-- CARD FORM -->
+            <div id="modal-card" class="hidden">
+                <div class="p-6 border-b border-slate-800">
+                    <h2 class="text-xl font-bold text-white">Nouvelle Carte</h2>
+                </div>
+                <form onsubmit="handleCreateCard(event)" class="p-6 overflow-y-auto max-h-[70vh] space-y-5">
+                    <div class="space-y-2">
+                        <label for="card-question" class="text-sm font-medium text-slate-300">Question</label>
+                        <textarea id="card-question" required
+                            class="w-full min-h-[3.5rem] h-16 bg-slate-950 border border-slate-700 rounded-xl p-3 text-white focus:ring-2 focus:ring-indigo-500 outline-none resize-y"></textarea>
+                    </div>
+
+                    <!-- FLASHCARD FIELDS -->
+                    <div id="card-flashcard-fields" class="space-y-2">
+                        <label for="card-answer" class="text-sm font-medium text-slate-300">Réponse</label>
+                        <textarea id="card-answer"
+                            class="w-full min-h-[5.5rem] h-28 bg-slate-950 border border-slate-700 rounded-xl p-3 text-white focus:ring-2 focus:ring-emerald-500 outline-none resize-y"></textarea>
+                    </div>
+
+                    <!-- QCM FIELDS -->
+                    <div id="card-qcm-fields" class="space-y-4 hidden">
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-slate-300">Mode</label>
+                            <div class="flex gap-2">
+                                <button type="button" id="btn-qcm-tf" onclick="setQcmMode('tf')"
+                                    class="flex-1 py-1.5 text-sm rounded-lg bg-indigo-600 text-white">Vrai/Faux</button>
+                                <button type="button" id="btn-qcm-multi" onclick="setQcmMode('multi')"
+                                    class="flex-1 py-1.5 text-sm rounded-lg bg-slate-800 text-slate-400 border border-slate-700">Choix
+                                    Multiple</button>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-sm font-medium text-slate-300 flex justify-between items-center">
+                                Réponses (Cochez la ou les bonnes)
+                                <button type="button" id="btn-qcm-add-ans" onclick="addQcmAnswer()"
+                                    class="hidden text-xs bg-slate-800 hover:bg-slate-700 text-white px-2 py-1 rounded">+
+                                    Ajouter</button>
+                            </label>
+                            <div id="qcm-answers-container" class="space-y-2"></div>
+                        </div>
+                        <div class="space-y-2">
+                            <label for="card-explanation" class="text-sm font-medium text-slate-300">Explication
+                                (facultative)</label>
+                            <textarea id="card-explanation"
+                                class="w-full min-h-[4.5rem] h-24 bg-slate-950 border border-slate-700 rounded-xl p-3 text-white focus:ring-2 focus:ring-emerald-500 outline-none resize-y"></textarea>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-sm font-medium text-slate-300">Catégorie</label>
+                        <div class="flex gap-2 mb-2">
+                            <button type="button" id="btn-existing-theme" onclick="toggleThemeMode(false)"
+                                class="flex-1 py-1.5 text-sm rounded-lg bg-indigo-600 text-white">Existante</button>
+                            <button type="button" id="btn-new-theme" onclick="toggleThemeMode(true)"
+                                class="flex-1 py-1.5 text-sm rounded-lg bg-slate-800 text-slate-400">Nouvelle</button>
+                        </div>
+                        <div id="container-theme-select">
+                            <select id="card-theme-select" aria-label="Catégorie"
+                                class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-white outline-none focus:ring-2 focus:ring-indigo-500"></select>
+                        </div>
+                        <input id="input-new-theme" type="text" placeholder="Nom de la catégorie"
+                            class="hidden w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-white outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <button type="submit"
+                        class="w-full py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl">Valider</button>
+                </form>
+            </div>
+
+            <!-- IMPORT/EXPORT MODAL -->
+            <div id="modal-import-export" class="hidden">
+                <div class="p-6 border-b border-slate-800">
+                    <h2 id="modal-ie-title" class="text-xl font-bold text-white">Importer / Exporter</h2>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <p id="modal-ie-desc" class="text-sm text-slate-400">Copiez/Collez ou Déposez un fichier JSON.
+                        </p>
+                        <button id="btn-open-tuto" onclick="openTutoPopup()"
+                            class="flex items-center gap-1.5 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-lg transition-all shadow-lg shadow-indigo-500/20 hover:-translate-y-0.5 active:translate-y-0 active:scale-95 border border-indigo-400/20 hidden">
+                            <i data-lucide="lightbulb" class="w-3.5 h-3.5"></i> TUTO
+                        </button>
+                    </div>
+
+                    <!-- Drop Zone (Import Only) -->
+                    <div id="import-drop-zone"
+                        class="w-full border-2 border-dashed border-slate-700 rounded-xl p-6 flex flex-col items-center justify-center text-slate-500 transition-all hover:border-indigo-500 hover:bg-slate-900/50 cursor-pointer"
+                        onclick="document.getElementById('import-file-input').click()">
+                        <input type="file" id="import-file-input" class="hidden" accept=".json,.txt"
+                            aria-label="Importer un fichier" onchange="handleFileSelect(event)">
+                        <i data-lucide="upload-cloud" class="w-8 h-8 mb-2 text-slate-400"></i>
+                        <span class="text-xs font-medium">Cliquez ou déposez un fichier ici</span>
+                    </div>
+
+                    <div class="relative">
+                        <textarea id="ie-content"
+                            class="w-full h-48 bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs font-mono text-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none resize-none"
+                            placeholder='[{"question":"Question1 ?","answer":"Answer1 !","theme":"Général"},{"question":"Question2 ?","answer":"Answer2 !","theme":"Général"}, ...]'></textarea>
+
+                        <!-- Copy Button (Export Only) -->
+                        <button id="btn-copy-clipboard" onclick="copyToClipboard()"
+                            class="absolute top-2 right-2 p-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg border border-slate-600 transition hidden"
+                            title="Copier">
+                            <i data-lucide="copy" class="w-4 h-4"></i>
+                        </button>
+
+                        <!-- Paste Button (Import Only) -->
+                        <button id="btn-paste-clipboard" onclick="pasteFromClipboard()"
+                            class="absolute top-2 right-2 p-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg border border-slate-600 transition hidden"
+                            title="Coller">
+                            <i data-lucide="clipboard-paste" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <div
+                        class="bg-slate-900/50 p-3 rounded-lg border border-slate-800 text-xs text-slate-500 font-mono">
+                        Supporte: .json, .txt (Format JSON)
+                    </div>
+
+                    <div class="flex gap-3 pt-2">
+                        <button onclick="closeModal()"
+                            class="flex-none px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl transition">Fermer</button>
+
+                        <!-- Export Actions -->
+                        <button id="btn-download-json" onclick="downloadExport('json')"
+                            class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-bold rounded-xl transition hidden flex items-center justify-center gap-2">
+                            <i data-lucide="file-json" class="w-4 h-4"></i> .JSON
+                        </button>
+                        <button id="btn-download-txt" onclick="downloadExport('txt')"
+                            class="flex-1 py-3 bg-slate-700 hover:bg-slate-600 text-white font-bold rounded-xl transition hidden flex items-center justify-center gap-2">
+                            <i data-lucide="file-text" class="w-4 h-4"></i> .TXT
+                        </button>
+
+                        <!-- Import Action -->
+                        <button id="btn-perform-import" onclick="handleImportAction()"
+                            class="flex-1 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl transition hidden">Importer</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Tutorial Popup Overlay -->
+    <div id="tuto-overlay" class="fixed inset-0 z-[70] flex items-center justify-center p-4 hidden">
+        <div class="absolute inset-0 bg-slate-950/85 backdrop-blur-md" onclick="closeTutoPopup()"></div>
+        <div id="tuto-popup"
+            class="relative w-full max-w-lg bg-slate-900 rounded-2xl shadow-2xl border border-slate-700 flex flex-col overflow-hidden tuto-animate-in">
+            <!-- Close Button -->
+            <button onclick="closeTutoPopup()" aria-label="Fermer le tutoriel"
+                class="absolute top-4 right-4 text-slate-400 hover:text-white z-10 p-1 rounded-full hover:bg-slate-800 transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+            <!-- Content injected by JS -->
+            <div id="tuto-content" class="overflow-y-auto"></div>
+        </div>
+    </div>
+
+    <!-- Storage Mode Choice & Confirmation Modal Overlay -->
+    <div id="storage-modal-overlay" class="storage-modal-overlay hidden">
+        <div class="storage-modal-backdrop" onclick="closeStorageModal()"></div>
+        <div id="storage-modal-content" class="storage-modal-box">
+            <!-- Injected dynamically by JS -->
+        </div>
+    </div>
+
+    <!-- Mentions Légales Modal Overlay -->
+    <div id="legal-modal-overlay" class="legal-modal-overlay hidden" role="dialog" aria-modal="true"
+        aria-labelledby="legal-modal-title">
+        <div class="legal-modal-backdrop" onclick="closeLegalModal()"></div>
+        <div class="legal-modal-card">
+            <div class="legal-modal-header">
+                <div>
+                    <div class="legal-modal-badge">
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                        <span>Transparence & Confidentialité</span>
+                    </div>
+                    <h2 id="legal-modal-title" class="legal-modal-title">Mentions Légales</h2>
+                </div>
+                <button type="button" onclick="closeLegalModal()" aria-label="Fermer" class="legal-modal-close-btn">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="legal-modal-body">
+                <section class="legal-section">
+                    <h3 class="legal-section-title">
+                        <i data-lucide="user" class="w-4 h-4 text-indigo-400"></i>
+                        1. Éditeur de l’application
+                    </h3>
+                    <p class="legal-section-text">
+                        <strong>Flashcards App</strong> est un projet indépendant et personnel d'apprentissage et de
+                        mémorisation, conçu et développé par <strong>Juix</strong> (créateur indépendant).
+                    </p>
+                    <p class="legal-section-text">
+                        GitHub : <a href="https://github.com/juixcode"
+                            target="_blank" rel="noopener noreferrer" class="legal-link">github.com/juixcode</a>.
+                    </p>
+                </section>
+
+                <section class="legal-section">
+                    <h3 class="legal-section-title">
+                        <i data-lucide="server" class="w-4 h-4 text-indigo-400"></i>
+                        2. Hébergement
+                    </h3>
+                    <p class="legal-section-text">
+                        L’application est hébergée sur les serveurs de <strong>GitHub Inc.</strong> via son service
+                        GitHub Pages :<br>
+                        GitHub Inc., 88 Colin P Kelly Jr St, San Francisco, CA 94107, États-Unis.<br>
+                        Site web : <a href="https://pages.github.com" target="_blank" rel="noopener noreferrer"
+                            class="legal-link">pages.github.com</a>
+                    </p>
+                </section>
+
+                <section class="legal-section">
+                    <h3 class="legal-section-title">
+                        <i data-lucide="database" class="w-4 h-4 text-indigo-400"></i>
+                        3. Données & Stockage
+                    </h3>
+                    <div class="legal-storage-box">
+                        <div class="legal-storage-item">
+                            <span class="legal-storage-label">Mode Local (par défaut) :</span>
+                            <span>Vos fiches, scores, statistiques et préférences sont stockés uniquement et localement
+                                dans le <code>localStorage</code> de votre navigateur web. Aucune donnée n'est envoyée
+                                vers un serveur externe.</span>
+                        </div>
+                        <div class="legal-storage-item">
+                            <span class="legal-storage-label">Mode Cloud (optionnel) :</span>
+                            <span>Si vous activez la synchronisation Cloud, vos fiches sont synchronisées sur
+                                <strong>Google Cloud Firestore</strong> (Google LLC, 1600 Amphitheatre Parkway, Mountain
+                                View, CA 94043, USA), sous quota de 500 Ko associé à votre compte Google. Vos données
+                                restent strictement privées et ne sont transmises à aucun tiers.</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="legal-section">
+                    <h3 class="legal-section-title">
+                        <i data-lucide="cookie" class="w-4 h-4 text-indigo-400"></i>
+                        4. Cookies & Traceurs
+                    </h3>
+                    <p class="legal-section-text">
+                        Cette application n'utilise <strong>aucun cookie publicitaire, commercial ou traceur d'analyse
+                            d'audience tiers</strong>.
+                    </p>
+                    <p class="legal-section-text">
+                        Seuls les éléments techniques de configuration locale (ex: fiches, préférences d'affichage,
+                        session de connexion Google Cloud) sont conservés sur votre terminal pour assurer le
+                        fonctionnement du service.
+                    </p>
+                </section>
+
+                <section class="legal-section">
+                    <h3 class="legal-section-title">
+                        <i data-lucide="scale" class="w-4 h-4 text-indigo-400"></i>
+                        5. Propriété intellectuelle
+                    </h3>
+                    <p class="legal-section-text">
+                        Les cartes et contenus d'apprentissage que vous créez ou importez sont votre entière propriété.
+                    </p>
+                </section>
+
+                <section class="legal-section">
+                    <h3 class="legal-section-title">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
+                        6. Contenus publics & Génération par IA (Non-responsabilité)
+                    </h3>
+                    <p class="legal-section-text">
+                        Certaines fiches et cartes mises à disposition dans les blocs publics peuvent comporter des
+                        données assistées ou générées par des outils d'<strong>intelligence artificielle (IA)</strong>.
+                    </p>
+                    <p class="legal-section-text">
+                        L’éditeur ne saurait en aucun cas être tenu responsable de l’exactitude, de la fiabilité ou de
+                        la véracité des contenus de révision publics. Ces fiches sont fournies à titre indicatif et
+                        pédagogique : il relève de la responsabilité exclusive de chaque utilisateur de vérifier et
+                        valider les connaissances apprises auprès de ses cours et sources de référence.
+                    </p>
+                </section>
+            </div>
+            <div class="legal-modal-footer">
+                <button type="button" onclick="closeLegalModal()" class="legal-modal-close-action">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Settings Overlay (Slides down from top) -->
+    <div id="settings-overlay" class="settings-overlay" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+        <div class="settings-header">
+            <div class="settings-header-left">
+                <div class="settings-header-icon">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h2 id="settings-title" class="settings-header-title">Paramètres</h2>
+                    <p class="settings-header-subtitle">Personnalisation & Préférences de l'application</p>
+                </div>
+            </div>
+            <button type="button" onclick="closeSettingsModal()" aria-label="Fermer les paramètres" class="settings-close-btn" title="Fermer (Échap)">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div class="settings-body">
+            <div class="settings-container">
+                <!-- Section: Affichage & Révision -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <i data-lucide="sliders" class="w-4 h-4 text-indigo-400"></i>
+                        <h3 class="settings-section-title">Affichage & Révision</h3>
+                    </div>
+
+                    <!-- Taille de police des cartes avec slider à crans et prévisualisation -->
+                    <div class="settings-slider-group">
+                        <div class="settings-row-info">
+                            <span class="settings-row-label">Taille de police des cartes</span>
+                            <span class="settings-row-desc">Ajuste la taille du texte pour les questions et réponses des fiches et QCMs.</span>
+                        </div>
+
+                        <!-- Container à hauteur fixe pour prévisualisation centrée sans décalage vertical -->
+                        <div class="settings-preview-box">
+                            <span id="settings-font-preview" class="settings-font-preview-text">Taille de la police</span>
+                        </div>
+
+                        <!-- Slider horizontal moderne avec crans -->
+                        <div class="settings-slider-wrapper">
+                            <input type="range" id="setting-card-font-size" min="1" max="10" step="1" value="8"
+                                oninput="handleCardFontScaleChange(this.value)"
+                                class="settings-range-slider"
+                                aria-label="Taille de police des cartes">
+                            
+                            <!-- Graduations / crans (1 à 10, cran 8 par défaut) -->
+                            <div class="settings-slider-ticks">
+                                <span class="tick" data-val="1"></span>
+                                <span class="tick" data-val="2"></span>
+                                <span class="tick" data-val="3"></span>
+                                <span class="tick" data-val="4"></span>
+                                <span class="tick" data-val="5"></span>
+                                <span class="tick" data-val="6"></span>
+                                <span class="tick" data-val="7"></span>
+                                <span class="tick tick-default" data-val="8" title="Taille par défaut (1)"></span>
+                                <span class="tick" data-val="9"></span>
+                                <span class="tick" data-val="10"></span>
+                            </div>
+
+                            <div class="settings-slider-labels">
+                                <span class="text-[11px] text-slate-500 font-medium">Petite</span>
+                                <span id="setting-font-val-label" class="text-xs font-bold text-indigo-400">Taille : 1 (Défaut)</span>
+                                <span class="text-[11px] text-slate-500 font-medium">Grande</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <span class="settings-row-label">Aligner les réponses au verso à gauche</span>
+                            <span class="settings-row-desc">Idéal pour les réponses longues, listes à puces et explications multi-lignes.</span>
+                        </div>
+                        <label class="settings-toggle">
+                            <input type="checkbox" id="setting-align-left" onchange="toggleSettingAlignLeft(this.checked)">
+                            <span class="settings-toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <span class="settings-row-label">Retournement 3D fluide</span>
+                            <span class="settings-row-desc">Active les animations de pivotement 3D des fiches.</span>
+                        </div>
+                        <label class="settings-toggle">
+                            <input type="checkbox" id="setting-3d-flip" checked onchange="toggleSetting3dFlip(this.checked)">
+                            <span class="settings-toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Section: Données & Stockage -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <i data-lucide="database" class="w-4 h-4 text-indigo-400"></i>
+                        <h3 class="settings-section-title">Données & Sauvegarde</h3>
+                    </div>
+
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <span class="settings-row-label">Mode de stockage actuel</span>
+                            <span id="settings-storage-mode-desc" class="settings-row-desc">Gérez votre mode de persistance local ou cloud synchronisé.</span>
+                        </div>
+                        <button type="button" onclick="openStorageModeSelector()" class="settings-btn-action">
+                            <i data-lucide="hard-drive" class="w-4 h-4"></i>
+                            <span>Gérer le stockage</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Section: Hub de Personnalisation Évolutif -->
+                <div class="settings-section settings-section-custom">
+                    <div class="settings-section-header">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-amber-400"></i>
+                        <h3 class="settings-section-title">Espace Personnalisation</h3>
+                    </div>
+                    <div class="settings-custom-banner">
+                        <div class="settings-custom-icon">
+                            <i data-lucide="palette" class="w-6 h-6 text-indigo-300"></i>
+                        </div>
+                        <div class="settings-custom-text">
+                            <h4 class="font-bold text-white text-sm">Fonctionnalités à venir</h4>
+                            <p class="text-xs text-slate-400 mt-1 leading-relaxed">
+                                Cet espace accueillera progressivement de nouvelles options pour personnaliser votre expérience : thèmes de couleurs d'interface, polices de texte, effets sonores et raccourcis clavier personnalisés.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section: Informations -->
+                <div class="settings-section">
+                    <div class="settings-section-header">
+                        <i data-lucide="info" class="w-4 h-4 text-indigo-400"></i>
+                        <h3 class="settings-section-title">À propos</h3>
+                    </div>
+
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <span class="settings-row-label">Version de l'application</span>
+                            <span class="settings-row-desc">Application progressive web (PWA) avec support hors-ligne.</span>
+                        </div>
+                        <span class="settings-badge-version" id="settings-version-badge">v2.1</span>
+                    </div>
+
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <span class="settings-row-label">Stockage des préférences</span>
+                            <span class="settings-row-desc">Vos préférences et paramètres sont enregistrés localement dans ce navigateur.</span>
+                        </div>
+                        <span class="settings-badge-storage">Local</span>
+                    </div>
+
+                    <div class="settings-row">
+                        <div class="settings-row-info">
+                            <span class="settings-row-label">Mentions Légales & Confidentialité</span>
+                            <span class="settings-row-desc">Consultez les conditions d'utilisation et détails légaux.</span>
+                        </div>
+                        <button type="button" onclick="closeSettingsModal(); openLegalModal();" class="settings-btn-action">
+                            <i data-lucide="shield-check" class="w-4 h-4"></i>
+                            <span>Consulter</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logic -->
+    <script defer src="script.js"></script>
+</body>
+
+</html>
