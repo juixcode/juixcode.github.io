@@ -81,6 +81,26 @@
       "dest": "/leohub/$1"
     },
     {
+      "src": "^/(?:index\\.html)?$",
+      "has": [
+        {
+          "type": "host",
+          "value": "spend.juix.fr"
+        }
+      ],
+      "dest": "/spend/index.html"
+    },
+    {
+      "src": "^/((?!spend/|Medias/|favicon|apple-touch-icon).+)$",
+      "has": [
+        {
+          "type": "host",
+          "value": "spend.juix.fr"
+        }
+      ],
+      "dest": "/spend/$1"
+    },
+    {
       "src": "^/((?:[a-zA-Z0-9_-]+/)*[a-zA-Z0-9_-]+)$",
       "status": 308,
       "headers": {
