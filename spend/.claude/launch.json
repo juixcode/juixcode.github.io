@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "spend",
+      "runtimeExecutable": "py",
+      "runtimeArgs": ["-m", "http.server", "5178"],
+      "port": 5178
+    }
+  ]
+}
