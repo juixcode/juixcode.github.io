@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#141118">
+  <title>Ultimate DeVinci · Contact</title>
+  <link rel="icon" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #141118;
+      --card: #1f1a24;
+      --field: #2a2330;
+      --border: rgba(255, 255, 255, 0.08);
+      --text: #f4eef6;
+      --muted: #8d8394;
+      --orange: #ff7a3d;
+      --pink: #f0457a;
+      --purple: #9b4fd1;
+      --gradient: linear-gradient(135deg, var(--orange), var(--pink) 55%, var(--purple));
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+
+    body {
+      height: 100vh;
+      height: 100dvh;
+      font-family: 'Outfit', system-ui, sans-serif;
+      background:
+        radial-gradient(60% 45% at 50% 0%, rgba(240, 69, 122, 0.18), transparent 70%),
+        var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      padding:
+        max(20px, env(safe-area-inset-top))
+        16px
+        max(16px, env(safe-area-inset-bottom));
+      -webkit-font-smoothing: antialiased;
+    }
+
+    main {
+      width: 100%;
+      max-width: 420px;
+      height: 100%;
+      max-height: 760px;
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 18px;
+      box-shadow: 0 10px 32px rgba(240, 69, 122, 0.3);
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+
+    .card {
+      width: 100%;
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 18px;
+    }
+
+    form, .done { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 12px; }
+
+    input, textarea {
+      width: 100%;
+      font: inherit;
+      font-size: 16px;
+      color: var(--text);
+      background: var(--field);
+      border: 1px solid transparent;
+      border-radius: 14px;
+      padding: 14px 16px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    textarea { flex: 1; min-height: 90px; resize: none; }
+
+    input::placeholder, textarea::placeholder { color: var(--muted); }
+
+    input:focus, textarea:focus {
+      border-color: var(--pink);
+      box-shadow: 0 0 0 3px rgba(240, 69, 122, 0.2);
+    }
+
+    /* Menu de type */
+    .picker { position: relative; flex-shrink: 0; z-index: 5; }
+
+    .picker-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      font-weight: 400;
+      color: var(--muted);
+      background: var(--field);
+      border: 1px solid transparent;
+      padding: 14px 16px;
+      text-align: left;
+      transition: border-color .2s, box-shadow .2s;
+    }
+
+    .picker-btn.has-value { color: var(--text); }
+    .picker-btn:active:not(:disabled) { transform: none; }
+
+    .picker-btn:focus-visible,
+    .picker.open .picker-btn {
+      outline: none;
+      border-color: var(--pink);
+      box-shadow: 0 0 0 3px rgba(240, 69, 122, 0.2);
+    }
+
+    .picker-btn svg { flex-shrink: 0; transition: transform .2s; }
+    .picker.open .picker-btn svg { transform: rotate(180deg); }
+
+    .picker-list {
+      list-style: none;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      padding: 6px;
+      background: #2c2532;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transform: translateY(-6px) scale(0.98);
+      transform-origin: top center;
+      pointer-events: none;
+      transition: opacity .16s, transform .16s;
+    }
+
+    .picker.open .picker-list {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+
+    .picker-list li {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 12px;
+      border-radius: 11px;
+      cursor: pointer;
+      color: var(--text);
+      transition: background .12s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .picker-list li.active { background: rgba(255, 255, 255, 0.06); }
+
+    .picker-list li[aria-selected="true"] {
+      background: rgba(240, 69, 122, 0.14);
+    }
+
+    .picker-list li .tick { opacity: 0; color: var(--pink); }
+    .picker-list li[aria-selected="true"] .tick { opacity: 1; }
+
+    button {
+      flex-shrink: 0;
+      font: inherit;
+      font-weight: 600;
+      font-size: 16px;
+      color: #fff;
+      background: var(--gradient);
+      border: none;
+      border-radius: 14px;
+      padding: 15px;
+      cursor: pointer;
+      transition: opacity .2s, transform .1s;
+    }
+
+    button:active:not(:disabled) { transform: scale(0.98); }
+    button:disabled { opacity: .4; cursor: not-allowed; }
+
+    .done { align-items: center; justify-content: center; gap: 24px; }
+
+    .check {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--gradient);
+      display: grid;
+      place-items: center;
+    }
+
+    .done button { width: 100%; background: var(--field); }
+
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="brand">
+      <img class="icon" src="icon.png" alt="">
+      <h1>Ultimate DeVinci</h1>
+    </div>
+
+    <div class="card">
+      <form id="contact-form" novalidate>
+        <div class="picker" id="picker">
+          <button type="button" class="picker-btn" id="picker-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="picker-list">
+            <span id="picker-label">Type de message</span>
+            <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
+            </svg>
+          </button>
+          <ul class="picker-list" id="picker-list" role="listbox" aria-label="Type de message" tabindex="-1">
+            <li role="option" aria-selected="false">Problème<svg class="tick" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg></li>
+            <li role="option" aria-selected="false">Feedback<svg class="tick" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg></li>
+            <li role="option" aria-selected="false">Idée d'ajout<svg class="tick" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg></li>
+            <li role="option" aria-selected="false">Autre<svg class="tick" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg></li>
+          </ul>
+        </div>
+        <input type="email" id="email" placeholder="Email" autocomplete="email" required>
+        <textarea id="message" placeholder="Message" required></textarea>
+        <button type="submit" id="submit-btn" disabled>Envoyer</button>
+      </form>
+
+      <div class="done" id="success-view" hidden>
+        <div class="check">
+          <svg width="30" height="30" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5" aria-label="Envoyé">
+            <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+          </svg>
+        </div>
+        <button type="button" id="reset-btn">Nouveau message</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const API_URL = 'https://juix.vercel.app/api/ultimate-devinci/contact';
+
+    const form = document.getElementById('contact-form');
+    const successView = document.getElementById('success-view');
+    const picker = document.getElementById('picker');
+    const pickerBtn = document.getElementById('picker-btn');
+    const pickerLabel = document.getElementById('picker-label');
+    const pickerList = document.getElementById('picker-list');
+    const options = [...pickerList.querySelectorAll('li')];
+    let selectedType = '';
+    let activeIndex = -1;
+
+    function setActive(i) {
+      activeIndex = i;
+      options.forEach((o, j) => o.classList.toggle('active', j === i));
+    }
+
+    function openPicker() {
+      picker.classList.add('open');
+      pickerBtn.setAttribute('aria-expanded', 'true');
+      const sel = options.findIndex(o => o.getAttribute('aria-selected') === 'true');
+      setActive(sel >= 0 ? sel : 0);
+    }
+
+    function closePicker(focusBtn = false) {
+      picker.classList.remove('open');
+      pickerBtn.setAttribute('aria-expanded', 'false');
+      setActive(-1);
+      if (focusBtn) pickerBtn.focus();
+    }
+
+    function selectOption(i) {
+      options.forEach((o, j) => o.setAttribute('aria-selected', j === i ? 'true' : 'false'));
+      selectedType = i >= 0 ? options[i].textContent.trim() : '';
+      pickerLabel.textContent = selectedType || 'Type de message';
+      pickerBtn.classList.toggle('has-value', !!selectedType);
+      validateForm();
+    }
+
+    pickerBtn.addEventListener('click', () => {
+      picker.classList.contains('open') ? closePicker() : openPicker();
+    });
+
+    options.forEach((o, i) => {
+      o.addEventListener('click', () => { selectOption(i); closePicker(true); });
+      o.addEventListener('mouseenter', () => setActive(i));
+    });
+
+    pickerBtn.addEventListener('keydown', (e) => {
+      const isOpen = picker.classList.contains('open');
+      if (['ArrowDown', 'ArrowUp'].includes(e.key)) {
+        e.preventDefault();
+        if (!isOpen) return openPicker();
+        const step = e.key === 'ArrowDown' ? 1 : -1;
+        setActive((activeIndex + step + options.length) % options.length);
+      } else if ((e.key === 'Enter' || e.key === ' ') && isOpen) {
+        e.preventDefault();
+        if (activeIndex >= 0) selectOption(activeIndex);
+        closePicker();
+      } else if (e.key === 'Escape' || e.key === 'Tab') {
+        closePicker();
+      }
+    });
+
+    document.addEventListener('pointerdown', (e) => {
+      if (!picker.contains(e.target)) closePicker();
+    });
+
+    const emailInput = document.getElementById('email');
+    const messageInput = document.getElementById('message');
+    const submitBtn = document.getElementById('submit-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    let isSubmitting = false;
+
+    function validateForm() {
+      const email = emailInput.value.trim();
+      const message = messageInput.value.trim();
+      const isValid = !!selectedType
+        && email.includes('@') && email.includes('.')
+        && message.length > 5;
+      submitBtn.disabled = !isValid || isSubmitting;
+      return isValid;
+    }
+
+    [emailInput, messageInput].forEach(el => el.addEventListener('input', validateForm));
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!validateForm() || isSubmitting) return;
+
+      isSubmitting = true;
+      validateForm();
+      submitBtn.textContent = 'Envoi…';
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: selectedType,
+            email: emailInput.value.trim(),
+            message: messageInput.value.trim(),
+            source: 'Ultimate DeVinci'
+          })
+        });
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          form.hidden = true;
+          successView.hidden = false;
+        } else {
+          console.error('Erreur API :', data);
+          alert('Une erreur est survenue. Réessaie.');
+        }
+      } catch (error) {
+        console.error('Erreur réseau :', error);
+        alert('Impossible de contacter le serveur. Réessaie plus tard.');
+      } finally {
+        isSubmitting = false;
+        submitBtn.textContent = 'Envoyer';
+        validateForm();
+      }
+    });
+
+    resetBtn.addEventListener('click', () => {
+      messageInput.value = '';
+      selectOption(-1);
+      successView.hidden = true;
+      form.hidden = false;
+      validateForm();
+    });
+  </script>
+</body>
+</html>
