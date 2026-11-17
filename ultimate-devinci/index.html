@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#141118">
+  <title>Ultimate Devinci · L'extension qui transforme le portail De Vinci</title>
+  <meta name="description" content="Extension Chrome et Firefox non officielle qui redessine my.devinci.fr, De Vinci Learning et LéoLearning : classement de la promo, double lecteur PDF, thèmes, mode sombre.">
+  <meta property="og:title" content="Ultimate Devinci">
+  <meta property="og:description" content="Ton portail De Vinci, enfin clair. Classement de la promo, double lecteur PDF, thèmes et mode sombre.">
+  <meta property="og:image" content="img/portail.webp">
+  <link rel="icon" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #141118;
+      --bg-2: #19141e;
+      --card: #1f1a24;
+      --card-2: #241e2a;
+      --field: #2a2330;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-2: rgba(255, 255, 255, 0.14);
+      --text: #f4eef6;
+      --soft: #c9bfce;
+      --muted: #8d8394;
+      --orange: #ff7a3d;
+      --pink: #f0457a;
+      --purple: #9b4fd1;
+      --accent: #f0457a;
+      --gradient: linear-gradient(135deg, var(--orange), var(--pink) 55%, var(--purple));
+      --radius: 24px;
+      --ease: cubic-bezier(.2, .8, .2, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    body {
+      font-family: 'Outfit', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: 100%; max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+    .grad {
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    [hidden] { display: none !important; }
+
+    /* ---------- Fond animé ---------- */
+    .aurora { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+    .aurora i {
+      position: absolute;
+      width: 46vmax; height: 46vmax;
+      border-radius: 50%;
+      filter: blur(90px);
+      opacity: .28;
+      animation: float 22s ease-in-out infinite alternate;
+    }
+    .aurora i:nth-child(1) { background: var(--orange); top: -18vmax; left: -10vmax; }
+    .aurora i:nth-child(2) { background: var(--pink); top: -12vmax; right: -14vmax; animation-delay: -6s; opacity: .24; }
+    .aurora i:nth-child(3) { background: var(--purple); top: 40vh; left: 30vw; animation-delay: -12s; opacity: .14; }
+    .aurora::after {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 56px 56px;
+      mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, #000 30%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 55% at 50% 0%, #000 30%, transparent 75%);
+    }
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(6vw, 8vh) scale(1.15); }
+    }
+
+    /* ---------- Navigation ---------- */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+      padding: max(12px, env(safe-area-inset-top)) 0 12px;
+      transition: background .3s, border-color .3s, backdrop-filter .3s;
+      border-bottom: 1px solid transparent;
+    }
+    .nav.scrolled {
+      background: rgba(20, 17, 24, .72);
+      backdrop-filter: blur(16px) saturate(140%);
+      -webkit-backdrop-filter: blur(16px) saturate(140%);
+      border-color: var(--border);
+    }
+    .nav .wrap { display: flex; align-items: center; gap: 24px; }
+    .logo { display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 18px; }
+    .logo img { width: 36px; height: 36px; border-radius: 10px; }
+    .nav-links { display: flex; gap: 4px; margin-left: auto; }
+    .nav-links a { color: var(--soft); font-size: 15px; padding: 8px 14px; border-radius: 999px; transition: color .2s, background .2s; }
+    .nav-links a:hover { color: var(--text); background: rgba(255,255,255,.06); }
+    .nav-cta {
+      font-weight: 600; font-size: 15px;
+      padding: 10px 18px; border-radius: 999px;
+      background: var(--gradient); color: #fff;
+      box-shadow: 0 8px 24px rgba(240, 69, 122, .3);
+      transition: transform .2s var(--ease), box-shadow .2s;
+    }
+    .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 12px 30px rgba(240, 69, 122, .42); }
+
+    /* ---------- Hero ---------- */
+    .hero { position: relative; padding: 148px 0 40px; text-align: center; }
+    .pill {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 6px 16px 6px 6px;
+      border: 1px solid var(--border-2);
+      background: rgba(255,255,255,.04);
+      border-radius: 999px;
+      font-size: 14px; color: var(--soft);
+      transition: border-color .2s, background .2s;
+    }
+    .pill:hover { border-color: rgba(240,69,122,.5); background: rgba(240,69,122,.08); }
+    .pill b { background: var(--gradient); color: #fff; font-weight: 600; font-size: 12px; padding: 4px 10px; border-radius: 999px; letter-spacing: .02em; }
+    .hero-icon {
+      width: 96px; height: 96px; margin: 32px auto 0;
+      border-radius: 26px;
+      box-shadow: 0 20px 60px rgba(240, 69, 122, .45), 0 0 0 1px rgba(255,255,255,.08);
+      animation: bob 6s ease-in-out infinite;
+    }
+    @keyframes bob { 50% { transform: translateY(-8px); } }
+    .hero h1 {
+      margin: 28px auto 0;
+      max-width: 900px;
+      font-size: clamp(42px, 7.4vw, 88px);
+      line-height: 1.02;
+      font-weight: 700;
+      letter-spacing: -0.035em;
+    }
+    .hero .lead {
+      margin: 22px auto 0;
+      max-width: 620px;
+      font-size: clamp(17px, 2vw, 20px);
+      color: var(--soft);
+    }
+
+    .dl { display: flex; justify-content: center; gap: 16px; margin-top: 40px; flex-wrap: wrap; }
+    .dl-btn {
+      position: relative;
+      display: flex; align-items: center; gap: 16px;
+      min-width: 300px;
+      padding: 16px 26px 16px 16px;
+      border-radius: 22px;
+      text-align: left;
+      background: var(--card);
+      border: 1px solid var(--border-2);
+      transition: transform .25s var(--ease), box-shadow .25s, border-color .25s;
+      isolation: isolate;
+      overflow: hidden;
+    }
+    .dl-btn::before {
+      content: ''; position: absolute; inset: 0; z-index: -1;
+      background: var(--gradient);
+      opacity: 0;
+      transition: opacity .25s;
+    }
+    .dl-btn.primary { border-color: transparent; box-shadow: 0 18px 50px rgba(240, 69, 122, .38); }
+    .dl-btn.primary::before { opacity: 1; }
+    .dl-btn:hover { transform: translateY(-3px); border-color: rgba(240,69,122,.6); box-shadow: 0 22px 60px rgba(240, 69, 122, .32); }
+    .dl-btn:active { transform: translateY(-1px) scale(.99); }
+    .dl-btn .b-ico {
+      width: 52px; height: 52px; flex-shrink: 0;
+      display: grid; place-items: center;
+      border-radius: 15px;
+      background: rgba(255,255,255,.1);
+      backdrop-filter: blur(4px);
+    }
+    .dl-btn small { display: block; font-size: 13px; opacity: .78; }
+    .dl-btn strong { display: block; font-size: 20px; font-weight: 600; letter-spacing: -0.01em; }
+    .dl-btn .b-arrow { margin-left: auto; opacity: .8; transition: transform .25s var(--ease); }
+    .dl-btn:hover .b-arrow { transform: translateX(4px); }
+    .dl-note { margin-top: 18px; font-size: 14px; color: var(--muted); }
+    .dl-note span { margin: 0 8px; opacity: .5; }
+
+    /* Capture du portail en perspective */
+    .stage { position: relative; margin: 72px auto 0; max-width: 1080px; perspective: 1600px; }
+    .frame {
+      position: relative;
+      border-radius: 20px;
+      padding: 10px;
+      background: linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,.03));
+      border: 1px solid var(--border-2);
+      box-shadow: 0 40px 120px rgba(0,0,0,.6), 0 0 0 1px rgba(0,0,0,.4), 0 0 120px rgba(240, 69, 122, .18);
+      transform: rotateX(var(--tilt, 22deg)) scale(var(--sc, .94));
+      transform-origin: center top;
+      transition: transform .1s linear;
+      will-change: transform;
+    }
+    .frame-bar { display: flex; align-items: center; gap: 7px; padding: 4px 6px 10px; }
+    .frame-bar i { width: 11px; height: 11px; border-radius: 50%; background: rgba(255,255,255,.18); }
+    .frame-bar i:nth-child(1) { background: #ff5f57; } .frame-bar i:nth-child(2) { background: #febc2e; } .frame-bar i:nth-child(3) { background: #28c840; }
+    .frame-bar span {
+      flex: 1; max-width: 340px; margin: 0 auto;
+      font-size: 12px; color: var(--muted);
+      text-align: center;
+      background: rgba(0,0,0,.25);
+      border-radius: 8px; padding: 4px 10px;
+    }
+    .frame img { border-radius: 12px; width: 100%; height: auto; aspect-ratio: 1160 / 560; }
+    /* Fondu du bas appliqué à la capture elle-même : il suit son inclinaison 3D */
+    .frame {
+      -webkit-mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
+      mask-image: linear-gradient(180deg, #000 62%, transparent 100%);
+    }
+
+    .chip {
+      position: absolute; z-index: 3;
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px 10px 10px;
+      border-radius: 16px;
+      background: rgba(31, 26, 36, .82);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border-2);
+      box-shadow: 0 16px 40px rgba(0,0,0,.45);
+      font-size: 14px; text-align: left;
+      animation: bob 7s ease-in-out infinite;
+    }
+    .chip .c-ico { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; font-size: 17px; background: var(--field); }
+    .chip small { display: block; color: var(--muted); font-size: 12px; line-height: 1.2; }
+    .chip b { font-weight: 600; }
+    .chip.c1 { left: -28px; top: 26%; }
+    .chip.c2 { right: -24px; top: 12%; animation-delay: -2.5s; }
+    .chip.c3 { right: 8%; top: 62%; animation-delay: -4.5s; }
+    .chip.c1 .c-ico { background: linear-gradient(135deg, #ffb547, var(--orange)); }
+    .chip.c2 .c-ico { background: var(--gradient); }
+    .chip.c3 .c-ico { background: linear-gradient(135deg, #34d399, #0ea5e9); }
+
+    /* Bandeau défilant */
+    .marquee {
+      margin: 30px 0 0;
+      overflow: hidden;
+      mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+    }
+    .marquee-track { display: flex; gap: 14px; width: max-content; animation: slide 38s linear infinite; }
+    .marquee span {
+      white-space: nowrap;
+      font-size: 15px; color: var(--soft);
+      padding: 10px 18px; border-radius: 999px;
+      border: 1px solid var(--border); background: rgba(255,255,255,.03);
+    }
+    @keyframes slide { to { transform: translateX(-50%); } }
+
+    /* ---------- Sections ---------- */
+    section { position: relative; }
+    .sec { padding: 120px 0 0; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 13px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--accent);
+    }
+    .eyebrow::before { content: ''; width: 18px; height: 2px; border-radius: 2px; background: currentColor; }
+    .sec-head { max-width: 720px; }
+    .sec-head.center { margin: 0 auto; text-align: center; }
+    .sec-head.center .eyebrow::after { content: ''; width: 18px; height: 2px; border-radius: 2px; background: currentColor; }
+    .sec h2 {
+      margin-top: 14px;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+      font-weight: 700;
+    }
+    .sec-head p { margin-top: 16px; font-size: 18px; color: var(--soft); }
+
+    /* Apparition au défilement */
+    .rv { opacity: 0; transform: translateY(36px); transition: opacity .8s var(--ease), transform .8s var(--ease); transition-delay: var(--d, 0s); }
+    .rv.in { opacity: 1; transform: none; }
+    /* Le haut de page apparaît au chargement, sans attendre le défilement */
+    .hero .rv { opacity: 1; transform: none; transition: none; animation: rise .9s var(--ease) both; animation-delay: var(--d, 0s); }
+    .hero .stage.rv { animation-duration: 1.2s; }
+    @keyframes rise { from { opacity: 0; transform: translateY(36px); } }
+
+    /* ---------- Classement ---------- */
+    .lb { display: grid; grid-template-columns: 1fr 1.05fr; gap: 64px; align-items: center; }
+    .badge-new {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 5px 12px; border-radius: 999px;
+      font-size: 13px; font-weight: 600;
+      background: rgba(240,69,122,.14); color: #ff8fb1;
+      border: 1px solid rgba(240,69,122,.3);
+    }
+    .badge-new i { width: 7px; height: 7px; border-radius: 50%; background: var(--pink); box-shadow: 0 0 0 0 rgba(240,69,122,.7); animation: ping 1.8s infinite; }
+    @keyframes ping { 70% { box-shadow: 0 0 0 8px rgba(240,69,122,0); } 100% { box-shadow: 0 0 0 0 rgba(240,69,122,0); } }
+    .lb h2 { margin-top: 18px; }
+    .lb-tagline { margin-top: 14px; font-size: 22px; color: var(--soft); }
+    .lb-points { margin-top: 34px; display: grid; gap: 14px; }
+    .lb-point {
+      display: flex; gap: 16px;
+      padding: 18px 20px;
+      border-radius: 20px;
+      background: rgba(255,255,255,.03);
+      border: 1px solid var(--border);
+      transition: border-color .3s, background .3s, transform .3s var(--ease);
+    }
+    .lb-point:hover { border-color: rgba(240,69,122,.35); background: rgba(240,69,122,.05); transform: translateX(4px); }
+    .lb-point .p-ico { width: 44px; height: 44px; flex-shrink: 0; border-radius: 13px; display: grid; place-items: center; background: var(--field); color: var(--accent); }
+    .lb-point h3 { font-size: 17px; font-weight: 600; }
+    .lb-point p { font-size: 15px; color: var(--muted); margin-top: 2px; }
+
+    .board {
+      position: relative;
+      border-radius: 28px;
+      padding: 26px;
+      background: linear-gradient(180deg, #221b28, #1a1520);
+      border: 1px solid var(--border-2);
+      box-shadow: 0 40px 100px rgba(0,0,0,.5), 0 0 100px rgba(155, 79, 209, .16);
+    }
+    .board::before {
+      content: ''; position: absolute; inset: -1px; border-radius: inherit; padding: 1px;
+      background: linear-gradient(140deg, rgba(255,122,61,.6), transparent 35%, transparent 65%, rgba(155,79,209,.6));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      pointer-events: none;
+    }
+    .board-top { display: flex; align-items: center; gap: 12px; }
+    .board-top .trophy { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; background: var(--gradient); }
+    .board-top b { font-size: 18px; }
+    .board-top small { display: block; color: var(--muted); font-size: 13px; }
+    .tabs { display: flex; gap: 4px; margin: 20px 0 18px; padding: 4px; border-radius: 14px; background: rgba(0,0,0,.25); }
+    .tabs span { flex: 1; text-align: center; font-size: 13px; padding: 8px 6px; border-radius: 10px; color: var(--muted); cursor: pointer; transition: background .2s, color .2s; }
+    .tabs span.on { background: var(--field); color: var(--text); box-shadow: 0 2px 8px rgba(0,0,0,.3); }
+    .hero-rank { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: center; padding: 16px 18px; border-radius: 18px; background: rgba(240,69,122,.1); border: 1px solid rgba(240,69,122,.25); }
+    .hero-rank .r { font-size: 46px; font-weight: 700; line-height: 1; letter-spacing: -0.04em; }
+    .hero-rank .r i { font-style: normal; font-size: 18px; color: var(--muted); font-weight: 500; }
+    .hero-rank small { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .08em; }
+    .hero-rank .v { font-size: 22px; font-weight: 600; }
+    .hero-rank .up { color: #4ade80; font-size: 13px; }
+    .podium { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: end; gap: 10px; margin: 22px 0 16px; }
+    .pod { text-align: center; font-size: 13px; }
+    .pod .av { width: 38px; height: 38px; margin: 0 auto 6px; border-radius: 50%; display: grid; place-items: center; font-weight: 600; font-size: 13px; background: hsl(var(--h) 55% 38%); }
+    .pod b { display: block; font-weight: 500; }
+    .pod span { color: var(--muted); }
+    .pod .step {
+      margin-top: 8px; border-radius: 12px 12px 4px 4px;
+      display: grid; place-items: center; font-weight: 700; font-size: 20px;
+      height: 0; transition: height 1s var(--ease); transition-delay: var(--d);
+      overflow: hidden;
+    }
+    .pod.p1 .step { background: linear-gradient(180deg, #ffcf5c, #f59e0b); color: #3a2400; }
+    .pod.p2 .step { background: linear-gradient(180deg, #e5e7eb, #9ca3af); color: #1f2937; }
+    .pod.p3 .step { background: linear-gradient(180deg, #f3a96b, #c2703d); color: #3a1a05; }
+    .board.in .pod.p1 .step { height: 84px; }
+    .board.in .pod.p2 .step { height: 62px; }
+    .board.in .pod.p3 .step { height: 46px; }
+    .rows { list-style: none; display: grid; gap: 6px; }
+    .rows li { display: grid; grid-template-columns: 26px 30px 1fr 90px 46px; gap: 10px; align-items: center; font-size: 14px; padding: 8px 10px; border-radius: 12px; }
+    .rows li.me { background: rgba(240,69,122,.12); border: 1px solid rgba(240,69,122,.3); }
+    .rows li.me em { font-style: normal; font-size: 11px; margin-left: 6px; padding: 2px 7px; border-radius: 999px; background: var(--gradient); }
+    .rows .rk { color: var(--muted); font-weight: 600; text-align: center; }
+    .rows .av { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 600; background: hsl(var(--h) 50% 36%); }
+    .rows .bar { height: 6px; border-radius: 6px; background: rgba(255,255,255,.07); overflow: hidden; }
+    .rows .bar i { display: block; height: 100%; width: 0; border-radius: inherit; background: var(--gradient); transition: width 1.2s var(--ease); transition-delay: var(--d); }
+    .board.in .rows .bar i { width: var(--w); }
+    .rows .val { text-align: right; font-variant-numeric: tabular-nums; font-weight: 500; }
+
+    /* ---------- Grille des fonctionnalités ---------- */
+    .bento { margin-top: 56px; display: grid; grid-template-columns: repeat(6, 1fr); gap: 18px; }
+    .f {
+      --mx: 50%; --my: 50%;
+      position: relative;
+      grid-column: span 2;
+      padding: 28px;
+      border-radius: var(--radius);
+      background: var(--card);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      isolation: isolate;
+      transition: border-color .3s, transform .4s var(--ease);
+      display: flex; flex-direction: column;
+    }
+    .f::before {
+      content: ''; position: absolute; inset: 0; z-index: -1;
+      background: radial-gradient(420px circle at var(--mx) var(--my), rgba(240,69,122,.14), transparent 45%);
+      opacity: 0; transition: opacity .3s;
+    }
+    .f:hover { border-color: rgba(255,255,255,.16); transform: translateY(-4px); }
+    .f:hover::before { opacity: 1; }
+    .f.w3 { grid-column: span 3; }
+    .f.w4 { grid-column: span 4; }
+    .f-ico { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; font-size: 22px; background: var(--field); border: 1px solid var(--border); }
+    .f h3 { margin-top: 18px; font-size: 22px; font-weight: 600; letter-spacing: -0.015em; }
+    .f p { margin-top: 8px; color: var(--muted); font-size: 15.5px; }
+    .f .tags { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 6px; }
+    .f .tags span { font-size: 12.5px; color: var(--soft); padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.05); border: 1px solid var(--border); }
+    .f .visual { margin-top: auto; padding-top: 24px; }
+
+    /* Visuel : double PDF */
+    .pdfs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; height: 170px; }
+    .page {
+      position: relative; border-radius: 12px; padding: 14px;
+      background: #f6f2f8; color: #3b3340;
+      box-shadow: 0 14px 30px rgba(0,0,0,.35);
+      transition: transform .6s var(--ease);
+      overflow: hidden;
+    }
+    .page small { font-size: 10px; font-weight: 700; letter-spacing: .08em; color: var(--pink); }
+    .page i { display: block; height: 6px; margin-top: 8px; border-radius: 4px; background: #d9d0dd; }
+    .page i:nth-of-type(2n) { width: 82%; } .page i:nth-of-type(3n) { width: 64%; }
+    .page .eq { margin-top: 12px; height: 36px; border-radius: 8px; background: linear-gradient(135deg, rgba(240,69,122,.16), rgba(155,79,209,.16)); }
+    .page:nth-child(2) small { color: var(--purple); }
+    .f:hover .page:nth-child(1) { transform: rotate(-2deg) translateY(-4px); }
+    .f:hover .page:nth-child(2) { transform: rotate(2deg) translateY(-4px); }
+
+    /* Visuel : zip */
+    .zip { display: grid; gap: 8px; }
+    .zip div { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: var(--field); font-size: 14px; }
+    .zip div b { margin-left: auto; font-weight: 500; color: var(--muted); font-size: 12.5px; }
+    .zip .go {
+      justify-content: center; font-weight: 600; color: #fff;
+      background: var(--gradient);
+      box-shadow: 0 10px 24px rgba(240,69,122,.3);
+    }
+    .zip .prog { height: 4px; padding: 0; background: rgba(255,255,255,.08); overflow: hidden; }
+    .zip .prog i { display: block; height: 100%; width: 0; background: var(--gradient); }
+    .f:hover .zip .prog i, .f.in .zip .prog i { animation: fill 2.4s var(--ease) infinite; }
+    @keyframes fill { 0% { width: 0; } 70%, 100% { width: 100%; } }
+
+    /* Visuel : capture */
+    .shot { border-radius: 14px; overflow: hidden; border: 1px solid var(--border-2); box-shadow: 0 20px 50px rgba(0,0,0,.45); }
+    .shot img { width: 100%; height: auto; transition: transform .8s var(--ease); }
+    .f:hover .shot img { transform: scale(1.03); }
+
+    /* Visuel : arborescence */
+    .tree { font-size: 14px; display: grid; gap: 2px; }
+    .tree div { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border-radius: 10px; color: var(--soft); }
+    .tree div:nth-child(2) { padding-left: 28px; } .tree div:nth-child(3) { padding-left: 46px; }
+    .tree div:nth-child(4), .tree div:nth-child(5) { padding-left: 64px; }
+    .tree .open { background: rgba(240,69,122,.12); color: var(--text); }
+    .tree .open b { margin-left: auto; font-size: 11.5px; font-weight: 600; color: var(--pink); }
+
+    /* Visuel : portail */
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .stat { padding: 14px; border-radius: 16px; background: var(--field); }
+    .stat small { display: block; font-size: 12px; color: var(--muted); }
+    .stat b { font-size: 26px; font-weight: 700; letter-spacing: -0.03em; }
+    .stat b i { font-style: normal; font-size: 14px; color: var(--muted); font-weight: 500; }
+    .stat .meter { margin-top: 8px; height: 5px; border-radius: 5px; background: rgba(255,255,255,.08); overflow: hidden; }
+    .stat .meter i { display: block; height: 100%; width: 0; background: linear-gradient(90deg, #34d399, #fbbf24, #f87171); background-size: 300% 100%; transition: width 1.4s var(--ease); }
+    .f.in .stat .meter i { width: 44%; }
+    .stat .dot { display: inline-block; width: 8px; height: 8px; margin-right: 6px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 0 0 rgba(74,222,128,.6); animation: ping 1.8s infinite; }
+
+    /* Visuel : notes */
+    .marks { display: grid; gap: 8px; }
+    .marks div { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: var(--field); font-size: 14px; }
+    .marks div b { margin-left: auto; font-weight: 600; font-variant-numeric: tabular-nums; }
+    .marks .nw { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 999px; background: var(--gradient); color: #fff; }
+    .marks .avg { background: transparent; border: 1px dashed var(--border-2); color: var(--muted); }
+    .marks .avg b { color: var(--text); }
+
+    /* Visuel : connexion */
+    .login { display: flex; align-items: center; gap: 12px; }
+    .login .step-l { flex: 1; text-align: center; padding: 14px 8px; border-radius: 14px; background: var(--field); font-size: 13px; color: var(--muted); }
+    .login .step-l b { display: block; color: var(--text); font-size: 15px; }
+    .login .step-l.ok { background: rgba(74,222,128,.1); border: 1px solid rgba(74,222,128,.3); }
+    .login svg { flex-shrink: 0; color: var(--muted); }
+
+    /* ---------- Personnalisation ---------- */
+    .style { display: grid; grid-template-columns: 1.1fr .9fr; gap: 64px; align-items: center; }
+    .swatches { margin-top: 32px; display: grid; grid-template-columns: repeat(auto-fill, minmax(118px, 1fr)); gap: 10px; }
+    .sw {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 12px;
+      font: inherit; font-size: 14.5px; color: var(--text);
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 14px; cursor: pointer;
+      transition: border-color .2s, transform .2s var(--ease), background .2s;
+    }
+    .sw:hover { transform: translateY(-2px); border-color: var(--border-2); }
+    .sw.on { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, var(--card)); }
+    .sw i { width: 18px; height: 18px; border-radius: 50%; background: var(--c); box-shadow: inset 0 0 0 2px rgba(255,255,255,.18); }
+    .style-hint { margin-top: 14px; font-size: 14px; color: var(--muted); }
+    .modes { margin-top: 28px; display: flex; gap: 10px; flex-wrap: wrap; }
+    .modes span { padding: 10px 16px; border-radius: 14px; border: 1px solid var(--border); background: rgba(255,255,255,.03); font-size: 15px; }
+    .modes span b { color: var(--accent); font-weight: 600; }
+    .popup-wrap { position: relative; display: grid; place-items: center; }
+    .popup-wrap::before {
+      content: ''; position: absolute; width: 80%; height: 80%; border-radius: 50%;
+      background: var(--accent); filter: blur(90px); opacity: .35;
+      transition: background .5s;
+    }
+    .popup-wrap img {
+      position: relative; width: 100%; max-width: 360px; height: auto;
+      border-radius: 26px;
+      border: 1px solid var(--border-2);
+      box-shadow: 0 40px 100px rgba(0,0,0,.55);
+      transform: rotate(3deg);
+      transition: transform .6s var(--ease);
+    }
+    .popup-wrap:hover img { transform: rotate(0) scale(1.02); }
+
+    /* ---------- Confidentialité / chiffres ---------- */
+    .trust { margin-top: 120px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+    .trust div { padding: 24px; border-radius: 20px; border: 1px solid var(--border); background: rgba(255,255,255,.025); }
+    .trust b { display: block; font-size: 32px; font-weight: 700; letter-spacing: -0.03em; }
+    .trust span { color: var(--muted); font-size: 15px; }
+
+    /* ---------- Appel à l'action final ---------- */
+    .cta {
+      margin-top: 120px;
+      position: relative; overflow: hidden;
+      border-radius: 36px;
+      padding: 72px 32px;
+      text-align: center;
+      background: radial-gradient(80% 120% at 50% 0%, rgba(240,69,122,.35), transparent 60%), linear-gradient(180deg, #241a2b, #1a1520);
+      border: 1px solid var(--border-2);
+    }
+    /* « > » : seulement le logo du bloc, pas les icônes des boutons de téléchargement */
+    .cta > img { width: 76px; height: 76px; margin: 0 auto; border-radius: 20px; box-shadow: 0 18px 50px rgba(240,69,122,.45); }
+    .cta h2 { margin-top: 22px; font-size: clamp(32px, 4.6vw, 52px); line-height: 1.05; letter-spacing: -0.03em; font-weight: 700; }
+    .cta p { margin: 14px auto 0; max-width: 520px; color: var(--soft); font-size: 18px; }
+
+    /* ---------- Contact (formulaire repris de /ultimate-devinci/contact) ---------- */
+    .contact { display: grid; grid-template-columns: .9fr 1.1fr; gap: 64px; align-items: start; }
+    .contact-side ul { list-style: none; margin-top: 28px; display: grid; gap: 12px; }
+    .contact-side li { display: flex; gap: 12px; align-items: center; color: var(--soft); }
+    .contact-side li i { width: 36px; height: 36px; flex-shrink: 0; border-radius: 11px; display: grid; place-items: center; font-style: normal; background: var(--field); }
+
+    .cf {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 18px;
+      position: relative;
+      min-height: 440px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.35);
+    }
+    .cf form, .cf .done { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 12px; }
+    .cf input, .cf textarea {
+      width: 100%;
+      font: inherit;
+      font-size: 16px;
+      color: var(--text);
+      background: var(--field);
+      border: 1px solid transparent;
+      border-radius: 14px;
+      padding: 14px 16px;
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .cf textarea { flex: 1; min-height: 160px; resize: none; }
+    .cf .attachments { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+    .cf .attach-btn {
+      width: 48px; height: 48px; padding: 0;
+      display: grid; place-items: center;
+      color: var(--muted);
+      background: var(--field);
+      border: 1px dashed rgba(255, 255, 255, 0.14);
+      border-radius: 12px;
+      transition: color .2s, border-color .2s;
+    }
+    .cf .attach-btn:hover, .cf .attach-btn:focus-visible { color: var(--text); border-color: var(--pink); outline: none; }
+    .cf .thumb { position: relative; width: 48px; height: 48px; flex-shrink: 0; border-radius: 12px; overflow: hidden; background: var(--field); animation: pop .18s ease-out; }
+    .cf .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .cf .thumb.loading::after {
+      content: ''; position: absolute; inset: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.2); border-top-color: var(--pink);
+      border-radius: 50%; animation: spin .7s linear infinite;
+    }
+    .cf .thumb .remove {
+      position: absolute; top: 3px; right: 3px;
+      width: 20px; height: 20px; padding: 0;
+      display: grid; place-items: center;
+      color: #fff; background: rgba(0, 0, 0, 0.65); border-radius: 50%;
+    }
+    .cf .thumb .remove::before { content: ''; position: absolute; inset: -8px; }
+    @keyframes pop { from { transform: scale(.8); opacity: 0; } }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .cf .drop-overlay {
+      position: absolute; inset: 0; z-index: 10;
+      display: grid; place-items: center;
+      color: var(--pink);
+      background: rgba(20, 17, 24, 0.88);
+      border: 2px dashed var(--pink);
+      border-radius: inherit;
+      opacity: 0; pointer-events: none;
+      transition: opacity .15s;
+    }
+    body.dragging .cf .drop-overlay { opacity: 1; }
+    .cf input::placeholder, .cf textarea::placeholder { color: var(--muted); }
+    .cf input:focus, .cf textarea:focus { border-color: var(--pink); box-shadow: 0 0 0 3px rgba(240, 69, 122, 0.2); }
+    .cf .picker { position: relative; flex-shrink: 0; z-index: 5; }
+    .cf .picker-btn {
+      width: 100%;
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      font-weight: 400; color: var(--muted);
+      background: var(--field);
+      border: 1px solid transparent;
+      padding: 14px 16px; text-align: left;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .cf .picker-btn.has-value { color: var(--text); }
+    .cf .picker-btn:active:not(:disabled) { transform: none; }
+    .cf .picker-btn:focus-visible, .cf .picker.open .picker-btn { outline: none; border-color: var(--pink); box-shadow: 0 0 0 3px rgba(240, 69, 122, 0.2); }
+    .cf .picker-btn svg { flex-shrink: 0; transition: transform .2s; }
+    .cf .picker.open .picker-btn svg { transform: rotate(180deg); }
+    .cf .picker-list {
+      list-style: none;
+      position: absolute; top: calc(100% + 8px); left: 0; right: 0;
+      padding: 6px;
+      background: #2c2532;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+      opacity: 0;
+      transform: translateY(-6px) scale(0.98);
+      transform-origin: top center;
+      pointer-events: none;
+      transition: opacity .16s, transform .16s;
+    }
+    .cf .picker.open .picker-list { opacity: 1; transform: none; pointer-events: auto; }
+    .cf .picker-list li {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px; border-radius: 11px;
+      cursor: pointer; color: var(--text);
+      transition: background .12s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .cf .picker-list li.active { background: rgba(255, 255, 255, 0.06); }
+    .cf .picker-list li[aria-selected="true"] { background: rgba(240, 69, 122, 0.14); }
+    .cf .picker-list li .tick { opacity: 0; color: var(--pink); }
+    .cf .picker-list li[aria-selected="true"] .tick { opacity: 1; }
+    .cf button {
+      flex-shrink: 0;
+      font: inherit; font-weight: 600; font-size: 16px;
+      color: #fff;
+      background: var(--gradient);
+      border: none; border-radius: 14px;
+      padding: 15px;
+      cursor: pointer;
+      transition: opacity .2s, transform .1s;
+    }
+    .cf button:active:not(:disabled) { transform: scale(0.98); }
+    .cf button:disabled { opacity: .4; cursor: not-allowed; }
+    .cf .done { align-items: center; justify-content: center; gap: 24px; }
+    .cf .check { width: 64px; height: 64px; border-radius: 50%; background: var(--gradient); display: grid; place-items: center; }
+    .cf .done button { width: 100%; background: var(--field); }
+
+    /* ---------- Pied de page ---------- */
+    footer { margin-top: 120px; padding: 36px 0 max(36px, env(safe-area-inset-bottom)); border-top: 1px solid var(--border); }
+    footer .wrap { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; color: var(--muted); font-size: 14px; }
+    footer .logo { font-size: 16px; color: var(--text); }
+    footer .logo img { width: 28px; height: 28px; border-radius: 8px; }
+    footer p { margin-left: auto; max-width: 560px; text-align: right; }
+
+    /* ---------- Adaptation tablette / mobile ---------- */
+    @media (max-width: 960px) {
+      .nav-links { display: none; }
+      .nav-cta { margin-left: auto; }
+      .lb, .style, .contact { grid-template-columns: 1fr; gap: 44px; }
+      .bento { grid-template-columns: 1fr 1fr; }
+      .f, .f.w3, .f.w4 { grid-column: span 1; }
+      .f.wide-m { grid-column: span 2; }
+      .trust { grid-template-columns: 1fr 1fr; }
+      .chip.c1 { left: -8px; } .chip.c2 { right: -8px; }
+      .popup-wrap img { max-width: 320px; }
+    }
+    @media (max-width: 640px) {
+      .wrap { padding: 0 16px; }
+      .hero { padding-top: 116px; }
+      .hide-m { display: none; }
+      .hero-icon { width: 80px; height: 80px; border-radius: 22px; }
+      .dl { flex-direction: column; align-items: stretch; }
+      .dl-btn { min-width: 0; }
+      .stage { margin-top: 48px; }
+      .chip { font-size: 12.5px; padding: 7px 12px 7px 7px; border-radius: 13px; }
+      .chip .c-ico { width: 28px; height: 28px; font-size: 14px; }
+      .chip small { font-size: 11px; }
+      .chip.c1 { top: auto; bottom: 12%; left: 0; }
+      .chip.c2 { top: -18px; right: 0; }
+      .chip.c3 { display: none; }
+      .sec { padding-top: 88px; }
+      .bento { grid-template-columns: 1fr; }
+      .f.wide-m { grid-column: span 1; }
+      .f { padding: 22px; }
+      .board { padding: 18px; }
+      .rows li { grid-template-columns: 22px 28px 1fr 50px 42px; gap: 8px; font-size: 13px; padding: 7px 8px; }
+      .stats { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+      .stat { padding: 10px; }
+      .stat b { font-size: 21px; }
+      .trust { grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 88px; }
+      .trust div { padding: 18px; }
+      .trust b { font-size: 26px; }
+      .cta { margin-top: 88px; padding: 52px 20px; border-radius: 28px; }
+      footer { margin-top: 88px; }
+      footer p { margin-left: 0; text-align: left; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition-duration: .01ms !important; }
+      html { scroll-behavior: auto; }
+      .rv { opacity: 1; transform: none; }
+      .frame { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <header class="nav" id="nav">
+    <div class="wrap">
+      <a class="logo" href="#top" aria-label="Ultimate Devinci, haut de page"><img src="icon.png" alt="" width="36" height="36">Ultimate Devinci</a>
+      <nav class="nav-links" aria-label="Sections">
+        <a href="#nouveaute">Nouveauté</a>
+        <a href="#fonctionnalites">Fonctionnalités</a>
+        <a href="#style">Personnalisation</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <a class="nav-cta" href="#installer">Installer</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ===== Hero ===== -->
+    <section class="hero" id="installer">
+      <div class="wrap">
+        <a class="pill rv" href="#nouveaute"><b>Nouveau</b>Le classement de ta promo<span class="hide-m">&nbsp;est arrivé</span>&nbsp;→</a>
+        <img class="hero-icon rv" style="--d:.05s" src="icon.png" alt="Logo Ultimate Devinci" width="96" height="96">
+        <h1 class="rv" style="--d:.1s">Ton portail De Vinci, <span class="grad">enfin clair</span></h1>
+        <p class="lead rv" style="--d:.18s">L'extension Chrome et Firefox qui redessine my.devinci.fr, De Vinci Learning et LéoLearning. Plus lisible, plus rapide, et à ton style.</p>
+
+        <div class="dl rv" style="--d:.26s" id="dl">
+          <a class="dl-btn primary" id="dl-chromium" href="https://chromewebstore.google.com/detail/pojijogbdddopjdbefdmfnmhniefjnlo" target="_blank" rel="noopener">
+            <span class="b-ico" aria-hidden="true"><img src="img/chrome.svg" alt="" width="34" height="34"></span>
+            <span><small>Chrome · Edge · Brave · Opera · Vivaldi · Arc</small><strong>Ajouter à Chrome</strong></span>
+            <svg class="b-arrow" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"/></svg>
+          </a>
+          <a class="dl-btn" id="dl-firefox" href="https://addons.mozilla.org/firefox/addon/ultimate-devinci-non-officiel/" target="_blank" rel="noopener">
+            <span class="b-ico" aria-hidden="true"><img src="img/firefox.svg" alt="" width="34" height="34"></span>
+            <span><small>Ordinateur et Android</small><strong>Ajouter à Firefox</strong></span>
+            <svg class="b-arrow" width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6 6 6-6 6"/></svg>
+          </a>
+        </div>
+        <p class="dl-note rv" style="--d:.32s">Gratuit<span>•</span>Mises à jour automatiques<span>•</span>Extension non officielle</p>
+
+        <div class="stage rv" style="--d:.38s">
+          <div class="frame" id="frame">
+            <div class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>my.devinci.fr</span></div>
+            <img src="img/portail.webp" alt="Le portail my.devinci.fr redessiné : emploi du temps en grand, compteur d'absences, liens utiles dans la barre latérale" width="1160" height="560" fetchpriority="high">
+          </div>
+          <div class="chip c1" aria-hidden="true"><span class="c-ico">📅</span><span><small>Absences</small><b>8 / 18</b></span></div>
+          <div class="chip c2" aria-hidden="true"><span class="c-ico">🏆</span><span><small>Ton rang</small><b>3<sup>e</sup> sur 42</b></span></div>
+          <div class="chip c3" aria-hidden="true"><span class="c-ico">✨</span><span><small>Nouvelle note</small><b>Algèbre linéaire · 15,5</b></span></div>
+        </div>
+      </div>
+
+      <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+          <span>🏆 Classement de la promo</span><span>📖 Double lecteur PDF</span><span>⬇️ Cours entier en .zip</span><span>🌙 Mode sombre</span><span>🎨 12 couleurs</span><span>📅 Absences sur 18</span><span>📚 Matières rangées</span><span>⚡ Connexion plus rapide</span><span>📂 LéoLearning au propre</span><span>🔔 Badge nouvelle note</span>
+          <span>🏆 Classement de la promo</span><span>📖 Double lecteur PDF</span><span>⬇️ Cours entier en .zip</span><span>🌙 Mode sombre</span><span>🎨 12 couleurs</span><span>📅 Absences sur 18</span><span>📚 Matières rangées</span><span>⚡ Connexion plus rapide</span><span>📂 LéoLearning au propre</span><span>🔔 Badge nouvelle note</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Classement ===== -->
+    <section class="sec" id="nouveaute">
+      <div class="wrap lb">
+        <div>
+          <span class="badge-new rv"><i></i>Nouveau</span>
+          <h2 class="rv" style="--d:.05s">Le classement<br><span class="grad">de ta promo</span></h2>
+          <p class="lb-tagline rv" style="--d:.1s">Ton rang. Ta moyenne. Ton podium.<br>Général, par matière, par épreuve.</p>
+
+          <div class="lb-points">
+            <div class="lb-point rv" style="--d:.12s">
+              <span class="p-ico"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3 4 6v6c0 4.5 3.4 8.3 8 9 4.6-.7 8-4.5 8-9V6l-8-3Z"/><path stroke-linecap="round" stroke-linejoin="round" d="m9 12 2 2 4-4"/></svg></span>
+              <div><h3>Personne ne tape ses notes</h3><p>L'extension les lit directement sur le portail. Coefficients officiels, comptes @edu vérifiés, chaque envoi contrôlé.</p></div>
+            </div>
+            <div class="lb-point rv" style="--d:.18s">
+              <span class="p-ico"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg></span>
+              <div><h3>Zéro effort</h3><p>Tout est automatique et intégré dans l'extension. Pas de code bizarre, pas de site à part, pas de formulaire.</p></div>
+            </div>
+            <div class="lb-point rv" style="--d:.24s">
+              <span class="p-ico"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><path stroke-linecap="round" d="M3 3l18 18"/></svg></span>
+              <div><h3>C'est toi qui choisis</h3><p>Pseudo anonyme ou prénom. Facultatif : tu l'actives si tu veux, tu supprimes tout en un clic.</p></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="board rv" id="board" style="--d:.1s" aria-label="Exemple de classement">
+          <div class="board-top">
+            <span class="trophy"><svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg></span>
+            <div><b>Classement</b><small>Cycle ingénieur · A2 · 2026-2027</small></div>
+          </div>
+          <div class="tabs" id="tabs" role="tablist"><span class="on" role="tab">Général</span><span role="tab">Par matière</span><span role="tab">Par épreuve</span></div>
+          <div class="hero-rank">
+            <div class="r"><span id="rank-n">3</span><i>/42</i></div>
+            <div><small>Ta moyenne</small><div class="v">15,82<span style="color:var(--muted);font-size:14px">/20</span></div><div class="up">+2,46 vs moyenne de la promo</div></div>
+          </div>
+          <div class="podium">
+            <div class="pod p2"><div class="av" style="--h:200">LM</div><b>Léa M.</b><span>16,41</span><div class="step" style="--d:.15s">2</div></div>
+            <div class="pod p1"><div class="av" style="--h:30">NX</div><b>nyx</b><span>17,08</span><div class="step" style="--d:0s">1</div></div>
+            <div class="pod p3"><div class="av" style="--h:330">TO</div><b>Toi</b><span>15,82</span><div class="step" style="--d:.3s">3</div></div>
+          </div>
+          <ol class="rows">
+            <li class="me"><span class="rk">3</span><span class="av" style="--h:330">TO</span><span>Toi<em>toi</em></span><span class="bar"><i style="--w:79%;--d:.2s"></i></span><span class="val">15,82</span></li>
+            <li><span class="rk">4</span><span class="av" style="--h:140">HB</span><span>Hugo B.</span><span class="bar"><i style="--w:77%;--d:.28s"></i></span><span class="val">15,37</span></li>
+            <li><span class="rk">5</span><span class="av" style="--h:260">KT</span><span>kirito</span><span class="bar"><i style="--w:74%;--d:.36s"></i></span><span class="val">14,90</span></li>
+            <li><span class="rk">6</span><span class="av" style="--h:90">IS</span><span>Inès S.</span><span class="bar"><i style="--w:72%;--d:.44s"></i></span><span class="val">14,42</span></li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Fonctionnalités ===== -->
+    <section class="sec" id="fonctionnalites">
+      <div class="wrap">
+        <div class="sec-head center">
+          <span class="eyebrow rv">Fonctionnalités</span>
+          <h2 class="rv" style="--d:.05s">Tout ce qui manquait<br><span class="grad">au portail</span></h2>
+          <p class="rv" style="--d:.1s">Les visuels sont refaits de A à Z sur les trois sites de l'école. Tout est plus rapide à trouver.</p>
+        </div>
+
+        <div class="bento">
+          <article class="f w4 wide-m rv">
+            <span class="f-ico">📖</span>
+            <h3>Double lecteur PDF</h3>
+            <p>Deux PDF côte à côte : le cours à gauche, le TD à droite. Zoom et plein écran, sur De Vinci Learning comme sur LéoLearning.</p>
+            <div class="visual">
+              <div class="pdfs" aria-hidden="true">
+                <div class="page"><small>COURS · CHAPITRE 4</small><i></i><i></i><i></i><div class="eq"></div><i></i><i></i></div>
+                <div class="page"><small>TD 4 · EXERCICES</small><i></i><i></i><div class="eq"></div><i></i><i></i><i></i></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="f rv" style="--d:.08s">
+            <span class="f-ico">⬇️</span>
+            <h3>Téléchargement facile</h3>
+            <p>Un cours entier en un clic sur De Vinci Learning.</p>
+            <div class="visual">
+              <div class="zip" aria-hidden="true">
+                <div>📁 Algèbre linéaire<b>24 fichiers</b></div>
+                <div class="prog"><i></i></div>
+                <div class="go">Tout le cours (.zip)</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="f w3 rv">
+            <span class="f-ico">📚</span>
+            <h3>De Vinci Learning repensé</h3>
+            <p>Tes matières du semestre rangées toutes seules par thème. Favoris, recherche qui marche, PDF en grand.</p>
+            <div class="visual"><div class="shot"><img src="img/learning.webp" alt="Tableau de bord De Vinci Learning avec les matières rangées par thème" width="1160" height="560" loading="lazy"></div></div>
+          </article>
+
+          <article class="f w3 rv" style="--d:.08s">
+            <span class="f-ico">📂</span>
+            <h3>LéoLearning au propre</h3>
+            <p>Tous les fichiers dans une arborescence claire. Tu cliques, ça s'ouvre. Connexion LeoID automatique.</p>
+            <div class="visual">
+              <div class="tree" aria-hidden="true">
+                <div>📁 ESILV</div>
+                <div>📁 Année 2</div>
+                <div>📁 Mécanique des fluides</div>
+                <div class="open">📄 Cours_chap3.pdf<b>ouvert</b></div>
+                <div>📄 TD3_corrigé.pdf</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="f w4 wide-m rv">
+            <span class="f-ico">🗓️</span>
+            <h3>Portail lisible</h3>
+            <p>Examens à venir, emploi du temps en grand, absences et appel d'un coup d'œil. Marque un cours en rouge pour ne pas y aller, exporte ton agenda en iCal.</p>
+            <div class="visual">
+              <div class="stats" aria-hidden="true">
+                <div class="stat"><small>Absences</small><b>8<i> / 18</i></b><div class="meter"><i></i></div></div>
+                <div class="stat"><small>Prochain examen</small><b>3<i> jours</i></b></div>
+                <div class="stat"><small>Appel</small><b style="font-size:16px"><span class="dot"></span>Ouvert</b></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="f rv" style="--d:.08s">
+            <span class="f-ico">🔔</span>
+            <h3>Notes enrichies</h3>
+            <p>Moyennes calculées pour toi et badge « Nouveau » dès qu'une note tombe.</p>
+            <div class="visual">
+              <div class="marks" aria-hidden="true">
+                <div>Probabilités <span class="nw">Nouveau</span><b>16,5</b></div>
+                <div>Algorithmique<b>14,0</b></div>
+                <div class="avg">Moyenne du semestre<b>15,1</b></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="f w3 rv">
+            <span class="f-ico">⚡</span>
+            <h3>Connexion plus rapide</h3>
+            <p>Ton adresse est déjà remplie ? Le bouton « Continuer » est cliqué pour toi, et tu retombes sur la page demandée.</p>
+            <div class="visual">
+              <div class="login" aria-hidden="true">
+                <div class="step-l"><b>Adresse</b>déjà remplie</div>
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4"><path stroke-linecap="round" stroke-linejoin="round" d="m9 6 6 6-6 6"/></svg>
+                <div class="step-l"><b>Continuer</b>automatique</div>
+                <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.4"><path stroke-linecap="round" stroke-linejoin="round" d="m9 6 6 6-6 6"/></svg>
+                <div class="step-l ok"><b>Connecté</b>✓</div>
+              </div>
+            </div>
+          </article>
+
+          <article class="f w3 rv" style="--d:.08s">
+            <span class="f-ico">🧭</span>
+            <h3>Menu à ta façon</h3>
+            <p>Barre latérale avec tes liens utiles : Outlook, Teams, Leohub, LéoLearning… Ajoute les tiens, masque ce qui ne sert pas.</p>
+            <div class="visual">
+              <div class="tags" aria-hidden="true"><span>Outlook</span><span>Teams</span><span>Leohub</span><span>LéoLearning</span><span>Viva Engage</span><span>Word</span><span>Excel</span><span>Schooding</span><span>+ tes liens</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Personnalisation ===== -->
+    <section class="sec" id="style">
+      <div class="wrap style">
+        <div>
+          <span class="eyebrow rv">Ton style</span>
+          <h2 class="rv" style="--d:.05s">Réglé <span class="grad">en deux clics</span></h2>
+          <p class="lb-tagline rv" style="--d:.1s">Thème clair, sombre ou automatique. 12 couleurs, ou la tienne.</p>
+          <div class="swatches rv" style="--d:.15s" id="swatches" role="group" aria-label="Essayer une couleur sur cette page"></div>
+          <p class="style-hint rv" style="--d:.18s">Clique sur une couleur pour l'essayer sur cette page.</p>
+          <div class="modes rv" style="--d:.2s">
+            <span><b>Essentiel</b> · seulement l'utile</span>
+            <span><b>Complet</b> · rien n'est masqué</span>
+            <span><b>Personnalisé</b> · à la carte</span>
+          </div>
+        </div>
+        <div class="popup-wrap rv" style="--d:.1s">
+          <img src="img/popup.webp" alt="Menu de l'extension : apparence claire, sombre ou auto, modes d'affichage et 12 couleurs" width="444" height="685" loading="lazy">
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <div class="trust">
+          <div class="rv"><b class="grad">3 sites</b><span>my.devinci.fr, De Vinci Learning et LéoLearning</span></div>
+          <div class="rv" style="--d:.06s"><b class="grad">2 navigateurs</b><span>Chromium (Chrome, Edge, Brave…) et Firefox</span></div>
+          <div class="rv" style="--d:.12s"><b class="grad">12 couleurs</b><span>et le mode sombre, partout</span></div>
+          <div class="rv" style="--d:.18s"><b class="grad">0 compte</b><span>requis : tes réglages restent sur ton appareil</span></div>
+        </div>
+
+        <div class="cta rv">
+          <img src="icon.png" alt="" width="76" height="76" loading="lazy">
+          <h2>Prêt à changer <span class="grad">de portail ?</span></h2>
+          <p>Installe Ultimate Devinci en dix secondes. Tes réglages te suivent à chaque mise à jour.</p>
+          <div class="dl" id="dl-2"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Contact ===== -->
+    <section class="sec" id="contact">
+      <div class="wrap contact">
+        <div class="contact-side">
+          <span class="eyebrow rv">Contact</span>
+          <h2 class="rv" style="--d:.05s">Une idée ?<br><span class="grad">Un bug ?</span></h2>
+          <p class="lb-tagline rv" style="--d:.1s">Écris à l'équipe derrière l'extension. On lit tout.</p>
+          <ul>
+            <li class="rv" style="--d:.12s"><i>🐞</i>Signale un problème, avec une capture si besoin</li>
+            <li class="rv" style="--d:.16s"><i>💡</i>Propose une fonctionnalité</li>
+            <li class="rv" style="--d:.2s"><i>💬</i>Donne ton avis sur l'extension</li>
+          </ul>
+        </div>
+
+        <div class="cf rv" style="--d:.1s">
+          <form id="contact-form" novalidate>
+            <div class="picker" id="picker">
+              <button type="button" class="picker-btn" id="picker-btn" aria-haspopup="listbox" aria-expanded="false" aria-controls="picker-list">
+                <span id="picker-label">Type de message</span>
+                <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+              <ul class="picker-list" id="picker-list" role="listbox" aria-label="Type de message" tabindex="-1">
+                <li role="option" aria-selected="false">Problème<svg class="tick" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg></li>
+                <li role="option" aria-selected="false">Feedback<svg class="tick" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg></li>
+                <li role="option" aria-selected="false">Idée d'ajout<svg class="tick" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg></li>
+                <li role="option" aria-selected="false">Autre<svg class="tick" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" /></svg></li>
+              </ul>
+            </div>
+            <input type="email" id="email" placeholder="Email" autocomplete="email" required>
+            <textarea id="message" placeholder="Message" required></textarea>
+            <div class="attachments" id="attachments">
+              <button type="button" class="attach-btn" id="attach-btn" aria-label="Ajouter une image">
+                <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="m2.25 15.75 5.159-5.159a2.25 2.25 0 0 1 3.182 0l5.159 5.159m-1.5-1.5 1.409-1.409a2.25 2.25 0 0 1 3.182 0l2.909 2.909M3.75 21h16.5A1.5 1.5 0 0 0 21.75 19.5V4.5A1.5 1.5 0 0 0 20.25 3H3.75A1.5 1.5 0 0 0 2.25 4.5v15A1.5 1.5 0 0 0 3.75 21Z" />
+                </svg>
+              </button>
+              <input type="file" id="file-input" accept="image/*" multiple hidden>
+            </div>
+            <button type="submit" id="submit-btn" disabled>Envoyer</button>
+          </form>
+
+          <div class="done" id="success-view" hidden>
+            <div class="check">
+              <svg width="30" height="30" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2.5" aria-label="Envoyé">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 6 6 9-13.5" />
+              </svg>
+            </div>
+            <button type="button" id="reset-btn">Nouveau message</button>
+          </div>
+
+          <div class="drop-overlay" aria-hidden="true">
+            <svg width="40" height="40" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.6">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5" />
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <a class="logo" href="#top"><img src="icon.png" alt="" width="28" height="28" loading="lazy">Ultimate Devinci</a>
+      <span>© <span id="year">2026</span> UltimateDevinci</span>
+      <p>Extension non officielle, créée par des étudiants. Elle n'est ni affiliée, ni approuvée par De Vinci Higher Education ou LéoLearning.</p>
+    </div>
+  </footer>
+
+  <!-- ===== Animations de la vitrine ===== -->
+  <script>
+    (() => {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Barre de navigation opaque après le haut de page
+      const nav = document.getElementById('nav');
+      const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 20);
+      onScroll();
+      window.addEventListener('scroll', onScroll, { passive: true });
+
+      // Firefox : on met son bouton en avant
+      const isFirefox = /firefox|fxios/i.test(navigator.userAgent);
+      const chromiumBtn = document.getElementById('dl-chromium');
+      const firefoxBtn = document.getElementById('dl-firefox');
+      if (isFirefox) {
+        chromiumBtn.classList.remove('primary');
+        firefoxBtn.classList.add('primary');
+        firefoxBtn.parentNode.insertBefore(firefoxBtn, chromiumBtn);
+      }
+      // Copie des boutons dans l'appel à l'action final
+      const dl2 = document.getElementById('dl-2');
+      [...document.getElementById('dl').children].forEach((a) => {
+        const c = a.cloneNode(true);
+        c.removeAttribute('id');
+        c.querySelectorAll('[id]').forEach((n) => n.removeAttribute('id'));
+        dl2.appendChild(c);
+      });
+
+      // Apparition au défilement
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll('.rv').forEach((el) => io.observe(el));
+
+      // Capture du hero : se redresse quand on fait défiler
+      const frame = document.getElementById('frame');
+      if (!reduced) {
+        let ticking = false;
+        const tilt = () => {
+          const p = Math.min(1, Math.max(0, window.scrollY / (window.innerHeight * 0.7)));
+          frame.style.setProperty('--tilt', (22 * (1 - p)).toFixed(2) + 'deg');
+          frame.style.setProperty('--sc', (0.94 + 0.06 * p).toFixed(3));
+          ticking = false;
+        };
+        tilt();
+        window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(tilt); } }, { passive: true });
+      }
+
+      // Halo qui suit la souris sur les cartes
+      document.querySelectorAll('.f').forEach((card) => {
+        card.addEventListener('pointermove', (e) => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+          card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+        });
+      });
+
+      // Onglets du classement d'exemple
+      const tabs = [...document.querySelectorAll('#tabs span')];
+      const rankN = document.getElementById('rank-n');
+      const ranks = ['3', '1', '5'];
+      tabs.forEach((t, i) => t.addEventListener('click', () => {
+        tabs.forEach((x) => x.classList.toggle('on', x === t));
+        rankN.textContent = ranks[i];
+      }));
+
+      // Couleurs de l'extension, à essayer sur la page
+      const colors = [
+        // mêmes valeurs que theme.css de l'extension
+        ['Aurora', '#5b4bff'], ['Océan', '#0a84ff'], ['Émeraude', '#0fa968'], ['Sunset', '#f2621f'],
+        ['Rose', '#e0428f'], ['De Vinci', '#0f67b3'], ['Ambre', '#f59e0b'], ['Turquoise', '#0d9488'],
+        ['Cerise', '#e11d48'], ['Lavande', '#8b5cf6'], ['Citron vert', '#65a30d'], ['Graphite', '#52525b']
+      ];
+      const sw = document.getElementById('swatches');
+      colors.forEach(([name, c]) => {
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'sw';
+        b.style.setProperty('--c', c);
+        b.innerHTML = '<i></i>' + name;
+        b.setAttribute('aria-pressed', 'false');
+        b.addEventListener('click', () => {
+          sw.querySelectorAll('.sw').forEach((x) => { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', x === b); });
+          // éclaircie pour rester lisible sur le fond sombre
+          document.documentElement.style.setProperty('--accent', `color-mix(in srgb, ${c} 72%, #fff)`);
+        });
+        sw.appendChild(b);
+      });
+    })();
+  </script>
+
+  <!-- ===== Formulaire de contact (identique à /ultimate-devinci/contact) ===== -->
+  <script>
+    const API_URL = 'https://juix.vercel.app/api/contact';
+
+    const form = document.getElementById('contact-form');
+    const successView = document.getElementById('success-view');
+    const picker = document.getElementById('picker');
+    const pickerBtn = document.getElementById('picker-btn');
+    const pickerLabel = document.getElementById('picker-label');
+    const pickerList = document.getElementById('picker-list');
+    const options = [...pickerList.querySelectorAll('li')];
+    let selectedType = '';
+    let activeIndex = -1;
+
+    function setActive(i) {
+      activeIndex = i;
+      options.forEach((o, j) => o.classList.toggle('active', j === i));
+    }
+
+    function openPicker() {
+      picker.classList.add('open');
+      pickerBtn.setAttribute('aria-expanded', 'true');
+      const sel = options.findIndex(o => o.getAttribute('aria-selected') === 'true');
+      setActive(sel >= 0 ? sel : 0);
+    }
+
+    function closePicker(focusBtn = false) {
+      picker.classList.remove('open');
+      pickerBtn.setAttribute('aria-expanded', 'false');
+      setActive(-1);
+      if (focusBtn) pickerBtn.focus();
+    }
+
+    function selectOption(i) {
+      options.forEach((o, j) => o.setAttribute('aria-selected', j === i ? 'true' : 'false'));
+      selectedType = i >= 0 ? options[i].textContent.trim() : '';
+      pickerLabel.textContent = selectedType || 'Type de message';
+      pickerBtn.classList.toggle('has-value', !!selectedType);
+      validateForm();
+    }
+
+    pickerBtn.addEventListener('click', () => {
+      picker.classList.contains('open') ? closePicker() : openPicker();
+    });
+
+    options.forEach((o, i) => {
+      o.addEventListener('click', () => { selectOption(i); closePicker(true); });
+      o.addEventListener('mouseenter', () => setActive(i));
+    });
+
+    pickerBtn.addEventListener('keydown', (e) => {
+      const isOpen = picker.classList.contains('open');
+      if (['ArrowDown', 'ArrowUp'].includes(e.key)) {
+        e.preventDefault();
+        if (!isOpen) return openPicker();
+        const step = e.key === 'ArrowDown' ? 1 : -1;
+        setActive((activeIndex + step + options.length) % options.length);
+      } else if ((e.key === 'Enter' || e.key === ' ') && isOpen) {
+        e.preventDefault();
+        if (activeIndex >= 0) selectOption(activeIndex);
+        closePicker();
+      } else if (e.key === 'Escape' || e.key === 'Tab') {
+        closePicker();
+      }
+    });
+
+    document.addEventListener('pointerdown', (e) => {
+      if (!picker.contains(e.target)) closePicker();
+    });
+
+    const emailInput = document.getElementById('email');
+    const messageInput = document.getElementById('message');
+    const submitBtn = document.getElementById('submit-btn');
+    const resetBtn = document.getElementById('reset-btn');
+
+    let isSubmitting = false;
+
+    function validateForm() {
+      const email = emailInput.value.trim();
+      const message = messageInput.value.trim();
+      const isValid = !!selectedType
+        && email.includes('@') && email.includes('.')
+        && message.length > 5;
+      submitBtn.disabled = !isValid || isSubmitting || pendingImages > 0;
+      return isValid;
+    }
+
+    [emailInput, messageInput].forEach(el => el.addEventListener('input', validateForm));
+
+    // ---------- Images ----------
+    // Vercel limite une requête à 4,5 Mo : les images sont réduites et converties en JPEG
+    // dans le navigateur avant l'envoi.
+    const MAX_IMAGES = 4;
+    const TARGET_BYTES = 600 * 1024;
+    const STEPS = [[1600, 0.82], [1280, 0.72], [1024, 0.65]];
+
+    const attachmentsRow = document.getElementById('attachments');
+    const attachBtn = document.getElementById('attach-btn');
+    const fileInput = document.getElementById('file-input');
+    let attachments = [];   // { blob, url }
+    let pendingImages = 0;
+
+    function loadImage(file) {
+      return new Promise((resolve, reject) => {
+        const url = URL.createObjectURL(file);
+        const img = new Image();
+        img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Image illisible')); };
+        img.src = url;
+      });
+    }
+
+    async function compressImage(file) {
+      let source;
+      try { source = await createImageBitmap(file); }
+      catch { source = await loadImage(file); }
+
+      const w = source.width || source.naturalWidth;
+      const h = source.height || source.naturalHeight;
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      let blob;
+
+      for (const [max, quality] of STEPS) {
+        const scale = Math.min(1, max / Math.max(w, h));
+        canvas.width = Math.round(w * scale);
+        canvas.height = Math.round(h * scale);
+        ctx.fillStyle = '#fff'; // fond blanc pour les PNG transparents
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(source, 0, 0, canvas.width, canvas.height);
+        blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', quality));
+        if (blob && blob.size <= TARGET_BYTES) break;
+      }
+      if (source.close) source.close();
+      if (!blob) throw new Error('Compression impossible');
+      return blob;
+    }
+
+    function renderAttachments() {
+      attachmentsRow.querySelectorAll('.thumb').forEach(t => t.remove());
+      attachments.forEach((a, i) => {
+        const thumb = document.createElement('div');
+        thumb.className = 'thumb';
+        thumb.innerHTML = `<img src="${a.url}" alt=""><button type="button" class="remove" aria-label="Retirer l'image">
+          <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3.5" aria-hidden="true"><path stroke-linecap="round" d="M6 18 18 6M6 6l12 12"/></svg></button>`;
+        thumb.querySelector('.remove').addEventListener('click', () => {
+          URL.revokeObjectURL(a.url);
+          attachments.splice(i, 1);
+          renderAttachments();
+        });
+        attachmentsRow.insertBefore(thumb, attachBtn);
+      });
+      for (let i = 0; i < pendingImages; i++) {
+        const thumb = document.createElement('div');
+        thumb.className = 'thumb loading';
+        attachmentsRow.insertBefore(thumb, attachBtn);
+      }
+      attachBtn.hidden = attachments.length + pendingImages >= MAX_IMAGES;
+      validateForm();
+    }
+
+    async function addFiles(fileList) {
+      if (form.hidden) return;
+      const files = [...fileList].filter(f => f.type.startsWith('image/'));
+      const free = MAX_IMAGES - attachments.length - pendingImages;
+      const accepted = files.slice(0, Math.max(0, free));
+      if (!accepted.length) return;
+
+      pendingImages += accepted.length;
+      renderAttachments();
+
+      for (const file of accepted) {
+        try {
+          const blob = await compressImage(file);
+          attachments.push({ blob, url: URL.createObjectURL(blob) });
+        } catch (err) {
+          console.error(err);
+          alert('Cette image ne peut pas être ajoutée.');
+        } finally {
+          pendingImages--;
+          renderAttachments();
+        }
+      }
+    }
+
+    function clearAttachments() {
+      attachments.forEach(a => URL.revokeObjectURL(a.url));
+      attachments = [];
+      renderAttachments();
+    }
+
+    function blobToBase64(blob) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result).split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }
+
+    attachBtn.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', () => {
+      addFiles(fileInput.files);
+      fileInput.value = '';
+    });
+
+    // Coller une image (Ctrl+V / appui long > Coller), notamment dans le champ message
+    document.addEventListener('paste', (e) => {
+      const files = [...(e.clipboardData?.items || [])]
+        .filter(item => item.kind === 'file' && item.type.startsWith('image/'))
+        .map(item => item.getAsFile())
+        .filter(Boolean);
+      if (!files.length) return;
+      // Si le presse-papiers ne contient que l'image, on évite de coller du texte parasite
+      if (!e.clipboardData.types.includes('text/plain')) e.preventDefault();
+      addFiles(files);
+    });
+
+    // Glisser-déposer sur toute la page
+    let dragDepth = 0;
+    const hasFiles = (e) => [...(e.dataTransfer?.types || [])].includes('Files');
+
+    document.addEventListener('dragenter', (e) => {
+      if (!hasFiles(e) || form.hidden) return;
+      e.preventDefault();
+      dragDepth++;
+      document.body.classList.add('dragging');
+    });
+    document.addEventListener('dragover', (e) => {
+      if (!hasFiles(e)) return;
+      e.preventDefault();
+      e.dataTransfer.dropEffect = form.hidden ? 'none' : 'copy';
+    });
+    document.addEventListener('dragleave', (e) => {
+      if (!hasFiles(e)) return;
+      dragDepth = Math.max(0, dragDepth - 1);
+      if (!dragDepth) document.body.classList.remove('dragging');
+    });
+    document.addEventListener('drop', (e) => {
+      if (!hasFiles(e)) return;
+      e.preventDefault();
+      dragDepth = 0;
+      document.body.classList.remove('dragging');
+      if (!form.hidden) addFiles(e.dataTransfer.files);
+    });
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!validateForm() || isSubmitting) return;
+
+      isSubmitting = true;
+      validateForm();
+      submitBtn.textContent = 'Envoi…';
+
+      try {
+        const images = await Promise.all(attachments.map(a => blobToBase64(a.blob)));
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: selectedType,
+            email: emailInput.value.trim(),
+            message: messageInput.value.trim(),
+            images,
+            source: 'Ultimate DeVinci',
+            telegram: 'ultimate-devinci', // bot et canal Telegram d'Ultimate Devinci
+            mail: 'ultimate-devinci'      // copie par e-mail en plus du Telegram
+          })
+        });
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+          form.hidden = true;
+          successView.hidden = false;
+        } else {
+          console.error('Erreur API :', data);
+          alert('Une erreur est survenue. Réessaie.');
+        }
+      } catch (error) {
+        console.error('Erreur réseau :', error);
+        alert('Impossible de contacter le serveur. Réessaie plus tard.');
+      } finally {
+        isSubmitting = false;
+        submitBtn.textContent = 'Envoyer';
+        validateForm();
+      }
+    });
+
+    resetBtn.addEventListener('click', () => {
+      messageInput.value = '';
+      clearAttachments();
+      selectOption(-1);
+      successView.hidden = true;
+      form.hidden = false;
+      validateForm();
+    });
+  </script>
+</body>
+</html>

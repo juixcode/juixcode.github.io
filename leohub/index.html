@@ -1037,7 +1037,240 @@
 
     .form-select:focus ~ .select-arrow {
       color: #34d399;
+    }
+
+    /* ── Menu déroulant personnalisé (remplace la liste native du navigateur) ── */
+    .cs-native {
+      position: absolute !important;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .cs-btn {
+      display: flex;
+      align-items: center;
+      text-align: left;
+      min-height: 40px;
+    }
+
+    .cs-btn .cs-label {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .cs-btn.is-empty {
+      color: rgba(148, 163, 184, .55);
+    }
+
+    .select-wrapper.open .cs-btn {
+      border-color: rgba(52, 211, 153, .55);
+      background-color: rgba(255, 255, 255, .075);
+      box-shadow: 0 0 0 3px rgba(52, 211, 153, .18), inset 0 1px 2px rgba(0, 0, 0, .2);
+    }
+
+    .select-wrapper.open .select-arrow {
+      color: #34d399;
       transform: translateY(-50%) rotate(180deg);
+    }
+
+    .cs-list {
+      list-style: none;
+      margin: 0;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: calc(100% + 6px);
+      z-index: 30;
+      max-height: 232px;
+      overflow-y: auto;
+      padding: 5px;
+      border-radius: 14px;
+      background: rgba(13, 20, 36, .98);
+      border: 1px solid rgba(255, 255, 255, .1);
+      box-shadow: 0 18px 40px -8px rgba(0, 0, 0, .7), 0 0 0 1px rgba(52, 211, 153, .06);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, .18) transparent;
+      opacity: 0;
+      transform: translateY(-4px) scale(.98);
+      transform-origin: top center;
+      pointer-events: none;
+      visibility: hidden;
+      transition: opacity .16s ease, transform .16s cubic-bezier(.16, 1, .3, 1), visibility 0s linear .16s;
+    }
+
+    .cs-list.up {
+      top: auto;
+      bottom: calc(100% + 6px);
+      transform-origin: bottom center;
+    }
+
+    .select-wrapper.open .cs-list {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+      visibility: visible;
+      transition: opacity .16s ease, transform .16s cubic-bezier(.16, 1, .3, 1), visibility 0s;
+    }
+
+    .cs-option {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 9px 11px;
+      border-radius: 10px;
+      font-size: .84rem;
+      color: #e2e8f0;
+      cursor: pointer;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+      transition: background-color .12s ease, color .12s ease;
+    }
+
+    .cs-option.active {
+      background: rgba(255, 255, 255, .07);
+      color: #fff;
+    }
+
+    .cs-option[aria-selected="true"] {
+      background: rgba(52, 211, 153, .14);
+      color: #6ee7b7;
+    }
+
+    .cs-option .cs-tick {
+      flex-shrink: 0;
+      opacity: 0;
+      color: #34d399;
+    }
+
+    .cs-option[aria-selected="true"] .cs-tick {
+      opacity: 1;
+    }
+
+    /* ── Images jointes ── */
+    .ct-attachments {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .ct-attach-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 46px;
+      padding: 0 14px;
+      border-radius: 13px;
+      background: rgba(255, 255, 255, .035);
+      border: 1px dashed rgba(255, 255, 255, .18);
+      color: rgba(203, 213, 225, .8);
+      font-family: var(--font);
+      font-size: .78rem;
+      cursor: pointer;
+      transition: color .2s ease, border-color .2s ease, background-color .2s ease;
+    }
+
+    .ct-attach-btn:hover,
+    .ct-attach-btn:focus-visible {
+      outline: none;
+      color: #f1f5f9;
+      border-color: rgba(52, 211, 153, .6);
+      background: rgba(52, 211, 153, .07);
+    }
+
+    .ct-thumb {
+      position: relative;
+      width: 46px;
+      height: 46px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .1);
+      animation: ctPop .18s ease-out;
+    }
+
+    .ct-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .ct-thumb.loading::after {
+      content: "";
+      position: absolute;
+      inset: 13px;
+      border: 2px solid rgba(255, 255, 255, .2);
+      border-top-color: #34d399;
+      border-radius: 50%;
+      animation: ctSpin .7s linear infinite;
+    }
+
+    .ct-thumb .ct-remove {
+      position: absolute;
+      top: 3px;
+      right: 3px;
+      width: 18px;
+      height: 18px;
+      padding: 0;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: rgba(0, 0, 0, .65);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    .ct-thumb .ct-remove::before {
+      content: "";
+      position: absolute;
+      inset: -8px;
+    }
+
+    .ct-hint {
+      font-size: .68rem;
+      color: rgba(148, 163, 184, .6);
+      margin-top: 6px;
+    }
+
+    .modal-card-contact {
+      position: relative;
+    }
+
+    .ct-drop {
+      position: absolute;
+      inset: 0;
+      z-index: 40;
+      display: grid;
+      place-items: center;
+      border-radius: inherit;
+      color: #34d399;
+      background: rgba(8, 13, 24, .9);
+      border: 2px dashed rgba(52, 211, 153, .7);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .15s ease;
+    }
+
+    .ct-drop.show {
+      opacity: 1;
+    }
+
+    @keyframes ctPop {
+      from { transform: scale(.8); opacity: 0; }
+    }
+
+    @keyframes ctSpin {
+      to { transform: rotate(360deg); }
     }
 
     .form-textarea {
@@ -1687,29 +1920,22 @@
         </div>
       </a>
 
-      <div class="card card-soon" style="--card-rgb: 99, 102, 241" role="button" tabindex="0" aria-label="Ultimate Devinci (Bientôt disponible)">
+      <a class="card" style="--card-rgb: 240, 69, 122" href="../ultimate-devinci/">
         <span class="sweep" aria-hidden="true"></span>
         <div class="card-icon">
           <img src="icons/app-ultimate-devinci.png" alt="Ultimate Devinci" width="52" height="52" decoding="async" />
         </div>
         <div class="card-body">
-          <div class="card-title-row">
-            <h2 class="card-title">Ultimate Devinci</h2>
-            <span class="card-tag-soon" title="Application en cours de développement">
-              <span class="tag-dot" aria-hidden="true"></span>
-              Soon
-            </span>
-          </div>
+          <h2 class="card-title">Ultimate Devinci</h2>
           <p class="card-desc">Extension non officielle qui redessine my.devinci.fr, DVL et LeoLearning : thèmes, darkmode, ergonomie et productivité</p>
         </div>
-        <div class="card-arrow card-arrow-soon" aria-hidden="true" title="Bientôt disponible">
+        <div class="card-arrow" aria-hidden="true">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <polyline points="12 6 12 12 16 14" />
+            stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6" />
           </svg>
         </div>
-      </div>
+      </a>
     </section>
 
     <section class="group">
@@ -1952,6 +2178,26 @@
             placeholder="Décris ton problème, une question ou une idée d'amélioration..."></textarea>
         </div>
 
+        <!-- Images (optionnelles) -->
+        <div class="form-group">
+          <span class="form-label">
+            Images <span class="optional-tag">(optionnel · 4 max)</span>
+          </span>
+          <div class="ct-attachments" id="ctAttachments">
+            <button type="button" class="ct-attach-btn" id="ctAttachBtn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="3" width="18" height="18" rx="2.5" />
+                <circle cx="8.5" cy="8.5" r="1.6" />
+                <path d="m21 15-5-5L5 21" />
+              </svg>
+              <span>Ajouter une image</span>
+            </button>
+            <input type="file" id="ctFileInput" accept="image/*" multiple hidden />
+          </div>
+          <p class="ct-hint">Tu peux aussi coller (Ctrl+V) ou glisser une capture d'écran.</p>
+        </div>
+
         <!-- Bouton d'envoi -->
         <div class="contact-submit-wrap">
           <button type="submit" class="contact-submit-btn" id="contactSubmitBtn">
@@ -1982,6 +2228,15 @@
         <h3 class="contact-success-title">Message envoyé !</h3>
         <p class="contact-success-desc">Merci pour ton message. Je te répondrai dès que possible sur le moyen de contact indiqué.</p>
         <button type="button" class="contact-close-success-btn" id="contactCloseSuccessBtn">Fermer</button>
+      </div>
+
+      <div class="ct-drop" id="ctDrop" aria-hidden="true">
+        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="17 8 12 3 7 8" />
+          <line x1="12" y1="3" x2="12" y2="15" />
+        </svg>
       </div>
     </div>
   </div>
@@ -2086,16 +2341,327 @@
         }
       }
 
+      /* ── Menus déroulants personnalisés ──
+         Le <select> natif reste dans la page (invisible) et garde la valeur :
+         le reste du code continue de lire et d'écrire select.value. */
+      const customSelects = [];
+      const tickSvg = '<svg class="cs-tick" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+
+      function closeAllSelects(except) {
+        customSelects.forEach(cs => { if (cs !== except) cs.close(); });
+      }
+
+      contactForm?.querySelectorAll('select.form-select').forEach((select, n) => {
+        const wrapper = select.closest('.select-wrapper');
+        const label = contactForm.querySelector(`label[for="${select.id}"]`);
+        const arrow = wrapper.querySelector('.select-arrow');
+        const placeholder = select.querySelector('option[value=""]')?.textContent.trim() || 'Choisir...';
+        const choices = [...select.options].filter(o => !o.disabled && o.value);
+        const listId = `cs-list-${n}`;
+
+        select.classList.remove('form-select');
+        select.classList.add('cs-native');
+        select.tabIndex = -1;
+        select.setAttribute('aria-hidden', 'true');
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'form-select cs-btn';
+        btn.setAttribute('aria-haspopup', 'listbox');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-controls', listId);
+        if (label) {
+          label.id = label.id || `${select.id}-label`;
+          btn.setAttribute('aria-labelledby', label.id);
+          label.addEventListener('click', e => { e.preventDefault(); btn.focus(); });
+        }
+        btn.innerHTML = '<span class="cs-label"></span>';
+        const btnLabel = btn.firstElementChild;
+
+        const list = document.createElement('ul');
+        list.className = 'cs-list';
+        list.id = listId;
+        list.setAttribute('role', 'listbox');
+        list.tabIndex = -1;
+        choices.forEach(o => {
+          const li = document.createElement('li');
+          li.className = 'cs-option';
+          li.setAttribute('role', 'option');
+          li.dataset.value = o.value;
+          li.innerHTML = `<span></span>${tickSvg}`;
+          li.firstElementChild.textContent = o.textContent.trim();
+          list.appendChild(li);
+        });
+        const items = [...list.children];
+
+        wrapper.insertBefore(btn, arrow);
+        wrapper.appendChild(list);
+
+        let active = -1;
+        const setActive = i => {
+          active = i;
+          items.forEach((li, j) => li.classList.toggle('active', j === i));
+          if (i >= 0) items[i].scrollIntoView({ block: 'nearest' });
+        };
+
+        const sync = () => {
+          const opt = choices.find(o => o.value === select.value);
+          btnLabel.textContent = opt ? opt.textContent.trim() : placeholder;
+          btn.classList.toggle('is-empty', !opt);
+          items.forEach(li => li.setAttribute('aria-selected', String(li.dataset.value === select.value)));
+        };
+
+        const isOpen = () => wrapper.classList.contains('open');
+
+        const open = () => {
+          closeAllSelects(cs);
+          // Ouvre vers le haut s'il n'y a pas la place en dessous dans la fenêtre
+          const scroller = contactForm.getBoundingClientRect();
+          const r = btn.getBoundingClientRect();
+          const needed = Math.min(232, items.length * 38 + 12);
+          list.classList.toggle('up', scroller.bottom - r.bottom < needed + 8 && r.top - scroller.top > needed + 8);
+          wrapper.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+          const sel = items.findIndex(li => li.dataset.value === select.value);
+          setActive(sel >= 0 ? sel : 0);
+          // Fait défiler le formulaire pour que la liste soit entièrement visible
+          requestAnimationFrame(() => list.scrollIntoView({ block: 'nearest', behavior: 'smooth' }));
+        };
+
+        const close = (focusBtn = false) => {
+          if (!isOpen()) return;
+          wrapper.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+          setActive(-1);
+          if (focusBtn) btn.focus();
+        };
+
+        const choose = i => {
+          if (i < 0) return;
+          select.value = items[i].dataset.value;
+          select.dispatchEvent(new Event('change', { bubbles: true }));
+          sync();
+        };
+
+        btn.addEventListener('click', () => (isOpen() ? close() : open()));
+        items.forEach((li, i) => {
+          li.addEventListener('click', () => { choose(i); close(true); });
+          li.addEventListener('mousemove', () => { if (active !== i) setActive(i); });
+        });
+
+        let typed = '', typedTimer = null;
+        btn.addEventListener('keydown', e => {
+          const k = e.key;
+          if (k === 'ArrowDown' || k === 'ArrowUp') {
+            e.preventDefault();
+            if (!isOpen()) return open();
+            const step = k === 'ArrowDown' ? 1 : -1;
+            setActive((active + step + items.length) % items.length);
+          } else if (k === 'Home' || k === 'End') {
+            if (!isOpen()) return;
+            e.preventDefault();
+            setActive(k === 'Home' ? 0 : items.length - 1);
+          } else if (k === 'Enter' || k === ' ') {
+            if (!isOpen()) return; // laisse le clic natif ouvrir la liste
+            e.preventDefault();
+            choose(active);
+            close();
+          } else if (k === 'Escape') {
+            if (!isOpen()) return;
+            e.preventDefault();
+            e.stopPropagation(); // ne ferme pas la fenêtre de contact
+            close();
+          } else if (k === 'Tab') {
+            close();
+          } else if (k.length === 1 && /\S/.test(k)) {
+            // Saisie au clavier : saute à l'option qui commence par ces lettres
+            typed += k.toLowerCase();
+            clearTimeout(typedTimer);
+            typedTimer = setTimeout(() => { typed = ''; }, 600);
+            const i = items.findIndex(li => li.textContent.trim().toLowerCase().startsWith(typed));
+            if (i >= 0) { if (isOpen()) setActive(i); else choose(i); }
+          }
+        });
+
+        const cs = { wrapper, sync, close };
+        customSelects.push(cs);
+        sync();
+      });
+
+      const syncAllSelects = () => customSelects.forEach(cs => cs.sync());
+
+      document.addEventListener('pointerdown', e => {
+        customSelects.forEach(cs => { if (!cs.wrapper.contains(e.target)) cs.close(); });
+      });
+      contactForm?.addEventListener('reset', () => setTimeout(syncAllSelects));
+
+      /* ── Images jointes ──
+         L'API refuse les requêtes de plus de 4,5 Mo : les images sont réduites
+         et converties en JPEG dans le navigateur avant l'envoi. */
+      const CT_MAX_IMAGES = 4;
+      const CT_TARGET_BYTES = 600 * 1024;
+      const CT_STEPS = [[1600, 0.82], [1280, 0.72], [1024, 0.65]];
+      const ctRow = document.getElementById('ctAttachments');
+      const ctAttachBtn = document.getElementById('ctAttachBtn');
+      const ctFileInput = document.getElementById('ctFileInput');
+      const ctDrop = document.getElementById('ctDrop');
+      let ctImages = [];   // { blob, url }
+      let ctPending = 0;
+      let ctSending = false;
+
+      function ctLoadImage(file) {
+        return new Promise((resolve, reject) => {
+          const url = URL.createObjectURL(file);
+          const img = new Image();
+          img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
+          img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('Image illisible')); };
+          img.src = url;
+        });
+      }
+
+      async function ctCompress(file) {
+        let source;
+        try { source = await createImageBitmap(file); }
+        catch { source = await ctLoadImage(file); }
+        const w = source.width || source.naturalWidth;
+        const h = source.height || source.naturalHeight;
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        let blob;
+        for (const [max, quality] of CT_STEPS) {
+          const scale = Math.min(1, max / Math.max(w, h));
+          canvas.width = Math.round(w * scale);
+          canvas.height = Math.round(h * scale);
+          ctx.fillStyle = '#fff'; // fond blanc pour les PNG transparents
+          ctx.fillRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(source, 0, 0, canvas.width, canvas.height);
+          blob = await new Promise(r => canvas.toBlob(r, 'image/jpeg', quality));
+          if (blob && blob.size <= CT_TARGET_BYTES) break;
+        }
+        if (source.close) source.close();
+        if (!blob) throw new Error('Compression impossible');
+        return blob;
+      }
+
+      function ctRender() {
+        if (!ctRow) return;
+        ctRow.querySelectorAll('.ct-thumb').forEach(t => t.remove());
+        ctImages.forEach((a, i) => {
+          const thumb = document.createElement('div');
+          thumb.className = 'ct-thumb';
+          thumb.innerHTML = `<img src="${a.url}" alt=""><button type="button" class="ct-remove" aria-label="Retirer l'image"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" aria-hidden="true"><path d="M6 18 18 6M6 6l12 12"/></svg></button>`;
+          thumb.querySelector('.ct-remove').addEventListener('click', () => {
+            URL.revokeObjectURL(a.url);
+            ctImages.splice(i, 1);
+            ctRender();
+          });
+          ctRow.insertBefore(thumb, ctAttachBtn);
+        });
+        for (let i = 0; i < ctPending; i++) {
+          const thumb = document.createElement('div');
+          thumb.className = 'ct-thumb loading';
+          ctRow.insertBefore(thumb, ctAttachBtn);
+        }
+        if (ctAttachBtn) ctAttachBtn.hidden = ctImages.length + ctPending >= CT_MAX_IMAGES;
+        if (contactSubmitBtn) contactSubmitBtn.disabled = ctPending > 0 || ctSending;
+      }
+
+      async function ctAddFiles(fileList) {
+        if (!contactModal?.classList.contains('active') || contactForm?.style.display === 'none') return;
+        const files = [...fileList].filter(f => f.type.startsWith('image/'));
+        const free = CT_MAX_IMAGES - ctImages.length - ctPending;
+        const accepted = files.slice(0, Math.max(0, free));
+        if (!accepted.length) return;
+        ctPending += accepted.length;
+        ctRender();
+        for (const file of accepted) {
+          try {
+            const blob = await ctCompress(file);
+            ctImages.push({ blob, url: URL.createObjectURL(blob) });
+          } catch (err) {
+            console.error(err);
+            if (contactErrorBox) {
+              contactErrorBox.textContent = 'Cette image ne peut pas être ajoutée.';
+              contactErrorBox.style.display = 'block';
+            }
+          } finally {
+            ctPending--;
+            ctRender();
+          }
+        }
+      }
+
+      function ctClear() {
+        ctImages.forEach(a => URL.revokeObjectURL(a.url));
+        ctImages = [];
+        ctRender();
+      }
+
+      const ctToBase64 = blob => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result).split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+
+      ctAttachBtn?.addEventListener('click', () => ctFileInput?.click());
+      ctFileInput?.addEventListener('change', () => {
+        ctAddFiles(ctFileInput.files);
+        ctFileInput.value = '';
+      });
+
+      // Coller une capture (Ctrl+V) quand la fenêtre de contact est ouverte
+      document.addEventListener('paste', e => {
+        if (!contactModal?.classList.contains('active')) return;
+        const files = [...(e.clipboardData?.items || [])]
+          .filter(item => item.kind === 'file' && item.type.startsWith('image/'))
+          .map(item => item.getAsFile())
+          .filter(Boolean);
+        if (!files.length) return;
+        if (!e.clipboardData.types.includes('text/plain')) e.preventDefault();
+        ctAddFiles(files);
+      });
+
+      // Glisser-déposer sur la fenêtre de contact
+      let ctDragDepth = 0;
+      const ctHasFiles = e => [...(e.dataTransfer?.types || [])].includes('Files');
+      const ctCanDrop = () => contactModal?.classList.contains('active') && contactForm?.style.display !== 'none';
+      document.addEventListener('dragenter', e => {
+        if (!ctHasFiles(e) || !ctCanDrop()) return;
+        e.preventDefault();
+        ctDragDepth++;
+        ctDrop?.classList.add('show');
+      });
+      document.addEventListener('dragover', e => {
+        if (!ctHasFiles(e) || !ctCanDrop()) return;
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'copy';
+      });
+      document.addEventListener('dragleave', e => {
+        if (!ctHasFiles(e) || !ctCanDrop()) return;
+        ctDragDepth = Math.max(0, ctDragDepth - 1);
+        if (!ctDragDepth) ctDrop?.classList.remove('show');
+      });
+      document.addEventListener('drop', e => {
+        if (!ctHasFiles(e) || !ctCanDrop()) return;
+        e.preventDefault();
+        ctDragDepth = 0;
+        ctDrop?.classList.remove('show');
+        ctAddFiles(e.dataTransfer.files);
+      });
+
       function showContactModal() {
         if (!contactModal) return;
         contactModal.classList.add('active');
         contactModal.setAttribute('aria-hidden', 'false');
         closeContact?.focus();
         detectClientEnvironment();
+        syncAllSelects();
       }
 
       function hideContactModal() {
         if (!contactModal) return;
+        closeAllSelects();
         contactModal.classList.remove('active');
         contactModal.setAttribute('aria-hidden', 'true');
         openContactCard?.focus();
@@ -2111,6 +2677,7 @@
         hideContactModal();
         setTimeout(() => {
           contactForm?.reset();
+          ctClear();
           if (contactForm) contactForm.style.display = 'flex';
           if (contactSuccessView) contactSuccessView.style.display = 'none';
           if (contactErrorBox) contactErrorBox.style.display = 'none';
@@ -2120,7 +2687,7 @@
       // Soumission du formulaire avec le système d'envoi Telegram
       contactForm?.addEventListener('submit', async e => {
         e.preventDefault();
-        if (!contactForm) return;
+        if (!contactForm || ctPending > 0 || ctSending) return;
 
         const sujet = document.getElementById('contactSujet')?.value.trim();
         const platform = document.getElementById('contactPlatform')?.value.trim();
@@ -2153,6 +2720,7 @@
 
         const btnIdle = contactSubmitBtn?.querySelector('.btn-idle');
         const btnLoading = contactSubmitBtn?.querySelector('.btn-loading');
+        ctSending = true;
         if (contactSubmitBtn) contactSubmitBtn.disabled = true;
         if (btnIdle) btnIdle.style.display = 'none';
         if (btnLoading) btnLoading.style.display = 'inline-flex';
@@ -2164,6 +2732,7 @@
         const VERCEL_API_URL = 'https://juix.vercel.app/api/contact';
 
         try {
+          const images = await Promise.all(ctImages.map(a => ctToBase64(a.blob)));
           const response = await fetch(VERCEL_API_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -2171,7 +2740,8 @@
               name: senderName,
               email: contactInfo,
               message: fullMessage,
-              source: `LeoHub - ${sujet}`
+              source: `LeoHub - ${sujet}`,
+              images
             })
           });
 
@@ -2183,7 +2753,7 @@
           } else {
             console.error('Erreur API :', data);
             if (contactErrorBox) {
-              contactErrorBox.textContent = data.message || "Une erreur est survenue lors de l'envoi. Veuillez réessayer.";
+              contactErrorBox.textContent = data.error || data.message || "Une erreur est survenue lors de l'envoi. Veuillez réessayer.";
               contactErrorBox.style.display = 'block';
             }
           }
@@ -2194,6 +2764,7 @@
             contactErrorBox.style.display = 'block';
           }
         } finally {
+          ctSending = false;
           if (contactSubmitBtn) contactSubmitBtn.disabled = false;
           if (btnIdle) btnIdle.style.display = 'inline-flex';
           if (btnLoading) btnLoading.style.display = 'none';

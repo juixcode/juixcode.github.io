@@ -183,6 +183,40 @@ body {
   font-weight: 400;
 }
 
+/* Bouton discret : proposer un cours / QCM par e-mail */
+.propose-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: .8rem;
+  font-weight: 500;
+  color: rgba(196, 208, 232, .7);
+  text-decoration: none;
+  background: rgba(255, 255, 255, .03);
+  border: 1px solid rgba(255, 255, 255, .08);
+  transition: color .2s ease, border-color .2s ease, background-color .2s ease, transform .2s ease;
+}
+.propose-btn:hover,
+.propose-btn:focus-visible {
+  outline: none;
+  color: #fed7aa;
+  border-color: rgba(251, 146, 60, .4);
+  background: rgba(251, 146, 60, .08);
+  transform: translateY(-1px);
+}
+.propose-btn .propose-arrow {
+  opacity: .55;
+  transition: opacity .2s ease, transform .2s ease;
+}
+.propose-btn:hover .propose-arrow,
+.propose-btn:focus-visible .propose-arrow {
+  opacity: 1;
+  transform: translate(1px, -1px);
+}
+
 /* ---- Catégories & En-têtes ---- */
 .group {
   width: 100%;
@@ -1001,6 +1035,22 @@ footer {
       <h1 class="name">Last Minute Learning</h1>
     </div>
     <p class="subtitle">Entraine-toi pour certains contrôles en approche avec des QCMs &amp; Fiches concoctés par l'IA</p>
+    <!-- Ouvre Outlook (web) avec un e-mail pré-rempli : l'élève n'a plus qu'à joindre son fichier -->
+    <a class="propose-btn"
+      href="https://outlook.office.com/mail/deeplink/compose?to=julien.vimart%40edu.devinci.fr&amp;subject=%5BLast%20Minute%20Learning%5D%20Proposition%20de%20cours%20%2F%20questionnaire&amp;body=Bonjour%2C%0A%0AJe%20te%20propose%20un%20cours%20ou%20un%20questionnaire%20d%27entra%C3%AEnement%20pour%20Last%20Minute%20Learning.%0A%0AMati%C3%A8re%20%3A%20%0A%0AFichier%28s%29%20joint%28s%29%20%3A%20HTML%2C%20PDF%E2%80%A6%0A%0AMerci%20%21"
+      target="_blank" rel="noopener"
+      title="Ouvre un e-mail pré-rempli dans Outlook : joins ton fichier (HTML, PDF…) et envoie-le pour validation">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="5" width="18" height="14" rx="2.5" />
+        <path d="m4 7 8 6 8-6" />
+      </svg>
+      <span>Partage-moi un cours ou un QCM à publier</span>
+      <svg class="propose-arrow" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M7 17 17 7M8 7h9v9" />
+      </svg>
+    </a>
   </header>
 
   <!-- ══════════ A2 2026-2027 ══════════ -->
