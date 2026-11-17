@@ -1826,9 +1826,9 @@
 <body>
 
   <!-- Badge de version moderne et aéré tout en haut à gauche -->
-  <div class="app-version-tag" aria-label="Version 1.8">
+  <div class="app-version-tag" aria-label="Version 1.9">
     <span class="version-dot" aria-hidden="true"></span>
-    <span class="version-num">1.8</span>
+    <span class="version-num">1.9</span>
   </div>
 
   <!-- ══════════ Décor : orbes lumineux + grille + halo curseur ══════════ -->
@@ -1867,7 +1867,24 @@
     <section class="group">
       <span class="group-label">Outils</span>
 
-      <a class="card" style="--card-rgb: 56, 189, 248" href="../calendar/index.html">
+      <a class="card" style="--card-rgb: 240, 69, 122" href="../ultimate-devinci/">
+        <span class="sweep" aria-hidden="true"></span>
+        <div class="card-icon">
+          <img src="icons/app-ultimate-devinci.png" alt="Ultimate Devinci" width="52" height="52" decoding="async" />
+        </div>
+        <div class="card-body">
+          <h2 class="card-title">Ultimate Devinci</h2>
+          <p class="card-desc">Extension non officielle qui redessine my.devinci.fr, DVL et LeoLearning : thèmes, darkmode, classement, ergonomie et productivité</p>
+        </div>
+        <div class="card-arrow" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m9 18 6-6-6-6" />
+          </svg>
+        </div>
+      </a>
+
+      <a class="card" style="--card-rgb: 56, 189, 248" href="../calendar/">
         <span class="sweep" aria-hidden="true"></span>
         <div class="card-icon">
           <img src="../calendar/icons/icon-192.png" alt="Coop Calendar" width="52" height="52" decoding="async" />
@@ -1884,7 +1901,7 @@
         </div>
       </a>
 
-      <a class="card" style="--card-rgb: 167, 139, 250" href="../flashcards/index.html">
+      <a class="card" style="--card-rgb: 167, 139, 250" href="../flashcards/">
         <span class="sweep" aria-hidden="true"></span>
         <div class="card-icon">
           <img src="../flashcards/icons/icon-192.png" alt="Flashcards" width="52" height="52" decoding="async" />
@@ -1902,7 +1919,7 @@
         </div>
       </a>
 
-      <a class="card" style="--card-rgb: 251, 146, 60" href="../learn/index.html">
+      <a class="card" style="--card-rgb: 251, 146, 60" href="../learn/">
         <span class="sweep" aria-hidden="true"></span>
         <div class="card-icon">
           <img src="../learn/icons/icon-192.png" alt="Last Minute Learning" width="52" height="52" decoding="async" />
@@ -1920,22 +1937,38 @@
         </div>
       </a>
 
-      <a class="card" style="--card-rgb: 240, 69, 122" href="../ultimate-devinci/">
+      <!-- Pas encore disponible : aucun lien, un clic affiche le message « Bientôt disponible » -->
+      <div class="card card-soon" style="--card-rgb: 244, 114, 182" role="button" tabindex="0" aria-label="Party Hub (Bientôt disponible)">
         <span class="sweep" aria-hidden="true"></span>
         <div class="card-icon">
-          <img src="icons/app-ultimate-devinci.png" alt="Ultimate Devinci" width="52" height="52" decoding="async" />
-        </div>
-        <div class="card-body">
-          <h2 class="card-title">Ultimate Devinci</h2>
-          <p class="card-desc">Extension non officielle qui redessine my.devinci.fr, DVL et LeoLearning : thèmes, darkmode, ergonomie et productivité</p>
-        </div>
-        <div class="card-arrow" aria-hidden="true">
+          <!-- Verre de jus avec paille et rondelle d'orange -->
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-            stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
-            <path d="m9 18 6-6-6-6" />
+            stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M6.6 13h10.8l-1 7.6a1.6 1.6 0 0 1-1.6 1.4H9.2a1.6 1.6 0 0 1-1.6-1.4Z" fill="currentColor" fill-opacity=".3" stroke="none" />
+            <path d="M5.5 8.5h13l-1.6 12.1a1.6 1.6 0 0 1-1.6 1.4H8.7a1.6 1.6 0 0 1-1.6-1.4Z" />
+            <path d="M12.5 8.5 15 2.5h3" />
+            <path d="M15.6 8.5a2.7 2.7 0 0 1 5.4 0" />
+            <path d="M18.3 5.8v2.7" />
           </svg>
         </div>
-      </a>
+        <div class="card-body">
+          <div class="card-title-row">
+            <h2 class="card-title">Party Hub</h2>
+            <span class="card-tag-soon" title="Application en cours de développement">
+              <span class="tag-dot" aria-hidden="true"></span>
+              Soon
+            </span>
+          </div>
+          <p class="card-desc">Une application de jeu de soirée avec questions brise-glace, en famille ou entre amis</p>
+        </div>
+        <div class="card-arrow card-arrow-soon" aria-hidden="true" title="Bientôt disponible">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <polyline points="12 6 12 12 16 14" />
+          </svg>
+        </div>
+      </div>
     </section>
 
     <section class="group">
@@ -2251,8 +2284,8 @@
       </svg>
     </div>
     <div class="hub-toast-body">
-      <div class="hub-toast-title">Ultimate Devinci · Bientôt disponible</div>
-      <div class="hub-toast-msg">L'extension est en cours de développement et n'est pas encore déployée publiquement.</div>
+      <div class="hub-toast-title">Party Hub · Bientôt disponible</div>
+      <div class="hub-toast-msg">L'application est en cours de développement et n'est pas encore disponible.</div>
     </div>
   </div>
 
