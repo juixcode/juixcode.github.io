@@ -1,0 +1,3011 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>POO en C# · Last Minute Learning</title>
+<meta name="description" content="Cours complet et express de Programmation Orientée Objet en C# (A2) : classes, encapsulation, récursivité, collections, fichiers, héritage. Syntaxes, exemples courts et pièges d'examen." />
+<meta name="theme-color" content="#04060d" />
+<script>
+  /* Thème appliqué avant l'affichage (évite un flash) : choix mémorisé, sinon réglage de l'appareil */
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('poo_csharp_theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="icon" type="image/x-icon" href="../../../icons/favicon.ico" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../icons/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../icons/apple-touch-icon.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+<style>
+/* ══════════ BASE ══════════ */
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  --bg: #04060d;
+  --text: #e8edff;
+  --text-2: #c9d2e8;
+  --muted: rgba(178, 192, 220, .72);
+  --border: rgba(var(--ink), .085);
+  --border-2: rgba(var(--ink), .14);
+  --violet: 167, 139, 250;
+  --orange: 251, 146, 60;
+  --green: 52, 211, 153;
+  --red: 248, 113, 113;
+  --cyan: 56, 189, 248;
+  --yellow: 250, 204, 21;
+  --font: 'Outfit', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+  --radius: 20px;
+  --topbar-h: 60px;
+  /* Couleurs dépendantes du thème (sombre par défaut) */
+  --ink: 255, 255, 255;
+  --heading: #ffffff;
+  --orange-text: #fed7aa;
+  --violet-text: #ddd6fe;
+  --green-text: #a7f3d0;
+  --bar-bg: rgba(5, 7, 15, .78);
+  --menu-bg: rgba(6, 8, 16, .97);
+  --hl: var(--violet);
+  --uml-bg: rgba(10, 13, 23, .85);
+}
+
+/* ══════════ THÈME CLAIR ══════════ */
+html[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f5fa;
+  --text: #0f172a;
+  --text-2: #334155;
+  --muted: rgba(71, 85, 105, .92);
+  --violet: 124, 58, 237;
+  --orange: 234, 88, 12;
+  --green: 5, 150, 105;
+  --red: 220, 38, 38;
+  --cyan: 2, 132, 199;
+  --yellow: 202, 138, 4;
+  --ink: 15, 23, 42;
+  --heading: #0f172a;
+  --orange-text: #c2410c;
+  --violet-text: #6d28d9;
+  --green-text: #047857;
+  --bar-bg: rgba(255, 255, 255, .8);
+  --menu-bg: rgba(255, 255, 255, .98);
+  --uml-bg: #ffffff;
+}
+html[data-theme="light"] .bg .orb { opacity: .55; }
+html[data-theme="light"] .bg .grid-lines { opacity: .7; }
+html[data-theme="light"] .hero h1 {
+  background-image: linear-gradient(110deg, #1e1b4b 12%, #7c3aed 42%, #ea580c 72%, #1e1b4b 94%);
+}
+html[data-theme="light"] .search input,
+html[data-theme="light"] .back-link,
+html[data-theme="light"] .mastery-pill,
+html[data-theme="light"] .theme-btn,
+html[data-theme="light"] .btn-ghost { background: rgba(255, 255, 255, .8); }
+html[data-theme="light"] .notion {
+  background: rgba(255, 255, 255, .9);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 14px 34px -24px rgba(15, 23, 42, .3);
+}
+html[data-theme="light"] .notion:hover { border-color: rgba(var(--violet), .28); }
+html[data-theme="light"] .uml-class { box-shadow: 0 12px 28px -20px rgba(124, 58, 237, .45); }
+html[data-theme="light"] .endcard { background: radial-gradient(120% 120% at 50% 0%, rgba(var(--violet), .1), transparent 60%), rgba(255, 255, 255, .85); }
+
+/* Code en clair : palette « Visual Studio clair » */
+html[data-theme="light"] .code {
+  background: #ffffff;
+  box-shadow: 0 12px 30px -22px rgba(15, 23, 42, .35);
+}
+html[data-theme="light"] .code pre code { color: #1f2328; }
+html[data-theme="light"] .code.console { background: #f6faf8; }
+html[data-theme="light"] .code.console pre code { color: #065f46; }
+html[data-theme="light"] .token.comment,
+html[data-theme="light"] .token.prolog { color: #008000; }
+html[data-theme="light"] .token.keyword,
+html[data-theme="light"] .token.boolean,
+html[data-theme="light"] .token.null,
+html[data-theme="light"] .token.interpolation .punctuation { color: #0000ff; }
+html[data-theme="light"] .token.class-name,
+html[data-theme="light"] .token.namespace,
+html[data-theme="light"] .token.return-type,
+html[data-theme="light"] .token.type-expression,
+html[data-theme="light"] .token.constructor-invocation { color: #2b91af; }
+html[data-theme="light"] .token.string,
+html[data-theme="light"] .token.char,
+html[data-theme="light"] .token.verbatim-string,
+html[data-theme="light"] .token.interpolation-string { color: #a31515; }
+html[data-theme="light"] .token.number { color: #098658; }
+html[data-theme="light"] .token.function,
+html[data-theme="light"] .token.generic-method .function { color: #795e26; }
+html[data-theme="light"] .token.operator { color: #1f2328; }
+html[data-theme="light"] .token.punctuation { color: #4b5563; }
+html[data-theme="light"] .token.preprocessor,
+html[data-theme="light"] .token.directive { color: #808080; }
+
+/* Transition douce lors du changement de thème */
+html.theme-anim, html.theme-anim *, html.theme-anim *::before, html.theme-anim *::after {
+  transition: background-color .35s ease, color .35s ease, border-color .35s ease, box-shadow .35s ease, fill .35s ease !important;
+}
+
+html {
+  color-scheme: dark;
+  overflow-x: clip;
+  background: var(--bg);
+  scroll-behavior: smooth;
+  scroll-padding-top: 86px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: rgba(var(--violet), .35); }
+
+a { color: rgb(var(--violet)); }
+
+/* ══════════ DÉCOR ══════════ */
+.bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg .orb { position: absolute; border-radius: 50%; filter: blur(70px); animation: drift 26s ease-in-out infinite; }
+.bg .o1 { width: 620px; height: 620px; top: -220px; left: -160px; background: radial-gradient(circle, rgba(139, 92, 246, .22), transparent 65%); }
+.bg .o2 { width: 520px; height: 520px; top: 30%; right: -200px; background: radial-gradient(circle, rgba(56, 189, 248, .14), transparent 62%); animation-duration: 32s; animation-delay: -12s; }
+.bg .o3 { width: 480px; height: 480px; bottom: -220px; left: 30%; background: radial-gradient(circle, rgba(249, 115, 22, .11), transparent 60%); animation-duration: 28s; animation-delay: -6s; }
+.bg .grid-lines {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, .045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, .045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(80% 60% at 50% 10%, #000 10%, transparent 70%);
+  mask-image: radial-gradient(80% 60% at 50% 10%, #000 10%, transparent 70%);
+}
+
+/* ══════════ BARRE SUPÉRIEURE ══════════ */
+.topbar {
+  position: sticky; top: 0; z-index: 60;
+  height: var(--topbar-h);
+  display: flex; align-items: center; gap: 14px;
+  padding: 0 20px;
+  background: var(--bar-bg);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  border-bottom: 1px solid var(--border);
+}
+.back-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 12px 7px 9px;
+  border-radius: 12px;
+  font-size: .84rem; font-weight: 500;
+  color: var(--text-2); text-decoration: none;
+  background: rgba(var(--ink), .03);
+  border: 1px solid var(--border);
+  transition: color .2s, border-color .2s, background .2s, transform .2s;
+  white-space: nowrap;
+}
+.back-link:hover, .back-link:focus-visible { outline: none; color: var(--orange-text); border-color: rgba(var(--orange), .45); background: rgba(var(--orange), .08); transform: translateX(-2px); }
+.back-link svg { width: 15px; height: 15px; }
+.topbar-title { display: flex; align-items: center; gap: 10px; min-width: 0; font-weight: 700; letter-spacing: -.01em; }
+.topbar-title .cs-logo {
+  width: 30px; height: 30px; flex-shrink: 0; border-radius: 9px;
+  display: grid; place-items: center;
+  font: 800 .78rem var(--mono); color: #fff;
+  background: linear-gradient(145deg, #a78bfa, #6d28d9);
+  box-shadow: 0 6px 16px -6px rgba(139, 92, 246, .8), inset 0 1px 0 rgba(255, 255, 255, .3);
+}
+.topbar-title span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.mastery-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 12px 5px 6px;
+  border-radius: 999px;
+  font-size: .78rem; font-weight: 600; color: var(--text-2);
+  background: rgba(var(--ink), .04);
+  border: 1px solid var(--border);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.theme-btn {
+  position: relative;
+  width: 36px; height: 36px; flex-shrink: 0;
+  display: grid; place-items: center;
+  border-radius: 11px;
+  color: var(--text-2);
+  background: rgba(var(--ink), .04);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  overflow: hidden;
+  transition: color .2s, border-color .2s, box-shadow .2s, transform .2s;
+}
+.theme-btn:hover, .theme-btn:focus-visible { outline: none; color: rgb(var(--orange)); border-color: rgba(var(--orange), .45); box-shadow: 0 0 16px -4px rgba(var(--orange), .5); }
+.theme-btn:active { transform: scale(.93); }
+.theme-btn svg {
+  position: absolute; width: 18px; height: 18px;
+  transition: transform .5s cubic-bezier(.34, 1.56, .64, 1), opacity .3s ease;
+}
+.theme-btn .i-moon { opacity: 0; transform: rotate(-90deg) scale(.4); }
+html[data-theme="light"] .theme-btn .i-sun { opacity: 0; transform: rotate(90deg) scale(.4); }
+html[data-theme="light"] .theme-btn .i-moon { opacity: 1; transform: none; }
+.mastery-ring { width: 24px; height: 24px; transform: rotate(-90deg); }
+.mastery-ring circle { fill: none; stroke-width: 3.2; }
+.mastery-ring .track { stroke: rgba(var(--ink), .1); }
+.mastery-ring .value { stroke: rgb(var(--green)); stroke-linecap: round; stroke-dasharray: 62.83; stroke-dashoffset: 62.83; transition: stroke-dashoffset .6s cubic-bezier(.22, .61, .36, 1); }
+.read-progress {
+  position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
+  transform-origin: left; transform: scaleX(0);
+  background: linear-gradient(90deg, rgb(var(--violet)), rgb(var(--orange)));
+  box-shadow: 0 0 12px rgba(var(--violet), .7);
+}
+
+/* ══════════ MISE EN PAGE ══════════ */
+.layout {
+  position: relative; z-index: 2;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px 90px;
+  display: grid;
+  grid-template-columns: 252px minmax(0, 1fr);
+  gap: 44px;
+}
+main { min-width: 0; padding-top: 34px; }
+
+/* ---- Sommaire ---- */
+.toc {
+  position: sticky;
+  top: calc(var(--topbar-h) + 22px);
+  align-self: start;
+  max-height: calc(100vh - var(--topbar-h) - 44px);
+  overflow-y: auto;
+  padding: 30px 4px 20px 0;
+  scrollbar-width: thin;
+}
+.toc-head { font-size: .66rem; font-weight: 600; letter-spacing: .26em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px 12px; }
+.toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.toc a {
+  position: relative;
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px 8px 12px;
+  border-radius: 12px;
+  font-size: .88rem; font-weight: 500; line-height: 1.3;
+  color: var(--text-2);
+  opacity: .85;
+  text-decoration: none;
+  transition: color .2s, background .2s;
+}
+.toc a:hover { color: var(--heading); background: rgba(var(--ink), .04); opacity: 1; }
+.toc a.is-active, .toc a.is-done { opacity: 1; }
+.toc a.is-active { color: var(--heading); background: rgba(var(--violet), .12); }
+.toc a.is-active::before {
+  content: ""; position: absolute; left: 0; top: 9px; bottom: 9px; width: 3px; border-radius: 3px;
+  background: rgb(var(--violet)); box-shadow: 0 0 10px rgb(var(--violet));
+}
+.toc-num { font: 600 .72rem var(--mono); color: rgba(var(--violet), .85); width: 18px; flex-shrink: 0; }
+.toc-star { color: rgb(var(--orange)); font-size: .72rem; margin-left: auto; }
+.toc-check {
+  width: 16px; height: 16px; flex-shrink: 0; border-radius: 50%;
+  display: none; place-items: center;
+  background: rgba(var(--green), .18); color: rgb(var(--green));
+}
+.toc-check svg { width: 10px; height: 10px; }
+.toc a.is-done .toc-check { display: grid; }
+.toc a.is-done .toc-star { display: none; }
+.toc-foot { margin: 18px 0 0 12px; font-size: .76rem; color: var(--muted); line-height: 1.5; }
+.toc-foot b { color: rgb(var(--orange)); }
+
+/* ══════════ HERO ══════════ */
+.hero { position: relative; padding: 18px 0 6px; }
+.hero-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: .74rem; font-weight: 600; letter-spacing: .02em;
+  color: var(--text-2);
+  background: rgba(var(--ink), .04);
+  border: 1px solid var(--border);
+}
+.chip i { width: 6px; height: 6px; border-radius: 50%; background: rgb(var(--violet)); box-shadow: 0 0 8px rgb(var(--violet)); }
+.chip.orange i { background: rgb(var(--orange)); box-shadow: 0 0 8px rgb(var(--orange)); }
+.hero h1 {
+  margin: 0;
+  font-size: clamp(2.5rem, 7vw, 4rem);
+  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  background: linear-gradient(110deg, #ffffff 12%, #c4b5fd 42%, #fdba74 72%, #ffffff 94%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 9s ease-in-out infinite;
+}
+.hero-lead { max-width: 680px; margin: 16px 0 0; font-size: clamp(1rem, 2.4vw, 1.12rem); color: var(--text-2); }
+.hero-lead strong { color: var(--heading); }
+
+
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  font: 600 .9rem var(--font);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s, background .2s, border-color .2s, color .2s;
+}
+.btn-primary { color: #0b0616; background: linear-gradient(135deg, #c4b5fd, #8b5cf6); border: 1px solid rgba(255, 255, 255, .25); box-shadow: 0 8px 22px -8px rgba(139, 92, 246, .8); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -8px rgba(139, 92, 246, .95); }
+.btn-ghost { color: var(--text-2); background: rgba(var(--ink), .04); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--orange-text); border-color: rgba(var(--orange), .45); background: rgba(var(--orange), .08); transform: translateY(-2px); }
+.btn svg { width: 16px; height: 16px; }
+
+/* ---- Recherche ---- */
+.search {
+  position: relative;
+  margin: 30px 0 0;
+}
+.search svg { position: absolute; z-index: 1; left: 16px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.search input {
+  width: 100%;
+  padding: 14px 54px 14px 46px;
+  border-radius: 16px;
+  font: 500 .96rem var(--font);
+  color: var(--text);
+  background: rgba(var(--ink), .045);
+  border: 1px solid var(--border);
+  outline: none;
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  transition: border-color .2s, box-shadow .2s, background .2s;
+}
+.search input::placeholder { color: var(--muted); opacity: .7; }
+.search input:focus { border-color: rgba(var(--violet), .55); box-shadow: 0 0 0 4px rgba(var(--violet), .14); background: rgba(var(--ink), .06); }
+.search kbd {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  font: 600 .72rem var(--mono); color: var(--muted);
+  padding: 2px 8px; border-radius: 7px; border: 1px solid var(--border-2); background: rgba(var(--ink), .04);
+}
+.search-status { min-height: 1.4em; margin: 8px 4px 0; font-size: .82rem; color: var(--muted); }
+.no-result {
+  display: none;
+  margin: 30px 0; padding: 28px; text-align: center;
+  border-radius: var(--radius); border: 1px dashed var(--border-2); color: var(--muted);
+}
+.no-result.is-shown { display: block; }
+
+/* ══════════ CHAPITRES ══════════ */
+.chapter { margin-top: 70px; }
+.chapter.is-filtered-out { display: none; }
+.chapter-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 20px;
+  align-items: start;
+  padding-bottom: 20px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.chapter-num {
+  grid-row: span 3;
+  font-size: clamp(2.6rem, 6vw, 3.6rem);
+  font-weight: 800;
+  line-height: .95;
+  letter-spacing: -.04em;
+  background: linear-gradient(165deg, rgb(var(--violet)), rgba(var(--violet), .15));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-variant-numeric: tabular-nums;
+}
+.chapter-kicker { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: .7rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: rgba(var(--violet), .95); }
+.prio {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 9px; border-radius: 999px;
+  letter-spacing: .06em;
+  color: var(--orange-text); background: rgba(var(--orange), .12); border: 1px solid rgba(var(--orange), .38);
+}
+.chapter h2 { margin: 2px 0 0; font-size: clamp(1.55rem, 3.6vw, 2.15rem); line-height: 1.15; letter-spacing: -.025em; }
+.chapter-lead { margin: 6px 0 0; color: var(--muted); font-size: .98rem; }
+.master-btn {
+  grid-column: 2;
+  justify-self: start;
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 10px;
+  padding: 7px 13px;
+  border-radius: 12px;
+  font: 600 .8rem var(--font);
+  color: var(--text-2);
+  background: rgba(var(--ink), .035);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all .25s cubic-bezier(.22, .61, .36, 1);
+}
+.master-btn .box {
+  width: 16px; height: 16px; border-radius: 5px;
+  display: grid; place-items: center;
+  border: 1.5px solid var(--border-2);
+  transition: all .25s;
+}
+.master-btn .box svg { width: 11px; height: 11px; opacity: 0; transform: scale(.4); transition: all .3s cubic-bezier(.34, 1.56, .64, 1); }
+.master-btn:hover { border-color: rgba(var(--green), .45); color: var(--heading); }
+.master-btn.is-done { color: var(--green-text); border-color: rgba(var(--green), .45); background: rgba(var(--green), .1); }
+.master-btn.is-done .box { background: rgb(var(--green)); border-color: rgb(var(--green)); color: #03140d; }
+.master-btn.is-done .box svg { opacity: 1; transform: scale(1); }
+
+/* ---- Notion (carte de cours) ---- */
+.notion {
+  position: relative;
+  margin: 18px 0;
+  padding: 24px 26px 22px;
+  border-radius: var(--radius);
+  background: linear-gradient(165deg, rgba(var(--ink), .052), rgba(var(--ink), .014) 62%);
+  border: 1px solid var(--border);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 22px 44px -32px rgba(0, 0, 0, .95);
+  transition: border-color .35s ease, box-shadow .35s ease, opacity .6s ease, transform .6s cubic-bezier(.22, .61, .36, 1);
+}
+.notion:hover { border-color: rgba(var(--violet), .22); }
+.notion.is-filtered-out { display: none; }
+.notion:target { border-color: rgba(var(--violet), .55); box-shadow: 0 0 0 4px rgba(var(--violet), .12); }
+html.js-anim .notion:not(.is-visible) { opacity: 0; transform: translateY(22px); }
+
+.notion h3 {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px;
+  margin: 0 0 8px;
+  font-size: 1.2rem; line-height: 1.3; letter-spacing: -.012em;
+}
+.notion-id {
+  font: 600 .72rem var(--mono);
+  padding: 3px 8px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: rgb(var(--violet));
+  background: rgba(var(--violet), .12);
+  border: 1px solid rgba(var(--violet), .3);
+}
+.notion-id:hover { background: rgba(var(--violet), .22); }
+.tag-mini {
+  font: 600 .64rem var(--font); letter-spacing: .1em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 999px;
+  color: var(--orange-text); background: rgba(var(--orange), .1); border: 1px solid rgba(var(--orange), .3);
+}
+.notion p { margin: 10px 0; color: var(--text-2); }
+.notion strong, .notion b { color: var(--heading); font-weight: 600; }
+.notion ul, .notion ol { margin: 10px 0; padding-left: 1.3em; color: var(--text-2); }
+.notion li { margin: 4px 0; }
+.notion li::marker { color: rgb(var(--violet)); }
+.notion h4 { margin: 18px 0 6px; font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+
+:not(pre) > code {
+  font-family: var(--mono);
+  font-size: .84em;
+  padding: .12em .42em;
+  border-radius: 6px;
+  color: var(--violet-text);
+  background: rgba(var(--violet), .1);
+  border: 1px solid rgba(var(--violet), .2);
+  white-space: nowrap;
+}
+.wrap-code :not(pre) > code, td :not(pre) > code { white-space: normal; }
+
+/* ---- Blocs de code ---- */
+.code {
+  margin: 16px 0;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0a0d17;
+  border: 1px solid rgba(var(--ink), .09);
+  box-shadow: 0 18px 40px -26px rgba(0, 0, 0, .95), inset 0 1px 0 rgba(255, 255, 255, .04);
+}
+.code-head {
+  display: flex; align-items: center; gap: 10px;
+  min-height: 40px;
+  padding: 0 8px 0 14px;
+  background: rgba(var(--ink), .035);
+  border-bottom: 1px solid rgba(var(--ink), .07);
+  font-size: .74rem; color: var(--muted);
+}
+.code-dots { display: flex; gap: 6px; flex-shrink: 0; }
+.code-dots i { width: 9px; height: 9px; border-radius: 50%; display: block; opacity: .85; }
+.code-dots i:nth-child(1) { background: #ff5f57; }
+.code-dots i:nth-child(2) { background: #febc2e; }
+.code-dots i:nth-child(3) { background: #28c840; }
+.code-title { font-family: var(--mono); color: var(--text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+.code-lang {
+  margin-left: auto; flex-shrink: 0;
+  font: 700 .62rem var(--mono); letter-spacing: .08em;
+  padding: 2px 7px; border-radius: 6px;
+  color: rgb(var(--violet)); background: rgba(var(--violet), .12);
+}
+.code.console .code-lang { color: rgb(var(--green)); background: rgba(var(--green), .12); }
+.copy-btn {
+  flex-shrink: 0;
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 9px;
+  border-radius: 8px;
+  font: 600 .7rem var(--font);
+  color: var(--muted);
+  background: transparent;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all .2s;
+}
+.copy-btn svg { width: 13px; height: 13px; }
+.copy-btn:hover { color: var(--heading); background: rgba(var(--ink), .06); border-color: var(--border); }
+.copy-btn.is-copied { color: rgb(var(--green)); }
+.code pre {
+  margin: 0;
+  padding: 16px 18px 18px;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: .83rem;
+  line-height: 1.7;
+  tab-size: 4;
+  scrollbar-width: thin;
+}
+.code pre code { font-family: inherit; font-size: inherit; color: #d4d4d4; background: none; border: 0; padding: 0; white-space: pre; }
+.code.console { background: #06080f; }
+.code.console pre code { color: #b6f2d6; }
+
+/* Onglets de code */
+.tabbar { display: flex; gap: 4px; min-width: 0; overflow-x: auto; padding: 6px 0; scrollbar-width: none; }
+.tabbar::-webkit-scrollbar { display: none; }
+.tab-btn {
+  flex-shrink: 0;
+  padding: 5px 10px;
+  border-radius: 8px;
+  font: 500 .74rem var(--mono);
+  color: var(--muted);
+  background: none;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all .2s;
+}
+.tab-btn:hover { color: var(--heading); background: rgba(var(--ink), .05); }
+.tab-btn[aria-selected="true"] { color: var(--heading); background: rgba(var(--violet), .16); border-color: rgba(var(--violet), .38); }
+.tab-panel[hidden] { display: none; }
+
+/* Coloration C# (inspirée de Visual Studio) */
+.token.comment, .token.prolog { color: #6a9955; font-style: italic; }
+.token.keyword, .token.boolean, .token.null { color: #569cd6; }
+.token.class-name, .token.namespace, .token.return-type, .token.type-expression, .token.constructor-invocation { color: #4ec9b0; }
+.token.namespace { opacity: 1; }
+.token.string, .token.char, .token.verbatim-string { color: #ce9178; }
+.token.number { color: #b5cea8; }
+.token.function { color: #dcdcaa; }
+.token.operator { color: #d4d4d4; }
+.token.punctuation { color: #a3acc0; }
+.token.interpolation .punctuation { color: #569cd6; }
+.token.interpolation-string { color: #ce9178; }
+.token.preprocessor, .token.directive { color: #9b9b9b; }
+.token.generic-method .function { color: #dcdcaa; }
+
+/* ---- Encadrés ---- */
+.callout {
+  --c: var(--cyan);
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  margin: 14px 0;
+  padding: 12px 15px 12px 12px;
+  border-radius: 14px;
+  font-size: .93rem;
+  color: var(--text-2);
+  background: rgba(var(--c), .065);
+  border: 1px solid rgba(var(--c), .2);
+  border-left: 3px solid rgb(var(--c));
+}
+.callout::before {
+  content: "";
+  width: 20px; height: 20px; margin-top: 2px;
+  background: rgb(var(--c));
+  -webkit-mask: var(--ico) center / contain no-repeat;
+  mask: var(--ico) center / contain no-repeat;
+}
+.callout > div { min-width: 0; }
+.callout-title { display: block; margin-bottom: 2px; font-size: .7rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgb(var(--c)); }
+.callout p { margin: 4px 0; }
+.callout ul { margin: 4px 0; padding-left: 1.15em; }
+.callout {
+  --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4M12 8h.01'/%3E%3C/svg%3E");
+}
+.callout.trap {
+  --c: var(--red);
+  --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z'/%3E%3Cpath d='M12 9v4M12 17h.01'/%3E%3C/svg%3E");
+}
+.callout.tip {
+  --c: var(--green);
+  --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2Z'/%3E%3C/svg%3E");
+}
+.callout.exam {
+  --c: var(--orange);
+  --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Ccircle cx='12' cy='12' r='6'/%3E%3Ccircle cx='12' cy='12' r='2'/%3E%3C/svg%3E");
+}
+.callout.info { --c: var(--cyan); }
+
+/* ---- Tableaux ---- */
+.table-wrap { margin: 14px 0; overflow-x: auto; border-radius: 14px; border: 1px solid var(--border); background: rgba(var(--ink), .015); }
+table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+th { padding: 10px 14px; text-align: left; font-size: .68rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); background: rgba(var(--ink), .04); white-space: nowrap; }
+td { padding: 10px 14px; border-top: 1px solid rgba(var(--ink), .06); color: var(--text-2); vertical-align: top; }
+tbody tr { transition: background .2s; }
+tbody tr:hover td { background: rgba(var(--ink), .025); }
+td strong { color: var(--heading); }
+.ok { color: rgb(var(--green)); font-weight: 700; }
+.ko { color: rgb(var(--red)); font-weight: 700; }
+
+/* ---- Grilles de syntaxe ---- */
+.cheat { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 14px 0; }
+.cheat > div {
+  padding: 11px 13px;
+  border-radius: 12px;
+  background: rgba(var(--ink), .03);
+  border: 1px solid var(--border);
+  font-size: .86rem; color: var(--text-2);
+}
+.cheat > div code { display: inline-block; max-width: 100%; margin-bottom: 4px; white-space: normal; overflow-wrap: anywhere; }
+.cheat > div span { display: block; }
+
+.compare { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin: 14px 0; }
+.compare > div { padding: 14px 16px; border-radius: 14px; border: 1px solid var(--border); background: rgba(var(--ink), .025); font-size: .9rem; color: var(--text-2); }
+.compare h5 { margin: 0 0 6px; font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; }
+.compare .bad h5 { color: rgb(var(--red)); }
+.compare .good h5 { color: rgb(var(--green)); }
+.compare ul { margin: 0; padding-left: 1.1em; }
+
+/* ---- UML (HTML/CSS) ---- */
+.uml-wrap { display: grid; grid-template-columns: minmax(0, 330px) minmax(0, 1fr); gap: 18px 26px; align-items: center; margin: 16px 0; }
+.uml-class {
+  font-family: var(--mono); font-size: .8rem;
+  border-radius: 12px; overflow: hidden;
+  border: 1px solid rgba(var(--violet), .45);
+  background: var(--uml-bg);
+  box-shadow: 0 14px 34px -20px rgba(139, 92, 246, .7);
+}
+.uml-class > div { padding: 8px 12px; border-top: 1px solid rgba(var(--violet), .3); }
+.uml-class > div:first-child { border-top: 0; text-align: center; font-weight: 700; font-family: var(--font); font-size: .95rem; color: var(--heading); background: rgba(var(--violet), .16); }
+.uml-class .row { display: block; white-space: nowrap; color: var(--text-2); line-height: 1.75; }
+.uml-class .u, .uml-legend .u { text-decoration: underline; text-underline-offset: 3px; }
+.uml-class .em { color: var(--heading); }
+.uml-legend { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; font-size: .88rem; color: var(--text-2); }
+.uml-legend div { display: flex; gap: 10px; align-items: baseline; }
+.uml-legend b { font-family: var(--mono); min-width: 26px; text-align: center; padding: 1px 6px; border-radius: 6px; color: var(--heading); background: rgba(var(--ink), .06); border: 1px solid var(--border); }
+
+.rel-list { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin: 14px 0; }
+.rel {
+  display: grid; grid-template-columns: 118px minmax(0, 1fr); gap: 14px; align-items: center;
+  padding: 12px 14px; border-radius: 14px; border: 1px solid var(--border); background: rgba(var(--ink), .025);
+}
+.rel svg { width: 118px; height: 26px; color: var(--text-2); overflow: visible; }
+.rel b { color: var(--heading); }
+.rel p { margin: 2px 0 0; font-size: .88rem; }
+
+.tree { display: flex; flex-direction: column; align-items: center; margin: 18px 0 8px; }
+.tree .uml-class { min-width: 210px; }
+.tree-link { position: relative; width: 60%; max-width: 360px; height: 46px; }
+.tree-link svg.tri { position: absolute; top: 0; left: 50%; width: 18px; height: 14px; transform: translateX(-50%); color: rgba(var(--violet), .9); }
+.tree-link::before { content: ""; position: absolute; left: 50%; top: 14px; height: 16px; border-left: 1.5px solid rgba(var(--violet), .9); }
+.tree-link::after { content: ""; position: absolute; left: 0; right: 0; top: 30px; height: 16px; border: 1.5px solid rgba(var(--violet), .9); border-bottom: 0; border-radius: 6px 6px 0 0; }
+.tree-children { display: flex; gap: 18px; justify-content: center; flex-wrap: nowrap; width: 100%; }
+.tree-children .uml-class { flex: 1 1 210px; max-width: 290px; }
+
+/* ---- Pile d'appels ---- */
+.callstack { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 14px 0; }
+.cs-col { padding: 12px; border-radius: 14px; background: rgba(var(--ink), .025); border: 1px solid var(--border); }
+.cs-title { font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+.frame {
+  margin: 5px 0 5px calc(var(--d, 0) * 14px);
+  padding: 6px 10px;
+  border-radius: 9px;
+  font: 500 .78rem var(--mono);
+  color: var(--violet-text);
+  background: rgba(var(--violet), .1);
+  border: 1px solid rgba(var(--violet), .28);
+}
+.frame.ret { color: var(--green-text); background: rgba(var(--green), .08); border-color: rgba(var(--green), .28); }
+.notion.is-visible .frame { animation: frameIn .45s cubic-bezier(.22, .61, .36, 1) backwards; animation-delay: calc(var(--k, 0) * 110ms + 150ms); }
+
+/* ---- Pile & File (schéma) ---- */
+.ds-demo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: 14px 0; }
+.ds-box { padding: 14px; border-radius: 14px; background: rgba(var(--ink), .025); border: 1px solid var(--border); text-align: center; }
+.ds-box h5 { margin: 0 0 10px; font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.ds-stack { display: inline-flex; flex-direction: column; gap: 5px; padding: 8px 8px 6px; border: 2px solid rgba(var(--violet), .45); border-top: 0; border-radius: 0 0 10px 10px; }
+.ds-queue { display: inline-flex; gap: 5px; padding: 8px 6px; border-top: 2px solid rgba(var(--cyan), .45); border-bottom: 2px solid rgba(var(--cyan), .45); }
+.ds-cell { min-width: 64px; padding: 6px 10px; border-radius: 8px; font: 600 .78rem var(--mono); color: var(--heading); background: rgba(var(--ink), .07); border: 1px solid var(--border-2); }
+.ds-cell.top { background: rgba(var(--violet), .25); border-color: rgba(var(--violet), .6); }
+.ds-cell.head { background: rgba(var(--cyan), .22); border-color: rgba(var(--cyan), .6); }
+.ds-ops { margin-top: 10px; font: 500 .74rem var(--mono); color: var(--muted); line-height: 1.6; }
+.ds-ops b { color: var(--heading); }
+
+/* ---- Mémoire pile / tas ---- */
+.mem { display: grid; grid-template-columns: minmax(0, 1fr) 46px minmax(0, 1.3fr); align-items: center; margin: 14px 0; }
+.mem-col { padding: 12px; border-radius: 14px; border: 1px solid var(--border); background: rgba(var(--ink), .025); }
+.mem-col h5 { margin: 0 0 8px; font-size: .7rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.mem-var { display: flex; justify-content: space-between; gap: 8px; padding: 6px 10px; margin: 5px 0; border-radius: 8px; font: 500 .78rem var(--mono); background: rgba(var(--ink), .05); border: 1px solid var(--border); color: var(--text-2); }
+.mem-var b { color: rgb(var(--violet)); }
+.mem-obj { padding: 8px 10px; margin: 6px 0; border-radius: 10px; font: 500 .76rem var(--mono); line-height: 1.6; color: var(--text-2); background: rgba(var(--violet), .08); border: 1px solid rgba(var(--violet), .35); }
+.mem-obj .t { display: block; font-family: var(--font); font-weight: 700; color: var(--heading); margin-bottom: 2px; }
+.mem-var b.alt { color: rgb(var(--cyan)); }
+.mem-obj.alt { background: rgba(var(--cyan), .07); border-color: rgba(var(--cyan), .35); }
+.mem-arrows { width: 30px; height: 30px; justify-self: center; color: rgba(var(--violet), .8); }
+
+/* ---- Pièges (grille finale) ---- */
+.traps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 14px 0; }
+.trap-card { padding: 12px 14px; border-radius: 14px; border: 1px solid var(--border); background: rgba(var(--ink), .025); font-size: .86rem; color: var(--text-2); }
+.trap-card .t { display: block; margin-bottom: 6px; font-weight: 700; color: var(--heading); font-size: .92rem; }
+.trap-card .line { display: flex; gap: 8px; align-items: baseline; margin: 3px 0; }
+.trap-card .line > span:first-child { flex-shrink: 0; font-weight: 800; }
+.trap-card .line > span:last-child { min-width: 0; }
+.trap-card code { white-space: normal; }
+
+/* ---- Auto-test ---- */
+.quiz { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin: 14px 0; }
+.quiz details {
+  border-radius: 14px; border: 1px solid var(--border); background: rgba(var(--ink), .025);
+  transition: border-color .25s, background .25s;
+}
+.quiz details[open] { border-color: rgba(var(--green), .35); background: rgba(var(--green), .04); }
+.quiz summary {
+  list-style: none; cursor: pointer;
+  display: flex; gap: 12px; align-items: baseline;
+  padding: 13px 16px;
+  font-weight: 600; color: var(--heading);
+}
+.quiz summary::-webkit-details-marker { display: none; }
+.quiz summary .qn { flex-shrink: 0; font: 700 .74rem var(--mono); color: rgb(var(--violet)); }
+.quiz summary .chev { margin-left: auto; flex-shrink: 0; color: var(--muted); transition: transform .3s; }
+.quiz details[open] summary .chev { transform: rotate(90deg); color: rgb(var(--green)); }
+.quiz .answer { padding: 0 16px 14px 46px; color: var(--text-2); font-size: .92rem; }
+.quiz .answer p { margin: 4px 0; }
+
+/* ---- Fin ---- */
+.endcard {
+  margin-top: 60px; padding: 30px 26px; text-align: center;
+  border-radius: 24px;
+  background: radial-gradient(120% 120% at 50% 0%, rgba(var(--violet), .16), transparent 60%), rgba(var(--ink), .025);
+  border: 1px solid rgba(var(--violet), .25);
+}
+.endcard h3 { margin: 0 0 6px; font-size: 1.5rem; letter-spacing: -.02em; }
+.endcard p { margin: 0 auto; max-width: 520px; color: var(--text-2); }
+.endcard .hero-actions { justify-content: center; }
+.foot { margin-top: 34px; text-align: center; font-size: .72rem; letter-spacing: .12em; color: var(--muted); opacity: .7; }
+
+/* ══════════ ANIMATIONS ══════════ */
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(40px, -30px, 0) scale(1.06); }
+  66% { transform: translate3d(-34px, 26px, 0) scale(.95); }
+}
+@keyframes shimmer { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@keyframes frameIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: none; } }
+
+/* ══════════ RESPONSIVE ══════════ */
+@media (max-width: 1024px) {
+  /* z-index auto : le menu (dans .layout) peut passer au-dessus du voile sombre */
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 0 16px 80px; z-index: auto; }
+  .menu-btn { display: grid; }
+  /* Le sommaire devient un menu déroulant ouvert par le bouton hamburger */
+  .toc {
+    position: fixed; top: var(--topbar-h); left: 0; right: 0; z-index: 58;
+    max-height: calc(100vh - var(--topbar-h));
+    max-height: calc(100dvh - var(--topbar-h));
+    overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+    margin: 0; padding: 18px 16px 26px;
+    background: var(--menu-bg);
+    -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 28px 50px -24px rgba(0, 0, 0, .7);
+    opacity: 0; visibility: hidden; transform: translateY(-10px);
+    transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s;
+  }
+  html.menu-open .toc { opacity: 1; visibility: visible; transform: none; transition: opacity .25s ease, transform .25s ease; }
+  .toc-foot { display: none; }
+  .toc a { padding: 11px 12px; font-size: .95rem; }
+  .toc a.sub { padding: 8px 12px 8px 42px; font-size: .86rem; }
+  .menu-backdrop {
+    display: block; position: fixed; left: 0; right: 0; bottom: 0; top: var(--topbar-h); z-index: 57;
+    background: rgba(2, 4, 10, .55);
+    opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility 0s linear .25s;
+  }
+  html.menu-open .menu-backdrop { opacity: 1; visibility: visible; transition: opacity .25s ease; }
+  html.menu-open { overflow: hidden; }
+  html { scroll-padding-top: 76px; }
+  main { padding-top: 26px; }
+}
+@media (max-width: 720px) {
+  .topbar { padding: 0 12px; gap: 10px; }
+  .back-link span { display: none; }
+  .back-link { padding: 7px 9px; }
+  :not(pre) > code { white-space: normal; overflow-wrap: anywhere; }
+  .notion { padding: 20px 16px 18px; border-radius: 18px; }
+  .code { margin-left: -6px; margin-right: -6px; }
+  .code pre { padding: 14px 14px 16px; font-size: .78rem; }
+  .cheat, .compare, .traps, .callstack, .ds-demo { grid-template-columns: minmax(0, 1fr); }
+  .uml-wrap { grid-template-columns: minmax(0, 1fr); }
+  .rel { grid-template-columns: minmax(0, 1fr); gap: 8px; }
+  .chapter { margin-top: 56px; }
+  /* Numéro de chapitre au-dessus du titre */
+  .chapter-head { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .chapter-num { grid-row: auto; font-size: 2.5rem; margin-bottom: 6px; }
+  .master-btn { grid-column: 1; }
+  /* Tableaux : en-têtes sur plusieurs lignes, et tableaux larges en cartes */
+  th { white-space: normal; padding: 9px 10px; }
+  td { padding: 9px 10px; }
+  .table-wrap.stack-wrap { overflow: visible; border: 0; background: none; border-radius: 0; }
+  table.stack, table.stack tbody, table.stack tr, table.stack td { display: block; width: 100%; }
+  table.stack thead { display: none; }
+  table.stack tr { margin: 0 0 10px; border: 1px solid var(--border); border-radius: 12px; background: rgba(var(--ink), .025); overflow: hidden; }
+  table.stack tr:last-child { margin-bottom: 0; }
+  table.stack td { border-top: 1px solid rgba(var(--ink), .06); border-left: 0 !important; padding: 9px 12px; }
+  table.stack td:first-child { border-top: 0; background: rgba(var(--ink), .045); color: var(--heading); font-weight: 600; }
+  table.stack .td-label { display: block; margin-bottom: 2px; font-size: .64rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  table.stack td:first-child .td-label { display: none; }
+  tbody tr:hover td { background: none; }
+  .quiz .answer { padding-left: 16px; }
+}
+@media (max-width: 420px) {
+  .mastery-pill .lbl { display: none; }
+  .topbar-right { gap: 6px; }
+  .topbar-title .t-long { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ══════════ MENU HAMBURGER & SCHÉMAS ══════════ */
+@media (min-width: 1025px) { .menu-btn, .menu-backdrop { display: none; } }
+.menu-btn .i-close { opacity: 0; transform: rotate(-90deg) scale(.4); }
+html.menu-open .menu-btn .i-open { opacity: 0; transform: rotate(90deg) scale(.4); }
+html.menu-open .menu-btn .i-close { opacity: 1; transform: none; }
+html.menu-open .menu-btn { color: rgb(var(--hl)); border-color: rgba(var(--hl), .45); }
+.td-label { display: none; }
+
+/* ══════════ IMPRESSION ══════════ */
+@media print {
+  .menu-backdrop, .bg, .topbar, .toc, .search, .search-status, .master-btn, .copy-btn, .hero-actions, .endcard .hero-actions { display: none !important; }
+  html, body { background: #fff; color: #111; }
+  .layout { display: block; padding: 0; }
+  .notion, .code, .callout, .table-wrap { break-inside: avoid; box-shadow: none; }
+  html.js-anim .notion:not(.is-visible) { opacity: 1; transform: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <div class="grid-lines"></div>
+</div>
+
+<!-- ══════════ Barre supérieure ══════════ -->
+<header class="topbar">
+  <a class="back-link" href="../../../index.html" title="Retour à Last Minute Learning">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+    <span>Last Minute Learning</span>
+  </a>
+  <div class="topbar-title">
+    <span class="cs-logo" aria-hidden="true">C#</span>
+    <span>POO en C#<span class="t-long"> · A2</span></span>
+  </div>
+  <div class="topbar-right">
+    <button type="button" class="theme-btn" id="themeBtn" aria-label="Passer au thème clair" title="Thème clair / sombre">
+      <svg class="i-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="i-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <span class="mastery-pill" title="Chapitres marqués comme maîtrisés">
+      <svg class="mastery-ring" viewBox="0 0 24 24" aria-hidden="true"><circle class="track" cx="12" cy="12" r="10"/><circle class="value" id="masteryRing" cx="12" cy="12" r="10"/></svg>
+      <span id="masteryCount">0/9</span><span class="lbl">&nbsp;maîtrisés</span>
+    </span>
+    <button type="button" class="theme-btn menu-btn" id="menuBtn" aria-label="Ouvrir le sommaire" aria-expanded="false" aria-controls="toc" title="Sommaire">
+      <svg class="i-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <svg class="i-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="read-progress" id="readProgress" aria-hidden="true"></div>
+</header>
+<div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
+
+<div class="layout">
+
+  <!-- ══════════ Sommaire ══════════ -->
+  <nav class="toc" id="toc" aria-label="Sommaire du cours">
+    <p class="toc-head">Sommaire</p>
+    <ol>
+      <li><a href="#ch0"><span class="toc-num">00</span>Rappels A1 express<span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+      <li><a href="#ch1"><span class="toc-num">01</span>Penser objet &amp; UML<span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+      <li><a href="#ch2"><span class="toc-num">02</span>Anatomie d'une classe<span class="toc-star" title="Priorité examen">★</span><span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+      <li><a href="#ch3"><span class="toc-num">03</span>Objets &amp; surcharges<span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+      <li><a href="#ch4"><span class="toc-num">04</span>Récursivité<span class="toc-star" title="Priorité examen">★</span><span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+      <li><a href="#ch5"><span class="toc-num">05</span>Collections<span class="toc-star" title="Priorité examen">★</span><span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+      <li><a href="#ch6"><span class="toc-num">06</span>Fichiers &amp; exceptions<span class="toc-star" title="Priorité examen">★</span><span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+      <li><a href="#ch7"><span class="toc-num">07</span>Héritage &amp; polymorphisme<span class="toc-star" title="Priorité examen">★</span><span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+      <li><a href="#ch8"><span class="toc-num">08</span>Sprint final<span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+    </ol>
+    <p class="toc-foot"><b>★</b> = chapitre prioritaire pour le partiel.<br>Raccourci : <code>/</code> pour chercher.</p>
+  </nav>
+
+  <main id="contenu">
+
+    <!-- ══════════ HERO ══════════ -->
+    <section class="hero" aria-labelledby="titre-cours">
+      <div class="hero-chips">
+        <span class="chip"><i></i>A2 · 2026-2027</span>
+        <span class="chip orange"><i></i>CC2 &amp; partiel</span>
+      </div>
+      <h1 id="titre-cours">POO en C#</h1>
+      <p class="hero-lead">Module de révision pour te préparer au <strong>CC n°2</strong> et au <strong>partiel de POO en C#</strong>, en environ <strong>50 minutes</strong> de lecture.</p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#ch0">
+          Commencer la lecture
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#ch8">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4M12 17h.01"/></svg>
+          Pièges &amp; auto-test
+        </a>
+      </div>
+
+      <div class="search" role="search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="search" type="search" placeholder="Chercher une notion : StreamReader, override, Stack, terminale…" autocomplete="off" aria-label="Chercher une notion dans le cours" />
+        <kbd aria-hidden="true">/</kbd>
+      </div>
+      <p class="search-status" id="searchStatus" aria-live="polite"></p>
+    </section>
+
+    <div class="no-result" id="noResult">Aucune notion ne correspond à ta recherche. Essaie un autre mot-clé (ex. <code>List</code>, <code>base</code>, <code>fichier</code>).</div>
+
+    <!-- ══════════════════════ CHAPITRE 0 ══════════════════════ -->
+    <section class="chapter" id="ch0" data-num="0" aria-labelledby="ch0-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">00</span>
+        <p class="chapter-kicker">Rappels A1 · ce qu'on oublie toujours</p>
+        <h2 id="ch0-t">Rappels A1 express</h2>
+        <p class="chapter-lead">Pas de cours de syntaxe ici : seulement les fondamentaux de l'an dernier qui font perdre des points en A2.</p>
+      </header>
+
+      <article class="notion">
+        <h3>Type valeur vs type référence</h3>
+        <p>Les types simples (<code>int</code>, <code>double</code>, <code>bool</code>, <code>char</code>) sont copiés <strong>par valeur</strong>. Les tableaux, les <code>string</code> et <strong>tous les objets</strong> sont manipulés <strong>par référence</strong> : copier la variable copie l'adresse, pas le contenu.</p>
+        <script type="text/x-csharp" data-title="Valeur vs référence">
+int a = 5;
+int b = a;          // copie de la VALEUR
+b++;                // a vaut toujours 5
+
+int[] t1 = { 1, 2, 3 };
+int[] t2 = t1;      // copie de la RÉFÉRENCE : un seul tableau en mémoire
+t2[0] = 99;         // t1[0] vaut aussi 99 !
+
+static void Incrementer(ref int x) { x++; }   // ref : modifie la variable de l'appelant
+int n = 10;
+Incrementer(ref n); // n vaut 11 (ref aussi à l'appel)
+        </script>
+        <div class="callout tip"><div><span class="callout-title">À retenir</span>Un objet passé en paramètre peut être <strong>modifié</strong> par la méthode (elle reçoit la référence). Pas besoin de <code>ref</code> pour changer ses attributs.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Division entière, conversions &amp; saisie</h3>
+        <p><code>int / int</code> donne <strong>toujours</strong> un entier. Pour une moyenne, il faut caster <em>avant</em> de diviser. Tout ce que tape l'utilisateur est un <code>string</code> : il faut le convertir.</p>
+        <script type="text/x-csharp" data-title="Conversions">
+int a = 7, b = 2;
+Console.WriteLine(a / b);             // 3   ← division entière !
+Console.WriteLine(a % b);             // 1   (reste / modulo)
+double moy = (double)a / b;           // 3.5 ← cast AVANT la division
+
+int n = int.Parse("42");              // string → int  (FormatException si "abc")
+int m = Convert.ToInt32(Console.ReadLine());
+double d = double.Parse("12,5");      // séparateur décimal selon la langue du PC (virgule en FR)
+string s = n.ToString();              // int → string
+bool ok = int.TryParse("abc", out int r);   // false, ne plante pas (r = 0)
+        </script>
+      </article>
+
+      <article class="notion">
+        <h3>Vérifier le type d'une saisie : <code>TryParse</code> <span class="tag-mini">tombe souvent</span></h3>
+        <p>Classique de contrôle : « vérifiez que l'utilisateur a bien saisi un entier ». <code>int.Parse("abc")</code> fait <strong>planter</strong> le programme. <code>int.TryParse</code> <strong>essaie</strong> la conversion sans jamais planter :</p>
+        <ul>
+          <li>elle <strong>renvoie un <code>bool</code></strong> : <code>true</code> si la saisie est du bon type, <code>false</code> sinon ;</li>
+          <li>la valeur convertie sort par le paramètre <code>out</code> (elle vaut <code>0</code> en cas d'échec).</li>
+        </ul>
+        <div class="code-tabs">
+          <script type="text/x-csharp" data-tab="Vérifier une fois">
+Console.Write("Âge : ");
+string saisie = Console.ReadLine();
+
+if (int.TryParse(saisie, out int age))           // true → conversion réussie
+    Console.WriteLine("Âge valide : " + age);
+else                                              // false → "abc", "12.5", "", trop grand…
+    Console.WriteLine("Erreur : ce n'est pas un nombre entier");
+          </script>
+          <script type="text/x-csharp" data-tab="Redemander (boucle)">
+// Le schéma à connaître par cœur : on redemande TANT QUE la saisie est invalide
+int nb;
+Console.Write("Nombre d'étudiants : ");
+while (!int.TryParse(Console.ReadLine(), out nb) || nb <= 0)
+{
+    Console.Write("Saisie invalide, entrez un entier positif : ");
+}
+// Ici, nb est forcément un entier > 0
+          </script>
+          <script type="text/x-csharp" data-tab="Autres types">
+double.TryParse("12,5", out double note);      // réel (virgule sur un PC français)
+long.TryParse("15742", out long numero);
+bool.TryParse("true", out bool flag);          // accepte "true" / "false"
+char.TryParse("A", out char lettre);           // exactement 1 caractère
+
+// Une chaîne composée uniquement de lettres ? (pas de TryParse pour ça)
+string nom = Console.ReadLine();
+bool queDesLettres = nom.Length > 0;
+foreach (char c in nom)
+    if (!char.IsLetter(c)) queDesLettres = false;
+// Existent aussi : char.IsDigit(c), char.IsLetterOrDigit(c), char.IsUpper(c)
+          </script>
+          <script type="text/x-csharp" data-tab="Avec try / catch">
+// Même résultat avec une exception (voir ch. 6), mais plus long
+try
+{
+    int age = int.Parse(Console.ReadLine());      // FormatException si "abc"
+    Console.WriteLine("Âge valide : " + age);
+}
+catch (FormatException)
+{
+    Console.WriteLine("Erreur : ce n'est pas un nombre entier");
+}
+          </script>
+        </div>
+        <div class="callout exam"><div><span class="callout-title">En contrôle</span>« Vérifier la saisie » = <code>TryParse</code> dans la condition d'un <code>while</code> (ou d'un <code>do…while</code>). Ajoute la contrainte métier avec <code>||</code> (positif, entre 0 et 20…). <code>TryParse</code> renvoie aussi <code>false</code> pour un nombre trop grand, là où <code>Parse</code> lèverait une <code>OverflowException</code>.</div></div>
+        <h4>Connaître le type d'une variable ou d'un objet</h4>
+        <div class="cheat">
+          <div><code>x.GetType()</code><span>Le type réel : <code>System.Int32</code>. Avec <code>.Name</code> → <code>"Int32"</code>.</span></div>
+          <div><code>x.GetType() == typeof(int)</code><span><code>typeof(T)</code> donne un type, pour le comparer à celui d'une variable.</span></div>
+          <div><code>o is int</code><span><code>true</code> si l'objet <code>o</code> contient un <code>int</code> (utile avec <code>object</code> / <code>ArrayList</code>).</span></div>
+          <div><code>if (o is Compte c)</code><span>Teste le type <strong>et</strong> convertit en une fois (voir ch. 5 et 7).</span></div>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Chaînes de caractères (<code>string</code>)</h3>
+        <p>Une <code>string</code> est <strong>immuable</strong> : chaque méthode renvoie une <strong>nouvelle</strong> chaîne, l'originale ne change pas. On lit un caractère comme dans un tableau, mais on ne peut pas l'écrire.</p>
+        <script type="text/x-csharp" data-title="Méthodes utiles">
+string s = "  Bonjour le monde ";
+int n = s.Length;                         // nombre de caractères
+char c = s[2];                            // 'B'   (s[2] = 'X' est INTERDIT)
+string propre = s.Trim().ToUpper();       // "BONJOUR LE MONDE" (s n'a pas changé)
+bool trouve = s.Contains("monde");        // true
+int pos = s.IndexOf('o');                 // 1re position, ou -1
+string mot = propre.Substring(0, 7);      // "BONJOUR" (début, longueur)
+string[] items = "Durand;100;t".Split(';');   // { "Durand", "100", "t" }
+int cmp = string.Compare("abc", "abd");   // < 0 : "abc" est avant "abd"
+string msg = $"Nom : {mot}, taille : {n}";    // interpolation
+        </script>
+        <div class="callout trap"><div><span class="callout-title">Piège</span><code>s.ToUpper();</code> seul ne fait rien d'utile : il faut <strong>récupérer</strong> le résultat → <code>s = s.ToUpper();</code></div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Tableaux 1D, 2D, en escalier… et leur taille</h3>
+        <p>Les indices vont de <code>0</code> à <code>taille - 1</code>. Chaque structure a <strong>sa</strong> façon de donner sa taille : c'est la question piège classique.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Structure</th><th>Déclaration</th><th>Taille</th></tr></thead>
+            <tbody>
+              <tr><td>Tableau 1D</td><td><code>int[] t = new int[5];</code></td><td><code>t.Length</code></td></tr>
+              <tr><td>Matrice 2D</td><td><code>int[,] m = new int[3, 4];</code></td><td><code>m.GetLength(0)</code> lignes · <code>m.GetLength(1)</code> colonnes</td></tr>
+              <tr><td>En escalier</td><td><code>int[][] e = new int[3][];</code></td><td><code>e.Length</code> · <code>e[i].Length</code></td></tr>
+              <tr><td>Chaîne</td><td><code>string s</code></td><td><code>s.Length</code></td></tr>
+              <tr><td>Collection</td><td><code>List&lt;int&gt; l</code></td><td><code>l.Count</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <script type="text/x-csharp" data-title="Tableaux">
+int[] notes = { 12, 15, 8 };              // initialisation directe
+int dernier = notes[notes.Length - 1];    // notes[notes.Length] → IndexOutOfRangeException
+
+int[,] grille = new int[3, 4];
+for (int i = 0; i < grille.GetLength(0); i++)        // lignes
+    for (int j = 0; j < grille.GetLength(1); j++)    // colonnes
+        grille[i, j] = 0;
+
+Compte[] comptes = new Compte[3];   // 3 cases… qui valent toutes null !
+comptes[0] = new Compte(1, 500);    // il faut créer chaque objet avec new
+        </script>
+      </article>
+
+      <article class="notion">
+        <h3>Boucles, <code>switch</code> &amp; <code>Random</code></h3>
+        <script type="text/x-csharp" data-title="Contrôle du flux">
+foreach (int x in notes) { Console.Write(x + " "); }   // lecture seule : x = 0 ne modifie pas le tableau
+
+int choix;
+do                                                     // s'exécute AU MOINS une fois → idéal pour un menu
+{
+    Console.WriteLine("1 - Ajouter  2 - Supprimer  0 - Quitter");
+    choix = int.Parse(Console.ReadLine());
+    switch (choix)
+    {
+        case 1: Ajouter(); break;
+        case 2: Supprimer(); break;
+        case 0: break;
+        default: Console.WriteLine("Choix invalide"); break;   // break obligatoire partout
+    }
+} while (choix != 0);
+
+Random rnd = new Random();       // à créer UNE seule fois
+int de = rnd.Next(1, 7);         // 1 à 6 : la borne max est EXCLUE
+int pile = rnd.Next(2);          // 0 ou 1
+        </script>
+      </article>
+
+      <article class="notion">
+        <h3>Tris, recherche &amp; complexités <span class="tag-mini">par cœur</span></h3>
+        <p>On réutilise ces algos en A2 sur des <strong>tableaux d'objets</strong> (tri des stages par identifiant, des communes par nom…). La brique de base reste l'<strong>échange</strong> avec une variable temporaire.</p>
+        <script type="text/x-csharp" data-title="Échange (swap)">
+int tmp = t[i];     // 1. sauvegarder
+t[i] = t[j];        // 2. écraser
+t[j] = tmp;         // 3. restaurer
+        </script>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Algorithme</th><th>Meilleur cas</th><th>Pire cas</th><th>Mémoire</th><th>Idée</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Bulles</strong></td><td>O(n)</td><td>O(n²)</td><td>O(1)</td><td>On échange les voisins mal rangés</td></tr>
+              <tr><td><strong>Sélection</strong></td><td>O(n²)</td><td>O(n²)</td><td>O(1)</td><td>On cherche le min, on le met devant</td></tr>
+              <tr><td><strong>Insertion</strong></td><td>O(n)</td><td>O(n²)</td><td>O(1)</td><td>Comme ranger des cartes en main</td></tr>
+              <tr><td><strong>Fusion</strong></td><td>O(n log n)</td><td>O(n log n)</td><td>O(n)</td><td>Diviser en 2, trier, interclasser</td></tr>
+              <tr><td><strong>Rapide</strong></td><td>O(n log n)</td><td>O(n²)</td><td>O(log n)</td><td>Pivot : petits à gauche, grands à droite</td></tr>
+              <tr><td><strong>Rech. séquentielle</strong></td><td>O(1)</td><td>O(n)</td><td>O(1)</td><td>On regarde tout, case par case</td></tr>
+              <tr><td><strong>Rech. dichotomique</strong></td><td>O(1)</td><td>O(log n)</td><td>O(1)</td><td>Tableau <strong>trié</strong> obligatoire</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+
+    <!-- ══════════════════════ CHAPITRE 1 ══════════════════════ -->
+    <section class="chapter" id="ch1" data-num="1" aria-labelledby="ch1-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">01</span>
+        <p class="chapter-kicker">CM1 · TD1-2</p>
+        <h2 id="ch1-t">Penser objet &amp; modéliser en UML</h2>
+        <p class="chapter-lead">Pourquoi la POO, ce qu'est une classe, et comment passer d'un diagramme de classes à du code C#.</p>
+      </header>
+
+      <article class="notion">
+        <h3>Pourquoi la POO ?</h3>
+        <p>En programmation <strong>séquentielle</strong> (A1), les données circulent entre des fonctions. Dès que le programme grossit (gestion de comptes bancaires, de dossiers médicaux…), ça devient ingérable.</p>
+        <div class="compare">
+          <div class="bad">
+            <h5>Séquentiel : les limites</h5>
+            <ul>
+              <li>Données du client mélangées à celles du compte</li>
+              <li>Débogage difficile : il faut suivre les enchaînements d'appels</li>
+              <li>Ajouter une fonction oblige à revoir ses liens avec les autres</li>
+              <li>Aucune séparation claire des rôles</li>
+            </ul>
+          </div>
+          <div class="good">
+            <h5>Objet : la solution</h5>
+            <ul>
+              <li>Chaque <strong>objet</strong> regroupe <strong>ses données + ses actions</strong></li>
+              <li>Les objets <strong>interagissent</strong> entre eux (Client, Compte, Banque)</li>
+              <li>Code plus facile à <strong>faire évoluer</strong>, <strong>concevoir</strong> et <strong>maintenir</strong></li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Classe vs objet</h3>
+        <p>Une <strong>classe</strong> est le <strong>plan</strong> (le moule, le type). Un <strong>objet</strong> est une <strong>instance</strong> concrète créée en mémoire à partir de ce plan. <code>Client</code> est une classe ; « Julien, 2 rue de la Paix » est un objet.</p>
+        <div class="cheat">
+          <div><code>attributs</code><span>Variables qui décrivent l'<strong>état</strong> de l'objet (nom, solde…). Toujours <code>private</code>.</span></div>
+          <div><code>constructeur(s)</code><span>Méthode spéciale appelée par <code>new</code> : <strong>crée et initialise</strong> l'objet.</span></div>
+          <div><code>propriétés</code><span><strong>Lire</strong> (<code>get</code>) et/ou <strong>modifier</strong> (<code>set</code>) un attribut privé de façon contrôlée.</span></div>
+          <div><code>méthodes</code><span>Les <strong>actions</strong> que l'objet sait faire (afficher, déposer, retirer…).</span></div>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Lire une classe UML</h3>
+        <p>Une classe se dessine en 3 cases : <strong>nom</strong>, <strong>attributs</strong>, <strong>opérations</strong> (constructeurs, propriétés, méthodes). Le symbole devant chaque membre donne sa <strong>visibilité</strong>.</p>
+        <div class="uml-wrap">
+          <div class="uml-class" aria-label="Diagramme UML de la classe Compte">
+            <div>Compte</div>
+            <div>
+              <span class="row">- numero : int</span>
+              <span class="row">- solde : double</span>
+              <span class="row">- clt : Client</span>
+              <span class="row u">- nbComptes : int</span>
+            </div>
+            <div>
+              <span class="row em">+ Compte(int, double, Client)</span>
+              <span class="row">+ Numero : int</span>
+              <span class="row">+ Solde : double</span>
+              <span class="row">+ AugmenterSolde(double) : void</span>
+              <span class="row">+ ToString() : string</span>
+            </div>
+          </div>
+          <div class="uml-legend">
+            <div><b>+</b><span><strong>public</strong> : visible partout</span></div>
+            <div><b>-</b><span><strong>private</strong> : visible seulement dans la classe</span></div>
+            <div><b>#</b><span><strong>protected</strong> : classe + classes filles (héritage)</span></div>
+            <div><b class="u">s</b><span><strong>souligné</strong> = <code>static</code> (membre de classe)</span></div>
+            <div><b>:</b><span><code>nom : type</code> ; pour une opération <code>Nom(params) : typeRetour</code></span></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Les relations entre classes</h3>
+        <p>La <strong>cardinalité</strong> placée près d'une classe dit <strong>combien d'objets de cette classe</strong> sont liés à <strong>un</strong> objet de l'autre classe : <code>1</code>, <code>0..1</code>, <code>0..*</code>, <code>1..*</code>.</p>
+        <div class="rel-list">
+          <div class="rel">
+            <svg viewBox="0 0 118 26" aria-hidden="true"><line x1="4" y1="13" x2="114" y2="13" stroke="currentColor" stroke-width="1.8"/><text x="6" y="8" font-size="9" fill="currentColor" font-family="monospace">1..*</text><text x="92" y="8" font-size="9" fill="currentColor" font-family="monospace">0..*</text></svg>
+            <div><b>Association</b><p>Relation durable « utilise / travaille pour ». Ex. : une Personne travaille dans 0..* Entreprises, une Entreprise emploie 1..* Personnes.</p></div>
+          </div>
+          <div class="rel">
+            <svg viewBox="0 0 118 26" aria-hidden="true"><line x1="22" y1="13" x2="114" y2="13" stroke="currentColor" stroke-width="1.8"/><polygon points="2,13 12,7 22,13 12,19" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+            <div><b>Agrégation</b> (losange <strong>vide</strong> côté conteneur)<p>« contient », mais la partie <strong>survit</strong> sans le tout. Un Employé peut quitter l'Entreprise et continuer d'exister.</p></div>
+          </div>
+          <div class="rel">
+            <svg viewBox="0 0 118 26" aria-hidden="true"><line x1="22" y1="13" x2="114" y2="13" stroke="currentColor" stroke-width="1.8"/><polygon points="2,13 12,7 22,13 12,19" fill="currentColor" stroke="currentColor" stroke-width="1.8"/></svg>
+            <div><b>Composition</b> (losange <strong>plein</strong>)<p>Agrégation forte : la partie appartient à <strong>un seul</strong> tout et <strong>meurt avec lui</strong>. Une Pièce n'existe pas sans sa Maison.</p></div>
+          </div>
+          <div class="rel">
+            <svg viewBox="0 0 118 26" aria-hidden="true"><line x1="4" y1="13" x2="98" y2="13" stroke="currentColor" stroke-width="1.8"/><polygon points="98,6 114,13 98,20" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+            <div><b>Héritage</b> (triangle <strong>vide</strong> vers la mère)<p>« est un » : un CompteCheque <strong>est un</strong> Compte. Voir chapitre 7.</p></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Du diagramme au code C#</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>UML</th><th>C#</th></tr></thead>
+            <tbody>
+              <tr><td><code>- solde : double</code></td><td><code>private double solde;</code></td></tr>
+              <tr><td><code>+ Compte(int, double, Client)</code></td><td><code>public Compte(int numero, double solde, Client clt) { … }</code></td></tr>
+              <tr><td><code>+ Solde : double</code> (propriété)</td><td><code>public double Solde { get { return solde; } }</code></td></tr>
+              <tr><td><code>+ Afficher() : void</code></td><td><code>public void Afficher() { … }</code></td></tr>
+              <tr><td>Association <code>1</code> vers Client</td><td>un attribut <code>private Client clt;</code></td></tr>
+              <tr><td>Association <code>0..*</code> / <code>1..*</code> vers Compte</td><td>une collection <code>private List&lt;Compte&gt; lstCompte;</code></td></tr>
+              <tr><td>Composition</td><td>les parties sont <strong>créées dans</strong> le constructeur du tout</td></tr>
+              <tr><td>Agrégation</td><td>les parties sont <strong>reçues en paramètre</strong> (elles existent déjà)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <script type="text/x-csharp" data-title="Banque.cs">
+public class Banque
+{
+    private string nom;
+    private List<Compte> lstCompte;            // Banque 1 —— 0..* Compte
+
+    public Banque(string nom)
+    {
+        this.nom = nom;
+        lstCompte = new List<Compte>();        // ⚠ créer la liste, sinon null !
+    }
+
+    public void AjoutCompte(Compte c) { lstCompte.Add(c); }
+    public void SuppCompte(Compte c)  { lstCompte.Remove(c); }
+
+    public void AugmenterSoldeCompte(int numero, double montant)
+    {
+        foreach (Compte c in lstCompte)
+            if (c.Numero == numero)
+                c.AugmenterSolde(montant);     // la Banque délègue au Compte
+    }
+}
+        </script>
+      </article>
+
+      <article class="notion">
+        <h3>Méthode pour modéliser un énoncé <span class="tag-mini">Problème</span></h3>
+        <ol>
+          <li>Repère les <strong>noms</strong> importants → candidats <strong>classes</strong> (Hôtel, Chambre, Client, Réservation, Paiement).</li>
+          <li>Leurs <strong>caractéristiques</strong> → <strong>attributs</strong> avec un type et <code>-</code>.</li>
+          <li>Les <strong>verbes</strong> (« ajouter », « rechercher », « calculer le montant ») → <strong>méthodes</strong> avec paramètres et type de retour.</li>
+          <li>Trace les <strong>relations</strong> et leurs <strong>cardinalités</strong> (« une réservation concerne un seul client » → <code>1</code>).</li>
+          <li>Vérifie que <strong>chaque besoin</strong> de l'énoncé est couvert par une méthode.</li>
+        </ol>
+        <div class="callout exam"><div><span class="callout-title">Barème du Problème</span>Programme fonctionnel 5 pts · <strong>diagramme des classes 3 pts</strong> · <strong>bon choix des conteneurs 2 pts</strong> · questions 10 pts. Un diagramme propre et une bonne collection = 5 points « faciles ».</div></div>
+      </article>
+    </section>
+
+    <!-- ══════════════════════ CHAPITRE 2 ══════════════════════ -->
+    <section class="chapter" id="ch2" data-num="2" aria-labelledby="ch2-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">02</span>
+        <p class="chapter-kicker">CM2 · TD3-4 <span class="prio">★ Priorité examen</span></p>
+        <h2 id="ch2-t">Anatomie d'une classe &amp; encapsulation</h2>
+        <p class="chapter-lead">Attributs, constructeurs, propriétés, méthodes, <code>static</code>, <code>ToString</code> : le squelette de TOUTES tes classes.</p>
+      </header>
+
+      <article class="notion">
+        <h3>Le squelette complet d'une classe</h3>
+        <p>L'ordre conseillé : <strong>attributs → constructeurs → propriétés → méthodes</strong>. Exemple tiré du TD3-4 (classe <code>Article</code>).</p>
+        <script type="text/x-csharp" data-title="Article.cs">
+public class Article
+{
+    // 1. ATTRIBUTS : private, nom en minuscule
+    private long reference;
+    private string libelle;
+    private float prixHT;
+    private int quantiteEnStock;
+    private static int nbArticles = 0;          // attribut DE CLASSE (partagé)
+
+    // 2. CONSTRUCTEURS : même nom que la classe, AUCUN type de retour
+    public Article(long reference, string libelle, float prixHT, int quantiteEnStock)
+    {
+        this.reference = reference;             // this.attribut = paramètre
+        this.libelle = libelle;
+        this.prixHT = prixHT;
+        this.quantiteEnStock = quantiteEnStock;
+        nbArticles++;
+    }
+
+    public Article(long reference, string libelle, float prixHT)
+        : this(reference, libelle, prixHT, 0) { }      // stock à 0 par défaut
+
+    public Article(Article a)                           // constructeur PAR COPIE
+        : this(a.reference, a.libelle, a.prixHT, a.quantiteEnStock) { }
+
+    // 3. PROPRIÉTÉS
+    public long Reference { get { return reference; } }        // lecture seule
+    public float PrixHT
+    {
+        get { return prixHT; }
+        set { if (value >= 0) prixHT = value; }                 // écriture contrôlée
+    }
+    public static int NbArticles { get { return nbArticles; } }
+
+    // 4. MÉTHODES
+    public void Approvisionner(int nombreUnites) { quantiteEnStock += nombreUnites; }
+
+    public bool Vendre(int nombreUnites)
+    {
+        bool ok = false;
+        if (nombreUnites <= quantiteEnStock)
+        {
+            quantiteEnStock -= nombreUnites;
+            ok = true;
+        }
+        return ok;                                       // un seul return
+    }
+
+    public float PrixTTC() { return prixHT * 1.2f; }    // 1.2f : littéral float
+
+    public override string ToString()
+    {
+        return "Article " + reference + " : " + libelle + " (" + prixHT + " € HT)";
+    }
+
+    public bool Equals(Article autre) { return autre != null && reference == autre.reference; }
+}
+        </script>
+        <div class="callout trap"><div><span class="callout-title">Pièges de compilation</span><ul><li>Un constructeur n'a <strong>pas</strong> de type de retour (même pas <code>void</code>).</li><li><code>prixHT * 1.2</code> est un <code>double</code> → impossible de le renvoyer en <code>float</code> sans <code>1.2f</code> ou un cast.</li><li>Si tu écris <strong>un</strong> constructeur avec paramètres, le constructeur par défaut <code>new Article()</code> n'existe plus (sauf si tu l'écris).</li></ul></div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Les constructeurs</h3>
+        <p>Appelés par <code>new</code>, ils <strong>réservent la mémoire</strong> et <strong>initialisent</strong> les attributs. On peut en avoir plusieurs (surcharge) pour créer un objet selon les données disponibles.</p>
+        <div class="cheat">
+          <div><code>public Client() { }</code><span><strong>Par défaut</strong> : sans paramètre.</span></div>
+          <div><code>public Client(string nom, string tel)</code><span><strong>Surchargé</strong> : initialise avec les valeurs fournies.</span></div>
+          <div><code>public Client(Client c)</code><span><strong>Par copie</strong> : nouvel objet identique à <code>c</code> (copie chaque attribut).</span></div>
+          <div><code>: this(nom, "", tel)</code><span>Un constructeur peut en <strong>appeler un autre</strong> de la même classe (évite de dupliquer).</span></div>
+        </div>
+        <div class="callout tip"><div><span class="callout-title">this</span><code>this</code> désigne l'objet courant. Indispensable quand le paramètre a <strong>le même nom</strong> que l'attribut : <code>this.nom = nom;</code> (sinon on s'affecte le paramètre à lui-même).</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Les portées (visibilité)</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Mot-clé</th><th>UML</th><th>Accessible depuis</th><th>Usage typique</th></tr></thead>
+            <tbody>
+              <tr><td><code>private</code></td><td><code>-</code></td><td>la classe uniquement</td><td><strong>tous les attributs</strong></td></tr>
+              <tr><td><code>public</code></td><td><code>+</code></td><td>partout</td><td>constructeurs, propriétés, méthodes</td></tr>
+              <tr><td><code>protected</code></td><td><code>#</code></td><td>la classe + ses classes filles</td><td>attributs d'une classe mère</td></tr>
+              <tr><td><code>static</code></td><td>souligné</td><td>via le <strong>nom de la classe</strong></td><td>compteurs, méthodes utilitaires</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Propriétés <code>get</code> / <code>set</code></h3>
+        <p>Une propriété porte le nom de l'attribut avec une <strong>majuscule</strong>. <code>get</code> renvoie la valeur, <code>set</code> la modifie : la valeur reçue s'appelle toujours <code>value</code>. C'est l'endroit idéal pour <strong>valider</strong>.</p>
+        <script type="text/x-csharp" data-title="Commune.cs (TD3-4)">
+public class Commune
+{
+    private string nom;
+    private string maire;
+    private int population;
+
+    public Commune(string nom, string maire, int population)
+    {
+        this.nom = nom.ToUpper();          // nom en MAJUSCULES
+        this.maire = maire.ToLower();      // maire en minuscules
+        Population = population;           // on passe par la propriété → même validation
+    }
+
+    public string Nom { get { return nom; } }                    // lecture seule
+
+    public string Maire                                          // lecture + écriture
+    {
+        get { return maire; }
+        set { maire = value.ToLower(); }
+    }
+
+    public int Population
+    {
+        get { return population; }
+        set { population = (value > 0) ? value : -1; }           // -1 = code d'erreur
+    }
+}
+
+// Utilisation
+Commune paris = new Commune("Paris", "Hidalgo", 2200000);
+paris.Population = 2220000;          // appelle set (value = 2220000)
+Console.WriteLine(paris.Population); // appelle get
+// paris.Nom = "Lyon";               // ✘ erreur : pas de set
+        </script>
+        <div class="callout exam"><div><span class="callout-title">Lire l'énoncé</span>« accessible en lecture » → <code>get</code> seul · « peut être modifié » → <code>get</code> + <code>set</code> · « ne peut pas être modifié après la création » → pas de <code>set</code>.</div></div>
+        <div class="callout trap"><div><span class="callout-title">Piège vu en CM</span>Si l'attribut s'appelle lui-même <code>value</code>, le setter <code>set { value = value; }</code> ne fait rien ! Il faut <code>this.value = value;</code> — ou mieux, nommer l'attribut autrement.</div></div>
+        <p>Raccourci moderne (si aucune validation) : <code>public string Tel { get; set; }</code> — l'attribut est créé automatiquement.</p>
+      </article>
+
+      <article class="notion">
+        <h3><code>static</code> : membres de classe vs d'instance</h3>
+        <p>Un membre <code>static</code> appartient à la <strong>classe</strong> et est <strong>partagé</strong> par tous les objets (ex. : compter les objets créés). Un membre d'instance appartient à <strong>chaque</strong> objet.</p>
+        <script type="text/x-csharp" data-title="Compteur d'objets (TD3-4 ex. 8)">
+public class Stage
+{
+    private int identifiant;
+    private static int nbStages = 0;                 // un seul compteur pour tous
+
+    public Stage(int identifiant)
+    {
+        this.identifiant = identifiant;
+        nbStages++;                                  // chaque new incrémente
+    }
+
+    public static int NbStages { get { return nbStages; } }
+
+    public static bool EqualStatic(Stage a, Stage b)  // méthode de classe
+    {
+        return a.identifiant == b.identifiant;
+    }
+    public bool Equals(Stage autre)                   // méthode d'instance
+    {
+        return identifiant == autre.identifiant;
+    }
+}
+
+Stage s1 = new Stage(1), s2 = new Stage(2);
+Console.WriteLine(Stage.NbStages);           // 2   ✔ via la CLASSE
+bool b1 = Stage.EqualStatic(s1, s2);         // static : NomClasse.Methode(a, b)
+bool b2 = s1.Equals(s2);                     // instance : objet.Methode(autre)
+// s1.NbStages                               // ✘ un membre static ne s'appelle pas via un objet
+        </script>
+        <div class="callout trap"><div><span class="callout-title">Règles d'or</span><ul><li>Une méthode <code>static</code> <strong>ne peut pas</strong> utiliser les attributs d'instance (pas de <code>this</code>).</li><li><code>Main</code> est <code>static</code> → les fonctions que tu appelles directement depuis <code>Main</code> doivent être <code>static</code>.</li></ul></div></div>
+      </article>
+
+      <article class="notion">
+        <h3><code>ToString()</code> &amp; <code>Equals()</code></h3>
+        <p><code>Console.WriteLine(obj)</code> appelle automatiquement <code>obj.ToString()</code>. Pour que ça affiche <strong>ta</strong> description, il faut <strong>redéfinir</strong> la méthode héritée de <code>Object</code> avec <code>override</code>.</p>
+        <script type="text/x-csharp" data-title="override ToString">
+public override string ToString()          // ✔ redéfinit celle de Object
+{
+    return "Client " + nom + " - tel : " + tel;
+}
+Console.WriteLine(c);                      // "Client Dupont - tel : 0601…"
+
+public string toString() { ... }           // ⚠ minuscule = méthode ORDINAIRE
+Console.WriteLine(c);                      // affiche "MonProjet.Client" (nom de la classe)
+Console.WriteLine(c.toString());           // il faut l'appeler explicitement
+        </script>
+        <div class="callout tip"><div><span class="callout-title">Equals</span>Deux objets « identiques » selon l'énoncé (même référence, même numéro d'étudiant…) se comparent avec une méthode <code>Equals</code> qui compare <strong>l'attribut clé</strong>, jamais avec <code>==</code> (qui compare les références, voir 3.2).</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Le principe d'encapsulation</h3>
+        <p>Les attributs sont <strong>privés</strong> et ne sont accessibles <strong>que</strong> via les propriétés et méthodes que la classe propose. Résultat : l'objet <strong>garantit l'intégrité</strong> de ses données (pas de population négative, pas de solde modifié n'importe comment).</p>
+        <div class="compare">
+          <div class="bad"><h5>Sans encapsulation</h5><ul><li><code>public double solde;</code></li><li><code>c.solde = -5000;</code> → incohérent, personne ne l'empêche</li></ul></div>
+          <div class="good"><h5>Avec encapsulation</h5><ul><li><code>private double solde;</code> + méthodes <code>Crediter</code> / <code>Debiter</code></li><li>Le débit vérifie le solde avant d'agir</li></ul></div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ══════════════════════ CHAPITRE 3 ══════════════════════ -->
+    <section class="chapter" id="ch3" data-num="3" aria-labelledby="ch3-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">03</span>
+        <p class="chapter-kicker">CM2 · TD3-4</p>
+        <h2 id="ch3-t">Objets en mémoire &amp; surcharges</h2>
+        <p class="chapter-lead">Ce que fait vraiment <code>new</code>, pourquoi <code>==</code> trompe, tableaux d'objets, surcharge de méthodes et d'opérateurs.</p>
+      </header>
+
+      <article class="notion">
+        <h3>Déclarer ≠ créer : <code>new</code>, la pile et le tas</h3>
+        <p><code>Client c;</code> déclare une <strong>coquille vide</strong> (référence <code>null</code>). C'est <code>new</code> qui <strong>construit</strong> l'objet dans le <strong>tas</strong> et renvoie sa <strong>référence</strong>, stockée dans la <strong>pile</strong>.</p>
+        <div class="mem" aria-label="Schéma : deux variables de la pile pointent vers le même objet du tas, une troisième vers une copie">
+          <div class="mem-col">
+            <h5>Pile (variables)</h5>
+            <div class="mem-var">c1 <b>→ #1</b></div>
+            <div class="mem-var">c2 <b>→ #1</b></div>
+            <div class="mem-var">c3 <b class="alt">→ #2</b></div>
+          </div>
+          <svg class="mem-arrows" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h15M13 6l6 6-6 6"/></svg>
+          <div class="mem-col">
+            <h5>Tas (objets)</h5>
+            <div class="mem-obj"><span class="t">#1 · Client</span>nom = "Dupont"<br>tel = "0799…"</div>
+            <div class="mem-obj alt"><span class="t">#2 · Client (copie)</span>nom = "Dupont"<br>tel = "0601…"</div>
+          </div>
+        </div>
+        <script type="text/x-csharp" data-title="Références partagées">
+Client c1 = new Client("Dupont", "Paris", "0601…");
+Client c3 = new Client(c1);      // constructeur par copie → objet distinct
+Client c2 = c1;                  // PAS de nouvel objet : 2 références vers le même
+c2.Tel = "0799…";                // c1.Tel vaut aussi "0799…" ! (c3 garde "0601…")
+
+Console.WriteLine(c1 == c2);     // True  : même référence
+Console.WriteLine(c1 == c3);     // False : objets différents (même si contenu égal)
+
+Client vide = null;
+vide.Afficher();                 // 💥 NullReferenceException
+        </script>
+      </article>
+
+      <article class="notion">
+        <h3>Manipuler un objet</h3>
+        <p>On accède aux membres avec le point : <code>objet.Methode()</code>, <code>objet.Propriete</code>. Les attributs privés sont inaccessibles de l'extérieur : <code>c.nom</code> → <strong>erreur de compilation</strong> (violation de l'encapsulation).</p>
+        <script type="text/x-csharp" data-title="Program.cs">
+Client c = new Client("Alexis Dupont", "75015 Paris", "0657896543");
+c.Tel = "0678953421";            // set de la propriété Tel
+Console.WriteLine(c.Tel);        // get
+c.AffichageClient();             // appel de méthode
+// c.tel = "…";                  // ✘ 'Client.tel' est inaccessible en raison de son niveau de protection
+        </script>
+      </article>
+
+      <article class="notion">
+        <h3>Tableau d'objets &amp; tri selon un attribut</h3>
+        <p>Classique des TD (ServiceStage, Région) : un tableau à taille fixe + un <strong>compteur</strong> de cases remplies, puis un tri « à la main » (sans <code>Sort</code>) sur un attribut.</p>
+        <script type="text/x-csharp" data-title="ServiceStage.cs">
+private Stage[] tabStage = new Stage[50];    // 50 cases à null
+private int nbStages = 0;                    // cases réellement utilisées
+
+public void AjoutStage(Stage s)
+{
+    bool existe = false;
+    for (int i = 0; i < nbStages; i++)                   // on ne parcourt que les cases remplies
+        if (tabStage[i].Identifiant == s.Identifiant) existe = true;
+    if (!existe && nbStages < tabStage.Length)
+        tabStage[nbStages++] = s;                        // ajoute puis incrémente
+}
+
+public void TrierParIdentifiant()                        // tri par sélection
+{
+    for (int i = 0; i < nbStages - 1; i++)
+    {
+        int iMin = i;
+        for (int j = i + 1; j < nbStages; j++)
+            if (tabStage[j].Identifiant < tabStage[iMin].Identifiant) iMin = j;
+        Stage tmp = tabStage[i]; tabStage[i] = tabStage[iMin]; tabStage[iMin] = tmp;
+    }
+}
+        </script>
+        <div class="callout tip"><div><span class="callout-title">Ordre alphabétique</span><code>string.Compare(a.Nom, b.Nom)</code> renvoie <strong>&lt; 0</strong> si <code>a</code> est avant <code>b</code>, <strong>0</strong> si égaux, <strong>&gt; 0</strong> sinon. Remplace simplement la comparaison <code>&lt;</code> du tri : <code>if (string.Compare(t[j].Nom, t[iMin].Nom) &lt; 0)</code>.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Surcharge de méthodes</h3>
+        <p>Plusieurs méthodes peuvent porter le <strong>même nom</strong> si leurs <strong>paramètres diffèrent</strong> (nombre ou types). C# choisit la bonne selon les arguments. Marche aussi pour les constructeurs et les méthodes <code>static</code>.</p>
+        <script type="text/x-csharp" data-title="Surcharge">
+public double Aire(double cote)               { return cote * cote; }
+public double Aire(double largeur, double h)  { return largeur * h; }
+public double Aire(int rayon)                 { return Math.PI * rayon * rayon; }
+
+forme.Aire(3.0);       // 1re version
+forme.Aire(2.0, 5.0);  // 2e version
+// public int Aire(double cote) { … }   ✘ changer SEULEMENT le type de retour est interdit
+        </script>
+      </article>
+
+      <article class="notion">
+        <h3>Surcharge d'opérateurs</h3>
+        <p>On peut définir <code>==</code>, <code>!=</code>, <code>+</code>, <code>-</code>, <code>&lt;</code>… pour sa classe. C'est une méthode <code>public static</code> nommée <code>operator</code> suivie du symbole.</p>
+        <script type="text/x-csharp" data-title="Opérateurs">
+public static bool operator ==(Compte a, Compte b)
+{
+    return a.numero == b.numero;
+}
+public static bool operator !=(Compte a, Compte b)     // OBLIGATOIRE si on définit ==
+{
+    return !(a == b);
+}
+
+public static Point operator +(Point a, Point b)        // renvoie un NOUVEL objet
+{
+    return new Point(a.X + b.X, a.Y + b.Y);
+}
+
+if (p1 == p2) Console.WriteLine("p1 et p2 sont identiques");
+Point somme = pA + pB;
+        </script>
+        <div class="callout trap"><div><span class="callout-title">Piège</span>Les opérateurs vont <strong>par paires</strong> : <code>==</code> exige <code>!=</code>, <code>&lt;</code> exige <code>&gt;</code>, sinon erreur de compilation. Toujours <code>public static</code>.</div></div>
+      </article>
+    </section>
+
+    <!-- ══════════════════════ CHAPITRE 4 ══════════════════════ -->
+    <section class="chapter" id="ch4" data-num="4" aria-labelledby="ch4-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">04</span>
+        <p class="chapter-kicker">CM3 · TD5-6 <span class="prio">★ Priorité examen</span></p>
+        <h2 id="ch4-t">La récursivité</h2>
+        <p class="chapter-lead">Une fonction qui s'appelle elle-même sur un problème plus petit. Classique vs terminale, pile d'appels, mémoïsation, diviser pour régner.</p>
+      </header>
+
+      <article class="notion">
+        <h3>Le principe en 2 règles</h3>
+        <p>Une fonction récursive résout un problème en le ramenant <strong>au même problème, en plus simple</strong>. Pour calculer <code>n!</code>, il suffit de savoir calculer <code>(n-1)!</code> puis de multiplier par <code>n</code>.</p>
+        <ol>
+          <li><strong>Une condition d'arrêt</strong> : le cas le plus simple, résolu sans appel récursif.</li>
+          <li><strong>Un appel récursif</strong> avec des paramètres qui <strong>se rapprochent</strong> de la condition d'arrêt.</li>
+        </ol>
+        <script type="text/x-csharp" data-title="Factorielle (récursivité classique)">
+static int Factorielle(int n)
+{
+    if (n <= 1)                        // 1. condition d'arrêt
+        return 1;
+    return n * Factorielle(n - 1);     // 2. appel sur un problème plus petit
+}
+        </script>
+        <div class="callout trap"><div><span class="callout-title">Piège</span>Sans condition d'arrêt atteignable (ou avec <code>Factorielle(n)</code> au lieu de <code>n - 1</code>), les appels sont infinis → <strong>StackOverflowException</strong>.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>La pile d'appels : empilement / dépilement</h3>
+        <p>Chaque appel réserve une zone mémoire (paramètres, variables locales, résultat) dans la <strong>pile</strong>. Les appels s'<strong>empilent</strong> jusqu'à la condition d'arrêt, puis se <strong>dépilent</strong> en renvoyant leurs résultats.</p>
+        <div class="callstack" aria-label="Pile d'appels de Factorielle(4)">
+          <div class="cs-col">
+            <div class="cs-title">Empilement ↓</div>
+            <div class="frame" style="--d:0;--k:0">Factorielle(4) → attend 4 * F(3)</div>
+            <div class="frame" style="--d:1;--k:1">Factorielle(3) → attend 3 * F(2)</div>
+            <div class="frame" style="--d:2;--k:2">Factorielle(2) → attend 2 * F(1)</div>
+            <div class="frame" style="--d:3;--k:3">Factorielle(1) → arrêt</div>
+          </div>
+          <div class="cs-col">
+            <div class="cs-title">Dépilement ↑</div>
+            <div class="frame ret" style="--d:3;--k:4">Factorielle(1) renvoie 1</div>
+            <div class="frame ret" style="--d:2;--k:5">Factorielle(2) renvoie 2 * 1 = 2</div>
+            <div class="frame ret" style="--d:1;--k:6">Factorielle(3) renvoie 3 * 2 = 6</div>
+            <div class="frame ret" style="--d:0;--k:7">Factorielle(4) renvoie 4 * 6 = 24</div>
+          </div>
+        </div>
+        <div class="callout tip"><div><span class="callout-title">En examen</span>On te demande souvent de <strong>dessiner la pile</strong> pour un appel donné : écris chaque appel avec ses paramètres en descendant, puis les valeurs renvoyées en remontant. Le <strong>débogueur</strong> de Visual Studio (fenêtre « Pile des appels ») montre exactement ça.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Récursivité classique vs terminale <span class="tag-mini">tombe souvent</span></h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th></th><th>Classique (non terminale)</th><th>Terminale</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Appel récursif</strong></td><td>fait partie d'un <strong>calcul</strong> : <code>n * F(n - 1)</code></td><td>est la <strong>dernière action</strong>, seul : <code>return F(n - 1, acc * n);</code></td></tr>
+              <tr><td><strong>Le résultat se construit</strong></td><td>en <strong>remontant</strong> (au dépilement)</td><td>en <strong>descendant</strong>, dans un <strong>accumulateur</strong></td></tr>
+              <tr><td><strong>Condition d'arrêt renvoie</strong></td><td>la valeur du cas simple (<code>1</code>)</td><td>l'<strong>accumulateur</strong></td></tr>
+              <tr><td><strong>Appel initial</strong></td><td><code>Factorielle(5)</code></td><td><code>Factorielle(5, 1)</code> (acc = élément neutre)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <script type="text/x-csharp" data-title="Factorielle terminale (version du CM)">
+static int Factorielle(int n, int x)       // x = accumulateur (résultat partiel)
+{
+    if (n == 1 || n == 0)                  // condition d'arrêt
+        return x;                          // on renvoie l'accumulateur
+    x = x * n;
+    return Factorielle(n - 1, x);          // simple appel, aucun calcul après
+}
+// Pile : F(5,1) → F(4,5) → F(3,20) → F(2,60) → F(1,120) → renvoie 120
+        </script>
+        <div class="callout exam"><div><span class="callout-title">Recette : classique → terminale</span><ol style="margin:4px 0;padding-left:1.2em"><li>Ajoute un paramètre <strong>accumulateur</strong> (0 pour une somme, 1 pour un produit, -1 / 0 pour un compteur…).</li><li>Fais le calcul <strong>dans l'argument</strong> de l'appel : <code>F(n - 1, acc * n)</code>.</li><li>La condition d'arrêt <strong>renvoie l'accumulateur</strong>.</li></ol>Le CM recommande la terminale (moins de travail au dépilement).</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Récursivité sur un tableau ou une chaîne</h3>
+        <p>On ajoute un <strong>indice</strong> en paramètre qui avance à chaque appel ; on s'arrête quand il atteint la fin. Tous les exercices du TD5-6 suivent ce modèle.</p>
+        <div class="code-tabs">
+          <script type="text/x-csharp" data-tab="Somme">
+// Classique — appel : Somme(t, 0)
+static int Somme(int[] t, int i)
+{
+    if (i == t.Length) return 0;              // plus rien à additionner
+    return t[i] + Somme(t, i + 1);
+}
+
+// Terminale — appel : SommeT(t, 0, 0)
+static int SommeT(int[] t, int i, int acc)
+{
+    if (i == t.Length) return acc;
+    return SommeT(t, i + 1, acc + t[i]);
+}
+          </script>
+          <script type="text/x-csharp" data-tab="NbRepetitions">
+// Terminale — appel : NombreRepetitionValeur(t, 2.5, 0, 0)
+static int NombreRepetitionValeur(double[] t, double val, int i, int compteur)
+{
+    if (i == t.Length) return compteur;
+    if (t[i] == val) compteur++;
+    return NombreRepetitionValeur(t, val, i + 1, compteur);
+}
+          </script>
+          <script type="text/x-csharp" data-tab="IndiceCaractere">
+// Terminale — renvoie la 1re position de c, ou -1. Appel : IndiceCaractere(t, 'x', 0)
+static int IndiceCaractere(char[] t, char c, int i)
+{
+    if (i == t.Length) return -1;            // fin atteinte : pas trouvé
+    if (t[i] == c) return i;                 // trouvé : on s'arrête
+    return IndiceCaractere(t, c, i + 1);
+}
+          </script>
+          <script type="text/x-csharp" data-tab="PositionMax">
+// Terminale — appel : PositionValeurMaximale(t, 1, 0)
+static int PositionValeurMaximale(int[] t, int i, int posMax)
+{
+    if (t == null || t.Length == 0) return -1;
+    if (i == t.Length) return posMax;
+    if (t[i] > t[posMax]) posMax = i;
+    return PositionValeurMaximale(t, i + 1, posMax);
+}
+          </script>
+          <script type="text/x-csharp" data-tab="Palindrome">
+// Appel : Palindrome("kayak", 0, 4)  — on compare les extrémités et on resserre
+static bool Palindrome(string s, int deb, int fin)
+{
+    if (deb >= fin) return true;             // 0 ou 1 caractère : palindrome
+    if (s[deb] != s[fin]) return false;
+    return Palindrome(s, deb + 1, fin - 1);
+}
+          </script>
+          <script type="text/x-csharp" data-tab="PGCD">
+// Algorithme d'Euclide : pgcd(a, b) = pgcd(b, a % b), et pgcd(a, 0) = a
+static int Pgcd(int a, int b)
+{
+    if (b == 0) return a;
+    return Pgcd(b, a % b);                   // terminale
+}
+// Pgcd(48, 18) → Pgcd(18, 12) → Pgcd(12, 6) → Pgcd(6, 0) → 6
+          </script>
+          <script type="text/x-csharp" data-tab="% remplissage">
+// Pourcentage de cases non nulles. Appel : PourcentageTab(t, 0, 0)
+static double PourcentageTab(int[] t, int i, int nbRemplies)
+{
+    if (i == t.Length) return 100.0 * nbRemplies / t.Length;
+    if (t[i] != 0) nbRemplies++;
+    return PourcentageTab(t, i + 1, nbRemplies);
+}
+          </script>
+        </div>
+        <div class="callout info"><div><span class="callout-title">« Un seul return par fonction »</span>Bonne pratique demandée en TD : stocke le résultat dans une variable.<br><code>int res = 1; if (n &gt; 1) res = n * Factorielle(n - 1); return res;</code></div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Récursivité multiple &amp; mémoïsation</h3>
+        <p>Une fonction est <strong>multiple</strong> quand elle s'appelle <strong>plusieurs fois</strong> par exécution (Fibonacci : <code>F(n) = F(n-1) + F(n-2)</code>). L'arbre des appels explose : les mêmes valeurs sont recalculées des milliers de fois. La <strong>mémoïsation</strong> stocke chaque résultat déjà calculé dans un tableau (le « buffer ») pour le réutiliser.</p>
+        <div class="code-tabs">
+          <script type="text/x-csharp" data-tab="Fibonacci naïf">
+static long Fibonacci(int n)
+{
+    if (n == 0) return 0;
+    if (n == 1) return 1;
+    return Fibonacci(n - 1) + Fibonacci(n - 2);   // 2 appels → arbre exponentiel
+}
+// Fibonacci(30) → 2 692 537 appels !
+          </script>
+          <script type="text/x-csharp" data-tab="Fibonacci mémoïsé">
+// memo[k] == 0 signifie « pas encore calculé ». Appel : Fibonacci(30, new long[31])
+static long Fibonacci(int n, long[] memo)
+{
+    if (n == 0) return 0;
+    if (n == 1) return 1;
+    if (memo[n] != 0) return memo[n];                       // déjà calculé → réutilisé
+    memo[n] = Fibonacci(n - 1, memo) + Fibonacci(n - 2, memo);
+    return memo[n];
+}
+// Fibonacci(30, …) → 59 appels seulement
+          </script>
+          <script type="text/x-csharp" data-tab="Robot (TD5-6)">
+// Nombre de chemins de (0,0) à (n-1, m-1) en allant à droite ou en bas
+static long Chemins(int i, int j, int n, int m)
+{
+    if (i >= n || j >= m) return 0;                 // sorti de la grille
+    if (i == n - 1 && j == m - 1) return 1;         // arrivé
+    return Chemins(i + 1, j, n, m) + Chemins(i, j + 1, n, m);   // bas + droite
+}
+
+static long CheminsMemo(int i, int j, int n, int m, long[,] memo)
+{
+    if (i >= n || j >= m) return 0;
+    if (i == n - 1 && j == m - 1) return 1;
+    if (memo[i, j] != 0) return memo[i, j];
+    memo[i, j] = CheminsMemo(i + 1, j, n, m, memo) + CheminsMemo(i, j + 1, n, m, memo);
+    return memo[i, j];
+}
+// Grille 3×3 : Chemins(0, 0, 3, 3) = CheminsMemo(0, 0, 3, 3, new long[3, 3]) = 6
+          </script>
+        </div>
+        <div class="callout tip"><div><span class="callout-title">Comparer les appels</span>Pour prouver le gain, ajoute un compteur <code>static int nbAppels</code> incrémenté au début de la fonction, et affiche-le avec et sans mémoïsation.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Diviser pour régner</h3>
+        <p>3 étapes : <strong>Diviser</strong> le problème en sous-problèmes plus petits · <strong>Régner</strong> en les résolvant (récursivement) · <strong>Combiner</strong> leurs solutions.</p>
+        <div class="code-tabs">
+          <script type="text/x-csharp" data-tab="Maximum">
+// Appel : MaxDPR(t, 0, t.Length - 1)
+static int MaxDPR(int[] t, int deb, int fin)
+{
+    if (deb == fin) return t[deb];           // régner : 1 seul élément
+    int milieu = (deb + fin) / 2;            // diviser
+    int maxG = MaxDPR(t, deb, milieu);
+    int maxD = MaxDPR(t, milieu + 1, fin);
+    return Math.Max(maxG, maxD);             // combiner
+}
+// Pas plus efficace qu'une simple boucle (n - 1 comparaisons) : le CM montre que c'est
+// même plus lent. Retiens-le comme exemple de MÉTHODE diviser / régner / combiner.
+          </script>
+          <script type="text/x-csharp" data-tab="Puissance rapide">
+// x^n = (x^(n/2))² si n pair, x * x^(n-1) si n impair  →  O(log n) au lieu de O(n)
+static int PuissanceRapide(int x, int n)
+{
+    if (n == 0) return 1;
+    if (n % 2 == 0)
+    {
+        int a = PuissanceRapide(x, n / 2);   // calculé UNE seule fois
+        return a * a;
+    }
+    return x * PuissanceRapide(x, n - 1);
+}
+// 3^8 : 3^0=1 → 3^1=3 → 3^2=9 → 3^4=81 → 3^8=6561  (5 appels au lieu de 9)
+          </script>
+          <script type="text/x-csharp" data-tab="Tri fusion">
+// Appel : TriFusion(t, 0, t.Length - 1)
+static void TriFusion(int[] t, int deb, int fin)
+{
+    if (deb >= fin) return;                  // 0 ou 1 élément : déjà trié
+    int milieu = (deb + fin) / 2;
+    TriFusion(t, deb, milieu);               // trier la moitié gauche
+    TriFusion(t, milieu + 1, fin);           // trier la moitié droite
+    Fusion(t, deb, milieu, fin);             // interclasser les deux moitiés
+}
+
+static void Fusion(int[] t, int deb, int milieu, int fin)
+{
+    int[] tmp = new int[fin - deb + 1];      // mémoire supplémentaire O(n)
+    int i = deb, j = milieu + 1, k = 0;
+    while (i <= milieu && j <= fin)
+    {
+        if (t[i] <= t[j]) tmp[k++] = t[i++];
+        else              tmp[k++] = t[j++];
+    }
+    while (i <= milieu) tmp[k++] = t[i++];   // restes de gauche
+    while (j <= fin)    tmp[k++] = t[j++];   // restes de droite
+    for (k = 0; k < tmp.Length; k++) t[deb + k] = tmp[k];
+}
+          </script>
+        </div>
+        <div class="callout exam"><div><span class="callout-title">Complexité du tri fusion</span>On coupe en deux jusqu'à des tableaux de taille 1 → <strong>log₂(n) niveaux</strong>. À chaque niveau, la fusion traite les <strong>n</strong> éléments → <strong>O(n log n)</strong> dans tous les cas. Mémoire supplémentaire : le tableau temporaire → <strong>O(n)</strong>.</div></div>
+        <div class="callout trap"><div><span class="callout-title">Piège puissance rapide</span>Écrire <code>PuissanceRapide(x, n/2) * PuissanceRapide(x, n/2)</code> refait <strong>deux fois</strong> le même calcul et annule tout le gain : stocke le résultat dans une variable.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Méthode pour écrire n'importe quelle fonction récursive</h3>
+        <ol>
+          <li><strong>Cas d'arrêt</strong> : quel est le cas trivial ? (tableau parcouru, <code>n == 0</code>, <code>deb &gt;= fin</code>…)</li>
+          <li><strong>Hypothèse</strong> : « si je sais résoudre le problème pour <em>n - 1</em> (ou pour la suite du tableau), comment j'obtiens le résultat pour <em>n</em> ? »</li>
+          <li><strong>Paramètres qui progressent</strong> : indice qui avance, taille qui diminue, bornes qui se resserrent.</li>
+          <li><strong>Terminale demandée ?</strong> → ajoute un accumulateur et renvoie-le à l'arrêt.</li>
+          <li><strong>Teste à la main</strong> sur un tout petit exemple et dessine la pile.</li>
+          <li>Explique la <strong>signature</strong> : rôle de chaque paramètre + <strong>appel initial</strong> (le TD le demande).</li>
+        </ol>
+      </article>
+    </section>
+
+    <!-- ══════════════════════ CHAPITRE 5 ══════════════════════ -->
+    <section class="chapter" id="ch5" data-num="5" aria-labelledby="ch5-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">05</span>
+        <p class="chapter-kicker">CM « Collections » · TD9-10 <span class="prio">★ Priorité examen</span></p>
+        <h2 id="ch5-t">Les collections</h2>
+        <p class="chapter-lead">Des conteneurs dont la taille varie : <code>ArrayList</code>, <code>Stack</code>, <code>Queue</code>, <code>List&lt;T&gt;</code>, <code>Dictionary</code>… et comment choisir le bon.</p>
+      </header>
+
+      <article class="notion">
+        <h3>Pourquoi pas un tableau ?</h3>
+        <p>Un tableau a une <strong>taille fixe</strong>. Pour ajouter un 4<sup>e</sup> compte dans un tableau de 3, il faut créer un tableau plus grand, tout recopier, puis remplacer l'ancien. Les tableaux n'offrent pas non plus de tri, d'ajout ou de suppression intégrés.</p>
+        <script type="text/x-csharp" data-title="Agrandir un tableau à la main (à éviter)">
+Compte[] tmp = new Compte[tab.Length + 1];   // 1. plus grand
+for (int i = 0; i < tab.Length; i++)         // 2. recopier
+    tmp[i] = tab[i];
+tmp[tab.Length] = c4;                        // 3. insérer en dernière position
+tab = tmp;                                   // 4. remplacer
+// Avec une collection : liste.Add(c4);  ← c'est tout.
+        </script>
+      </article>
+
+      <article class="notion">
+        <h3>Deux familles de collections</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th></th><th>Collections d'objets</th><th>Collections génériques</th></tr></thead>
+            <tbody>
+              <tr><td><strong>using</strong></td><td><code>using System.Collections;</code></td><td><code>using System.Collections.Generic;</code></td></tr>
+              <tr><td><strong>Classes</strong></td><td><code>ArrayList</code>, <code>Stack</code>, <code>Queue</code></td><td><code>List&lt;T&gt;</code>, <code>Stack&lt;T&gt;</code>, <code>Queue&lt;T&gt;</code>, <code>Dictionary&lt;K,V&gt;</code></td></tr>
+              <tr><td><strong>Contenu</strong></td><td>n'importe quel type, même <strong>mélangé</strong></td><td>un seul type <code>T</code>, fixé à la création</td></tr>
+              <tr><td><strong>Lecture</strong></td><td><span class="ko">cast obligatoire</span> : <code>(Compte)liste[0]</code></td><td><span class="ok">pas de cast</span> : <code>liste[0]</code></td></tr>
+              <tr><td><strong>Verdict</strong></td><td>ancien, à connaître pour le cours</td><td><strong>à utiliser par défaut</strong></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3><code>ArrayList</code> : le tableau dynamique « fourre-tout »</h3>
+        <p>Grandit automatiquement, accepte tout type d'objet (homogène ou hétérogène). Comme il stocke des <code>object</code>, le programme ne connaît plus le type réel : il faut <strong>caster</strong> à la lecture.</p>
+        <script type="text/x-csharp" data-title="ArrayList">
+using System.Collections;
+
+ArrayList liste = new ArrayList();
+liste.Add(c1);                         // ajout à la fin
+liste.Add(e1);                         // hétérogène : un Compte ET un Employe
+liste.Insert(0, c2);                   // insertion à la position 0
+Compte premier = (Compte)liste[0];     // CAST obligatoire
+Console.WriteLine(((Employe)liste[2]).toString());
+liste.Remove(c1);                      // supprime la 1re occurrence de c1
+liste.RemoveAt(0);                     // supprime l'élément à la position 0
+int n = liste.Count;                   // nombre d'éléments (pas Length !)
+bool present = liste.Contains(e1);
+liste.Clear();                         // vide tout
+
+foreach (object o in liste)            // parcours d'une liste hétérogène
+    if (o is Compte) Console.WriteLine(((Compte)o).ToString());
+        </script>
+        <div class="callout trap"><div><span class="callout-title">Piège</span>Mauvais cast (<code>(Compte)</code> sur un <code>Employe</code>) → <strong>InvalidCastException</strong> à l'exécution. Teste avec <code>is</code> avant de caster.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Pile (<code>Stack</code>, LIFO) &amp; file (<code>Queue</code>, FIFO)</h3>
+        <div class="ds-demo">
+          <div class="ds-box">
+            <h5>Stack · dernier entré, premier sorti</h5>
+            <div class="ds-stack">
+              <span class="ds-cell top">3 ← sommet</span>
+              <span class="ds-cell">2</span>
+              <span class="ds-cell">1</span>
+            </div>
+            <div class="ds-ops"><b>Push</b>(x) empile · <b>Pop</b>() dépile et renvoie<br><b>Peek</b>() regarde le sommet sans retirer</div>
+          </div>
+          <div class="ds-box">
+            <h5>Queue · premier entré, premier sorti</h5>
+            <div class="ds-queue">
+              <span class="ds-cell head">Alice</span>
+              <span class="ds-cell">Bob</span>
+              <span class="ds-cell">Chloé</span>
+            </div>
+            <div class="ds-ops">← <b>Dequeue</b>() sert la tête · <b>Enqueue</b>(x) arrive en fin →<br><b>Peek</b>() regarde la tête sans retirer</div>
+          </div>
+        </div>
+        <script type="text/x-csharp" data-title="Stack<T> & Queue<T>">
+Stack<int> pile = new Stack<int>();
+pile.Push(1); pile.Push(2); pile.Push(3);    // sommet = 3
+int sommet = pile.Peek();                    // 3 (reste dans la pile)
+int x = pile.Pop();                          // 3 (retiré) → reste [2, 1]
+bool a = pile.Contains(2);                   // true
+int taille = pile.Count;                     // 2
+
+Queue<string> file = new Queue<string>();
+file.Enqueue("Alice"); file.Enqueue("Bob");  // arrivée en fin de file
+string tete = file.Peek();                   // "Alice"
+string servi = file.Dequeue();               // "Alice" : premier arrivé, premier servi
+
+// Versions non génériques (CM) : même méthodes, mais cast à la sortie
+Stack p = new Stack();
+p.Push(42);
+int y = (int)p.Pop();
+        </script>
+        <div class="callout trap"><div><span class="callout-title">Piège</span><code>Pop()</code>, <code>Dequeue()</code> ou <code>Peek()</code> sur une collection <strong>vide</strong> → <strong>InvalidOperationException</strong>. Vérifie <code>Count &gt; 0</code> avant.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3><code>List&lt;T&gt;</code> : le couteau suisse</h3>
+        <p>Le tableau dynamique typé. C'est le conteneur à utiliser par défaut dès que le nombre d'éléments varie.</p>
+        <script type="text/x-csharp" data-title="List<T>">
+using System.Collections.Generic;
+
+List<Compte> comptes = new List<Compte>();
+comptes.Add(c1);                        // ajout à la fin
+comptes.Insert(0, c2);                  // insertion à une position
+Compte c = comptes[0];                  // accès par indice, SANS cast
+int n = comptes.Count;                  // nombre d'éléments
+comptes.Remove(c1);                     // supprime la 1re occurrence
+comptes.RemoveAt(0);                    // supprime à une position
+bool existe = comptes.Contains(c2);
+int pos = comptes.IndexOf(c2);          // position ou -1
+comptes.Clear();
+
+List<int> notes = new List<int> { 12, 8, 15 };
+notes.Sort();                           // tri croissant (types simples)
+notes.Reverse();
+
+foreach (Compte cpt in comptes)         // parcours
+    Console.WriteLine(cpt);
+        </script>
+      </article>
+
+      <article class="notion">
+        <h3>Supprimer pendant un parcours <span class="tag-mini">TD9-10 ex. 1</span></h3>
+        <p>On ne peut <strong>pas</strong> modifier une collection dans un <code>foreach</code> (<strong>InvalidOperationException</strong>). Avec un <code>for</code> à l'endroit, supprimer décale les indices et saute des éléments. La solution : <strong>parcourir à l'envers</strong>.</p>
+        <script type="text/x-csharp" data-title="Nettoyer une liste de numéros">
+static bool EstValide(string num)                  // 10 caractères, uniquement des chiffres
+{
+    bool ok = num.Length == 10;
+    for (int i = 0; i < num.Length && ok; i++)
+        if (!char.IsDigit(num[i])) ok = false;
+    return ok;
+}
+
+List<string> numeros = new List<string> { "0601020304", "06-01", "0712345678", "06A1020304" };
+for (int i = numeros.Count - 1; i >= 0; i--)       // À L'ENVERS
+    if (!EstValide(numeros[i]))
+        numeros.RemoveAt(i);
+// Variante en une ligne : numeros.RemoveAll(num => !EstValide(num));
+        </script>
+      </article>
+
+      <article class="notion">
+        <h3><code>Dictionary&lt;TKey, TValue&gt;</code> : l'annuaire</h3>
+        <p>Associe une <strong>clé unique</strong> à une valeur. Retrouver une valeur à partir de sa clé est immédiat. Parfait pour le TD « annuaire » : numéro (clé, unique) → nom.</p>
+        <script type="text/x-csharp" data-title="Annuaire (TD9-10 ex. 2)">
+Dictionary<string, string> annuaire = new Dictionary<string, string>();   // numéro → nom
+
+if (!annuaire.ContainsKey("0601020304"))          // Add plante si la clé existe déjà
+    annuaire.Add("0601020304", "Dupont");
+annuaire["0699887766"] = "Martin";                // ajoute OU remplace
+
+string nom = annuaire["0601020304"];              // nom à partir du numéro (KeyNotFoundException si absent)
+if (annuaire.TryGetValue("0700000000", out string trouve))
+    Console.WriteLine(trouve);                    // version sans exception
+
+foreach (KeyValuePair<string, string> e in annuaire)   // numéro à partir d'un nom → parcours
+    if (e.Value == "Martin") Console.WriteLine(e.Key);
+
+annuaire.Remove("0699887766");
+int taille = annuaire.Count;
+        </script>
+      </article>
+
+      <article class="notion">
+        <h3>Choisir le bon conteneur <span class="tag-mini">2 pts au Problème</span></h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Besoin</th><th>Conteneur</th></tr></thead>
+            <tbody>
+              <tr><td>Taille connue et fixe, accès par indice (grille, matrice du labyrinthe)</td><td><code>T[]</code> / <code>T[,]</code></td></tr>
+              <tr><td>Liste qui grandit / rétrécit, accès par indice</td><td><code>List&lt;T&gt;</code></td></tr>
+              <tr><td>Traiter d'abord le <strong>dernier</strong> arrivé : annuler, calcul polonais inverse, retour arrière</td><td><code>Stack&lt;T&gt;</code></td></tr>
+              <tr><td>Traiter dans l'<strong>ordre d'arrivée</strong> : guichet, file d'attente, impressions</td><td><code>Queue&lt;T&gt;</code></td></tr>
+              <tr><td>Retrouver vite un élément par une <strong>clé unique</strong> (numéro, identifiant)</td><td><code>Dictionary&lt;K, V&gt;</code></td></tr>
+              <tr><td>Objets de types différents d'une même famille</td><td><code>List&lt;ClasseMère&gt;</code> (héritage, ch. 7) plutôt qu'<code>ArrayList</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Classes génériques <code>&lt;T&gt;</code></h3>
+        <p>Une classe générique fonctionne avec <strong>n'importe quel type</strong> sans réécrire le code : on utilise un <strong>paramètre de type</strong> <code>T</code>, remplacé à la création. C'est exactement ainsi que <code>List&lt;T&gt;</code> est écrite.</p>
+        <script type="text/x-csharp" data-title="Box<T> (CM)">
+public class Box<T>
+{
+    private T valeur;
+    public Box(T valeur) { this.valeur = valeur; }
+    public T Valeur
+    {
+        get { return valeur; }
+        set { valeur = value; }
+    }
+    public void Display() { Console.WriteLine("Stored value: " + valeur); }
+}
+
+Box<int> nombre = new Box<int>(25);
+Box<string> texte = new Box<string>("Hello");
+Box<Account> boite = new Box<Account>(new Account(1, "Smith", "John", "London", 1500));
+nombre.Display();      // Stored value: 25
+        </script>
+      </article>
+    </section>
+
+    <!-- ══════════════════════ CHAPITRE 6 ══════════════════════ -->
+    <section class="chapter" id="ch6" data-num="6" aria-labelledby="ch6-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">06</span>
+        <p class="chapter-kicker">CM « Fichiers » · TD11-12 <span class="prio">★ Priorité examen</span></p>
+        <h2 id="ch6-t">Fichiers &amp; exceptions</h2>
+        <p class="chapter-lead">Lire et écrire des fichiers texte / CSV, sécuriser le code avec <code>try</code> / <code>catch</code>, obtenir des infos sur un fichier.</p>
+      </header>
+
+      <article class="notion">
+        <h3>Les bases : <code>System.IO</code> &amp; les chemins</h3>
+        <p>Un fichier est un ensemble de données stockées <strong>durablement</strong> (disque, clé USB), identifié par un <strong>chemin</strong>, un <strong>nom</strong> et une <strong>extension</strong>. Toutes les classes de fichiers sont dans <code>using System.IO;</code></p>
+        <ul>
+          <li><strong>Chemin relatif</strong> <code>"clients.csv"</code> : cherché dans le dossier de l'exécutable (<code>bin/Debug/netX.0/</code>) → copie-y tes fichiers du TD.</li>
+          <li><strong>Chemin absolu</strong> : <code>@"C:\TD\clients.csv"</code> (le <code>@</code> évite de doubler les <code>\</code>) ou <code>"C:\\TD\\clients.csv"</code>.</li>
+        </ul>
+      </article>
+
+      <article class="notion">
+        <h3>La classe <code>File</code> : tout en une ligne</h3>
+        <p>Méthodes <strong>statiques</strong> qui ouvrent, lisent/écrivent et ferment le fichier d'un coup. Idéal pour les petits fichiers.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Méthode</th><th>Effet</th></tr></thead>
+            <tbody>
+              <tr><td><code>File.ReadAllLines(path)</code></td><td>renvoie un <code>string[]</code> : une case par ligne</td></tr>
+              <tr><td><code>File.ReadAllText(path)</code></td><td>renvoie tout le fichier dans <strong>une</strong> <code>string</code> (attention à la taille)</td></tr>
+              <tr><td><code>File.WriteAllLines(path, tab)</code></td><td>écrit un tableau de lignes — <strong>écrase</strong> le fichier existant</td></tr>
+              <tr><td><code>File.WriteAllText(path, texte)</code></td><td>écrit une chaîne — <strong>écrase</strong></td></tr>
+              <tr><td><code>File.AppendAllText(path, texte)</code></td><td><strong>ajoute</strong> à la fin (crée le fichier s'il n'existe pas)</td></tr>
+              <tr><td><code>File.ReadAllBytes</code> / <code>WriteAllBytes</code></td><td>fichiers binaires (image, son…)</td></tr>
+              <tr><td><code>File.Exists(path)</code></td><td><code>true</code> si le fichier existe</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <script type="text/x-csharp" data-title="File">
+string[] lignes = File.ReadAllLines("mots.txt");
+foreach (string ligne in lignes)
+    Console.WriteLine(ligne);
+int nbLignes = File.ReadAllLines("mots.txt").Length;   // compter les lignes
+
+if (!File.Exists("MyTest.txt"))
+{
+    string[] texte = { "Hello", "And", "Welcome" };
+    File.WriteAllLines("MyTest.txt", texte);
+}
+File.AppendAllText("MyTest.txt", "Une ligne de plus\n");
+        </script>
+      </article>
+
+      <article class="notion">
+        <h3>Écrire avec <code>StreamWriter</code> : création vs ajout</h3>
+        <p>On ouvre un <strong>flux d'écriture</strong>, on écrit ligne par ligne avec <code>WriteLine</code> (comme dans la console), puis on <strong>ferme</strong>. Si le fichier n'existe pas, il est créé.</p>
+        <script type="text/x-csharp" data-title="StreamWriter">
+StreamWriter sw = new StreamWriter("test.txt");          // mode CRÉATION : écrase le contenu
+sw.WriteLine("Bienvenue dans ce nouveau fichier.txt");
+sw.Close();                                              // ⚠ indispensable
+
+StreamWriter sw1 = new StreamWriter("test.txt", true);   // true = mode AJOUT (à la fin)
+sw1.WriteLine("Bonjour,\nJe suis en cours de C#.");
+sw1.Close();
+
+using (StreamWriter sw2 = new StreamWriter("log.txt", true))   // using = Close automatique
+{
+    sw2.WriteLine(DateTime.Now + " : connexion");
+}                                                        // fermé ici, même en cas d'erreur
+        </script>
+        <script type="text/x-console" data-title="test.txt">
+Bienvenue dans ce nouveau fichier.txt
+Bonjour,
+Je suis en cours de C#.
+        </script>
+        <div class="callout trap"><div><span class="callout-title">Piège n°1 des fichiers</span>Oublier <code>Close()</code> → le texte reste dans le tampon mémoire : fichier <strong>vide ou incomplet</strong>. Et sans <code>true</code>, chaque ouverture <strong>efface</strong> l'ancien contenu.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Lire avec <code>StreamReader</code> : ligne par ligne ou en entier</h3>
+        <div class="code-tabs">
+          <script type="text/x-csharp" data-tab="Ligne par ligne">
+StreamReader sr = new StreamReader("test.txt");
+while (!sr.EndOfStream)              // tant qu'on n'est PAS à la fin
+{
+    string ligne = sr.ReadLine();
+    Console.WriteLine(ligne);
+}
+sr.Close();
+// Équivalent : while (sr.Peek() != -1)   — Peek renvoie -1 en fin de fichier
+          </script>
+          <script type="text/x-csharp" data-tab="ReadLine != null">
+StreamReader sr = new StreamReader("test.txt");
+string ligne;
+while ((ligne = sr.ReadLine()) != null)   // ReadLine renvoie null en fin de fichier
+    Console.WriteLine(ligne);
+sr.Close();
+          </script>
+          <script type="text/x-csharp" data-tab="En entier">
+StreamReader sr = new StreamReader("test.txt");
+string tout = sr.ReadToEnd();             // tout le fichier dans une seule string
+sr.Close();
+Console.WriteLine(tout);
+          </script>
+        </div>
+        <div class="callout trap"><div><span class="callout-title">Piège vu en CM</span>La condition est <code>while (<strong>!</strong>sr.EndOfStream)</code> — sans le <code>!</code>, la boucle ne s'exécute jamais.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Les exceptions : <code>try</code> / <code>catch</code> / <code>finally</code></h3>
+        <p>Une <strong>exception</strong> est une erreur à l'exécution (fichier introuvable, conversion impossible, division par zéro…). Non gérée, elle <strong>arrête le programme</strong>. On entoure le code à risque d'un <code>try</code> et on traite l'erreur dans <code>catch</code>.</p>
+        <script type="text/x-csharp" data-title="Structure complète">
+StreamReader sr = null;
+try
+{
+    sr = new StreamReader("clients.csv");     // peut lever FileNotFoundException
+    int val = int.Parse(sr.ReadLine());       // peut lever FormatException
+    Console.WriteLine(val);
+}
+catch (FileNotFoundException e)               // du plus PRÉCIS…
+{
+    Console.WriteLine("Fichier introuvable : " + e.Message);
+}
+catch (FormatException)
+{
+    Console.WriteLine("La ligne n'est pas un nombre");
+}
+catch (Exception e)                           // …au plus GÉNÉRAL, toujours en dernier
+{
+    Console.WriteLine("Erreur : " + e.Message);
+}
+finally                                       // exécuté dans TOUS les cas
+{
+    if (sr != null) sr.Close();
+}
+
+// Lever sa propre exception
+if (montant < 0) throw new ArgumentException("Le montant doit être positif");
+        </script>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Exception</th><th>Cause typique</th></tr></thead>
+            <tbody>
+              <tr><td><code>FileNotFoundException</code></td><td>fichier absent / mauvais chemin</td></tr>
+              <tr><td><code>DirectoryNotFoundException</code></td><td>dossier du chemin inexistant</td></tr>
+              <tr><td><code>IOException</code></td><td>fichier déjà ouvert ailleurs, erreur disque (mère des deux précédentes)</td></tr>
+              <tr><td><code>UnauthorizedAccessException</code></td><td>écrire dans un fichier en lecture seule</td></tr>
+              <tr><td><code>FormatException</code></td><td><code>int.Parse("abc")</code></td></tr>
+              <tr><td><code>IndexOutOfRangeException</code></td><td><code>items[2]</code> alors que la ligne CSV n'a que 2 colonnes</td></tr>
+              <tr><td><code>NullReferenceException</code></td><td>méthode appelée sur un objet <code>null</code></td></tr>
+              <tr><td><code>DivideByZeroException</code></td><td>division <strong>entière</strong> par 0</td></tr>
+              <tr><td><code>InvalidOperationException</code></td><td><code>Pop()</code> sur pile vide, collection modifiée dans un <code>foreach</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout trap"><div><span class="callout-title">Ordre des catch</span>Un <code>catch (Exception)</code> placé <strong>avant</strong> un <code>catch</code> plus précis attrape tout → erreur de compilation. Le plus précis d'abord.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Informations et opérations sur un fichier</h3>
+        <p>La classe <code>FileInfo</code> représente <strong>un</strong> fichier et donne ses métadonnées. À entourer d'un <code>try</code> / <code>catch</code>.</p>
+        <script type="text/x-csharp" data-title="FileInfo">
+FileInfo f = new FileInfo("liste.txt");
+long taille = f.Length;                 // taille en octets
+DateTime creation = f.CreationTime;     // date de création
+string ext = f.Extension;               // ".txt"
+f.Delete();                             // supprimer
+f.Create().Close();                     // créer (Create ouvre un flux : on le ferme)
+
+File.SetAttributes("liste.txt", FileAttributes.ReadOnly);   // passer en lecture seule
+        </script>
+      </article>
+    </section>
+
+    <!-- ══════════════════════ CHAPITRE 7 ══════════════════════ -->
+    <section class="chapter" id="ch7" data-num="7" aria-labelledby="ch7-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">07</span>
+        <p class="chapter-kicker">CM « Héritage et polymorphisme » <span class="prio">★ Priorité examen</span></p>
+        <h2 id="ch7-t">Héritage &amp; polymorphisme</h2>
+        <p class="chapter-lead">Classes mères et filles, <code>protected</code>, <code>: base(…)</code>, <code>virtual</code> / <code>override</code>, sur-classement et listes polymorphes.</p>
+      </header>
+
+      <article class="notion">
+        <h3>Pourquoi hériter ?</h3>
+        <p>La banque propose des <code>CompteCheque</code> (frais de tenue de compte) et des <code>LivretA</code> (intérêts). Sans héritage, on recopie nom, prénom, adresse, numéro et solde dans <strong>chaque</strong> classe, et la Banque a besoin d'<strong>une liste par type</strong> de compte.</p>
+        <p>Or un CompteCheque <strong>est un</strong> Compte, avec des spécificités. L'<strong>héritage</strong> crée une nouvelle classe à partir d'une classe existante en lui transmettant ses attributs et ses méthodes.</p>
+        <div class="tree" aria-label="Diagramme UML : CompteCheque et LivretA héritent de Compte">
+          <div class="uml-class">
+            <div>Compte</div>
+            <div>
+              <span class="row"># nom : string</span>
+              <span class="row"># numCompte : int</span>
+              <span class="row"># solde : double</span>
+            </div>
+            <div>
+              <span class="row">+ Compte(int, string, double)</span>
+              <span class="row">+ override ToString() : string</span>
+            </div>
+          </div>
+          <div class="tree-link" aria-hidden="true">
+            <svg class="tri" viewBox="0 0 18 14"><polygon points="9,1 17,13 1,13" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          </div>
+          <div class="tree-children">
+            <div class="uml-class">
+              <div>CompteCheque</div>
+              <div><span class="row">- fraisCompte : double</span></div>
+              <div>
+                <span class="row">+ FraisCompte : double</span>
+                <span class="row">+ override ToString() : string</span>
+              </div>
+            </div>
+            <div class="uml-class">
+              <div>LivretA</div>
+              <div><span class="row">- taux : double</span></div>
+              <div>
+                <span class="row">+ CalculInteret() : double</span>
+                <span class="row">+ override ToString() : string</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Vocabulaire</th><th>Synonymes</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Classe mère</strong></td><td>super-classe, classe de base, classe parente</td></tr>
+              <tr><td><strong>Classe fille</strong></td><td>sous-classe, classe dérivée, classe enfant</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Syntaxe : <code>: Mere</code>, <code>protected</code> et <code>: base(…)</code></h3>
+        <script type="text/x-csharp" data-title="Forme.cs & Cercle.cs (CM)">
+class Forme
+{
+    protected string couleur;                  // protected (#) : visible dans les filles
+
+    public Forme(string couleur)
+    {
+        this.couleur = couleur;
+    }
+}
+
+class Cercle : Forme                           // Cercle HÉRITE de Forme
+{
+    private double rayon;                      // attribut propre à la fille
+
+    public Cercle(string couleur, double rayon) : base(couleur)   // appelle Forme(couleur)
+    {
+        this.rayon = rayon;                    // puis initialise ce qui est propre au Cercle
+    }
+
+    public double Aire() { return Math.PI * rayon * rayon; }
+    public string Description() { return "Cercle " + couleur; }   // OK grâce à protected
+}
+        </script>
+        <ul>
+          <li>La fille possède <strong>tous</strong> les membres de la mère (+ les siens). La mère ne connaît <strong>pas</strong> ceux de la fille.</li>
+          <li>Les attributs <code>private</code> de la mère <strong>existent</strong> dans la fille mais ne sont accessibles que via les propriétés. Avec <code>protected</code>, la fille y accède directement.</li>
+          <li>Le constructeur de la <strong>mère s'exécute d'abord</strong>, puis celui de la fille.</li>
+          <li>Paramètres de <code>base(…)</code> : <strong>dans l'ordre</strong> du constructeur de la mère.</li>
+          <li>Si la mère n'a qu'un constructeur <strong>avec paramètres</strong>, <code>: base(…)</code> est <strong>obligatoire</strong>. Si elle a un constructeur sans paramètre (ou aucun), il est appelé automatiquement.</li>
+          <li><strong>Pas d'héritage multiple</strong> en C# : une seule classe mère.</li>
+        </ul>
+        <div class="callout trap"><div><span class="callout-title">Erreur classique</span>Oublier <code>: base(couleur)</code> alors que <code>Forme</code> n'a pas de constructeur vide → « Forme ne contient pas de constructeur qui accepte 0 argument ».</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Tout hérite de <code>Object</code></h3>
+        <p>Une classe sans <code>: Mere</code> hérite implicitement de <code>Object</code>. Toute classe hérite donc (directement ou non) de ses méthodes :</p>
+        <div class="cheat">
+          <div><code>ToString()</code><span>Par défaut, renvoie le nom complet de la classe. <code>Console.WriteLine(o)</code> ≡ <code>Console.WriteLine(o.ToString())</code>.</span></div>
+          <div><code>Equals(object)</code><span>Par défaut, <code>true</code> si les deux références désignent le <strong>même objet</strong>.</span></div>
+          <div><code>GetType()</code><span>Renvoie le type <strong>réel</strong> de l'objet (<code>o.GetType().Name</code> → <code>"Cercle"</code>).</span></div>
+          <div><code>override</code><span>C'est pour ça qu'on écrit <code>public <strong>override</strong> string ToString()</code> : on redéfinit la version d'<code>Object</code>.</span></div>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Redéfinir une méthode : <code>virtual</code> / <code>override</code></h3>
+        <p>Le <strong>polymorphisme</strong> (« plusieurs formes ») : une même méthode se comporte différemment selon la classe fille. La fille garde la <strong>même signature</strong> (nom, paramètres, type de retour) mais change le <strong>corps</strong>.</p>
+        <script type="text/x-csharp" data-title="virtual / override / base.Methode()">
+class Forme
+{
+    protected string couleur;
+    public Forme(string couleur) { this.couleur = couleur; }
+
+    public virtual void Affiche()                  // virtual : « peut être redéfinie »
+    {
+        Console.WriteLine("La forme est de couleur : " + couleur);
+    }
+}
+
+class Cercle : Forme
+{
+    private double rayon;
+    public Cercle(string couleur, double rayon) : base(couleur) { this.rayon = rayon; }
+
+    public override void Affiche()                 // override : « je la redéfinis »
+    {
+        base.Affiche();                            // réutilise la version de la mère
+        Console.WriteLine("C'est un cercle de rayon " + rayon);
+    }
+}
+        </script>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Mère</th><th>Fille</th><th>Résultat</th></tr></thead>
+            <tbody>
+              <tr><td><code>virtual</code></td><td><code>override</code></td><td><span class="ok">✔ polymorphisme</span> : la version de la fille est appelée, même via une variable de type mère</td></tr>
+              <tr><td><code>virtual</code></td><td>rien (ou <code>new</code>)</td><td><span class="ko">✘ masquage</span> : via une variable de type mère, c'est la version de la <strong>mère</strong> qui s'exécute (avertissement du compilateur)</td></tr>
+              <tr><td>rien</td><td><code>override</code></td><td><span class="ko">✘ erreur de compilation</span> : on ne peut redéfinir qu'une méthode <code>virtual</code>, <code>abstract</code> ou <code>override</code></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p>En UML : <code>+ virtual Affiche() : void</code> dans la mère et <code>+ override Affiche() : void</code> dans la fille.</p>
+      </article>
+
+      <article class="notion">
+        <h3>Sur-classement : une fille <strong>est une</strong> mère</h3>
+        <p>Une variable de type <strong>mère</strong> peut contenir un objet de type <strong>fille</strong>. À l'appel d'une méthode redéfinie, C# exécute la version du <strong>type réel</strong> de l'objet (liaison dynamique).</p>
+        <div class="code-tabs">
+          <script type="text/x-csharp" data-tab="Point / PointColore (CM)">
+class Point
+{
+    protected double x, y;
+    public Point(double x, double y) { this.x = x; this.y = y; }
+    public override string ToString()
+    {
+        return "les coordonnées du point sont: (" + x + "," + y + ")\n";
+    }
+}
+
+class PointColore : Point
+{
+    private string couleur;
+    public PointColore(double x, double y, string couleur) : base(x, y)
+    {
+        this.couleur = couleur;
+    }
+    public override string ToString()
+    {
+        return base.ToString() + "\nLe point est " + couleur + "\n";
+    }
+}
+
+Point p = new PointColore(1, 2, "bleu");   // sur-classement : type déclaré Point
+Console.WriteLine(p);                      // appelle PointColore.ToString() !
+          </script>
+          <script type="text/x-csharp" data-tab="Liste polymorphe">
+List<Compte> comptes = new List<Compte>();                 // UNE seule liste
+comptes.Add(new CompteCheque(1, "Dupont", 500, 2.5));
+comptes.Add(new LivretA(2, "Durand", 1000, 0.03));
+comptes.Add(new Compte(3, "Martin", 80));
+
+foreach (Compte c in comptes)
+    Console.WriteLine(c);        // chacun utilise SA propre version de ToString()
+          </script>
+        </div>
+        <script type="text/x-console" data-title="Sortie (Point / PointColore)">
+les coordonnées du point sont: (1,2)
+
+Le point est bleu
+        </script>
+        <div class="callout trap"><div><span class="callout-title">Limite</span>Via une variable de type mère, on ne peut appeler <strong>que</strong> ce que la mère connaît : <code>p.Couleur</code> ou <code>c.CalculInteret()</code> ne compilent pas si ces membres n'existent que dans la fille → il faut <strong>sous-classer</strong> (notion suivante).</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Retrouver le type réel : <code>is</code>, <code>as</code>, cast</h3>
+        <script type="text/x-csharp" data-title="Sous-classement (downcast)">
+foreach (Compte c in comptes)
+{
+    if (c is LivretA)                          // test du type réel
+    {
+        LivretA livret = (LivretA)c;           // cast explicite (InvalidCastException si faux)
+        Console.WriteLine("Intérêts : " + livret.CalculInteret());
+    }
+
+    CompteCheque cc = c as CompteCheque;       // as : renvoie null si ce n'est pas le bon type
+    if (cc != null)
+        cc.FraisCompte = 3;
+
+    if (c is LivretA l2) { /* is + déclaration : test et cast en une fois */ }
+}
+        </script>
+      </article>
+
+    </section>
+
+    <!-- ══════════════════════ CHAPITRE 8 ══════════════════════ -->
+    <section class="chapter" id="ch8" data-num="8" aria-labelledby="ch8-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">08</span>
+        <p class="chapter-kicker">Révision de la veille</p>
+        <h2 id="ch8-t">Sprint final : pièges &amp; auto-test</h2>
+        <p class="chapter-lead">Les erreurs qui coûtent des points, puis 14 questions pour vérifier que c'est acquis.</p>
+      </header>
+
+      <article class="notion">
+        <h3>Les 22 pièges qui coûtent des points</h3>
+        <div class="traps">
+          <div class="trap-card"><span class="t">ToString</span><div class="line"><span class="ko">✘</span><span><code>public string toString()</code> puis <code>Console.WriteLine(obj)</code></span></div><div class="line"><span class="ok">✔</span><span><code>public override string ToString()</code></span></div></div>
+          <div class="trap-card"><span class="t">this</span><div class="line"><span class="ko">✘</span><span><code>nom = nom;</code> dans le constructeur</span></div><div class="line"><span class="ok">✔</span><span><code>this.nom = nom;</code></span></div></div>
+          <div class="trap-card"><span class="t">Division entière</span><div class="line"><span class="ko">✘</span><span><code>double moy = somme / n;</code> (deux <code>int</code>)</span></div><div class="line"><span class="ok">✔</span><span><code>(double)somme / n</code></span></div></div>
+          <div class="trap-card"><span class="t">Tailles</span><div class="line"><span class="ko">✘</span><span><code>liste.Length</code>, <code>tab.Count</code></span></div><div class="line"><span class="ok">✔</span><span><code>tab.Length</code> · <code>liste.Count</code> · <code>m.GetLength(0)</code></span></div></div>
+          <div class="trap-card"><span class="t">Collection jamais créée</span><div class="line"><span class="ko">✘</span><span><code>private List&lt;Compte&gt; l;</code> puis <code>l.Add(c)</code> → NullReferenceException</span></div><div class="line"><span class="ok">✔</span><span><code>l = new List&lt;Compte&gt;();</code> dans le constructeur</span></div></div>
+          <div class="trap-card"><span class="t">Tableau d'objets</span><div class="line"><span class="ko">✘</span><span><code>new Compte[3]</code> puis <code>tab[0].Afficher()</code></span></div><div class="line"><span class="ok">✔</span><span><code>tab[0] = new Compte(…)</code> d'abord (cases à <code>null</code>)</span></div></div>
+          <div class="trap-card"><span class="t">ArrayList</span><div class="line"><span class="ko">✘</span><span><code>Compte c = liste[0];</code></span></div><div class="line"><span class="ok">✔</span><span><code>Compte c = (Compte)liste[0];</code></span></div></div>
+          <div class="trap-card"><span class="t">Supprimer en parcourant</span><div class="line"><span class="ko">✘</span><span><code>Remove</code> dans un <code>foreach</code></span></div><div class="line"><span class="ok">✔</span><span><code>for</code> à l'envers + <code>RemoveAt(i)</code></span></div></div>
+          <div class="trap-card"><span class="t">Pile / file vide</span><div class="line"><span class="ko">✘</span><span><code>pile.Pop()</code> sans vérifier</span></div><div class="line"><span class="ok">✔</span><span><code>if (pile.Count &gt; 0)</code> avant <code>Pop</code> / <code>Dequeue</code> / <code>Peek</code></span></div></div>
+          <div class="trap-card"><span class="t">Fermer le flux</span><div class="line"><span class="ko">✘</span><span>pas de <code>Close()</code> → fichier vide</span></div><div class="line"><span class="ok">✔</span><span><code>sw.Close();</code> ou bloc <code>using</code></span></div></div>
+          <div class="trap-card"><span class="t">Mode ajout</span><div class="line"><span class="ko">✘</span><span><code>new StreamWriter(f)</code> pour compléter un fichier</span></div><div class="line"><span class="ok">✔</span><span><code>new StreamWriter(f, true)</code></span></div></div>
+          <div class="trap-card"><span class="t">Fin de fichier</span><div class="line"><span class="ko">✘</span><span><code>while (sr.EndOfStream)</code></span></div><div class="line"><span class="ok">✔</span><span><code>while (!sr.EndOfStream)</code> ou <code>sr.Peek() != -1</code></span></div></div>
+          <div class="trap-card"><span class="t">Ordre des catch</span><div class="line"><span class="ko">✘</span><span><code>catch (Exception)</code> en premier</span></div><div class="line"><span class="ok">✔</span><span>du plus précis au plus général</span></div></div>
+          <div class="trap-card"><span class="t">Constructeur de fille</span><div class="line"><span class="ko">✘</span><span>pas de <code>: base(…)</code> alors que la mère attend des paramètres</span></div><div class="line"><span class="ok">✔</span><span><code>public Cercle(string c, double r) : base(c)</code></span></div></div>
+          <div class="trap-card"><span class="t">Polymorphisme</span><div class="line"><span class="ko">✘</span><span><code>override</code> sans <code>virtual</code> dans la mère</span></div><div class="line"><span class="ok">✔</span><span><code>virtual</code> (mère) + <code>override</code> (fille)</span></div></div>
+          <div class="trap-card"><span class="t">static</span><div class="line"><span class="ko">✘</span><span><code>objet.compteur</code>, ou un attribut d'instance dans une méthode <code>static</code></span></div><div class="line"><span class="ok">✔</span><span><code>NomClasse.compteur</code></span></div></div>
+          <div class="trap-card"><span class="t">Opérateurs</span><div class="line"><span class="ko">✘</span><span><code>operator ==</code> seul</span></div><div class="line"><span class="ok">✔</span><span><code>==</code> <strong>et</strong> <code>!=</code>, en <code>public static</code></span></div></div>
+          <div class="trap-card"><span class="t">Récursivité</span><div class="line"><span class="ko">✘</span><span>pas de condition d'arrêt, ou paramètre qui ne diminue pas</span></div><div class="line"><span class="ok">✔</span><span>arrêt en premier + appel avec <code>n - 1</code> / <code>i + 1</code></span></div></div>
+          <div class="trap-card"><span class="t">Random</span><div class="line"><span class="ko">✘</span><span><code>rnd.Next(1, 6)</code> pour un dé</span></div><div class="line"><span class="ok">✔</span><span><code>rnd.Next(1, 7)</code> : max <strong>exclu</strong></span></div></div>
+          <div class="trap-card"><span class="t">Comparer deux objets</span><div class="line"><span class="ko">✘</span><span><code>c1 == c2</code> pour comparer le contenu</span></div><div class="line"><span class="ok">✔</span><span><code>c1.Equals(c2)</code> sur l'attribut clé</span></div></div>
+          <div class="trap-card"><span class="t">string immuable</span><div class="line"><span class="ko">✘</span><span><code>s.ToUpper();</code></span></div><div class="line"><span class="ok">✔</span><span><code>s = s.ToUpper();</code></span></div></div>
+          <div class="trap-card"><span class="t">float</span><div class="line"><span class="ko">✘</span><span><code>float ttc = prix * 1.2;</code></span></div><div class="line"><span class="ok">✔</span><span><code>prix * 1.2f</code></span></div></div>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Auto-test express</h3>
+        <p>Réponds dans ta tête, puis clique pour vérifier. Si tu bloques, le numéro du chapitre est indiqué.</p>
+        <div class="quiz">
+          <details><summary><span class="qn">Q1</span>Différence entre <code>private</code> et <code>protected</code> ?<span class="chev" aria-hidden="true">›</span></summary><div class="answer"><p><code>private</code> : accessible <strong>uniquement</strong> dans la classe. <code>protected</code> : dans la classe <strong>et ses classes filles</strong> (<code>#</code> en UML). → ch. 2 et 7</p></div></details>
+          <details><summary><span class="qn">Q2</span>Que valent <code>7 / 2</code> et <code>(double)7 / 2</code> ?<span class="chev" aria-hidden="true">›</span></summary><div class="answer"><p><code>3</code> (division entière) et <code>3.5</code>. → ch. 0</p></div></details>
+          <details><summary><span class="qn">Q3</span><code>Console.WriteLine(c)</code> affiche « MonProjet.Client ». Pourquoi ?<span class="chev" aria-hidden="true">›</span></summary><div class="answer"><p><code>ToString()</code> n'est pas redéfinie (ou écrite <code>toString</code>). Il faut <code>public override string ToString()</code>. → ch. 2</p></div></details>
+          <details><summary><span class="qn">Q4</span>Que fait <code>new StreamWriter("f.txt", true)</code> ?<span class="chev" aria-hidden="true">›</span></summary><div class="answer"><p>Ouvre <code>f.txt</code> en <strong>mode ajout</strong> : on écrit à la fin sans effacer (le fichier est créé s'il n'existe pas). Sans <code>true</code> : le contenu est écrasé. → ch. 6</p></div></details>
+          <details><summary><span class="qn">Q5</span>Récursivité terminale vs classique ?<span class="chev" aria-hidden="true">›</span></summary><div class="answer"><p><strong>Terminale</strong> : l'appel récursif est la dernière action, seul (<code>return F(n - 1, acc * n);</code>), le résultat voyage dans un accumulateur. <strong>Classique</strong> : l'appel fait partie d'un calcul (<code>n * F(n - 1)</code>), le résultat se construit au dépilement. → ch. 4</p></div></details>
+          <details><summary><span class="qn">Q6</span>Quelle collection pour un guichet ? pour « annuler la dernière action » ? pour un annuaire numéro → nom ?<span class="chev" aria-hidden="true">›</span></summary><div class="answer"><p><code>Queue&lt;T&gt;</code> (FIFO) · <code>Stack&lt;T&gt;</code> (LIFO) · <code>Dictionary&lt;string, string&gt;</code> (clé unique). → ch. 5</p></div></details>
+          <details><summary><span class="qn">Q7</span>Après <code>Push(1); Push(2); Push(3); Pop();</code>, que renvoie <code>Peek()</code> ?<span class="chev" aria-hidden="true">›</span></summary><div class="answer"><p><code>2</code> : <code>Pop</code> a retiré le 3 (sommet), <code>Peek</code> lit le nouveau sommet sans le retirer. → ch. 5</p></div></details>
+          <details><summary><span class="qn">Q8</span>Pourquoi faut-il caster quand on lit un <code>ArrayList</code> ?<span class="chev" aria-hidden="true">›</span></summary><div class="answer"><p>Il stocke des <code>object</code> : le programme ne connaît plus le type réel de l'élément. <code>(Compte)liste[0]</code>. Les collections génériques (<code>List&lt;T&gt;</code>) évitent ce cast. → ch. 5</p></div></details>
+          <details><summary><span class="qn">Q9</span>Comment appeler le constructeur de la classe mère ?<span class="chev" aria-hidden="true">›</span></summary><div class="answer"><p>Avec <code>: base(paramètres)</code> après la signature du constructeur de la fille, paramètres dans l'ordre de la mère : <code>public Cercle(string couleur, double rayon) : base(couleur)</code>. → ch. 7</p></div></details>
+          <details><summary><span class="qn">Q10</span><code>Point p = new PointColore(1, 2, "bleu"); Console.WriteLine(p);</code> — quel <code>ToString</code> est appelé ?<span class="chev" aria-hidden="true">›</span></summary><div class="answer"><p>Celui de <strong>PointColore</strong> (type réel), à condition qu'il soit en <code>override</code>. C'est le polymorphisme / sur-classement. → ch. 7</p></div></details>
+          <details><summary><span class="qn">Q11</span>Qu'est-ce que la mémoïsation ?<span class="chev" aria-hidden="true">›</span></summary><div class="answer"><p>Stocker dans un tableau les résultats déjà calculés d'une fonction récursive multiple pour ne pas les recalculer (Fibonacci : 2,7 millions d'appels → 59). → ch. 4</p></div></details>
+          <details><summary><span class="qn">Q12</span>Dans quel ordre écrire plusieurs <code>catch</code> ?<span class="chev" aria-hidden="true">›</span></summary><div class="answer"><p>Du plus <strong>précis</strong> (<code>FileNotFoundException</code>, <code>FormatException</code>) au plus <strong>général</strong> (<code>Exception</code>, toujours en dernier). → ch. 6</p></div></details>
+          <details><summary><span class="qn">Q13</span>Agrégation ou composition : une Maison et ses Pièces ?<span class="chev" aria-hidden="true">›</span></summary><div class="answer"><p><strong>Composition</strong> (losange plein) : une pièce appartient à une seule maison et disparaît avec elle. Entreprise / Employé = <strong>agrégation</strong> (losange vide). → ch. 1</p></div></details>
+          <details><summary><span class="qn">Q14</span>Complexité du tri fusion en temps et en mémoire ?<span class="chev" aria-hidden="true">›</span></summary><div class="answer"><p><strong>O(n log n)</strong> dans tous les cas (log n niveaux × n opérations de fusion) et <strong>O(n)</strong> de mémoire supplémentaire (tableau temporaire). → ch. 4</p></div></details>
+        </div>
+      </article>
+    </section>
+
+    <section class="endcard">
+      <h3>Tu as tout lu. Prêt pour le 20/20 ?</h3>
+      <p>Relis la fiche pièges la veille.</p>
+      <div class="hero-actions">
+        <a class="btn btn-ghost" href="#ch8">Revoir les pièges</a>
+        <a class="btn btn-primary" href="../../../index.html">Retour aux cours</a>
+      </div>
+    </section>
+    <p class="foot">Last Minute Learning · Contenu pédagogique indicatif, assisté par IA · Vérifie toujours avec tes supports de cours</p>
+
+  </main>
+</div>
+
+<script>window.Prism = window.Prism || {}; window.Prism.manual = true;</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+<script>
+(() => {
+  const STORAGE_KEY = 'poo_csharp_progress_v1';
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── 0. Thème clair / sombre ── */
+  const THEME_KEY = 'poo_csharp_theme';
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeBtn');
+  const metaTheme = document.querySelector('meta[name="theme-color"]');
+  const lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+
+  function savedTheme() {
+    try { const t = localStorage.getItem(THEME_KEY); return t === 'light' || t === 'dark' ? t : null; } catch (e) { return null; }
+  }
+  function applyTheme(t) {
+    root.setAttribute('data-theme', t);
+    if (metaTheme) metaTheme.setAttribute('content', t === 'light' ? '#f4f5fa' : '#04060d');
+    if (themeBtn) themeBtn.setAttribute('aria-label', t === 'light' ? 'Passer au thème sombre' : 'Passer au thème clair');
+  }
+  applyTheme(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+
+  themeBtn?.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    if (!prefersReduced) {
+      root.classList.add('theme-anim');
+      setTimeout(() => root.classList.remove('theme-anim'), 450);
+    }
+    applyTheme(next);
+    try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+  });
+  // Sans choix mémorisé, on suit le réglage clair / sombre de l'appareil en direct
+  lightQuery.addEventListener?.('change', e => {
+    if (!savedTheme()) applyTheme(e.matches ? 'light' : 'dark');
+  });
+
+  const ICON_COPY = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>';
+  const ICON_OK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+
+  /* ── 1. Blocs de code : <script type="text/x-csharp"> → <figure class="code"> ── */
+  function dedent(src) {
+    const lines = src.replace(/\t/g, '    ').split('\n');
+    while (lines.length && !lines[0].trim()) lines.shift();
+    while (lines.length && !lines[lines.length - 1].trim()) lines.pop();
+    const indents = lines.filter(l => l.trim()).map(l => l.match(/^ */)[0].length);
+    const min = indents.length ? Math.min(...indents) : 0;
+    return lines.map(l => l.slice(min)).join('\n');
+  }
+
+  function makeHead(title, isConsole) {
+    const head = document.createElement('div');
+    head.className = 'code-head';
+    head.innerHTML = '<span class="code-dots" aria-hidden="true"><i></i><i></i><i></i></span>';
+    if (title != null) {
+      const t = document.createElement('span');
+      t.className = 'code-title';
+      t.textContent = title;
+      head.appendChild(t);
+    }
+    const lang = document.createElement('span');
+    lang.className = 'code-lang';
+    lang.textContent = isConsole ? 'CONSOLE' : 'C#';
+    head.appendChild(lang);
+    if (!isConsole) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'copy-btn';
+      btn.innerHTML = ICON_COPY + '<span>Copier</span>';
+      btn.setAttribute('aria-label', 'Copier le code');
+      head.appendChild(btn);
+    }
+    return head;
+  }
+
+  function makePre(src, isConsole) {
+    const pre = document.createElement('pre');
+    const code = document.createElement('code');
+    if (!isConsole) code.className = 'language-csharp';
+    code.textContent = dedent(src);
+    pre.appendChild(code);
+    return pre;
+  }
+
+  // Groupes d'onglets
+  document.querySelectorAll('.code-tabs').forEach((group, gi) => {
+    const scripts = [...group.querySelectorAll('script[type="text/x-csharp"]')];
+    const fig = document.createElement('figure');
+    fig.className = 'code';
+    const head = makeHead(null, false);
+    const bar = document.createElement('div');
+    bar.className = 'tabbar';
+    bar.setAttribute('role', 'tablist');
+    head.insertBefore(bar, head.querySelector('.code-lang'));
+    fig.appendChild(head);
+    scripts.forEach((s, i) => {
+      const id = `tab-${gi}-${i}`;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'tab-btn';
+      btn.id = id + '-btn';
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-controls', id);
+      btn.setAttribute('aria-selected', String(i === 0));
+      btn.textContent = s.dataset.tab || `Exemple ${i + 1}`;
+      bar.appendChild(btn);
+      const panel = document.createElement('div');
+      panel.className = 'tab-panel';
+      panel.id = id;
+      panel.setAttribute('role', 'tabpanel');
+      panel.setAttribute('aria-labelledby', btn.id);
+      if (i !== 0) panel.hidden = true;
+      panel.appendChild(makePre(s.textContent, false));
+      fig.appendChild(panel);
+    });
+    bar.addEventListener('click', e => {
+      const btn = e.target.closest('.tab-btn');
+      if (!btn) return;
+      bar.querySelectorAll('.tab-btn').forEach(b => b.setAttribute('aria-selected', String(b === btn)));
+      fig.querySelectorAll('.tab-panel').forEach(p => { p.hidden = p.id !== btn.getAttribute('aria-controls'); });
+    });
+    group.replaceWith(fig);
+  });
+
+  // Blocs simples
+  document.querySelectorAll('script[type="text/x-csharp"], script[type="text/x-console"]').forEach(s => {
+    const isConsole = s.type === 'text/x-console';
+    const fig = document.createElement('figure');
+    fig.className = 'code' + (isConsole ? ' console' : '');
+    fig.appendChild(makeHead(s.dataset.title || (isConsole ? 'Sortie' : null), isConsole));
+    fig.appendChild(makePre(s.textContent, isConsole));
+    s.replaceWith(fig);
+  });
+
+  if (window.Prism && typeof window.Prism.highlightAll === 'function') {
+    try { window.Prism.highlightAll(); } catch (e) {}
+  }
+
+  // Copier
+  document.addEventListener('click', async e => {
+    const btn = e.target.closest('.copy-btn');
+    if (!btn) return;
+    const fig = btn.closest('.code');
+    const panel = fig.querySelector('.tab-panel:not([hidden])') || fig;
+    const code = panel.querySelector('pre code');
+    if (!code) return;
+    const text = code.textContent;
+    let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; } catch (err) {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
+        ok = document.execCommand('copy');
+        ta.remove();
+      } catch (err2) {}
+    }
+    if (ok) {
+      btn.classList.add('is-copied');
+      btn.innerHTML = ICON_OK + '<span>Copié</span>';
+      setTimeout(() => { btn.classList.remove('is-copied'); btn.innerHTML = ICON_COPY + '<span>Copier</span>'; }, 1600);
+    }
+  });
+
+  /* ── 2. Numérotation des notions (ancres n2-3, badge 2.3) ── */
+  const chapters = [...document.querySelectorAll('.chapter')];
+  chapters.forEach((ch, ci) => {
+    const num = ch.dataset.num != null ? ch.dataset.num : String(ci);
+    ch.querySelectorAll('.notion').forEach((n, ni) => {
+      const id = `n${num}-${ni + 1}`;
+      if (!n.id) n.id = id;
+      const h3 = n.querySelector('h3');
+      if (h3) {
+        // Regroupe le texte du titre (avec ses <code>) en un seul élément flex
+        const text = document.createElement('span');
+        text.className = 'h3-text';
+        [...h3.childNodes].forEach(node => {
+          if (!(node.nodeType === 1 && node.classList.contains('tag-mini'))) text.appendChild(node);
+        });
+        h3.prepend(text);
+        const a = document.createElement('a');
+        a.className = 'notion-id';
+        a.href = '#' + n.id;
+        a.textContent = `${num}.${ni + 1}`;
+        a.title = 'Lien direct vers cette notion';
+        h3.prepend(a);
+      }
+    });
+  });
+
+  /* ── 3. Apparition au défilement ── */
+  const notions = [...document.querySelectorAll('.notion')];
+  if ('IntersectionObserver' in window && !prefersReduced) {
+    document.documentElement.classList.add('js-anim');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.04 });
+    notions.forEach(n => io.observe(n));
+  } else {
+    notions.forEach(n => n.classList.add('is-visible'));
+  }
+
+  /* ── 4. Sommaire actif + barre de lecture ── */
+  const tocLinks = [...document.querySelectorAll('.toc a')];
+  const readProgress = document.getElementById('readProgress');
+  const toc = document.getElementById('toc');
+  let ticking = false;
+  let lastActive = null;
+
+  function onScroll() {
+    ticking = false;
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - window.innerHeight;
+    const ratio = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    if (readProgress) readProgress.style.transform = `scaleX(${ratio})`;
+
+    const probe = window.innerHeight * 0.3;
+    let current = null;
+    chapters.forEach(ch => {
+      if (ch.classList.contains('is-filtered-out')) return;
+      if (ch.getBoundingClientRect().top - probe <= 0) current = ch.id;
+    });
+    if (current !== lastActive) {
+      lastActive = current;
+      tocLinks.forEach(a => {
+        const on = a.getAttribute('href') === '#' + current;
+        a.classList.toggle('is-active', on);
+        if (on && toc && toc.scrollWidth > toc.clientWidth) {
+          const left = a.offsetLeft - toc.clientWidth / 2 + a.offsetWidth / 2;
+          toc.scrollTo({ left, behavior: prefersReduced ? 'auto' : 'smooth' });
+        }
+      });
+    }
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+  }, { passive: true });
+  window.addEventListener('resize', onScroll);
+
+  /* ── 5. Chapitres maîtrisés (LocalStorage, purgeable depuis le hub) ── */
+  let mastered = new Set();
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    if (Array.isArray(saved)) mastered = new Set(saved);
+  } catch (e) {}
+
+  const ring = document.getElementById('masteryRing');
+  const countEl = document.getElementById('masteryCount');
+  const CIRC = 2 * Math.PI * 10;
+
+  function renderMastery() {
+    const total = chapters.length;
+    const done = chapters.filter(ch => mastered.has(ch.id)).length;
+    if (countEl) countEl.textContent = `${done}/${total}`;
+    if (ring) ring.style.strokeDashoffset = String(CIRC * (1 - (total ? done / total : 0)));
+    document.querySelectorAll('.master-btn').forEach(btn => {
+      const on = mastered.has(btn.dataset.master);
+      btn.classList.toggle('is-done', on);
+      btn.setAttribute('aria-pressed', String(on));
+      const lbl = btn.querySelector('.lbl');
+      if (lbl) lbl.textContent = on ? 'Chapitre maîtrisé' : 'Marquer comme maîtrisé';
+    });
+    tocLinks.forEach(a => a.classList.toggle('is-done', mastered.has(a.getAttribute('href').slice(1))));
+  }
+
+  chapters.forEach(ch => {
+    const head = ch.querySelector('.chapter-head');
+    if (!head) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'master-btn';
+    btn.dataset.master = ch.id;
+    btn.innerHTML = `<span class="box" aria-hidden="true">${ICON_OK}</span><span class="lbl">Marquer comme maîtrisé</span>`;
+    btn.addEventListener('click', () => {
+      if (mastered.has(ch.id)) mastered.delete(ch.id); else mastered.add(ch.id);
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...mastered])); } catch (e) {}
+      renderMastery();
+    });
+    head.appendChild(btn);
+  });
+  renderMastery();
+
+  /* ── 6. Recherche (insensible aux accents et à la casse) ── */
+  const search = document.getElementById('search');
+  const status = document.getElementById('searchStatus');
+  const noResult = document.getElementById('noResult');
+  const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const index = notions.map(n => ({ el: n, text: norm(n.textContent) }));
+
+  function runSearch() {
+    const words = norm(search.value.trim()).split(/\s+/).filter(Boolean);
+    let shown = 0;
+    index.forEach(({ el, text }) => {
+      const match = !words.length || words.every(w => text.includes(w));
+      el.classList.toggle('is-filtered-out', !match);
+      if (match) { shown++; el.classList.add('is-visible'); }
+    });
+    chapters.forEach(ch => {
+      const any = ch.querySelector('.notion:not(.is-filtered-out)');
+      ch.classList.toggle('is-filtered-out', !!words.length && !any);
+    });
+    if (status) status.textContent = words.length ? `${shown} notion${shown > 1 ? 's' : ''} trouvée${shown > 1 ? 's' : ''}` : '';
+    if (noResult) noResult.classList.toggle('is-shown', !!words.length && shown === 0);
+    onScroll();
+  }
+  search?.addEventListener('input', runSearch);
+  search?.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { search.value = ''; runSearch(); search.blur(); }
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && document.activeElement !== search && !/input|textarea/i.test(document.activeElement?.tagName || '')) {
+      e.preventDefault();
+      search?.focus();
+      search?.scrollIntoView({ block: 'center', behavior: prefersReduced ? 'auto' : 'smooth' });
+    }
+  });
+
+  /* ── Mobile : menu hamburger ── */
+  const menuBtn = document.getElementById('menuBtn');
+  const menuBackdrop = document.getElementById('menuBackdrop');
+  function setMenu(open) {
+    root.classList.toggle('menu-open', open);
+    if (menuBtn) {
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.setAttribute('aria-label', open ? 'Fermer le sommaire' : 'Ouvrir le sommaire');
+    }
+  }
+  menuBtn?.addEventListener('click', () => setMenu(!root.classList.contains('menu-open')));
+  menuBackdrop?.addEventListener('click', () => setMenu(false));
+  document.getElementById('toc')?.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a || !root.classList.contains('menu-open')) return;
+    // Le défilement est bloqué tant que le menu est ouvert : on ferme d'abord, puis on va à l'ancre
+    e.preventDefault();
+    setMenu(false);
+    const target = document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+    requestAnimationFrame(() => {
+      if (target) target.scrollIntoView({ block: 'start', behavior: prefersReduced ? 'auto' : 'smooth' });
+      history.replaceState(null, '', a.getAttribute('href'));
+    });
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && root.classList.contains('menu-open')) setMenu(false); });
+  window.matchMedia('(min-width: 1025px)').addEventListener?.('change', e => { if (e.matches) setMenu(false); });
+
+  /* ── Mobile : tableaux larges affichés en cartes (étiquette de colonne dans chaque case) ── */
+  document.querySelectorAll('.table-wrap > table').forEach(table => {
+    const ths = [...table.querySelectorAll('thead th')];
+    if (ths.length < 3) return;
+    table.classList.add('stack');
+    table.parentElement.classList.add('stack-wrap');
+    table.querySelectorAll('tbody tr').forEach(tr => {
+      [...tr.children].forEach((td, i) => {
+        const th = ths[i];
+        if (!th || !th.textContent.trim()) return;
+        const lbl = document.createElement('span');
+        lbl.className = 'td-label';
+        lbl.innerHTML = th.innerHTML;
+        td.prepend(lbl);
+      });
+    });
+  });
+
+  /* ── Schémas : réduits à l'échelle au lieu de se réorganiser ── */
+  const FIT = { '.tree': 540, '.mem': 520, '.ds-queue': 0 };
+  const fitTargets = [];
+  Object.entries(FIT).forEach(([sel, w]) => document.querySelectorAll(sel).forEach(el => fitTargets.push([el, w])));
+  function fitDiagrams() {
+    fitTargets.forEach(([el, w]) => {
+      el.style.zoom = ''; el.style.width = '';
+      const parent = el.parentElement;
+      const cs = getComputedStyle(parent);
+      const avail = parent.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      el.style.width = w ? w + 'px' : 'max-content';
+      const need = el.offsetWidth;
+      if (!avail || need <= avail) { el.style.width = ''; return; }
+      el.style.zoom = String(Math.floor(avail / need * 1000) / 1000);
+    });
+  }
+  function fitAll() { fitDiagrams(); }
+  let fitRaf = 0;
+  window.addEventListener('resize', () => { cancelAnimationFrame(fitRaf); fitRaf = requestAnimationFrame(fitAll); });
+  document.fonts?.ready?.then(fitAll);
+  fitAll();
+
+  /* ── 7. Ancre initiale (les id des notions sont créés par le script) ── */
+  if (location.hash) {
+    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (target) {
+      target.classList.add('is-visible');
+      setTimeout(() => target.scrollIntoView({ block: 'start' }), 60);
+    }
+  }
+  onScroll();
+})();
+</script>
+</body>
+</html>

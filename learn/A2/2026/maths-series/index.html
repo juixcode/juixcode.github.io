@@ -1,0 +1,2255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Séries · CC2 · Last Minute Learning</title>
+<meta name="description" content="Révisions express du CC2 de Séries (A2) : récap des théorèmes, méthodologie par situation d'examen (séries numériques, suites et séries de fonctions) et sujet blanc corrigé." />
+<meta name="theme-color" content="#04060d" />
+<script>
+  /* Thème appliqué avant l'affichage (évite un flash) : choix mémorisé, sinon réglage de l'appareil */
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('maths_series_theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="icon" type="image/x-icon" href="../../../icons/favicon.ico" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../icons/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../icons/apple-touch-icon.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous" />
+
+<style>
+/* ══════════ BASE ══════════ */
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  --bg: #04060d;
+  --text: #e8edff;
+  --text-2: #c9d2e8;
+  --muted: rgba(178, 192, 220, .72);
+  --border: rgba(var(--ink), .085);
+  --border-2: rgba(var(--ink), .14);
+  --accent: 56, 189, 248;
+  --violet: 167, 139, 250;
+  --orange: 251, 146, 60;
+  --green: 52, 211, 153;
+  --red: 248, 113, 113;
+  --yellow: 250, 204, 21;
+  --font: 'Outfit', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+  --radius: 20px;
+  --topbar-h: 60px;
+  --ink: 255, 255, 255;
+  --heading: #ffffff;
+  --orange-text: #fed7aa;
+  --accent-text: #bae6fd;
+  --violet-text: #ddd6fe;
+  --green-text: #a7f3d0;
+  --bar-bg: rgba(5, 7, 15, .78);
+  --menu-bg: rgba(6, 8, 16, .97);
+  --hl: var(--accent);
+  --paper-bg: rgba(10, 13, 23, .7);
+}
+
+/* ══════════ THÈME CLAIR ══════════ */
+html[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f5fa;
+  --text: #0f172a;
+  --text-2: #334155;
+  --muted: rgba(71, 85, 105, .92);
+  --accent: 2, 132, 199;
+  --violet: 124, 58, 237;
+  --orange: 234, 88, 12;
+  --green: 5, 150, 105;
+  --red: 220, 38, 38;
+  --yellow: 202, 138, 4;
+  --ink: 15, 23, 42;
+  --heading: #0f172a;
+  --orange-text: #c2410c;
+  --accent-text: #0369a1;
+  --violet-text: #6d28d9;
+  --green-text: #047857;
+  --bar-bg: rgba(255, 255, 255, .8);
+  --menu-bg: rgba(255, 255, 255, .98);
+  --paper-bg: #ffffff;
+}
+html[data-theme="light"] .bg .orb { opacity: .55; }
+html[data-theme="light"] .bg .grid-lines { opacity: .7; }
+html[data-theme="light"] .hero h1 {
+  background-image: linear-gradient(110deg, #0c1e3a 12%, #0284c7 42%, #ea580c 72%, #0c1e3a 94%);
+}
+html[data-theme="light"] .search input,
+html[data-theme="light"] .back-link,
+html[data-theme="light"] .mastery-pill,
+html[data-theme="light"] .theme-btn,
+html[data-theme="light"] .btn-ghost { background: rgba(255, 255, 255, .8); }
+html[data-theme="light"] .notion {
+  background: rgba(255, 255, 255, .9);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 14px 34px -24px rgba(15, 23, 42, .3);
+}
+html[data-theme="light"] .notion:hover { border-color: rgba(var(--accent), .3); }
+html[data-theme="light"] .endcard { background: radial-gradient(120% 120% at 50% 0%, rgba(var(--accent), .1), transparent 60%), rgba(255, 255, 255, .85); }
+html[data-theme="light"] .paper { box-shadow: 0 14px 34px -24px rgba(15, 23, 42, .35); }
+
+html.theme-anim, html.theme-anim *, html.theme-anim *::before, html.theme-anim *::after {
+  transition: background-color .35s ease, color .35s ease, border-color .35s ease, box-shadow .35s ease, fill .35s ease !important;
+}
+
+html {
+  color-scheme: dark;
+  overflow-x: clip;
+  background: var(--bg);
+  scroll-behavior: smooth;
+  scroll-padding-top: 86px;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: rgba(var(--accent), .35); }
+a { color: rgb(var(--accent)); }
+
+/* ══════════ DÉCOR ══════════ */
+.bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg .orb { position: absolute; border-radius: 50%; filter: blur(70px); animation: drift 26s ease-in-out infinite; }
+.bg .o1 { width: 620px; height: 620px; top: -220px; left: -160px; background: radial-gradient(circle, rgba(56, 189, 248, .2), transparent 65%); }
+.bg .o2 { width: 520px; height: 520px; top: 30%; right: -200px; background: radial-gradient(circle, rgba(139, 92, 246, .13), transparent 62%); animation-duration: 32s; animation-delay: -12s; }
+.bg .o3 { width: 480px; height: 480px; bottom: -220px; left: 30%; background: radial-gradient(circle, rgba(249, 115, 22, .1), transparent 60%); animation-duration: 28s; animation-delay: -6s; }
+.bg .grid-lines {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, .045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, .045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(80% 60% at 50% 10%, #000 10%, transparent 70%);
+  mask-image: radial-gradient(80% 60% at 50% 10%, #000 10%, transparent 70%);
+}
+
+/* ══════════ BARRE SUPÉRIEURE ══════════ */
+.topbar {
+  position: sticky; top: 0; z-index: 60;
+  height: var(--topbar-h);
+  display: flex; align-items: center; gap: 14px;
+  padding: 0 20px;
+  background: var(--bar-bg);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  border-bottom: 1px solid var(--border);
+}
+.back-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 12px 7px 9px;
+  border-radius: 12px;
+  font-size: .84rem; font-weight: 500;
+  color: var(--text-2); text-decoration: none;
+  background: rgba(var(--ink), .03);
+  border: 1px solid var(--border);
+  transition: color .2s, border-color .2s, background .2s, transform .2s;
+  white-space: nowrap;
+}
+.back-link:hover, .back-link:focus-visible { outline: none; color: var(--orange-text); border-color: rgba(var(--orange), .45); background: rgba(var(--orange), .08); transform: translateX(-2px); }
+.back-link svg { width: 15px; height: 15px; }
+.topbar-title { display: flex; align-items: center; gap: 10px; min-width: 0; font-weight: 700; letter-spacing: -.01em; }
+.topbar-title .logo {
+  width: 30px; height: 30px; flex-shrink: 0; border-radius: 9px;
+  display: grid; place-items: center;
+  font: 800 1.05rem var(--font); color: #fff;
+  background: linear-gradient(145deg, #38bdf8, #0369a1);
+  box-shadow: 0 6px 16px -6px rgba(56, 189, 248, .8), inset 0 1px 0 rgba(255, 255, 255, .3);
+}
+.topbar-title span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.mastery-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 12px 5px 6px;
+  border-radius: 999px;
+  font-size: .78rem; font-weight: 600; color: var(--text-2);
+  background: rgba(var(--ink), .04);
+  border: 1px solid var(--border);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.theme-btn {
+  position: relative;
+  width: 36px; height: 36px; flex-shrink: 0;
+  display: grid; place-items: center;
+  border-radius: 11px;
+  color: var(--text-2);
+  background: rgba(var(--ink), .04);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  overflow: hidden;
+  transition: color .2s, border-color .2s, box-shadow .2s, transform .2s;
+}
+.theme-btn:hover, .theme-btn:focus-visible { outline: none; color: rgb(var(--orange)); border-color: rgba(var(--orange), .45); box-shadow: 0 0 16px -4px rgba(var(--orange), .5); }
+.theme-btn:active { transform: scale(.93); }
+.theme-btn svg { position: absolute; width: 18px; height: 18px; transition: transform .5s cubic-bezier(.34, 1.56, .64, 1), opacity .3s ease; }
+.theme-btn .i-moon { opacity: 0; transform: rotate(-90deg) scale(.4); }
+html[data-theme="light"] .theme-btn .i-sun { opacity: 0; transform: rotate(90deg) scale(.4); }
+html[data-theme="light"] .theme-btn .i-moon { opacity: 1; transform: none; }
+.mastery-ring { width: 24px; height: 24px; transform: rotate(-90deg); }
+.mastery-ring circle { fill: none; stroke-width: 3.2; }
+.mastery-ring .track { stroke: rgba(var(--ink), .1); }
+.mastery-ring .value { stroke: rgb(var(--green)); stroke-linecap: round; stroke-dasharray: 62.83; stroke-dashoffset: 62.83; transition: stroke-dashoffset .6s cubic-bezier(.22, .61, .36, 1); }
+.read-progress {
+  position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
+  transform-origin: left; transform: scaleX(0);
+  background: linear-gradient(90deg, rgb(var(--accent)), rgb(var(--orange)));
+  box-shadow: 0 0 12px rgba(var(--accent), .7);
+}
+
+/* ══════════ MISE EN PAGE ══════════ */
+.layout {
+  position: relative; z-index: 2;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px 90px;
+  display: grid;
+  grid-template-columns: 252px minmax(0, 1fr);
+  gap: 44px;
+}
+main { min-width: 0; padding-top: 34px; }
+
+/* ---- Sommaire ---- */
+.toc {
+  position: sticky;
+  top: calc(var(--topbar-h) + 22px);
+  align-self: start;
+  max-height: calc(100vh - var(--topbar-h) - 44px);
+  overflow-y: auto;
+  padding: 30px 4px 20px 0;
+  scrollbar-width: thin;
+}
+.toc-head { font-size: .66rem; font-weight: 600; letter-spacing: .26em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px 12px; }
+.toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.toc a {
+  position: relative;
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px 8px 12px;
+  border-radius: 12px;
+  font-size: .88rem; font-weight: 500; line-height: 1.3;
+  color: var(--text-2);
+  opacity: .85;
+  text-decoration: none;
+  transition: color .2s, background .2s;
+}
+.toc a:hover { color: var(--heading); background: rgba(var(--ink), .04); opacity: 1; }
+.toc a.is-active, .toc a.is-done { opacity: 1; }
+.toc a.is-active { color: var(--heading); background: rgba(var(--accent), .12); }
+.toc a.is-active::before {
+  content: ""; position: absolute; left: 0; top: 9px; bottom: 9px; width: 3px; border-radius: 3px;
+  background: rgb(var(--accent)); box-shadow: 0 0 10px rgb(var(--accent));
+}
+.toc a.sub { padding-left: 40px; font-size: .8rem; opacity: .7; }
+.toc a.sub.is-active::before { display: none; }
+.toc a.sub.is-active { background: none; color: var(--accent-text); }
+.toc-num { font: 600 .72rem var(--mono); color: rgba(var(--accent), .9); width: 18px; flex-shrink: 0; }
+.toc-star { color: rgb(var(--orange)); font-size: .72rem; margin-left: auto; }
+.toc-check {
+  width: 16px; height: 16px; flex-shrink: 0; border-radius: 50%;
+  display: none; place-items: center;
+  background: rgba(var(--green), .18); color: rgb(var(--green));
+}
+.toc-check svg { width: 10px; height: 10px; }
+.toc a.is-done .toc-check { display: grid; }
+.toc a.is-done .toc-star { display: none; }
+.toc-foot { margin: 18px 0 0 12px; font-size: .76rem; color: var(--muted); line-height: 1.5; }
+.toc-foot b { color: rgb(var(--orange)); }
+
+/* ══════════ HERO ══════════ */
+.hero { position: relative; padding: 18px 0 6px; }
+.hero-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: .74rem; font-weight: 600; letter-spacing: .02em;
+  color: var(--text-2);
+  background: rgba(var(--ink), .04);
+  border: 1px solid var(--border);
+}
+.chip i { width: 6px; height: 6px; border-radius: 50%; background: rgb(var(--accent)); box-shadow: 0 0 8px rgb(var(--accent)); }
+.chip.orange i { background: rgb(var(--orange)); box-shadow: 0 0 8px rgb(var(--orange)); }
+.hero h1 {
+  margin: 0;
+  font-size: clamp(2.5rem, 7vw, 4rem);
+  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  background: linear-gradient(110deg, #ffffff 12%, #7dd3fc 42%, #fdba74 72%, #ffffff 94%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 9s ease-in-out infinite;
+}
+.hero-lead { max-width: 680px; margin: 16px 0 0; font-size: clamp(1rem, 2.4vw, 1.12rem); color: var(--text-2); }
+.hero-lead strong { color: var(--heading); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  font: 600 .9rem var(--font);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s, background .2s, border-color .2s, color .2s;
+}
+.btn-primary { color: #04121c; background: linear-gradient(135deg, #7dd3fc, #0ea5e9); border: 1px solid rgba(255, 255, 255, .25); box-shadow: 0 8px 22px -8px rgba(14, 165, 233, .8); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -8px rgba(14, 165, 233, .95); }
+.btn-ghost { color: var(--text-2); background: rgba(var(--ink), .04); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--orange-text); border-color: rgba(var(--orange), .45); background: rgba(var(--orange), .08); transform: translateY(-2px); }
+.btn svg { width: 16px; height: 16px; }
+
+/* ---- Recherche ---- */
+.search { position: relative; margin: 30px 0 0; }
+.search svg { position: absolute; z-index: 1; left: 16px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.search input {
+  width: 100%;
+  padding: 14px 54px 14px 46px;
+  border-radius: 16px;
+  font: 500 .96rem var(--font);
+  color: var(--text);
+  background: rgba(var(--ink), .045);
+  border: 1px solid var(--border);
+  outline: none;
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  transition: border-color .2s, box-shadow .2s, background .2s;
+}
+.search input::placeholder { color: var(--muted); opacity: .7; }
+.search input:focus { border-color: rgba(var(--accent), .55); box-shadow: 0 0 0 4px rgba(var(--accent), .14); background: rgba(var(--ink), .06); }
+.search kbd {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  font: 600 .72rem var(--mono); color: var(--muted);
+  padding: 2px 8px; border-radius: 7px; border: 1px solid var(--border-2); background: rgba(var(--ink), .04);
+}
+.search-status { min-height: 1.4em; margin: 8px 4px 0; font-size: .82rem; color: var(--muted); }
+.no-result { display: none; margin: 30px 0; padding: 28px; text-align: center; border-radius: var(--radius); border: 1px dashed var(--border-2); color: var(--muted); }
+.no-result.is-shown { display: block; }
+
+/* ══════════ CHAPITRES ══════════ */
+.chapter { margin-top: 70px; }
+.chapter.is-filtered-out { display: none; }
+.chapter-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 20px;
+  align-items: start;
+  padding-bottom: 20px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.chapter-num {
+  grid-row: span 3;
+  font-size: clamp(2.6rem, 6vw, 3.6rem);
+  font-weight: 800;
+  line-height: .95;
+  letter-spacing: -.04em;
+  background: linear-gradient(165deg, rgb(var(--accent)), rgba(var(--accent), .15));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-variant-numeric: tabular-nums;
+}
+.chapter-kicker { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: .7rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: rgba(var(--accent), .95); }
+.prio {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 9px; border-radius: 999px;
+  letter-spacing: .06em;
+  color: var(--orange-text); background: rgba(var(--orange), .12); border: 1px solid rgba(var(--orange), .38);
+}
+.chapter h2 { margin: 2px 0 0; font-size: clamp(1.55rem, 3.6vw, 2.15rem); line-height: 1.15; letter-spacing: -.025em; }
+.chapter-lead { margin: 6px 0 0; color: var(--muted); font-size: .98rem; }
+.master-btn {
+  grid-column: 2;
+  justify-self: start;
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 10px;
+  padding: 7px 13px;
+  border-radius: 12px;
+  font: 600 .8rem var(--font);
+  color: var(--text-2);
+  background: rgba(var(--ink), .035);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all .25s cubic-bezier(.22, .61, .36, 1);
+}
+.master-btn .box { width: 16px; height: 16px; border-radius: 5px; display: grid; place-items: center; border: 1.5px solid var(--border-2); transition: all .25s; }
+.master-btn .box svg { width: 11px; height: 11px; opacity: 0; transform: scale(.4); transition: all .3s cubic-bezier(.34, 1.56, .64, 1); }
+.master-btn:hover { border-color: rgba(var(--green), .45); color: var(--heading); }
+.master-btn.is-done { color: var(--green-text); border-color: rgba(var(--green), .45); background: rgba(var(--green), .1); }
+.master-btn.is-done .box { background: rgb(var(--green)); border-color: rgb(var(--green)); color: #03140d; }
+.master-btn.is-done .box svg { opacity: 1; transform: scale(1); }
+
+/* ---- Sections (A, B, C) à l'intérieur d'un chapitre ---- */
+.part-head {
+  display: flex; align-items: center; gap: 16px;
+  margin: 46px 0 6px;
+  padding: 14px 18px;
+  border-radius: 18px;
+  background: linear-gradient(100deg, rgba(var(--accent), .12), rgba(var(--accent), .02) 70%);
+  border: 1px solid rgba(var(--accent), .22);
+}
+.part-head.is-filtered-out { display: none; }
+.part-letter {
+  width: 44px; height: 44px; flex-shrink: 0;
+  display: grid; place-items: center;
+  border-radius: 13px;
+  font: 800 1.3rem var(--font);
+  color: #04121c;
+  background: linear-gradient(145deg, #7dd3fc, #0ea5e9);
+  box-shadow: 0 8px 20px -8px rgba(14, 165, 233, .8);
+}
+.part-kicker { margin: 0; font-size: .66rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: rgba(var(--accent), .95); }
+.part-title { margin: 0; font-size: 1.25rem; line-height: 1.2; letter-spacing: -.015em; color: var(--heading); }
+.part-sub { margin: 2px 0 0; font-size: .86rem; color: var(--muted); }
+
+/* ---- Notion (carte) ---- */
+.notion {
+  position: relative;
+  margin: 18px 0;
+  padding: 24px 26px 22px;
+  border-radius: var(--radius);
+  background: linear-gradient(165deg, rgba(var(--ink), .052), rgba(var(--ink), .014) 62%);
+  border: 1px solid var(--border);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 22px 44px -32px rgba(0, 0, 0, .95);
+  transition: border-color .35s ease, box-shadow .35s ease, opacity .6s ease, transform .6s cubic-bezier(.22, .61, .36, 1);
+}
+.notion:hover { border-color: rgba(var(--accent), .22); }
+.notion.is-filtered-out { display: none; }
+.notion:target { border-color: rgba(var(--accent), .55); box-shadow: 0 0 0 4px rgba(var(--accent), .12); }
+html.js-anim .notion:not(.is-visible) { opacity: 0; transform: translateY(22px); }
+
+.notion h3 {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px;
+  margin: 0 0 8px;
+  font-size: 1.2rem; line-height: 1.3; letter-spacing: -.012em;
+}
+.notion-id {
+  font: 600 .72rem var(--mono);
+  padding: 3px 8px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: rgb(var(--accent));
+  background: rgba(var(--accent), .12);
+  border: 1px solid rgba(var(--accent), .3);
+}
+.notion-id:hover { background: rgba(var(--accent), .22); }
+.tag-mini {
+  font: 600 .64rem var(--font); letter-spacing: .1em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 999px;
+  color: var(--orange-text); background: rgba(var(--orange), .1); border: 1px solid rgba(var(--orange), .3);
+}
+.tag-mini.cool { color: var(--accent-text); background: rgba(var(--accent), .1); border-color: rgba(var(--accent), .3); }
+.notion p { margin: 10px 0; color: var(--text-2); }
+.notion strong, .notion b { color: var(--heading); font-weight: 600; }
+.notion ul, .notion ol { margin: 10px 0; padding-left: 1.3em; color: var(--text-2); }
+.notion li { margin: 5px 0; }
+.notion li::marker { color: rgb(var(--accent)); }
+.notion h4 { margin: 18px 0 6px; font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+
+:not(pre) > code {
+  font-family: var(--mono);
+  font-size: .84em;
+  padding: .12em .42em;
+  border-radius: 6px;
+  color: var(--accent-text);
+  background: rgba(var(--accent), .1);
+  border: 1px solid rgba(var(--accent), .2);
+}
+
+/* ---- Maths (KaTeX) ---- */
+.katex { font-size: 1.06em; text-transform: none; letter-spacing: normal; }
+.katex-display { margin: .7em 0; overflow-x: auto; overflow-y: hidden; padding: 4px 2px; scrollbar-width: thin; }
+.katex-display > .katex { white-space: nowrap; }
+
+/* ---- Théorème ---- */
+.thm {
+  margin: 14px 0;
+  padding: 12px 16px 10px;
+  border-radius: 14px;
+  background: rgba(var(--accent), .055);
+  border: 1px solid rgba(var(--accent), .2);
+  border-left: 3px solid rgb(var(--accent));
+  color: var(--text-2);
+  font-size: .95rem;
+}
+.thm-name { display: block; margin-bottom: 4px; font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: rgb(var(--accent)); }
+.thm p { margin: 5px 0; }
+.thm ul { margin: 5px 0; }
+.thm.def { --c: var(--violet); background: rgba(var(--violet), .055); border-color: rgba(var(--violet), .22); border-left-color: rgb(var(--violet)); }
+.thm.def .thm-name { color: rgb(var(--violet)); }
+
+/* ---- Encadrés ---- */
+.callout {
+  --c: var(--accent);
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  margin: 14px 0;
+  padding: 12px 15px 12px 12px;
+  border-radius: 14px;
+  font-size: .93rem;
+  color: var(--text-2);
+  background: rgba(var(--c), .065);
+  border: 1px solid rgba(var(--c), .2);
+  border-left: 3px solid rgb(var(--c));
+}
+.callout::before {
+  content: "";
+  width: 20px; height: 20px; margin-top: 2px;
+  background: rgb(var(--c));
+  -webkit-mask: var(--ico) center / contain no-repeat;
+  mask: var(--ico) center / contain no-repeat;
+}
+.callout > div { min-width: 0; }
+.callout-title { display: block; margin-bottom: 2px; font-size: .7rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgb(var(--c)); }
+.callout p { margin: 4px 0; }
+.callout ul { margin: 4px 0; padding-left: 1.15em; }
+.callout { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4M12 8h.01'/%3E%3C/svg%3E"); }
+.callout.trap { --c: var(--red); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z'/%3E%3Cpath d='M12 9v4M12 17h.01'/%3E%3C/svg%3E"); }
+.callout.tip { --c: var(--green); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2Z'/%3E%3C/svg%3E"); }
+.callout.exam { --c: var(--orange); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Ccircle cx='12' cy='12' r='6'/%3E%3Ccircle cx='12' cy='12' r='2'/%3E%3C/svg%3E"); }
+
+/* ---- Tableaux ---- */
+.table-wrap { margin: 14px 0; overflow-x: auto; border-radius: 14px; border: 1px solid var(--border); background: rgba(var(--ink), .015); }
+table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+th { padding: 10px 14px; text-align: left; font-size: .68rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); background: rgba(var(--ink), .04); white-space: nowrap; }
+td { padding: 10px 14px; border-top: 1px solid rgba(var(--ink), .06); color: var(--text-2); vertical-align: top; }
+tbody tr { transition: background .2s; }
+tbody tr:hover td { background: rgba(var(--ink), .025); }
+td strong { color: var(--heading); }
+td.rowh { font-weight: 600; color: var(--heading); white-space: nowrap; }
+.cmp th:nth-child(2), .cmp td:nth-child(2) { border-left: 1px solid var(--border); }
+.cmp th:nth-child(3), .cmp td:nth-child(3) { border-left: 1px solid var(--border); }
+.cmp th.suite { color: rgb(var(--accent)); }
+.cmp th.serie { color: rgb(var(--violet)); }
+.ok { color: rgb(var(--green)); font-weight: 700; }
+.ko { color: rgb(var(--red)); font-weight: 700; }
+
+/* ---- Grille de cartes ---- */
+.cheat { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 14px 0; }
+.cheat > div { padding: 11px 13px; border-radius: 12px; background: rgba(var(--ink), .03); border: 1px solid var(--border); font-size: .9rem; color: var(--text-2); }
+.cheat > div > b:first-child { display: block; margin-bottom: 2px; }
+
+/* ---- Schéma des implications ---- */
+.impl { display: flex; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 8px 10px; margin: 16px 0; }
+.impl .node { padding: 8px 14px; border-radius: 12px; font: 700 .86rem var(--mono); color: var(--heading); background: rgba(var(--accent), .12); border: 1px solid rgba(var(--accent), .4); }
+.impl .node.strong { background: rgba(var(--violet), .16); border-color: rgba(var(--violet), .5); }
+.impl .arrow { font: 700 1.1rem var(--font); color: var(--muted); }
+.impl-col { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.impl-row { display: flex; align-items: center; gap: 10px; }
+
+/* ---- Situation (méthodo) ---- */
+.when { padding: 10px 14px; border-radius: 12px; background: rgba(var(--ink), .03); border: 1px dashed var(--border-2); }
+.when b:first-child { color: rgb(var(--accent)); }
+.tools { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 4px; }
+.tool { padding: 3px 10px; border-radius: 999px; font: 600 .74rem var(--font); color: var(--violet-text); background: rgba(var(--violet), .12); border: 1px solid rgba(var(--violet), .32); }
+.tools-lbl { font: 700 .66rem var(--font); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); align-self: center; margin-right: 2px; }
+ol.steps { list-style: none; counter-reset: st; padding-left: 0; margin: 12px 0; }
+ol.steps > li { counter-increment: st; position: relative; padding-left: 34px; margin: 8px 0; }
+ol.steps > li::before {
+  content: counter(st);
+  position: absolute; left: 0; top: 1px;
+  width: 22px; height: 22px; border-radius: 7px;
+  display: grid; place-items: center;
+  font: 700 .74rem var(--mono);
+  color: rgb(var(--accent)); background: rgba(var(--accent), .12); border: 1px solid rgba(var(--accent), .3);
+}
+.example {
+  margin: 14px 0 2px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(var(--green), .05);
+  border: 1px solid rgba(var(--green), .2);
+  border-left: 3px solid rgb(var(--green));
+  color: var(--text-2);
+  font-size: .95rem;
+}
+.ex-label { display: block; margin-bottom: 4px; font-size: .68rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgb(var(--green)); }
+.example p { margin: 6px 0; }
+.src { font-size: .8rem; color: var(--muted); }
+
+/* ---- Pièges (grille) ---- */
+.traps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 14px 0; }
+.trap-card { padding: 12px 14px; border-radius: 14px; border: 1px solid var(--border); background: rgba(var(--ink), .025); font-size: .88rem; color: var(--text-2); }
+.trap-card .t { display: block; margin-bottom: 6px; font-weight: 700; color: var(--heading); font-size: .92rem; }
+.trap-card .line { display: flex; gap: 8px; align-items: baseline; margin: 4px 0; }
+.trap-card .line > span:first-child { flex-shrink: 0; font-weight: 800; }
+.trap-card .line > span:last-child { min-width: 0; }
+
+/* ---- Répartition (barres) ---- */
+.bars { display: grid; gap: 12px; margin: 16px 0; }
+.bar { display: grid; grid-template-columns: minmax(0, 230px) minmax(0, 1fr) 76px; gap: 14px; align-items: center; font-size: .9rem; }
+.bar-lbl { color: var(--heading); font-weight: 600; line-height: 1.3; }
+.bar-lbl small { display: block; font-weight: 400; color: var(--muted); font-size: .78rem; }
+.bar-track { position: relative; height: 12px; border-radius: 999px; background: rgba(var(--ink), .07); overflow: hidden; }
+.bar-track i { position: absolute; inset: 0 auto 0 0; width: calc(var(--p) * 1%); border-radius: inherit; background: linear-gradient(90deg, rgb(var(--accent)), rgb(var(--violet))); box-shadow: 0 0 14px rgba(var(--accent), .5); transform-origin: left; }
+.notion.is-visible .bar-track i { animation: barIn 1s cubic-bezier(.22, .61, .36, 1) backwards; }
+.bar-val { font: 700 .84rem var(--mono); color: var(--heading); text-align: right; white-space: nowrap; }
+
+/* ---- Checklist de révision ---- */
+.todo { list-style: none; padding: 0 !important; margin: 12px 0; display: grid; gap: 8px; }
+.todo li { margin: 0; }
+.todo label {
+  display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 12px; align-items: start;
+  padding: 10px 14px; border-radius: 12px; cursor: pointer;
+  background: rgba(var(--ink), .03); border: 1px solid var(--border);
+  transition: border-color .2s, background .2s;
+}
+.todo label:hover { border-color: rgba(var(--accent), .35); }
+.todo input { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; margin: 2px 0 0; border-radius: 6px; border: 1.5px solid var(--border-2); display: grid; place-items: center; cursor: pointer; transition: all .2s; }
+.todo input::after { content: ""; width: 10px; height: 6px; border-left: 2.5px solid #03140d; border-bottom: 2.5px solid #03140d; transform: rotate(-45deg) translate(1px, -1px) scale(0); transition: transform .2s cubic-bezier(.34, 1.56, .64, 1); }
+.todo input:checked { background: rgb(var(--green)); border-color: rgb(var(--green)); }
+.todo input:checked::after { transform: rotate(-45deg) translate(1px, -1px) scale(1); }
+.todo input:checked ~ span { opacity: .55; text-decoration: line-through; text-decoration-color: rgba(var(--green), .7); }
+.badge { align-self: center; white-space: nowrap; font: 700 .62rem var(--font); letter-spacing: .1em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; }
+.badge.p1 { color: var(--orange-text); background: rgba(var(--orange), .14); border: 1px solid rgba(var(--orange), .45); }
+.badge.p2 { color: var(--accent-text); background: rgba(var(--accent), .1); border: 1px solid rgba(var(--accent), .35); }
+.badge.p3 { color: var(--muted); background: rgba(var(--ink), .04); border: 1px solid var(--border-2); }
+.badge.final { color: var(--green-text); background: rgba(var(--green), .12); border: 1px solid rgba(var(--green), .4); }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin: 10px 0 4px; font-size: .84rem; color: var(--text-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.todo span small { display: block; color: var(--muted); font-size: .8rem; }
+.todo-progress { font-size: .82rem; color: var(--muted); }
+
+/* ---- Sujet blanc ---- */
+.paper {
+  margin: 16px 0;
+  padding: 26px 28px;
+  border-radius: 16px;
+  background: var(--paper-bg);
+  border: 1px solid var(--border-2);
+  color: var(--text-2);
+}
+.paper-head { text-align: center; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--border); }
+.paper-head b { display: block; font-size: 1.05rem; color: var(--heading); }
+.paper-head span { font-size: .86rem; color: var(--muted); }
+.ex-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; margin: 20px 0 6px; font-weight: 700; color: var(--heading); font-size: 1.02rem; }
+.ex-head .pts { font: 600 .74rem var(--mono); padding: 2px 8px; border-radius: 7px; color: var(--orange-text); background: rgba(var(--orange), .1); border: 1px solid rgba(var(--orange), .3); }
+.paper ol { margin: 6px 0; }
+.timer { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 14px 0; }
+.timer-val { font: 700 1.6rem var(--mono); color: var(--heading); min-width: 104px; font-variant-numeric: tabular-nums; }
+.timer-val.is-low { color: rgb(var(--red)); }
+.timer .btn { padding: 8px 14px; font-size: .84rem; }
+
+/* ---- Corrections dépliables ---- */
+.quiz { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin: 14px 0; }
+.quiz details { border-radius: 14px; border: 1px solid var(--border); background: rgba(var(--ink), .025); transition: border-color .25s, background .25s; }
+.quiz details[open] { border-color: rgba(var(--green), .35); background: rgba(var(--green), .035); }
+.quiz summary {
+  list-style: none; cursor: pointer;
+  display: flex; gap: 12px; align-items: baseline;
+  padding: 13px 16px;
+  font-weight: 600; color: var(--heading);
+}
+.quiz summary::-webkit-details-marker { display: none; }
+.quiz summary .qn { flex-shrink: 0; font: 700 .74rem var(--mono); color: rgb(var(--accent)); }
+.quiz summary .chev { margin-left: auto; flex-shrink: 0; color: var(--muted); transition: transform .3s; }
+.quiz details[open] summary .chev { transform: rotate(90deg); color: rgb(var(--green)); }
+.quiz .answer { padding: 0 18px 16px 46px; color: var(--text-2); font-size: .94rem; }
+.quiz .answer p { margin: 6px 0; }
+.quiz .answer h5 { margin: 14px 0 4px; font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: rgb(var(--accent)); }
+.pt { display: inline-block; margin-left: 6px; font: 700 .7rem var(--mono); padding: 1px 6px; border-radius: 6px; color: var(--green-text); background: rgba(var(--green), .12); border: 1px solid rgba(var(--green), .3); vertical-align: 1px; }
+
+/* ---- Fin ---- */
+.endcard {
+  margin-top: 60px; padding: 30px 26px; text-align: center;
+  border-radius: 24px;
+  background: radial-gradient(120% 120% at 50% 0%, rgba(var(--accent), .16), transparent 60%), rgba(var(--ink), .025);
+  border: 1px solid rgba(var(--accent), .25);
+}
+.endcard h3 { margin: 0 0 6px; font-size: 1.5rem; letter-spacing: -.02em; }
+.endcard p { margin: 0 auto; max-width: 520px; color: var(--text-2); }
+.endcard .hero-actions { justify-content: center; }
+.foot { margin-top: 34px; text-align: center; font-size: .72rem; letter-spacing: .12em; color: var(--muted); opacity: .7; }
+
+/* ══════════ ANIMATIONS ══════════ */
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(40px, -30px, 0) scale(1.06); }
+  66% { transform: translate3d(-34px, 26px, 0) scale(.95); }
+}
+@keyframes shimmer { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@keyframes barIn { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* ══════════ RESPONSIVE ══════════ */
+@media (max-width: 1024px) {
+  /* z-index auto : le menu (dans .layout) peut passer au-dessus du voile sombre */
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 0 16px 80px; z-index: auto; }
+  .menu-btn { display: grid; }
+  /* Le sommaire devient un menu déroulant ouvert par le bouton hamburger */
+  .toc {
+    position: fixed; top: var(--topbar-h); left: 0; right: 0; z-index: 58;
+    max-height: calc(100vh - var(--topbar-h));
+    max-height: calc(100dvh - var(--topbar-h));
+    overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+    margin: 0; padding: 18px 16px 26px;
+    background: var(--menu-bg);
+    -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 28px 50px -24px rgba(0, 0, 0, .7);
+    opacity: 0; visibility: hidden; transform: translateY(-10px);
+    transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s;
+  }
+  html.menu-open .toc { opacity: 1; visibility: visible; transform: none; transition: opacity .25s ease, transform .25s ease; }
+  .toc-foot { display: none; }
+  .toc a { padding: 11px 12px; font-size: .95rem; }
+  .toc a.sub { padding: 8px 12px 8px 42px; font-size: .86rem; }
+  .menu-backdrop {
+    display: block; position: fixed; left: 0; right: 0; bottom: 0; top: var(--topbar-h); z-index: 57;
+    background: rgba(2, 4, 10, .55);
+    opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility 0s linear .25s;
+  }
+  html.menu-open .menu-backdrop { opacity: 1; visibility: visible; transition: opacity .25s ease; }
+  html.menu-open { overflow: hidden; }
+  html { scroll-padding-top: 76px; }
+  main { padding-top: 26px; }
+}
+@media (max-width: 720px) {
+  .topbar { padding: 0 12px; gap: 10px; }
+  .back-link span { display: none; }
+  .back-link { padding: 7px 9px; }
+  .notion { padding: 20px 16px 18px; border-radius: 18px; }
+  .paper { padding: 20px 16px; }
+  .cheat, .traps { grid-template-columns: minmax(0, 1fr); }
+  .bar { grid-template-columns: minmax(0, 1fr) 70px; }
+  .bar-track { grid-column: 1 / -1; grid-row: 2; }
+  .chapter { margin-top: 56px; }
+  /* Numéro de chapitre au-dessus du titre */
+  .chapter-head { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .chapter-num { grid-row: auto; font-size: 2.5rem; margin-bottom: 6px; }
+  .master-btn { grid-column: 1; }
+  /* Tableaux : en-têtes sur plusieurs lignes, et tableaux larges en cartes */
+  th { white-space: normal; padding: 9px 10px; }
+  td { padding: 9px 10px; }
+  .table-wrap.stack-wrap { overflow: visible; border: 0; background: none; border-radius: 0; }
+  table.stack, table.stack tbody, table.stack tr, table.stack td { display: block; width: 100%; }
+  table.stack thead { display: none; }
+  table.stack tr { margin: 0 0 10px; border: 1px solid var(--border); border-radius: 12px; background: rgba(var(--ink), .025); overflow: hidden; }
+  table.stack tr:last-child { margin-bottom: 0; }
+  table.stack td { border-top: 1px solid rgba(var(--ink), .06); border-left: 0 !important; padding: 9px 12px; }
+  table.stack td:first-child { border-top: 0; background: rgba(var(--ink), .045); color: var(--heading); font-weight: 600; }
+  table.stack .td-label { display: block; margin-bottom: 2px; font-size: .64rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  table.stack td:first-child .td-label { display: none; }
+  tbody tr:hover td { background: none; }
+  .quiz .answer { padding-left: 16px; }
+  .part-head { padding: 12px 14px; gap: 12px; }
+}
+@media (max-width: 420px) {
+  .mastery-pill .lbl { display: none; }
+  .topbar-right { gap: 6px; }
+  .topbar-title .t-long { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ══════════ MENU HAMBURGER & SCHÉMAS ══════════ */
+@media (min-width: 1025px) { .menu-btn, .menu-backdrop { display: none; } }
+.menu-btn .i-close { opacity: 0; transform: rotate(-90deg) scale(.4); }
+html.menu-open .menu-btn .i-open { opacity: 0; transform: rotate(90deg) scale(.4); }
+html.menu-open .menu-btn .i-close { opacity: 1; transform: none; }
+html.menu-open .menu-btn { color: rgb(var(--hl)); border-color: rgba(var(--hl), .45); }
+.td-label { display: none; }
+
+/* ══════════ IMPRESSION ══════════ */
+@media print {
+  .menu-backdrop, .bg, .topbar, .toc, .search, .search-status, .master-btn, .hero-actions, .timer, .endcard .hero-actions { display: none !important; }
+  html, body { background: #fff; color: #111; }
+  .layout { display: block; padding: 0; }
+  .notion, .callout, .table-wrap, .thm, .example { break-inside: avoid; box-shadow: none; }
+  html.js-anim .notion:not(.is-visible) { opacity: 1; transform: none; }
+  .quiz details { display: block; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <div class="grid-lines"></div>
+</div>
+
+<!-- ══════════ Barre supérieure ══════════ -->
+<header class="topbar">
+  <a class="back-link" href="../../../index.html" title="Retour à Last Minute Learning">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+    <span>Last Minute Learning</span>
+  </a>
+  <div class="topbar-title">
+    <span class="logo" aria-hidden="true">Σ</span>
+    <span>Séries<span class="t-long"> · CC2 · A2</span></span>
+  </div>
+  <div class="topbar-right">
+    <button type="button" class="theme-btn" id="themeBtn" aria-label="Passer au thème clair" title="Thème clair / sombre">
+      <svg class="i-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="i-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <span class="mastery-pill" title="Chapitres marqués comme maîtrisés">
+      <svg class="mastery-ring" viewBox="0 0 24 24" aria-hidden="true"><circle class="track" cx="12" cy="12" r="10"/><circle class="value" id="masteryRing" cx="12" cy="12" r="10"/></svg>
+      <span id="masteryCount">0/3</span><span class="lbl">&nbsp;maîtrisés</span>
+    </span>
+    <button type="button" class="theme-btn menu-btn" id="menuBtn" aria-label="Ouvrir le sommaire" aria-expanded="false" aria-controls="toc" title="Sommaire">
+      <svg class="i-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <svg class="i-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="read-progress" id="readProgress" aria-hidden="true"></div>
+</header>
+<div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
+
+<div class="layout">
+
+  <!-- ══════════ Sommaire ══════════ -->
+  <nav class="toc" id="toc" aria-label="Sommaire du cours">
+    <p class="toc-head">Sommaire</p>
+    <ol>
+      <li><a href="#ch1"><span class="toc-num">01</span>Récap des outils<span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+      <li><a class="sub" href="#p1a">A · Séries numériques</a></li>
+      <li><a class="sub" href="#p1b">B · Suites vs séries de fonctions</a></li>
+      <li><a href="#ch2"><span class="toc-num">02</span>Méthodo par situation<span class="toc-star" title="Priorité examen">★</span><span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+      <li><a class="sub" href="#p2a">A · Séries numériques</a></li>
+      <li><a class="sub" href="#p2b">B · Suites de fonctions</a></li>
+      <li><a class="sub" href="#p2c">C · Séries de fonctions</a></li>
+      <li><a href="#ch3"><span class="toc-num">03</span>Sujet blanc CC2<span class="toc-star" title="Priorité examen">★</span><span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+    </ol>
+    <p class="toc-foot"><b>★</b> = chapitre prioritaire pour le CC2.<br>Raccourci : <code>/</code> pour chercher.</p>
+  </nav>
+
+  <main id="contenu">
+
+    <!-- ══════════ HERO ══════════ -->
+    <section class="hero" aria-labelledby="titre-cours">
+      <div class="hero-chips">
+        <span class="chip"><i></i>A2 · 2026-2027</span>
+        <span class="chip orange"><i></i>CC2 · suites &amp; séries de fonctions</span>
+      </div>
+      <h1 id="titre-cours">Séries</h1>
+      <p class="hero-lead">Module de révision pour le <strong>CC n°2 de Séries</strong> : les théorèmes à connaître, <strong>quoi faire dans chaque situation d'examen</strong>, puis un <strong>sujet blanc corrigé</strong> construit à partir des annales de CC2.</p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#ch1">
+          Commencer la lecture
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#ch3">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>
+          Aller au sujet blanc
+        </a>
+      </div>
+
+      <div class="search" role="search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="search" type="search" placeholder="Chercher une notion : Alembert, uniforme, normale, intégrale…" autocomplete="off" aria-label="Chercher une notion dans le cours" />
+        <kbd aria-hidden="true">/</kbd>
+      </div>
+      <p class="search-status" id="searchStatus" aria-live="polite"></p>
+    </section>
+
+    <div class="no-result" id="noResult">Aucune notion ne correspond à ta recherche. Essaie un autre mot-clé (ex. <code>Cauchy</code>, <code>sup</code>, <code>continuité</code>).</div>
+
+    <!-- ══════════════════════ CHAPITRE 1 ══════════════════════ -->
+    <section class="chapter" id="ch1" data-num="1" aria-labelledby="ch1-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">01</span>
+        <p class="chapter-kicker">Poly ch. 1 à 3 · la boîte à outils</p>
+        <h2 id="ch1-t">Récap des théorèmes &amp; outils</h2>
+        <p class="chapter-lead">Uniquement ce que tu vas citer en examen. Les numéros (Thm 1.12, Thm 2.4…) sont ceux du poly : cite le <strong>nom</strong> du critère et vérifie ses <strong>hypothèses</strong>, c'est noté.</p>
+      </header>
+
+      <!-- ─────────── Section A ─────────── -->
+      <div class="part-head" id="p1a">
+        <span class="part-letter" aria-hidden="true">A</span>
+        <div>
+          <p class="part-kicker">Section A</p>
+          <h3 class="part-title">Séries numériques</h3>
+          <p class="part-sub">Elles servent partout : la convergence simple ou normale d'une série de fonctions se ramène toujours à une série numérique.</p>
+        </div>
+      </div>
+
+      <article class="notion">
+        <h3>Définition, condition nécessaire &amp; reste</h3>
+        <div class="thm def"><span class="thm-name">Déf 1.1 · Série</span>
+          <p>La série $\sum u_n$ est la suite des sommes partielles $S_n=\sum_{k=0}^{n}u_k$. Elle <b>converge</b> si $(S_n)$ a une limite <b>finie</b>, notée $\sum_{k=0}^{+\infty}u_k$.</p>
+        </div>
+        <ul>
+          <li><b>Rq 1.3</b> : la nature d'une série ne dépend pas de ses premiers termes (on peut raisonner « à partir d'un certain rang »).</li>
+          <li><b>Thm 1.5</b> : si $\sum u_n$ converge, alors $u_n\to 0$. <b>Contraposée</b> : si $u_n\not\to 0$, la série <b>diverge grossièrement</b>. La réciproque est fausse : $\frac1n\to0$ mais $\sum\frac1n$ diverge.</li>
+          <li><b>Thm 1.7</b> : si $\sum u_n$ converge, son <b>reste</b> $R_n=\sum_{k=n+1}^{+\infty}u_k$ tend vers $0$.</li>
+          <li><b>Thm 1.6 (linéarité)</b> : CV + CV = CV ; CV + DV = <b>DV</b> ; DV + DV = <b>on ne sait pas</b>.</li>
+          <li><b>Télescopage</b> (TD1) : $\sum_{k=0}^{n}(v_{k+1}-v_k)=v_{n+1}-v_0$, donc $\sum (v_{n+1}-v_n)$ converge $\iff (v_n)$ converge.</li>
+        </ul>
+      </article>
+
+      <article class="notion">
+        <h3>Les séries de référence <span class="tag-mini">par cœur</span></h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Série</th><th>Converge ssi</th><th>Somme</th></tr></thead>
+            <tbody>
+              <tr><td class="rowh">Géométrique (Thm 1.1)</td><td>$\sum q^n$ : $|q|\lt 1$</td><td>$\displaystyle\sum_{k=0}^{+\infty}u_0q^k=\frac{u_0}{1-q}$</td></tr>
+              <tr><td class="rowh">Riemann (Thm 1.2)</td><td>$\sum \frac{1}{n^\alpha}$ : $\alpha&gt;1$</td><td>— (harmonique $\alpha=1$ : DV)</td></tr>
+              <tr><td class="rowh">Exponentielle (Thm 1.3)</td><td>$\sum \frac{x^n}{n!}$ : tout $x\in\mathbb R$</td><td>$e^x$</td></tr>
+              <tr><td class="rowh">Logarithme (Thm 1.4)</td><td>$\sum_{k\ge1} (-1)^{k+1}\frac{x^k}{k}$ : $x\in\,]-1;1]$</td><td>$\ln(1+x)$</td></tr>
+              <tr><td class="rowh">Riemann alternée</td><td>$\sum \frac{(-1)^n}{n^\alpha}$ : $\alpha&gt;0$ (abs. ssi $\alpha&gt;1$)</td><td>— (via critère d'Abel)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Termes positifs : comparaison, équivalence, petit o</h3>
+        <div class="thm"><span class="thm-name">Thm 1.8 · Critère de comparaison</span>
+          <p>Si $0\le u_n\le v_n$ (à partir d'un rang) : $\sum v_n$ CV $\Rightarrow \sum u_n$ CV, et $\sum u_n$ DV $\Rightarrow\sum v_n$ DV.</p>
+        </div>
+        <div class="thm"><span class="thm-name">Thm 1.10 · Critère d'équivalence</span>
+          <p>Si $u_n\underset{n\to+\infty}{\sim} v_n$ et $v_n\ge 0$, alors $\sum u_n$ et $\sum v_n$ ont <b>même nature</b>.</p>
+        </div>
+        <div class="thm"><span class="thm-name">Thm 1.11 · Critère du petit o</span>
+          <p>Si $u_n=o(v_n)$ et $v_n\ge0$ : $\sum v_n$ CV $\Rightarrow\sum u_n$ CV. Réflexe : $n^2u_n\to0 \Rightarrow u_n=o\!\left(\frac1{n^2}\right)\Rightarrow$ CV.</p>
+        </div>
+        <div class="thm def"><span class="thm-name">Déf 1.4 + Thm 1.9 · Convergence absolue</span>
+          <p>$\sum u_n$ converge absolument si $\sum|u_n|$ converge. <b>CVA $\Rightarrow$ CV</b> (réciproque fausse : $\sum\frac{(-1)^n}{n}$).</p>
+        </div>
+        <div class="callout trap"><div><span class="callout-title">Hypothèse de signe</span>Équivalence et petit o ne marchent qu'avec un terme de <b>signe constant</b>. $\ln\!\big(1+\frac{(-1)^n}{\sqrt n}\big)\sim\frac{(-1)^n}{\sqrt n}$ et pourtant l'une diverge, l'autre converge (voir méthode 2.A8).</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>D'Alembert &amp; Cauchy <span class="tag-mini">tombe souvent</span></h3>
+        <div class="cheat">
+          <div><b>Thm 1.12 · D'Alembert</b>$u_n&gt;0$ et $\dfrac{u_{n+1}}{u_n}\to\ell$.<br>Pour : factorielles $n!$, puissances $a^n$, produits.</div>
+          <div><b>Thm 1.13 · Cauchy</b>$u_n\ge0$ et $\sqrt[n]{u_n}=u_n^{1/n}\to\ell$.<br>Pour : $(\dots)^n$, $(\dots)^{n^2}$.</div>
+        </div>
+        <p>Conclusion identique pour les deux : $\ell&lt;1\Rightarrow$ <span class="ok">CV</span> · $\ell&gt;1\Rightarrow$ <span class="ko">DV</span> · $\ell=1\Rightarrow$ <b>on ne peut rien dire</b> (retour aux équivalents).</p>
+        <div class="callout tip"><div><span class="callout-title">Astuce</span>$\ell=1$ arrive dès que $u_n$ est une fraction de puissances de $n$ (ex. $\frac{1}{n^2}$) : dans ce cas, n'utilise pas D'Alembert, utilise Riemann.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Séries alternées &amp; critère d'Abel</h3>
+        <div class="thm"><span class="thm-name">Thm 1.14 · Critère d'Abel</span>
+          <p>Si $(a_n)$ est <b>décroissante</b>, $a_n\to0$, et si les sommes partielles $B_n=\sum_{k=0}^n b_k$ sont <b>bornées</b>, alors $\sum a_nb_n$ converge.</p>
+        </div>
+        <p><b>Cas particulier à connaître (séries alternées)</b> : avec $b_n=(-1)^n$ (donc $|B_n|\le1$) :</p>
+        $$a_n\ge0,\ (a_n)\ \text{décroissante},\ a_n\to0\ \Longrightarrow\ \sum(-1)^na_n\ \text{converge}.$$
+        <p>Autres $b_n$ classiques à sommes partielles bornées : $\sin(n)$, $\cos(n)$ (somme géométrique de $e^{ik}$).</p>
+        <div class="callout"><div><span class="callout-title">Bonus · reste d'une série alternée</span>Sous ces hypothèses, $|R_n|=\Big|\sum_{k=n+1}^{+\infty}(-1)^ka_k\Big|\le a_{n+1}$. Résultat classique (pas énoncé dans le poly) : très utile pour la convergence uniforme d'une série de fonctions alternée. Si tu l'utilises, cite-le explicitement.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Équivalents, DL &amp; croissances comparées</h3>
+        <p>En $0$ (Annexe B du poly) — on les applique avec $u=\frac1n$, $\frac1{\sqrt n}$, $\frac{(-1)^n}{n^\alpha}$, $x$ fixé…</p>
+        <div class="cheat">
+          <div><b>Équivalents ($u\to0$)</b>$\sin u\sim u$ · $\tan u\sim u$ · $\ln(1+u)\sim u$ · $e^u-1\sim u$ · $1-\cos u\sim\frac{u^2}{2}$ · $(1+u)^\alpha-1\sim\alpha u$</div>
+          <div><b>DL à l'ordre 2–3</b>$\ln(1+u)=u-\frac{u^2}{2}+\frac{u^3}{3}+o(u^3)$<br>$e^u=1+u+\frac{u^2}{2}+o(u^2)$ · $\cos u=1-\frac{u^2}{2}+o(u^3)$<br>$\sin u=u-\frac{u^3}{6}+o(u^4)$</div>
+          <div><b>Croissances comparées</b>$(\ln n)^a \ll n^b \ll q^n\ (q&gt;1) \ll n! \ll n^n$, et $x^ae^{-nx}\to0$ pour $x&gt;0$ fixé.</div>
+          <div><b>Limites utiles</b>$\left(1+\frac an\right)^n\to e^a$ · $n\ln\!\left(1+\frac1n\right)\to1$ · $\sqrt[n]{n}\to1$ · $a_n^{b_n}=e^{b_n\ln a_n}$</div>
+        </div>
+      </article>
+
+      <!-- ─────────── Section B ─────────── -->
+      <div class="part-head" id="p1b">
+        <span class="part-letter" aria-hidden="true">B</span>
+        <div>
+          <p class="part-kicker">Section B</p>
+          <h3 class="part-title">Suites de fonctions vs séries de fonctions</h3>
+          <p class="part-sub">Les outils sont les mêmes, appliqués à $f_n$ pour une suite et au reste $R_n$ (ou à $\|f_n\|_\infty$) pour une série.</p>
+        </div>
+      </div>
+
+      <article class="notion">
+        <h3>Le tableau comparatif <span class="tag-mini">l'essentiel</span></h3>
+        <p>Notation : $\|g\|_\infty=\sup_{x\in I}|g(x)|$ (Déf 2.2) · pour une série, $S_n=\sum_{k=0}^n f_k$ et $R_n=\sum_{k=n+1}^{+\infty}f_k$.</p>
+        <div class="table-wrap">
+          <table class="cmp">
+            <thead><tr><th></th><th class="suite">Suite $(f_n)$ · ch. 2</th><th class="serie">Série $\sum f_n$ · ch. 3</th></tr></thead>
+            <tbody>
+              <tr><td class="rowh">Conv. simple</td><td>$\forall x\in I$, la suite <b>numérique</b> $f_n(x)\to f(x)$</td><td>$\forall x\in I$, la série <b>numérique</b> $\sum f_n(x)$ converge, de somme $S(x)$</td></tr>
+              <tr><td class="rowh">Conv. uniforme</td><td>$\|f_n-f\|_\infty\xrightarrow[n\to+\infty]{}0$ (Déf 2.3)</td><td>$\|R_n\|_\infty=\sup_x\Big|\sum_{k\ge n+1}f_k(x)\Big|\to0$ (Thm 3.1)</td></tr>
+              <tr><td class="rowh">Conv. absolue</td><td>—</td><td>$\forall x$, $\sum|f_n(x)|$ converge (Déf 3.2)</td></tr>
+              <tr><td class="rowh">Conv. normale</td><td>—</td><td>la série <b>numérique</b> $\sum\|f_n\|_\infty$ converge (Déf 3.3)</td></tr>
+              <tr><td class="rowh">Implications</td><td>CVU $\Rightarrow$ CVS (Thm 2.1)</td><td>CVN $\Rightarrow$ CVU $\Rightarrow$ CVS ; CVN $\Rightarrow$ CVA $\Rightarrow$ CVS (Thm 3.2)</td></tr>
+              <tr><td class="rowh">Continuité</td><td><b>Thm 2.2</b> : $f_n$ continues + CVU vers $f$ $\Rightarrow f$ continue</td><td><b>Thm 3.3</b> : $f_n$ continues + $\sum f_n$ CVU vers $S$ $\Rightarrow S$ continue</td></tr>
+              <tr><td class="rowh">Dérivabilité</td><td><b>Thm 2.3</b> : $f_n$ de classe $C^1$, $f_n\to f$ (CVS), $f_n'\to g$ <b>CVU</b> $\Rightarrow f$ est $C^1$ et $f'=g$</td><td><b>Thm 3.4</b> : $f_n$ $C^1$, $\sum f_n$ CVS, $\sum f_n'$ <b>CVU</b> vers $g$ $\Rightarrow S$ est $C^1$ et $S'=\sum f_n'$</td></tr>
+              <tr><td class="rowh">Intégration</td><td><b>Thm 2.4</b> : sur $[a;b]$, $f_n$ continues + CVU $\Rightarrow\displaystyle\lim\int_a^bf_n=\int_a^bf$</td><td><b>Thm 3.5</b> : sur $[a;b]$, $f_n$ continues + CVU $\Rightarrow\displaystyle\sum\int_a^bf_n=\int_a^bS$</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout trap"><div><span class="callout-title">Hypothèses oubliées = points perdus</span>Les théorèmes de continuité / intégration exigent les <b>$f_n$ continues</b> ; l'intégration exige un <b>segment</b> $[a;b]$ ; la dérivabilité exige la CVU des <b>dérivées</b> (pas des $f_n$).</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Les définitions à savoir réciter <span class="tag-mini">question de cours</span></h3>
+        <p>Tombé en 2022 (« Donner la définition de… »). Version quantifiée, pour montrer la différence entre simple et uniforme :</p>
+        <div class="thm def"><span class="thm-name">CVS de $(f_n)$ vers $f$ sur $I$</span>
+          $$\forall x\in I,\ \forall\varepsilon&gt;0,\ \exists N\in\mathbb N,\ \forall n\ge N,\ |f_n(x)-f(x)|\le\varepsilon$$
+          <p>Le rang $N$ dépend de $\varepsilon$ <b>et de $x$</b>.</p>
+        </div>
+        <div class="thm def"><span class="thm-name">CVU de $(f_n)$ vers $f$ sur $I$</span>
+          $$\begin{gathered}\forall\varepsilon&gt;0,\ \exists N\in\mathbb N,\ \forall n\ge N,\ \forall x\in I,\ |f_n(x)-f(x)|\le\varepsilon\\ \iff\ \sup_{x\in I}|f_n(x)-f(x)|\xrightarrow[n\to+\infty]{}0\end{gathered}$$
+          <p>Le même rang $N$ marche <b>pour tous les $x$</b> à la fois.</p>
+        </div>
+        <div class="thm def"><span class="thm-name">CVN de $\sum f_n$ sur $I$</span>
+          <p>La série numérique $\sum_n\|f_n\|_\infty=\sum_n\sup_{x\in I}|f_n(x)|$ converge.</p>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Le schéma des implications (séries de fonctions)</h3>
+        <div class="impl" role="img" aria-label="CVN implique CVU et CVA ; CVU et CVA impliquent CVS">
+          <span class="node strong">CVN</span>
+          <span class="impl-col">
+            <span class="impl-row"><span class="arrow">⇒</span><span class="node">CVU</span><span class="arrow">⇒</span><span class="node">CVS</span></span>
+            <span class="impl-row"><span class="arrow">⇒</span><span class="node">CVA</span><span class="arrow">⇒</span><span class="node">CVS</span></span>
+          </span>
+        </div>
+        <p><b>Aucune réciproque n'est vraie</b>. Contre-exemples à avoir en tête :</p>
+        <ul>
+          <li><b>CVU sans CVN</b> : $f_n(x)=\frac{(-1)^n}{n}$ (fonctions constantes) — le reste ne dépend pas de $x$ et tend vers $0$, mais $\sum\|f_n\|_\infty=\sum\frac1n$ diverge.</li>
+          <li><b>CVA sans CVU</b> : $f_n(x)=x^n(1-x)$ sur $[0;1]$ — termes positifs, somme $=1$ sur $[0;1[$ et $0$ en $1$ : discontinue, donc pas CVU.</li>
+        </ul>
+        <div class="callout tip"><div><span class="callout-title">Ce qu'il faut en retenir</span>Pour <b>prouver</b> la CVU d'une série, le plus rapide est presque toujours la <b>CVN</b>. Pour prouver la <b>non</b>-CVU, il faut une autre arme (voir méthode 2.C).</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Comment calculer ou encadrer un $\sup$</h3>
+        <p>Toute la convergence uniforme repose sur un $\sup$. Quatre outils, à choisir dans cet ordre :</p>
+        <div class="cheat">
+          <div><b>1 · Majoration indépendante de $x$</b>$|f_n(x)-f(x)|\le\alpha_n$ pour tout $x$, avec $\alpha_n\to0$ $\Rightarrow$ CVU.</div>
+          <div><b>2 · Étude de variations</b>On dérive $g_n=|f_n-f|$ (ou $|f_n|$) en $x$ : le $\sup$ est atteint au point critique $x_n$ ou au bord.</div>
+          <div><b>3 · Suite de points $x_n$</b>$\sup\ge|f_n(x_n)-f(x_n)|$. Si ce minorant ne tend pas vers $0$ : <b>pas de CVU</b>.</div>
+          <div><b>4 · Contraposées des théorèmes</b>Limite discontinue, ou $\lim\int f_n\ne\int f$ $\Rightarrow$ <b>pas de CVU</b>.</div>
+        </div>
+        <p>Pour une série, une condition nécessaire à retenir : si $\sum f_n$ CVU, alors $\|f_n\|_\infty\to0$, car $f_n=R_{n-1}-R_n$ donc $\|f_n\|_\infty\le\|R_{n-1}\|_\infty+\|R_n\|_\infty$.</p>
+      </article>
+    </section>
+
+    <!-- ══════════════════════ CHAPITRE 2 ══════════════════════ -->
+    <section class="chapter" id="ch2" data-num="2" aria-labelledby="ch2-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">02</span>
+        <p class="chapter-kicker">TD1 à TD10 · annales <span class="prio">★ Priorité examen</span></p>
+        <h2 id="ch2-t">Méthodo : quoi faire dans chaque situation</h2>
+        <p class="chapter-lead">Pour chaque cas que tu peux croiser en examen : comment le <strong>reconnaître</strong>, quels <strong>outils</strong> sortir, la <strong>démarche</strong> pas à pas, et un <strong>exemple</strong> corrigé (souvent tiré des TD ou des annales).</p>
+      </header>
+
+      <!-- ─────────── Section A ─────────── -->
+      <div class="part-head" id="p2a">
+        <span class="part-letter" aria-hidden="true">A</span>
+        <div>
+          <p class="part-kicker">Section A</p>
+          <h3 class="part-title">Séries numériques : « Étudier la nature de $\sum u_n$ »</h3>
+          <p class="part-sub">Au CC2, c'est soit un petit exercice (≈ 3 pts), soit l'outil caché dans la CVS / CVN d'une série de fonctions.</p>
+        </div>
+      </div>
+
+      <article class="notion" data-code="A0">
+        <h3>L'arbre de décision <span class="tag-mini cool">à lire en premier</span></h3>
+        <p>Regarde la <b>forme</b> de $u_n$ et prends la première ligne qui s'applique :</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Si $u_n$…</th><th>Réflexe</th><th>Méthode</th></tr></thead>
+            <tbody>
+              <tr><td>ne tend pas vers 0</td><td>Divergence grossière</td><td>A1</td></tr>
+              <tr><td>s'écrit $v_{n+1}-v_n$ ($\ln$ de quotient, différence de racines, fraction décomposable)</td><td>Télescopage</td><td>A2</td></tr>
+              <tr><td>est positif et « ressemble » à $\frac{1}{n^\alpha}$</td><td>Équivalent + Riemann</td><td>A3</td></tr>
+              <tr><td>contient $n!$, $a^n$, des produits</td><td>D'Alembert</td><td>A4</td></tr>
+              <tr><td>est une puissance $n$-ième $(\dots)^n$, $(\dots)^{n^2}$</td><td>Cauchy (ou forme $e^{b_n\ln a_n}$)</td><td>A5</td></tr>
+              <tr><td>contient $\sin$, $\cos$ (signe non constant)</td><td>Convergence absolue + comparaison</td><td>A6</td></tr>
+              <tr><td>vaut $(-1)^na_n$</td><td>Séries alternées / Abel</td><td>A7</td></tr>
+              <tr><td>contient $(-1)^n$ à l'intérieur d'un $\ln$, d'une racine…</td><td>DL à l'ordre 2</td><td>A8</td></tr>
+              <tr><td>dépend d'un paramètre $\alpha$, $a$, $\beta$</td><td>Discussion par cas</td><td>A9</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout exam"><div><span class="callout-title">Rédaction attendue</span>Les consignes des sujets disent : « tout résultat non justifié ne sera pas pris en compte ». Écris toujours : <b>signe de $u_n$</b> → <b>calcul</b> (limite, équivalent…) → <b>nom du critère</b> → <b>conclusion</b>.</div></div>
+      </article>
+
+      <article class="notion" data-code="A1">
+        <h3>Le terme général ne tend pas vers 0 <span class="tag-mini">réflexe n°1</span></h3>
+        <p class="when"><b>Tu reconnais :</b> une limite non nulle saute aux yeux ($e^{-n}+1$, $(1+\frac1n)^n$, $\cos\frac1n$…) ou une forme $(1+\frac{a}{n^k})^{n^k}$.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">Thm 1.5 (contraposée)</span><span class="tool">$a^b=e^{b\ln a}$</span></div>
+        <ol class="steps">
+          <li>Calcule $\lim u_n$ (passe en exponentielle si besoin).</li>
+          <li>Si elle est non nulle (ou n'existe pas) : « $u_n\not\to0$, donc $\sum u_n$ <b>diverge grossièrement</b> ».</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · CC 2024 (d)</span>
+          <p>$u_n=\left(1-\frac1{n^2}\right)^{n^2}=\exp\!\Big(n^2\ln\big(1-\tfrac1{n^2}\big)\Big)=\exp\!\Big(n^2\big(-\tfrac1{n^2}+o(\tfrac1{n^2})\big)\Big)=e^{-1+o(1)}\to e^{-1}\neq0.$</p>
+          <p>Donc $\sum u_n$ diverge grossièrement. <b>Piège</b> : Cauchy donne $\sqrt[n]{u_n}=\left(1-\frac1{n^2}\right)^{n}\to1$, inconcluant.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="A2">
+        <h3>Somme télescopique (et calcul de la somme)</h3>
+        <p class="when"><b>Tu reconnais :</b> « donner la valeur de la limite en cas de convergence », une somme de $\ln$, une fraction $\frac{1}{n(n+1)}$, une combinaison du type $a_n-2a_{n+1}+a_{n+2}$.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$\sum_{k=0}^{n}(v_{k+1}-v_k)=v_{n+1}-v_0$</span><span class="tool">décomposition en éléments simples</span></div>
+        <ol class="steps">
+          <li>Écris $u_n=v_{n+1}-v_n$ (ou une combinaison de telles différences).</li>
+          <li>Calcule la somme partielle $S_N$ : presque tout se simplifie.</li>
+          <li>Fais tendre $N\to+\infty$ : limite finie ⇒ CV et c'est la somme.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD1 ex. 1.6 / CC1 2022</span>
+          <p>$u_n=\ln\frac{n(n+2)}{(n+1)^2}=\big[\ln(n+2)-\ln(n+1)\big]-\big[\ln(n+1)-\ln n\big]=v_{n+1}-v_n$ avec $v_n=\ln(n+1)-\ln n$.</p>
+          <p>$S_N=\sum_{n=1}^{N}u_n=v_{N+1}-v_1=\ln\frac{N+2}{N+1}-\ln2\xrightarrow[N\to+\infty]{}-\ln 2.$ Donc la série converge et $\sum_{n\ge1}u_n=-\ln2$.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="A3">
+        <h3>Terme positif « type Riemann » : équivalent</h3>
+        <p class="when"><b>Tu reconnais :</b> fraction de polynômes, racines, $\sin(\frac1{n^2})$, $\ln(1+\frac1{\sqrt n})$… tout ce qui se simplifie en $\frac{c}{n^\alpha}$.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">Thm 1.10 équivalence</span><span class="tool">Thm 1.11 petit o</span><span class="tool">Riemann</span><span class="tool">équivalents usuels</span></div>
+        <ol class="steps">
+          <li>Vérifie (et écris) que $u_n\ge0$ à partir d'un certain rang.</li>
+          <li>Trouve un équivalent $u_n\sim\frac{c}{n^\alpha}$ (terme dominant, équivalents usuels).</li>
+          <li>Conclus avec le critère d'équivalence et Riemann : CV ssi $\alpha&gt;1$.</li>
+          <li>Pas d'équivalent simple ($e^{-\sqrt n}$, $n^3e^{-n}$…) ? Montre $n^2u_n\to0$ : $u_n=o(\frac1{n^2})$, CV par petit o.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD3 ex. 4.3</span>
+          <p>$u_n=\frac1{\sqrt n}\ln\!\left(1+\frac1{\sqrt n}\right)\ge0$. Comme $\frac1{\sqrt n}\to0$, $\ln(1+\frac1{\sqrt n})\sim\frac1{\sqrt n}$, donc $u_n\sim\frac1n$.</p>
+          <p>Par le critère d'équivalence, $\sum u_n$ a la nature de la série harmonique : elle <b>diverge</b>.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="A4">
+        <h3>Factorielles, puissances, produits : D'Alembert</h3>
+        <p class="when"><b>Tu reconnais :</b> $n!$, $(2n)!$, $2^n$, $3^n$, $n^n$, $a^n$, un produit $(1+a)(1+a^2)\cdots$</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">Thm 1.12 D'Alembert</span><span class="tool">$\frac{(n+1)!}{n!}=n+1$</span><span class="tool">$\frac{(2n+2)!}{(2n)!}=(2n+2)(2n+1)$</span></div>
+        <ol class="steps">
+          <li>Vérifie $u_n&gt;0$.</li>
+          <li>Écris $\frac{u_{n+1}}{u_n}$ <b>sous forme d'un produit</b> (multiplier par l'inverse), simplifie les factorielles et les puissances.</li>
+          <li>Calcule la limite $\ell$ et conclus ($\ell&lt;1$ CV, $\ell&gt;1$ DV, $\ell=1$ : autre méthode).</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · CC 2024 (b)</span>
+          <p>$u_n=\frac{2^n(n^2+1)}{(2n)!}&gt;0$ et</p>
+          $$\begin{gathered}\frac{u_{n+1}}{u_n}=\frac{2^{n+1}\big((n+1)^2+1\big)}{(2n+2)!}\cdot\frac{(2n)!}{2^n(n^2+1)}\\ =\frac{2\big((n+1)^2+1\big)}{(n^2+1)(2n+2)(2n+1)}\xrightarrow[n\to+\infty]{}0&lt;1.\end{gathered}$$
+          <p>Par le critère de D'Alembert, $\sum u_n$ <b>converge</b>.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="A5">
+        <h3>Puissance $n$-ième : Cauchy</h3>
+        <p class="when"><b>Tu reconnais :</b> $u_n=(a_n)^n$ ou $(a_n)^{n^2}$ — la racine $n$-ième « tue » l'exposant.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">Thm 1.13 Cauchy</span><span class="tool">$(1+\frac an)^n\to e^a$</span></div>
+        <ol class="steps">
+          <li>Vérifie $u_n\ge0$.</li>
+          <li>Calcule $\sqrt[n]{u_n}=u_n^{1/n}$ et sa limite $\ell$.</li>
+          <li>Conclus. Si $\ell=1$ : retourne en A1 (le terme général tend-il vers 0 ?) ou en A3.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD2 ex. 2.11</span>
+          <p>$u_n=\left(\frac{n}{n+1}\right)^{n^2}\ge0$ et $\sqrt[n]{u_n}=\left(\frac{n}{n+1}\right)^{n}=\left(1+\frac1n\right)^{-n}\xrightarrow[n\to+\infty]{}e^{-1}&lt;1$.</p>
+          <p>Par le critère de Cauchy, $\sum u_n$ <b>converge</b>.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="A6">
+        <h3>Signe quelconque avec $\sin$ / $\cos$ : convergence absolue</h3>
+        <p class="when"><b>Tu reconnais :</b> $\sin(n)$, $\cos(n+\sqrt n)$… au numérateur : le signe change sans régularité, les critères « positifs » sont interdits.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$|\sin|\le1$, $|\cos|\le1$</span><span class="tool">Thm 1.8 comparaison</span><span class="tool">Thm 1.9 CVA ⇒ CV</span></div>
+        <ol class="steps">
+          <li>Passe à la valeur absolue et majore $|\sin(\dots)|\le1$.</li>
+          <li>Montre que la série majorante (positive) converge (Riemann…).</li>
+          <li>Conclus : $\sum|u_n|$ CV par comparaison, donc $\sum u_n$ converge absolument, donc converge.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · CC 2024 (c)</span>
+          <p>$|u_n|=\left|\frac{\sin(n+\sqrt n)}{n\sqrt n}\right|\le\frac1{n^{3/2}}$, et $\sum\frac1{n^{3/2}}$ converge (Riemann, $\frac32&gt;1$).</p>
+          <p>Par comparaison $\sum|u_n|$ converge : $\sum u_n$ converge absolument donc <b>converge</b>.</p>
+        </div>
+        <div class="callout"><div><span class="callout-title">Si la majoration ne suffit pas</span>Pour $\frac{\sin n}{n}$, la valeur absolue mène à $\frac1n$ (inconcluant). On utilise alors <b>Abel</b> : $\frac1n$ décroît vers 0 et les sommes $\sum_{k\le n}\sin k$ sont bornées.</div></div>
+      </article>
+
+      <article class="notion" data-code="A7">
+        <h3>Série alternée $(-1)^na_n$</h3>
+        <p class="when"><b>Tu reconnais :</b> $(-1)^n$ en facteur d'un terme positif qui décroît vers 0.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">Thm 1.14 Abel / séries alternées</span><span class="tool">étude de la décroissance</span></div>
+        <ol class="steps">
+          <li>Teste d'abord la convergence absolue (si $\sum a_n$ CV, c'est fini).</li>
+          <li>Sinon : $a_n\ge0$, $a_n\to0$, et $(a_n)$ <b>décroissante</b> (montre $a_{n+1}\le a_n$ ou dérive $x\mapsto a(x)$).</li>
+          <li>Conclus par le critère d'Abel avec $b_n=(-1)^n$ (sommes partielles bornées par 1).</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple</span>
+          <p>$u_n=\frac{(-1)^n}{\sqrt n}$ : $\sum|u_n|=\sum\frac1{\sqrt n}$ diverge (Riemann $\frac12\le1$), donc pas de CVA.</p>
+          <p>Mais $a_n=\frac1{\sqrt n}$ est positive, décroissante, de limite 0 : par le critère des séries alternées (Abel), $\sum u_n$ <b>converge</b> (semi-convergente).</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="A8">
+        <h3>Alternance cachée dans un $\ln$ ou une racine : DL <span class="tag-mini">piège classique</span></h3>
+        <p class="when"><b>Tu reconnais :</b> $\ln\!\big(1+\frac{(-1)^n}{n^\alpha}\big)$, $\sqrt{1+\frac{(-1)^n}{n}}-1$… L'équivalent $\sim\frac{(-1)^n}{n^\alpha}$ n'a <b>pas</b> un signe constant : le critère d'équivalence est interdit.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">DL à l'ordre 2</span><span class="tool">séries alternées</span><span class="tool">linéarité (Thm 1.6)</span></div>
+        <ol class="steps">
+          <li>Fais un DL jusqu'à obtenir un reste de <b>signe constant</b> : $u_n=\frac{(-1)^n}{n^\alpha}+w_n$.</li>
+          <li>$\sum\frac{(-1)^n}{n^\alpha}$ converge (alternée, $\alpha&gt;0$).</li>
+          <li>Étudie $\sum w_n$ (signe constant ⇒ équivalent + Riemann).</li>
+          <li>Linéarité : CV + CV = CV ; CV + DV = DV.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · CC1 2022 ex. 2.4</span>
+          <p>$u_n=\ln\!\left(1+\frac{(-1)^n}{\sqrt n}\right)=\frac{(-1)^n}{\sqrt n}-\frac1{2n}+o\!\left(\frac1n\right)$.</p>
+          <p>$\sum\frac{(-1)^n}{\sqrt n}$ converge (A7). $w_n=u_n-\frac{(-1)^n}{\sqrt n}\sim-\frac1{2n}$ est de signe constant (négatif) et $\sum\frac1{2n}$ diverge, donc $\sum w_n$ diverge.</p>
+          <p>CV + DV : $\sum u_n$ <b>diverge</b>, alors que $u_n\sim\frac{(-1)^n}{\sqrt n}$ terme général d'une série convergente !</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="A9">
+        <h3>Série à paramètre : discuter selon les valeurs</h3>
+        <p class="when"><b>Tu reconnais :</b> « déterminer en fonction de $a$ (ou $\alpha$, $\beta$) la nature de… ».</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">D'Alembert</span><span class="tool">équivalents</span><span class="tool">cas limites séparés</span></div>
+        <ol class="steps">
+          <li>Applique la méthode « générique » (D'Alembert, équivalent) en gardant le paramètre.</li>
+          <li>Repère les <b>valeurs frontières</b> où la méthode ne conclut pas ($\ell=1$, terme dominant qui change, $\beta=0$…) et traite-les à part.</li>
+          <li>Termine par une phrase de synthèse : « $\sum u_n$ converge ssi … ».</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD4 ex. 5.1</span>
+          <p>$u_n=\frac{na^n}{n^2+1}$, $a&gt;0$. $u_n&gt;0$ et $\frac{u_{n+1}}{u_n}=a\cdot\frac{(n+1)(n^2+1)}{n\big((n+1)^2+1\big)}\to a$.</p>
+          <p>Si $a&lt;1$ : CV ; si $a&gt;1$ : DV (D'Alembert). Si $a=1$ : D'Alembert ne conclut pas, mais $u_n=\frac{n}{n^2+1}\sim\frac1n$ : DV. <b>Bilan</b> : $\sum u_n$ converge ssi $a&lt;1$.</p>
+          <p class="src">Même logique au partiel 2025 (ex. 4) : cas $\beta\ge0$ et $\beta&lt;0$, où le terme dominant du numérateur change.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="A10">
+        <h3>Question « théorique » (sans $u_n$ explicite)</h3>
+        <p class="when"><b>Tu reconnais :</b> « Soit $(u_n)$ positive telle que $\sum u_n$ converge. Montrer que… » / « proposer un exemple tel que… ».</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$u_n\to0$ donc $u_n\le1$ à partir d'un rang</span><span class="tool">comparaison</span><span class="tool">contre-exemple de Riemann</span></div>
+        <ol class="steps">
+          <li>Exploite ce que donne la convergence : $u_n\to0$ (Thm 1.5), reste $\to0$.</li>
+          <li>Compare la nouvelle série à $\sum u_n$ « à partir d'un certain rang ».</li>
+          <li>Pour un contre-exemple : choisis $u_n=\frac{1}{n^\gamma}$ avec $\gamma$ bien réglé.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · CC 2024 ex. 2</span>
+          <p><b>$\alpha&gt;1$</b> : $u_n\to0$ donc il existe $N$ tel que $0&lt;u_n\le1$ pour $n\ge N$, d'où $u_n^\alpha\le u_n$. Par comparaison, $\sum u_n^\alpha$ converge.</p>
+          <p><b>$\alpha\in\,]0;1[$</b> : $u_n=\frac1{n^{1/\alpha}}$ convient : $\frac1\alpha&gt;1$ donc $\sum u_n$ CV, mais $u_n^\alpha=\frac1n$ et $\sum\frac1n$ diverge.</p>
+        </div>
+      </article>
+
+      <!-- ─────────── Section B ─────────── -->
+      <div class="part-head" id="p2b">
+        <span class="part-letter" aria-hidden="true">B</span>
+        <div>
+          <p class="part-kicker">Section B</p>
+          <h3 class="part-title">Suites de fonctions $(f_n)$</h3>
+          <p class="part-sub">Présentes dans <b>tous</b> les CC2 depuis 2021 : CVS, CVU (ou non), puis interversion limite / intégrale.</p>
+        </div>
+      </div>
+
+      <article class="notion" data-code="B0">
+        <h3>Le plan type en 3 temps <span class="tag-mini cool">à lire en premier</span></h3>
+        <ol class="steps">
+          <li><b>CVS</b> — « Soit $x\in I$ <b>fixé</b>. » Calcule $\lim_{n}f_n(x)$ (c'est une limite de <b>suite</b> : $x$ est une constante). Distingue les cas si besoin. Nomme la limite $f$.</li>
+          <li><b>CVU</b> — étudie $\|f_n-f\|_\infty=\sup_{x\in I}|f_n(x)-f(x)|$ :
+            <ul>
+              <li>pour montrer qu'il y a CVU : majoration indépendante de $x$ (B2) ou étude de variations (B3) ;</li>
+              <li>pour montrer qu'il n'y en a pas : limite discontinue (B4), suite $x_n$ (B5), intégrales (B8).</li>
+            </ul>
+          </li>
+          <li><b>Conséquences</b> — continuité de $f$, limite d'intégrale (B7), dérivabilité (B9), CVU sur un intervalle plus petit (B6).</li>
+        </ol>
+        <div class="callout tip"><div><span class="callout-title">Intuition à garder</span>Il n'y a pas CVU quand il existe une « bosse » qui ne s'écrase pas : elle se déplace (vers 0, vers l'infini) sans que sa hauteur tende vers 0. Trouver cette bosse = trouver $x_n$.</div></div>
+      </article>
+
+      <article class="notion" data-code="B1">
+        <h3>Calculer la limite simple (distinguer les cas)</h3>
+        <p class="when"><b>Tu reconnais :</b> $x^n$, $(\sin x)^n$, $e^{-nx}$, $\frac{1}{(1+x^2)^n}$… le comportement change selon que $|x|&lt;1$, $x=0$, $x=1$, $x&gt;0$.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">limites de suites géométriques</span><span class="tool">croissances comparées</span><span class="tool">équivalents en $n$ à $x$ fixé</span></div>
+        <ol class="steps">
+          <li>Fixe $x$ et repère les valeurs « spéciales » (où le terme qui fait tendre vers 0 disparaît : $x=0$, $\sin x=1$…).</li>
+          <li>Calcule la limite dans chaque cas, puis écris $f$ par morceaux.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD5 ex. 12.3</span>
+          <p>$f_n(x)=(\sin x)^n$ sur $[0;\pi]$. Soit $x\in[0;\pi]$ fixé : $\sin x\in[0;1]$.</p>
+          <p>Si $x\ne\frac\pi2$, $0\le\sin x&lt;1$ donc $f_n(x)\to0$. Si $x=\frac\pi2$, $f_n(x)=1\to1$.</p>
+          <p>Donc $(f_n)$ CVS sur $[0;\pi]$ vers $f$ avec $f(\frac\pi2)=1$ et $f(x)=0$ sinon.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="B2">
+        <h3>Prouver la CVU par majoration uniforme</h3>
+        <p class="when"><b>Tu reconnais :</b> $f_n-f$ se met sous la forme $\frac{\text{(borné)}}{n+\dots}$ sur un intervalle <b>borné</b> ($[0;1]$…).</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">Déf 2.3</span><span class="tool">$|\sin|,|\cos|\le1$</span><span class="tool">monotonie de $e^x$, $\ln$…</span></div>
+        <ol class="steps">
+          <li>Calcule et <b>simplifie</b> $f_n(x)-f(x)$ (même dénominateur).</li>
+          <li>Majore $|f_n(x)-f(x)|$ par $\alpha_n$ qui ne dépend <b>pas de $x$</b>, en majorant chaque facteur sur $I$.</li>
+          <li>$\sup_{x\in I}|f_n(x)-f(x)|\le\alpha_n\to0$ : CVU.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · CC2 2022 ex. 2</span>
+          <p>$f_n(x)=(x^2+1)\frac{ne^x+xe^{-x}}{n+x}$ sur $[0;1]$. À $x$ fixé, $f_n(x)\to f(x)=(x^2+1)e^x$, et</p>
+          $$\begin{gathered}f_n(x)-f(x)=(x^2+1)\,\frac{x\,(e^{-x}-e^{x})}{n+x}\\ \Rightarrow\ |f_n(x)-f(x)|\le\frac{2\cdot1\cdot(e-e^{-1})}{n}\end{gathered}$$
+          <p>car sur $[0;1]$ : $x^2+1\le2$, $x\le1$, $0\le e^x-e^{-x}\le e-e^{-1}$, $n+x\ge n$. Le majorant tend vers 0 : <b>CVU sur $[0;1]$</b>.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="B3">
+        <h3>Prouver (ou réfuter) la CVU par étude de variations <span class="tag-mini">tombe souvent</span></h3>
+        <p class="when"><b>Tu reconnais :</b> un produit « polynôme × exponentielle » ($x^2e^{-nx}$), une fraction $\frac{x^3}{(1+x^2)^n}$, $\frac{nx}{1+n^2x^2}$ : la fonction monte puis redescend.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">dérivée en $x$ ($n$ fixé)</span><span class="tool">tableau de variations</span></div>
+        <ol class="steps">
+          <li>Pose $g_n(x)=|f_n(x)-f(x)|$ (souvent $=f_n(x)$ si $f=0$ et $f_n\ge0$).</li>
+          <li>Dérive par rapport à <b>$x$</b>, factorise, trouve le point critique $x_n$.</li>
+          <li>Tableau de variations : $\|f_n-f\|_\infty=g_n(x_n)$ (ou la valeur au bord / la limite au bord).</li>
+          <li>Calcule $\lim_n g_n(x_n)$ : $0$ ⇒ CVU ; sinon ⇒ pas de CVU.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · CC 2024 ex. 3</span>
+          <p>$f_n(x)=x^2e^{-nx}$ sur $\mathbb R_+^*$ : CVS vers $f=0$ (croissances comparées). $g_n=f_n\ge0$ et</p>
+          $$g_n'(x)=2xe^{-nx}-nx^2e^{-nx}=(2-nx)\,x\,e^{-nx}$$
+          <p>$g_n$ croît sur $]0;\frac2n]$, décroît ensuite. Donc $\sup_{x&gt;0}g_n(x)=g_n(\frac2n)=\frac{4}{n^2e^2}\to0$ : <b>CVU</b> sur $\mathbb R_+^*$.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="B4">
+        <h3>Réfuter la CVU : la limite simple est discontinue</h3>
+        <p class="when"><b>Tu reconnais :</b> les $f_n$ sont continues mais $f$ « saute » en un point (cas B1).</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">Thm 2.2 (contraposée)</span></div>
+        <ol class="steps">
+          <li>Dis que chaque $f_n$ est continue sur $I$ (fonctions usuelles).</li>
+          <li>Montre que $f$ n'est pas continue en un point de $I$.</li>
+          <li>Si $(f_n)$ CVU, $f$ serait continue (Thm 2.2) : contradiction, donc <b>pas de CVU sur $I$</b>.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD5 ex. 12.5 / CC2 2021</span>
+          <p>$f_n(x)=\frac1{(1+x^2)^n}$ sur $\mathbb R$ : $f(0)=1$ et $f(x)=0$ pour $x\ne0$ ($1+x^2&gt;1$). Les $f_n$ sont continues, $f$ ne l'est pas en 0 : pas de CVU sur $\mathbb R$.</p>
+        </div>
+        <div class="callout trap"><div><span class="callout-title">Sens unique</span>Cet argument ne sert qu'à prouver l'<b>absence</b> de CVU. Une limite continue ne prouve <b>pas</b> la CVU (voir B5 : limite constante $=1$, pourtant pas de CVU).</div></div>
+      </article>
+
+      <article class="notion" data-code="B5">
+        <h3>Réfuter la CVU : exhiber une suite $x_n$ <span class="tag-mini">tombe souvent</span></h3>
+        <p class="when"><b>Tu reconnais :</b> une expression en $nx$, $n x^2$, $\frac{x}{2^n}$ : poser $x_n$ qui rend cette quantité constante.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$\sup\ge$ valeur en un point</span></div>
+        <ol class="steps">
+          <li>Choisis $x_n\in I$ qui « fige » l'argument : $nx_n=1$, $nx_n^2=1$, $\frac{x_n}{2^n}=1$… (vérifie bien $x_n\in I$).</li>
+          <li>Écris $\|f_n-f\|_\infty\ge|f_n(x_n)-f(x_n)|$.</li>
+          <li>Montre que ce minorant tend vers $c\ne0$ : donc $\|f_n-f\|_\infty\not\to0$, pas de CVU.</li>
+        </ol>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Forme</th><th>Choix de $x_n$</th><th>Source</th></tr></thead>
+            <tbody>
+              <tr><td>$\frac{nx}{1+nx}$, $e^{-nx}$, $\sin(nx)$</td><td>$x_n=\frac1n$ (ou $\frac{\pi}{2n}$)</td><td>TD5, TD6</td></tr>
+              <tr><td>$e^{-nx^2}\cos(\sqrt n\,x)$, $\sin(nx^2)$</td><td>$x_n=\frac1{\sqrt n}$</td><td>CC2 2021, TD6</td></tr>
+              <tr><td>$\sin\big(\frac{x}{2^n}\big)$</td><td>$x_n=2^n$</td><td>CC2 2023</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="example"><span class="ex-label">Exemple · CC2 2023 ex. 1</span>
+          <p>$f_n(x)=\sin\big(\frac{x}{2^n}\big)$ sur $\mathbb R$ : à $x$ fixé, $\frac{x}{2^n}\to0$ donc $f_n(x)\to0=f(x)$.</p>
+          <p>Avec $x_n=2^n\in\mathbb R$ : $\sup_{x\in\mathbb R}|f_n(x)-f(x)|\ge|f_n(x_n)|=\sin 1\ne0$. Le sup ne tend pas vers 0 : <b>pas de CVU</b> sur $\mathbb R$.</p>
+          <p class="src">Barème 2023 : CVS 2 pts, choix de $x_n$ 1 pt, minoration 2 pts, conclusion 1 pt.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="B6">
+        <h3>CVU sur $[a;+\infty[$ mais pas sur $]0;+\infty[$</h3>
+        <p class="when"><b>Tu reconnais :</b> question en deux temps « sur $\mathbb R_+^*$ ? … Soit $a&gt;0$, sur $[a;+\infty[$ ? ». La bosse part vers 0 : en s'éloignant de 0, on l'évite.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">monotonie en $x$</span><span class="tool">$x\ge a\Rightarrow\frac1x\le\frac1a$, $e^{-nx}\le e^{-na}$</span></div>
+        <ol class="steps">
+          <li>Sur $[a;+\infty[$, majore en remplaçant $x$ par $a$ dans le bon sens (fonction décroissante en $x$).</li>
+          <li>Si la bosse est en $x_n\to0$ : pour $n$ assez grand, $x_n\le a$, donc $g_n$ est décroissante sur $[a;+\infty[$ et le sup vaut $g_n(a)$.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD5 ex. 12.1</span>
+          <p>$f_n(x)=\frac{nx}{1+nx}$ sur $\mathbb R_+^*$ : $f_n(x)\to1=f(x)$ et $|f_n(x)-1|=\frac1{1+nx}$.</p>
+          <p><b>Sur $\mathbb R_+^*$</b> : avec $x_n=\frac1n$, $|f_n(x_n)-1|=\frac12\not\to0$ : pas de CVU.</p>
+          <p><b>Sur $[a;+\infty[$</b> : $x\mapsto\frac1{1+nx}$ décroît, donc $\sup_{x\ge a}\frac1{1+nx}=\frac1{1+na}\to0$ : CVU.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="B7">
+        <h3>Calculer $\lim\int_a^b f_n$ : CVU puis interversion <span class="tag-mini">tombe souvent</span></h3>
+        <p class="when"><b>Tu reconnais :</b> « Calculer $\lim_{n\to+\infty}\int_a^bf_n(x)\,dx$ » sans pouvoir calculer l'intégrale directement.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">Thm 2.4 intégration</span><span class="tool">B2 ou B3 pour la CVU</span></div>
+        <ol class="steps">
+          <li>Trouve la limite simple $f$ sur $[a;b]$.</li>
+          <li>Prouve la CVU sur le <b>segment</b> $[a;b]$ (majoration ou variations).</li>
+          <li>Cite le théorème : « les $f_n$ sont continues sur $[a;b]$ et CVU vers $f$, donc $\lim\int_a^bf_n=\int_a^bf$ ».</li>
+          <li>Calcule $\int_a^bf$ (souvent une IPP simple).</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD7 ex. 16.1</span>
+          <p>$f_n(x)=\frac{ne^x}{n+x}$ sur $[0;1]$ : $f_n(x)\to e^x=f(x)$, et $|f_n(x)-e^x|=\frac{xe^x}{n+x}\le\frac{e}{n}\to0$ : CVU.</p>
+          <p>Les $f_n$ sont continues sur $[0;1]$, donc par le théorème d'intégration : $\lim\int_0^1\frac{ne^x}{n+x}dx=\int_0^1e^xdx=e-1$.</p>
+          <p class="src">Partiel 2025 ex. 2 : même schéma avec $f_n(x)=\ln(e^{n+x}+1)-n$ sur $[1;2]$, sup obtenu par variations, résultat $\frac32$.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="B8">
+        <h3>« En déduire qu'il n'y a pas CVU » avec des intégrales</h3>
+        <p class="when"><b>Tu reconnais :</b> on te fait calculer $I_n=\int_a^bf_n$ explicitement, puis on demande d'en déduire la non-CVU.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">Thm 2.4 (contraposée)</span><span class="tool">primitive $\frac{u'}{u}$</span></div>
+        <ol class="steps">
+          <li>Calcule $I_n$ puis $\lim I_n$.</li>
+          <li>Compare avec $\int_a^bf$ (souvent $0$).</li>
+          <li>S'ils diffèrent : si $(f_n)$ CVU, le Thm 2.4 donnerait l'égalité — contradiction, donc pas de CVU.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD7 ex. 15 = CC2 2023 ex. 2 (9,5 pts)</span>
+          <p>$f_n(x)=\frac{2^nx}{1+2^nnx^2}$ sur $[0;1]$. CVS : $f_n(0)=0$ et pour $x&gt;0$, $f_n(x)\sim\frac{2^nx}{2^nnx^2}=\frac1{nx}\to0$. Donc $f=0$.</p>
+          $$\begin{gathered}I_n=\int_0^1\frac{2^nx}{1+2^nnx^2}dx\\ =\frac1{2n}\Big[\ln(1+2^nnx^2)\Big]_0^1=\frac{\ln(1+n2^n)}{2n}\end{gathered}$$
+          <p>$\ln(1+n2^n)=n\ln2+\ln n+\ln\!\big(1+\frac1{n2^n}\big)$ donc $I_n\to\frac{\ln2}{2}\ne0=\int_0^1f$ : <b>pas de CVU</b> sur $[0;1]$.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="B9">
+        <h3>Continuité, dérivabilité de la limite</h3>
+        <p class="when"><b>Tu reconnais :</b> « Montrer que $f$ est continue / de classe $C^1$ », ou une question piège « peut-on dériver la limite ? ».</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">Thm 2.2 continuité</span><span class="tool">Thm 2.3 dérivabilité</span></div>
+        <ol class="steps">
+          <li>Continuité : $f_n$ continues + CVU sur $I$ ⇒ $f$ continue sur $I$.</li>
+          <li>$C^1$ : $f_n$ de classe $C^1$, CVS de $(f_n)$ vers $f$, <b>CVU de $(f_n')$</b> vers $g$ ⇒ $f$ est $C^1$ et $f'=g$.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple (contre-exemple instructif)</span>
+          <p>$f_n(x)=\sqrt{x^2+\frac1n}$ sur $\mathbb R$ : $f_n\to|x|$ et $0\le f_n(x)-|x|=\frac{1/n}{\sqrt{x^2+1/n}+|x|}\le\frac{1/n}{\sqrt{1/n}}=\frac1{\sqrt n}\to0$ : CVU.</p>
+          <p>Pourtant $|x|$ n'est pas dérivable en 0 alors que les $f_n$ sont $C^1$ : la CVU de $(f_n)$ ne suffit pas, il faut celle de $(f_n')$. Ici $f_n'(x)=\frac{x}{\sqrt{x^2+1/n}}$ tend vers une limite discontinue en 0, donc $(f_n')$ ne CVU pas.</p>
+        </div>
+      </article>
+
+      <!-- ─────────── Section C ─────────── -->
+      <div class="part-head" id="p2c">
+        <span class="part-letter" aria-hidden="true">C</span>
+        <div>
+          <p class="part-kicker">Section C</p>
+          <h3 class="part-title">Séries de fonctions $\sum f_n$</h3>
+          <p class="part-sub">Le plus gros exercice des derniers sujets (7 à 9 pts) : CVS → CVA → CVN → CVU → régularité de la somme.</p>
+        </div>
+      </div>
+
+      <article class="notion" data-code="C0">
+        <h3>Le plan type <span class="tag-mini cool">à lire en premier</span></h3>
+        <ol class="steps">
+          <li><b>CVS</b> : $x$ fixé, $\sum f_n(x)$ est une <b>série numérique</b> → toute la section A s'applique.</li>
+          <li><b>CVA</b> : même chose avec $|f_n(x)|$ (identique à la CVS si $f_n\ge0$).</li>
+          <li><b>CVN sur $I$</b> : calcule ou majore $\|f_n\|_\infty$, puis étudie la série numérique $\sum\|f_n\|_\infty$.</li>
+          <li><b>CVU</b> : si CVN, c'est gagné. Sinon : non-CVU (C6) ou CVU par le reste (C7).</li>
+          <li><b>Régularité</b> : continuité / $C^1$ / intégration de la somme $S$, souvent sur des sous-intervalles (C8, C9, C10).</li>
+        </ol>
+        <div class="callout exam"><div><span class="callout-title">Le format 2025 (partiel &amp; rattrapage)</span>
+          <ol style="margin:4px 0">
+            <li>CVS sur $I$ (on note $f$ la somme) ;</li>
+            <li>montrer qu'il n'y a <b>pas</b> CVU sur $I$ ;</li>
+            <li>soit $a$… étudier la CVU sur $[-a;a]$ ou $[1;a]$ (→ par CVN) ;</li>
+            <li>justifier que $f$ est continue sur $I$.</li>
+          </ol>
+          Si ce format revient, chaque question correspond à une méthode ci-dessous : C1, C6, C3/C4, C8.</div></div>
+      </article>
+
+      <article class="notion" data-code="C1">
+        <h3>Convergence simple : ramener à une série numérique</h3>
+        <p class="when"><b>Tu reconnais :</b> « Étudier la convergence simple de la série de fonctions… ».</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">série géométrique</span><span class="tool">équivalent + Riemann</span><span class="tool">D'Alembert</span><span class="tool">séries alternées</span></div>
+        <ol class="steps">
+          <li>« Soit $x\in I$ fixé. » Traite à part les $x$ qui annulent tout ($x=0$…).</li>
+          <li>Pour les autres $x$, applique la section A à $u_n=f_n(x)$ ; $x$ est une <b>constante</b>.</li>
+          <li>Conclus : « la série converge simplement sur $I$ ; on note $S(x)$ sa somme ».</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · CC2 2023 ex. 3 = poly ex. 20</span>
+          <p>$u_n(x)=\frac{x}{(1+nx)(1+(n+1)x)}$, $x\in\mathbb R_+$. Si $x=0$ : $u_n(0)=0$, la série converge.</p>
+          <p>Si $x&gt;0$ fixé : $u_n(x)\ge0$ et $u_n(x)\underset{n\to+\infty}{\sim}\frac{x}{nx\cdot nx}=\frac{1}{x}\cdot\frac{1}{n^2}$. Par équivalence avec Riemann ($2&gt;1$), $\sum u_n(x)$ converge. <b>CVS sur $\mathbb R_+$</b>.</p>
+          <p class="src">Barème 2023 : 3 pts sur 7,5 pour cette seule CVS.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="C2">
+        <h3>Convergence absolue (et le piège des $x$ négatifs)</h3>
+        <p class="when"><b>Tu reconnais :</b> un $(-1)^n$ dans $f_n$, ou une question « étudier la convergence absolue ».</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">Déf 3.2</span><span class="tool">comparaison géométrique</span><span class="tool">séries alternées</span></div>
+        <ol class="steps">
+          <li>Étudie $\sum|f_n(x)|$ pour chaque $x$ : la CVA peut avoir lieu sur un ensemble <b>plus petit</b> que la CVS.</li>
+          <li>Les $x$ où $|f_n(x)|\not\to0$ donnent une divergence grossière (ni CVS ni CVA).</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · CC2 2022 ex. 3</span>
+          <p>$f_n(x)=\frac{(-1)^ne^{-nx}}{n}$, $n\ge1$, $x\in\mathbb R$.</p>
+          <ul>
+            <li>$x&lt;0$ : $|f_n(x)|=\frac{e^{n|x|}}{n}\to+\infty$ : divergence grossière.</li>
+            <li>$x=0$ : $\sum\frac{(-1)^n}{n}$ converge (alternée) mais $\sum\frac1n$ diverge : CVS, pas CVA.</li>
+            <li>$x&gt;0$ : $|f_n(x)|\le e^{-nx}=(e^{-x})^n$, géométrique de raison $e^{-x}&lt;1$ : CVA.</li>
+          </ul>
+          <p>Bilan : <b>CVS sur $\mathbb R_+$</b>, <b>CVA sur $\mathbb R_+^*$</b> seulement.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="C3">
+        <h3>CVN par majoration directe</h3>
+        <p class="when"><b>Tu reconnais :</b> $x$ apparaît dans un facteur facile à majorer : $\frac{1}{x^2+1}\le1$, $|\sin(nx)|\le1$, $x^{2n}\le a^{2n}$ sur $[0;a]$…</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">Déf 3.3</span><span class="tool">comparaison</span></div>
+        <ol class="steps">
+          <li>Majore $|f_n(x)|\le\alpha_n$ pour tout $x\in I$, avec $\alpha_n$ indépendant de $x$.</li>
+          <li>Donc $\|f_n\|_\infty\le\alpha_n$ ; si $\sum\alpha_n$ converge, $\sum\|f_n\|_\infty$ converge par comparaison : <b>CVN</b>.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemples · poly ex. 17 &amp; CC2 2022 ex. 1</span>
+          <p>$f_n(x)=\frac1{n^2(x^2+1)}$ sur $\mathbb R_+^*$ : $0\le f_n(x)\le\frac1{n^2}$ donc $\|f_n\|_\infty\le\frac1{n^2}$, terme d'une série de Riemann convergente : CVN sur $\mathbb R_+^*$.</p>
+          <p>$f_n(x)=x^{2n}$ sur $[0;a]$, $0&lt;a&lt;1$ : $\sup_{[0;a]}x^{2n}=a^{2n}$ et $\sum a^{2n}$ est géométrique de raison $a^2&lt;1$ : CVN sur $[0;a]$.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="C4">
+        <h3>CVN par étude de variations (et sur $[a;+\infty[$) <span class="tag-mini">tombe souvent</span></h3>
+        <p class="when"><b>Tu reconnais :</b> pas de majoration évidente ; $|f_n|$ a une bosse en $x_n$.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">dérivée en $x$</span><span class="tool">petit o / équivalent sur $\|f_n\|_\infty$</span></div>
+        <ol class="steps">
+          <li>Dérive $f_n$ en $x$, trouve $x_n$, calcule $\|f_n\|_\infty=|f_n(x_n)|$.</li>
+          <li>Étudie la série numérique $\sum\|f_n\|_\infty$ (équivalent, Riemann).</li>
+          <li>Sur $[a;+\infty[$ : dès que $x_n\le a$, le sup vaut $|f_n(a)|$ ; la nature ne dépend pas des premiers termes.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD8-9 ex. 22</span>
+          <p>$u_n(x)=nx^2e^{-x\sqrt n}$ sur $\mathbb R_+$. $u_n'(x)=nxe^{-x\sqrt n}(2-x\sqrt n)$ : max en $x_n=\frac{2}{\sqrt n}$, et</p>
+          $$\|u_n\|_\infty=u_n\!\left(\tfrac{2}{\sqrt n}\right)=n\cdot\frac4n\cdot e^{-2}=\frac{4}{e^2}\not\to0.$$
+          <p>Donc $\sum\|u_n\|_\infty$ diverge grossièrement : <b>pas de CVN sur $\mathbb R_+$</b> (et même pas de CVU, cf. C6).</p>
+          <p><b>Sur $[a;+\infty[$</b> : pour $n\ge\frac4{a^2}$, $x_n\le a$ donc $u_n$ décroît sur $[a;+\infty[$ et $\|u_n\|_\infty=u_n(a)=na^2e^{-a\sqrt n}$. Or $n^2\cdot na^2e^{-a\sqrt n}\to0$ (croissances comparées), donc $u_n(a)=o(\frac1{n^2})$ : <b>CVN sur $[a;+\infty[$</b>.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="C5">
+        <h3>Prouver l'absence de CVN : minorer $\|f_n\|_\infty$</h3>
+        <p class="when"><b>Tu reconnais :</b> « La série converge-t-elle normalement sur $I$ ? » et le calcul exact du sup est pénible.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$\|f_n\|_\infty\ge|f_n(x_n)|$</span><span class="tool">comparaison (sens DV)</span></div>
+        <ol class="steps">
+          <li>Choisis un point $x_n\in I$ (le point de la bosse, ou un point simple comme $\frac1n$).</li>
+          <li>$\|f_n\|_\infty\ge|f_n(x_n)|\ge c_n\ge0$ avec $\sum c_n$ <b>divergente</b>.</li>
+          <li>Par comparaison, $\sum\|f_n\|_\infty$ diverge : pas de CVN.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · CC2 2023 ex. 3 (CVN, 4,5 pts)</span>
+          <p>$u_n(x)=\frac{x}{(1+nx)(1+(n+1)x)}$ sur $\mathbb R_+$. Avec $x=\frac1n$ :</p>
+          $$\|u_n\|_\infty\ge u_n\!\left(\tfrac1n\right)=\frac{1/n}{2\left(2+\frac1n\right)}=\frac{1}{2(2n+1)}\ge0$$
+          <p>et $\sum\frac{1}{2(2n+1)}$ diverge ($\sim\frac1{4n}$). Par comparaison, $\sum\|u_n\|_\infty$ diverge : <b>pas de CVN sur $\mathbb R_+$</b>.</p>
+          <p class="src">Le corrigé officiel passe par l'étude de variations : $\|u_n\|_\infty=u_n\big(\frac{1}{\sqrt{n(n+1)}}\big)\sim\frac1{4n}$. Même conclusion.</p>
+        </div>
+        <div class="callout trap"><div><span class="callout-title">Erreur de logique fréquente</span>« $\|u_n\|_\infty\le\frac1n$ et $\sum\frac1n$ diverge, donc pas de CVN » est <b>faux</b> : majorer par une série divergente ne prouve rien. Pour une divergence, il faut une <b>minoration</b>.</div></div>
+      </article>
+
+      <article class="notion" data-code="C6">
+        <h3>Montrer qu'il n'y a pas CVU sur $I$ <span class="tag-mini">tombe souvent</span></h3>
+        <p class="when"><b>Tu reconnais :</b> « Montrer que la série ne converge pas uniformément sur $I$ ». Rappel : <b>pas de CVN ne suffit pas</b> à conclure.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$\|f_n\|_\infty\not\to0$</span><span class="tool">Thm 3.3 (contraposée)</span><span class="tool">Thm 3.1 (reste)</span></div>
+        <p>Trois armes, de la plus rapide à la plus technique :</p>
+        <ol class="steps">
+          <li><b>Le terme général ne CVU pas vers 0</b> : si $\|f_n\|_\infty\not\to0$ (ou $=+\infty$), pas de CVU (car $f_n=R_{n-1}-R_n$).</li>
+          <li><b>Somme discontinue</b> : $f_n$ continues et $S$ discontinue ⇒ pas de CVU (Thm 3.3).</li>
+          <li><b>Minorer le reste</b> : si $f_k\ge0$, $R_n(x)\ge f_{n+1}(x)$, donc $\|R_n\|_\infty\ge\|f_{n+1}\|_\infty$.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · rattrapage 2025 ex. 1.2</span>
+          <p>$f_n(x)=\frac{\ln(nx)}{n^2}$ sur $[1;+\infty[$ : à $n$ fixé, $f_n(x)\to+\infty$ quand $x\to+\infty$, donc $\|f_n\|_\infty=+\infty$. Le terme général ne converge pas uniformément vers 0 : <b>pas de CVU</b> sur $[1;+\infty[$.</p>
+        </div>
+        <div class="example"><span class="ex-label">Exemple · partiel 2025 ex. 3.2</span>
+          <p>$f_n(x)=e^{n^2(x^2-1)}&gt;0$ sur $]-1;1[$ : $R_n(x)\ge f_{n+1}(x)$ et $\sup_{]-1;1[}f_{n+1}=1$ (limite en $x\to1$). Donc $\|R_n\|_\infty\ge1\not\to0$ : pas de CVU (Thm 3.1).</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="C7">
+        <h3>CVU sans CVN : télescopage ou reste alterné</h3>
+        <p class="when"><b>Tu reconnais :</b> pas de CVN, mais on te demande quand même la CVU (sur $I$ ou sur $[a;+\infty[$).</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">Thm 3.1 : $\|R_n\|_\infty\to0$</span><span class="tool">somme télescopique</span><span class="tool">reste d'une série alternée</span></div>
+        <ol class="steps">
+          <li>Si $f_n=g_n-g_{n+1}$ : calcule $S_N$, puis $S$ et le reste $R_N$ <b>explicitement</b>.</li>
+          <li>Si $f_n(x)=(-1)^na_n(x)$ avec $a_n(x)$ décroissante vers 0 : $|R_n(x)|\le a_{n+1}(x)$, puis majore uniformément.</li>
+          <li>Conclus avec $\sup_x|R_n(x)|\to0$ (CVU) ou $\not\to0$ (pas de CVU).</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · poly ex. 20 (la suite du CC2 2023)</span>
+          <p>$\frac{t}{(1+nt)(1+(n+1)t)}=\frac{1}{1+nt}-\frac{1}{1+(n+1)t}$. Donc $\sum_{n=1}^{N}f_n(t)=\frac1{1+t}-\frac1{1+(N+1)t}$.</p>
+          <p>Pour $t&gt;0$ : $S(t)=\frac1{1+t}$ ; et $S(0)=0$. $S$ est discontinue en 0 : <b>pas de CVU sur $\mathbb R_+$</b>.</p>
+          <p>Pour $t\ge a&gt;0$ : $R_N(t)=\frac{1}{1+(N+1)t}\le\frac{1}{1+(N+1)a}\to0$ : <b>CVU sur $[a;+\infty[$</b> (sans CVN, cf. C5).</p>
+        </div>
+        <div class="example"><span class="ex-label">Exemple · reste alterné (CC2 2022 ex. 3)</span>
+          <p>$f_n(x)=\frac{(-1)^ne^{-nx}}{n}$ sur $\mathbb R_+$ : $a_n(x)=\frac{e^{-nx}}{n}$ décroît vers 0, donc $|R_n(x)|\le\frac{e^{-(n+1)x}}{n+1}\le\frac{1}{n+1}$. CVU sur $\mathbb R_+$, alors que $\|f_n\|_\infty=\frac1n$ : pas de CVN.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="C8">
+        <h3>Continuité de la somme sur un intervalle ouvert</h3>
+        <p class="when"><b>Tu reconnais :</b> « Justifier que $f$ est continue sur $]-1;1[$ » (ou $]0;+\infty[$, $[1;+\infty[$) alors qu'il n'y a pas CVU sur tout l'intervalle.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">Thm 3.3 continuité</span><span class="tool">CVN sur $[-a;a]$, $[1;a]$, $[a;+\infty[$</span><span class="tool">continuité = propriété locale</span></div>
+        <ol class="steps">
+          <li>Montre la CVN (donc CVU) sur chaque sous-intervalle $[-a;a]$ (ou $[a;b]$, $[a;+\infty[$).</li>
+          <li>Les $f_n$ sont continues ⇒ $S$ continue sur chaque $[-a;a]$ (Thm 3.3).</li>
+          <li>Tout $x_0\in I$ est dans un tel sous-intervalle : « ceci étant vrai pour tout $a$, $S$ est continue sur $I$ ».</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · rattrapage 2025 ex. 1</span>
+          <p>$f_n(x)=\frac{\ln(nx)}{n^2}$. <b>CVS</b> sur $[1;+\infty[$ : à $x$ fixé, $0\le f_n(x)$ et $n^{3/2}f_n(x)=\frac{\ln n+\ln x}{\sqrt n}\to0$, donc $f_n(x)=o(\frac1{n^{3/2}})$ : CV.</p>
+          <p><b>Sur $[1;a]$</b> : $0\le f_n(x)\le\frac{\ln(na)}{n^2}$, et $\frac{\ln(na)}{n^2}=o\big(\frac1{n^{3/2}}\big)$ : CVN donc CVU sur $[1;a]$. Les $f_n$ étant continues, $f$ est continue sur $[1;a]$ pour tout $a&gt;1$, donc sur $[1;+\infty[$.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="C9">
+        <h3>Dérivabilité / classe $C^1$ de la somme</h3>
+        <p class="when"><b>Tu reconnais :</b> « Montrer que $f$ est de classe $C^1$ sur $I$ » (poly ex. 17, 24, 25).</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">Thm 3.4 dérivabilité</span><span class="tool">CVN de $\sum f_n'$</span></div>
+        <ol class="steps">
+          <li>Les $f_n$ sont $C^1$ ; $\sum f_n$ CVS (déjà fait).</li>
+          <li>Calcule $f_n'$ et prouve la <b>CVN de $\sum f_n'$</b> sur des sous-intervalles $[a;+\infty[$ ou $[a;b]$.</li>
+          <li>Thm 3.4 : $S$ est $C^1$ sur chaque sous-intervalle avec $S'=\sum f_n'$, donc sur $I$ (argument « pour tout $a$ »).</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD10 ex. 24</span>
+          <p>$f_n(x)=\frac1{1+x^n}$ sur $]1;+\infty[$. CVS : $0&lt;f_n(x)\le\left(\frac1x\right)^n$, géométrique de raison $\frac1x&lt;1$.</p>
+          <p>$f_n'(x)=\frac{-nx^{n-1}}{(1+x^n)^2}$ et, pour $x\ge a&gt;1$ : $|f_n'(x)|\le\frac{nx^{n-1}}{x^{2n}}=\frac{n}{x^{n+1}}\le\frac{n}{a^{n+1}}$.</p>
+          <p>$\sum\frac{n}{a^{n+1}}$ converge (D'Alembert : rapport $\to\frac1a&lt;1$) : CVN de $\sum f_n'$ sur $[a;+\infty[$. Donc $f$ est $C^1$ sur $[a;+\infty[$ pour tout $a&gt;1$, donc sur $]1;+\infty[$.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="C10">
+        <h3>Intégrer terme à terme (calcul de somme)</h3>
+        <p class="when"><b>Tu reconnais :</b> « calculer $\int_a^bS$ », ou « en déduire la somme de $\sum\frac{x^{n+1}}{n+1}$ ».</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">Thm 3.5 intégration</span><span class="tool">CVN sur le segment</span></div>
+        <ol class="steps">
+          <li>Travaille sur un <b>segment</b> $[a;b]$ où la série CVU (souvent via CVN).</li>
+          <li>Thm 3.5 : $\int_a^b\sum f_n=\sum\int_a^bf_n$, puis calcule chaque intégrale.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple</span>
+          <p>Pour $t\in[0;1[$, $\sum_{n\ge0}x^n$ CVN sur $[0;t]$ ($\sup_{[0;t]}x^n=t^n$, géométrique) vers $\frac1{1-x}$, et les $x^n$ sont continues. Donc</p>
+          $$\sum_{n=0}^{+\infty}\frac{t^{n+1}}{n+1}=\sum_{n=0}^{+\infty}\int_0^tx^n\,dx=\int_0^t\frac{dx}{1-x}=-\ln(1-t).$$
+        </div>
+      </article>
+
+      <article class="notion" data-code="C11">
+        <h3>Question de cours : définition + application</h3>
+        <p class="when"><b>Tu reconnais :</b> CC2 2022 ex. 1 : « Donner la définition de la convergence uniforme / normale. Application : … ».</p>
+        <ol class="steps">
+          <li>Recopie la définition <b>exacte</b> (voir 1.8), avec les quantificateurs ou le $\sup$.</li>
+          <li>Pour l'application, suis le plan C0 dans l'ordre demandé et nomme chaque critère.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · CC2 2022 ex. 1</span>
+          <p>$\sum x^{2n}$ <b>CVS sur $[0;1[$</b> : série géométrique de raison $x^2\in[0;1[$ (ou D'Alembert : rapport $=x^2&lt;1$).</p>
+          <p><b>CVN sur $[0;a]$</b>, $0&lt;a&lt;1$ : $\|x^{2n}\|_\infty=a^{2n}$ et $\sum a^{2n}$ converge (géométrique, $a^2&lt;1$).</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="P">
+        <h3>Les pièges de rédaction qui coûtent des points</h3>
+        <div class="traps">
+          <div class="trap-card"><span class="t">CVS sans $x$ fixé</span><div class="line"><span class="ko">✘</span><span>« $f_n\to0$ »</span></div><div class="line"><span class="ok">✔</span><span>« Soit $x\in I$ fixé. $\lim_n f_n(x)=0$. »</span></div></div>
+          <div class="trap-card"><span class="t">Majorant qui dépend de $x$</span><div class="line"><span class="ko">✘</span><span>$|f_n(x)|\le\frac1{nx}$ donc CVU sur $\mathbb R_+^*$</span></div><div class="line"><span class="ok">✔</span><span>un $\alpha_n$ <b>sans $x$</b> (OK sur $[a;+\infty[$ : $\frac1{na}$)</span></div></div>
+          <div class="trap-card"><span class="t">Divergence par majoration</span><div class="line"><span class="ko">✘</span><span>$\|f_n\|\le\frac1n$, $\sum\frac1n$ DV ⇒ pas CVN</span></div><div class="line"><span class="ok">✔</span><span>minorer : $\|f_n\|\ge\frac{c}{n}$</span></div></div>
+          <div class="trap-card"><span class="t">Pas de CVN ≠ pas de CVU</span><div class="line"><span class="ko">✘</span><span>« pas CVN donc pas CVU »</span></div><div class="line"><span class="ok">✔</span><span>utiliser C6 (terme général, discontinuité, reste)</span></div></div>
+          <div class="trap-card"><span class="t">Équivalent sans signe</span><div class="line"><span class="ko">✘</span><span>$u_n\sim\frac{(-1)^n}{\sqrt n}$ donc CV</span></div><div class="line"><span class="ok">✔</span><span>DL + linéarité (A8)</span></div></div>
+          <div class="trap-card"><span class="t">Limite égale à 1</span><div class="line"><span class="ko">✘</span><span>D'Alembert / Cauchy $\to1$ donc DV</span></div><div class="line"><span class="ok">✔</span><span>$\ell=1$ : on ne peut rien dire</span></div></div>
+          <div class="trap-card"><span class="t">Hypothèses des théorèmes</span><div class="line"><span class="ko">✘</span><span>« par CVU, $\lim\int f_n=\int f$ »</span></div><div class="line"><span class="ok">✔</span><span>« $f_n$ <b>continues</b> sur le <b>segment</b> $[a;b]$ et CVU, donc… (Thm 2.4) »</span></div></div>
+          <div class="trap-card"><span class="t">Limite continue</span><div class="line"><span class="ko">✘</span><span>$f$ continue donc CVU</span></div><div class="line"><span class="ok">✔</span><span>l'argument de continuité ne prouve que la <b>non</b>-CVU</span></div></div>
+          <div class="trap-card"><span class="t">Point $x_n$ hors de $I$</span><div class="line"><span class="ko">✘</span><span>$x_n=\frac1n$ pour étudier $[a;+\infty[$</span></div><div class="line"><span class="ok">✔</span><span>vérifier $x_n\in I$ (sinon, c'est que la CVU est possible)</span></div></div>
+          <div class="trap-card"><span class="t">Dériver la limite</span><div class="line"><span class="ko">✘</span><span>CVU de $(f_n)$ donc $f'=\lim f_n'$</span></div><div class="line"><span class="ok">✔</span><span>il faut la CVU de $(f_n')$ (Thm 2.3 / 3.4)</span></div></div>
+        </div>
+      </article>
+    </section>
+
+
+    <!-- ══════════════════════ CHAPITRE 3 ══════════════════════ -->
+    <section class="chapter" id="ch3" data-num="3" aria-labelledby="ch3-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">03</span>
+        <p class="chapter-kicker">Annales 2021 → 2025 <span class="prio">★ Priorité examen</span></p>
+        <h2 id="ch3-t">Prédiction &amp; sujet blanc du CC2</h2>
+        <p class="chapter-lead">Ce que les annales disent du CC2, la répartition des points probable, quoi réviser en priorité, puis un sujet blanc de 45 min avec barème et corrigé détaillé.</p>
+      </header>
+
+      <article class="notion">
+        <h3>Ce que disent les annales</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Épreuve</th><th>Contenu</th><th>Points</th></tr></thead>
+            <tbody>
+              <tr><td class="rowh">CC2 2021<br><small>45 min</small></td><td>Ex. 1 : suite $\frac{n+2}{n+1}e^{-nx^2}\cos(\sqrt n x)$, CVS puis CVU sur 3 intervalles (discontinuité, $[a;+\infty[$, $x_n=\frac1{\sqrt n}$).<br>Ex. 2 : suite $\frac{x^3}{(1+x^2)^n}$, CVU par variations + $\lim\int_0^a$.</td><td>—</td></tr>
+              <tr><td class="rowh">CC2 2022<br><small>45 min</small></td><td>Ex. 1 : définitions CVU et CVN + application $\sum x^{2n}$.<br>Ex. 2 : suite, CVU sur $[0;1]$ par majoration + $\lim\int_0^1$ (≈ poly ex. 16).<br>Ex. 3 : série alternée $\sum\frac{(-1)^ne^{-nx}}{n}$ : CVS, CVA, CVN, CVU de $(f_n)$.</td><td>—</td></tr>
+              <tr><td class="rowh">CC2 2023<br><small>45 min</small></td><td>Ex. 1 : $\sin(\frac{x}{2^n})$, CVS + non-CVU par $x_n=2^n$.<br>Ex. 2 : <b>poly ex. 15 recopié</b> : CVS, $I_n$, non-CVU par les intégrales.<br>Ex. 3 : <b>poly ex. 20</b> : CVS + CVN d'une série de fonctions.</td><td>6 + 9,5 + 7,5 (sur 23)</td></tr>
+              <tr><td class="rowh">CC 2024<br><small>1 h 30</small></td><td>Natures de 4 séries numériques ; question théorique sur $\sum u_n^\alpha$ ; suite $x^2e^{-nx}$ (CVS, CVU par variations).</td><td>11 + 4 + 5</td></tr>
+              <tr><td class="rowh">Partiel 2025</td><td>Fourier ; $\lim\int_1^2$ par CVU ; série $\sum e^{n^2(x^2-1)}$ (CVS, non-CVU, CVN sur $[-a;a]$, continuité) ; série numérique à paramètre.</td><td>6 + 4 + 7 + 3</td></tr>
+              <tr><td class="rowh">Rattrapage 2025</td><td>Série $\sum\frac{\ln(nx)}{n^2}$ (même plan en 4 questions) ; série numérique ; Fourier.</td><td>9 + 4 + 7</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <h4>Les 4 constantes</h4>
+        <ul>
+          <li><b>Le CC2 porte sur les chapitres 2 et 3 du poly</b> (suites et séries de fonctions). Les séries numériques y servent d'outil (CVS, CVN) et peuvent faire l'objet d'un petit exercice.</li>
+          <li><b>Les exercices du poly reviennent presque mot pour mot</b> : ex. 15 et ex. 20 en 2023, ex. 16 en 2022.</li>
+          <li><b>Un exercice « limite d'intégrale »</b> (avec CVU à justifier) tombe quasiment à chaque fois.</li>
+          <li><b>La série de fonctions suit un plan figé</b> depuis 2025 : CVS → pas de CVU sur $I$ → CVU (par CVN) sur un sous-intervalle → continuité de la somme.</li>
+        </ul>
+        <div class="callout"><div><span class="callout-title">Hypothèse de travail</span>Les sujets 2024–2025 viennent de l'équipe actuelle (même mise en page, points indiqués « [~ n points] »). La prédiction ci-dessous suppose que le CC2 2026 couvre les ch. 2–3 (TD5 à TD10), comme les CC2 précédents. Fourier (ch. 4) n'a jamais été au programme d'un CC2 : vérifie le périmètre annoncé par ton enseignant.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>La répartition des points probable</h3>
+        <p>Pour un CC de 45 min à 1 h noté sur 20 :</p>
+        <div class="bars">
+          <div class="bar" style="--p:40"><span class="bar-lbl">Série de fonctions<small>CVS, non-CVU, CVN sur sous-intervalle, continuité</small></span><span class="bar-track"><i></i></span><span class="bar-val">≈ 8 pts</span></div>
+          <div class="bar" style="--p:25"><span class="bar-lbl">Suite de fonctions<small>CVS, CVU ou non (sup, $x_n$)</small></span><span class="bar-track"><i></i></span><span class="bar-val">≈ 5 pts</span></div>
+          <div class="bar" style="--p:20"><span class="bar-lbl">Limite d'intégrale<small>CVU sur $[a;b]$ + Thm 2.4</small></span><span class="bar-track"><i></i></span><span class="bar-val">≈ 4 pts</span></div>
+          <div class="bar" style="--p:15"><span class="bar-lbl">Série numérique / cours<small>nature d'1–2 séries ou définitions</small></span><span class="bar-track"><i></i></span><span class="bar-val">≈ 3 pts</span></div>
+        </div>
+        <div class="cheat">
+          <div><b>Presque sûr</b>Une CVS + une étude de CVU avec un $\sup$ (variations ou $x_n$). Une CVN avec une série numérique à conclure.</div>
+          <div><b>Très probable</b>« Calculer $\lim\int_a^bf_n$ ». « Justifier que la somme est continue sur $I$ » (argument « pour tout $a$ »).</div>
+          <div><b>Possible</b>Une définition à recopier, une série alternée de fonctions, une question de classe $C^1$.</div>
+          <div><b>Peu probable au CC2</b>Fourier, séries numériques « pures » sur plus de 4 points.</div>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Ton plan de révision <span class="tag-mini">à cocher</span></h3>
+        <p>La liste est dans l'<b>ordre où travailler</b> : d'abord ce qui a le plus de chances de tomber, puis le reste. Le sujet blanc est à la fin parce qu'il sert de <b>répétition générale</b> une fois tout révisé, pas parce qu'il est moins utile. Coche au fur et à mesure (sauvegardé sur cet appareil) — <span class="todo-progress" id="todoCount"></span></p>
+        <div class="legend">
+          <span><span class="badge p1">Indispensable</span> déjà tombé ou format de l'équipe actuelle</span>
+          <span><span class="badge p2">Important</span> même méthode, souvent demandée</span>
+          <span><span class="badge p3">Si tu as le temps</span> utile mais moins probable</span>
+        </div>
+        <ul class="todo">
+          <li><label><input type="checkbox" data-todo="ex15"><span><b>Poly ex. 15</b> (TD7) — suite $\frac{2^nx}{1+2^nnx^2}$, intégrales, non-CVU<small>Tombé tel quel au CC2 2023. Méthode B8.</small></span><span class="badge p1">Indispensable</span></label></li>
+          <li><label><input type="checkbox" data-todo="ex20"><span><b>Poly ex. 20</b> — série télescopique de fonctions<small>Tombé au CC2 2023. Méthodes C1, C5, C7.</small></span><span class="badge p1">Indispensable</span></label></li>
+          <li><label><input type="checkbox" data-todo="ex22"><span><b>Poly ex. 22</b> (TD8-9) — $nx^2e^{-x\sqrt n}$, CVN sur $[a;+\infty[$<small>Exactement le plan des sujets 2025. Méthode C4.</small></span><span class="badge p1">Indispensable</span></label></li>
+          <li><label><input type="checkbox" data-todo="annales25"><span><b>Partiel 2025 ex. 2–3 &amp; rattrapage 2025 ex. 1</b><small>Le style de l'équipe actuelle. Méthodes B7, C6, C8.</small></span><span class="badge p1">Indispensable</span></label></li>
+          <li><label><input type="checkbox" data-todo="ex16"><span><b>Poly ex. 16</b> (TD7) — limites d'intégrales<small>Quasi tombé au CC2 2022. Méthode B7.</small></span><span class="badge p2">Important</span></label></li>
+          <li><label><input type="checkbox" data-todo="ex12"><span><b>Poly ex. 12</b> (TD5) — les 7 suites de fonctions<small>Tous les cas de CVS / CVU. Méthodes B1 à B6.</small></span><span class="badge p2">Important</span></label></li>
+          <li><label><input type="checkbox" data-todo="ex13-14"><span><b>Poly ex. 13–14</b> (TD6) — $e^{-nx}\sin(nx)$, $e^{-nx^2}\sin(nx^2)$<small>Suite $x_n$ et CVU sur $[a;\dots]$. Méthodes B5, B6.</small></span><span class="badge p2">Important</span></label></li>
+          <li><label><input type="checkbox" data-todo="ex21"><span><b>Poly ex. 21</b> (TD8) — CVS / CVA / CVU / CVN de 4 séries<small>Méthodes C1 à C3.</small></span><span class="badge p2">Important</span></label></li>
+          <li><label><input type="checkbox" data-todo="ex24"><span><b>Poly ex. 24</b> (TD10) — continuité et $C^1$ de $\sum\frac1{1+x^n}$<small>Méthodes C8, C9.</small></span><span class="badge p2">Important</span></label></li>
+          <li><label><input type="checkbox" data-todo="cc2-22"><span><b>CC2 2022 en entier</b> (45 min chrono)<small>Définitions + série alternée.</small></span><span class="badge p2">Important</span></label></li>
+          <li><label><input type="checkbox" data-todo="num"><span><b>Séries numériques</b> : poly ex. 2 et 4, CC 2024 ex. 1<small>Réflexes D'Alembert, Cauchy, équivalents, DL.</small></span><span class="badge p3">Si tu as le temps</span></label></li>
+          <li><label><input type="checkbox" data-todo="blanc"><span><b>Le sujet blanc ci-dessous</b>, en 45 min, puis le corrigé<small>En conditions réelles, sans regarder la méthodo. À ne pas sauter.</small></span><span class="badge final">Répétition finale</span></label></li>
+        </ul>
+      </article>
+
+      <article class="notion" id="sujet-blanc">
+        <h3>Sujet blanc · CC2 de Séries <span class="tag-mini">45 min</span></h3>
+        <p>Conditions réelles : sans documents ni calculatrice, rédaction complète. Lance le chrono, compose sur papier, puis passe au corrigé.</p>
+        <div class="timer">
+          <span class="timer-val" id="timerVal" aria-live="off">45:00</span>
+          <button type="button" class="btn btn-primary" id="timerBtn">Démarrer</button>
+          <button type="button" class="btn btn-ghost" id="timerReset">Réinitialiser</button>
+        </div>
+        <div class="paper">
+          <div class="paper-head"><b>Contrôle continu 2 — Séries</b><span>Sujet blanc · Durée : 45 min · Documents et calculatrices non autorisés</span></div>
+
+          <div class="ex-head">Exercice 1 <span class="pts">~ 5 points</span></div>
+          <p>Pour tout $n\in\mathbb N^*$ et tout $x\in\mathbb R_+$, on pose $f_n(x)=nx\,e^{-nx}$.</p>
+          <ol>
+            <li>Étudier la convergence simple de la suite de fonctions $(f_n)$ sur $\mathbb R_+$.</li>
+            <li>La suite $(f_n)$ converge-t-elle uniformément sur $\mathbb R_+$ ?</li>
+            <li>Soit $a&gt;0$. Étudier la convergence uniforme de $(f_n)$ sur $[a;+\infty[$.</li>
+            <li>Les $f_n$ et leur limite sont continues sur $\mathbb R_+$. La question 2 contredit-elle le théorème de continuité ?</li>
+          </ol>
+
+          <div class="ex-head">Exercice 2 <span class="pts">~ 4 points</span></div>
+          <p>Calculer, en apportant les justifications nécessaires, $\displaystyle\lim_{n\to+\infty}\int_0^1 n\ln\!\Big(1+\frac{x}{n}\Big)\,dx.$</p>
+
+          <div class="ex-head">Exercice 3 <span class="pts">~ 8 points</span></div>
+          <p>Pour tout $n\in\mathbb N^*$ et tout $x\in\mathbb R_+$, on pose $f_n(x)=x\,e^{-nx}$.</p>
+          <ol>
+            <li>Montrer que la série de fonctions $\sum_{n\ge1}f_n$ converge simplement sur $\mathbb R_+$ et calculer sa somme $S(x)$.</li>
+            <li>La fonction $S$ est-elle continue en $0$ ? En déduire que la série ne converge pas uniformément sur $\mathbb R_+$.</li>
+            <li>Calculer $\|f_n\|_\infty=\sup_{x\in\mathbb R_+}|f_n(x)|$. La série converge-t-elle normalement sur $\mathbb R_+$ ?</li>
+            <li>Soit $a&gt;0$. Montrer que la série converge normalement sur $[a;+\infty[$.</li>
+            <li>En déduire, <b>sans utiliser</b> l'expression de $S$, que $S$ est continue sur $]0;+\infty[$.</li>
+          </ol>
+
+          <div class="ex-head">Exercice 4 <span class="pts">~ 3 points</span></div>
+          <p>Déterminer la nature des séries de terme général :</p>
+          <p>(a) $\displaystyle u_n=\frac{(2n)!}{(n!)^2\,5^n}$ &nbsp;&nbsp;&nbsp; (b) $\displaystyle v_n=\sqrt n\left(1-\cos\frac1n\right)$, $n\ge1$.</p>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Corrigé détaillé &amp; barème du sujet blanc</h3>
+        <p>Les points en vert indiquent ce qu'un correcteur attend à chaque étape (barème indicatif, calqué sur celui du CC2 2023).</p>
+        <div class="quiz">
+          <details>
+            <summary><span class="qn">EX 1</span>Suite $nxe^{-nx}$ · 5 pts<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <h5>1. Convergence simple</h5>
+              <p>Soit $x\in\mathbb R_+$ fixé. Si $x=0$ : $f_n(0)=0\to0$. <span class="pt">0,5</span></p>
+              <p>Si $x&gt;0$ : $f_n(x)=nx\,e^{-nx}\to0$ par croissances comparées ($ne^{-nx}\to0$ car $x&gt;0$). <span class="pt">0,5</span></p>
+              <p>Donc $(f_n)$ converge simplement sur $\mathbb R_+$ vers la fonction nulle $f=0$. <span class="pt">0,5</span></p>
+              <h5>2. CVU sur $\mathbb R_+$ ?</h5>
+              <p>$g_n=|f_n-f|=f_n\ge0$ est dérivable et $f_n'(x)=ne^{-nx}-n^2xe^{-nx}=n\,e^{-nx}(1-nx)$. <span class="pt">0,5</span></p>
+              <p>$f_n$ croît sur $[0;\frac1n]$ et décroît sur $[\frac1n;+\infty[$, donc $\sup_{\mathbb R_+}|f_n-f|=f_n(\frac1n)=e^{-1}$. <span class="pt">1</span></p>
+              <p>$e^{-1}\not\to0$ : <b>pas de convergence uniforme</b> sur $\mathbb R_+$. <span class="pt">0,5</span></p>
+              <p class="src">(Variante acceptée : $x_n=\frac1n$ donne directement $\sup\ge f_n(\frac1n)=e^{-1}$.)</p>
+              <h5>3. CVU sur $[a;+\infty[$</h5>
+              <p>Pour $n\ge\frac1a$, on a $\frac1n\le a$, donc $f_n$ est décroissante sur $[a;+\infty[$ et $\sup_{x\ge a}|f_n(x)|=f_n(a)=na\,e^{-na}\xrightarrow[n\to+\infty]{}0$. <span class="pt">0,5</span></p>
+              <p>Donc $(f_n)$ converge uniformément vers $0$ sur $[a;+\infty[$. <span class="pt">0,5</span></p>
+              <h5>4. Contradiction ?</h5>
+              <p>Non : le théorème dit « $f_n$ continues + CVU ⇒ $f$ continue ». La réciproque est fausse : une limite continue n'implique pas la CVU. <span class="pt">0,5</span></p>
+            </div>
+          </details>
+
+          <details>
+            <summary><span class="qn">EX 2</span>Limite d'intégrale · 4 pts<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <p>On pose, pour $x\in[0;1]$, $f_n(x)=n\ln(1+\frac xn)$ ; les $f_n$ sont continues sur le segment $[0;1]$. <span class="pt">0,5</span></p>
+              <h5>Convergence simple</h5>
+              <p>Soit $x\in[0;1]$ fixé. Si $x=0$, $f_n(0)=0$. Si $x&gt;0$, $\frac xn\to0$ donc $\ln(1+\frac xn)\sim\frac xn$ et $f_n(x)\to x$. Limite simple : $f(x)=x$. <span class="pt">1</span></p>
+              <h5>Convergence uniforme</h5>
+              <p>Comme $\ln(1+u)\le u$, on a $g_n(x)=|f_n(x)-f(x)|=x-n\ln(1+\frac xn)$. Elle est dérivable et</p>
+              $$g_n'(x)=1-\frac{n\cdot\frac1n}{1+\frac xn}=\frac{x/n}{1+x/n}\ge0,$$
+              <p>donc $g_n$ est croissante sur $[0;1]$ et $\sup_{[0;1]}g_n=g_n(1)=1-n\ln\!\big(1+\frac1n\big)$. <span class="pt">1</span></p>
+              <p>Or $n\ln(1+\frac1n)\to1$, donc $\sup g_n\to0$ : CVU sur $[0;1]$. <span class="pt">0,5</span></p>
+              <h5>Conclusion</h5>
+              <p>Les $f_n$ sont continues sur $[0;1]$ et CVU vers $f$, donc d'après le théorème d'intégration (Thm 2.4) :</p>
+              $$\lim_{n\to+\infty}\int_0^1n\ln\!\Big(1+\frac xn\Big)dx=\int_0^1x\,dx=\frac12.$$
+              <p>Conclusion avec le nom du théorème et la valeur. <span class="pt">1</span></p>
+            </div>
+          </details>
+
+          <details>
+            <summary><span class="qn">EX 3</span>Série $\sum xe^{-nx}$ · 8 pts<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <h5>1. CVS et somme (2 pts)</h5>
+              <p>Soit $x\in\mathbb R_+$. Si $x=0$ : $f_n(0)=0$, la série converge et $S(0)=0$. <span class="pt">0,5</span></p>
+              <p>Si $x&gt;0$ : $f_n(x)=x\,(e^{-x})^n$, série géométrique de raison $e^{-x}\in\,]0;1[$, donc convergente. <span class="pt">0,5</span></p>
+              $$S(x)=\sum_{n=1}^{+\infty}x\,(e^{-x})^n=x\cdot\frac{e^{-x}}{1-e^{-x}}=\frac{x}{e^x-1}.$$
+              <p>Calcul de la somme. <span class="pt">1</span></p>
+              <h5>2. Continuité en 0 et non-CVU (1,5 pt)</h5>
+              <p>$e^x-1\underset{x\to0}{\sim}x$, donc $\lim_{x\to0^+}S(x)=1\ne0=S(0)$ : $S$ n'est pas continue en $0$. <span class="pt">0,5</span></p>
+              <p>Les $f_n$ sont continues sur $\mathbb R_+$. Si la série convergeait uniformément sur $\mathbb R_+$, $S$ serait continue (Thm 3.3) : contradiction. <b>Pas de CVU sur $\mathbb R_+$</b>. <span class="pt">1</span></p>
+              <h5>3. Norme infinie et CVN (2 pts)</h5>
+              <p>$f_n\ge0$, $f_n'(x)=e^{-nx}(1-nx)$ : $f_n$ croît sur $[0;\frac1n]$ puis décroît. Donc $\|f_n\|_\infty=f_n(\frac1n)=\frac1{ne}$. <span class="pt">1</span></p>
+              <p>$\sum\frac1{ne}$ diverge (série harmonique) : <b>pas de CVN sur $\mathbb R_+$</b>. <span class="pt">1</span></p>
+              <p class="src">Raccourci accepté : CVN ⇒ CVU, ce qui contredirait la question 2.</p>
+              <h5>4. CVN sur $[a;+\infty[$ (1,5 pt)</h5>
+              <p>Pour $n\ge\frac1a$, $\frac1n\le a$ donc $f_n$ décroît sur $[a;+\infty[$ et $\sup_{x\ge a}|f_n(x)|=f_n(a)=a\,e^{-na}$. <span class="pt">0,5</span></p>
+              <p>$\sum a\,(e^{-a})^n$ est géométrique de raison $e^{-a}&lt;1$, donc converge (les premiers termes ne changent pas la nature). <b>CVN sur $[a;+\infty[$</b>. <span class="pt">1</span></p>
+              <h5>5. Continuité sur $]0;+\infty[$ (1 pt)</h5>
+              <p>CVN ⇒ CVU sur $[a;+\infty[$ ; les $f_n$ sont continues, donc $S$ est continue sur $[a;+\infty[$ (Thm 3.3). <span class="pt">0,5</span></p>
+              <p>Tout $x_0&gt;0$ appartient à $[\frac{x_0}{2};+\infty[$ : ceci étant vrai pour tout $a&gt;0$, $S$ est continue sur $]0;+\infty[$. <span class="pt">0,5</span></p>
+            </div>
+          </details>
+
+          <details>
+            <summary><span class="qn">EX 4</span>Séries numériques · 3 pts<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <h5>(a) D'Alembert (1,5 pt)</h5>
+              <p>$u_n&gt;0$ et</p>
+              $$\begin{gathered}\frac{u_{n+1}}{u_n}=\frac{(2n+2)!}{\big((n+1)!\big)^2\,5^{n+1}}\cdot\frac{(n!)^2\,5^n}{(2n)!}\\ =\frac{(2n+2)(2n+1)}{5(n+1)^2}=\frac{2(2n+1)}{5(n+1)}\xrightarrow[n\to+\infty]{}\frac45&lt;1.\end{gathered}$$
+              <p>Par le critère de D'Alembert, $\sum u_n$ <b>converge</b>. <span class="pt">1,5</span></p>
+              <h5>(b) Équivalent (1,5 pt)</h5>
+              <p>$v_n\ge0$ car $\cos\le1$. Comme $\frac1n\to0$, $1-\cos\frac1n\sim\frac{1}{2n^2}$, donc $v_n\sim\frac{\sqrt n}{2n^2}=\frac{1}{2n^{3/2}}$. <span class="pt">1</span></p>
+              <p>Par le critère d'équivalence et Riemann ($\frac32&gt;1$), $\sum v_n$ <b>converge</b>. <span class="pt">0,5</span></p>
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Exercices d'entraînement supplémentaires</h3>
+        <p>Courts, ciblés sur un réflexe chacun. Cherche 5 à 10 min avant d'ouvrir la correction.</p>
+        <div class="quiz">
+          <details>
+            <summary><span class="qn">E1</span>$f_n(x)=x^n(1-x)$ sur $[0;1]$ : la suite CVU, mais la série ?<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <p><b>Suite.</b> CVS vers $0$ ($x^n\to0$ si $x&lt;1$, et $f_n(1)=0$). $f_n'(x)=x^{n-1}\big(n-(n+1)x\big)$ : max en $\frac{n}{n+1}$, d'où</p>
+              $$\begin{gathered}\|f_n\|_\infty=\Big(\frac{n}{n+1}\Big)^n\frac1{n+1}\le\frac1{n+1}\to0\\ \Rightarrow\ \text{CVU sur }[0;1].\end{gathered}$$
+              <p><b>Série.</b> Pour $x\in[0;1[$ : $\sum_{n\ge0}x^n(1-x)=(1-x)\cdot\frac1{1-x}=1$ ; pour $x=1$ : $0$. Somme discontinue en $1$, $f_n$ continues : <b>pas de CVU</b> de la série sur $[0;1]$ (Thm 3.3).</p>
+              <p>Cohérent : $\|f_n\|_\infty\sim\frac{1}{en}$ (car $(\frac{n}{n+1})^n\to e^{-1}$), donc pas de CVN. Sur $[0;a]$ avec $a&lt;1$ : $\|f_n\|_\infty\le a^n$, CVN.</p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="qn">E2</span>$\sum_{n\ge1}\frac{(-1)^n}{n+x^2}$ sur $\mathbb R$ : CVU sans CVN<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <p><b>CVS.</b> À $x$ fixé, $a_n=\frac1{n+x^2}$ est positive, décroissante, de limite 0 : la série alternée converge.</p>
+              <p><b>Pas de CVA</b> (donc pas de CVN) : $\frac1{n+x^2}\sim\frac1n$, série harmonique divergente.</p>
+              <p><b>CVU.</b> Majoration du reste d'une série alternée : $|R_n(x)|\le a_{n+1}=\frac{1}{n+1+x^2}\le\frac1{n+1}$. Donc $\sup_{x\in\mathbb R}|R_n(x)|\le\frac1{n+1}\to0$ : CVU sur $\mathbb R$ (Thm 3.1), et la somme est continue sur $\mathbb R$.</p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="qn">E3</span>$S(x)=\sum_{n\ge1}\frac{\sin(nx)}{n^3}$ est-elle $C^1$ sur $\mathbb R$ ?<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <p>$\left|\frac{\sin(nx)}{n^3}\right|\le\frac1{n^3}$ : CVN donc CVS sur $\mathbb R$.</p>
+              <p>$f_n'(x)=\frac{\cos(nx)}{n^2}$ et $|f_n'(x)|\le\frac1{n^2}$ : $\sum f_n'$ CVN donc CVU sur $\mathbb R$. Les $f_n$ sont $C^1$, donc par le Thm 3.4, $S$ est $C^1$ sur $\mathbb R$ et $S'(x)=\sum_{n\ge1}\frac{\cos(nx)}{n^2}$.</p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="qn">E4</span>$f_n(x)=\frac{nx}{1+n^2x^2}$ : CVU sur $\mathbb R$ ? sur $[a;+\infty[$ ?<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <p><b>CVS</b> vers $0$ : $f_n(0)=0$ et pour $x\ne0$, $f_n(x)\sim\frac{nx}{n^2x^2}=\frac{1}{nx}\to0$.</p>
+              <p><b>Sur $\mathbb R$</b> : $x_n=\frac1n$ donne $f_n(x_n)=\frac12$, donc $\|f_n\|_\infty\ge\frac12$ : pas de CVU.</p>
+              <p><b>Sur $[a;+\infty[$</b>, $a&gt;0$ : $0\le f_n(x)\le\frac{nx}{n^2x^2}=\frac1{nx}\le\frac{1}{na}\to0$ : CVU.</p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="qn">E5</span>Nature de $\sum\ln\!\big(1+\frac{(-1)^n}{n}\big)$, $n\ge2$<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <p>DL : $u_n=\frac{(-1)^n}{n}-\frac{1}{2n^2}+o\big(\frac1{n^2}\big)$.</p>
+              <p>$\sum\frac{(-1)^n}{n}$ converge (série alternée). $w_n=u_n-\frac{(-1)^n}{n}\sim-\frac{1}{2n^2}$ : signe constant, $\sum w_n$ converge (Riemann). CV + CV : $\sum u_n$ <b>converge</b>.</p>
+              <p class="src">Compare avec la méthode A8 : avec $\frac{(-1)^n}{\sqrt n}$ le terme correctif est en $\frac1n$ et la série diverge.</p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="qn">E6</span>$f_n(x)=e^{-nx}\sin(nx)$ sur $\mathbb R_+$ (poly ex. 13)<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <p><b>CVS</b> vers $0$ : $f_n(0)=0$ et pour $x&gt;0$, $|f_n(x)|\le e^{-nx}\to0$.</p>
+              <p><b>Pas de CVU sur $\mathbb R_+$</b> : avec $x_n=\frac{\pi}{2n}$, $f_n(x_n)=e^{-\pi/2}\sin\frac\pi2=e^{-\pi/2}\not\to0$.</p>
+              <p><b>CVU sur $[a;+\infty[$</b> : $|f_n(x)|\le e^{-nx}\le e^{-na}\to0$.</p>
+            </div>
+          </details>
+        </div>
+      </article>
+    </section>
+
+
+    <section class="endcard">
+      <h3>Tout est lu. Prêt pour le CC2 ?</h3>
+      <p>La veille : relis le tableau comparatif (1.7), les pièges de rédaction, et refais le sujet blanc en 45 min chrono.</p>
+      <div class="hero-actions">
+        <a class="btn btn-ghost" href="#p1b">Revoir le comparatif</a>
+        <a class="btn btn-primary" href="../../../index.html">Retour aux cours</a>
+      </div>
+    </section>
+    <p class="foot">Last Minute Learning · Contenu pédagogique indicatif, assisté par IA · Vérifie toujours avec tes supports de cours</p>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+<script>
+(() => {
+  const STORAGE_KEY = 'maths_series_progress_v1';
+  const TODO_KEY = 'maths_series_todo_v1';
+  const THEME_KEY = 'maths_series_theme';
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── 0. Thème clair / sombre ── */
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeBtn');
+  const metaTheme = document.querySelector('meta[name="theme-color"]');
+  const lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+  function savedTheme() {
+    try { const t = localStorage.getItem(THEME_KEY); return t === 'light' || t === 'dark' ? t : null; } catch (e) { return null; }
+  }
+  function applyTheme(t) {
+    root.setAttribute('data-theme', t);
+    if (metaTheme) metaTheme.setAttribute('content', t === 'light' ? '#f4f5fa' : '#04060d');
+    if (themeBtn) themeBtn.setAttribute('aria-label', t === 'light' ? 'Passer au thème sombre' : 'Passer au thème clair');
+  }
+  applyTheme(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+  themeBtn?.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    if (!prefersReduced) {
+      root.classList.add('theme-anim');
+      setTimeout(() => root.classList.remove('theme-anim'), 450);
+    }
+    applyTheme(next);
+    try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+  });
+  lightQuery.addEventListener?.('change', e => { if (!savedTheme()) applyTheme(e.matches ? 'light' : 'dark'); });
+
+  const ICON_OK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+
+  /* ── 1. Rendu des formules (KaTeX) ── */
+  if (typeof window.renderMathInElement === 'function') {
+    try {
+      window.renderMathInElement(document.getElementById('contenu'), {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false }
+        ],
+        throwOnError: false
+      });
+    } catch (e) {}
+  }
+
+  /* ── 2. Numérotation des notions (ancres n2-3, badge 2.3) ── */
+  const chapters = [...document.querySelectorAll('.chapter')];
+  chapters.forEach((ch, ci) => {
+    const num = ch.dataset.num != null ? ch.dataset.num : String(ci);
+    ch.querySelectorAll('.notion').forEach((n, ni) => {
+      const id = n.dataset.code ? `n${num}-${n.dataset.code}` : `n${num}-${ni + 1}`;
+      if (!n.id) n.id = id;
+      const h3 = n.querySelector('h3');
+      if (h3) {
+        const text = document.createElement('span');
+        text.className = 'h3-text';
+        [...h3.childNodes].forEach(node => {
+          if (!(node.nodeType === 1 && node.classList.contains('tag-mini'))) text.appendChild(node);
+        });
+        h3.prepend(text);
+        const a = document.createElement('a');
+        a.className = 'notion-id';
+        a.href = '#' + n.id;
+        a.textContent = n.dataset.code ? `${num}.${n.dataset.code}` : `${num}.${ni + 1}`;
+        a.title = 'Lien direct vers cette notion';
+        h3.prepend(a);
+      }
+    });
+  });
+
+  /* ── 3. Apparition au défilement ── */
+  const notions = [...document.querySelectorAll('.notion')];
+  if ('IntersectionObserver' in window && !prefersReduced) {
+    document.documentElement.classList.add('js-anim');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.02 });
+    notions.forEach(n => io.observe(n));
+  } else {
+    notions.forEach(n => n.classList.add('is-visible'));
+  }
+
+  /* ── 4. Sommaire actif + barre de lecture ── */
+  const tocLinks = [...document.querySelectorAll('.toc a')];
+  const anchors = [...document.querySelectorAll('.chapter, .part-head')];
+  const readProgress = document.getElementById('readProgress');
+  const toc = document.getElementById('toc');
+  let ticking = false;
+  let lastActive = null;
+
+  function onScroll() {
+    ticking = false;
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - window.innerHeight;
+    const ratio = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    if (readProgress) readProgress.style.transform = `scaleX(${ratio})`;
+
+    const probe = window.innerHeight * 0.3;
+    let chapter = null, part = null;
+    anchors.forEach(el => {
+      if (el.classList.contains('is-filtered-out')) return;
+      if (el.getBoundingClientRect().top - probe <= 0) {
+        if (el.classList.contains('chapter')) { chapter = el.id; part = null; }
+        else part = el.id;
+      }
+    });
+    const key = chapter + '|' + part;
+    if (key !== lastActive) {
+      lastActive = key;
+      tocLinks.forEach(a => {
+        const href = a.getAttribute('href').slice(1);
+        const on = href === chapter || href === part;
+        a.classList.toggle('is-active', on);
+        if (on && toc && toc.scrollWidth > toc.clientWidth && (href === part || !part)) {
+          const left = a.offsetLeft - toc.clientWidth / 2 + a.offsetWidth / 2;
+          toc.scrollTo({ left, behavior: prefersReduced ? 'auto' : 'smooth' });
+        }
+      });
+    }
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+  }, { passive: true });
+  window.addEventListener('resize', onScroll);
+
+  /* ── 5. Chapitres maîtrisés (LocalStorage, purgeable depuis le hub) ── */
+  let mastered = new Set();
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    if (Array.isArray(saved)) mastered = new Set(saved);
+  } catch (e) {}
+  const ring = document.getElementById('masteryRing');
+  const countEl = document.getElementById('masteryCount');
+  const CIRC = 2 * Math.PI * 10;
+  function renderMastery() {
+    const total = chapters.length;
+    const done = chapters.filter(ch => mastered.has(ch.id)).length;
+    if (countEl) countEl.textContent = `${done}/${total}`;
+    if (ring) ring.style.strokeDashoffset = String(CIRC * (1 - (total ? done / total : 0)));
+    document.querySelectorAll('.master-btn').forEach(btn => {
+      const on = mastered.has(btn.dataset.master);
+      btn.classList.toggle('is-done', on);
+      btn.setAttribute('aria-pressed', String(on));
+      const lbl = btn.querySelector('.lbl');
+      if (lbl) lbl.textContent = on ? 'Chapitre maîtrisé' : 'Marquer comme maîtrisé';
+    });
+    tocLinks.forEach(a => a.classList.toggle('is-done', mastered.has(a.getAttribute('href').slice(1))));
+  }
+  chapters.forEach(ch => {
+    const head = ch.querySelector('.chapter-head');
+    if (!head) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'master-btn';
+    btn.dataset.master = ch.id;
+    btn.innerHTML = `<span class="box" aria-hidden="true">${ICON_OK}</span><span class="lbl">Marquer comme maîtrisé</span>`;
+    btn.addEventListener('click', () => {
+      if (mastered.has(ch.id)) mastered.delete(ch.id); else mastered.add(ch.id);
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...mastered])); } catch (e) {}
+      renderMastery();
+    });
+    head.appendChild(btn);
+  });
+  renderMastery();
+
+  /* ── 6. Checklist de révision (LocalStorage) ── */
+  const todoBoxes = [...document.querySelectorAll('.todo input[data-todo]')];
+  const todoCount = document.getElementById('todoCount');
+  let todoDone = new Set();
+  try {
+    const saved = JSON.parse(localStorage.getItem(TODO_KEY) || '[]');
+    if (Array.isArray(saved)) todoDone = new Set(saved);
+  } catch (e) {}
+  function renderTodo() {
+    todoBoxes.forEach(b => { b.checked = todoDone.has(b.dataset.todo); });
+    if (todoCount) todoCount.textContent = `${todoBoxes.filter(b => b.checked).length}/${todoBoxes.length} fait${todoBoxes.length > 1 ? 's' : ''}`;
+  }
+  todoBoxes.forEach(b => b.addEventListener('change', () => {
+    if (b.checked) todoDone.add(b.dataset.todo); else todoDone.delete(b.dataset.todo);
+    try { localStorage.setItem(TODO_KEY, JSON.stringify([...todoDone])); } catch (e) {}
+    renderTodo();
+  }));
+  renderTodo();
+
+  /* ── 7. Chrono du sujet blanc ── */
+  const timerVal = document.getElementById('timerVal');
+  const timerBtn = document.getElementById('timerBtn');
+  const timerReset = document.getElementById('timerReset');
+  const DURATION = 45 * 60;
+  let remaining = DURATION, timerId = null;
+  function renderTimer() {
+    if (!timerVal) return;
+    const m = Math.floor(remaining / 60), s = remaining % 60;
+    timerVal.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    timerVal.classList.toggle('is-low', remaining <= 300);
+  }
+  function stopTimer() { clearInterval(timerId); timerId = null; if (timerBtn) timerBtn.textContent = remaining > 0 ? 'Reprendre' : 'Terminé'; }
+  timerBtn?.addEventListener('click', () => {
+    if (timerId) { stopTimer(); return; }
+    if (remaining <= 0) return;
+    timerBtn.textContent = 'Pause';
+    timerId = setInterval(() => {
+      remaining--;
+      renderTimer();
+      if (remaining <= 0) stopTimer();
+    }, 1000);
+  });
+  timerReset?.addEventListener('click', () => {
+    clearInterval(timerId); timerId = null;
+    remaining = DURATION; renderTimer();
+    if (timerBtn) timerBtn.textContent = 'Démarrer';
+  });
+  renderTimer();
+
+  /* ── 8. Recherche (insensible aux accents et à la casse) ── */
+  const search = document.getElementById('search');
+  const status = document.getElementById('searchStatus');
+  const noResult = document.getElementById('noResult');
+  const partHeads = [...document.querySelectorAll('.part-head')];
+  const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const index = notions.map(n => ({ el: n, text: norm(n.textContent) }));
+  function runSearch() {
+    const words = norm(search.value.trim()).split(/\s+/).filter(Boolean);
+    let shown = 0;
+    index.forEach(({ el, text }) => {
+      const match = !words.length || words.every(w => text.includes(w));
+      el.classList.toggle('is-filtered-out', !match);
+      if (match) { shown++; el.classList.add('is-visible'); }
+    });
+    chapters.forEach(ch => {
+      const any = ch.querySelector('.notion:not(.is-filtered-out)');
+      ch.classList.toggle('is-filtered-out', !!words.length && !any);
+    });
+    partHeads.forEach(p => p.classList.toggle('is-filtered-out', !!words.length));
+    if (status) status.textContent = words.length ? `${shown} notion${shown > 1 ? 's' : ''} trouvée${shown > 1 ? 's' : ''}` : '';
+    if (noResult) noResult.classList.toggle('is-shown', !!words.length && shown === 0);
+    onScroll();
+  }
+  search?.addEventListener('input', runSearch);
+  search?.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { search.value = ''; runSearch(); search.blur(); }
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && document.activeElement !== search && !/input|textarea/i.test(document.activeElement?.tagName || '')) {
+      e.preventDefault();
+      search?.focus();
+      search?.scrollIntoView({ block: 'center', behavior: prefersReduced ? 'auto' : 'smooth' });
+    }
+  });
+
+  /* ── Mobile : menu hamburger ── */
+  const menuBtn = document.getElementById('menuBtn');
+  const menuBackdrop = document.getElementById('menuBackdrop');
+  function setMenu(open) {
+    root.classList.toggle('menu-open', open);
+    if (menuBtn) {
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.setAttribute('aria-label', open ? 'Fermer le sommaire' : 'Ouvrir le sommaire');
+    }
+  }
+  menuBtn?.addEventListener('click', () => setMenu(!root.classList.contains('menu-open')));
+  menuBackdrop?.addEventListener('click', () => setMenu(false));
+  document.getElementById('toc')?.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a || !root.classList.contains('menu-open')) return;
+    // Le défilement est bloqué tant que le menu est ouvert : on ferme d'abord, puis on va à l'ancre
+    e.preventDefault();
+    setMenu(false);
+    const target = document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+    requestAnimationFrame(() => {
+      if (target) target.scrollIntoView({ block: 'start', behavior: prefersReduced ? 'auto' : 'smooth' });
+      history.replaceState(null, '', a.getAttribute('href'));
+    });
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && root.classList.contains('menu-open')) setMenu(false); });
+  window.matchMedia('(min-width: 1025px)').addEventListener?.('change', e => { if (e.matches) setMenu(false); });
+
+  /* ── Mobile : tableaux larges affichés en cartes (étiquette de colonne dans chaque case) ── */
+  document.querySelectorAll('.table-wrap > table').forEach(table => {
+    const ths = [...table.querySelectorAll('thead th')];
+    if (ths.length < 3) return;
+    table.classList.add('stack');
+    table.parentElement.classList.add('stack-wrap');
+    table.querySelectorAll('tbody tr').forEach(tr => {
+      [...tr.children].forEach((td, i) => {
+        const th = ths[i];
+        if (!th || !th.textContent.trim()) return;
+        const lbl = document.createElement('span');
+        lbl.className = 'td-label';
+        lbl.innerHTML = th.innerHTML;
+        td.prepend(lbl);
+      });
+    });
+  });
+
+  /* ── Schémas : réduits à l'échelle au lieu de se réorganiser ── */
+  const FIT = { '.impl': 0 };
+  const fitTargets = [];
+  Object.entries(FIT).forEach(([sel, w]) => document.querySelectorAll(sel).forEach(el => fitTargets.push([el, w])));
+  function fitDiagrams() {
+    fitTargets.forEach(([el, w]) => {
+      el.style.zoom = ''; el.style.width = '';
+      const parent = el.parentElement;
+      const cs = getComputedStyle(parent);
+      const avail = parent.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      el.style.width = w ? w + 'px' : 'max-content';
+      const need = el.offsetWidth;
+      if (!avail || need <= avail) { el.style.width = ''; return; }
+      el.style.zoom = String(Math.floor(avail / need * 1000) / 1000);
+    });
+  }
+  /* Formules en bloc : réduites pour tenir dans la largeur (pas de défilement horizontal) */
+  function fitMath() {
+    document.querySelectorAll('.katex-display > .katex').forEach(k => {
+      k.style.zoom = '';
+      const avail = k.parentElement.clientWidth - 2;
+      const need = k.scrollWidth;
+      if (need > avail && avail > 0) k.style.zoom = String(Math.floor(avail / need * 1000) / 1000);
+    });
+  }
+  function fitAll() { fitDiagrams(); fitMath(); }
+  let fitRaf = 0;
+  window.addEventListener('resize', () => { cancelAnimationFrame(fitRaf); fitRaf = requestAnimationFrame(fitAll); });
+  document.fonts?.ready?.then(fitAll);
+  document.querySelectorAll('details').forEach(d => d.addEventListener('toggle', () => { if (d.open) fitAll(); }));
+  fitAll();
+
+  /* ── 9. Ancre initiale (les id des notions sont créés par le script) ── */
+  if (location.hash) {
+    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (target) {
+      target.classList.add('is-visible');
+      setTimeout(() => target.scrollIntoView({ block: 'start' }), 60);
+    }
+  }
+  onScroll();
+})();
+</script>
+</body>
+</html>

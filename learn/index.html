@@ -43,6 +43,11 @@
 html {
   color-scheme: dark;
   background-color: #04060d;
+  /* Réserve la place de la barre de défilement : pas de décalage quand une catégorie s'ouvre */
+  scrollbar-gutter: stable;
+}
+@supports not (scrollbar-gutter: stable) {
+  html { overflow-y: scroll; }
 }
 
 body {
@@ -217,50 +222,310 @@ body {
   transform: translate(1px, -1px);
 }
 
-/* ---- Catégories & En-têtes ---- */
+/* ---- Sélecteur d'année scolaire ---- */
+.year-switch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  max-width: 380px;
+  margin: -8px auto 40px;
+  padding: 16px 10px 12px;
+  border-radius: 24px;
+  background: linear-gradient(165deg, rgba(255, 255, 255, .065), rgba(255, 255, 255, .02) 65%);
+  border: 1px solid rgba(255, 255, 255, .09);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 18px 40px -24px rgba(2, 6, 16, .95);
+}
+.year-switch:focus-within { border-color: rgba(251, 146, 60, .28); }
+
+.year-badge {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+}
+.year-badge-now,
+.year-badge-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-family: var(--font);
+  font-size: .64rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  line-height: 1.5;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+.year-badge-now {
+  color: #a7f3d0;
+  background: rgba(6, 30, 24, .85);
+  border: 1px solid rgba(52, 211, 153, .4);
+}
+.year-badge-now i {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #34d399;
+  box-shadow: 0 0 8px #34d399;
+  animation: pulse 2.4s ease-in-out infinite;
+}
+.year-badge-back {
+  color: #fed7aa;
+  background: rgba(40, 18, 6, .88);
+  border: 1px solid rgba(251, 146, 60, .45);
+  cursor: pointer;
+  transition: background .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+.year-badge-back:hover,
+.year-badge-back:focus-visible {
+  outline: none;
+  background: rgba(70, 30, 8, .95);
+  box-shadow: 0 0 16px -4px rgba(251, 146, 60, .6);
+}
+
+.year-nav {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  color: rgba(203, 213, 236, .8);
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .09);
+  cursor: pointer;
+  transition: color .2s ease, background .2s ease, border-color .2s ease, box-shadow .2s ease, transform .25s cubic-bezier(.34, 1.56, .64, 1), opacity .2s ease;
+}
+.year-nav svg { width: 18px; height: 18px; display: block; }
+.year-nav:hover:not(:disabled),
+.year-nav:focus-visible {
+  outline: none;
+  color: #fdba74;
+  background: rgba(251, 146, 60, .1);
+  border-color: rgba(251, 146, 60, .45);
+  box-shadow: 0 0 18px -4px rgba(251, 146, 60, .5);
+}
+#yearPrev:hover:not(:disabled) { transform: translateX(-2px); }
+#yearNext:hover:not(:disabled) { transform: translateX(2px); }
+.year-nav:active:not(:disabled) { transform: scale(.94); }
+.year-nav:disabled { opacity: .28; cursor: default; }
+
+.year-center {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+}
+.year-kicker {
+  font-size: .6rem;
+  font-weight: 600;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: rgba(165, 180, 215, .6);
+}
+.year-value-wrap { overflow: hidden; padding: 0 4px; }
+.year-value {
+  display: inline-block;
+  font-size: 1.36rem;
+  font-weight: 700;
+  letter-spacing: -.01em;
+  font-variant-numeric: tabular-nums;
+  color: #f4f7ff;
+  line-height: 1.25;
+}
+.year-value.from-right { animation: yearFromRight .42s cubic-bezier(.22, .61, .36, 1); }
+.year-value.from-left { animation: yearFromLeft .42s cubic-bezier(.22, .61, .36, 1); }
+
+.year-pips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 14px;
+}
+.year-pip {
+  position: relative;
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, .18);
+  cursor: pointer;
+  transition: width .35s cubic-bezier(.22, .61, .36, 1), background .3s ease, box-shadow .3s ease;
+}
+.year-pip::after { content: ""; position: absolute; inset: -6px -3px; }
+.year-pip:hover { background: rgba(253, 186, 116, .6); }
+.year-pip.is-active {
+  width: 22px;
+  background: linear-gradient(90deg, #fb923c, #ea580c);
+  box-shadow: 0 0 10px rgba(234, 88, 12, .7);
+}
+.year-pip:focus-visible { outline: 2px solid #fb923c; outline-offset: 3px; }
+
+/* ---- Catégories A1 → A5 (repliables) ---- */
+.groups {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 40px;
+  transition: opacity .18s ease, transform .18s ease;
+}
+.groups.is-leaving { opacity: 0; transform: translateY(6px); }
+.groups.is-entering .group { animation: rise .5s cubic-bezier(.22, .61, .36, 1) backwards; }
+.groups.is-entering .group:nth-child(2) { animation-delay: .04s; }
+.groups.is-entering .group:nth-child(3) { animation-delay: .08s; }
+.groups.is-entering .group:nth-child(4) { animation-delay: .12s; }
+.groups.is-entering .group:nth-child(5) { animation-delay: .16s; }
+
 .group {
   width: 100%;
-  margin-bottom: 36px;
+  padding: 0 16px;
+  border-radius: 22px;
+  background: linear-gradient(165deg, rgba(255, 255, 255, .035), rgba(255, 255, 255, .008) 70%);
+  border: 1px solid rgba(255, 255, 255, .06);
+  transition: border-color .35s ease, background .35s ease, box-shadow .35s ease;
 }
+.group.is-open {
+  border-color: rgba(255, 255, 255, .1);
+  background: linear-gradient(165deg, rgba(255, 255, 255, .05), rgba(255, 255, 255, .012) 70%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 22px 44px -30px rgba(2, 6, 16, .95);
+}
+.group.is-empty { background: rgba(255, 255, 255, .012); border-style: dashed; border-color: rgba(255, 255, 255, .07); }
 
 .group-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  margin: 0 4px 16px;
+  gap: 10px;
+  min-height: 62px;
 }
-
-.group-header .group-label {
-  margin: 0;
+.group-title {
   flex: 1;
+  min-width: 0;
+  margin: 0;
+  font: inherit;
 }
-
-.group-label {
+.group-toggle {
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: 10px;
-  margin: 0 4px 16px;
-  font-size: .72rem;
-  font-weight: 600;
-  letter-spacing: .28em;
+  gap: 12px;
+  padding: 14px 2px;
+  font-family: var(--font);
+  color: inherit;
+  text-align: left;
+  background: none;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.group-toggle:disabled { cursor: default; }
+.group-toggle:focus-visible { outline: 2px solid rgba(251, 146, 60, .7); outline-offset: 2px; }
+
+.group-chevron {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  display: grid;
+  place-items: center;
+  color: rgba(203, 213, 236, .75);
+  background: rgba(255, 255, 255, .04);
+  border: 1px solid rgba(255, 255, 255, .09);
+  transition: transform .45s cubic-bezier(.34, 1.56, .64, 1), color .25s ease, background .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+.group-chevron svg { width: 14px; height: 14px; display: block; }
+.group-toggle:not(:disabled):hover .group-chevron {
+  color: #fdba74;
+  border-color: rgba(251, 146, 60, .4);
+  box-shadow: 0 0 14px -4px rgba(251, 146, 60, .55);
+}
+.group.is-open .group-chevron {
+  transform: rotate(90deg);
+  color: #fdba74;
+  background: rgba(251, 146, 60, .12);
+  border-color: rgba(251, 146, 60, .45);
+}
+.group.is-empty .group-chevron { opacity: .35; }
+
+.group-name {
+  font-size: .95rem;
+  font-weight: 700;
+  letter-spacing: .2em;
   text-transform: uppercase;
-  color: rgba(165, 180, 215, .72);
+  color: #e9eeff;
 }
-.group-label::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 2px;
-  background: #ea580c;
-  box-shadow: 0 0 12px rgba(234, 88, 12, .9);
+.group.is-empty .group-name { color: rgba(203, 213, 236, .5); }
+
+.group-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+  padding: 3px 10px 3px 8px;
+  border-radius: 999px;
+  font-size: .7rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  color: #fed7aa;
+  background: rgba(251, 146, 60, .12);
+  border: 1px solid rgba(251, 146, 60, .36);
+  box-shadow: 0 0 16px -6px rgba(251, 146, 60, .65);
+  font-variant-numeric: tabular-nums;
+  transition: background .25s ease, box-shadow .25s ease;
 }
-.group-label::after {
-  content: "";
+.group-count-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #fb923c;
+  box-shadow: 0 0 8px #fb923c;
+  animation: pulse 2.6s ease-in-out infinite;
+}
+.group.is-open .group-count-dot { animation: none; opacity: .7; }
+.group-toggle:hover .group-count { background: rgba(251, 146, 60, .2); }
+
+.group-empty {
+  flex-shrink: 0;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: .7rem;
+  font-style: italic;
+  color: rgba(148, 166, 200, .62);
+  border: 1px dashed rgba(148, 166, 200, .24);
+}
+
+.group-line {
   flex: 1;
+  min-width: 12px;
   height: 1px;
   background: linear-gradient(90deg, rgba(148, 166, 200, .2), transparent);
 }
+
+.group-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows .5s cubic-bezier(.22, .61, .36, 1);
+}
+.group.is-open .group-body { grid-template-rows: 1fr; }
+.group-body-inner {
+  min-height: 0;
+  overflow: hidden;
+  margin: 0 -16px;
+  padding: 0 16px;
+}
+.group.is-open.is-settled .group-body-inner { overflow: visible; }
+.group-body .cards-grid { padding: 2px 0 18px; }
+.group.is-open .card { animation: cardIn .5s cubic-bezier(.22, .61, .36, 1) backwards; animation-delay: calc(min(var(--i, 0), 8) * 50ms + 60ms); }
+.group.is-settled .card { animation: none; }
+
+.hide-sm { display: inline; }
 
 .group-action-btn {
   display: inline-flex;
@@ -918,6 +1183,9 @@ footer {
 @keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
 @keyframes floaty { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 @keyframes pulse { 0%, 100% { opacity: .45; transform: scale(1); } 50% { opacity: .9; transform: scale(1.12); } }
+@keyframes cardIn { from { opacity: 0; transform: translateY(14px) scale(.98); } to { opacity: 1; transform: none; } }
+@keyframes yearFromRight { from { opacity: 0; transform: translateX(26px); } to { opacity: 1; transform: none; } }
+@keyframes yearFromLeft { from { opacity: 0; transform: translateX(-26px); } to { opacity: 1; transform: none; } }
 /* ══════════ RESPONSIVE & ACCESSIBILITÉ ══════════ */
 @media (max-width: 680px) {
   .container { padding: max(56px, calc(env(safe-area-inset-top, 0px) + 16px)) 18px max(100px, calc(80px + env(safe-area-inset-bottom, 0px))); }
@@ -945,6 +1213,14 @@ footer {
   .card-title { font-size: .95rem; }
   .card-tag { font-size: .65rem; padding: 3px 8px; }
 
+  /* Année + catégories sur mobile */
+  .year-switch { margin-bottom: 32px; }
+  .group { padding: 0 12px; border-radius: 20px; }
+  .group-body-inner { margin: 0 -12px; padding: 0 12px; }
+  .group-header { gap: 8px; min-height: 58px; }
+  .group-toggle { gap: 10px; }
+  .hide-sm { display: none; }
+
   /* Modales sur mobile */
   .modal-overlay {
     height: 100dvh;
@@ -962,6 +1238,8 @@ footer {
 }
 
 @media (max-width: 420px) {
+  .group-line { display: none; }
+  .group-action-btn { padding: 5px 10px; }
   .cards-grid {
     grid-template-columns: 1fr;
     gap: 12px;
@@ -1053,228 +1331,27 @@ footer {
     </a>
   </header>
 
-  <!-- ══════════ A2 2026-2027 ══════════ -->
-  <section class="group" aria-labelledby="cat-a2-label">
-    <div class="group-header">
-      <h2 class="group-label" id="cat-a2-label">A2 2026-2027</h2>
-      <button type="button" class="group-action-btn" id="openPurgeA2" title="Purger le LocalStorage des sous-sites A2" aria-haspopup="dialog">
-        <svg class="action-btn-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-          <line x1="10" y1="11" x2="10" y2="17"/>
-          <line x1="14" y1="11" x2="14" y2="17"/>
-        </svg>
-        <span class="action-btn-text">Purger les données A2</span>
-      </button>
+  <!-- ══════════ Sélecteur d'année scolaire ══════════ -->
+  <nav class="year-switch" id="yearSwitch" aria-label="Choix de l'année scolaire">
+    <span class="year-badge" id="yearBadge"></span>
+    <button type="button" class="year-nav" id="yearPrev" aria-label="Année scolaire précédente">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+    </button>
+    <div class="year-center">
+      <span class="year-kicker">Année scolaire</span>
+      <span class="year-value-wrap"><span class="year-value" id="yearValue" aria-live="polite"></span></span>
+      <div class="year-pips" id="yearPips"></div>
     </div>
+    <button type="button" class="year-nav" id="yearNext" aria-label="Année scolaire suivante">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+    </button>
+  </nav>
 
-    <div class="cards-grid">
-
-      <!-- Gestion de Projet & Économie (Autre) -->
-      <!-- <a class="card card-autre" href="#cat-a2-label" aria-label="Gestion de Projet & Économie, Autre, A2 2026-2027">
-        <span class="sweep" aria-hidden="true"></span>
-        <div class="card-top">
-          <div class="card-icon" title="Autre">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polygon points="12 2 2 7 12 12 22 7 12 2" />
-              <polyline points="2 17 12 22 22 17" />
-              <polyline points="2 12 12 17 22 12" />
-            </svg>
-          </div>
-          <div class="card-arrow" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-          </div>
-        </div>
-        <div class="card-bottom">
-          <h3 class="card-title">Gestion de Projet &amp; Éco</h3>
-          <span class="card-tag">
-            <span class="card-tag-dot" aria-hidden="true"></span>A2 2026-2027
-          </span>
-        </div>
-      </a> -->
-
-            <!-- <a class="card card-maths" href="A1/partiels/quiz-algo.html" aria-label="Analyse & Algèbre, Mathématiques, A1 2025-2026">
-        <span class="sweep" aria-hidden="true"></span>
-        <div class="card-top">
-          <div class="card-icon" title="Mathématiques">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M3 13h2.5l3 7.5 4-15.5H21" />
-              <path d="M15 11l4 5" />
-              <path d="M19 11l-4 5" />
-            </svg>
-          </div>
-          <div class="card-arrow" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-          </div>
-        </div>
-        <div class="card-bottom">
-          <h3 class="card-title">Analyse &amp; Algèbre</h3>
-          <div class="card-tags">
-            <span class="card-tag">
-              <span class="card-tag-dot" aria-hidden="true"></span>S2 Partiels
-            </span>
-            <span class="card-tag card-tag-type is-qcm">
-              <svg class="tag-type-icon" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>QCM
-            </span>
-          </div>
-        </div>
-      </a> -->
-
-    </div>
-  </section>
-
-    <!-- ══════════ A1 2025-2026 ══════════ -->
-  <section class="group" aria-labelledby="cat-a1-label">
-    <div class="group-header">
-      <h2 class="group-label" id="cat-a1-label">A1 2025-2026</h2>
-      <button type="button" class="group-action-btn" id="openPurgeA1" title="Purger le LocalStorage des sous-sites A1" aria-haspopup="dialog">
-        <svg class="action-btn-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-          <line x1="10" y1="11" x2="10" y2="17"/>
-          <line x1="14" y1="11" x2="14" y2="17"/>
-        </svg>
-        <span class="action-btn-text">Purger les données A1</span>
-      </button>
-    </div>
-
-    <div class="cards-grid">
-
-            <a class="card card-info" href="A1/partiels/quiz-algo.html" aria-label="Algo Quiz">
-        <span class="sweep" aria-hidden="true"></span>
-        <div class="card-top">
-          <div class="card-icon" title="Informatique">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="16 18 22 12 16 6" />
-              <polyline points="8 6 2 12 8 18" />
-              <line x1="14" y1="4" x2="10" y2="20" />
-            </svg>
-          </div>
-          <div class="card-arrow" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-          </div>
-        </div>
-        <div class="card-bottom">
-          <h3 class="card-title">Algorithmique</h3>
-          <div class="card-tags">
-            <span class="card-tag">
-              <span class="card-tag-dot" aria-hidden="true"></span>S2 Partiels
-            </span>
-            <span class="card-tag card-tag-type is-qcm">
-              <svg class="tag-type-icon" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>QCM
-            </span>
-          </div>
-        </div>
-      </a>
-
-      <a class="card card-info" href="A1/partiels/cours-algo.html" aria-label="Algo Cours">
-        <span class="sweep" aria-hidden="true"></span>
-        <div class="card-top">
-          <div class="card-icon" title="Informatique">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="16 18 22 12 16 6" />
-              <polyline points="8 6 2 12 8 18" />
-              <line x1="14" y1="4" x2="10" y2="20" />
-            </svg>
-          </div>
-          <div class="card-arrow" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-          </div>
-        </div>
-        <div class="card-bottom">
-          <h3 class="card-title">Algorithmique</h3>
-          <div class="card-tags">
-            <span class="card-tag">
-              <span class="card-tag-dot" aria-hidden="true"></span>S2 Partiels
-            </span>
-            <span class="card-tag card-tag-type is-cours">
-              <svg class="tag-type-icon" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Cours
-            </span>
-          </div>
-        </div>
-      </a>
-
-      <a class="card card-info" href="A1/reseaux-cc2/index.html" aria-label="Réseaux CC2, Informatique, A1 2025-2026">
-        <span class="sweep" aria-hidden="true"></span>
-        <div class="card-top">
-          <div class="card-icon" title="Informatique">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="16 18 22 12 16 6" />
-              <polyline points="8 6 2 12 8 18" />
-              <line x1="14" y1="4" x2="10" y2="20" />
-            </svg>
-          </div>
-          <div class="card-arrow" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-          </div>
-        </div>
-        <div class="card-bottom">
-          <h3 class="card-title">Réseaux</h3>
-          <div class="card-tags">
-            <span class="card-tag">
-              <span class="card-tag-dot" aria-hidden="true"></span>S2 CC2
-            </span>
-            <span class="card-tag card-tag-type is-qcm">
-              <svg class="tag-type-icon" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>QCM
-            </span>
-          </div>
-        </div>
-      </a>
-
-      <a class="card card-physique" href="A1/electronique-cc2/index.html" aria-label="Électronique CC2, Physique, A1 2025-2026">
-        <span class="sweep" aria-hidden="true"></span>
-        <div class="card-top">
-          <div class="card-icon" title="Physique">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="2.5" fill="currentColor" />
-              <ellipse cx="12" cy="12" rx="9" ry="3.8" transform="rotate(45 12 12)" />
-              <ellipse cx="12" cy="12" rx="9" ry="3.8" transform="rotate(-45 12 12)" />
-            </svg>
-          </div>
-          <div class="card-arrow" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-          </div>
-        </div>
-        <div class="card-bottom">
-          <h3 class="card-title">Électronique</h3>
-          <div class="card-tags">
-            <span class="card-tag">
-              <span class="card-tag-dot" aria-hidden="true"></span>S2 CC2
-            </span>
-            <span class="card-tag card-tag-type is-qcm">
-              <svg class="tag-type-icon" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>QCM
-            </span>
-          </div>
-        </div>
-      </a>
-
-      <a class="card card-info" href="A1/linux-cc1/index.html" aria-label="Systèmes & Linux, Informatique, A1 2025-2026">
-        <span class="sweep" aria-hidden="true"></span>
-        <div class="card-top">
-          <div class="card-icon" title="Informatique">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="16 18 22 12 16 6" />
-              <polyline points="8 6 2 12 8 18" />
-              <line x1="14" y1="4" x2="10" y2="20" />
-            </svg>
-          </div>
-          <div class="card-arrow" aria-hidden="true">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
-          </div>
-        </div>
-        <div class="card-bottom">
-          <h3 class="card-title">Systèmes &amp; Réseaux</h3>
-          <div class="card-tags">
-            <span class="card-tag">
-              <span class="card-tag-dot" aria-hidden="true"></span>S2 CC1
-            </span>
-            <span class="card-tag card-tag-type is-qcm">
-              <svg class="tag-type-icon" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>QCM
-            </span>
-          </div>
-        </div>
-      </a>
-
-    </div>
-  </section>
+  <!-- ══════════ Catégories A1 → A5 (générées depuis catalog.js) ══════════ -->
+  <div class="groups" id="groups"></div>
+  <noscript>
+    <p class="subtitle" style="margin-bottom: 40px;">Active JavaScript pour afficher les cours et QCM.</p>
+  </noscript>
 
   <!-- ══════════ Footer ══════════ -->
   <footer>
@@ -1352,8 +1429,8 @@ footer {
   </div>
 </div>
 
-<!-- ══════════ Modale Purge LocalStorage A1 ══════════ -->
-<div class="modal-overlay" id="purgeA1Modal" aria-hidden="true" role="dialog" aria-labelledby="purgeA1Title">
+<!-- ══════════ Modale Purge LocalStorage (générique : niveau + année) ══════════ -->
+<div class="modal-overlay" id="purgeModal" aria-hidden="true" role="dialog" aria-labelledby="purgeTitle">
   <div class="modal-card">
     <div class="modal-header">
       <div class="modal-title-wrap">
@@ -1364,73 +1441,27 @@ footer {
             <line x1="14" y1="11" x2="14" y2="17"/>
           </svg>
         </div>
-        <h2 class="modal-title" id="purgeA1Title">Purger les données A1</h2>
+        <h2 class="modal-title" id="purgeTitle">Purger les données</h2>
       </div>
-      <button type="button" class="modal-close" id="closePurgeA1" aria-label="Fermer la fenêtre">
+      <button type="button" class="modal-close" id="closePurge" aria-label="Fermer la fenêtre">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
     </div>
     <div class="modal-content">
       <div class="modal-section" style="--sec-dot: #ef4444;">
         <div class="modal-section-title">Réinitialisation LocalStorage</div>
-        <p>Cette action va supprimer <strong>toutes les données enregistrées localement</strong> par les sous-sites de l'année <strong>A1</strong> (réponses aux QCM, progression sauvegardée, préférences d'affichage).</p>
+        <p>Cette action va supprimer <strong>toutes les données enregistrées localement</strong> par les sous-sites <strong id="purgeScope">A1 · 2025-2026</strong> (réponses aux QCM, progression sauvegardée, préférences d'affichage).</p>
       </div>
       <div class="modal-section" style="--sec-dot: #fb923c;">
         <div class="modal-section-title">Modules concernés</div>
-        <p>• <strong>Électronique S2 CC2</strong> (réponses sauvegardées)<br>
-           • <strong>Réseaux S2 CC2</strong> (réponses sauvegardées)<br>
-           • <strong>Systèmes &amp; Réseaux S2 CC1</strong> (progression QCM)<br>
-           • <strong>Partiels Algorithmique &amp; Systèmes</strong> (scores et quiz)</p>
+        <p id="purgeModules"></p>
       </div>
       <p style="font-size: .78rem; color: rgba(148, 166, 200, .65); line-height: 1.45;">
-        Vos autres applications (flashcards, etc.) et vos préférences générales ne seront pas affectées.
+        Vos autres applications (flashcards, etc.), les autres niveaux et les autres années ne seront pas affectés.
       </p>
       <div class="modal-actions">
-        <button type="button" class="modal-cancel-btn" id="cancelPurgeA1">Annuler</button>
-        <button type="button" class="modal-danger-btn" id="confirmPurgeA1">
-          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-          </svg>
-          Purger la progression
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══════════ Modale Purge LocalStorage A2 ══════════ -->
-<div class="modal-overlay" id="purgeA2Modal" aria-hidden="true" role="dialog" aria-labelledby="purgeA2Title">
-  <div class="modal-card">
-    <div class="modal-header">
-      <div class="modal-title-wrap">
-        <div class="modal-icon-badge" style="color: #ef4444; border-color: rgba(239, 68, 68, .36); background: linear-gradient(150deg, rgba(239, 68, 68, .22), rgba(239, 68, 68, .05)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .15), 0 8px 20px -8px rgba(239, 68, 68, .5);">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
-            <line x1="10" y1="11" x2="10" y2="17"/>
-            <line x1="14" y1="11" x2="14" y2="17"/>
-          </svg>
-        </div>
-        <h2 class="modal-title" id="purgeA2Title">Purger les données A2</h2>
-      </div>
-      <button type="button" class="modal-close" id="closePurgeA2" aria-label="Fermer la fenêtre">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
-    </div>
-    <div class="modal-content">
-      <div class="modal-section" style="--sec-dot: #ef4444;">
-        <div class="modal-section-title">Réinitialisation LocalStorage</div>
-        <p>Cette action va supprimer <strong>toutes les données enregistrées localement</strong> par les sous-sites de l'année <strong>A2</strong> (réponses aux QCM, progression sauvegardée, préférences d'affichage).</p>
-      </div>
-      <div class="modal-section" style="--sec-dot: #c084fc;">
-        <div class="modal-section-title">Modules concernés</div>
-        <p>• <strong>Sous-sites &amp; modules A2</strong></p>
-      </div>
-      <p style="font-size: .78rem; color: rgba(148, 166, 200, .65); line-height: 1.45;">
-        Vos autres applications et données (flashcards, A1, etc.) ne seront pas affectées.
-      </p>
-      <div class="modal-actions">
-        <button type="button" class="modal-cancel-btn" id="cancelPurgeA2">Annuler</button>
-        <button type="button" class="modal-danger-btn" id="confirmPurgeA2">
+        <button type="button" class="modal-cancel-btn" id="cancelPurge">Annuler</button>
+        <button type="button" class="modal-danger-btn" id="confirmPurge">
           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
           </svg>
@@ -1446,10 +1477,28 @@ footer {
 
 <div class="noise" aria-hidden="true"></div>
 
+<script src="catalog.js"></script>
 <script>
 (() => {
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
+  /* ── Stockage de session (année + catégories ouvertes), toujours protégé ── */
+  function ssGet(key) {
+    try { return sessionStorage.getItem(key); } catch (e) { return null; }
+  }
+  function ssSet(key, value) {
+    try { sessionStorage.setItem(key, value); } catch (e) {}
+  }
+
+  function esc(str) {
+    return String(str == null ? '' : str).replace(/[&<>"']/g, ch => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[ch]);
+  }
 
   /* ── Modales ── */
   const openLegal = document.getElementById('openLegal');
@@ -1511,7 +1560,7 @@ footer {
     if (e.target === disclaimerModal) hideDisclaimerModal();
   });
 
-  function preventBackgroundScroll(e, modalEl) {
+  function preventBackgroundScroll(e) {
     // Si l'événement a lieu dans le contenu scrollable de la modale, on le laisse défiler
     if (e.target && e.target.closest && e.target.closest('.modal-content')) {
       return;
@@ -1519,11 +1568,10 @@ footer {
     e.preventDefault();
   }
 
-  disclaimerModal?.addEventListener('wheel', e => preventBackgroundScroll(e, disclaimerModal), { passive: false });
-  disclaimerModal?.addEventListener('touchmove', e => preventBackgroundScroll(e, disclaimerModal), { passive: false });
-
-  legalModal?.addEventListener('wheel', e => preventBackgroundScroll(e, legalModal), { passive: false });
-  legalModal?.addEventListener('touchmove', e => preventBackgroundScroll(e, legalModal), { passive: false });
+  [disclaimerModal, legalModal].forEach(modal => {
+    modal?.addEventListener('wheel', preventBackgroundScroll, { passive: false });
+    modal?.addEventListener('touchmove', preventBackgroundScroll, { passive: false });
+  });
 
   openLegal?.addEventListener('click', showLegalModal);
   closeLegal?.addEventListener('click', hideLegalModal);
@@ -1532,12 +1580,7 @@ footer {
     if (e.target === legalModal) hideLegalModal();
   });
 
-  /* ── Modale Purge A1 ── */
-  const openPurgeA1 = document.getElementById('openPurgeA1');
-  const purgeA1Modal = document.getElementById('purgeA1Modal');
-  const closePurgeA1 = document.getElementById('closePurgeA1');
-  const cancelPurgeA1 = document.getElementById('cancelPurgeA1');
-  const confirmPurgeA1 = document.getElementById('confirmPurgeA1');
+  /* ── Toast ── */
   const toastEl = document.getElementById('toastNotification');
   let toastTimer = null;
 
@@ -1547,7 +1590,7 @@ footer {
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M20 6L9 17l-5-5"/>
       </svg>
-      <span>${msg}</span>
+      <span>${esc(msg)}</span>
     `;
     toastEl.classList.add('active');
     clearTimeout(toastTimer);
@@ -1556,177 +1599,333 @@ footer {
     }, 3400);
   }
 
-  function showPurgeModal() {
-    if (!purgeA1Modal) return;
-    purgeA1Modal.classList.add('active');
-    purgeA1Modal.setAttribute('aria-hidden', 'false');
-    cancelPurgeA1?.focus();
+  /* ══════════ CATALOGUE : années & catégories ══════════ */
+  const CATALOG = Array.isArray(window.LML_CATALOG) ? window.LML_CATALOG : [];
+  const LEVELS = ['A1', 'A2', 'A3', 'A4', 'A5'];
+
+  // Année scolaire courante : la rentrée (septembre) fait basculer l'année
+  const today = new Date();
+  const CURRENT_YEAR = today.getMonth() >= 8 ? today.getFullYear() : today.getFullYear() - 1;
+
+  const catalogYears = CATALOG.map(c => c.year).filter(y => Number.isFinite(y));
+  const MIN_YEAR = Math.min(CURRENT_YEAR, ...catalogYears);
+  const MAX_YEAR = Math.max(CURRENT_YEAR, ...catalogYears);
+
+  const clampYear = y => Math.min(MAX_YEAR, Math.max(MIN_YEAR, y));
+  const yearLabel = y => `${y}-${y + 1}`;
+
+  let selectedYear = clampYear(parseInt(ssGet('lml_hub_year'), 10) || CURRENT_YEAR);
+  const openLevels = new Set();
+  try {
+    const saved = JSON.parse(ssGet('lml_hub_open') || '[]');
+    if (Array.isArray(saved)) saved.forEach(l => LEVELS.includes(l) && openLevels.add(l));
+  } catch (e) {}
+
+  // Libellés d'une carte : « tags » (liste) ou ancien champ « tag » (texte seul)
+  function tagsOf(c) {
+    if (Array.isArray(c.tags)) return c.tags.filter(Boolean);
+    return c.tag ? [c.tag] : [];
+  }
+
+  function coursesFor(level, year, includeHidden = false) {
+    return CATALOG.filter(c => c.level === level && c.year === year && (includeHidden || !c.hidden));
+  }
+
+  const ARROW_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>';
+  const CHEVRON_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>';
+  const TRASH_SVG = '<svg class="action-btn-icon" xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18m-2 0v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6m3 0V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg>';
+
+  const SUBJECTS = {
+    info: {
+      label: 'Informatique',
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" /><line x1="14" y1="4" x2="10" y2="20" /></svg>'
+    },
+    maths: {
+      label: 'Mathématiques',
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 13h2.5l3 7.5 4-15.5H21" /><path d="M15 11l4 5" /><path d="M19 11l-4 5" /></svg>'
+    },
+    physique: {
+      label: 'Physique',
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="2.5" fill="currentColor" /><ellipse cx="12" cy="12" rx="9" ry="3.8" transform="rotate(45 12 12)" /><ellipse cx="12" cy="12" rx="9" ry="3.8" transform="rotate(-45 12 12)" /></svg>'
+    },
+    autre: {
+      label: 'Autre',
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2" /><polyline points="2 17 12 22 22 17" /><polyline points="2 12 12 17 22 12" /></svg>'
+    }
+  };
+
+  const TYPES = {
+    qcm: {
+      label: 'QCM', cls: 'is-qcm',
+      icon: '<svg class="tag-type-icon" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>'
+    },
+    cours: {
+      label: 'Cours', cls: 'is-cours',
+      icon: '<svg class="tag-type-icon" xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>'
+    }
+  };
+
+  function cardHTML(c, i) {
+    const subjectKey = SUBJECTS[c.subject] ? c.subject : 'autre';
+    const s = SUBJECTS[subjectKey];
+    const t = TYPES[c.type] || TYPES.cours;
+    const aria = `${c.title}, ${t.label}, ${s.label}, ${c.level} ${yearLabel(c.year)}`;
+    return `
+      <a class="card card-${subjectKey}" href="${esc(c.href)}" style="--i:${i}" aria-label="${esc(aria)}">
+        <span class="sweep" aria-hidden="true"></span>
+        <div class="card-top">
+          <div class="card-icon" title="${esc(s.label)}">${s.icon}</div>
+          <div class="card-arrow" aria-hidden="true">${ARROW_SVG}</div>
+        </div>
+        <div class="card-bottom">
+          <h3 class="card-title">${esc(c.title)}</h3>
+          <div class="card-tags">
+            ${tagsOf(c).map(tag => `<span class="card-tag"><span class="card-tag-dot" aria-hidden="true"></span>${esc(tag)}</span>`).join('')}
+            <span class="card-tag card-tag-type ${t.cls}">${t.icon}${t.label}</span>
+          </div>
+        </div>
+      </a>`;
+  }
+
+  function groupHTML(level) {
+    const items = coursesFor(level, selectedYear);
+    const n = items.length;
+    const empty = n === 0;
+    const open = !empty && openLevels.has(level);
+    const bodyId = `grp-${level}-body`;
+    const badge = empty
+      ? '<span class="group-empty">Catégorie vide</span>'
+      : `<span class="group-count"><span class="group-count-dot" aria-hidden="true"></span>${n} cours</span>`;
+    const purge = empty ? '' : `
+        <button type="button" class="group-action-btn" data-purge="${level}" title="Purger le LocalStorage des sous-sites ${level} ${yearLabel(selectedYear)}" aria-haspopup="dialog">
+          ${TRASH_SVG}
+          <span class="action-btn-text">Purger<span class="hide-sm"> les données</span></span>
+        </button>`;
+    return `
+    <section class="group${open ? ' is-open is-settled' : ''}${empty ? ' is-empty' : ''}" data-level="${level}">
+      <div class="group-header">
+        <h2 class="group-title">
+          <button type="button" class="group-toggle" ${empty ? 'disabled' : `aria-expanded="${open}" aria-controls="${bodyId}"`}>
+            <span class="group-chevron" aria-hidden="true">${CHEVRON_SVG}</span>
+            <span class="group-name">${level}</span>
+            ${badge}
+            <span class="group-line" aria-hidden="true"></span>
+          </button>
+        </h2>${purge}
+      </div>
+      ${empty ? '' : `
+      <div class="group-body" id="${bodyId}"${open ? '' : ' inert'}>
+        <div class="group-body-inner">
+          <div class="cards-grid">${items.map(cardHTML).join('')}
+          </div>
+        </div>
+      </div>`}
+    </section>`;
+  }
+
+  const groupsEl = document.getElementById('groups');
+
+  function renderGroups() {
+    if (!groupsEl) return;
+    groupsEl.innerHTML = LEVELS.map(groupHTML).join('');
+    groupsEl.querySelectorAll('.card').forEach(bindCard);
+  }
+
+  function saveOpenLevels() {
+    ssSet('lml_hub_open', JSON.stringify([...openLevels]));
+  }
+
+  function toggleGroup(group) {
+    const level = group.dataset.level;
+    const body = group.querySelector('.group-body');
+    const toggle = group.querySelector('.group-toggle');
+    if (!body || !toggle) return;
+
+    const willOpen = !group.classList.contains('is-open');
+    clearTimeout(group._settleTimer);
+    group.classList.remove('is-settled');
+    group.classList.toggle('is-open', willOpen);
+    toggle.setAttribute('aria-expanded', String(willOpen));
+
+    if (willOpen) {
+      body.removeAttribute('inert');
+      openLevels.add(level);
+      // Une fois l'ouverture terminée, on laisse déborder les ombres / effets des cartes
+      group._settleTimer = setTimeout(() => {
+        if (group.classList.contains('is-open')) group.classList.add('is-settled');
+      }, prefersReduced ? 0 : 1000);
+    } else {
+      body.setAttribute('inert', '');
+      openLevels.delete(level);
+    }
+    saveOpenLevels();
+  }
+
+  groupsEl?.addEventListener('click', e => {
+    const toggle = e.target.closest('.group-toggle');
+    if (toggle && !toggle.disabled) {
+      toggleGroup(toggle.closest('.group'));
+      return;
+    }
+    const purgeBtn = e.target.closest('[data-purge]');
+    if (purgeBtn) openPurgeModal(purgeBtn.dataset.purge, purgeBtn);
+  });
+
+  /* ── Sélecteur d'année ── */
+  const yearSwitch = document.getElementById('yearSwitch');
+  const yearPrev = document.getElementById('yearPrev');
+  const yearNext = document.getElementById('yearNext');
+  const yearValue = document.getElementById('yearValue');
+  const yearPips = document.getElementById('yearPips');
+  const yearBadge = document.getElementById('yearBadge');
+
+  function renderYearSwitch(direction) {
+    if (yearValue) {
+      yearValue.textContent = `${selectedYear} – ${selectedYear + 1}`;
+      yearValue.classList.remove('from-left', 'from-right');
+      if (direction && !prefersReduced) {
+        void yearValue.offsetWidth; // relance l'animation
+        yearValue.classList.add(direction > 0 ? 'from-right' : 'from-left');
+      }
+    }
+    if (yearPrev) yearPrev.disabled = selectedYear <= MIN_YEAR;
+    if (yearNext) yearNext.disabled = selectedYear >= MAX_YEAR;
+
+    if (yearPips) {
+      let html = '';
+      for (let y = MIN_YEAR; y <= MAX_YEAR; y++) {
+        const active = y === selectedYear;
+        html += `<button type="button" class="year-pip${active ? ' is-active' : ''}" data-year="${y}" aria-label="Année ${yearLabel(y)}"${active ? ' aria-current="true"' : ''}></button>`;
+      }
+      yearPips.innerHTML = html;
+    }
+
+    if (yearBadge) {
+      yearBadge.innerHTML = selectedYear === CURRENT_YEAR
+        ? '<span class="year-badge-now"><i aria-hidden="true"></i>Année en cours</span>'
+        : `<button type="button" class="year-badge-back" data-year="${CURRENT_YEAR}">↺ Revenir à ${yearLabel(CURRENT_YEAR)}</button>`;
+    }
+  }
+
+  let swapTimer = null;
+  function setYear(y) {
+    y = clampYear(y);
+    if (y === selectedYear) return;
+    const direction = y > selectedYear ? 1 : -1;
+    selectedYear = y;
+    ssSet('lml_hub_year', String(y));
+    renderYearSwitch(direction);
+
+    if (prefersReduced || !groupsEl) {
+      renderGroups();
+      return;
+    }
+    clearTimeout(swapTimer);
+    groupsEl.classList.remove('is-entering');
+    groupsEl.classList.add('is-leaving');
+    swapTimer = setTimeout(() => {
+      renderGroups();
+      groupsEl.classList.remove('is-leaving');
+      void groupsEl.offsetWidth;
+      groupsEl.classList.add('is-entering');
+      swapTimer = setTimeout(() => groupsEl.classList.remove('is-entering'), 700);
+    }, 170);
+  }
+
+  yearPrev?.addEventListener('click', () => setYear(selectedYear - 1));
+  yearNext?.addEventListener('click', () => setYear(selectedYear + 1));
+  yearSwitch?.addEventListener('click', e => {
+    const target = e.target.closest('[data-year]');
+    if (target) setYear(parseInt(target.dataset.year, 10));
+  });
+  yearSwitch?.addEventListener('keydown', e => {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); setYear(selectedYear - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); setYear(selectedYear + 1); }
+  });
+
+  /* ── Modale Purge (générique : niveau + année affichée) ── */
+  const purgeModal = document.getElementById('purgeModal');
+  const purgeTitle = document.getElementById('purgeTitle');
+  const purgeScope = document.getElementById('purgeScope');
+  const purgeModules = document.getElementById('purgeModules');
+  const closePurge = document.getElementById('closePurge');
+  const cancelPurge = document.getElementById('cancelPurge');
+  const confirmPurge = document.getElementById('confirmPurge');
+  let purgeCtx = null;
+
+  function openPurgeModal(level, trigger) {
+    if (!purgeModal) return;
+    purgeCtx = { level, year: selectedYear, trigger };
+    const items = coursesFor(level, selectedYear);
+    if (purgeTitle) purgeTitle.textContent = `Purger les données ${level}`;
+    if (purgeScope) purgeScope.textContent = `${level} · ${yearLabel(selectedYear)}`;
+    if (purgeModules) {
+      purgeModules.innerHTML = items.map(c => {
+        const t = TYPES[c.type] || TYPES.cours;
+        const tags = tagsOf(c);
+        return `• <strong>${esc(c.title)}${tags.length ? ' ' + esc(tags.join(' · ')) : ''}</strong> (${t.label})`;
+      }).join('<br>');
+    }
+    purgeModal.classList.add('active');
+    purgeModal.setAttribute('aria-hidden', 'false');
+    cancelPurge?.focus();
   }
 
   function hidePurgeModal() {
-    if (!purgeA1Modal) return;
-    purgeA1Modal.classList.remove('active');
-    purgeA1Modal.setAttribute('aria-hidden', 'true');
-    openPurgeA1?.focus();
+    if (!purgeModal) return;
+    purgeModal.classList.remove('active');
+    purgeModal.setAttribute('aria-hidden', 'true');
+    if (purgeCtx?.trigger && document.contains(purgeCtx.trigger)) purgeCtx.trigger.focus();
   }
 
-  openPurgeA1?.addEventListener('click', showPurgeModal);
-  closePurgeA1?.addEventListener('click', hidePurgeModal);
-  cancelPurgeA1?.addEventListener('click', hidePurgeModal);
-
-  purgeA1Modal?.addEventListener('click', e => {
-    if (e.target === purgeA1Modal) hidePurgeModal();
-  });
-  purgeA1Modal?.addEventListener('wheel', e => preventBackgroundScroll(e, purgeA1Modal), { passive: false });
-  purgeA1Modal?.addEventListener('touchmove', e => preventBackgroundScroll(e, purgeA1Modal), { passive: false });
-
-  /* Purge des clés LocalStorage des sous-sites de /A1/ */
-  const A1_EXACT_KEYS = [
-    'reseaux_cc2_qcm_v1',
-    'quiz_reseaux_state',
-    'quiz_algo_state',
-    'sysreseaux_site_complet_v1',
-    'electronique_cc2_qcm_v1',
-    'site_theme'
-  ];
-  const A1_KEY_PREFIXES = [
-    'reseaux_cc2_',
-    'quiz_reseaux_',
-    'quiz_algo_',
-    'sysreseaux_',
-    'electronique_cc2_'
-  ];
-
-  function purgeA1Storage() {
+  /* Purge des clés LocalStorage déclarées dans catalog.js pour ce niveau + cette année */
+  function purgeStorage(level, year) {
+    const prefixes = [...new Set(coursesFor(level, year, true).flatMap(c => c.storage || []))];
     let count = 0;
-    const toRemove = new Set(A1_EXACT_KEYS);
-
+    if (!prefixes.length) return count;
     try {
+      const toRemove = [];
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (k && A1_KEY_PREFIXES.some(prefix => k.startsWith(prefix))) {
-          toRemove.add(k);
-        }
+        if (k && prefixes.some(p => k.startsWith(p))) toRemove.push(k);
       }
-
-      toRemove.forEach(key => {
-        if (localStorage.getItem(key) !== null) {
-          localStorage.removeItem(key);
-          count++;
-        }
-      });
+      toRemove.forEach(k => { localStorage.removeItem(k); count++; });
     } catch (err) {
-      console.warn('Erreur lors de la suppression LocalStorage A1 :', err);
+      console.warn(`Erreur lors de la suppression LocalStorage ${level} :`, err);
     }
     return count;
   }
 
-  confirmPurgeA1?.addEventListener('click', () => {
-    const deletedCount = purgeA1Storage();
+  closePurge?.addEventListener('click', hidePurgeModal);
+  cancelPurge?.addEventListener('click', hidePurgeModal);
+  purgeModal?.addEventListener('click', e => {
+    if (e.target === purgeModal) hidePurgeModal();
+  });
+  purgeModal?.addEventListener('wheel', preventBackgroundScroll, { passive: false });
+  purgeModal?.addEventListener('touchmove', preventBackgroundScroll, { passive: false });
+
+  confirmPurge?.addEventListener('click', () => {
+    if (!purgeCtx) return;
+    const { level, year, trigger } = purgeCtx;
+    const deletedCount = purgeStorage(level, year);
     hidePurgeModal();
 
     // Feedback visuel sur le bouton
-    const btnText = openPurgeA1?.querySelector('.action-btn-text');
-    if (openPurgeA1 && btnText) {
-      const originalText = btnText.textContent;
+    const btnText = trigger?.querySelector('.action-btn-text');
+    if (trigger && btnText && document.contains(trigger)) {
+      const originalHTML = btnText.innerHTML;
       btnText.textContent = 'Données purgées !';
-      openPurgeA1.classList.add('is-success');
+      trigger.classList.add('is-success');
       setTimeout(() => {
-        btnText.textContent = originalText;
-        openPurgeA1.classList.remove('is-success');
+        btnText.innerHTML = originalHTML;
+        trigger.classList.remove('is-success');
       }, 2400);
     }
 
     if (deletedCount > 0) {
-      showToast(`${deletedCount} élément${deletedCount > 1 ? 's' : ''} A1 réinitialisé${deletedCount > 1 ? 's' : ''} avec succès`);
+      showToast(`${deletedCount} élément${deletedCount > 1 ? 's' : ''} ${level} réinitialisé${deletedCount > 1 ? 's' : ''} avec succès`);
     } else {
-      showToast('LocalStorage A1 réinitialisé (aucune donnée active)');
-    }
-  });
-
-  /* ── Modale Purge A2 ── */
-  const openPurgeA2 = document.getElementById('openPurgeA2');
-  const purgeA2Modal = document.getElementById('purgeA2Modal');
-  const closePurgeA2 = document.getElementById('closePurgeA2');
-  const cancelPurgeA2 = document.getElementById('cancelPurgeA2');
-  const confirmPurgeA2 = document.getElementById('confirmPurgeA2');
-
-  function showPurgeA2Modal() {
-    if (!purgeA2Modal) return;
-    purgeA2Modal.classList.add('active');
-    purgeA2Modal.setAttribute('aria-hidden', 'false');
-    cancelPurgeA2?.focus();
-  }
-
-  function hidePurgeA2Modal() {
-    if (!purgeA2Modal) return;
-    purgeA2Modal.classList.remove('active');
-    purgeA2Modal.setAttribute('aria-hidden', 'true');
-    openPurgeA2?.focus();
-  }
-
-  openPurgeA2?.addEventListener('click', showPurgeA2Modal);
-  closePurgeA2?.addEventListener('click', hidePurgeA2Modal);
-  cancelPurgeA2?.addEventListener('click', hidePurgeA2Modal);
-
-  purgeA2Modal?.addEventListener('click', e => {
-    if (e.target === purgeA2Modal) hidePurgeA2Modal();
-  });
-  purgeA2Modal?.addEventListener('wheel', e => preventBackgroundScroll(e, purgeA2Modal), { passive: false });
-  purgeA2Modal?.addEventListener('touchmove', e => preventBackgroundScroll(e, purgeA2Modal), { passive: false });
-
-  /* Purge des clés LocalStorage des sous-sites de /A2/ */
-  const A2_EXACT_KEYS = [
-    // Liste des clés LocalStorage A2 à remplir ultérieurement
-  ];
-  const A2_KEY_PREFIXES = [
-    // Préfixes éventuels des clés LocalStorage A2
-  ];
-
-  function purgeA2Storage() {
-    let count = 0;
-    const toRemove = new Set(A2_EXACT_KEYS);
-
-    try {
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i);
-        if (k && A2_KEY_PREFIXES.some(prefix => k.startsWith(prefix))) {
-          toRemove.add(k);
-        }
-      }
-
-      toRemove.forEach(key => {
-        if (localStorage.getItem(key) !== null) {
-          localStorage.removeItem(key);
-          count++;
-        }
-      });
-    } catch (err) {
-      console.warn('Erreur lors de la suppression LocalStorage A2 :', err);
-    }
-    return count;
-  }
-
-  confirmPurgeA2?.addEventListener('click', () => {
-    const deletedCount = purgeA2Storage();
-    hidePurgeA2Modal();
-
-    // Feedback visuel sur le bouton
-    const btnText = openPurgeA2?.querySelector('.action-btn-text');
-    if (openPurgeA2 && btnText) {
-      const originalText = btnText.textContent;
-      btnText.textContent = 'Données purgées !';
-      openPurgeA2.classList.add('is-success');
-      setTimeout(() => {
-        btnText.textContent = originalText;
-        openPurgeA2.classList.remove('is-success');
-      }, 2400);
-    }
-
-    if (deletedCount > 0) {
-      showToast(`${deletedCount} élément${deletedCount > 1 ? 's' : ''} A2 réinitialisé${deletedCount > 1 ? 's' : ''} avec succès`);
-    } else {
-      showToast('LocalStorage A2 réinitialisé (aucune donnée active)');
+      showToast(`LocalStorage ${level} réinitialisé (aucune donnée active)`);
     }
   });
 
@@ -1734,20 +1933,15 @@ footer {
     if (e.key === 'Escape') {
       if (legalModal?.classList.contains('active')) hideLegalModal();
       if (disclaimerModal?.classList.contains('active')) hideDisclaimerModal();
-      if (purgeA1Modal?.classList.contains('active')) hidePurgeModal();
-      if (purgeA2Modal?.classList.contains('active')) hidePurgeA2Modal();
+      if (purgeModal?.classList.contains('active')) hidePurgeModal();
     }
   });
 
-  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const canHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
-
-  /* ── Cartes carrées : gestion tactile fluide, anti-blocage et réactivité instantanée ── */
-  const cards = document.querySelectorAll('.card');
+  /* ── Cartes : gestion tactile fluide, anti-blocage et réactivité instantanée ── */
+  const allCards = () => document.querySelectorAll('.card');
   let activeCard = null;
   let activeTouchId = null;
   let startX = 0, startY = 0;
-  let startTime = 0;
   let isCanceled = false;
   let preventNextClick = false;
 
@@ -1758,7 +1952,7 @@ footer {
     }
     activeCard = null;
     activeTouchId = null;
-    cards.forEach(c => {
+    allCards().forEach(c => {
       c.classList.remove('is-pressed');
       if (c.dataset.href && !c.getAttribute('href')) {
         c.setAttribute('href', c.dataset.href);
@@ -1766,7 +1960,7 @@ footer {
     });
   }
 
-  cards.forEach(card => {
+  function bindCard(card) {
     // Sauvegarder l'URL cible
     const initialHref = card.getAttribute('href');
     if (initialHref) {
@@ -1813,7 +2007,6 @@ footer {
       activeTouchId = touch.identifier;
       startX = touch.clientX;
       startY = touch.clientY;
-      startTime = Date.now();
       isCanceled = false;
       preventNextClick = false;
 
@@ -1835,7 +2028,28 @@ footer {
       card.classList.remove('is-pressed');
       card.blur();
     });
-  });
+
+    // ── Spotlight + inclinaison 3D au survol ──
+    if (canHover && !prefersReduced) {
+      card.addEventListener('pointermove', e => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mx', x + 'px');
+        card.style.setProperty('--my', y + 'px');
+
+        const rx = (0.5 - y / rect.height) * 6;
+        const ry = (x / rect.width - 0.5) * 8;
+        card.style.transform =
+          `perspective(900px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-4px)`;
+      });
+
+      card.addEventListener('pointerleave', () => {
+        card.style.transform = '';
+        card.blur();
+      });
+    }
+  }
 
   // ── Tactile : suivi du mouvement en temps réel sur la fenêtre ──
   window.addEventListener('touchmove', e => {
@@ -1945,12 +2159,12 @@ footer {
 
   window.addEventListener('blur', clearAllCardsPressed);
   window.addEventListener('mouseup', () => {
-    cards.forEach(c => c.classList.remove('is-pressed'));
+    allCards().forEach(c => c.classList.remove('is-pressed'));
   });
 
   // Restaurer tous les href lors du retour en arrière (bfcache)
   window.addEventListener('pageshow', () => {
-    cards.forEach(c => {
+    allCards().forEach(c => {
       c.classList.remove('is-pressed');
       if (c.dataset.href && !c.getAttribute('href')) {
         c.setAttribute('href', c.dataset.href);
@@ -1958,27 +2172,9 @@ footer {
     });
   });
 
-  if (canHover && !prefersReduced) {
-    cards.forEach(card => {
-      card.addEventListener('pointermove', e => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-        card.style.setProperty('--mx', x + 'px');
-        card.style.setProperty('--my', y + 'px');
-
-        const rx = (0.5 - y / rect.height) * 6;
-        const ry = (x / rect.width - 0.5) * 8;
-        card.style.transform =
-          `perspective(900px) rotateX(${rx.toFixed(2)}deg) rotateY(${ry.toFixed(2)}deg) translateY(-4px)`;
-      });
-
-      card.addEventListener('pointerleave', () => {
-        card.style.transform = '';
-        card.blur();
-      });
-    });
-  }
+  /* ── Premier rendu ── */
+  renderYearSwitch(0);
+  renderGroups();
 
   /* ── Halo curseur + parallaxe des orbes ── */
   const glow = document.querySelector('.cursor-glow');

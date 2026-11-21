@@ -101,6 +101,20 @@
       "dest": "/spend/$1"
     },
     {
+      "src": "^/learn/A1/(partiels|reseaux-cc2|linux-cc1|electronique-cc2)/?$",
+      "status": 308,
+      "headers": {
+        "Location": "/learn/A1/2025/$1/"
+      }
+    },
+    {
+      "src": "^/learn/A1/(partiels|reseaux-cc2|linux-cc1|electronique-cc2)/(.+)$",
+      "status": 308,
+      "headers": {
+        "Location": "/learn/A1/2025/$1/$2"
+      }
+    },
+    {
       "src": "^/((?:[a-zA-Z0-9_-]+/)*[a-zA-Z0-9_-]+)$",
       "status": 308,
       "headers": {
