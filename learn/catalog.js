@@ -39,6 +39,12 @@ window.LML_CATALOG = [
     href: 'A2/2026/maths-series/index.html',
     storage: ['maths_series_']
   },
+  {
+    year: 2026, level: 'A2',
+    title: 'Algèbre linéaire', subject: 'maths', type: 'cours', tag: 'S1 CC2',
+    href: 'A2/2026/maths-algebre-lineaire/index.html',
+    storage: ['maths_algebre_']
+  },
 
   /* ───────── 2025-2026 ───────── */
   {

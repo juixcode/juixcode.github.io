@@ -1,0 +1,2470 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Algèbre linéaire · CC2 · Last Minute Learning</title>
+<meta name="description" content="Révisions du CC2 d'algèbre linéaire (A2) : rappels, éléments propres, diagonalisation, espaces euclidiens, méthodologie par situation d'examen et sujet blanc corrigé." />
+<meta name="theme-color" content="#04060d" />
+<script>
+  /* Thème appliqué avant l'affichage (évite un flash) : choix mémorisé, sinon réglage de l'appareil */
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('maths_algebre_theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') {
+      t = window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    }
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<link rel="icon" type="image/x-icon" href="../../../icons/favicon.ico" />
+<link rel="icon" type="image/png" sizes="32x32" href="../../../icons/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="../../../icons/apple-touch-icon.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" crossorigin="anonymous" />
+
+<style>
+/* ══════════ BASE ══════════ */
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+  --bg: #04060d;
+  --text: #e8edff;
+  --text-2: #c9d2e8;
+  --muted: rgba(178, 192, 220, .72);
+  --border: rgba(var(--ink), .085);
+  --border-2: rgba(var(--ink), .14);
+  --accent: 56, 189, 248;
+  --violet: 167, 139, 250;
+  --orange: 251, 146, 60;
+  --green: 52, 211, 153;
+  --red: 248, 113, 113;
+  --yellow: 250, 204, 21;
+  --font: 'Outfit', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Consolas, monospace;
+  --radius: 20px;
+  --topbar-h: 60px;
+  --ink: 255, 255, 255;
+  --heading: #ffffff;
+  --orange-text: #fed7aa;
+  --accent-text: #bae6fd;
+  --violet-text: #ddd6fe;
+  --green-text: #a7f3d0;
+  --bar-bg: rgba(5, 7, 15, .78);
+  --menu-bg: rgba(6, 8, 16, .97);
+  --hl: var(--accent);
+  --paper-bg: rgba(10, 13, 23, .7);
+}
+
+/* ══════════ THÈME CLAIR ══════════ */
+html[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f5fa;
+  --text: #0f172a;
+  --text-2: #334155;
+  --muted: rgba(71, 85, 105, .92);
+  --accent: 2, 132, 199;
+  --violet: 124, 58, 237;
+  --orange: 234, 88, 12;
+  --green: 5, 150, 105;
+  --red: 220, 38, 38;
+  --yellow: 202, 138, 4;
+  --ink: 15, 23, 42;
+  --heading: #0f172a;
+  --orange-text: #c2410c;
+  --accent-text: #0369a1;
+  --violet-text: #6d28d9;
+  --green-text: #047857;
+  --bar-bg: rgba(255, 255, 255, .8);
+  --menu-bg: rgba(255, 255, 255, .98);
+  --paper-bg: #ffffff;
+}
+html[data-theme="light"] .bg .orb { opacity: .55; }
+html[data-theme="light"] .bg .grid-lines { opacity: .7; }
+html[data-theme="light"] .hero h1 {
+  background-image: linear-gradient(110deg, #0c1e3a 12%, #0284c7 42%, #ea580c 72%, #0c1e3a 94%);
+}
+html[data-theme="light"] .search input,
+html[data-theme="light"] .back-link,
+html[data-theme="light"] .mastery-pill,
+html[data-theme="light"] .theme-btn,
+html[data-theme="light"] .btn-ghost { background: rgba(255, 255, 255, .8); }
+html[data-theme="light"] .notion {
+  background: rgba(255, 255, 255, .9);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .04), 0 14px 34px -24px rgba(15, 23, 42, .3);
+}
+html[data-theme="light"] .notion:hover { border-color: rgba(var(--accent), .3); }
+html[data-theme="light"] .endcard { background: radial-gradient(120% 120% at 50% 0%, rgba(var(--accent), .1), transparent 60%), rgba(255, 255, 255, .85); }
+html[data-theme="light"] .paper { box-shadow: 0 14px 34px -24px rgba(15, 23, 42, .35); }
+
+html.theme-anim, html.theme-anim *, html.theme-anim *::before, html.theme-anim *::after {
+  transition: background-color .35s ease, color .35s ease, border-color .35s ease, box-shadow .35s ease, fill .35s ease !important;
+}
+
+html {
+  color-scheme: dark;
+  overflow-x: clip;
+  background: var(--bg);
+  scroll-behavior: smooth;
+  scroll-padding-top: 86px;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 1.65;
+  color: var(--text);
+  background: var(--bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+::selection { background: rgba(var(--accent), .35); }
+a { color: rgb(var(--accent)); }
+
+/* ══════════ DÉCOR ══════════ */
+.bg { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.bg .orb { position: absolute; border-radius: 50%; filter: blur(70px); animation: drift 26s ease-in-out infinite; }
+.bg .o1 { width: 620px; height: 620px; top: -220px; left: -160px; background: radial-gradient(circle, rgba(56, 189, 248, .2), transparent 65%); }
+.bg .o2 { width: 520px; height: 520px; top: 30%; right: -200px; background: radial-gradient(circle, rgba(139, 92, 246, .13), transparent 62%); animation-duration: 32s; animation-delay: -12s; }
+.bg .o3 { width: 480px; height: 480px; bottom: -220px; left: 30%; background: radial-gradient(circle, rgba(249, 115, 22, .1), transparent 60%); animation-duration: 28s; animation-delay: -6s; }
+.bg .grid-lines {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(148, 163, 184, .045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, .045) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(80% 60% at 50% 10%, #000 10%, transparent 70%);
+  mask-image: radial-gradient(80% 60% at 50% 10%, #000 10%, transparent 70%);
+}
+
+/* ══════════ BARRE SUPÉRIEURE ══════════ */
+.topbar {
+  position: sticky; top: 0; z-index: 60;
+  height: var(--topbar-h);
+  display: flex; align-items: center; gap: 14px;
+  padding: 0 20px;
+  background: var(--bar-bg);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  border-bottom: 1px solid var(--border);
+}
+.back-link {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 7px 12px 7px 9px;
+  border-radius: 12px;
+  font-size: .84rem; font-weight: 500;
+  color: var(--text-2); text-decoration: none;
+  background: rgba(var(--ink), .03);
+  border: 1px solid var(--border);
+  transition: color .2s, border-color .2s, background .2s, transform .2s;
+  white-space: nowrap;
+}
+.back-link:hover, .back-link:focus-visible { outline: none; color: var(--orange-text); border-color: rgba(var(--orange), .45); background: rgba(var(--orange), .08); transform: translateX(-2px); }
+.back-link svg { width: 15px; height: 15px; }
+.topbar-title { display: flex; align-items: center; gap: 10px; min-width: 0; font-weight: 700; letter-spacing: -.01em; }
+.topbar-title .logo {
+  width: 30px; height: 30px; flex-shrink: 0; border-radius: 9px;
+  display: grid; place-items: center;
+  font: 800 1.05rem var(--font); color: #fff;
+  background: linear-gradient(145deg, #38bdf8, #0369a1);
+  box-shadow: 0 6px 16px -6px rgba(56, 189, 248, .8), inset 0 1px 0 rgba(255, 255, 255, .3);
+}
+.topbar-title span:last-child { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.mastery-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 5px 12px 5px 6px;
+  border-radius: 999px;
+  font-size: .78rem; font-weight: 600; color: var(--text-2);
+  background: rgba(var(--ink), .04);
+  border: 1px solid var(--border);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.theme-btn {
+  position: relative;
+  width: 36px; height: 36px; flex-shrink: 0;
+  display: grid; place-items: center;
+  border-radius: 11px;
+  color: var(--text-2);
+  background: rgba(var(--ink), .04);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  overflow: hidden;
+  transition: color .2s, border-color .2s, box-shadow .2s, transform .2s;
+}
+.theme-btn:hover, .theme-btn:focus-visible { outline: none; color: rgb(var(--orange)); border-color: rgba(var(--orange), .45); box-shadow: 0 0 16px -4px rgba(var(--orange), .5); }
+.theme-btn:active { transform: scale(.93); }
+.theme-btn svg { position: absolute; width: 18px; height: 18px; transition: transform .5s cubic-bezier(.34, 1.56, .64, 1), opacity .3s ease; }
+.theme-btn .i-moon { opacity: 0; transform: rotate(-90deg) scale(.4); }
+html[data-theme="light"] .theme-btn .i-sun { opacity: 0; transform: rotate(90deg) scale(.4); }
+html[data-theme="light"] .theme-btn .i-moon { opacity: 1; transform: none; }
+.mastery-ring { width: 24px; height: 24px; transform: rotate(-90deg); }
+.mastery-ring circle { fill: none; stroke-width: 3.2; }
+.mastery-ring .track { stroke: rgba(var(--ink), .1); }
+.mastery-ring .value { stroke: rgb(var(--green)); stroke-linecap: round; stroke-dasharray: 62.83; stroke-dashoffset: 62.83; transition: stroke-dashoffset .6s cubic-bezier(.22, .61, .36, 1); }
+.read-progress {
+  position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
+  transform-origin: left; transform: scaleX(0);
+  background: linear-gradient(90deg, rgb(var(--accent)), rgb(var(--orange)));
+  box-shadow: 0 0 12px rgba(var(--accent), .7);
+}
+
+/* ══════════ MISE EN PAGE ══════════ */
+.layout {
+  position: relative; z-index: 2;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px 90px;
+  display: grid;
+  grid-template-columns: 252px minmax(0, 1fr);
+  gap: 44px;
+}
+main { min-width: 0; padding-top: 34px; }
+
+/* ---- Sommaire ---- */
+.toc {
+  position: sticky;
+  top: calc(var(--topbar-h) + 22px);
+  align-self: start;
+  max-height: calc(100vh - var(--topbar-h) - 44px);
+  overflow-y: auto;
+  padding: 30px 4px 20px 0;
+  scrollbar-width: thin;
+}
+.toc-head { font-size: .66rem; font-weight: 600; letter-spacing: .26em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px 12px; }
+.toc ol { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.toc a {
+  position: relative;
+  display: flex; align-items: center; gap: 10px;
+  padding: 8px 10px 8px 12px;
+  border-radius: 12px;
+  font-size: .88rem; font-weight: 500; line-height: 1.3;
+  color: var(--text-2);
+  opacity: .85;
+  text-decoration: none;
+  transition: color .2s, background .2s;
+}
+.toc a:hover { color: var(--heading); background: rgba(var(--ink), .04); opacity: 1; }
+.toc a.is-active, .toc a.is-done { opacity: 1; }
+.toc a.is-active { color: var(--heading); background: rgba(var(--accent), .12); }
+.toc a.is-active::before {
+  content: ""; position: absolute; left: 0; top: 9px; bottom: 9px; width: 3px; border-radius: 3px;
+  background: rgb(var(--accent)); box-shadow: 0 0 10px rgb(var(--accent));
+}
+.toc a.sub { padding-left: 40px; font-size: .8rem; opacity: .7; }
+.toc a.sub.is-active::before { display: none; }
+.toc a.sub.is-active { background: none; color: var(--accent-text); }
+.toc-num { font: 600 .72rem var(--mono); color: rgba(var(--accent), .9); width: 18px; flex-shrink: 0; }
+.toc-star { color: rgb(var(--orange)); font-size: .72rem; margin-left: auto; }
+.toc-check {
+  width: 16px; height: 16px; flex-shrink: 0; border-radius: 50%;
+  display: none; place-items: center;
+  background: rgba(var(--green), .18); color: rgb(var(--green));
+}
+.toc-check svg { width: 10px; height: 10px; }
+.toc a.is-done .toc-check { display: grid; }
+.toc a.is-done .toc-star { display: none; }
+.toc-foot { margin: 18px 0 0 12px; font-size: .76rem; color: var(--muted); line-height: 1.5; }
+.toc-foot b { color: rgb(var(--orange)); }
+
+/* ══════════ HERO ══════════ */
+.hero { position: relative; padding: 18px 0 6px; }
+.hero-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 5px 11px;
+  border-radius: 999px;
+  font-size: .74rem; font-weight: 600; letter-spacing: .02em;
+  color: var(--text-2);
+  background: rgba(var(--ink), .04);
+  border: 1px solid var(--border);
+}
+.chip i { width: 6px; height: 6px; border-radius: 50%; background: rgb(var(--accent)); box-shadow: 0 0 8px rgb(var(--accent)); }
+.chip.orange i { background: rgb(var(--orange)); box-shadow: 0 0 8px rgb(var(--orange)); }
+.hero h1 {
+  margin: 0;
+  font-size: clamp(2.5rem, 7vw, 4rem);
+  line-height: 1.02;
+  font-weight: 800;
+  letter-spacing: -.04em;
+  background: linear-gradient(110deg, #ffffff 12%, #7dd3fc 42%, #fdba74 72%, #ffffff 94%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 9s ease-in-out infinite;
+}
+.hero-lead { max-width: 680px; margin: 16px 0 0; font-size: clamp(1rem, 2.4vw, 1.12rem); color: var(--text-2); }
+.hero-lead strong { color: var(--heading); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 18px;
+  border-radius: 14px;
+  font: 600 .9rem var(--font);
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s, background .2s, border-color .2s, color .2s;
+}
+.btn-primary { color: #04121c; background: linear-gradient(135deg, #7dd3fc, #0ea5e9); border: 1px solid rgba(255, 255, 255, .25); box-shadow: 0 8px 22px -8px rgba(14, 165, 233, .8); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -8px rgba(14, 165, 233, .95); }
+.btn-ghost { color: var(--text-2); background: rgba(var(--ink), .04); border: 1px solid var(--border); }
+.btn-ghost:hover { color: var(--orange-text); border-color: rgba(var(--orange), .45); background: rgba(var(--orange), .08); transform: translateY(-2px); }
+.btn svg { width: 16px; height: 16px; }
+
+/* ---- Recherche ---- */
+.search { position: relative; margin: 30px 0 0; }
+.search svg { position: absolute; z-index: 1; left: 16px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+.search input {
+  width: 100%;
+  padding: 14px 54px 14px 46px;
+  border-radius: 16px;
+  font: 500 .96rem var(--font);
+  color: var(--text);
+  background: rgba(var(--ink), .045);
+  border: 1px solid var(--border);
+  outline: none;
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+  transition: border-color .2s, box-shadow .2s, background .2s;
+}
+.search input::placeholder { color: var(--muted); opacity: .7; }
+.search input:focus { border-color: rgba(var(--accent), .55); box-shadow: 0 0 0 4px rgba(var(--accent), .14); background: rgba(var(--ink), .06); }
+.search kbd {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  font: 600 .72rem var(--mono); color: var(--muted);
+  padding: 2px 8px; border-radius: 7px; border: 1px solid var(--border-2); background: rgba(var(--ink), .04);
+}
+.search-status { min-height: 1.4em; margin: 8px 4px 0; font-size: .82rem; color: var(--muted); }
+.no-result { display: none; margin: 30px 0; padding: 28px; text-align: center; border-radius: var(--radius); border: 1px dashed var(--border-2); color: var(--muted); }
+.no-result.is-shown { display: block; }
+
+/* ══════════ CHAPITRES ══════════ */
+.chapter { margin-top: 70px; }
+.chapter.is-filtered-out { display: none; }
+.chapter-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 4px 20px;
+  align-items: start;
+  padding-bottom: 20px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+.chapter-num {
+  grid-row: span 3;
+  font-size: clamp(2.6rem, 6vw, 3.6rem);
+  font-weight: 800;
+  line-height: .95;
+  letter-spacing: -.04em;
+  background: linear-gradient(165deg, rgb(var(--accent)), rgba(var(--accent), .15));
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-variant-numeric: tabular-nums;
+}
+.chapter-kicker { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: .7rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: rgba(var(--accent), .95); }
+.prio {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 2px 9px; border-radius: 999px;
+  letter-spacing: .06em;
+  color: var(--orange-text); background: rgba(var(--orange), .12); border: 1px solid rgba(var(--orange), .38);
+}
+.chapter h2 { margin: 2px 0 0; font-size: clamp(1.55rem, 3.6vw, 2.15rem); line-height: 1.15; letter-spacing: -.025em; }
+.chapter-lead { margin: 6px 0 0; color: var(--muted); font-size: .98rem; }
+.master-btn {
+  grid-column: 2;
+  justify-self: start;
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 10px;
+  padding: 7px 13px;
+  border-radius: 12px;
+  font: 600 .8rem var(--font);
+  color: var(--text-2);
+  background: rgba(var(--ink), .035);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all .25s cubic-bezier(.22, .61, .36, 1);
+}
+.master-btn .box { width: 16px; height: 16px; border-radius: 5px; display: grid; place-items: center; border: 1.5px solid var(--border-2); transition: all .25s; }
+.master-btn .box svg { width: 11px; height: 11px; opacity: 0; transform: scale(.4); transition: all .3s cubic-bezier(.34, 1.56, .64, 1); }
+.master-btn:hover { border-color: rgba(var(--green), .45); color: var(--heading); }
+.master-btn.is-done { color: var(--green-text); border-color: rgba(var(--green), .45); background: rgba(var(--green), .1); }
+.master-btn.is-done .box { background: rgb(var(--green)); border-color: rgb(var(--green)); color: #03140d; }
+.master-btn.is-done .box svg { opacity: 1; transform: scale(1); }
+
+/* ---- Sections (A, B, C) à l'intérieur d'un chapitre ---- */
+.part-head {
+  display: flex; align-items: center; gap: 16px;
+  margin: 46px 0 6px;
+  padding: 14px 18px;
+  border-radius: 18px;
+  background: linear-gradient(100deg, rgba(var(--accent), .12), rgba(var(--accent), .02) 70%);
+  border: 1px solid rgba(var(--accent), .22);
+}
+.part-head.is-filtered-out { display: none; }
+.part-letter {
+  width: 44px; height: 44px; flex-shrink: 0;
+  display: grid; place-items: center;
+  border-radius: 13px;
+  font: 800 1.3rem var(--font);
+  color: #04121c;
+  background: linear-gradient(145deg, #7dd3fc, #0ea5e9);
+  box-shadow: 0 8px 20px -8px rgba(14, 165, 233, .8);
+}
+.part-kicker { margin: 0; font-size: .66rem; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: rgba(var(--accent), .95); }
+.part-title { margin: 0; font-size: 1.25rem; line-height: 1.2; letter-spacing: -.015em; color: var(--heading); }
+.part-sub { margin: 2px 0 0; font-size: .86rem; color: var(--muted); }
+
+/* ---- Notion (carte) ---- */
+.notion {
+  position: relative;
+  margin: 18px 0;
+  padding: 24px 26px 22px;
+  border-radius: var(--radius);
+  background: linear-gradient(165deg, rgba(var(--ink), .052), rgba(var(--ink), .014) 62%);
+  border: 1px solid var(--border);
+  -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 22px 44px -32px rgba(0, 0, 0, .95);
+  transition: border-color .35s ease, box-shadow .35s ease, opacity .6s ease, transform .6s cubic-bezier(.22, .61, .36, 1);
+}
+.notion:hover { border-color: rgba(var(--accent), .22); }
+.notion.is-filtered-out { display: none; }
+.notion:target { border-color: rgba(var(--accent), .55); box-shadow: 0 0 0 4px rgba(var(--accent), .12); }
+html.js-anim .notion:not(.is-visible) { opacity: 0; transform: translateY(22px); }
+
+.notion h3 {
+  display: flex; align-items: center; flex-wrap: wrap; gap: 8px 12px;
+  margin: 0 0 8px;
+  font-size: 1.2rem; line-height: 1.3; letter-spacing: -.012em;
+}
+.notion-id {
+  font: 600 .72rem var(--mono);
+  padding: 3px 8px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: rgb(var(--accent));
+  background: rgba(var(--accent), .12);
+  border: 1px solid rgba(var(--accent), .3);
+}
+.notion-id:hover { background: rgba(var(--accent), .22); }
+.tag-mini {
+  font: 600 .64rem var(--font); letter-spacing: .1em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 999px;
+  color: var(--orange-text); background: rgba(var(--orange), .1); border: 1px solid rgba(var(--orange), .3);
+}
+.tag-mini.cool { color: var(--accent-text); background: rgba(var(--accent), .1); border-color: rgba(var(--accent), .3); }
+.notion p { margin: 10px 0; color: var(--text-2); }
+.notion strong, .notion b { color: var(--heading); font-weight: 600; }
+.notion ul, .notion ol { margin: 10px 0; padding-left: 1.3em; color: var(--text-2); }
+.notion li { margin: 5px 0; }
+.notion li::marker { color: rgb(var(--accent)); }
+.notion h4 { margin: 18px 0 6px; font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+
+:not(pre) > code {
+  font-family: var(--mono);
+  font-size: .84em;
+  padding: .12em .42em;
+  border-radius: 6px;
+  color: var(--accent-text);
+  background: rgba(var(--accent), .1);
+  border: 1px solid rgba(var(--accent), .2);
+}
+
+/* ---- Maths (KaTeX) ---- */
+.katex { font-size: 1.06em; text-transform: none; letter-spacing: normal; }
+.katex-display { margin: .7em 0; overflow-x: auto; overflow-y: hidden; padding: 4px 2px; scrollbar-width: thin; }
+.katex-display > .katex { white-space: nowrap; }
+
+/* ---- Théorème ---- */
+.thm {
+  margin: 14px 0;
+  padding: 12px 16px 10px;
+  border-radius: 14px;
+  background: rgba(var(--accent), .055);
+  border: 1px solid rgba(var(--accent), .2);
+  border-left: 3px solid rgb(var(--accent));
+  color: var(--text-2);
+  font-size: .95rem;
+}
+.thm-name { display: block; margin-bottom: 4px; font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: rgb(var(--accent)); }
+.thm p { margin: 5px 0; }
+.thm ul { margin: 5px 0; }
+.thm.def { --c: var(--violet); background: rgba(var(--violet), .055); border-color: rgba(var(--violet), .22); border-left-color: rgb(var(--violet)); }
+.thm.def .thm-name { color: rgb(var(--violet)); }
+
+/* ---- Encadrés ---- */
+.callout {
+  --c: var(--accent);
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr);
+  gap: 10px;
+  margin: 14px 0;
+  padding: 12px 15px 12px 12px;
+  border-radius: 14px;
+  font-size: .93rem;
+  color: var(--text-2);
+  background: rgba(var(--c), .065);
+  border: 1px solid rgba(var(--c), .2);
+  border-left: 3px solid rgb(var(--c));
+}
+.callout::before {
+  content: "";
+  width: 20px; height: 20px; margin-top: 2px;
+  background: rgb(var(--c));
+  -webkit-mask: var(--ico) center / contain no-repeat;
+  mask: var(--ico) center / contain no-repeat;
+}
+.callout > div { min-width: 0; }
+.callout-title { display: block; margin-bottom: 2px; font-size: .7rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgb(var(--c)); }
+.callout p { margin: 4px 0; }
+.callout ul { margin: 4px 0; padding-left: 1.15em; }
+.callout { --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Cpath d='M12 16v-4M12 8h.01'/%3E%3C/svg%3E"); }
+.callout.trap { --c: var(--red); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z'/%3E%3Cpath d='M12 9v4M12 17h.01'/%3E%3C/svg%3E"); }
+.callout.tip { --c: var(--green); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2Z'/%3E%3C/svg%3E"); }
+.callout.exam { --c: var(--orange); --ico: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='10'/%3E%3Ccircle cx='12' cy='12' r='6'/%3E%3Ccircle cx='12' cy='12' r='2'/%3E%3C/svg%3E"); }
+
+/* ---- Tableaux ---- */
+.table-wrap { margin: 14px 0; overflow-x: auto; border-radius: 14px; border: 1px solid var(--border); background: rgba(var(--ink), .015); }
+table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+th { padding: 10px 14px; text-align: left; font-size: .68rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); background: rgba(var(--ink), .04); white-space: nowrap; }
+td { padding: 10px 14px; border-top: 1px solid rgba(var(--ink), .06); color: var(--text-2); vertical-align: top; }
+tbody tr { transition: background .2s; }
+tbody tr:hover td { background: rgba(var(--ink), .025); }
+td strong { color: var(--heading); }
+td.rowh { font-weight: 600; color: var(--heading); white-space: nowrap; }
+.cmp th:nth-child(2), .cmp td:nth-child(2) { border-left: 1px solid var(--border); }
+.cmp th:nth-child(3), .cmp td:nth-child(3) { border-left: 1px solid var(--border); }
+.cmp th.suite { color: rgb(var(--accent)); }
+.cmp th.serie { color: rgb(var(--violet)); }
+.ok { color: rgb(var(--green)); font-weight: 700; }
+.ko { color: rgb(var(--red)); font-weight: 700; }
+
+/* ---- Grille de cartes ---- */
+.cheat { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 14px 0; }
+.cheat > div { padding: 11px 13px; border-radius: 12px; background: rgba(var(--ink), .03); border: 1px solid var(--border); font-size: .9rem; color: var(--text-2); }
+.cheat > div > b:first-child { display: block; margin-bottom: 2px; }
+
+/* ---- Schéma des implications ---- */
+.impl { display: flex; flex-wrap: nowrap; align-items: center; justify-content: center; gap: 8px 10px; margin: 16px 0; }
+.impl .node { padding: 8px 14px; border-radius: 12px; font: 700 .86rem var(--mono); color: var(--heading); background: rgba(var(--accent), .12); border: 1px solid rgba(var(--accent), .4); }
+.impl .node.strong { background: rgba(var(--violet), .16); border-color: rgba(var(--violet), .5); }
+.impl .arrow { font: 700 1.1rem var(--font); color: var(--muted); }
+.impl-col { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.impl-row { display: flex; align-items: center; gap: 10px; }
+
+/* ---- Situation (méthodo) ---- */
+.when { padding: 10px 14px; border-radius: 12px; background: rgba(var(--ink), .03); border: 1px dashed var(--border-2); }
+.when b:first-child { color: rgb(var(--accent)); }
+.tools { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 4px; }
+.tool { padding: 3px 10px; border-radius: 999px; font: 600 .74rem var(--font); color: var(--violet-text); background: rgba(var(--violet), .12); border: 1px solid rgba(var(--violet), .32); }
+.tools-lbl { font: 700 .66rem var(--font); letter-spacing: .14em; text-transform: uppercase; color: var(--muted); align-self: center; margin-right: 2px; }
+ol.steps { list-style: none; counter-reset: st; padding-left: 0; margin: 12px 0; }
+ol.steps > li { counter-increment: st; position: relative; padding-left: 34px; margin: 8px 0; }
+ol.steps > li::before {
+  content: counter(st);
+  position: absolute; left: 0; top: 1px;
+  width: 22px; height: 22px; border-radius: 7px;
+  display: grid; place-items: center;
+  font: 700 .74rem var(--mono);
+  color: rgb(var(--accent)); background: rgba(var(--accent), .12); border: 1px solid rgba(var(--accent), .3);
+}
+.example {
+  margin: 14px 0 2px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(var(--green), .05);
+  border: 1px solid rgba(var(--green), .2);
+  border-left: 3px solid rgb(var(--green));
+  color: var(--text-2);
+  font-size: .95rem;
+}
+.ex-label { display: block; margin-bottom: 4px; font-size: .68rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: rgb(var(--green)); }
+.example p { margin: 6px 0; }
+.src { font-size: .8rem; color: var(--muted); }
+
+/* ---- Pièges (grille) ---- */
+.traps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 14px 0; }
+.trap-card { padding: 12px 14px; border-radius: 14px; border: 1px solid var(--border); background: rgba(var(--ink), .025); font-size: .88rem; color: var(--text-2); }
+.trap-card .t { display: block; margin-bottom: 6px; font-weight: 700; color: var(--heading); font-size: .92rem; }
+.trap-card .line { display: flex; gap: 8px; align-items: baseline; margin: 4px 0; }
+.trap-card .line > span:first-child { flex-shrink: 0; font-weight: 800; }
+.trap-card .line > span:last-child { min-width: 0; }
+
+/* ---- Répartition (barres) ---- */
+.bars { display: grid; gap: 12px; margin: 16px 0; }
+.bar { display: grid; grid-template-columns: minmax(0, 230px) minmax(0, 1fr) 76px; gap: 14px; align-items: center; font-size: .9rem; }
+.bar-lbl { color: var(--heading); font-weight: 600; line-height: 1.3; }
+.bar-lbl small { display: block; font-weight: 400; color: var(--muted); font-size: .78rem; }
+.bar-track { position: relative; height: 12px; border-radius: 999px; background: rgba(var(--ink), .07); overflow: hidden; }
+.bar-track i { position: absolute; inset: 0 auto 0 0; width: calc(var(--p) * 1%); border-radius: inherit; background: linear-gradient(90deg, rgb(var(--accent)), rgb(var(--violet))); box-shadow: 0 0 14px rgba(var(--accent), .5); transform-origin: left; }
+.notion.is-visible .bar-track i { animation: barIn 1s cubic-bezier(.22, .61, .36, 1) backwards; }
+.bar-val { font: 700 .84rem var(--mono); color: var(--heading); text-align: right; white-space: nowrap; }
+
+/* ---- Checklist de révision ---- */
+.todo { list-style: none; padding: 0 !important; margin: 12px 0; display: grid; gap: 8px; }
+.todo li { margin: 0; }
+.todo label {
+  display: grid; grid-template-columns: 22px minmax(0, 1fr) auto; gap: 12px; align-items: start;
+  padding: 10px 14px; border-radius: 12px; cursor: pointer;
+  background: rgba(var(--ink), .03); border: 1px solid var(--border);
+  transition: border-color .2s, background .2s;
+}
+.todo label:hover { border-color: rgba(var(--accent), .35); }
+.todo input { appearance: none; -webkit-appearance: none; width: 20px; height: 20px; margin: 2px 0 0; border-radius: 6px; border: 1.5px solid var(--border-2); display: grid; place-items: center; cursor: pointer; transition: all .2s; }
+.todo input::after { content: ""; width: 10px; height: 6px; border-left: 2.5px solid #03140d; border-bottom: 2.5px solid #03140d; transform: rotate(-45deg) translate(1px, -1px) scale(0); transition: transform .2s cubic-bezier(.34, 1.56, .64, 1); }
+.todo input:checked { background: rgb(var(--green)); border-color: rgb(var(--green)); }
+.todo input:checked::after { transform: rotate(-45deg) translate(1px, -1px) scale(1); }
+.todo input:checked ~ span { opacity: .55; text-decoration: line-through; text-decoration-color: rgba(var(--green), .7); }
+.badge { align-self: center; white-space: nowrap; font: 700 .62rem var(--font); letter-spacing: .1em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; }
+.badge.p1 { color: var(--orange-text); background: rgba(var(--orange), .14); border: 1px solid rgba(var(--orange), .45); }
+.badge.p2 { color: var(--accent-text); background: rgba(var(--accent), .1); border: 1px solid rgba(var(--accent), .35); }
+.badge.p3 { color: var(--muted); background: rgba(var(--ink), .04); border: 1px solid var(--border-2); }
+.badge.final { color: var(--green-text); background: rgba(var(--green), .12); border: 1px solid rgba(var(--green), .4); }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 14px; margin: 10px 0 4px; font-size: .84rem; color: var(--text-2); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.todo span small { display: block; color: var(--muted); font-size: .8rem; }
+.todo-progress { font-size: .82rem; color: var(--muted); }
+
+/* ---- Sujet blanc ---- */
+.paper {
+  margin: 16px 0;
+  padding: 26px 28px;
+  border-radius: 16px;
+  background: var(--paper-bg);
+  border: 1px solid var(--border-2);
+  color: var(--text-2);
+}
+.paper-head { text-align: center; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--border); }
+.paper-head b { display: block; font-size: 1.05rem; color: var(--heading); }
+.paper-head span { font-size: .86rem; color: var(--muted); }
+.ex-head { display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px; margin: 20px 0 6px; font-weight: 700; color: var(--heading); font-size: 1.02rem; }
+.ex-head .pts { font: 600 .74rem var(--mono); padding: 2px 8px; border-radius: 7px; color: var(--orange-text); background: rgba(var(--orange), .1); border: 1px solid rgba(var(--orange), .3); }
+.paper ol { margin: 6px 0; }
+.timer { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 14px 0; }
+.timer-val { font: 700 1.6rem var(--mono); color: var(--heading); min-width: 104px; font-variant-numeric: tabular-nums; }
+.timer-val.is-low { color: rgb(var(--red)); }
+.timer .btn { padding: 8px 14px; font-size: .84rem; }
+
+/* ---- Corrections dépliables ---- */
+.quiz { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; margin: 14px 0; }
+.quiz details { border-radius: 14px; border: 1px solid var(--border); background: rgba(var(--ink), .025); transition: border-color .25s, background .25s; }
+.quiz details[open] { border-color: rgba(var(--green), .35); background: rgba(var(--green), .035); }
+.quiz summary {
+  list-style: none; cursor: pointer;
+  display: flex; gap: 12px; align-items: baseline;
+  padding: 13px 16px;
+  font-weight: 600; color: var(--heading);
+}
+.quiz summary::-webkit-details-marker { display: none; }
+.quiz summary .qn { flex-shrink: 0; font: 700 .74rem var(--mono); color: rgb(var(--accent)); }
+.quiz summary .chev { margin-left: auto; flex-shrink: 0; color: var(--muted); transition: transform .3s; }
+.quiz details[open] summary .chev { transform: rotate(90deg); color: rgb(var(--green)); }
+.quiz .answer { padding: 0 18px 16px 46px; color: var(--text-2); font-size: .94rem; }
+.quiz .answer p { margin: 6px 0; }
+.quiz .answer h5 { margin: 14px 0 4px; font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: rgb(var(--accent)); }
+.pt { display: inline-block; margin-left: 6px; font: 700 .7rem var(--mono); padding: 1px 6px; border-radius: 6px; color: var(--green-text); background: rgba(var(--green), .12); border: 1px solid rgba(var(--green), .3); vertical-align: 1px; }
+
+/* ---- Fin ---- */
+.endcard {
+  margin-top: 60px; padding: 30px 26px; text-align: center;
+  border-radius: 24px;
+  background: radial-gradient(120% 120% at 50% 0%, rgba(var(--accent), .16), transparent 60%), rgba(var(--ink), .025);
+  border: 1px solid rgba(var(--accent), .25);
+}
+.endcard h3 { margin: 0 0 6px; font-size: 1.5rem; letter-spacing: -.02em; }
+.endcard p { margin: 0 auto; max-width: 520px; color: var(--text-2); }
+.endcard .hero-actions { justify-content: center; }
+.foot { margin-top: 34px; text-align: center; font-size: .72rem; letter-spacing: .12em; color: var(--muted); opacity: .7; }
+
+/* ══════════ ANIMATIONS ══════════ */
+@keyframes drift {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  33% { transform: translate3d(40px, -30px, 0) scale(1.06); }
+  66% { transform: translate3d(-34px, 26px, 0) scale(.95); }
+}
+@keyframes shimmer { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@keyframes barIn { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* ══════════ RESPONSIVE ══════════ */
+@media (max-width: 1024px) {
+  /* z-index auto : le menu (dans .layout) peut passer au-dessus du voile sombre */
+  .layout { grid-template-columns: minmax(0, 1fr); gap: 0; padding: 0 16px 80px; z-index: auto; }
+  .menu-btn { display: grid; }
+  /* Le sommaire devient un menu déroulant ouvert par le bouton hamburger */
+  .toc {
+    position: fixed; top: var(--topbar-h); left: 0; right: 0; z-index: 58;
+    max-height: calc(100vh - var(--topbar-h));
+    max-height: calc(100dvh - var(--topbar-h));
+    overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+    margin: 0; padding: 18px 16px 26px;
+    background: var(--menu-bg);
+    -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 28px 50px -24px rgba(0, 0, 0, .7);
+    opacity: 0; visibility: hidden; transform: translateY(-10px);
+    transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s;
+  }
+  html.menu-open .toc { opacity: 1; visibility: visible; transform: none; transition: opacity .25s ease, transform .25s ease; }
+  .toc-foot { display: none; }
+  .toc a { padding: 11px 12px; font-size: .95rem; }
+  .toc a.sub { padding: 8px 12px 8px 42px; font-size: .86rem; }
+  .menu-backdrop {
+    display: block; position: fixed; left: 0; right: 0; bottom: 0; top: var(--topbar-h); z-index: 57;
+    background: rgba(2, 4, 10, .55);
+    opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility 0s linear .25s;
+  }
+  html.menu-open .menu-backdrop { opacity: 1; visibility: visible; transition: opacity .25s ease; }
+  html.menu-open { overflow: hidden; }
+  html { scroll-padding-top: 76px; }
+  main { padding-top: 26px; }
+}
+@media (max-width: 720px) {
+  .topbar { padding: 0 12px; gap: 10px; }
+  .back-link span { display: none; }
+  .back-link { padding: 7px 9px; }
+  .notion { padding: 20px 16px 18px; border-radius: 18px; }
+  .paper { padding: 20px 16px; }
+  .cheat, .traps { grid-template-columns: minmax(0, 1fr); }
+  .bar { grid-template-columns: minmax(0, 1fr) 70px; }
+  .bar-track { grid-column: 1 / -1; grid-row: 2; }
+  .chapter { margin-top: 56px; }
+  /* Numéro de chapitre au-dessus du titre */
+  .chapter-head { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .chapter-num { grid-row: auto; font-size: 2.5rem; margin-bottom: 6px; }
+  .master-btn { grid-column: 1; }
+  /* Tableaux : en-têtes sur plusieurs lignes, et tableaux larges en cartes */
+  th { white-space: normal; padding: 9px 10px; }
+  td { padding: 9px 10px; }
+  .table-wrap.stack-wrap { overflow: visible; border: 0; background: none; border-radius: 0; }
+  table.stack, table.stack tbody, table.stack tr, table.stack td { display: block; width: 100%; }
+  table.stack thead { display: none; }
+  table.stack tr { margin: 0 0 10px; border: 1px solid var(--border); border-radius: 12px; background: rgba(var(--ink), .025); overflow: hidden; }
+  table.stack tr:last-child { margin-bottom: 0; }
+  table.stack td { border-top: 1px solid rgba(var(--ink), .06); border-left: 0 !important; padding: 9px 12px; }
+  table.stack td:first-child { border-top: 0; background: rgba(var(--ink), .045); color: var(--heading); font-weight: 600; }
+  table.stack .td-label { display: block; margin-bottom: 2px; font-size: .64rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+  table.stack td:first-child .td-label { display: none; }
+  tbody tr:hover td { background: none; }
+  .quiz .answer { padding-left: 16px; }
+  .part-head { padding: 12px 14px; gap: 12px; }
+}
+@media (max-width: 420px) {
+  .mastery-pill .lbl { display: none; }
+  .topbar-right { gap: 6px; }
+  .topbar-title .t-long { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  html { scroll-behavior: auto; }
+}
+
+/* ══════════ MENU HAMBURGER & SCHÉMAS ══════════ */
+@media (min-width: 1025px) { .menu-btn, .menu-backdrop { display: none; } }
+.menu-btn .i-close { opacity: 0; transform: rotate(-90deg) scale(.4); }
+html.menu-open .menu-btn .i-open { opacity: 0; transform: rotate(90deg) scale(.4); }
+html.menu-open .menu-btn .i-close { opacity: 1; transform: none; }
+html.menu-open .menu-btn { color: rgb(var(--hl)); border-color: rgba(var(--hl), .45); }
+.td-label { display: none; }
+
+/* ══════════ IMPRESSION ══════════ */
+@media print {
+  .menu-backdrop, .bg, .topbar, .toc, .search, .search-status, .master-btn, .hero-actions, .timer, .endcard .hero-actions { display: none !important; }
+  html, body { background: #fff; color: #111; }
+  .layout { display: block; padding: 0; }
+  .notion, .callout, .table-wrap, .thm, .example { break-inside: avoid; box-shadow: none; }
+  html.js-anim .notion:not(.is-visible) { opacity: 1; transform: none; }
+  .quiz details { display: block; }
+}
+
+/* ---- Chaîne d'implications qui passe à la ligne (algèbre linéaire) ---- */
+.chain { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 10px; margin: 16px 0; }
+.chain .node { padding: 8px 14px; border-radius: 12px; font: 700 .9rem var(--font); color: var(--heading); background: rgba(var(--accent), .12); border: 1px solid rgba(var(--accent), .4); text-align: center; }
+.chain .node.strong { background: rgba(var(--violet), .16); border-color: rgba(var(--violet), .5); }
+.chain .arrow { font: 700 1.1rem var(--font); color: var(--muted); }
+@media (max-width: 720px) { .chain { flex-direction: column; } .chain .arrow { transform: rotate(90deg); } }
+</style>
+</head>
+<body>
+
+<div class="bg" aria-hidden="true">
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <div class="grid-lines"></div>
+</div>
+
+<!-- ══════════ Barre supérieure ══════════ -->
+<header class="topbar">
+  <a class="back-link" href="../../../index.html" title="Retour à Last Minute Learning">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+    <span>Last Minute Learning</span>
+  </a>
+  <div class="topbar-title">
+    <span class="logo" aria-hidden="true">λ</span>
+    <span>Algèbre linéaire<span class="t-long"> · CC2 · A2</span></span>
+  </div>
+  <div class="topbar-right">
+    <button type="button" class="theme-btn" id="themeBtn" aria-label="Passer au thème clair" title="Thème clair / sombre">
+      <svg class="i-sun" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="i-moon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+    <span class="mastery-pill" title="Chapitres marqués comme maîtrisés">
+      <svg class="mastery-ring" viewBox="0 0 24 24" aria-hidden="true"><circle class="track" cx="12" cy="12" r="10"/><circle class="value" id="masteryRing" cx="12" cy="12" r="10"/></svg>
+      <span id="masteryCount">0/5</span><span class="lbl">&nbsp;maîtrisés</span>
+    </span>
+    <button type="button" class="theme-btn menu-btn" id="menuBtn" aria-label="Ouvrir le sommaire" aria-expanded="false" aria-controls="toc" title="Sommaire">
+      <svg class="i-open" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <svg class="i-close" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <div class="read-progress" id="readProgress" aria-hidden="true"></div>
+</header>
+<div class="menu-backdrop" id="menuBackdrop" aria-hidden="true"></div>
+
+<div class="layout">
+
+  <!-- ══════════ Sommaire ══════════ -->
+  <nav class="toc" id="toc" aria-label="Sommaire du cours">
+    <p class="toc-head">Sommaire</p>
+    <ol>
+      <li><a href="#ch0"><span class="toc-num">00</span>Prérequis<span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+      <li><a class="sub" href="#p0a">A · Espaces &amp; familles</a></li>
+      <li><a class="sub" href="#p0b">B · Applications linéaires</a></li>
+      <li><a class="sub" href="#p0c">C · Déterminant, projecteurs</a></li>
+      <li><a href="#ch1"><span class="toc-num">01</span>Éléments propres<span class="toc-star" title="Priorité examen">★</span><span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+      <li><a class="sub" href="#p1a">A · Le cours</a></li>
+      <li><a class="sub" href="#p1b">B · Méthodo</a></li>
+      <li><a href="#ch2"><span class="toc-num">02</span>Diagonalisation<span class="toc-star" title="Priorité examen">★</span><span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+      <li><a class="sub" href="#p2a">A · Le cours</a></li>
+      <li><a class="sub" href="#p2b">B · Méthodo</a></li>
+      <li><a href="#ch3"><span class="toc-num">03</span>Espaces euclidiens<span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+      <li><a class="sub" href="#p3a">A · Produit scalaire</a></li>
+      <li><a class="sub" href="#p3b">B · Orthogonalité</a></li>
+      <li><a class="sub" href="#p3c">C · Isométries &amp; spectral</a></li>
+      <li><a href="#ch4"><span class="toc-num">04</span>Sujet blanc CC2<span class="toc-star" title="Priorité examen">★</span><span class="toc-check" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span></a></li>
+    </ol>
+    <p class="toc-foot"><b>★</b> = chapitre prioritaire pour le CC2.<br>Les numéros 00 → 03 suivent les chapitres 0 → 3 du cours.<br>Raccourci : <code>/</code> pour chercher.</p>
+  </nav>
+
+  <main id="contenu">
+
+    <!-- ══════════ HERO ══════════ -->
+    <section class="hero" aria-labelledby="titre-cours">
+      <div class="hero-chips">
+        <span class="chip"><i></i>A2 · 2026-2027</span>
+        <span class="chip orange"><i></i>CC2 · ch. 1 &amp; 2 (+ ch. 3 en cours)</span>
+      </div>
+      <h1 id="titre-cours">Algèbre linéaire</h1>
+      <p class="hero-lead">Module de révision pour le <strong>CC n°2 d'algèbre linéaire</strong> : les rappels indispensables, les <strong>éléments propres</strong> et la <strong>diagonalisation</strong> (le cœur du contrôle) avec <strong>quoi faire dans chaque situation</strong>, l'essentiel des <strong>espaces euclidiens</strong>, puis un <strong>sujet blanc corrigé</strong>.</p>
+
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#ch1">
+          Aller au cœur du CC2
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+        </a>
+        <a class="btn btn-ghost" href="#ch0">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          Revoir les prérequis
+        </a>
+        <a class="btn btn-ghost" href="#ch4">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h4"/></svg>
+          Sujet blanc
+        </a>
+      </div>
+
+      <div class="search" role="search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        <input id="search" type="search" placeholder="Chercher une notion : valeur propre, diagonaliser, rang, Gram-Schmidt…" autocomplete="off" aria-label="Chercher une notion dans le cours" />
+        <kbd aria-hidden="true">/</kbd>
+      </div>
+      <p class="search-status" id="searchStatus" aria-live="polite"></p>
+    </section>
+
+    <div class="no-result" id="noResult">Aucune notion ne correspond à ta recherche. Essaie un autre mot-clé (ex. <code>noyau</code>, <code>trace</code>, <code>multiplicité</code>).</div>
+
+    <!-- ══════════════════════ CHAPITRE 0 ══════════════════════ -->
+    <section class="chapter" id="ch0" data-num="0" aria-labelledby="ch0-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">00</span>
+        <p class="chapter-kicker">Chapitre 0 · TD 0 · prérequis</p>
+        <h2 id="ch0-t">Les rappels dont tu vas te servir</h2>
+        <p class="chapter-lead">Le chapitre 0 n'est pas évalué pour lui-même, mais <strong>chaque question du CC2 l'utilise</strong> : trouver un sous-espace propre, c'est trouver un <strong>noyau</strong> ; vérifier qu'on a une base, c'est un <strong>rang</strong> ou un <strong>déterminant</strong> ; diagonaliser, c'est un <strong>changement de base</strong>. Ne garde ici que les réflexes.</p>
+      </header>
+
+      <!-- ─────────── Section A ─────────── -->
+      <div class="part-head" id="p0a">
+        <span class="part-letter" aria-hidden="true">A</span>
+        <div>
+          <p class="part-kicker">Section A</p>
+          <h3 class="part-title">Espaces vectoriels, familles, bases</h3>
+          <p class="part-sub">Le vocabulaire de base. Un sous-espace propre est un sous-espace vectoriel : tout ce qui suit s'y applique.</p>
+        </div>
+      </div>
+
+      <article class="notion">
+        <h3>Vect, famille libre, génératrice, base <span class="tag-mini">par cœur</span></h3>
+        <div class="thm def"><span class="thm-name">Définitions</span>
+          <ul>
+            <li>$\mathrm{Vect}(u_1,\dots,u_p)$ = l'ensemble des <b>combinaisons linéaires</b> $\lambda_1u_1+\dots+\lambda_pu_p$. C'est le plus petit sous-espace qui contient les $u_i$.</li>
+            <li>$(u_1,\dots,u_p)$ est <b>libre</b> si : $\lambda_1u_1+\dots+\lambda_pu_p=0\Rightarrow \lambda_1=\dots=\lambda_p=0$. Sinon elle est <b>liée</b> (un vecteur est combinaison des autres).</li>
+            <li>Elle est <b>génératrice</b> de $E$ si $\mathrm{Vect}(u_1,\dots,u_p)=E$.</li>
+            <li>Une <b>base</b> = libre + génératrice. Tout vecteur s'écrit alors de façon <b>unique</b> $x=\sum x_iu_i$ : les $x_i$ sont ses <b>coordonnées</b>.</li>
+          </ul>
+        </div>
+        <div class="cheat">
+          <div><b>Bases canoniques à connaître</b>$\mathbb R^n$ : $e_1=(1,0,\dots,0),\dots$ · $\mathbb R_n[X]$ : $(1,X,\dots,X^n)$ · $\mathcal M_2(\mathbb R)$ : les 4 matrices $E_{ij}$ (un seul 1).</div>
+          <div><b>Dimensions</b>$\dim\mathbb R^n=n$ · $\dim\mathbb R_n[X]=n+1$ · $\dim\mathcal M_{n}(\mathbb R)=n^2$.</div>
+        </div>
+        <div class="thm"><span class="thm-name">Le théorème qui fait gagner du temps</span>
+          <p>Si $\dim E=n$ et que la famille a <b>exactement $n$ vecteurs</b> : libre $\iff$ génératrice $\iff$ base. Il suffit de prouver <b>une seule</b> des deux propriétés.</p>
+        </div>
+        <div class="callout tip"><div><span class="callout-title">Test express en dimension $n$</span>$n$ vecteurs de $\mathbb R^n$ forment une base $\iff$ le <b>déterminant</b> de la matrice de leurs coordonnées (en colonnes) est <b>non nul</b>.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Sous-espace vectoriel (s.e.v.)</h3>
+        <div class="thm def"><span class="thm-name">Définition</span>
+          <p>$F\subset E$ est un s.e.v. si $0_E\in F$ et $F$ est stable par combinaison linéaire : $\forall u,v\in F,\ \forall\lambda\in\mathbb R,\ \lambda u+v\in F$.</p>
+        </div>
+        <p>Trois façons rapides de justifier qu'un ensemble est un s.e.v. :</p>
+        <ul>
+          <li>c'est un $\mathrm{Vect}(\dots)$ ;</li>
+          <li>c'est le <b>noyau</b> d'une application linéaire (équations «&nbsp;$=0$&nbsp;» linéaires) ;</li>
+          <li>la définition (contient $0$ + stable).</li>
+        </ul>
+        <div class="callout trap"><div><span class="callout-title">Réflexe «&nbsp;$0\in F$ ?&nbsp;»</span>$F_2=\{x+y-z=1\}$ ne contient pas $(0,0,0)$ : ce n'est <b>pas</b> un s.e.v. Idem $\{P\mid P(0)=1\}$. Une équation avec un second membre non nul ⇒ pas un s.e.v.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Dimension, rang, sommes directes</h3>
+        <ul>
+          <li><b>Rang d'une famille</b> = dimension du $\mathrm{Vect}$ qu'elle engendre = nombre maximal de vecteurs libres parmi eux.</li>
+          <li>Si $F\subset G$ et $\dim F=\dim G$ (finie), alors $F=G$.</li>
+          <li>Dans $\mathbb R^n$, un s.e.v. défini par $k$ équations <b>indépendantes</b> est de dimension $n-k$ (ex. un plan de $\mathbb R^3$ : 1 équation).</li>
+        </ul>
+        <div class="thm"><span class="thm-name">Somme directe &amp; supplémentaires</span>
+          <p>$F+G=\{f+g\}$. La somme est <b>directe</b> ($F\oplus G$) si $F\cap G=\{0\}$. $F$ et $G$ sont <b>supplémentaires</b> si $E=F\oplus G$ : tout $x$ s'écrit de façon unique $x=f+g$.</p>
+          <p><b>Grassmann</b> : $\dim(F+G)=\dim F+\dim G-\dim(F\cap G)$.<br>En dimension finie : $E=F\oplus G\iff F\cap G=\{0\}$ <b>et</b> $\dim F+\dim G=\dim E$.</p>
+        </div>
+        <div class="callout"><div><span class="callout-title">Pourquoi c'est utile au CC2</span>Les sous-espaces propres associés à des valeurs propres différentes sont toujours en <b>somme directe</b>. Diagonaliser, c'est montrer que leur somme remplit tout $E$.</div></div>
+      </article>
+
+      <article class="notion" data-code="A1">
+        <h3>Méthodes express : Vect, liberté, équations <span class="tag-mini cool">réflexes</span></h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>On te demande…</th><th>Tu fais</th><th>Exemple (TD 0)</th></tr></thead>
+            <tbody>
+              <tr><td>«&nbsp;$x\in\mathrm{Vect}(u,v)$ ?&nbsp;»</td><td>Résoudre $x=\alpha u+\beta v$ (système). Solution ⇒ oui ; système incompatible ⇒ non.</td><td>$(5,4,1)=\alpha(1,2,1)+\beta(2,1,0)$ : la 3ᵉ ligne donne $\alpha=1$, puis $\beta=2$, et la 2ᵉ ligne vérifie $2+2=4$. Oui : $x=u+2v$.</td></tr>
+              <tr><td>«&nbsp;La famille est-elle libre ?&nbsp;»</td><td>Écrire $\sum\lambda_iu_i=0$ et montrer que tous les $\lambda_i=0$. Raccourci : $n$ vecteurs de $\mathbb R^n$ ⇒ déterminant $\neq0$.</td><td>$(1,1,1),(1,0,1),(0,1,1)$ : $\det=-1\neq0$ ⇒ libre (donc base de $\mathbb R^3$).</td></tr>
+              <tr><td>«&nbsp;Base et dimension de $F=\{$équations$\}$&nbsp;»</td><td>Exprimer des inconnues en fonction des autres («&nbsp;paramètres libres&nbsp;»), puis factoriser par chaque paramètre.</td><td>$x+2y-z=0\Rightarrow z=x+2y$ : $(x,y,x+2y)=x(1,0,1)+y(0,1,2)$. Base $\big((1,0,1),(0,1,2)\big)$, dim 2.</td></tr>
+              <tr><td>«&nbsp;Équation cartésienne de $\mathrm{Vect}(u,v)$&nbsp;» (dans $\mathbb R^3$)</td><td>Écrire $(x,y,z)=\alpha u+\beta v$, éliminer $\alpha,\beta$. Ou : la condition de compatibilité du système.</td><td>$\mathrm{Vect}\big((1,1,0),(1,0,1)\big)$ : $x=\alpha+\beta$, $y=\alpha$, $z=\beta$ ⇒ $x-y-z=0$.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <!-- ─────────── Section B ─────────── -->
+      <div class="part-head" id="p0b">
+        <span class="part-letter" aria-hidden="true">B</span>
+        <div>
+          <p class="part-kicker">Section B</p>
+          <h3 class="part-title">Applications linéaires &amp; matrices</h3>
+          <p class="part-sub">Toute la suite repose sur deux idées : un noyau se calcule en résolvant $AX=0$, et une même application a des matrices différentes selon la base choisie.</p>
+        </div>
+      </div>
+
+      <article class="notion">
+        <h3>Linéarité, noyau, image, théorème du rang <span class="tag-mini">par cœur</span></h3>
+        <div class="thm def"><span class="thm-name">Définitions</span>
+          <p>$f:E\to F$ est <b>linéaire</b> si $f(\lambda u+v)=\lambda f(u)+f(v)$. Si $E=F$, c'est un <b>endomorphisme</b> ($f\in\mathcal L(E)$).</p>
+          <p>$\mathrm{Ker} f=\{x\in E\mid f(x)=0\}$ (s.e.v. de $E$) · $\mathrm{Im} f=\{f(x)\}$ (s.e.v. de $F$) · $\mathrm{rg} f=\dim\mathrm{Im} f$.</p>
+        </div>
+        <div class="thm"><span class="thm-name">Théorème du rang</span>
+          $$\dim E=\dim\mathrm{Ker} f+\mathrm{rg} f$$
+          <p>En version matrice ($A$ de taille $n\times n$) : $\dim\mathrm{Ker} A=n-\mathrm{rg} A$. <b>C'est LA formule pour obtenir la dimension d'un sous-espace propre</b> : $\dim E_\lambda=n-\mathrm{rg}(A-\lambda I_n)$.</p>
+        </div>
+        <ul>
+          <li>$f$ injective $\iff\mathrm{Ker} f=\{0\}$. Pour un endomorphisme en dimension finie : injective $\iff$ surjective $\iff$ bijective.</li>
+          <li>$\mathrm{Im} f=\mathrm{Vect}\big(f(e_1),\dots,f(e_n)\big)$ : l'image est engendrée par les <b>colonnes</b> de la matrice.</li>
+        </ul>
+        <div class="callout trap"><div><span class="callout-title">Pas linéaire si…</span>il y a une constante ($f(x,y)=(x+1,y)$ : $f(0)\neq0$), un produit de coordonnées ($xy$), un carré, une valeur absolue… Premier test : $f(0)=0$ ?</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Matrice d'une application linéaire</h3>
+        <div class="thm def"><span class="thm-name">La règle</span>
+          <p>La matrice de $f$ dans la base $\mathcal B=(e_1,\dots,e_n)$ a pour <b>$j$-ième colonne les coordonnées de $f(e_j)$</b> (dans la base d'arrivée).</p>
+        </div>
+        <div class="example"><span class="ex-label">Exemple · TD 0 ex. 22</span>
+          <p>$f(x,y)=(x+2y,\,-x+y,\,3x-y)$ : $f(e_1)=(1,-1,3)$, $f(e_2)=(2,1,-1)$, donc</p>
+          $$\begin{gathered}A=\begin{pmatrix}1 & 2\\ -1 & 1\\ 3 & -1\end{pmatrix},\\ A\begin{pmatrix}2\\-1\end{pmatrix}=\begin{pmatrix}0\\-3\\7\end{pmatrix}=f(2,-1).\end{gathered}$$
+        </div>
+        <ul>
+          <li><b>Composition = produit</b> : la matrice de $f\circ g$ est $AB$ (dans cet ordre).</li>
+          <li><b>Pour un endomorphisme de polynômes</b> : calcule $f(1)$, $f(X)$, $f(X^2)$ et écris leurs coefficients en colonnes.</li>
+        </ul>
+      </article>
+
+      <article class="notion">
+        <h3>Changement de base : $A'=P^{-1}AP$ <span class="tag-mini">clé pour la suite</span></h3>
+        <p>Si $P$ est la <b>matrice de passage</b> de la base $\mathcal B$ à la base $\mathcal B'$ (ses colonnes = les vecteurs de $\mathcal B'$ écrits dans $\mathcal B$), alors pour un endomorphisme $f$ :</p>
+        $$\mathrm{Mat}_{\mathcal B'}(f)=P^{-1}\,\mathrm{Mat}_{\mathcal B}(f)\,P\qquad\text{soit}\qquad A=PA'P^{-1}.$$
+        <p>Deux matrices liées ainsi sont dites <b>semblables</b> : elles représentent la même application, et ont même déterminant, même trace, même rang, même polynôme caractéristique.</p>
+        <div class="example"><span class="ex-label">Exemple · TD 0 ex. 28 · l'avant-goût de la diagonalisation</span>
+          <p>$f(x,y)=(2x+y,\,x+2y)$, $u=(1,1)$, $v=(1,-1)$. On calcule $f(u)=(3,3)=3u$ et $f(v)=(1,-1)=1\cdot v$. Dans la base $(u,v)$ :</p>
+          $$\begin{gathered}[f]_{(u,v)}=\begin{pmatrix}3 & 0\\0 & 1\end{pmatrix}\ \text{(diagonale !)}\\ \begin{pmatrix}2 & 1\\1 & 2\end{pmatrix}=P\begin{pmatrix}3 & 0\\0 & 1\end{pmatrix}P^{-1},\quad P=\begin{pmatrix}1 & 1\\1 & -1\end{pmatrix}.\end{gathered}$$
+          <p>$u$ et $v$ sont des <b>vecteurs propres</b> : tout le chapitre 2 consiste à trouver une telle base.</p>
+        </div>
+      </article>
+
+      <!-- ─────────── Section C ─────────── -->
+      <div class="part-head" id="p0c">
+        <span class="part-letter" aria-hidden="true">C</span>
+        <div>
+          <p class="part-kicker">Section C</p>
+          <h3 class="part-title">Déterminant, trace, inversibilité, projecteurs</h3>
+          <p class="part-sub">Le déterminant sert à calculer le polynôme caractéristique ; les projecteurs et symétries reviennent en exemples d'endomorphismes diagonalisables.</p>
+        </div>
+      </div>
+
+      <article class="notion">
+        <h3>Calculer un déterminant <span class="tag-mini">tombe partout</span></h3>
+        <div class="cheat">
+          <div><b>$2\times2$</b>$\begin{vmatrix}a & b\\c & d\end{vmatrix}=ad-bc$</div>
+          <div><b>Triangulaire</b>Produit des coefficients diagonaux (vrai en toute taille).</div>
+          <div><b>$3\times3$ · Sarrus</b>$aei+bfg+cdh-(ceg+afh+bdi)$ pour $\begin{pmatrix}a & b & c\\d & e & f\\g & h & i\end{pmatrix}$. Uniquement en $3\times3$ !</div>
+          <div><b>Développement</b>Selon une ligne/colonne riche en zéros : $\det A=\sum_j(-1)^{i+j}a_{ij}\Delta_{ij}$ (signes en damier $\begin{smallmatrix}+&-&+\\-&+&-\\+&-&+\end{smallmatrix}$).</div>
+        </div>
+        <p><b>Opérations autorisées</b> (indispensables pour factoriser $\chi_A$ au chapitre 1) :</p>
+        <ul>
+          <li>$L_i\leftarrow L_i+\lambda L_j$ (ou sur les colonnes) : <b>ne change pas</b> le déterminant ;</li>
+          <li>échanger deux lignes : multiplie par $-1$ ;</li>
+          <li>une ligne a un <b>facteur commun</b> $k$ : on le sort, $\det=k\times\det(\dots)$ ;</li>
+          <li>deux lignes égales / proportionnelles, ou une ligne nulle : $\det=0$.</li>
+        </ul>
+        <div class="example"><span class="ex-label">Exemple · TD 1 ex. 4 · factoriser avant de développer</span>
+          <p>$M_a=\begin{pmatrix}a & 1 & 1\\1 & a & 1\\1 & 1 & a\end{pmatrix}$. Chaque ligne a pour somme $a+2$ : $C_1\leftarrow C_1+C_2+C_3$ puis on sort $(a+2)$ :</p>
+          $$\begin{gathered}\det M_a=(a+2)\begin{vmatrix}1 & 1 & 1\\1 & a & 1\\1 & 1 & a\end{vmatrix}\\ \underset{L_2-L_1,\ L_3-L_1}{=}(a+2)\begin{vmatrix}1 & 1 & 1\\0 & a-1 & 0\\0 & 0 & a-1\end{vmatrix}=(a+2)(a-1)^2.\end{gathered}$$
+          <p>Donc $M_a$ est inversible $\iff a\neq-2$ et $a\neq1$.</p>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Propriétés : déterminant, trace, inversibilité</h3>
+        <div class="cheat">
+          <div><b>Déterminant</b>$\det(AB)=\det A\det B$ · $\det(A^T)=\det A$ · $\det(A^{-1})=\frac{1}{\det A}$ · $\det(\lambda A)=\lambda^n\det A$ · <span class="ko">$\det(A+B)\neq\det A+\det B$</span></div>
+          <div><b>Trace</b> (somme des coefficients diagonaux)$\mathrm{tr}$ est linéaire : $\mathrm{tr}(A+B)=\mathrm{tr}A+\mathrm{tr}B$, $\mathrm{tr}(\lambda A)=\lambda\,\mathrm{tr}A$ · $\mathrm{tr}(AB)=\mathrm{tr}(BA)$</div>
+        </div>
+        <div class="thm"><span class="thm-name">Caractérisations de l'inversibilité ($A\in\mathcal M_n$)</span>
+          <p>$A$ inversible $\iff\det A\neq0\iff\mathrm{Ker}A=\{0\}\iff\mathrm{rg}A=n\iff$ les colonnes forment une base.</p>
+          <p>Inverse en $2\times2$ : $\begin{pmatrix}a & b\\c & d\end{pmatrix}^{-1}=\dfrac{1}{ad-bc}\begin{pmatrix}d & -b\\-c & a\end{pmatrix}$.</p>
+        </div>
+        <div class="callout tip"><div><span class="callout-title">Le lien avec le chapitre 1</span>«&nbsp;$\lambda$ est valeur propre&nbsp;» $\iff$ «&nbsp;$A-\lambda I$ <b>n'est pas</b> inversible&nbsp;» $\iff\det(A-\lambda I)=0$. Tout le chapitre 1 est une application de cette ligne.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Projecteurs &amp; symétries</h3>
+        <p>On suppose $E=F\oplus G$ et on décompose $x=x_F+x_G$ (de façon unique).</p>
+        <div class="cheat">
+          <div><b>Projecteur sur $F$ parallèlement à $G$</b>$p(x)=x_F$. Caractérisation : $p\circ p=p$. Alors $F=\mathrm{Im}\,p=\mathrm{Ker}(p-\mathrm{Id})$, $G=\mathrm{Ker}\,p$.</div>
+          <div><b>Symétrie par rapport à $F$ parallèlement à $G$</b>$s(x)=x_F-x_G$. Caractérisation : $s\circ s=\mathrm{Id}$. Alors $F=\mathrm{Ker}(s-\mathrm{Id})$, $G=\mathrm{Ker}(s+\mathrm{Id})$, et $s=2p-\mathrm{Id}$.</div>
+        </div>
+        <div class="example"><span class="ex-label">Exemple · TD 0 ex. 29</span>
+          <p>$F=\mathrm{Vect}(u)$, $u=(2,1)$ ; $G=\mathrm{Vect}(v)$, $v=(1,-1)$. Pour $w=(x,y)=\lambda u+\mu v$ : $2\lambda+\mu=x$ et $\lambda-\mu=y$ donnent $\lambda=\frac{x+y}3$, $\mu=\frac{x-2y}3$.</p>
+          <p>$p(w)=\lambda u=\frac{x+y}{3}(2,1)$ et $s(w)=\lambda u-\mu v$. Pour $w_1=(5,1)$ : $\lambda=2$, $\mu=1$, $p(w_1)=(4,2)$, $s(w_1)=(4,2)-(1,-1)=(3,3)$.</p>
+        </div>
+        <div class="callout"><div><span class="callout-title">Au chapitre 2</span>Dans une base adaptée à $F\oplus G$, $p$ a pour matrice $\mathrm{diag}(1,\dots,1,0,\dots,0)$ et $s$ a pour matrice $\mathrm{diag}(1,\dots,1,-1,\dots,-1)$ : <b>projecteurs et symétries sont toujours diagonalisables</b>.</div></div>
+      </article>
+    </section>
+
+
+    <!-- ══════════════════════ CHAPITRE 1 ══════════════════════ -->
+    <section class="chapter" id="ch1" data-num="1" aria-labelledby="ch1-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">01</span>
+        <p class="chapter-kicker">Chapitre 1 · TD 1 <span class="prio">★ Central au CC2</span></p>
+        <h2 id="ch1-t">Éléments propres &amp; polynôme caractéristique</h2>
+        <p class="chapter-lead">Trouver les <strong>valeurs propres</strong> (avec $\chi_A$ ou une astuce), puis les <strong>sous-espaces propres</strong> (un noyau). C'est la première moitié de toute question de diagonalisation : si tu rates ce calcul, tout le reste tombe.</p>
+      </header>
+
+      <!-- ─────────── Section A ─────────── -->
+      <div class="part-head" id="p1a">
+        <span class="part-letter" aria-hidden="true">A</span>
+        <div>
+          <p class="part-kicker">Section A</p>
+          <h3 class="part-title">Le cours, version utile</h3>
+          <p class="part-sub">Définitions à savoir réciter, puis les propriétés qui servent dans les calculs. Dans tout le chapitre, $A\in\mathcal M_n(\mathbb K)$ avec $\mathbb K=\mathbb R$ ou $\mathbb C$, ou $f\in\mathcal L(E)$ avec $\dim E=n$.</p>
+        </div>
+      </div>
+
+      <article class="notion">
+        <h3>L'idée en une phrase</h3>
+        <p>Un <b>vecteur propre</b> est une direction que $f$ ne fait pas tourner : $f$ se contente de l'<b>étirer</b> (ou de le retourner, ou de l'écraser) d'un facteur $\lambda$, la <b>valeur propre</b>.</p>
+        $$f(u)=\lambda u\qquad\text{avec } u\neq0.$$
+        <p>Si on trouve assez de vecteurs propres pour former une base, la matrice de $f$ dans cette base est <b>diagonale</b> (avec les $\lambda$ sur la diagonale) : c'est l'objectif du chapitre 2. Exemple déjà vu : $f(x,y)=(2x+y,x+2y)$ étire $(1,1)$ d'un facteur 3 et laisse $(1,-1)$ fixe.</p>
+      </article>
+
+      <article class="notion">
+        <h3>Valeur propre, vecteur propre, sous-espace propre <span class="tag-mini">question de cours</span></h3>
+        <div class="thm def"><span class="thm-name">Définitions</span>
+          <ul>
+            <li>$\lambda\in\mathbb K$ est une <b>valeur propre</b> de $A$ s'il existe $X\neq0$ tel que $AX=\lambda X$. Un tel $X$ est un <b>vecteur propre</b> associé à $\lambda$.</li>
+            <li>Le <b>spectre</b> $\mathrm{Sp}(A)$ est l'ensemble des valeurs propres.</li>
+            <li>Le <b>sous-espace propre</b> associé à $\lambda$ est $E_\lambda(A)=\mathrm{Ker}(A-\lambda I_n)=\{X\mid AX=\lambda X\}$.</li>
+          </ul>
+        </div>
+        <div class="thm"><span class="thm-name">Caractérisation (celle qu'on utilise)</span>
+          $$\begin{gathered}\lambda\in\mathrm{Sp}(A)\iff\mathrm{Ker}(A-\lambda I_n)\neq\{0\}\\ \iff A-\lambda I_n\text{ non inversible}\iff\det(A-\lambda I_n)=0.\end{gathered}$$
+        </div>
+        <ul>
+          <li>$E_\lambda$ est un s.e.v. ; il contient $0$ et <b>tous</b> les vecteurs propres associés à $\lambda$. Donc $\dim E_\lambda\ge1$ quand $\lambda$ est valeur propre.</li>
+          <li>$0$ est valeur propre $\iff\mathrm{Ker}A\neq\{0\}\iff A$ <b>non inversible</b>. Et alors $E_0=\mathrm{Ker}A$.</li>
+        </ul>
+        <div class="callout trap"><div><span class="callout-title">Un vecteur propre n'est jamais nul</span>$A\cdot0=\lambda\cdot0$ pour tout $\lambda$ : c'est pour ça que la définition impose $X\neq0$. Par contre une <b>valeur</b> propre peut valoir $0$.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Le polynôme caractéristique $\chi_A$ <span class="tag-mini">par cœur</span></h3>
+        <div class="thm def"><span class="thm-name">Définition (convention des TD)</span>
+          $$\chi_A(X)=\det(A-XI_n).$$
+          <p>Ses <b>racines</b> sont exactement les valeurs propres de $A$. Certains cours utilisent $\det(XI_n-A)=(-1)^n\chi_A(X)$ : mêmes racines, aucune importance pour les valeurs propres.</p>
+        </div>
+        <ul>
+          <li>$\chi_A$ est de degré $n$ ⇒ $A$ a <b>au plus $n$</b> valeurs propres.</li>
+          <li>Coefficients connus : $\chi_A(X)=(-1)^nX^n+(-1)^{n-1}\mathrm{tr}(A)X^{n-1}+\dots+\det A$.</li>
+          <li><b>Cas $2\times2$</b> (à connaître, ça évite le calcul) : $\chi_A(X)=X^2-\mathrm{tr}(A)\,X+\det A$.</li>
+          <li><b>Matrice triangulaire</b> : $\chi_A(X)=\prod(a_{ii}-X)$, donc les valeurs propres sont les <b>coefficients diagonaux</b>.</li>
+          <li>$A$ et $A^T$ ont le même $\chi$ ; deux matrices semblables aussi. Pour un endomorphisme $f$ : $\chi_f=\chi_A$ avec $A$ la matrice de $f$ dans <b>n'importe quelle</b> base.</li>
+        </ul>
+        <div class="callout"><div><span class="callout-title">Sur $\mathbb R$ ou sur $\mathbb C$ ?</span>$C=\begin{pmatrix}0 & -1\\1 & 0\end{pmatrix}$ (rotation d'un quart de tour) : $\chi_C=X^2+1$. Aucune valeur propre <b>réelle</b>, mais $\pm i$ sur $\mathbb C$. Lis bien si l'énoncé travaille dans $\mathbb R$ ou $\mathbb C$.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Multiplicités, trace et déterminant</h3>
+        <div class="thm def"><span class="thm-name">Deux multiplicités à ne pas confondre</span>
+          <ul>
+            <li><b>Multiplicité algébrique</b> $m_\lambda$ : la puissance de $(\lambda-X)$ dans $\chi_A$. Ex. $\chi_A=(1-X)(2-X)^2$ : $m_1=1$, $m_2=2$.</li>
+            <li><b>Multiplicité géométrique</b> : $\dim E_\lambda=n-\mathrm{rg}(A-\lambda I_n)$.</li>
+          </ul>
+        </div>
+        <div class="thm"><span class="thm-name">L'encadrement fondamental</span>
+          $$1\le\dim E_\lambda\le m_\lambda.$$
+          <p>Conséquence directe : si $\lambda$ est <b>racine simple</b> ($m_\lambda=1$), alors $\dim E_\lambda=1$ automatiquement. Seules les valeurs propres <b>multiples</b> demandent une vérification.</p>
+        </div>
+        <div class="thm"><span class="thm-name">Somme et produit (si $\chi_A$ est scindé, en comptant les multiplicités)</span>
+          $$\lambda_1+\dots+\lambda_n=\mathrm{tr}(A),\qquad\lambda_1\times\dots\times\lambda_n=\det(A).$$
+          <p>Idéal pour <b>trouver la dernière</b> valeur propre ou <b>vérifier</b> ton calcul.</p>
+        </div>
+        <div class="callout tip"><div><span class="callout-title">Contrôle anti-erreur (10 secondes)</span>Après avoir trouvé tes valeurs propres, vérifie que leur somme (avec multiplicités) vaut la trace. Si ce n'est pas le cas, ton $\chi_A$ est faux : ne va pas plus loin.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Propriétés théoriques qui tombent en vrai/faux</h3>
+        <ul>
+          <li><b>Vecteurs propres de valeurs propres distinctes ⇒ famille libre</b>. Donc $E_{\lambda_1}+\dots+E_{\lambda_p}$ est une somme <b>directe</b> (TD 1 ex. 15).</li>
+          <li>Si $AX=\lambda X$ alors $A^kX=\lambda^kX$ : $\lambda^k$ est valeur propre de $A^k$, et si $A$ est inversible, $\frac1\lambda$ est valeur propre de $A^{-1}$.</li>
+          <li><b>Projecteur</b> ($p^2=p$) : $\mathrm{Sp}(p)\subset\{0,1\}$. <b>Symétrie</b> ($s^2=\mathrm{Id}$) : $\mathrm{Sp}(s)\subset\{-1,1\}$. Plus généralement, si $P(f)=0$ pour un polynôme $P$, toute valeur propre est racine de $P$.</li>
+          <li><b>Nilpotent</b> ($f^p=0$) : seule valeur propre possible $0$.</li>
+        </ul>
+        <div class="example"><span class="ex-label">La preuve type · TD 1 ex. 14</span>
+          <p>Soit $\lambda$ valeur propre de $p$ et $x\neq0$ tel que $p(x)=\lambda x$. Alors $p^2(x)=p(\lambda x)=\lambda^2x$. Or $p^2=p$, donc $\lambda^2x=\lambda x$, soit $(\lambda^2-\lambda)x=0$. Comme $x\neq0$ : $\lambda^2-\lambda=0$, donc $\lambda\in\{0,1\}$.</p>
+          <p>Même schéma pour $s$ : $\lambda^2x=x\Rightarrow\lambda^2=1$. À savoir refaire, c'est une question de cours typique.</p>
+        </div>
+      </article>
+
+      <!-- ─────────── Section B ─────────── -->
+      <div class="part-head" id="p1b">
+        <span class="part-letter" aria-hidden="true">B</span>
+        <div>
+          <p class="part-kicker">Section B · méthodo</p>
+          <h3 class="part-title">Quoi faire dans chaque situation</h3>
+          <p class="part-sub">Pour chaque type de question : comment la <strong>reconnaître</strong>, les <strong>outils</strong>, la <strong>démarche</strong>, et un <strong>exemple</strong> corrigé tiré du TD 1.</p>
+        </div>
+      </div>
+
+      <article class="notion" data-code="B0">
+        <h3>L'aiguillage <span class="tag-mini cool">à lire en premier</span></h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>La question / la matrice…</th><th>Réflexe</th><th>Méthode</th></tr></thead>
+            <tbody>
+              <tr><td>«&nbsp;Ce vecteur est-il propre ?&nbsp;»</td><td>Calculer $Av$ et comparer à $v$</td><td>B1</td></tr>
+              <tr><td>Matrice $2\times2$</td><td>$\chi_A=X^2-\mathrm{tr}A\,X+\det A$</td><td>B2</td></tr>
+              <tr><td>Matrice triangulaire</td><td>Lire la diagonale</td><td>B2</td></tr>
+              <tr><td>Matrice $3\times3$ quelconque</td><td>$\det(A-XI)$ en <b>factorisant</b> par opérations</td><td>B3</td></tr>
+              <tr><td>Somme des lignes constante, lignes égales dans $A-\lambda I$, «&nbsp;sans calculer $\chi$&nbsp;»</td><td>Valeurs propres évidentes + trace</td><td>B4</td></tr>
+              <tr><td>«&nbsp;Déterminer les sous-espaces propres&nbsp;»</td><td>Résoudre $(A-\lambda I)X=0$</td><td>B5</td></tr>
+              <tr><td>Endomorphisme de $\mathbb R_n[X]$ ou défini par une formule</td><td>Passer par la matrice dans la base canonique</td><td>B6</td></tr>
+              <tr><td>Vrai / faux, $p^2=p$, «&nbsp;montrer que&nbsp;»</td><td>Partir de $f(x)=\lambda x$, $x\neq0$</td><td>B7</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout exam"><div><span class="callout-title">Rédaction attendue</span>Pour chaque valeur propre, écris le <b>calcul</b> qui la justifie ($\chi_A(\lambda)=0$ ou un vecteur $X\neq0$ avec $AX=\lambda X$), puis donne $E_\lambda$ sous la forme $\mathrm{Vect}(\dots)$ avec sa <b>dimension</b>.</div></div>
+      </article>
+
+      <article class="notion" data-code="B1">
+        <h3>Vérifier qu'un vecteur donné est propre</h3>
+        <p class="when"><b>Tu reconnais :</b> «&nbsp;Dire si ces vecteurs sont propres et donner la valeur propre associée.&nbsp;»</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">produit matrice × vecteur</span><span class="tool">colinéarité</span></div>
+        <ol class="steps">
+          <li>Vérifie que $v\neq0$.</li>
+          <li>Calcule $Av$ (ou $f(v)$).</li>
+          <li>Si $Av=\lambda v$ pour un réel $\lambda$ : $v$ est propre pour $\lambda$. Sinon (pas colinéaire) : pas propre.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD 1 ex. 5</span>
+          $$\begin{gathered}A=\begin{pmatrix}2 & 0 & 1\\0 & 2 & 0\\0 & 0 & 3\end{pmatrix}\\ A\begin{pmatrix}1\\0\\1\end{pmatrix}=\begin{pmatrix}3\\0\\3\end{pmatrix}=3\begin{pmatrix}1\\0\\1\end{pmatrix}\\ A\begin{pmatrix}0\\1\\1\end{pmatrix}=\begin{pmatrix}1\\2\\3\end{pmatrix}.\end{gathered}$$
+          <p>$w=(1,0,1)$ est propre pour $3$. $z=(0,1,1)$ ne l'est pas : $(1,2,3)$ n'est pas colinéaire à $(0,1,1)$. De même $u=e_1$ et $v=e_2$ sont propres pour $2$ : deux vecteurs propres indépendants pour la même valeur, donc $\dim E_2=2$.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="B2">
+        <h3>Matrice $2\times2$ ou triangulaire : sans effort</h3>
+        <p class="when"><b>Tu reconnais :</b> une matrice $2\times2$, ou des zéros sous (ou sur) la diagonale.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$X^2-\mathrm{tr}A\,X+\det A$</span><span class="tool">diagonale d'une triangulaire</span></div>
+        <div class="example"><span class="ex-label">Exemples · TD 1 ex. 8 &amp; 9</span>
+          <p>$A=\begin{pmatrix}2 & 1\\1 & 2\end{pmatrix}$ : $\mathrm{tr}=4$, $\det=3$, $\chi_A=X^2-4X+3=(X-1)(X-3)$. $\mathrm{Sp}(A)=\{1,3\}$.</p>
+          <p>$B=\begin{pmatrix}3 & 1\\-1 & 1\end{pmatrix}$ : $\chi_B=X^2-4X+4=(X-2)^2$. Une seule valeur propre, $2$, double.</p>
+          <p>$\begin{pmatrix}1 & 2 & 0\\0 & 3 & 1\\0 & 0 & -1\end{pmatrix}$ est triangulaire : valeurs propres $1,3,-1$, rien à calculer.</p>
+        </div>
+        <div class="callout trap"><div><span class="callout-title">Triangulaire, vraiment ?</span>Il faut que <b>tous</b> les coefficients d'un côté de la diagonale soient nuls. Un seul coefficient non nul de chaque côté et la règle ne marche plus.</div></div>
+      </article>
+
+      <article class="notion" data-code="B3">
+        <h3>Calculer $\chi_A$ d'une $3\times3$ en factorisant <span class="tag-mini">tombe souvent</span></h3>
+        <p class="when"><b>Tu reconnais :</b> «&nbsp;Calculer le polynôme caractéristique et en déduire les valeurs propres&nbsp;» pour une matrice pleine.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$L_i\leftarrow L_i-L_j$</span><span class="tool">$C_1\leftarrow C_1+C_2+C_3$</span><span class="tool">sortir un facteur</span><span class="tool">développement</span></div>
+        <ol class="steps">
+          <li>Écris $A-XI_3$ (enlève $X$ sur la diagonale uniquement).</li>
+          <li><b>Cherche une opération qui fait apparaître un facteur commun</b> dans une ligne ou une colonne : différence de deux lignes, ou somme de toutes les colonnes si les sommes de lignes de $A$ sont égales.</li>
+          <li>Sors ce facteur $(\lambda-X)$, crée des zéros, développe selon la ligne/colonne la plus creuse.</li>
+          <li>Tu obtiens un facteur de degré 1 fois un polynôme de degré 2 : factorise-le (discriminant ou racine évidente).</li>
+          <li>Vérifie avec la trace.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD 1 ex. 9 ($C$)</span>
+          $$\chi_C(X)=\begin{vmatrix}14-X & -8 & -16\\4 & 2-X & -8\\4 & -4 & -2-X\end{vmatrix}.$$
+          <p>$L_2\leftarrow L_2-L_3$ donne la ligne $(0,\ 6-X,\ -6+X)=(6-X)(0,1,-1)$ : on sort $(6-X)$. Puis $C_2\leftarrow C_2+C_3$ pour annuler un coefficient :</p>
+          $$\begin{gathered}\chi_C=(6-X)\begin{vmatrix}14-X & -8 & -16\\0 & 1 & -1\\4 & -4 & -2-X\end{vmatrix}\\ =(6-X)\begin{vmatrix}14-X & -24 & -16\\0 & 0 & -1\\4 & -6-X & -2-X\end{vmatrix}.\end{gathered}$$
+          <p>On développe selon la 2ᵉ ligne (un seul terme, signe $(-1)^{2+3}=-1$) :</p>
+          $$\begin{gathered}\chi_C=(6-X)\cdot(-1)\cdot(-1)\begin{vmatrix}14-X & -24\\4 & -6-X\end{vmatrix}\\ =(6-X)(X^2-8X+12)=-(X-2)(X-6)^2.\end{gathered}$$
+          <p>$\mathrm{Sp}(C)=\{2,6\}$, avec $m_2=1$, $m_6=2$. Contrôle : $2+6+6=14=\mathrm{tr}(C)$ ✔.</p>
+        </div>
+        <div class="callout tip"><div><span class="callout-title">Pas d'astuce visible ?</span>Développe directement (Sarrus ou une ligne), ordonne le polynôme, puis teste les racines évidentes $0,\pm1,\pm2,\pm3$ parmi les diviseurs du terme constant. Une fois une racine $\lambda_0$ trouvée, factorise par $(X-\lambda_0)$. Plus long, mais ça marche toujours.</div></div>
+      </article>
+
+      <article class="notion" data-code="B4">
+        <h3>Valeurs propres évidentes, sans calculer $\chi_A$ <span class="tag-mini">gain de temps</span></h3>
+        <p class="when"><b>Tu reconnais :</b> «&nbsp;sans calculer le polynôme caractéristique&nbsp;», des lignes de même somme, des lignes qui se répètent, une matrice «&nbsp;presque&nbsp;» constante.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$A\mathbf 1$</span><span class="tool">rang de $A-\lambda I$</span><span class="tool">trace</span><span class="tool">déterminant</span></div>
+        <div class="cheat">
+          <div><b>Somme des lignes constante $= s$</b>Alors $A(1,\dots,1)^T=s(1,\dots,1)^T$ : $s$ est valeur propre, de vecteur propre $\mathbf 1$.</div>
+          <div><b>Lignes égales dans $A-\lambda I$</b>Alors $\det(A-\lambda I)=0$ : $\lambda$ est valeur propre. Si $A-\lambda I$ est de <b>rang 1</b>, $\dim E_\lambda=n-1$ (donc $m_\lambda\ge n-1$).</div>
+          <div><b>La dernière valeur propre</b>Avec la trace : $\lambda_n=\mathrm{tr}A-(\lambda_1+\dots+\lambda_{n-1})$.</div>
+          <div><b>Non inversible</b>$\det A=0$ ou deux colonnes proportionnelles ⇒ $0$ est valeur propre.</div>
+        </div>
+        <div class="example"><span class="ex-label">Exemple · TD 1 ex. 10 ($C$)</span>
+          <p>$C=\begin{pmatrix}2 & 1 & 1\\1 & 2 & 1\\1 & 0 & 3\end{pmatrix}$ : chaque ligne a pour somme $4$, donc $C\mathbf 1=4\cdot\mathbf 1$ et <b>$4$ est valeur propre</b>.</p>
+          <p>$C-I=\begin{pmatrix}1 & 1 & 1\\1 & 1 & 1\\1 & 0 & 2\end{pmatrix}$ a deux lignes égales : $\det(C-I)=0$, <b>$1$ est valeur propre</b>.</p>
+          <p>$\mathrm{tr}(C)=7$ donc la troisième vaut $7-4-1=2$. $\mathrm{Sp}(C)=\{1,2,4\}$. Contrôle : $\det C=1\cdot2\cdot4=8$ ✔.</p>
+        </div>
+        <div class="example"><span class="ex-label">Exemple · TD 2 ex. 6 · la valeur propre double</span>
+          <p>$A=\begin{pmatrix}1 & 2 & 2\\2 & 1 & 2\\2 & 2 & 1\end{pmatrix}$ : $A+I$ a ses trois lignes égales à $(2,2,2)$, donc $\mathrm{rg}(A+I)=1$ et $\dim E_{-1}=3-1=2$. Ainsi $-1$ est valeur propre de multiplicité $\ge2$. Lignes de somme $5$ ⇒ $5$ valeur propre. Trace $3=-1-1+5$ ✔. Donc $\chi_A=-(X+1)^2(X-5)$, sans aucun déterminant.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="B5">
+        <h3>Déterminer un sous-espace propre <span class="tag-mini">à chaque CC</span></h3>
+        <p class="when"><b>Tu reconnais :</b> «&nbsp;Déterminer les sous-espaces propres&nbsp;», «&nbsp;en donner une base&nbsp;», «&nbsp;comparer multiplicité et dimension&nbsp;».</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$E_\lambda=\mathrm{Ker}(A-\lambda I)$</span><span class="tool">système linéaire</span><span class="tool">théorème du rang</span></div>
+        <ol class="steps">
+          <li>Écris $A-\lambda I$ avec la <b>valeur numérique</b> de $\lambda$.</li>
+          <li>Résous $(A-\lambda I)X=0$ : élimine les équations redondantes (le système a forcément des solutions non nulles ; si tu trouves seulement $0$, tu t'es trompé de $\lambda$ ou de calcul).</li>
+          <li>Exprime les inconnues en fonction des inconnues libres et écris $E_\lambda=\mathrm{Vect}(\dots)$.</li>
+          <li>Donne $\dim E_\lambda$ (= nombre de paramètres libres = $n-\mathrm{rg}(A-\lambda I)$).</li>
+          <li><b>Vérifie</b> : $A\times$(ton vecteur) $=\lambda\times$(ton vecteur).</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD 1 ex. 11</span>
+          <p>$A=\begin{pmatrix}1 & -1 & -1\\-1 & 1 & -1\\-1 & -1 & 1\end{pmatrix}$, $\chi_A=-(X-2)^2(X+1)$.</p>
+          <p><b>$\lambda=2$</b> : $A-2I=\begin{pmatrix}-1 & -1 & -1\\-1 & -1 & -1\\-1 & -1 & -1\end{pmatrix}$ : une seule équation $x+y+z=0$, donc $z=-x-y$ et</p>
+          $$\begin{gathered}E_2=\{(x,y,-x-y)\}\\ =\mathrm{Vect}\big((1,0,-1),(0,1,-1)\big),\quad\dim E_2=2=m_2.\end{gathered}$$
+          <p><b>$\lambda=-1$</b> : $A+I=\begin{pmatrix}2 & -1 & -1\\-1 & 2 & -1\\-1 & -1 & 2\end{pmatrix}$. $L_1-L_2$ : $3x-3y=0$, donc $x=y$ ; puis $2x-x-z=0$ donne $z=x$. $E_{-1}=\mathrm{Vect}\big((1,1,1)\big)$, dimension 1.</p>
+          <p><b>Comparaison</b> avec $B=\begin{pmatrix}2 & 1 & 0\\0 & 2 & 0\\0 & 0 & -1\end{pmatrix}$ : $m_2=2$ mais $B-2I=\begin{pmatrix}0 & 1 & 0\\0 & 0 & 0\\0 & 0 & -3\end{pmatrix}$ impose $y=z=0$, d'où $E_2=\mathrm{Vect}(e_1)$ de dimension $1\lt m_2$. Au chapitre 2, on verra que $A$ est diagonalisable et pas $B$.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="B6">
+        <h3>Endomorphisme de polynômes (ou défini par une formule)</h3>
+        <p class="when"><b>Tu reconnais :</b> $f:\mathbb R_n[X]\to\mathbb R_n[X]$, $f(P)=P+XP'$, $f(P)=X(P(X+1)-P(X))$…</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$f(1),f(X),f(X^2)$</span><span class="tool">matrice dans $(1,X,X^2)$</span><span class="tool">souvent triangulaire</span></div>
+        <ol class="steps">
+          <li>Calcule les images de la base canonique : $f(1)$, $f(X)$, $f(X^2)$.</li>
+          <li>Écris la matrice (coefficients en colonnes). Elle est très souvent <b>triangulaire</b> : lis les valeurs propres.</li>
+          <li>Les vecteurs propres trouvés pour la matrice (colonnes $(a,b,c)$) correspondent aux polynômes $a+bX+cX^2$.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD 1 ex. 7</span>
+          <p>$f(P)=P+XP'$ : $f(1)=1$, $f(X)=X+X=2X$, $f(X^2)=X^2+2X^2=3X^2$. Donc $1$, $X$, $X^2$ sont propres pour $1$, $2$, $3$ ; la matrice est $\mathrm{diag}(1,2,3)$.</p>
+          <p>$1+X$ : $f(1+X)=1+2X$, pas colinéaire à $1+X$, donc <b>pas propre</b> (somme de vecteurs propres de valeurs <b>différentes</b>).</p>
+        </div>
+        <div class="example"><span class="ex-label">Exemple · TD 1 ex. 13.1</span>
+          <p>$f(P)=X\big(P(X+1)-P(X)\big)$ : $f(1)=0$, $f(X)=X$, $f(X^2)=X\big((X+1)^2-X^2\big)=X+2X^2$.</p>
+          $$\begin{gathered}\mathrm{Mat}(f)=\begin{pmatrix}0 & 0 & 0\\0 & 1 & 1\\0 & 0 & 2\end{pmatrix}\ \text{(triangulaire)}\\ \Rightarrow\mathrm{Sp}(f)=\{0,1,2\}.\end{gathered}$$
+        </div>
+        <div class="callout tip"><div><span class="callout-title">Argument de degré (en bonus)</span>Si $f$ conserve le degré et le coefficient dominant de $f(X^k)$ vaut $c_k$, alors les valeurs propres sont les $c_k$. C'est exactement ce que dit la matrice triangulaire.</div></div>
+      </article>
+
+      <article class="notion" data-code="B7">
+        <h3>Questions théoriques &amp; vrai/faux <span class="tag-mini">question de cours</span></h3>
+        <p class="when"><b>Tu reconnais :</b> «&nbsp;Montrer que $\mathrm{Sp}(p)\subset\{0,1\}$&nbsp;», «&nbsp;Les affirmations suivantes sont-elles vraies ?&nbsp;»</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$f(x)=\lambda x$, $x\neq0$</span><span class="tool">contre-exemple diagonal</span><span class="tool">$\det(A^T)=\det A$</span></div>
+        <ol class="steps">
+          <li><b>Pour démontrer</b> : pose «&nbsp;Soit $\lambda$ une valeur propre et $x\neq0$ tel que $f(x)=\lambda x$&nbsp;», applique l'hypothèse, termine par «&nbsp;comme $x\neq0$&nbsp;».</li>
+          <li><b>Pour réfuter</b> : un contre-exemple avec des matrices <b>diagonales</b> (ou $I_n$) suffit presque toujours.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD 1 ex. 12</span>
+          <ul>
+            <li>«&nbsp;$A$ a au plus $n$ valeurs propres&nbsp;» : <span class="ok">vrai</span>, $\chi_A$ est de degré $n$.</li>
+            <li>«&nbsp;$\alpha\in\mathrm{Sp}(A)\Rightarrow\alpha^2\in\mathrm{Sp}(A^2)$&nbsp;» : <span class="ok">vrai</span>, $A^2X=A(\alpha X)=\alpha^2X$.</li>
+            <li>«&nbsp;$A$ et $A^T$ ont les mêmes valeurs propres&nbsp;» : <span class="ok">vrai</span>, $\det(A^T-XI)=\det\big((A-XI)^T\big)=\det(A-XI)$.</li>
+            <li>«&nbsp;Valeur propre commune à $A$ et $B$ ⇒ valeur propre de $A+B$&nbsp;» : <span class="ko">faux</span>. $A=B=I_n$ : $1$ est commune, mais $A+B=2I_n$ n'a que $2$.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="notion" data-code="P">
+        <h3>Les pièges qui coûtent des points</h3>
+        <div class="traps">
+          <div class="trap-card"><span class="t">$X$ partout</span><div class="line"><span class="ko">✘</span><span>retirer $X$ à tous les coefficients</span></div><div class="line"><span class="ok">✔</span><span>$A-XI$ : $X$ seulement sur la <b>diagonale</b></span></div></div>
+          <div class="trap-card"><span class="t">Développer trop tôt</span><div class="line"><span class="ko">✘</span><span>Sarrus direct puis polynôme de degré 3 sans racine</span></div><div class="line"><span class="ok">✔</span><span>chercher d'abord un facteur commun (B3)</span></div></div>
+          <div class="trap-card"><span class="t">Vecteur propre nul</span><div class="line"><span class="ko">✘</span><span>$E_\lambda=\{0\}$ pour une valeur propre</span></div><div class="line"><span class="ok">✔</span><span>impossible : erreur de calcul, recommence</span></div></div>
+          <div class="trap-card"><span class="t">Oublier de vérifier</span><div class="line"><span class="ko">✘</span><span>donner $E_\lambda$ sans test</span></div><div class="line"><span class="ok">✔</span><span>calculer $AX$ et comparer à $\lambda X$</span></div></div>
+          <div class="trap-card"><span class="t">Multiplicités</span><div class="line"><span class="ko">✘</span><span>«&nbsp;$m_\lambda=2$ donc $\dim E_\lambda=2$&nbsp;»</span></div><div class="line"><span class="ok">✔</span><span>seulement $1\le\dim E_\lambda\le m_\lambda$ : il faut calculer</span></div></div>
+          <div class="trap-card"><span class="t">Signe de $\chi$</span><div class="line"><span class="ko">✘</span><span>s'inquiéter de $\det(A-XI)$ vs $\det(XI-A)$</span></div><div class="line"><span class="ok">✔</span><span>mêmes racines ; garde une convention et tiens-la</span></div></div>
+        </div>
+      </article>
+    </section>
+
+
+    <!-- ══════════════════════ CHAPITRE 2 ══════════════════════ -->
+    <section class="chapter" id="ch2" data-num="2" aria-labelledby="ch2-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">02</span>
+        <p class="chapter-kicker">Chapitre 2 · TD 2 <span class="prio">★ Central au CC2</span></p>
+        <h2 id="ch2-t">Diagonalisation</h2>
+        <p class="chapter-lead">Le chapitre le plus probable du contrôle. Il faut savoir <strong>décider</strong> si une matrice est diagonalisable (souvent sans tout calculer), la <strong>diagonaliser</strong> proprement, puis <strong>s'en servir</strong> : puissances $A^n$, suites récurrentes, paramètres.</p>
+      </header>
+
+      <!-- ─────────── Section A ─────────── -->
+      <div class="part-head" id="p2a">
+        <span class="part-letter" aria-hidden="true">A</span>
+        <div>
+          <p class="part-kicker">Section A</p>
+          <h3 class="part-title">Le cours, version utile</h3>
+          <p class="part-sub">Une définition, un théorème (la CNS), une condition suffisante. Tout le reste en découle.</p>
+        </div>
+      </div>
+
+      <article class="notion">
+        <h3>Définition <span class="tag-mini">question de cours</span></h3>
+        <div class="thm def"><span class="thm-name">Diagonalisable</span>
+          <p>$f\in\mathcal L(E)$ est <b>diagonalisable</b> s'il existe une <b>base de $E$ formée de vecteurs propres</b> de $f$. Dans cette base, la matrice de $f$ est diagonale.</p>
+          <p>$A\in\mathcal M_n(\mathbb K)$ est <b>diagonalisable</b> s'il existe $P$ inversible et $D$ diagonale telles que</p>
+          $$A=PDP^{-1}\qquad(\iff D=P^{-1}AP).$$
+        </div>
+        <div class="cheat">
+          <div><b>Ce qu'il y a dans $D$</b>Les valeurs propres de $A$, chacune répétée $m_\lambda$ fois.</div>
+          <div><b>Ce qu'il y a dans $P$</b>En colonnes, des vecteurs propres formant une base, <b>dans le même ordre</b> que les valeurs propres de $D$.</div>
+        </div>
+        <div class="callout"><div><span class="callout-title">Pourquoi ça marche</span>$AP=PD$ se lit colonne par colonne : $A\,(\text{colonne }j\text{ de }P)=d_j\times(\text{colonne }j\text{ de }P)$. C'est exactement «&nbsp;chaque colonne de $P$ est un vecteur propre&nbsp;».</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Le théorème central (CNS) <span class="tag-mini">par cœur</span></h3>
+        <div class="thm"><span class="thm-name">Critère de diagonalisabilité</span>
+          <p>$A$ est diagonalisable sur $\mathbb K$ $\iff$ $\chi_A$ est <b>scindé</b> sur $\mathbb K$ (produit de facteurs de degré 1) <b>et</b> pour toute valeur propre $\lambda$ : $\dim E_\lambda=m_\lambda$.</p>
+          <p>De façon équivalente : $\displaystyle\sum_{\lambda\in\mathrm{Sp}(A)}\dim E_\lambda=n$.</p>
+        </div>
+        <div class="thm"><span class="thm-name">Condition suffisante (la plus rapide)</span>
+          <p>Si $A\in\mathcal M_n(\mathbb K)$ a <b>$n$ valeurs propres distinctes</b> dans $\mathbb K$, alors $A$ est diagonalisable (chaque $E_\lambda$ est une droite).</p>
+        </div>
+        <div class="chain" role="img" aria-label="n valeurs propres distinctes implique diagonalisable, qui équivaut à chi scindé et dim E lambda égale m lambda pour tout lambda">
+          <span class="node">$n$ valeurs propres distinctes</span>
+          <span class="arrow">⇒</span>
+          <span class="node strong">diagonalisable</span>
+          <span class="arrow">⇔</span>
+          <span class="node">$\chi_A$ scindé et $\dim E_\lambda=m_\lambda\ \forall\lambda$</span>
+        </div>
+        <p><b>La réciproque de la condition suffisante est fausse</b> : $I_3$ est diagonale (donc diagonalisable) avec une seule valeur propre.</p>
+        <div class="callout tip"><div><span class="callout-title">En pratique</span>Comme $\dim E_\lambda=m_\lambda=1$ pour une racine simple, il suffit de vérifier $\dim E_\lambda=m_\lambda$ pour les valeurs propres <b>multiples</b>, avec $\dim E_\lambda=n-\mathrm{rg}(A-\lambda I)$.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>Les cas à reconnaître immédiatement</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Situation</th><th>Conclusion</th><th>Pourquoi</th></tr></thead>
+            <tbody>
+              <tr><td class="rowh">$\chi_A$ a un facteur sans racine réelle ($X^2+1$…)</td><td><span class="ko">Non diag. sur $\mathbb R$</span></td><td>$\chi_A$ non scindé sur $\mathbb R$ (peut l'être sur $\mathbb C$)</td></tr>
+              <tr><td class="rowh">Une seule valeur propre $\lambda$ et $A\neq\lambda I$</td><td><span class="ko">Non diag.</span></td><td>Sinon $D=\lambda I$ et $A=P(\lambda I)P^{-1}=\lambda I$</td></tr>
+              <tr><td class="rowh">Triangulaire, diagonale constante, non diagonale</td><td><span class="ko">Non diag.</span></td><td>Cas précédent (ex. $\begin{pmatrix}2 & 1\\0 & 2\end{pmatrix}$)</td></tr>
+              <tr><td class="rowh">$A$ symétrique réelle ($A^T=A$)</td><td><span class="ok">Diag.</span></td><td>Théorème spectral (chapitre 3)</td></tr>
+              <tr><td class="rowh">$A^2=A$ ou $A^2=I$</td><td><span class="ok">Diag.</span></td><td>Projecteur / symétrie : $E=E_1\oplus E_0$ ou $E_1\oplus E_{-1}$</td></tr>
+              <tr><td class="rowh">$\mathrm{rg}A=1$</td><td>Diag. $\iff\mathrm{tr}A\neq0$</td><td>$\dim E_0=n-1$, l'autre valeur propre vaut $\mathrm{tr}A$ (TD 2 ex. 16)</td></tr>
+              <tr><td class="rowh">$A^p=0$, $A\neq0$ (nilpotente)</td><td><span class="ko">Non diag.</span></td><td>Seule valeur propre $0$, et $A\neq0$</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Ce que la diagonalisation permet de faire</h3>
+        <ul>
+          <li><b>Puissances</b> : $A=PDP^{-1}\Rightarrow A^n=PD^nP^{-1}$ et $D^n=\mathrm{diag}(\lambda_1^n,\dots,\lambda_n^n)$ (les $P^{-1}P$ du milieu se simplifient).</li>
+          <li><b>Suites récurrentes linéaires</b> : $X_{n+1}=AX_n\Rightarrow X_n=A^nX_0$.</li>
+          <li><b>Inverse</b> : si aucune valeur propre n'est nulle, $A^{-1}=PD^{-1}P^{-1}$.</li>
+          <li>Trace et déterminant d'un coup d'œil : $\mathrm{tr}A=\mathrm{tr}D$, $\det A=\det D$.</li>
+        </ul>
+        <div class="thm def"><span class="thm-name">Trigonalisation (complément du TD 2)</span>
+          <p>$A$ est <b>trigonalisable</b> si elle est semblable à une matrice <b>triangulaire supérieure</b>. Résultat : $\chi_A$ scindé $\Rightarrow$ $A$ trigonalisable. Sur $\mathbb C$, <b>toute</b> matrice est trigonalisable.</p>
+        </div>
+      </article>
+
+      <!-- ─────────── Section B ─────────── -->
+      <div class="part-head" id="p2b">
+        <span class="part-letter" aria-hidden="true">B</span>
+        <div>
+          <p class="part-kicker">Section B · méthodo</p>
+          <h3 class="part-title">Quoi faire dans chaque situation</h3>
+          <p class="part-sub">Toutes les questions du TD 2 se ramènent à une de ces fiches. Commence par l'aiguillage.</p>
+        </div>
+      </div>
+
+      <article class="notion" data-code="C0">
+        <h3>L'aiguillage «&nbsp;est-elle diagonalisable ?&nbsp;» <span class="tag-mini cool">à lire en premier</span></h3>
+        <p>Prends la première ligne qui s'applique :</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Ce que tu observes</th><th>Ce que tu fais</th><th>Méthode</th></tr></thead>
+            <tbody>
+              <tr><td>$A$ symétrique réelle, $A^2=A$, $A^2=I$</td><td>Diagonalisable directement (cite le résultat)</td><td>C8 / ch. 3</td></tr>
+              <tr><td>$\chi_A$ donné ou triangulaire</td><td>Lire les valeurs propres et les multiplicités</td><td>C2</td></tr>
+              <tr><td>$n$ valeurs propres distinctes</td><td>Diagonalisable, sans calculer les $E_\lambda$</td><td>C1</td></tr>
+              <tr><td>Une valeur propre multiple</td><td>Calculer $\mathrm{rg}(A-\lambda I)$ pour elle</td><td>C3</td></tr>
+              <tr><td>Des paramètres $a,b,c$</td><td>Discuter selon que les valeurs propres coïncident</td><td>C4</td></tr>
+              <tr><td>Endomorphisme de $\mathbb R_n[X]$</td><td>Matrice dans $(1,X,X^2)$ puis comme une matrice</td><td>C5</td></tr>
+              <tr><td>«&nbsp;Calculer $A^n$&nbsp;», «&nbsp;suites $u_n,v_n$&nbsp;»</td><td>Diagonaliser puis $PD^nP^{-1}$ ou décomposer $X_0$</td><td>C6 / C7</td></tr>
+              <tr><td>Non diagonalisable et «&nbsp;trigonaliser&nbsp;»</td><td>Base $(u_1,u_2)$ avec $(f-\lambda\mathrm{Id})(u_2)=u_1$</td><td>C9</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+
+      <article class="notion" data-code="C1">
+        <h3>Le plan type «&nbsp;Diagonaliser $A$&nbsp;» <span class="tag-mini">tombe à coup sûr</span></h3>
+        <p class="when"><b>Tu reconnais :</b> «&nbsp;Étudier les éléments propres&nbsp;», «&nbsp;$A$ est-elle diagonalisable ?&nbsp;», «&nbsp;Diagonaliser $A$&nbsp;», «&nbsp;Donner $P$ et $D$&nbsp;».</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$\chi_A$ (B3 / B4)</span><span class="tool">$E_\lambda=\mathrm{Ker}(A-\lambda I)$</span><span class="tool">CNS ou $n$ valeurs distinctes</span></div>
+        <ol class="steps">
+          <li><b>Valeurs propres</b> : calcule et factorise $\chi_A$ ; donne $\mathrm{Sp}(A)$ et les multiplicités. Vérifie avec la trace.</li>
+          <li><b>Sous-espaces propres</b> : pour chaque $\lambda$, résous $(A-\lambda I)X=0$, donne une base et la dimension.</li>
+          <li><b>Conclusion</b> : compare $\dim E_\lambda$ et $m_\lambda$ (ou cite «&nbsp;$n$ valeurs propres distinctes&nbsp;»).</li>
+          <li><b>$P$ et $D$</b> : $P$ = vecteurs propres en colonnes, $D$ = valeurs propres dans le même ordre. Écris $A=PDP^{-1}$.</li>
+          <li>Ne calcule $P^{-1}$ <b>que si</b> on te le demande (ou pour $A^n$).</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple corrigé · TD 2 ex. 2</span>
+          <p>$A=\begin{pmatrix}0 & 1 & -2\\1 & 0 & -2\\1 & -1 & 0\end{pmatrix}$.</p>
+          <p><b>1. Valeurs propres.</b> Dans $A-XI$, $L_1\leftarrow L_1-L_2$ donne $(-X-1,\ 1+X,\ 0)=(X+1)(-1,1,0)$, puis $C_2\leftarrow C_2+C_1$ :</p>
+          $$\begin{gathered}\chi_A=(X+1)\begin{vmatrix}-1 & 1 & 0\\1 & -X & -2\\1 & -1 & -X\end{vmatrix}\\ =(X+1)\begin{vmatrix}-1 & 0 & 0\\1 & 1-X & -2\\1 & 0 & -X\end{vmatrix}\\ =(X+1)\cdot(-1)\cdot(1-X)(-X).\end{gathered}$$
+          <p>$\chi_A=-X(X-1)(X+1)$ : $\mathrm{Sp}(A)=\{-1,0,1\}$. Contrôle : $-1+0+1=0=\mathrm{tr}A$ ✔.</p>
+          <p><b>2. Conclusion immédiate</b> : 3 valeurs propres distinctes en dimension 3, donc $A$ est <b>diagonalisable</b> et chaque $E_\lambda$ est une droite.</p>
+          <p><b>3. Sous-espaces propres.</b></p>
+          <ul>
+            <li>$\lambda=-1$ : $x+y-2z=0$ et $x-y+z=0$. En sommant : $2x-z=0$, soit $z=2x$, puis $y=x+z=3x$. $E_{-1}=\mathrm{Vect}\big((1,3,2)\big)$.</li>
+            <li>$\lambda=0$ : $y-2z=0$, $x-2z=0$ donc $x=y=2z$. $E_0=\mathrm{Vect}\big((2,2,1)\big)=\mathrm{Ker}A$.</li>
+            <li>$\lambda=1$ : $-x+y-2z=0$ et $x-y-2z=0$. En sommant : $z=0$, puis $x=y$. $E_1=\mathrm{Vect}\big((1,1,0)\big)$.</li>
+          </ul>
+          <p><b>4. Diagonalisation.</b></p>
+          $$\begin{gathered}P=\begin{pmatrix}1 & 2 & 1\\3 & 2 & 1\\2 & 1 & 0\end{pmatrix},\quad D=\begin{pmatrix}-1 & 0 & 0\\0 & 0 & 0\\0 & 0 & 1\end{pmatrix}\\ A=PDP^{-1}.\end{gathered}$$
+        </div>
+      </article>
+
+      <article class="notion" data-code="C2">
+        <h3>Conclure à partir de $\chi_A$ et de quelques dimensions</h3>
+        <p class="when"><b>Tu reconnais :</b> «&nbsp;Les informations données permettent-elles de conclure ? Justifier brièvement.&nbsp;»</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">CNS</span><span class="tool">$1\le\dim E_\lambda\le m_\lambda$</span><span class="tool">scindé ou non</span></div>
+        <div class="example"><span class="ex-label">Exemple · TD 2 ex. 1</span>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Information</th><th>Réponse</th><th>Justification</th></tr></thead>
+              <tbody>
+                <tr><td>3 valeurs propres réelles distinctes, $A\in\mathcal M_3(\mathbb R)$</td><td><span class="ok">Diag.</span></td><td>$n$ valeurs propres distinctes</td></tr>
+                <tr><td>$\chi_A=(1-X)(X^2+1)$</td><td><span class="ko">Non diag. sur $\mathbb R$</span></td><td>$X^2+1$ sans racine réelle : non scindé</td></tr>
+                <tr><td>$\chi_A=(1-X)(2-X)^2$ seul</td><td>On ne peut pas conclure</td><td>$\dim E_2\in\{1,2\}$ inconnue</td></tr>
+                <tr><td>… et $\dim E_2=2$</td><td><span class="ok">Diag.</span></td><td>$\dim E_1=1=m_1$, $\dim E_2=2=m_2$</td></tr>
+                <tr><td>… et $\dim E_2=1$</td><td><span class="ko">Non diag.</span></td><td>$\dim E_2=1\lt m_2=2$</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </article>
+
+      <article class="notion" data-code="C3">
+        <h3>Valeur propre double : diagonalisable ou pas ? <span class="tag-mini">tombe souvent</span></h3>
+        <p class="when"><b>Tu reconnais :</b> $\chi_A$ a un facteur au carré, par exemple $(X-2)^2$.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$\dim E_\lambda=n-\mathrm{rg}(A-\lambda I)$</span><span class="tool">lignes proportionnelles</span></div>
+        <ol class="steps">
+          <li>Écris $A-\lambda I$ pour la valeur propre multiple.</li>
+          <li>Compte son rang : combien de lignes <b>vraiment</b> indépendantes ?</li>
+          <li>$\dim E_\lambda=n-\mathrm{rg}$. Égale à $m_\lambda$ : diagonalisable (si les autres sont simples). Plus petite : non diagonalisable, et tu peux t'arrêter là.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD 2 ex. 5 · deux matrices, deux conclusions</span>
+          <p>$A_2=\begin{pmatrix}2 & 2 & 1\\1 & 3 & 1\\1 & 2 & 2\end{pmatrix}$ : lignes de somme $5$ ⇒ $5\in\mathrm{Sp}$. $A_2-I=\begin{pmatrix}1 & 2 & 1\\1 & 2 & 1\\1 & 2 & 1\end{pmatrix}$ est de rang 1 ⇒ $\dim E_1=2$. Trace $7=5+1+1$ ⇒ $\chi_{A_2}=-(X-5)(X-1)^2$. $\dim E_1=2=m_1$ ⇒ <span class="ok">diagonalisable</span>, avec</p>
+          $$\begin{gathered}E_1=\{x+2y+z=0\}\\ =\mathrm{Vect}\big((-2,1,0),(-1,0,1)\big)\\ E_5=\mathrm{Vect}\big((1,1,1)\big)\\ A_2=P\,\mathrm{diag}(5,1,1)\,P^{-1},\quad P=\begin{pmatrix}1 & -2 & -1\\1 & 1 & 0\\1 & 0 & 1\end{pmatrix}.\end{gathered}$$
+          <p>$A_3=\begin{pmatrix}0 & -2 & -2\\-1 & 1 & 2\\-1 & -1 & 2\end{pmatrix}$ : $\chi_{A_3}=-(X-2)^2(X+1)$. $A_3-2I=\begin{pmatrix}-2 & -2 & -2\\-1 & -1 & 2\\-1 & -1 & 0\end{pmatrix}$ : les lignes $(1,1,1)$ et $(1,1,0)$ (au signe près) sont indépendantes, donc $\mathrm{rg}=2$ et $\dim E_2=1\lt2$ ⇒ <span class="ko">non diagonalisable</span>.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="C4">
+        <h3>Matrice à paramètres</h3>
+        <p class="when"><b>Tu reconnais :</b> «&nbsp;Pour quelles valeurs de $(a,b,c)$ la matrice est-elle diagonalisable ? Sans diagonaliser explicitement.&nbsp;»</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">matrice triangulaire</span><span class="tool">discussion par cas</span><span class="tool">rang de $A-\lambda I$</span></div>
+        <ol class="steps">
+          <li>Lis les valeurs propres (souvent triangulaire) : elles dépendent d'un paramètre.</li>
+          <li><b>Cas 1</b> : les valeurs du paramètre qui rendent des valeurs propres <b>égales</b> (multiplicité qui change).</li>
+          <li><b>Cas 2</b> : les autres valeurs. Pour chaque valeur propre multiple, condition $\mathrm{rg}(A-\lambda I)=n-m_\lambda$.</li>
+          <li>Rassemble : «&nbsp;$A$ diagonalisable $\iff$ …&nbsp;».</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD 2 ex. 10</span>
+          <p>$A=\begin{pmatrix}1 & a & 1\\0 & 1 & b\\0 & 0 & c\end{pmatrix}$ est triangulaire : valeurs propres $1$ (au moins double) et $c$.</p>
+          <p><b>Si $c=1$</b> : seule valeur propre $1$. Diagonalisable $\iff A=I_3$, impossible (coefficient $1$ en position $(1,3)$). <span class="ko">Jamais diagonalisable</span>.</p>
+          <p><b>Si $c\neq1$</b> : $m_1=2$, $m_c=1$. Il faut $\dim E_1=2$, soit $\mathrm{rg}(A-I)=1$ avec $A-I=\begin{pmatrix}0 & a & 1\\0 & 0 & b\\0 & 0 & c-1\end{pmatrix}$. La ligne $(0,0,c-1)$ est non nulle ; la ligne $(0,a,1)$ lui est proportionnelle $\iff a=0$.</p>
+          <p><b>Conclusion</b> : $A$ diagonalisable $\iff c\neq1$ et $a=0$ ($b$ quelconque).</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="C5">
+        <h3>Diagonaliser un endomorphisme de polynômes</h3>
+        <p class="when"><b>Tu reconnais :</b> $f:\mathbb R_2[X]\to\mathbb R_2[X]$, «&nbsp;montrer que $f$ est un endomorphisme&nbsp;», «&nbsp;donner une base de vecteurs propres&nbsp;».</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">linéarité + degré</span><span class="tool">matrice dans $(1,X,X^2)$</span><span class="tool">traduire les colonnes en polynômes</span></div>
+        <ol class="steps">
+          <li><b>Endomorphisme</b> : linéarité ($f(\lambda P+Q)=\lambda f(P)+f(Q)$, à écrire) <b>et</b> $\deg f(P)\le2$ (souvent : vérifier sur $1,X,X^2$).</li>
+          <li><b>Matrice</b> : images de $1,X,X^2$ en colonnes.</li>
+          <li>Valeurs propres, sous-espaces propres comme pour une matrice.</li>
+          <li>Retraduis : la colonne $(a,b,c)$ est le polynôme $a+bX+cX^2$.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD 2 ex. 12</span>
+          <p>$f(P)=(X^2-1)P''+2XP'$. $f(1)=0$, $f(X)=2X$, $f(X^2)=2(X^2-1)+4X^2=6X^2-2$ : tous de degré $\le2$, et $f$ est linéaire car la dérivation l'est.</p>
+          $$\mathrm{Mat}(f)=\begin{pmatrix}0 & 0 & -2\\0 & 2 & 0\\0 & 0 & 6\end{pmatrix}$$
+          <p>Matrice triangulaire : $\mathrm{Sp}(f)=\{0,2,6\}$, 3 valeurs propres distinctes, donc $f$ est diagonalisable.</p>
+          <p>$E_0=\mathrm{Vect}(1)$, $E_2=\mathrm{Vect}(X)$. Pour $6$ : $-6a-2c=0$ et $-4b=0$, donc $b=0$, $c=-3a$ : $E_6=\mathrm{Vect}(1-3X^2)$, ou $\mathrm{Vect}(3X^2-1)$.</p>
+          <p>Dans la base $(1,\ X,\ 3X^2-1)$, la matrice de $f$ est $\mathrm{diag}(0,2,6)$.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="C6">
+        <h3>Calculer $A^n$ <span class="tag-mini">tombe souvent</span></h3>
+        <p class="when"><b>Tu reconnais :</b> «&nbsp;En déduire $A^n$ pour tout $n\in\mathbb N^*$.&nbsp;»</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$A^n=PD^nP^{-1}$</span><span class="tool">inverse $2\times2$</span><span class="tool">récurrence (pour justifier)</span></div>
+        <ol class="steps">
+          <li>Diagonalise : $A=PDP^{-1}$.</li>
+          <li>Justifie $A^n=PD^nP^{-1}$ : $A^n=(PDP^{-1})(PDP^{-1})\cdots=PD^nP^{-1}$ (récurrence immédiate).</li>
+          <li>Calcule $P^{-1}$, puis le produit $P\,D^n\,P^{-1}$ (fais d'abord $PD^n$ : il suffit de multiplier chaque colonne de $P$ par $\lambda_i^n$).</li>
+          <li><b>Vérifie avec $n=1$</b> : tu dois retrouver $A$.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD 2 ex. 13</span>
+          <p>$A=\begin{pmatrix}1 & 2\\2 & -2\end{pmatrix}$ : $\chi_A=X^2+X-6=(X-2)(X+3)$. $E_2=\mathrm{Vect}\big((2,1)\big)$, $E_{-3}=\mathrm{Vect}\big((1,-2)\big)$.</p>
+          $$\begin{gathered}P=\begin{pmatrix}2 & 1\\1 & -2\end{pmatrix},\quad D^n=\begin{pmatrix}2^n & 0\\0 & (-3)^n\end{pmatrix}\\ P^{-1}=\frac{1}{-5}\begin{pmatrix}-2 & -1\\-1 & 2\end{pmatrix}=\frac15\begin{pmatrix}2 & 1\\1 & -2\end{pmatrix}.\end{gathered}$$
+          $$A^n=PD^nP^{-1}=\frac15\begin{pmatrix}4\cdot2^n+(-3)^n & 2\cdot2^n-2(-3)^n\\2\cdot2^n-2(-3)^n & 2^n+4(-3)^n\end{pmatrix}.$$
+          <p>Test $n=1$ : $\frac15\begin{pmatrix}8-3 & 4+6\\4+6 & 2-12\end{pmatrix}=\begin{pmatrix}1 & 2\\2 & -2\end{pmatrix}$ ✔.</p>
+        </div>
+        <div class="callout tip"><div><span class="callout-title">Raccourci quand $A=aI+bJ$</span>TD 2 ex. 6 : $A=2J-I$ avec $J$ la matrice remplie de $1$ ($J^2=3J$). On obtient $A^n=(-1)^nI_3+\dfrac{5^n-(-1)^n}{3}J$. À vérifier pour $n=1$ : $-I+2J=A$ ✔.</div></div>
+      </article>
+
+      <article class="notion" data-code="C7">
+        <h3>Suites récurrentes : $X_{n+1}=AX_n$</h3>
+        <p class="when"><b>Tu reconnais :</b> des suites couplées $u_{n+1}=\dots$, $v_{n+1}=\dots$, ou une récurrence d'ordre 2 $u_{n+2}=au_{n+1}+bu_n$.</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$X_n=A^nX_0$</span><span class="tool">décomposer $X_0$ sur les vecteurs propres</span></div>
+        <ol class="steps">
+          <li>Pose $X_n$ (colonne des suites) et lis $A$ sur le système. Pour l'ordre 2 : $X_n=\begin{pmatrix}u_n\\u_{n+1}\end{pmatrix}$ et $A=\begin{pmatrix}0 & 1\\b & a\end{pmatrix}$.</li>
+          <li>Par récurrence, $X_n=A^nX_0$.</li>
+          <li><b>Méthode A</b> : calcule $A^n$ (C6) et multiplie par $X_0$.<br><b>Méthode B (plus rapide)</b> : écris $X_0=\alpha V_1+\beta V_2$ avec $V_i$ vecteurs propres. Alors $X_n=\alpha\lambda_1^nV_1+\beta\lambda_2^nV_2$ : pas besoin de $P^{-1}$.</li>
+          <li>Vérifie $n=0$ et $n=1$.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD 2 ex. 13.4 (méthode B)</span>
+          <p>$u_{n+1}=u_n+2v_n$, $v_{n+1}=2u_n-2v_n$, $u_0=v_0=1$ : c'est $X_{n+1}=AX_n$ avec la matrice de C6. On décompose $X_0=(1,1)=\alpha(2,1)+\beta(1,-2)$ : $2\alpha+\beta=1$ et $\alpha-2\beta=1$, d'où $\alpha=\frac35$, $\beta=-\frac15$.</p>
+          $$\begin{gathered}X_n=\tfrac35\,2^n\begin{pmatrix}2\\1\end{pmatrix}-\tfrac15(-3)^n\begin{pmatrix}1\\-2\end{pmatrix}\\ u_n=\frac{6\cdot2^n-(-3)^n}{5},\qquad v_n=\frac{3\cdot2^n+2(-3)^n}{5}.\end{gathered}$$
+          <p>Test : $u_1=\frac{12+3}{5}=3=u_0+2v_0$ ✔, $v_1=\frac{6-6}{5}=0=2u_0-2v_0$ ✔.</p>
+        </div>
+        <div class="example"><span class="ex-label">Exemple · TD 2 ex. 14 (ordre 2)</span>
+          <p>$u_{n+2}=5u_{n+1}-6u_n$ : $A=\begin{pmatrix}0 & 1\\-6 & 5\end{pmatrix}$, $\chi_A=X^2-5X+6=(X-2)(X-3)$, vecteurs propres $(1,2)$ et $(1,3)$.</p>
+          <p>$(u_0,u_1)=\alpha(1,2)+\beta(1,3)$ donne $\alpha=3u_0-u_1$, $\beta=u_1-2u_0$, donc $u_n=(3u_0-u_1)\,2^n+(u_1-2u_0)\,3^n$.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="C8">
+        <h3>Projecteur, symétrie, rang 1 : diagonaliser par la structure</h3>
+        <p class="when"><b>Tu reconnais :</b> «&nbsp;Calculer $A^2$&nbsp;», «&nbsp;montrer que $f^2=f$&nbsp;», «&nbsp;donner la nature géométrique de $f$&nbsp;», «&nbsp;$f$ de rang 1&nbsp;».</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">$\mathrm{Sp}(p)\subset\{0,1\}$</span><span class="tool">$\mathrm{Sp}(s)\subset\{-1,1\}$</span><span class="tool">somme des dimensions</span></div>
+        <ol class="steps">
+          <li>Calcule $A^2$. Si $A^2=A$ : projecteur. Si $A^2=I$ : symétrie.</li>
+          <li>En déduire les valeurs propres possibles (B7 du chapitre 1).</li>
+          <li>Calcule les deux sous-espaces propres ; vérifie que la somme des dimensions vaut $n$.</li>
+          <li>Nature : $p$ = projection sur $E_1$ parallèlement à $E_0$ ; $s$ = symétrie par rapport à $E_1$ parallèlement à $E_{-1}$.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD 2 ex. 9</span>
+          <p>$A=\begin{pmatrix}0 & 1 & 0\\1 & 0 & 0\\-1 & -1 & -1\end{pmatrix}$ : on calcule $A^2=I_3$, donc $f$ est une <b>symétrie</b> et $\mathrm{Sp}(f)\subset\{-1,1\}$.</p>
+          <p>$E_1$ : $-x+y=0$ et $-x-y-2z=0$ ⇒ $E_1=\mathrm{Vect}\big((1,1,-1)\big)$. $E_{-1}$ : $A+I$ donne la seule équation $x+y=0$ ⇒ $E_{-1}=\mathrm{Vect}\big((1,-1,0),(0,0,1)\big)$.</p>
+          <p>$1+2=3$ : base de vecteurs propres, matrice $\mathrm{diag}(1,-1,-1)$. $f$ est la symétrie par rapport à la droite $E_1$ parallèlement au plan $E_{-1}$.</p>
+        </div>
+        <div class="example"><span class="ex-label">Rang 1 · TD 2 ex. 16</span>
+          <p>Si $\mathrm{rg}f=1$ : $\dim\mathrm{Ker}f=n-1$, donc $0$ est valeur propre avec $\dim E_0=n-1$. La dernière valeur propre est $\lambda=\mathrm{tr}f$ (somme des valeurs propres). Si $\mathrm{tr}f\neq0$ : $(n-1)+1=n$, <span class="ok">diagonalisable</span>. Si $\mathrm{tr}f=0$ : seule valeur propre $0$ et $f\neq0$, <span class="ko">non diagonalisable</span>.</p>
+          <p>Ex. : $\begin{pmatrix}1 & 1\\1 & 1\end{pmatrix}$ (trace 2) est diagonalisable ; $\begin{pmatrix}1 & -1\\1 & -1\end{pmatrix}$ (trace 0) ne l'est pas.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="C9">
+        <h3>Non diagonalisable : trigonaliser une $2\times2$</h3>
+        <p class="when"><b>Tu reconnais :</b> «&nbsp;Montrer que $f$ n'est pas diagonalisable&nbsp;», puis «&nbsp;déterminer $u_2$ tel que $(f-\lambda\mathrm{Id})(u_2)=u_1$&nbsp;».</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">valeur propre double, $\dim E_\lambda=1$</span><span class="tool">résoudre $(A-\lambda I)u_2=u_1$</span></div>
+        <div class="example"><span class="ex-label">Exemple · TD 2 ex. 17</span>
+          <p>$A=\begin{pmatrix}-3 & 1\\-4 & 1\end{pmatrix}$ : $\chi_A=X^2+2X+1=(X+1)^2$. $A+I=\begin{pmatrix}-2 & 1\\-4 & 2\end{pmatrix}$ est de rang 1 : $\dim E_{-1}=1\lt2$, <span class="ko">non diagonalisable</span>. $E_{-1}=\mathrm{Vect}(u_1)$, $u_1=(1,2)$.</p>
+          <p>On cherche $u_2$ avec $(A+I)u_2=u_1$ : $-2x+y=1$, par exemple $u_2=(0,1)$. $\det(u_1,u_2)=1\neq0$ : base. Comme $f(u_1)=-u_1$ et $f(u_2)=u_1-u_2$ :</p>
+          $$\mathrm{Mat}_{(u_1,u_2)}(f)=\begin{pmatrix}-1 & 1\\0 & -1\end{pmatrix}$$
+          <p>Matrice triangulaire : $f$ est trigonalisable.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="P">
+        <h3>Les pièges qui coûtent des points</h3>
+        <div class="traps">
+          <div class="trap-card"><span class="t">Ordre de $P$ et $D$</span><div class="line"><span class="ko">✘</span><span>vecteurs propres dans un ordre, valeurs propres dans un autre</span></div><div class="line"><span class="ok">✔</span><span>colonne $j$ de $P$ ↔ coefficient $j$ de $D$</span></div></div>
+          <div class="trap-card"><span class="t">Réciproque fausse</span><div class="line"><span class="ko">✘</span><span>«&nbsp;valeur propre double donc non diagonalisable&nbsp;»</span></div><div class="line"><span class="ok">✔</span><span>calculer $\dim E_\lambda$ : $A_2$ l'est, $A_3$ non</span></div></div>
+          <div class="trap-card"><span class="t">$A^n$</span><div class="line"><span class="ko">✘</span><span>$A^n=P^nD^nP^{-n}$, ou $A^n$ = puissance de chaque coefficient</span></div><div class="line"><span class="ok">✔</span><span>$A^n=PD^nP^{-1}$, seul $D$ est élevé à la puissance</span></div></div>
+          <div class="trap-card"><span class="t">Sur $\mathbb R$ vs $\mathbb C$</span><div class="line"><span class="ko">✘</span><span>«&nbsp;non diagonalisable&nbsp;» sans préciser</span></div><div class="line"><span class="ok">✔</span><span>«&nbsp;non diagonalisable sur $\mathbb R$ ($\chi_A$ non scindé)&nbsp;»</span></div></div>
+          <div class="trap-card"><span class="t">Base de vecteurs propres</span><div class="line"><span class="ko">✘</span><span>donner $P$ avec un vecteur nul ou deux colinéaires</span></div><div class="line"><span class="ok">✔</span><span>une base par $E_\lambda$, mises bout à bout</span></div></div>
+          <div class="trap-card"><span class="t">Paramètres</span><div class="line"><span class="ko">✘</span><span>oublier le cas où deux valeurs propres coïncident</span></div><div class="line"><span class="ok">✔</span><span>traiter d'abord les valeurs qui changent les multiplicités</span></div></div>
+        </div>
+      </article>
+    </section>
+
+
+    <!-- ══════════════════════ CHAPITRE 3 ══════════════════════ -->
+    <section class="chapter" id="ch3" data-num="3" aria-labelledby="ch3-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">03</span>
+        <p class="chapter-kicker">Chapitre 3 · TD 3 · questions de cours &amp; applications directes</p>
+        <h2 id="ch3-t">Espaces euclidiens</h2>
+        <p class="chapter-lead">Le prof l'a dit : ce chapitre arrive par des <strong>questions de cours</strong> ou des <strong>applications directes</strong>, pas besoin de tout le TD. Chaque fiche donne donc l'énoncé à savoir écrire, puis <strong>un</strong> exemple d'application du TD 3.</p>
+      </header>
+
+      <!-- ─────────── Section A ─────────── -->
+      <div class="part-head" id="p3a">
+        <span class="part-letter" aria-hidden="true">A</span>
+        <div>
+          <p class="part-kicker">Section A</p>
+          <h3 class="part-title">Produit scalaire, norme, Cauchy-Schwarz</h3>
+          <p class="part-sub">$E$ est un $\mathbb R$-espace vectoriel. Un espace <b>euclidien</b> = de dimension finie + muni d'un produit scalaire.</p>
+        </div>
+      </div>
+
+      <article class="notion">
+        <h3>Définition d'un produit scalaire <span class="tag-mini">question de cours</span></h3>
+        <div class="thm def"><span class="thm-name">Produit scalaire</span>
+          <p>Une application $\langle\cdot,\cdot\rangle:E\times E\to\mathbb R$ est un produit scalaire si elle est :</p>
+          <ul>
+            <li><b>bilinéaire</b> : linéaire par rapport à chaque variable ;</li>
+            <li><b>symétrique</b> : $\langle x,y\rangle=\langle y,x\rangle$ ;</li>
+            <li><b>définie positive</b> : $\langle x,x\rangle\ge0$ pour tout $x$ (positive), et $\langle x,x\rangle=0\Rightarrow x=0$ (définie).</li>
+          </ul>
+          <p>Norme associée : $\|x\|=\sqrt{\langle x,x\rangle}$. Produit scalaire canonique de $\mathbb R^n$ : $\langle x,y\rangle=\sum x_iy_i=X^TY$.</p>
+        </div>
+        <div class="callout tip"><div><span class="callout-title">Astuce de rédaction</span>Montre la symétrie d'abord, puis la linéarité par rapport à la <b>première</b> variable seulement : par symétrie, on a la linéarité par rapport à la seconde. Tout le travail est dans «&nbsp;définie positive&nbsp;».</div></div>
+      </article>
+
+      <article class="notion" data-code="D1">
+        <h3>Montrer que c'est un produit scalaire <span class="tag-mini">application directe</span></h3>
+        <p class="when"><b>Tu reconnais :</b> «&nbsp;Montrer que cette application définit un produit scalaire sur…&nbsp;»</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">forme canonique (somme de carrés)</span><span class="tool">intégrale d'une fonction continue positive</span><span class="tool">nombre de racines d'un polynôme</span></div>
+        <div class="cheat">
+          <div><b>Sur $\mathbb R^2$ (formule en $x_1,x_2$)</b>Écrire $\langle x,x\rangle$ comme une <b>somme de carrés</b>, puis «&nbsp;$=0$&nbsp;» ⇒ chaque carré nul.</div>
+          <div><b>$\int_a^bP(t)Q(t)\,dt$</b>$\int_a^bP^2=0$ avec $P^2$ continue et $\ge0$ ⇒ $P=0$ sur $[a;b]$ ⇒ infinité de racines ⇒ $P$ polynôme nul.</div>
+          <div><b>$P(1)Q(1)+P(0)Q(0)+P(-1)Q(-1)$</b>Somme de 3 carrés nulle ⇒ $P$ a 3 racines ; or $\deg P\le2$ ⇒ $P=0$.</div>
+          <div><b>$\mathrm{Tr}(M^TN)$</b>$\mathrm{Tr}(M^TM)=\sum_{i,j}m_{ij}^2$ : somme de carrés.</div>
+        </div>
+        <div class="example"><span class="ex-label">Exemple · TD 3 ex. 1</span>
+          <p>$\langle x,y\rangle=x_1y_1+5x_2y_2-2(x_1y_2+x_2y_1)$. <b>Symétrique</b> : échanger $x$ et $y$ ne change rien. <b>Bilinéaire</b> : à $y$ fixé, l'expression est linéaire en $(x_1,x_2)$, puis symétrie.</p>
+          <p><b>Définie positive</b> : $\langle x,x\rangle=x_1^2-4x_1x_2+5x_2^2=(x_1-2x_2)^2+x_2^2\ge0$. Si c'est nul, $x_2=0$ puis $x_1=0$ : $x=0$. C'est un produit scalaire.</p>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Inégalité de Cauchy-Schwarz &amp; Pythagore <span class="tag-mini">question de cours</span></h3>
+        <div class="thm"><span class="thm-name">Cauchy-Schwarz</span>
+          $$|\langle x,y\rangle|\le\|x\|\,\|y\|,$$
+          <p>avec <b>égalité si et seulement si $x$ et $y$ sont colinéaires</b>. Conséquence : inégalité triangulaire $\|x+y\|\le\|x\|+\|y\|$.</p>
+        </div>
+        <div class="thm"><span class="thm-name">Pythagore</span>
+          <p>$x\perp y$ ($\langle x,y\rangle=0$) $\iff\|x+y\|^2=\|x\|^2+\|y\|^2$. En général : $\|x+y\|^2=\|x\|^2+2\langle x,y\rangle+\|y\|^2$.</p>
+        </div>
+        <div class="example"><span class="ex-label">Exemple · TD 3 ex. 3.1</span>
+          <p>Cauchy-Schwarz dans $\mathbb R^n$ avec $x=(x_1,\dots,x_n)$ et $y=(1,\dots,1)$ : $\big|\sum x_k\big|\le\sqrt{\sum x_k^2}\cdot\sqrt n$, donc $\big(\sum x_k\big)^2\le n\sum x_k^2$. Égalité $\iff x$ colinéaire à $(1,\dots,1)$, c'est-à-dire tous les $x_k$ égaux.</p>
+        </div>
+        <div class="callout"><div><span class="callout-title">Le réflexe</span>Une inégalité avec une somme au carré et une somme de carrés : c'est Cauchy-Schwarz avec un vecteur bien choisi (souvent $(1,\dots,1)$, ou $(\sqrt{x_k})$ et $(1/\sqrt{x_k})$ pour le 3.2).</div></div>
+      </article>
+
+      <!-- ─────────── Section B ─────────── -->
+      <div class="part-head" id="p3b">
+        <span class="part-letter" aria-hidden="true">B</span>
+        <div>
+          <p class="part-kicker">Section B</p>
+          <h3 class="part-title">Bases orthonormées, orthogonal, projections</h3>
+          <p class="part-sub">Gram-Schmidt fabrique une base orthonormée ; elle sert ensuite à projeter et à calculer des distances.</p>
+        </div>
+      </div>
+
+      <article class="notion">
+        <h3>Base orthonormée (BON) &amp; coordonnées</h3>
+        <div class="thm def"><span class="thm-name">Définition</span>
+          <p>$(e_1,\dots,e_n)$ est <b>orthonormée</b> si $\langle e_i,e_j\rangle=0$ pour $i\neq j$ et $\|e_i\|=1$. Une famille orthogonale de vecteurs non nuls est automatiquement <b>libre</b>.</p>
+        </div>
+        <div class="thm"><span class="thm-name">Coordonnées dans une BON (sans système !)</span>
+          $$x=\sum_{i=1}^n\langle x,e_i\rangle\,e_i,\qquad\|x\|^2=\sum_{i=1}^n\langle x,e_i\rangle^2.$$
+        </div>
+      </article>
+
+      <article class="notion" data-code="D2">
+        <h3>Gram-Schmidt <span class="tag-mini">tombe souvent</span></h3>
+        <p class="when"><b>Tu reconnais :</b> «&nbsp;Orthonormaliser la base $(v_1,v_2,v_3)$ par le procédé de Gram-Schmidt.&nbsp;»</p>
+        <div class="tools"><span class="tools-lbl">Outils</span><span class="tool">projeter puis retrancher</span><span class="tool">normaliser</span></div>
+        <ol class="steps">
+          <li>$e_1=\dfrac{v_1}{\|v_1\|}$.</li>
+          <li>$w_2=v_2-\langle v_2,e_1\rangle e_1$, puis $e_2=\dfrac{w_2}{\|w_2\|}$.</li>
+          <li>$w_3=v_3-\langle v_3,e_1\rangle e_1-\langle v_3,e_2\rangle e_2$, puis $e_3=\dfrac{w_3}{\|w_3\|}$.</li>
+          <li>Vérifie $\langle e_i,e_j\rangle=0$ (calcul de 5 secondes).</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD 3 ex. 4</span>
+          <p>$v_1=(1,0,1)$, $v_2=(1,0,2)$, $v_3=(1,1,1)$ dans $\mathbb R^3$ canonique.</p>
+          <p>$e_1=\frac1{\sqrt2}(1,0,1)$. $\langle v_2,e_1\rangle=\frac{3}{\sqrt2}$, $w_2=(1,0,2)-\frac32(1,0,1)=\left(-\frac12,0,\frac12\right)$, $e_2=\frac1{\sqrt2}(-1,0,1)$.</p>
+          <p>$\langle v_3,e_1\rangle=\sqrt2$, $\langle v_3,e_2\rangle=0$ : $w_3=(1,1,1)-(1,0,1)=(0,1,0)=e_3$.</p>
+          <p>BON : $\left(\frac{1}{\sqrt2}(1,0,1),\ \frac1{\sqrt2}(-1,0,1),\ (0,1,0)\right)$.</p>
+        </div>
+        <div class="callout trap"><div><span class="callout-title">Erreur classique</span>Retrancher $\langle v_2,e_1\rangle e_1$ avec un $e_1$ <b>non normé</b>. Si tu gardes des vecteurs non normés $w_i$, la formule devient $\dfrac{\langle v,w_i\rangle}{\|w_i\|^2}w_i$.</div></div>
+      </article>
+
+      <article class="notion" data-code="D3">
+        <h3>Orthogonal d'un sous-espace $F^\perp$</h3>
+        <div class="thm def"><span class="thm-name">Définition &amp; théorème</span>
+          <p>$F^\perp=\{x\in E\mid\forall y\in F,\ \langle x,y\rangle=0\}$. En dimension finie : $E=F\oplus F^\perp$ et $\dim F^\perp=\dim E-\dim F$.</p>
+        </div>
+        <p><b>Méthode</b> : si $F=\mathrm{Vect}(f_1,\dots,f_k)$, alors $x\in F^\perp\iff\langle x,f_1\rangle=\dots=\langle x,f_k\rangle=0$ : un système à résoudre. Dans $\mathbb R^3$, le plan $ax+by+cz=0$ a pour orthogonal la droite $\mathrm{Vect}\big((a,b,c)\big)$ (vecteur normal).</p>
+        <div class="example"><span class="ex-label">Exemple · TD 3 ex. 7.1</span>
+          <p>$F=\mathrm{Vect}\big((1,1,0,2),(0,1,3,2)\big)$ dans $\mathbb R^4$ : $x+y+2t=0$ et $y+3z+2t=0$. Avec $z,t$ libres : $y=-3z-2t$, $x=3z$.</p>
+          <p>$F^\perp=\mathrm{Vect}\big((3,-3,1,0),(0,-2,0,1)\big)$, de dimension $4-2=2$ ✔.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="D4">
+        <h3>Projection orthogonale &amp; distance <span class="tag-mini">application directe</span></h3>
+        <div class="thm"><span class="thm-name">Deux formules</span>
+          <p><b>Avec une BON $(e_1,\dots,e_k)$ de $F$</b> : $p_F(x)=\displaystyle\sum_{i=1}^k\langle x,e_i\rangle e_i$.</p>
+          <p><b>Sur un hyperplan $F=n^\perp$</b> (plan de $\mathbb R^3$ de vecteur normal $n$) : $p_F(x)=x-\dfrac{\langle x,n\rangle}{\|n\|^2}\,n$.</p>
+          <p><b>Distance</b> : $d(x,F)=\|x-p_F(x)\|$ ; pour un hyperplan, $d(x,F)=\dfrac{|\langle x,n\rangle|}{\|n\|}$. <b>Symétrie orthogonale</b> : $s_F=2p_F-\mathrm{Id}$.</p>
+        </div>
+        <div class="example"><span class="ex-label">Exemple · TD 3 ex. 10</span>
+          <p>$F$ : $x+y+2z=0$, $n=(1,1,2)$, $X=(1,1,1)$. $\langle X,n\rangle=4$, $\|n\|^2=6$ :</p>
+          $$\begin{gathered}p_F(X)=(1,1,1)-\tfrac46(1,1,2)=\left(\tfrac13,\tfrac13,-\tfrac13\right)\\ d(X,F)=\frac{4}{\sqrt6}=\frac{2\sqrt6}{3}.\end{gathered}$$
+          <p>Vérification : $\frac13+\frac13-\frac23=0$, donc $p_F(X)\in F$ ✔.</p>
+        </div>
+        <div class="callout tip"><div><span class="callout-title">Matrice d'une projection orthogonale (TD 3 ex. 11)</span>Sur le plan $x+y+z=0$ : $P=I_3-\frac13J$ (avec $J$ remplie de $1$) et la symétrie $S=2P-I_3=I_3-\frac23J$. Dans une BON, $P$ est la matrice d'un projecteur orthogonal $\iff P^2=P$ et $P^T=P$.</div></div>
+      </article>
+
+      <!-- ─────────── Section C ─────────── -->
+      <div class="part-head" id="p3c">
+        <span class="part-letter" aria-hidden="true">C</span>
+        <div>
+          <p class="part-kicker">Section C</p>
+          <h3 class="part-title">Isométries &amp; théorème spectral</h3>
+          <p class="part-sub">Le pont avec le chapitre 2 : une matrice symétrique réelle se diagonalise toujours, et même dans une base orthonormée.</p>
+        </div>
+      </div>
+
+      <article class="notion">
+        <h3>Matrices orthogonales &amp; isométries du plan <span class="tag-mini">question de cours</span></h3>
+        <div class="thm def"><span class="thm-name">Définition</span>
+          <p>$Q\in\mathcal M_n(\mathbb R)$ est <b>orthogonale</b> si $Q^TQ=I_n$, c'est-à-dire $Q^{-1}=Q^T$. Équivalent : ses <b>colonnes forment une BON</b>. Alors $\det Q=\pm1$ et $\|QX\|=\|X\|$ (isométrie).</p>
+        </div>
+        <div class="cheat">
+          <div><b>$\det=1$ : rotation d'angle $\theta$</b>$R_\theta=\begin{pmatrix}\cos\theta & -\sin\theta\\\sin\theta & \cos\theta\end{pmatrix}$</div>
+          <div><b>$\det=-1$ : réflexion</b>$S_\alpha=\begin{pmatrix}\cos\alpha & \sin\alpha\\\sin\alpha & -\cos\alpha\end{pmatrix}$ : symétrie orthogonale par rapport à la droite d'angle $\frac\alpha2$.</div>
+        </div>
+        <div class="example"><span class="ex-label">Exemple · TD 3 ex. 16</span>
+          <p>$B=\frac12\begin{pmatrix}\sqrt3 & -1\\1 & \sqrt3\end{pmatrix}$ : colonnes unitaires et orthogonales, $\det=1$ : rotation d'angle $\frac\pi6$.</p>
+          <p>$D=\frac12\begin{pmatrix}\sqrt3 & 1\\1 & -\sqrt3\end{pmatrix}$ : orthogonale, $\det=-1$, $\cos\alpha=\frac{\sqrt3}2$, $\sin\alpha=\frac12$ : réflexion par rapport à la droite d'angle $\frac{\pi}{12}$.</p>
+          <p>$A=\frac12\begin{pmatrix}\sqrt3 & 1\\1 & \sqrt3\end{pmatrix}$ : $\langle C_1,C_2\rangle=\frac{\sqrt3}{2}\neq0$, <span class="ko">pas orthogonale</span>.</p>
+        </div>
+      </article>
+
+      <article class="notion" data-code="D5">
+        <h3>Théorème spectral <span class="tag-mini">le lien avec le CC2</span></h3>
+        <div class="thm"><span class="thm-name">Théorème spectral</span>
+          <p>Toute matrice <b>symétrique réelle</b> ($A^T=A$) est diagonalisable <b>dans une base orthonormée</b> : il existe $Q$ orthogonale et $D$ diagonale réelle telles que</p>
+          $$A=QDQ^T\qquad(\iff Q^TAQ=D).$$
+          <p>Les sous-espaces propres sont <b>deux à deux orthogonaux</b>.</p>
+        </div>
+        <ol class="steps">
+          <li>Justifie : «&nbsp;$A$ est symétrique réelle, donc diagonalisable en BON (théorème spectral).&nbsp;»</li>
+          <li>Valeurs propres et sous-espaces propres comme au chapitre 2.</li>
+          <li>Dans chaque $E_\lambda$ de dimension $\ge2$, rends la base orthonormée (Gram-Schmidt) ; ailleurs, <b>normalise</b> simplement.</li>
+          <li>$Q$ = ces vecteurs en colonnes ; $Q^{-1}=Q^T$, aucun inverse à calculer.</li>
+        </ol>
+        <div class="example"><span class="ex-label">Exemple · TD 3 ex. 21.1</span>
+          <p>$A=\begin{pmatrix}3 & 1\\1 & 3\end{pmatrix}$ symétrique. $\chi_A=X^2-6X+8=(X-2)(X-4)$. $E_2=\mathrm{Vect}\big((1,-1)\big)$, $E_4=\mathrm{Vect}\big((1,1)\big)$ (orthogonaux ✔).</p>
+          $$Q=\frac{1}{\sqrt2}\begin{pmatrix}1 & 1\\-1 & 1\end{pmatrix},\qquad Q^TAQ=\begin{pmatrix}2 & 0\\0 & 4\end{pmatrix}.$$
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Matrices symétriques définies positives</h3>
+        <div class="thm def"><span class="thm-name">Définition &amp; caractérisation</span>
+          <p>$A$ symétrique est <b>définie positive</b> si $X^TAX\gt0$ pour tout $X\neq0$. Grâce au théorème spectral :</p>
+          $$\begin{gathered}A\text{ définie positive}\\ \iff\text{toutes ses valeurs propres sont }\gt0.\end{gathered}$$
+        </div>
+        <div class="example"><span class="ex-label">Exemple · TD 3 ex. 25</span>
+          <p>$A_a=\begin{pmatrix}2 & a\\a & 2\end{pmatrix}$ : $\chi=(2-X)^2-a^2$, valeurs propres $2-a$ et $2+a$. Définie positive $\iff2-a\gt0$ et $2+a\gt0\iff|a|\lt2$.</p>
+        </div>
+        <div class="callout"><div><span class="callout-title">Pourquoi on en parle (TD 3 ex. 27)</span>Une forme quadratique $q(x,y)=ax^2+2bxy+cy^2$ s'écrit $X^TAX$ avec $A=\begin{pmatrix}a & b\\b & c\end{pmatrix}$ (attention : <b>la moitié</b> du coefficient de $xy$ hors diagonale). Hessienne définie positive en un point critique ⇒ minimum local.</div></div>
+      </article>
+    </section>
+
+
+    <!-- ══════════════════════ CHAPITRE 4 ══════════════════════ -->
+    <section class="chapter" id="ch4" data-num="4" aria-labelledby="ch4-t">
+      <header class="chapter-head">
+        <span class="chapter-num" aria-hidden="true">04</span>
+        <p class="chapter-kicker">Consignes du prof · TD 0 → 3 <span class="prio">★ Priorité examen</span></p>
+        <h2 id="ch4-t">Prédiction &amp; sujet blanc du CC2</h2>
+        <p class="chapter-lead">Ce que les consignes disent du CC2, la répartition des points probable, un plan de révision à cocher, puis un sujet blanc d'1 h avec barème et corrigé détaillé.</p>
+      </header>
+
+      <article class="notion">
+        <h3>Ce que dit le prof</h3>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Chapitre</th><th>Statut au CC2</th><th>Ce qu'il faut savoir faire</th></tr></thead>
+            <tbody>
+              <tr><td class="rowh">Ch. 0 · Rappels<br><small>TD 0</small></td><td>Prérequis</td><td>Noyau, rang, matrice d'une application, déterminant. Jamais demandé seul, utilisé partout.</td></tr>
+              <tr><td class="rowh">Ch. 1 · Éléments propres<br><small>TD 1</small></td><td><b>Central</b></td><td>$\chi_A$, valeurs propres, sous-espaces propres, multiplicités, questions théoriques simples.</td></tr>
+              <tr><td class="rowh">Ch. 2 · Diagonalisation<br><small>TD 2</small></td><td><b>Central</b></td><td>Décider, diagonaliser ($P$, $D$), $A^n$, suites, paramètres, endomorphismes de polynômes.</td></tr>
+              <tr><td class="rowh">Ch. 3 · Euclidiens<br><small>TD 3</small></td><td>Présent, léger</td><td>Questions de cours et applications directes : produit scalaire, Gram-Schmidt, projection, théorème spectral.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="callout"><div><span class="callout-title">Hypothèse de travail</span>Aucune annale d'algèbre linéaire n'est disponible dans les ressources : la prédiction ci-dessous s'appuie sur les consignes du prof et sur les TD. Le planning indique le CC2 le <b>28/11</b> (document indicatif) et parlait des chapitres 1 et 2 ; le message du prof ajoute le chapitre 3 en questions de cours. La durée d'1 h du sujet blanc est une hypothèse : vérifie la durée annoncée.</div></div>
+      </article>
+
+      <article class="notion">
+        <h3>La répartition des points probable</h3>
+        <div class="bars">
+          <div class="bar" style="--p:30"><span class="bar-lbl">Diagonaliser une $3\times3$<small>$\chi_A$, $E_\lambda$, conclusion, $P$ et $D$</small></span><span class="bar-track"><i></i></span><span class="bar-val">≈ 6 pts</span></div>
+          <div class="bar" style="--p:30"><span class="bar-lbl">Applications<small>$A^n$, suites, polynômes, paramètres</small></span><span class="bar-track"><i></i></span><span class="bar-val">≈ 6 pts</span></div>
+          <div class="bar" style="--p:20"><span class="bar-lbl">Cours ch. 1–2<small>définitions, CNS, vrai/faux</small></span><span class="bar-track"><i></i></span><span class="bar-val">≈ 4 pts</span></div>
+          <div class="bar" style="--p:20"><span class="bar-lbl">Espaces euclidiens<small>cours + application directe</small></span><span class="bar-track"><i></i></span><span class="bar-val">≈ 3–4 pts</span></div>
+        </div>
+        <div class="cheat">
+          <div><b>Presque sûr</b>Une diagonalisation complète d'une matrice $3\times3$ (ou d'un endomorphisme de $\mathbb R_2[X]$), avec une valeur propre double.</div>
+          <div><b>Très probable</b>Un calcul de $A^n$ ou une suite récurrente ; une question «&nbsp;diagonalisable ou pas ?&nbsp;» à justifier en une ligne.</div>
+          <div><b>Probable</b>Définitions (valeur propre, sous-espace propre, diagonalisable), énoncé de la CNS, un vrai/faux.</div>
+          <div><b>Pour le ch. 3</b>Montrer qu'une forme est un produit scalaire, Gram-Schmidt sur 2–3 vecteurs, une projection, ou citer le théorème spectral.</div>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Ton plan de révision <span class="tag-mini">à cocher</span></h3>
+        <p>La liste est dans l'<b>ordre où travailler</b> : d'abord ce qui a le plus de chances de tomber. Le sujet blanc est à la fin parce qu'il sert de <b>répétition générale</b>. Coche au fur et à mesure (sauvegardé sur cet appareil) — <span class="todo-progress" id="todoCount"></span></p>
+        <div class="legend">
+          <span><span class="badge p1">Indispensable</span> cœur du CC2</span>
+          <span><span class="badge p2">Important</span> même méthode, souvent demandée</span>
+          <span><span class="badge p3">Si tu as le temps</span> utile mais moins probable</span>
+        </div>
+        <ul class="todo">
+          <li><label><input type="checkbox" data-todo="td2-2"><span><b>TD 2 ex. 2</b> — diagonaliser une $3\times3$ de bout en bout<small>Le plan type. Méthode 2.C1.</small></span><span class="badge p1">Indispensable</span></label></li>
+          <li><label><input type="checkbox" data-todo="td1-9-11"><span><b>TD 1 ex. 9, 10, 11</b> — $\chi_A$, valeurs propres évidentes, multiplicités<small>Méthodes 1.B3, 1.B4, 1.B5.</small></span><span class="badge p1">Indispensable</span></label></li>
+          <li><label><input type="checkbox" data-todo="td2-5"><span><b>TD 2 ex. 5</b> — trois matrices, diagonalisables ou non<small>La valeur propre double. Méthode 2.C3.</small></span><span class="badge p1">Indispensable</span></label></li>
+          <li><label><input type="checkbox" data-todo="td2-6-7"><span><b>TD 2 ex. 6 et 7</b> — diagonaliser puis $A^n$<small>Méthode 2.C6.</small></span><span class="badge p1">Indispensable</span></label></li>
+          <li><label><input type="checkbox" data-todo="td2-13-14"><span><b>TD 2 ex. 13 et 14</b> — suites récurrentes<small>Méthode 2.C7.</small></span><span class="badge p1">Indispensable</span></label></li>
+          <li><label><input type="checkbox" data-todo="td2-3-12"><span><b>TD 2 ex. 3 et 12</b> — endomorphismes de $\mathbb R_2[X]$<small>Méthode 2.C5.</small></span><span class="badge p2">Important</span></label></li>
+          <li><label><input type="checkbox" data-todo="td2-1-10"><span><b>TD 2 ex. 1, 10, 11</b> — conclure sans calcul, paramètres<small>Méthodes 2.C2, 2.C4.</small></span><span class="badge p2">Important</span></label></li>
+          <li><label><input type="checkbox" data-todo="td1-12-14"><span><b>TD 1 ex. 12 et 14</b> — vrai/faux, spectre d'un projecteur<small>Méthode 1.B7.</small></span><span class="badge p2">Important</span></label></li>
+          <li><label><input type="checkbox" data-todo="td3-cours"><span><b>TD 3 ex. 1, 4, 10, 21, 25</b> — un exercice par notion du ch. 3<small>Fiches 3.D1 à 3.D5.</small></span><span class="badge p2">Important</span></label></li>
+          <li><label><input type="checkbox" data-todo="td2-8-9-16-17"><span><b>TD 2 ex. 8, 9, 16, 17</b> — projecteur, symétrie, rang 1, trigonalisation<small>Méthodes 2.C8, 2.C9.</small></span><span class="badge p3">Si tu as le temps</span></label></li>
+          <li><label><input type="checkbox" data-todo="td0"><span><b>TD 0 ex. 19, 22, 26</b> — noyau, image, matrice, inversibilité<small>Si les calculs de noyau te ralentissent.</small></span><span class="badge p3">Si tu as le temps</span></label></li>
+          <li><label><input type="checkbox" data-todo="blanc"><span><b>Le sujet blanc ci-dessous</b>, en 1 h, puis le corrigé<small>En conditions réelles, sans regarder la méthodo. À ne pas sauter.</small></span><span class="badge final">Répétition finale</span></label></li>
+        </ul>
+      </article>
+
+      <article class="notion" id="sujet-blanc">
+        <h3>Sujet blanc · CC2 d'algèbre linéaire <span class="tag-mini">1 h</span></h3>
+        <p>Conditions réelles : sans documents ni calculatrice, rédaction complète. Lance le chrono, compose sur papier, puis passe au corrigé.</p>
+        <div class="timer">
+          <span class="timer-val" id="timerVal" aria-live="off">60:00</span>
+          <button type="button" class="btn btn-primary" id="timerBtn">Démarrer</button>
+          <button type="button" class="btn btn-ghost" id="timerReset">Réinitialiser</button>
+        </div>
+        <div class="paper">
+          <div class="paper-head"><b>Contrôle continu 2 — Algèbre linéaire</b><span>Sujet blanc · Durée : 1 h · Documents et calculatrices non autorisés · Toute réponse doit être justifiée</span></div>
+
+          <div class="ex-head">Exercice 1 · Questions de cours <span class="pts">~ 3 points</span></div>
+          <ol>
+            <li>Soit $A\in\mathcal M_n(\mathbb R)$. Donner la définition d'une valeur propre de $A$ et du sous-espace propre associé.</li>
+            <li>Énoncer une condition nécessaire et suffisante pour que $A$ soit diagonalisable.</li>
+            <li>Vrai ou faux ? Justifier. (a) Toute matrice diagonalisable est inversible. (b) Toute matrice symétrique réelle est diagonalisable.</li>
+          </ol>
+
+          <div class="ex-head">Exercice 2 <span class="pts">~ 6 points</span></div>
+          $$A=\begin{pmatrix}1 & 1 & -1\\-1 & 3 & -1\\-1 & 1 & 1\end{pmatrix}.$$
+          <ol>
+            <li>Calculer $\chi_A(X)=\det(A-XI_3)$ (on pourra commencer par $C_1\leftarrow C_1+C_2+C_3$). En déduire les valeurs propres de $A$ et leurs multiplicités.</li>
+            <li>Déterminer une base de chaque sous-espace propre.</li>
+            <li>$A$ est-elle diagonalisable ? Si oui, donner $P$ inversible et $D$ diagonale telles que $A=PDP^{-1}$.</li>
+            <li>$A$ est-elle inversible ? Justifier sans calculer $\det A$ directement.</li>
+          </ol>
+
+          <div class="ex-head">Exercice 3 <span class="pts">~ 4 points</span></div>
+          <p>Soit $f:\mathbb R_2[X]\to\mathbb R_2[X]$ définie par $f(P)=P+(X+1)P'$.</p>
+          <ol>
+            <li>Montrer que $f$ est un endomorphisme de $\mathbb R_2[X]$.</li>
+            <li>Déterminer la matrice $M$ de $f$ dans la base canonique $(1,X,X^2)$.</li>
+            <li>$f$ est-elle diagonalisable ?</li>
+            <li>Pour $k\in\{0,1,2\}$, calculer $f\big((1+X)^k\big)$. En déduire une base $\mathcal B'$ de vecteurs propres de $f$ et la matrice de $f$ dans $\mathcal B'$.</li>
+          </ol>
+
+          <div class="ex-head">Exercice 4 <span class="pts">~ 4 points</span></div>
+          <p>Soit $A=\begin{pmatrix}4 & -2\\1 & 1\end{pmatrix}$ et les suites définies par $u_0=3$, $v_0=2$ et, pour tout $n\in\mathbb N$ : $u_{n+1}=4u_n-2v_n$, $v_{n+1}=u_n+v_n$.</p>
+          <ol>
+            <li>Diagonaliser $A$.</li>
+            <li>Calculer $A^n$ pour tout $n\in\mathbb N$.</li>
+            <li>En déduire $u_n$ et $v_n$ en fonction de $n$.</li>
+          </ol>
+
+          <div class="ex-head">Exercice 5 · Espaces euclidiens <span class="pts">~ 3 points</span></div>
+          <ol>
+            <li>Montrer que $\langle x,y\rangle=2x_1y_1+x_1y_2+x_2y_1+x_2y_2$ définit un produit scalaire sur $\mathbb R^2$.</li>
+            <li>Dans $\mathbb R^3$ muni du produit scalaire canonique, soit $F$ le plan d'équation $x-y+z=0$ et $X=(1,2,3)$. Déterminer la projection orthogonale de $X$ sur $F$, puis la distance de $X$ à $F$.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Corrigé détaillé &amp; barème du sujet blanc</h3>
+        <p>Les points en vert indiquent ce qu'un correcteur attend à chaque étape (barème indicatif).</p>
+        <div class="quiz">
+          <details>
+            <summary><span class="qn">EX 1</span>Questions de cours · 3 pts<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <h5>1. Définitions</h5>
+              <p>$\lambda\in\mathbb R$ est valeur propre de $A$ s'il existe $X\in\mathbb R^n$, $X\neq0$, tel que $AX=\lambda X$. Le sous-espace propre associé est $E_\lambda=\mathrm{Ker}(A-\lambda I_n)=\{X\mid AX=\lambda X\}$. <span class="pt">1</span></p>
+              <h5>2. CNS</h5>
+              <p>$A$ est diagonalisable sur $\mathbb R$ $\iff$ $\chi_A$ est scindé sur $\mathbb R$ et pour toute valeur propre $\lambda$, $\dim E_\lambda=m_\lambda$ (multiplicité de $\lambda$ comme racine de $\chi_A$). <span class="pt">1</span></p>
+              <h5>3. Vrai / faux</h5>
+              <p>(a) <b>Faux</b> : $\begin{pmatrix}1 & 0\\0 & 0\end{pmatrix}$ est diagonale (donc diagonalisable) mais $\det=0$. <span class="pt">0,5</span></p>
+              <p>(b) <b>Vrai</b> : c'est le théorème spectral (elle est même diagonalisable dans une base orthonormée). <span class="pt">0,5</span></p>
+            </div>
+          </details>
+
+          <details>
+            <summary><span class="qn">EX 2</span>Diagonalisation $3\times3$ · 6 pts<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <h5>1. Polynôme caractéristique (2 pts)</h5>
+              <p>Dans $A-XI_3$, chaque ligne a pour somme $1-X$. Avec $C_1\leftarrow C_1+C_2+C_3$ puis on sort $(1-X)$ : <span class="pt">0,5</span></p>
+              $$\begin{gathered}\chi_A=(1-X)\begin{vmatrix}1 & 1 & -1\\1 & 3-X & -1\\1 & 1 & 1-X\end{vmatrix}\\ \underset{L_2-L_1,\ L_3-L_1}{=}(1-X)\begin{vmatrix}1 & 1 & -1\\0 & 2-X & 0\\0 & 0 & 2-X\end{vmatrix}\\ =(1-X)(2-X)^2.\end{gathered}$$
+              <p>Calcul correct. <span class="pt">1</span></p>
+              <p>$\mathrm{Sp}(A)=\{1,2\}$, $m_1=1$, $m_2=2$. Contrôle : $1+2+2=5=\mathrm{tr}A$. <span class="pt">0,5</span></p>
+              <h5>2. Sous-espaces propres (2 pts)</h5>
+              <p>$A-I=\begin{pmatrix}0 & 1 & -1\\-1 & 2 & -1\\-1 & 1 & 0\end{pmatrix}$ : $y=z$ et $x=y$. $E_1=\mathrm{Vect}\big((1,1,1)\big)$. <span class="pt">1</span></p>
+              <p>$A-2I=\begin{pmatrix}-1 & 1 & -1\\-1 & 1 & -1\\-1 & 1 & -1\end{pmatrix}$ : une seule équation $x-y+z=0$, soit $y=x+z$ :</p>
+              $$\begin{gathered}E_2=\{(x,x+z,z)\}=\mathrm{Vect}\big((1,1,0),(0,1,1)\big)\\ \dim E_2=2.\end{gathered}$$
+              <p><span class="pt">1</span></p>
+              <h5>3. Diagonalisation (1,5 pt)</h5>
+              <p>$\chi_A$ scindé, $\dim E_1=1=m_1$ et $\dim E_2=2=m_2$ : $A$ est <b>diagonalisable</b>. <span class="pt">0,5</span></p>
+              $$\begin{gathered}P=\begin{pmatrix}1 & 1 & 0\\1 & 1 & 1\\1 & 0 & 1\end{pmatrix},\quad D=\begin{pmatrix}1 & 0 & 0\\0 & 2 & 0\\0 & 0 & 2\end{pmatrix}\\ A=PDP^{-1}.\end{gathered}$$
+              <p>$P$ et $D$ cohérents (même ordre). <span class="pt">1</span></p>
+              <h5>4. Inversibilité (0,5 pt)</h5>
+              <p>$0$ n'est pas valeur propre de $A$, donc $\mathrm{Ker}A=\{0\}$ et $A$ est inversible (d'ailleurs $\det A=1\cdot2\cdot2=4$). <span class="pt">0,5</span></p>
+            </div>
+          </details>
+
+          <details>
+            <summary><span class="qn">EX 3</span>Endomorphisme de $\mathbb R_2[X]$ · 4 pts<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <h5>1. Endomorphisme (1 pt)</h5>
+              <p>Pour $P,Q\in\mathbb R_2[X]$, $\lambda\in\mathbb R$ : $f(\lambda P+Q)=\lambda P+Q+(X+1)(\lambda P'+Q')=\lambda f(P)+f(Q)$ : $f$ est linéaire. <span class="pt">0,5</span></p>
+              <p>Si $\deg P\le2$, alors $\deg P'\le1$ et $\deg\big((X+1)P'\big)\le2$, donc $f(P)\in\mathbb R_2[X]$. <span class="pt">0,5</span></p>
+              <h5>2. Matrice (1 pt)</h5>
+              <p>$f(1)=1$, $f(X)=X+(X+1)=1+2X$, $f(X^2)=X^2+2X(X+1)=2X+3X^2$ :</p>
+              $$M=\begin{pmatrix}1 & 1 & 0\\0 & 2 & 2\\0 & 0 & 3\end{pmatrix}.$$
+              <p><span class="pt">1</span></p>
+              <h5>3. Diagonalisable ? (0,5 pt)</h5>
+              <p>$M$ est triangulaire : $\mathrm{Sp}(f)=\{1,2,3\}$. Trois valeurs propres distinctes en dimension 3 : $f$ est <b>diagonalisable</b>. <span class="pt">0,5</span></p>
+              <h5>4. Base de vecteurs propres (1,5 pt)</h5>
+              <p>$f\big((1+X)^k\big)=(1+X)^k+(X+1)\cdot k(1+X)^{k-1}=(k+1)(1+X)^k$. Donc $1$, $1+X$, $(1+X)^2$ sont propres pour $1$, $2$, $3$. <span class="pt">1</span></p>
+              <p>Vecteurs propres associés à des valeurs propres distinctes : famille libre de 3 vecteurs en dimension 3, c'est une base $\mathcal B'=\big(1,\ 1+X,\ (1+X)^2\big)$ et $\mathrm{Mat}_{\mathcal B'}(f)=\mathrm{diag}(1,2,3)$. <span class="pt">0,5</span></p>
+            </div>
+          </details>
+
+          <details>
+            <summary><span class="qn">EX 4</span>Puissances &amp; suites · 4 pts<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <h5>1. Diagonalisation (1,5 pt)</h5>
+              <p>$\chi_A=X^2-5X+6=(X-2)(X-3)$ : deux valeurs propres distinctes, $A$ diagonalisable. <span class="pt">0,5</span></p>
+              <p>$A-2I=\begin{pmatrix}2 & -2\\1 & -1\end{pmatrix}$ : $x=y$, $E_2=\mathrm{Vect}\big((1,1)\big)$. $A-3I=\begin{pmatrix}1 & -2\\1 & -2\end{pmatrix}$ : $x=2y$, $E_3=\mathrm{Vect}\big((2,1)\big)$. <span class="pt">0,5</span></p>
+              <p>$P=\begin{pmatrix}1 & 2\\1 & 1\end{pmatrix}$, $D=\begin{pmatrix}2 & 0\\0 & 3\end{pmatrix}$, $A=PDP^{-1}$. <span class="pt">0,5</span></p>
+              <h5>2. $A^n$ (1,5 pt)</h5>
+              <p>$\det P=-1$, $P^{-1}=\begin{pmatrix}-1 & 2\\1 & -1\end{pmatrix}$. Par récurrence $A^n=PD^nP^{-1}$. <span class="pt">0,5</span></p>
+              $$\begin{gathered}A^n=\begin{pmatrix}2^n & 2\cdot3^n\\2^n & 3^n\end{pmatrix}\begin{pmatrix}-1 & 2\\1 & -1\end{pmatrix}\\ =\begin{pmatrix}-2^n+2\cdot3^n & 2^{n+1}-2\cdot3^n\\-2^n+3^n & 2^{n+1}-3^n\end{pmatrix}.\end{gathered}$$
+              <p>Calcul juste (test $n=1$ : on retrouve $A$). <span class="pt">1</span></p>
+              <h5>3. Suites (1 pt)</h5>
+              <p>Avec $X_n=\begin{pmatrix}u_n\\v_n\end{pmatrix}$ : $X_{n+1}=AX_n$, donc $X_n=A^nX_0$ par récurrence. <span class="pt">0,5</span></p>
+              <p>$u_n=3(-2^n+2\cdot3^n)+2(2^{n+1}-2\cdot3^n)=2^n+2\cdot3^n$ et $v_n=2^n+3^n$. <span class="pt">0,5</span></p>
+              <p class="src">Méthode B, plus rapide : $(3,2)=1\cdot(1,1)+1\cdot(2,1)$ donc $X_n=2^n(1,1)+3^n(2,1)$.</p>
+            </div>
+          </details>
+
+          <details>
+            <summary><span class="qn">EX 5</span>Espaces euclidiens · 3 pts<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <h5>1. Produit scalaire (1,5 pt)</h5>
+              <p>Symétrique : $x_1y_2+x_2y_1$ est symétrique en $(x,y)$, les autres termes aussi. Linéaire en $x$ à $y$ fixé, donc bilinéaire par symétrie. <span class="pt">0,5</span></p>
+              <p>$\langle x,x\rangle=2x_1^2+2x_1x_2+x_2^2=x_1^2+(x_1+x_2)^2\ge0$. <span class="pt">0,5</span></p>
+              <p>Si $\langle x,x\rangle=0$ : $x_1=0$ et $x_1+x_2=0$, donc $x=0$. Défini positif : c'est un produit scalaire. <span class="pt">0,5</span></p>
+              <h5>2. Projection et distance (1,5 pt)</h5>
+              <p>$F=n^\perp$ avec $n=(1,-1,1)$ ; $\langle X,n\rangle=1-2+3=2$, $\|n\|^2=3$. <span class="pt">0,5</span></p>
+              $$\begin{gathered}p_F(X)=X-\frac{\langle X,n\rangle}{\|n\|^2}n\\ =(1,2,3)-\tfrac23(1,-1,1)=\left(\tfrac13,\tfrac83,\tfrac73\right).\end{gathered}$$
+              <p>Vérification : $\frac13-\frac83+\frac73=0$ ✔. <span class="pt">0,5</span></p>
+              <p>$d(X,F)=\dfrac{|\langle X,n\rangle|}{\|n\|}=\dfrac{2}{\sqrt3}=\dfrac{2\sqrt3}{3}$. <span class="pt">0,5</span></p>
+            </div>
+          </details>
+        </div>
+      </article>
+
+      <article class="notion">
+        <h3>Exercices d'entraînement supplémentaires</h3>
+        <p>Courts, ciblés sur un réflexe chacun. Cherche 5 à 10 min avant d'ouvrir la correction.</p>
+        <div class="quiz">
+          <details>
+            <summary><span class="qn">E1</span>$M_a=\begin{pmatrix}a & 1 & 1\\1 & a & 1\\1 & 1 & a\end{pmatrix}$ : valeurs propres et diagonalisabilité<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <p>Lignes de somme $a+2$ : $a+2$ est valeur propre, vecteur $(1,1,1)$. $M_a-(a-1)I$ est la matrice remplie de $1$, de rang 1 : $\dim E_{a-1}=2$. Trace $3a=(a+2)+2(a-1)$ ✔.</p>
+              <p>Si $a+2\neq a-1$ (toujours vrai) : $m_{a-1}=2=\dim E_{a-1}$ et $m_{a+2}=1$. $M_a$ est diagonalisable pour tout $a$ (elle est d'ailleurs symétrique réelle). $\det M_a=(a+2)(a-1)^2$.</p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="qn">E2</span>TD 2 ex. 11 : paramètres sur une $4\times4$<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <p>$A=\begin{pmatrix}1 & a & 1 & 0\\0 & 1 & b & 2\\0 & 0 & 2 & c\\0 & 0 & 0 & 2\end{pmatrix}$, triangulaire : $1$ et $2$, chacune double. Il faut $\mathrm{rg}(A-I)=2$ et $\mathrm{rg}(A-2I)=2$.</p>
+              <p>$A-I$ : les lignes 3 et 4, $(0,0,1,c)$ et $(0,0,0,1)$, sont indépendantes. La ligne 1, $(0,a,1,0)$, ajoute un rang si $a\neq0$ (seul coefficient non nul de la colonne 2). Donc il faut $a=0$.</p>
+              <p>$A-2I$ : les lignes 1 et 2 sont indépendantes (pivots en colonnes 1 et 2) ; la ligne 3, $(0,0,0,c)$, ajoute un rang si $c\neq0$. Donc il faut $c=0$.</p>
+              <p><b>$A$ diagonalisable $\iff a=0$ et $c=0$</b> ($b$ quelconque).</p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="qn">E3</span>$P=\frac13J$ (TD 1 ex. 14.3) : espaces propres, $\chi_P$, inversibilité<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <p>$J^2=3J$ donc $P^2=P$ : projecteur, $\mathrm{Sp}(P)\subset\{0,1\}$.</p>
+              <p>$E_1=\mathrm{Vect}\big((1,1,1)\big)$ ($P\mathbf 1=\mathbf 1$) et $E_0=\mathrm{Ker}P=\{x+y+z=0\}$, de dimension 2. $\chi_P=-X^2(X-1)$, $\det P=0$ : <b>non inversible</b>.</p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="qn">E4</span>Vrai ou faux : si $A^2$ a la valeur propre $\beta=\alpha^2$, alors $\alpha$ ou $-\alpha$ est valeur propre de $A$<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <p><b>Vrai</b> (TD 1 ex. 12.6). $A^2-\beta I=(A-\alpha I)(A+\alpha I)$ n'est pas inversible, donc $\det(A-\alpha I)\det(A+\alpha I)=0$ : l'un des deux facteurs est nul, et $\alpha$ ou $-\alpha$ est valeur propre.</p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="qn">E5</span>TD 3 ex. 12 : reconnaître un projecteur orthogonal<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <p>$P=\frac16\begin{pmatrix}5 & -2 & 1\\-2 & 2 & 2\\1 & 2 & 5\end{pmatrix}$ dans une BON. On vérifie $P^T=P$ et $P^2=P$ : projecteur orthogonal.</p>
+              <p>$\mathrm{Ker}P=\mathrm{Vect}\big((1,2,-1)\big)$ (vérifier : $5-4-1=0$, $-2+4-2=0$, $1+4-5=0$). C'est la projection orthogonale sur le plan $(\mathrm{Ker}P)^\perp$ : $x+2y-z=0$.</p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="qn">E6</span>TD 3 ex. 2 : $\langle P,Q\rangle=\int_{-1}^1PQ$, calculer $\langle1+X,1-X\rangle$ et $\|1+X\|$<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <p>$\langle1+X,1-X\rangle=\int_{-1}^1(1-t^2)\,dt=2-\frac23=\frac43$.</p>
+              <p>$\|1+X\|^2=\int_{-1}^1(1+t)^2\,dt=\left[\frac{(1+t)^3}{3}\right]_{-1}^1=\frac83$, donc $\|1+X\|=\sqrt{\frac83}=\frac{2\sqrt6}{3}$.</p>
+            </div>
+          </details>
+          <details>
+            <summary><span class="qn">E7</span>$A^n$ sans $\chi$ pour $A=\begin{pmatrix}1 & 2 & 2\\2 & 1 & 2\\2 & 2 & 1\end{pmatrix}$ (TD 2 ex. 6)<span class="chev" aria-hidden="true">›</span></summary>
+            <div class="answer">
+              <p>$A=2J-I$ et $J^2=3J$. Par récurrence, $A^n=a_nI+b_nJ$. Plus rapide avec la diagonalisation : $\mathrm{Sp}=\{-1,5\}$, $E_5=\mathrm{Vect}(\mathbf 1)$ et $E_{-1}=\{x+y+z=0\}$.</p>
+              <p>On trouve $A^n=(-1)^nI_3+\dfrac{5^n-(-1)^n}{3}J$. Contrôle : $n=1$ donne $-I+2J=A$ ✔, $n=2$ donne $I+8J=A^2$ ✔.</p>
+            </div>
+          </details>
+        </div>
+      </article>
+    </section>
+
+
+    <section class="endcard">
+      <h3>Tout est lu. Prêt pour le CC2 ?</h3>
+      <p>La veille : relis l'aiguillage de diagonalisation (2.C0), le plan type (2.C1) et les pièges, puis refais le sujet blanc en 1 h chrono.</p>
+      <div class="hero-actions">
+        <a class="btn btn-ghost" href="#n2-C0">Revoir l'aiguillage</a>
+        <a class="btn btn-primary" href="../../../index.html">Retour aux cours</a>
+      </div>
+    </section>
+    <p class="foot">Last Minute Learning · Contenu pédagogique indicatif, assisté par IA · Vérifie toujours avec tes supports de cours</p>
+
+  </main>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+<script>
+(() => {
+  const STORAGE_KEY = 'maths_algebre_progress_v1';
+  const TODO_KEY = 'maths_algebre_todo_v1';
+  const THEME_KEY = 'maths_algebre_theme';
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── 0. Thème clair / sombre ── */
+  const root = document.documentElement;
+  const themeBtn = document.getElementById('themeBtn');
+  const metaTheme = document.querySelector('meta[name="theme-color"]');
+  const lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+  function savedTheme() {
+    try { const t = localStorage.getItem(THEME_KEY); return t === 'light' || t === 'dark' ? t : null; } catch (e) { return null; }
+  }
+  function applyTheme(t) {
+    root.setAttribute('data-theme', t);
+    if (metaTheme) metaTheme.setAttribute('content', t === 'light' ? '#f4f5fa' : '#04060d');
+    if (themeBtn) themeBtn.setAttribute('aria-label', t === 'light' ? 'Passer au thème sombre' : 'Passer au thème clair');
+  }
+  applyTheme(root.getAttribute('data-theme') === 'light' ? 'light' : 'dark');
+  themeBtn?.addEventListener('click', () => {
+    const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    if (!prefersReduced) {
+      root.classList.add('theme-anim');
+      setTimeout(() => root.classList.remove('theme-anim'), 450);
+    }
+    applyTheme(next);
+    try { localStorage.setItem(THEME_KEY, next); } catch (e) {}
+  });
+  lightQuery.addEventListener?.('change', e => { if (!savedTheme()) applyTheme(e.matches ? 'light' : 'dark'); });
+
+  const ICON_OK = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>';
+
+  /* ── 1. Rendu des formules (KaTeX) ── */
+  if (typeof window.renderMathInElement === 'function') {
+    try {
+      window.renderMathInElement(document.getElementById('contenu'), {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '$', right: '$', display: false }
+        ],
+        throwOnError: false
+      });
+    } catch (e) {}
+  }
+
+  /* ── 2. Numérotation des notions (ancres n2-3, badge 2.3) ── */
+  const chapters = [...document.querySelectorAll('.chapter')];
+  chapters.forEach((ch, ci) => {
+    const num = ch.dataset.num != null ? ch.dataset.num : String(ci);
+    ch.querySelectorAll('.notion').forEach((n, ni) => {
+      const id = n.dataset.code ? `n${num}-${n.dataset.code}` : `n${num}-${ni + 1}`;
+      if (!n.id) n.id = id;
+      const h3 = n.querySelector('h3');
+      if (h3) {
+        const text = document.createElement('span');
+        text.className = 'h3-text';
+        [...h3.childNodes].forEach(node => {
+          if (!(node.nodeType === 1 && node.classList.contains('tag-mini'))) text.appendChild(node);
+        });
+        h3.prepend(text);
+        const a = document.createElement('a');
+        a.className = 'notion-id';
+        a.href = '#' + n.id;
+        a.textContent = n.dataset.code ? `${num}.${n.dataset.code}` : `${num}.${ni + 1}`;
+        a.title = 'Lien direct vers cette notion';
+        h3.prepend(a);
+      }
+    });
+  });
+
+  /* ── 3. Apparition au défilement ── */
+  const notions = [...document.querySelectorAll('.notion')];
+  if ('IntersectionObserver' in window && !prefersReduced) {
+    document.documentElement.classList.add('js-anim');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (en.isIntersecting) { en.target.classList.add('is-visible'); io.unobserve(en.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.02 });
+    notions.forEach(n => io.observe(n));
+  } else {
+    notions.forEach(n => n.classList.add('is-visible'));
+  }
+
+  /* ── 4. Sommaire actif + barre de lecture ── */
+  const tocLinks = [...document.querySelectorAll('.toc a')];
+  const anchors = [...document.querySelectorAll('.chapter, .part-head')];
+  const readProgress = document.getElementById('readProgress');
+  const toc = document.getElementById('toc');
+  let ticking = false;
+  let lastActive = null;
+
+  function onScroll() {
+    ticking = false;
+    const doc = document.documentElement;
+    const max = doc.scrollHeight - window.innerHeight;
+    const ratio = max > 0 ? Math.min(1, Math.max(0, window.scrollY / max)) : 0;
+    if (readProgress) readProgress.style.transform = `scaleX(${ratio})`;
+
+    const probe = window.innerHeight * 0.3;
+    let chapter = null, part = null;
+    anchors.forEach(el => {
+      if (el.classList.contains('is-filtered-out')) return;
+      if (el.getBoundingClientRect().top - probe <= 0) {
+        if (el.classList.contains('chapter')) { chapter = el.id; part = null; }
+        else part = el.id;
+      }
+    });
+    const key = chapter + '|' + part;
+    if (key !== lastActive) {
+      lastActive = key;
+      tocLinks.forEach(a => {
+        const href = a.getAttribute('href').slice(1);
+        const on = href === chapter || href === part;
+        a.classList.toggle('is-active', on);
+        if (on && toc && toc.scrollWidth > toc.clientWidth && (href === part || !part)) {
+          const left = a.offsetLeft - toc.clientWidth / 2 + a.offsetWidth / 2;
+          toc.scrollTo({ left, behavior: prefersReduced ? 'auto' : 'smooth' });
+        }
+      });
+    }
+  }
+  window.addEventListener('scroll', () => {
+    if (!ticking) { ticking = true; requestAnimationFrame(onScroll); }
+  }, { passive: true });
+  window.addEventListener('resize', onScroll);
+
+  /* ── 5. Chapitres maîtrisés (LocalStorage, purgeable depuis le hub) ── */
+  let mastered = new Set();
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+    if (Array.isArray(saved)) mastered = new Set(saved);
+  } catch (e) {}
+  const ring = document.getElementById('masteryRing');
+  const countEl = document.getElementById('masteryCount');
+  const CIRC = 2 * Math.PI * 10;
+  function renderMastery() {
+    const total = chapters.length;
+    const done = chapters.filter(ch => mastered.has(ch.id)).length;
+    if (countEl) countEl.textContent = `${done}/${total}`;
+    if (ring) ring.style.strokeDashoffset = String(CIRC * (1 - (total ? done / total : 0)));
+    document.querySelectorAll('.master-btn').forEach(btn => {
+      const on = mastered.has(btn.dataset.master);
+      btn.classList.toggle('is-done', on);
+      btn.setAttribute('aria-pressed', String(on));
+      const lbl = btn.querySelector('.lbl');
+      if (lbl) lbl.textContent = on ? 'Chapitre maîtrisé' : 'Marquer comme maîtrisé';
+    });
+    tocLinks.forEach(a => a.classList.toggle('is-done', mastered.has(a.getAttribute('href').slice(1))));
+  }
+  chapters.forEach(ch => {
+    const head = ch.querySelector('.chapter-head');
+    if (!head) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'master-btn';
+    btn.dataset.master = ch.id;
+    btn.innerHTML = `<span class="box" aria-hidden="true">${ICON_OK}</span><span class="lbl">Marquer comme maîtrisé</span>`;
+    btn.addEventListener('click', () => {
+      if (mastered.has(ch.id)) mastered.delete(ch.id); else mastered.add(ch.id);
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify([...mastered])); } catch (e) {}
+      renderMastery();
+    });
+    head.appendChild(btn);
+  });
+  renderMastery();
+
+  /* ── 6. Checklist de révision (LocalStorage) ── */
+  const todoBoxes = [...document.querySelectorAll('.todo input[data-todo]')];
+  const todoCount = document.getElementById('todoCount');
+  let todoDone = new Set();
+  try {
+    const saved = JSON.parse(localStorage.getItem(TODO_KEY) || '[]');
+    if (Array.isArray(saved)) todoDone = new Set(saved);
+  } catch (e) {}
+  function renderTodo() {
+    todoBoxes.forEach(b => { b.checked = todoDone.has(b.dataset.todo); });
+    if (todoCount) todoCount.textContent = `${todoBoxes.filter(b => b.checked).length}/${todoBoxes.length} fait${todoBoxes.length > 1 ? 's' : ''}`;
+  }
+  todoBoxes.forEach(b => b.addEventListener('change', () => {
+    if (b.checked) todoDone.add(b.dataset.todo); else todoDone.delete(b.dataset.todo);
+    try { localStorage.setItem(TODO_KEY, JSON.stringify([...todoDone])); } catch (e) {}
+    renderTodo();
+  }));
+  renderTodo();
+
+  /* ── 7. Chrono du sujet blanc ── */
+  const timerVal = document.getElementById('timerVal');
+  const timerBtn = document.getElementById('timerBtn');
+  const timerReset = document.getElementById('timerReset');
+  const DURATION = 60 * 60;
+  let remaining = DURATION, timerId = null;
+  function renderTimer() {
+    if (!timerVal) return;
+    const m = Math.floor(remaining / 60), s = remaining % 60;
+    timerVal.textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    timerVal.classList.toggle('is-low', remaining <= 300);
+  }
+  function stopTimer() { clearInterval(timerId); timerId = null; if (timerBtn) timerBtn.textContent = remaining > 0 ? 'Reprendre' : 'Terminé'; }
+  timerBtn?.addEventListener('click', () => {
+    if (timerId) { stopTimer(); return; }
+    if (remaining <= 0) return;
+    timerBtn.textContent = 'Pause';
+    timerId = setInterval(() => {
+      remaining--;
+      renderTimer();
+      if (remaining <= 0) stopTimer();
+    }, 1000);
+  });
+  timerReset?.addEventListener('click', () => {
+    clearInterval(timerId); timerId = null;
+    remaining = DURATION; renderTimer();
+    if (timerBtn) timerBtn.textContent = 'Démarrer';
+  });
+  renderTimer();
+
+  /* ── 8. Recherche (insensible aux accents et à la casse) ── */
+  const search = document.getElementById('search');
+  const status = document.getElementById('searchStatus');
+  const noResult = document.getElementById('noResult');
+  const partHeads = [...document.querySelectorAll('.part-head')];
+  const norm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+  const index = notions.map(n => ({ el: n, text: norm(n.textContent) }));
+  function runSearch() {
+    const words = norm(search.value.trim()).split(/\s+/).filter(Boolean);
+    let shown = 0;
+    index.forEach(({ el, text }) => {
+      const match = !words.length || words.every(w => text.includes(w));
+      el.classList.toggle('is-filtered-out', !match);
+      if (match) { shown++; el.classList.add('is-visible'); }
+    });
+    chapters.forEach(ch => {
+      const any = ch.querySelector('.notion:not(.is-filtered-out)');
+      ch.classList.toggle('is-filtered-out', !!words.length && !any);
+    });
+    partHeads.forEach(p => p.classList.toggle('is-filtered-out', !!words.length));
+    if (status) status.textContent = words.length ? `${shown} notion${shown > 1 ? 's' : ''} trouvée${shown > 1 ? 's' : ''}` : '';
+    if (noResult) noResult.classList.toggle('is-shown', !!words.length && shown === 0);
+    onScroll();
+  }
+  search?.addEventListener('input', runSearch);
+  search?.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { search.value = ''; runSearch(); search.blur(); }
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === '/' && document.activeElement !== search && !/input|textarea/i.test(document.activeElement?.tagName || '')) {
+      e.preventDefault();
+      search?.focus();
+      search?.scrollIntoView({ block: 'center', behavior: prefersReduced ? 'auto' : 'smooth' });
+    }
+  });
+
+  /* ── Mobile : menu hamburger ── */
+  const menuBtn = document.getElementById('menuBtn');
+  const menuBackdrop = document.getElementById('menuBackdrop');
+  function setMenu(open) {
+    root.classList.toggle('menu-open', open);
+    if (menuBtn) {
+      menuBtn.setAttribute('aria-expanded', String(open));
+      menuBtn.setAttribute('aria-label', open ? 'Fermer le sommaire' : 'Ouvrir le sommaire');
+    }
+  }
+  menuBtn?.addEventListener('click', () => setMenu(!root.classList.contains('menu-open')));
+  menuBackdrop?.addEventListener('click', () => setMenu(false));
+  document.getElementById('toc')?.addEventListener('click', e => {
+    const a = e.target.closest('a[href^="#"]');
+    if (!a || !root.classList.contains('menu-open')) return;
+    // Le défilement est bloqué tant que le menu est ouvert : on ferme d'abord, puis on va à l'ancre
+    e.preventDefault();
+    setMenu(false);
+    const target = document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
+    requestAnimationFrame(() => {
+      if (target) target.scrollIntoView({ block: 'start', behavior: prefersReduced ? 'auto' : 'smooth' });
+      history.replaceState(null, '', a.getAttribute('href'));
+    });
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && root.classList.contains('menu-open')) setMenu(false); });
+  window.matchMedia('(min-width: 1025px)').addEventListener?.('change', e => { if (e.matches) setMenu(false); });
+
+  /* ── Mobile : tableaux larges affichés en cartes (étiquette de colonne dans chaque case) ── */
+  document.querySelectorAll('.table-wrap > table').forEach(table => {
+    const ths = [...table.querySelectorAll('thead th')];
+    if (ths.length < 3) return;
+    table.classList.add('stack');
+    table.parentElement.classList.add('stack-wrap');
+    table.querySelectorAll('tbody tr').forEach(tr => {
+      [...tr.children].forEach((td, i) => {
+        const th = ths[i];
+        if (!th || !th.textContent.trim()) return;
+        const lbl = document.createElement('span');
+        lbl.className = 'td-label';
+        lbl.innerHTML = th.innerHTML;
+        td.prepend(lbl);
+      });
+    });
+  });
+
+  /* ── Schémas : réduits à l'échelle au lieu de se réorganiser ── */
+  const FIT = { '.impl': 0 };
+  const fitTargets = [];
+  Object.entries(FIT).forEach(([sel, w]) => document.querySelectorAll(sel).forEach(el => fitTargets.push([el, w])));
+  function fitDiagrams() {
+    fitTargets.forEach(([el, w]) => {
+      el.style.zoom = ''; el.style.width = '';
+      const parent = el.parentElement;
+      const cs = getComputedStyle(parent);
+      const avail = parent.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+      el.style.width = w ? w + 'px' : 'max-content';
+      const need = el.offsetWidth;
+      if (!avail || need <= avail) { el.style.width = ''; return; }
+      el.style.zoom = String(Math.floor(avail / need * 1000) / 1000);
+    });
+  }
+  /* Formules en bloc : réduites pour tenir dans la largeur (pas de défilement horizontal) */
+  function fitMath() {
+    document.querySelectorAll('.katex-display > .katex').forEach(k => {
+      k.style.zoom = '';
+      const avail = k.parentElement.clientWidth - 2;
+      const need = k.scrollWidth;
+      if (need > avail && avail > 0) k.style.zoom = String(Math.floor(avail / need * 1000) / 1000);
+    });
+  }
+  function fitAll() { fitDiagrams(); fitMath(); }
+  let fitRaf = 0;
+  window.addEventListener('resize', () => { cancelAnimationFrame(fitRaf); fitRaf = requestAnimationFrame(fitAll); });
+  document.fonts?.ready?.then(fitAll);
+  document.querySelectorAll('details').forEach(d => d.addEventListener('toggle', () => { if (d.open) fitAll(); }));
+  fitAll();
+
+  /* ── 9. Ancre initiale (les id des notions sont créés par le script) ── */
+  if (location.hash) {
+    const target = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (target) {
+      target.classList.add('is-visible');
+      setTimeout(() => target.scrollIntoView({ block: 'start' }), 60);
+    }
+  }
+  onScroll();
+})();
+</script>
+</body>
+</html>
